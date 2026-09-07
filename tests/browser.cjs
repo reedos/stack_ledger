@@ -76,7 +76,11 @@ const server=http.createServer((req,res)=>{
     if(layer==='chips')await page.locator('#companies .builder-group').first().screenshot({path:path.join(evidence,'chip-builders.png')});
     if(layer==='models'){
      assert.deepEqual(await page.locator('#companies .builder-group').first().locator('.builder-card').evaluateAll(els=>els.slice(0,5).map(el=>el.dataset.company)),['anthropic','openai','spacexai','alphabet','meta']);
-     assert.match(await page.locator('#companies .builder-group').nth(1).innerText(),/Agent tools & runtimes[\s\S]*OpenClaw/);
+     assert.match(await page.locator('#companies .builder-group').filter({hasText:'Agent tools & runtimes'}).innerText(),/Agent tools & runtimes[\s\S]*OpenClaw/);
+     assert.equal(await page.locator('#companies [data-company="hugging-face"]').count(),1);
+     assert.equal(await page.locator('#companies [data-company="ai2"]').count(),1);
+     assert.match(await page.locator('#open-model-ecosystem').innerText(),/SmolLM/);
+     assert.match(await page.locator('#physical-ai-development').innerText(),/Omniverse and Cosmos/);
     }
    }
    const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>new URL(a.getAttribute('href'),location.href).href).filter(u=>u.startsWith(location.origin)&&!u.includes('#')));

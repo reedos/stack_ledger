@@ -3800,6 +3800,75 @@
         "applications"
       ],
       "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "open-hf-hub",
+      "publisher": "Hugging Face",
+      "title": "Hugging Face Hub documentation",
+      "url": "https://huggingface.co/docs/hub/en/index",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "open-hf-smollm",
+      "publisher": "Hugging Face",
+      "title": "SmolLM3-3B model card",
+      "url": "https://huggingface.co/HuggingFaceTB/SmolLM3-3B",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "open-ai2-docs",
+      "publisher": "Ai2",
+      "title": "Ai2 model documentation",
+      "url": "https://docs.allenai.org/",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "physical-omniverse",
+      "publisher": "NVIDIA",
+      "title": "Omniverse: develop physical AI applications",
+      "url": "https://www.nvidia.com/en-us/omniverse/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "applications"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "physical-cosmos-three",
+      "publisher": "NVIDIA researchers / arXiv",
+      "title": "Cosmos 3: Omnimodal World Models for Physical AI (revised June 23, 2026)",
+      "url": "https://arxiv.org/abs/2606.02800",
+      "published": "2026-06-01",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "physical-omniverse-license",
+      "publisher": "NVIDIA",
+      "title": "Omniverse licensing",
+      "url": "https://docs.omniverse.nvidia.com/ov/latest/common/NVIDIA_Omniverse_License_Agreement.html",
+      "published": null,
+      "layers": [
+        "applications"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
     }
   ],
   "discovery_keywords": [
@@ -7914,6 +7983,72 @@
     },
     "claims-yale-labor": {
       "rank": 2,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "open-hf-hub": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "open-hf-smollm": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "open-ai2-docs": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "physical-omniverse": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "physical-cosmos-three": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "physical-omniverse-license": {
+      "rank": 3,
       "region_book": "united-states",
       "company_id": null,
       "claim_type": "other",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T20:24:36.550524+00:00",
+  "reviewed_at": "2026-09-07T20:42:00.398341+00:00",
   "sections": [
     {
       "id": "construction-economy",
@@ -736,6 +736,136 @@
           ],
           "observations": [],
           "gap": "Follow prospective experimental validation and measured improvements to discovery workflows. Keep model accuracy, discovery speed, trial outcomes and approved medicines as separate evidence."
+        }
+      ]
+    },
+    {
+      "id": "open-model-ecosystem",
+      "pages": [
+        "models"
+      ],
+      "title": "Open models widen who can build AI.",
+      "intro": "Open model developers, research institutes and community maintainers are central to the stack. Downloadable weights enable local deployment and adaptation; shared code, data and recipes can make research reproducible. These are different levels of openness, with different licenses and practical requirements.",
+      "charts": [],
+      "cards": [
+        {
+          "id": "open-ai2",
+          "title": "Ai2: opening the training process",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "Ai2 publishes Olmo, Molmo and Tulu work with training code, data, weights and recipes. That gives researchers material to investigate model behavior and develop new methods, beyond simply querying a hosted API.",
+          "sources": [
+            "open-ai2-docs"
+          ],
+          "observations": [],
+          "gap": "Check the specific release and its artifacts; openness does not establish reliability for every application."
+        },
+        {
+          "id": "open-mistral",
+          "title": "Mistral: reusable language and multimodal models",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "Mistral publishes open-weight models alongside other commercial offerings. Its model catalog identifies Apache 2.0 releases including Mistral Small 4 and Mistral Large 3, while other entries have different terms. The contribution is a range of models developers can adapt and deploy.",
+          "sources": [
+            "builder-role-mistral"
+          ],
+          "observations": [],
+          "gap": "License and access belong to a named checkpoint, not to the company as a whole."
+        },
+        {
+          "id": "open-deepseek-qwen",
+          "title": "DeepSeek and Qwen: downloadable model families",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "DeepSeek and Alibaba Qwen contribute models that developers can inspect, adapt and serve on their own infrastructure. DeepSeek-R1 and Qwen3-32B provide concrete license references already tracked here. Derived models can retain obligations from their upstream base.",
+          "sources": [
+            "deepseek-r1-license",
+            "qwen3-32b-license"
+          ],
+          "observations": [],
+          "gap": "Do not apply one release’s license to every model in a family; downloads are not production deployments."
+        },
+        {
+          "id": "open-hf-community",
+          "title": "Hugging Face: shared tools and a place to collaborate",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "The Hub hosts versioned model and dataset repositories, model cards and Spaces applications. It helps independent developers, universities and companies share and build on each other’s work. Hosting a model does not make Hugging Face its original developer.",
+          "sources": [
+            "open-hf-hub"
+          ],
+          "observations": [],
+          "gap": "Public availability does not imply an unrestricted license. Repository counts and downloads do not establish business adoption."
+        },
+        {
+          "id": "open-hf-models",
+          "title": "Hugging Face also builds models",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "Hugging Face’s Smol Models research team develops SmolLM. The SmolLM3-3B card lists Apache 2.0 and publishes training details, including the data mixture and configurations. Smaller models offer a path to experimentation and deployment on more constrained hardware.",
+          "sources": [
+            "open-hf-smollm"
+          ],
+          "observations": [],
+          "gap": "Measure memory, latency, quality and operating cost on the actual task; small size alone does not prove suitability."
+        },
+        {
+          "id": "open-coverage",
+          "title": "A wider community of builders",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "The contributor directory also covers Meta, IBM, NVIDIA, Cohere, Moonshot AI, MiniMax and Z.ai. Their model families and release policies differ. Community fine-tuners, dataset curators, evaluation authors and inference maintainers contribute alongside the original model developers.",
+          "sources": [
+            "builder-role-meta",
+            "builder-role-ibm",
+            "builder-role-moonshot",
+            "builder-role-minimax",
+            "builder-role-z-ai"
+          ],
+          "observations": [],
+          "gap": "Continue checkpoint-level coverage rather than labeling every product from these organizations open source."
+        }
+      ]
+    },
+    {
+      "id": "physical-ai-development",
+      "pages": [
+        "models",
+        "applications",
+        "infrastructure"
+      ],
+      "title": "Omniverse and Cosmos: building AI for the physical world.",
+      "intro": "Physical AI needs environments in which to learn and test. Simulation and world models connect compute to robot development, autonomous systems and industrial workflows. NVIDIA supplies both, with distinct roles.",
+      "charts": [],
+      "cards": [
+        {
+          "id": "omniverse-role",
+          "title": "Omniverse: simulation and industrial digital twins",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "NVIDIA Omniverse provides libraries and technologies for OpenUSD-based physical AI applications, simulation and digital twins. Developers can represent facilities and equipment, connect engineering workflows and test scenarios virtually before applying changes in the real world.",
+          "sources": [
+            "physical-omniverse",
+            "physical-omniverse-license"
+          ],
+          "observations": [],
+          "gap": "OpenUSD interoperability does not make every Omniverse component open source. NVIDIA software terms apply; a digital twin is not evidence that a factory has been commissioned."
+        },
+        {
+          "id": "cosmos-role",
+          "title": "Cosmos: world models for physical AI",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "NVIDIA’s Cosmos world models support understanding and generation of physical-world scenarios. The Cosmos 3 research report describes omnimodal models and releases of code, checkpoints, synthetic datasets and evaluation resources. These models can support embodied-agent development beyond text-only LLM workflows.",
+          "sources": [
+            "physical-cosmos-three"
+          ],
+          "observations": [],
+          "gap": "Research benchmarks and generated scenes do not establish real-world robot safety or deployment. Check the exact model license; terms can differ between Cosmos generations."
+        },
+        {
+          "id": "physical-workflow",
+          "title": "From a virtual scene to a tested machine",
+          "stage": "Documented contribution / reviewed September 2026",
+          "body": "An illustrative workflow combines a structured simulated environment, generated scenario variation, model training and evaluation, then controlled real-world testing. Omniverse and Cosmos supply complementary development tools. The useful outcome to track is better performance on a defined physical task.",
+          "sources": [
+            "physical-omniverse",
+            "physical-cosmos-three"
+          ],
+          "observations": [],
+          "gap": "This is a conceptual workflow, not a measured universal speedup. Track simulation-to-real transfer, failure rates, human intervention and verified operating deployments."
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T19:11:08.544487Z",
+  "reviewed_at": "2026-09-07T20:42:00.396713+00:00",
   "companies": [
     {
       "id": "nextera",
@@ -57,9 +57,10 @@
       "layers": [
         "chips",
         "infrastructure",
-        "models"
+        "models",
+        "applications"
       ],
-      "role": "Designs GPUs and networking, and develops the software and systems that make accelerated computing usable at scale.",
+      "role": "Designs GPUs and networking, and develops the software and systems that make accelerated computing usable at scale. Also develops Cosmos world models and Omniverse libraries for simulation, digital twins and physical AI development.",
       "revenue_metric": "revenue-nvidia",
       "revenue_kind": "annual",
       "source": "company-nvidia",
@@ -70,7 +71,9 @@
       "region_book": "united-states",
       "role_sources": [
         "company-nvidia",
-        "builder-role-nvidia"
+        "builder-role-nvidia",
+        "physical-omniverse",
+        "physical-cosmos-three"
       ]
     },
     {
@@ -1769,6 +1772,46 @@
       "blog_urls": [],
       "official_lang": "en",
       "region_book": "china"
+    },
+    {
+      "id": "hugging-face",
+      "name": "Hugging Face",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "role": "Maintains the Hub for models, datasets and applications; its research team also develops SmolLM models. Enables sharing, evaluation and adaptation across the open AI community.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "open-hf-hub",
+      "role_sources": [
+        "open-hf-hub",
+        "open-hf-smollm"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "ai2",
+      "name": "Ai2 (Allen Institute for AI)",
+      "layers": [
+        "models"
+      ],
+      "role": "Develops Olmo language models, Molmo multimodal models and Tulu post-training methods, sharing weights, training code, data and recipes to support reproducible research.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "open-ai2-docs",
+      "role_sources": [
+        "open-ai2-docs"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
     }
   ],
   "capacity_metrics": [
