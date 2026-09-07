@@ -284,7 +284,7 @@
       "layer": "infrastructure",
       "owner": "SpaceXAI / SpaceX",
       "primary_user": "Anthropic (contracted access)",
-      "location": "Memphis, Tennessee; Southaven power connection for Colossus 2",
+      "location": "Paul Lowry Road, Memphis, Tennessee, U.S.",
       "category": "AI training campus",
       "stage": "operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
@@ -296,7 +296,7 @@
         "colossus-one-gpus-contract-baseline"
       ],
       "horizon": "September 3, 2026 operating estimate; later expansion separate.",
-      "grid": "Grid service and gas generation have separate dated records. Colossus 2 uses gas turbines across the Mississippi state line.",
+      "grid": "Paul Lowry grid service is tracked separately under Colossus grid. Anthropic contracted compute access is not a utility connection or metered IT load. The Southaven plant is a separate facility serving Colossus 2.",
       "next_evidence": "Metered IT/facility power, chip inventory, current permits and utility service.",
       "milestones": [
         {
@@ -317,7 +317,7 @@
       "layer": "infrastructure",
       "owner": "SpaceXAI / SpaceX",
       "primary_user": "SpaceXAI; Anthropic and Cursor identified by Epoch",
-      "location": "Memphis, Tennessee; Southaven power connection for Colossus 2",
+      "location": "Colossus 2 building, Memphis, Tennessee, U.S.",
       "category": "AI training campus",
       "stage": "operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
@@ -331,8 +331,8 @@
         "colossus2-b200-installed-baseline",
         "colossus2-b300-installed-baseline"
       ],
-      "horizon": "September 3, 2026 operating estimate; later expansion separate.",
-      "grid": "Grid service and gas generation have separate dated records. Colossus 2 uses gas turbines across the Mississippi state line.",
+      "horizon": "Operating building per September 3 dataset; the larger Q1 2027 end-state remains a forecast, not commissioned capacity.",
+      "grid": "The building is in Memphis. Its Southaven, Mississippi gas-generation path is a separate facility and permit record; it is not the Colossus 1 grid connection.",
       "next_evidence": "Metered IT/facility power, chip inventory, current permits and utility service.",
       "milestones": [
         {
@@ -354,12 +354,12 @@
     },
     {
       "id": "colossus-grid",
-      "name": "Colossus power path · Paul Lowry / Tulane",
+      "name": "Colossus grid · Paul Lowry / Memphis service studies",
       "layer": "energy",
       "owner": "MLGW / TVA; xAI customer",
       "primary_user": "Colossus facilities",
-      "location": "Memphis, Tennessee, U.S.",
-      "category": "Grid service and gas generation",
+      "location": "Paul Lowry connection and separate Memphis service studies, Tennessee, U.S.",
+      "category": "Utility grid connections",
       "stage": "partly-operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
       "observations": [
@@ -449,7 +449,7 @@
         "tesla-cortex-2-compute-baseline"
       ],
       "measures": [],
-      "horizon": "Further 2026 ramp; numerical end-state target not verified.",
+      "horizon": "Q2 2026 Production classification and reported compute capacity. Further ramp is separate; no reviewed numerical end-state target.",
       "grid": "Grid and backup arrangements not quantified in the deck.",
       "next_evidence": "IT load, chip inventory and future capacity basis.",
       "milestones": [
@@ -643,13 +643,13 @@
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
       "observations": [],
       "measures": [],
-      "horizon": "Mod 1 operations 2030–2031",
+      "horizon": "Mod 1 operations 2030–2031 in Intel’s February 2025 schedule; later timing needs verification.",
       "grid": "Grid arrangements do not establish fab operation.",
       "next_evidence": "Updated construction, equipment move-in and revised production schedule.",
       "milestones": [
         {
           "date": "2025-02-28",
-          "summary": "Intel revised Mod 1 construction to 2030 and operations to 2030–2031; Mod 2 follows. Keep this delay visible pending a newer primary schedule.",
+          "summary": "Intel revised Mod 1 construction completion to 2030 and operations to 2030–2031; Mod 2 follows. This is a dated company schedule, not a newly confirmed September 2026 completion forecast.",
           "source": "intel-ohio-delay"
         }
       ]
@@ -865,17 +865,30 @@
         "waymo-paid-weekly-baseline",
         "waymo-rider-only-miles-baseline",
         "waymo-operating-fleet-baseline",
-        "waymo-operating-metros-baseline"
+        "waymo-operating-metros-baseline",
+        "waymo-paid-weekly-march-2026"
       ],
-      "measures": [],
+      "measures": [
+        "waymo-weekly-rides-target-baseline"
+      ],
       "horizon": "Future city launches are not operating footprint",
       "grid": "EV charging electricity; no AI-only electricity allocation claimed.",
-      "next_evidence": "New explicitly paid trip run-rate, verified year-end target, current fleet size and custom-silicon foundry status.",
+      "next_evidence": "Later explicitly paid weekly service, current fleet size and city scope. The year-end rides target is separate from paid trips and is not an achieved outcome.",
       "milestones": [
         {
           "date": "2025-05-05",
           "summary": "Waymo disclosed paid trips and an operating commercial vehicle fleet; future vehicles were separately planned.",
           "source": "waymo-fleet-2025"
+        },
+        {
+          "date": "2026-02-24",
+          "summary": "Waymo sets a year-end weekly rides target. This is a future company commitment, not completed service.",
+          "source": "waymo-end2026-target"
+        },
+        {
+          "date": "2026-03-26",
+          "summary": "Waymo announces its paid weekly service milestone; the reviewed company repost supplies the ten-city scope and numeric figure.",
+          "source": "waymo-paid-march-post"
         },
         {
           "date": "2026-04-29",
@@ -886,12 +899,12 @@
     },
     {
       "id": "tesla-fsd",
-      "name": "Tesla FSD (Supervised) · consumer driving",
+      "name": "Tesla FSD (Supervised) · European mileage snapshot",
       "layer": "applications",
       "owner": "Tesla",
       "primary_user": "Vehicle drivers",
-      "location": "Approved European markets; consumer supervision required",
-      "category": "Driver assistance",
+      "location": "Netherlands, Lithuania, Estonia, Denmark and Belgium; driver supervision required",
+      "category": "Supervised consumer software · regional measurement",
       "stage": "operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
       "observations": [
@@ -915,20 +928,27 @@
       "layer": "applications",
       "owner": "Tesla",
       "primary_user": "Riders in geofenced service areas",
-      "location": "United States; cities retain separate supervision status",
+      "location": "United States; July 2026: Austin, Dallas, Houston, Miami, Orlando, Tampa (ramping unsupervised); SF Bay Area (safety driver, separate)",
       "category": "Robotaxi staged deployment",
       "stage": "partly-operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
-      "observations": [],
+      "observations": [
+        "tesla-robotaxi-unsupervised-sep-2026"
+      ],
       "measures": [],
-      "horizon": "July 2026 disclosure; city status is dated",
+      "horizon": "September 3 aggregate disclosure; July city and supervision classification retained separately.",
       "grid": "Cortex supports autonomy training; not a robotaxi energy-use measurement.",
-      "next_evidence": "Verified fleet count, paid trips, cumulative unsupervised miles, monitor arrangements and exposure denominator.",
+      "next_evidence": "City-level miles, paid versus test exposure, onboard/remote monitor and chase-car conditions, fleet count and intervention methodology.",
       "milestones": [
         {
           "date": "2026-07-22",
           "summary": "Q2 update: SF Bay Area has a safety driver; Austin, Dallas, Houston, Miami, Orlando and Tampa are ramping unsupervised service. Cybercab public-road engineering tests and employee rides precede fleet deployment.",
           "source": "tesla-q2-2026"
+        },
+        {
+          "date": "2026-09-03",
+          "summary": "Tesla reports one million cumulative unsupervised Robotaxi miles at the Cybercab event. The aggregate is not allocated by city, passenger occupancy or testing share. This is a company-reported exposure milestone, not independent evidence of comparative safety.",
+          "source": "tesla-cybercab-speech-2026"
         }
       ]
     },

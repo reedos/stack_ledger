@@ -32,7 +32,8 @@ const server=http.createServer((req,res)=>{
   assert.equal(await staticPage.locator('.headline-source').count(),5);
   assert.match(await staticPage.locator('[data-layer="chips"]').innerText(),/CoWoS/);
   assert.match(await staticPage.locator('[data-layer="infrastructure"]').innerText(),/Abilene/);
-  assert.match(await staticPage.locator('[data-layer="models"]').innerText(),/Oct 2024/);
+  assert.match(await staticPage.locator('[data-layer="models"]').innerText(),/1\.75[\s\S]*Sep 7, 2026[\s\S]*GPT-5\.3-Codex/);
+  assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/500,000[\s\S]*Mar 2026/);
   assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/paid trips/);
   assert.match(await staticPage.locator('#runtime').innerText(),/RTX 5090.*Last run:.*Last successful research:/s);
   assert.ok(await staticPage.locator('noscript a[href$="data/ledger.json"]').isVisible());
@@ -76,7 +77,12 @@ const server=http.createServer((req,res)=>{
   assert.match(await page.locator('#project-fairwater-one .observed').innerText(),/369/);
   assert.match(await page.locator('#project-fairwater-two .unknown').innerText(),/Not quantified/);
   assert.equal(await page.locator('#project-abilene .planned').count(),1);
-  await page.locator('[data-project-layer="all"]').click();await page.screenshot({path:path.join(evidence,'projects.png'),fullPage:true});
+  await page.locator('[data-project-layer="all"]').click();
+  assert.match(await page.locator('#project-tesla-robotaxi .delivery-quantities').innerText(),/1,000,000[\s\S]*unsupervised miles[\s\S]*Sep 3, 2026/);
+  assert.match(await page.locator('#project-tesla-fsd .delivery-owner').innerText(),/Netherlands/);
+  assert.match(await page.locator('#project-tesla-optimus .stage').innerText(),/Pilot/);
+  assert.equal(await page.locator('#project-colossus-two .project-measures').first().getAttribute('open'),'');
+  await page.screenshot({path:path.join(evidence,'projects.png'),fullPage:true});
   await page.goto(origin+'companies/?layer=chips');await page.locator('#company-count').waitFor();
   assert.equal(await page.locator('[data-company-filter="chips"]').getAttribute('aria-pressed'),'true');
   assert.ok(await page.locator('.company-card').count()>=10);
@@ -106,6 +112,8 @@ const server=http.createServer((req,res)=>{
   assert.match(await page.locator('#named-projects').innerText(),/supervis|Supervis/);
   await page.goto(origin+'industry/');await page.locator('.industry-verdict').waitFor();
   assert.equal(await page.locator('.jobs-comparison tbody tr').count(),5);
+  assert.match(await page.locator('.jobs-comparison').innerText(),/Terafab[\s\S]*Hyperion/);
+  assert.equal(await page.locator('#projects .project-card').count(),snapshot.projects.filter(p=>p.layer==='chips').length);
   assert.equal(await page.locator('.jobs-comparison tbody tr:first-child td:last-child').innerText(),'Not verified');
   assert.match(await page.locator('#capital-evidence').innerText(),/contracts awarded|Contracts awarded/);
   assert.match(await page.locator('#electrical-work').innerText(),/72,700/);
@@ -119,12 +127,14 @@ const server=http.createServer((req,res)=>{
   await page.screenshot({path:path.join(evidence,'industry.png'),fullPage:true});
   await page.goto(origin);await page.locator('.layer-card').first().waitFor();
   assert.equal(await page.locator('.stack-svg a.slab').count(),5);
-  assert.equal(await page.locator('#outlook .target-mini').count(),3);
+  assert.equal(await page.locator('#outlook .target-mini').count(),JSON.parse(fs.readFileSync(path.join(root,'data/ledger.json'),'utf8')).targets.length);
   assert.ok(await page.evaluate(()=>document.querySelector('#stack').compareDocumentPosition(document.querySelector('#premise'))&Node.DOCUMENT_POSITION_FOLLOWING));
   await page.locator('.stack-menu summary').click();await page.keyboard.press('Escape');
   assert.equal(await page.locator('.stack-menu').getAttribute('open'),null);
   await page.locator('.stack-svg a[aria-label="Explore layer 01: Energy"]').click();
   await page.waitForURL('**/energy/');await page.locator('#metric-select').waitFor();
+  assert.equal(await page.locator('#colossus-power-path .power-path>li').count(),5);
+  assert.match(await page.locator('#colossus-power-path').innerText(),/Southaven[\s\S]*separate Colossus 2/i);
   await page.selectOption('#metric-select','us-dc-electricity');
   assert.match(await page.locator('#metric-chart').innerText(),/325–580/);
   await page.locator('#metric-chart summary').click();assert.equal(await page.locator('#metric-chart tbody tr').count(),3);

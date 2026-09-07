@@ -14,7 +14,7 @@ LABELS = {
     'energy': ('Generate', 'Global data-center electricity demand (all workloads)', 'TWh / year'),
     'chips': ('Compute', 'TSMC CoWoS packaging capacity (Epoch estimate)', 'thousand wafers / month'),
     'infrastructure': ('Connect', 'Stargate Abilene: estimated operating IT power', 'MW IT'),
-    'models': ('Learn', 'GPT-3.5-level inference cost (MMLU benchmark)', 'USD / million tokens'),
+    'models': ('Learn', 'GPT-5.3-Codex API input list price', 'USD / million input tokens'),
     'applications': ('Apply', 'Waymo One: reported paid weekly service', 'paid trips / week'),
 }
 STATUSES = {'observation': 'Observation', 'estimate': 'Estimate', 'forecast': 'Forecast',
@@ -54,7 +54,7 @@ def layer_cards(data, base):
                         f'<p class="layer-label">{e(label)}</p>'
                         f'<span class="headline-status">{STATUSES[record["status"]]}</span>'
                         f'<a class="headline-source" href="{link_url(source["url"])}">{e(source["publisher"])} ↗</a>'
-                        + ('<p class="headline-note">Historical benchmark snapshot; not current pricing.</p>'
+                        + ('<p class="headline-note">Named model, dated price. Excludes tools, subscriptions and oversight.</p>'
                            if layer['id'] == 'models' else ''))
         else:
             evidence = (f'<div class="layer-value research-gap">Research gap</div>'

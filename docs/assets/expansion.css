@@ -5,3 +5,6 @@
 .table-scroll{position:relative}
 
 @media(max-width:600px){.agent-prices{grid-template-columns:1fr}}
+
+.power-path{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.power-path>li{display:flex;gap:18px;padding:25px;border:1px solid var(--line);border-radius:14px;background:var(--panel);min-width:0}.power-path>li>div{min-width:0}.path-number{color:var(--green);font-size:24px}.power-path h3{font-size:23px;margin:0 0 15px}.power-path p{font-size:13px;line-height:1.8;color:var(--muted)}.power-basis-note{margin:18px 0;padding:18px}.project-card h3 a{color:var(--text)}
+@media(max-width:850px){.power-path{grid-template-columns:1fr}}

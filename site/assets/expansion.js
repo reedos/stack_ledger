@@ -16,7 +16,7 @@ function basisRows(obs,kinds) {
 function projectMeasures(p) {
  const obs=evidenceOf(p.measures||[]),grouped=[...moneyKinds,...jobsKinds].map(([,kind])=>kind);
  const other=obs.filter(o=>!grouped.includes(kindOf(o)));
- return `${other.length?`<details class="project-measures"><summary>Plans, contracts & equipment evidence (${other.length})</summary><div class="scoped-grid">${other.map(quantityEvidence).join('')}</div></details>`:''}<details class="project-measures"><summary>Capital & jobs — separate measurement bases</summary><h3>Project money</h3>${basisRows(obs,moneyKinds)}<h3>Workforce</h3>${basisRows(obs,jobsKinds.slice(0,4))}<p class="chart-footnote">No totals: project investment, local contracts, cash paid and jobs measure different things.</p></details>`;
+ return `${other.length?`<details class="project-measures" ${['colossus-one','colossus-two','waymo-one'].includes(p.id)?'open':''}><summary>Plans, contracts & equipment evidence (${other.length})</summary><div class="scoped-grid">${other.map(quantityEvidence).join('')}</div></details>`:''}<details class="project-measures"><summary>Capital & jobs — separate measurement bases</summary><h3>Project money</h3>${basisRows(obs,moneyKinds)}<h3>Workforce</h3>${basisRows(obs,jobsKinds.slice(0,4))}<p class="chart-footnote">No totals: project investment, local contracts, cash paid and jobs measure different things.</p></details>`;
 }
 function companyMeasures(c) {
  const obs=typedRecords('company',c.id),grouped=[...moneyKinds,...jobsKinds].map(([,kind])=>kind);
@@ -43,7 +43,31 @@ function extendWithExpansion() {
  if(layerOf(page)) {
   const section=page==='models'?agentProducts():featuredProjects(page);
   root.querySelector('.layer-nav').insertAdjacentHTML('afterend',section);
+  if(page==='energy')root.querySelector('.detail-layout').insertAdjacentHTML('afterend',colossusPowerPath());
   if(page==='applications')root.querySelector('#named-projects').insertAdjacentHTML('afterend','<aside class="reading-note"><strong>Different driving exposure, different evidence.</strong><p>Tesla consumer FSD miles require driver supervision. Tesla Robotaxi supervision differs by city; Waymo rider-only mileage has a separate geography and period. We do not put these in a shared performance ranking. Optimus training builds are separate from Agility’s reported commercial tote handling.</p></aside>');
  } else if(page==='industry')root.querySelector('.industry-verdict').insertAdjacentHTML('afterend',projectJobs()+capitalEvidence());
  else if(page==='projects')root.insertAdjacentHTML('beforeend',`<section class="section"><h2>What we still need to verify.</h2><ul class="research-focus">${expansion.gaps.map(g=>`<li>${esc(g)}</li>`).join('')}</ul></section>`);
+}
+
+function powerBasisNote(p) {
+ const notes={
+  'colossus-one':'Two bases, two dates: Epoch estimates operating IT power; Anthropic describes contracted access with no IT-versus-facility definition. These figures do not establish metered consumption or utilization.',
+  'colossus-two':'The June company disclosure covers individual compute clusters. The September Epoch figure estimates the building’s operating IT capacity from equipment evidence. The later end-state is a forecast. These differing scopes and vintages are shown separately, never averaged or added into a consensus.',
+  'tesla-cortex-2':'Operating refers to Tesla’s Q2 Production classification and company-defined compute capacity. It does not mean that the later ramp is complete or that compute MW equals measured facility consumption.'
+ };
+ return notes[p.id]?`<aside class="reading-note power-basis-note"><strong>Read the power basis</strong><p>${esc(notes[p.id])}</p></aside>`:'';
+}
+function factoryMilestones() {
+ const projects=delivery.projects.filter(p=>p.layer==='chips');
+ return `<section class="section" id="projects"><div class="section-top"><div><div class="eyebrow muted">FACTORY MILESTONES / DELIVERY TRACKER</div><h2>From plans to production.</h2></div><a class="section-link" href="${base}projects/?layer=chips">Open chip projects ↗</a></div><p class="section-intro">${projects.length} chip projects and program records from the same reviewed tracker. Stages describe the cited evidence. Overlapping program envelopes and individual phases are not added.</p><div class="project-grid">${projects.map(p=>{const m=p.milestones.at(-1);return `<article class="project-card"><span class="stage ${p.stage==='operating'?'operating':''}">${esc(stageNames[p.stage])}</span><h3><a href="${base}projects/#project-${esc(p.id)}">${esc(p.name)}</a></h3><p>${esc(p.location)}</p><strong>${dateLabel(m.date)}</strong><p>${esc(m.summary)}</p>${sourceLink(m.source)}<p class="chart-footnote">${esc(p.horizon)}</p></article>`;}).join('')}</div><p class="chart-footnote">Reviewed ${dateLabel(delivery.reviewed_at)}. Production targets and promised jobs are separate from operating capacity and reported hires.</p></section>`;
+}
+function colossusPowerPath() {
+ const steps=[
+  ['01','Existing connection','Paul Lowry · Memphis','MLGW distinguishes the pre-existing connection from the later substation. The original service was not enough to establish the full campus load.','mlgw-may-2025',[]],
+  ['02','Temporary generation','Separate behind-the-meter systems','Gas turbines supplement utility service. Utility approval is separate from air permitting; generator equipment does not prove permitted or continuously available output.','mlgw-may-2025',[]],
+  ['03','Grid service delivered','Paul Lowry · Memphis','MLGW reports energized service after studies, transmission work and a new substation. This is a dated utility disclosure, not a current metered-load reading.','mlgw-may-2025',['colossus-grid-energized-baseline']],
+  ['04','Next grid increment requested','Paul Lowry · Memphis','The requested total already includes existing service. The utility’s conditional schedule is historical; this review has not verified the later increment’s energization.','mlgw-may-2025',['colossus-grid-requested-baseline']],
+  ['05','Permanent plant and turbine removal','Southaven · Mississippi · separate Colossus 2 power path','SpaceXAI describes permanent-plant construction and a temporary-turbine removal schedule. Issued permits, actual removals and commissioned generation require separate evidence. This is not another Paul Lowry grid increment.','spacexai-power-july',['southaven-permanent-gas-baseline']]
+ ];
+ return `<section class="section" id="colossus-power-path"><div class="section-top"><div><div class="eyebrow muted">ENERGY DELIVERY / MEMPHIS CORRIDOR</div><h2>Getting power to the AI factory.</h2></div><a class="section-link" href="${base}projects/?layer=energy">Inspect energy projects ↗</a></div><p class="section-intro">The global electricity chart is context. The Colossus records show the work underneath it: existing connections, temporary generation, utility upgrades and a separately permitted permanent plant.</p><ol class="power-path">${steps.map(([n,title,place,summary,source,ids])=>`<li><span class="path-number" aria-hidden="true">${n}</span><div><h3>${title}</h3><p class="eyebrow muted">${place}</p><p>${summary}</p><p class="chart-footnote">${sourceLink(source)} · ${publicationLabel(sourceOf(source).published)}</p>${evidenceOf(ids).map(quantityEvidence).join('')}</div></li>`).join('')}</ol><aside class="reading-note"><strong>A sequence of dependencies, not one additive power total.</strong><p>Paul Lowry, the Colossus 2 building, Southaven generation and the later Stateline Road building have separate boundaries. Temporary generation can overlap grid service. A company removal timetable is not proof of removal. The filed air-permit complaint remains an allegation, not a final judgment. ${sourceLink('colossus-southaven-complaint')}</p></aside></section>`;
 }

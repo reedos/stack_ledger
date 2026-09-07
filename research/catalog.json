@@ -67,7 +67,7 @@
         "Harnesses, tool use and human intervention",
         "Inference cost, efficiency, openness and scientific capability"
       ],
-      "headline_metric": "inference-cost",
+      "headline_metric": "codex-input-price",
       "headline_record": "models-2024",
       "headline_label": "Comparable inference cost · Oct 2024",
       "outlook": "Track capability, reliability, cost and openness separately. Better benchmark scores need to translate into dependable performance in real tasks."
@@ -1992,14 +1992,16 @@
       "layer": "applications",
       "title": "Waymo One · paid trips per week",
       "unit": "paid trips / week",
-      "geography": "Phoenix, San Francisco, Los Angeles and Austin, U.S.",
-      "scope": "Explicitly paid weekly trips, historical May 2025 snapshot. Not relabeled as current September 2026 volume.",
+      "geography": "United States; commercial service footprint at each disclosure",
+      "scope": "Paid weekly trips across the commercial markets operating at each disclosure: four markets in May 2025; ten U.S. cities in the March 2026 company post. This is a changing-footprint service series, not a same-city utilization comparison.",
       "direction": "context",
       "min": 0,
       "max": 1000000000,
-      "note": "Explicitly paid weekly trips, historical May 2025 snapshot. Not relabeled as current September 2026 volume.",
+      "note": "Paid weekly trips across the commercial markets operating at each disclosure: four markets in May 2025; ten U.S. cities in the March 2026 company post. This is a changing-footprint service series, not a same-city utilization comparison.",
       "source_ids": [
-        "waymo-fleet-2025"
+        "waymo-fleet-2025",
+        "waymo-paid-march-2026",
+        "waymo-paid-march-post"
       ],
       "company": "waymo",
       "measurement_type": "paid_trips_per_week",
@@ -2080,7 +2082,7 @@
       "layer": "applications",
       "title": "Tesla FSD (Supervised) · European mileage",
       "unit": "million supervised miles",
-      "geography": "Approved European markets in Tesla Q2 update",
+      "geography": "Netherlands, Lithuania, Estonia, Denmark and Belgium",
       "scope": "Over 50 million km / 31 million miles as of July. Driver supervision remains required; not a global fleet total or unsupervised Robotaxi mileage.",
       "direction": "context",
       "min": 0,
@@ -2741,14 +2743,15 @@
       "layer": "applications",
       "title": "Tesla Robotaxi Unsupervised",
       "unit": "unsupervised miles",
-      "geography": "United States; cities retain separate supervision status",
-      "scope": "Geofenced Tesla Robotaxi only; city, monitor status and exact exposure period required. Exclude consumer FSD miles.",
+      "geography": "U.S. geofenced Robotaxi service; aggregate not allocated by city",
+      "scope": "Company-reported cumulative unsupervised Robotaxi miles through September 3, 2026. Consumer FSD and safety-driver miles are separate. No city, paid-versus-test, remote-assistance or chase-car breakdown is disclosed in the speech. Not a Waymo rider-only safety denominator.",
       "direction": "context",
       "min": 0,
       "max": 1000000000,
-      "note": "Geofenced Tesla Robotaxi only; city, monitor status and exact exposure period required. Exclude consumer FSD miles.",
+      "note": "Company-reported cumulative unsupervised Robotaxi miles through September 3, 2026. Consumer FSD and safety-driver miles are separate. No city, paid-versus-test, remote-assistance or chase-car breakdown is disclosed in the speech. Not a Waymo rider-only safety denominator.",
       "source_ids": [
-        "tesla-q2-2026"
+        "tesla-q2-2026",
+        "tesla-cybercab-speech-2026"
       ],
       "company": "tesla",
       "measurement_type": "unsupervised_or_rider_only_miles",
@@ -2914,6 +2917,29 @@
         "company-commitment",
         "government-target"
       ]
+    },
+    {
+      "id": "waymo-weekly-rides-target",
+      "layer": "applications",
+      "title": "Waymo · end-2026 weekly rides ambition",
+      "unit": "rides / week",
+      "geography": "Waymo commercial service; planned footprint",
+      "scope": "Company target for more than one million weekly rides by end-2026, announced February 24. The statement says rides, not explicitly paid trips; no paid-service completion ratio is calculated.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Company target for more than one million weekly rides by end-2026, announced February 24. The statement says rides, not explicitly paid trips; no paid-service completion ratio is calculated.",
+      "source_ids": [
+        "waymo-end2026-target"
+      ],
+      "company": "waymo",
+      "measurement_type": "autonomous_trips_per_week",
+      "project": "waymo-one",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
     }
   ],
   "targets": [
@@ -2952,6 +2978,18 @@
       "source": "msft-wisconsin",
       "assessment": "Completion evidence needed",
       "detail": "Three-year spending pledge. We need subsequent expenditure and commissioning evidence before assessing delivery."
+    },
+    {
+      "id": "waymo-rides-end2026",
+      "layer": "applications",
+      "title": "Waymo weekly rides by end-2026",
+      "owner": "Waymo",
+      "year": 2026,
+      "type": "Company commitment",
+      "value": ">1,000,000 rides / week",
+      "source": "waymo-end2026-target",
+      "assessment": "Commitment, not achieved",
+      "detail": "Announced February 24, 2026. The target says rides, not explicitly paid trips. Kept separate from observed paid weekly service; no completion percentage is inferred."
     }
   ]
 }

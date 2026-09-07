@@ -51,5 +51,22 @@ class ExpansionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Promised measurement'):
             validate_expansion(self.x, self.l, self.e, self.d)
 
+    def test_waymo_target_does_not_replace_observed_paid_service(self):
+        from render import latest_headline
+        layer = next(l for l in self.l['layers'] if l['id'] == 'applications')
+        latest = latest_headline(self.l, layer)
+        self.assertEqual((latest['year'], latest['value'], latest['status']), (2026, 500000, 'observation'))
+        self.assertTrue(any(o['metric'] == 'waymo-paid-weekly' and o['year'] == 2025 for o in self.l['observations']))
+        target = next(o for o in self.l['observations'] if o['metric'] == 'waymo-weekly-rides-target')
+        self.assertEqual(target['status'], 'company-commitment')
+        self.assertNotEqual(latest['metric'], target['metric'])
+
+    def test_colossus_locations_and_unknown_productive_robots_stay_separate(self):
+        projects = {p['id']: p for p in self.d['projects']}
+        self.assertNotIn('Southaven', projects['colossus-one']['location'])
+        self.assertNotEqual(projects['colossus-two']['location'], projects['southaven-permanent-power']['location'])
+        self.assertEqual(projects['tesla-optimus']['stage'], 'pilot')
+        self.assertEqual(projects['tesla-optimus']['observations'], [])
+
 
 if __name__ == '__main__': unittest.main()
