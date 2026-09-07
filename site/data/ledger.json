@@ -22353,6 +22353,28 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T225313Z",
+      "started_at": "2026-09-07T22:53:13Z",
+      "finished_at": "2026-09-07T22:54:25Z",
+      "status": "partial",
+      "documents_fetched": 7,
+      "documents_reviewed": 7,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-eaton",
+          "reason": "TimeoutError"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -22362,7 +22384,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T22:52:48Z",
+    "last_attempt": "2026-09-07T22:54:25Z",
     "last_success": "2026-09-07T22:34:45Z",
     "status": "partial"
   }
