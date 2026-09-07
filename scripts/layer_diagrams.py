@@ -35,7 +35,7 @@ DIAGRAMS={
  (55,100,'A useful task','screen','A person or business defines a goal: resolve a support case, develop software, analyze evidence or perform a physical task.'),
  (365,100,'Model & workflow','chip','A workflow or agent uses model outputs to choose or execute steps within its allowed scope.'),
  (675,100,'Tools & systems','network','Software tools retrieve records or make changes. Physical applications additionally need sensors, controls and actuators.'),
- (55,365,'Human review','check','Review and permissions depend on the stakes. Escalate uncertainty and consequential actions where appropriate.'),
+ (55,365,'Human review','person','Review and permissions depend on the stakes. Escalate uncertainty and consequential actions where appropriate.'),
  (365,365,'Verified outcome','check','Tests, measurements and domain review establish whether work succeeded. A convincing answer alone is insufficient.'),
  (675,365,'Value & feedback','screen','Track quality, time, cost and real outcomes. Scientific and clinical claims need validation appropriate to their stage.')],edges=[(0,1,'data'),(1,2,'data'),(2,4,'data'),(3,4,'feedback'),(4,5,'data'),(5,1,'feedback')])
 }
@@ -55,6 +55,7 @@ def icon(kind):
       'storage':'<ellipse cx="40" cy="12" rx="33" ry="11"/><path d="M7 12v44c0 15 66 15 66 0V12M7 33c0 15 66 15 66 0"/>',
       'cooling':'<circle cx="40" cy="35" r="30"/><circle cx="40" cy="35" r="6"/><path d="M40 29c-23-30-35 12-6 12M46 35c36-5 4-37-9-6M40 41c-13 32 31 24 6-6"/>',
       'screen':'<rect x="3" y="5" width="74" height="48" rx="5"/><path d="M40 53v14M20 67h40M17 20l12 9-12 9M39 38h22"/>',
+      'person':'<circle cx="40" cy="18" r="13"/><path d="M14 67v-8a26 26 0 0 1 52 0v8ZM26 56v11M54 56v11"/>',
       'check':'<circle cx="40" cy="35" r="31"/><path d="m21 34 13 14 26-28"/>'}
     return shapes[kind]
 
