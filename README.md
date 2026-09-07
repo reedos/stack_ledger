@@ -4,6 +4,12 @@
 
 **[Read the site](https://reedos.github.io/stack_ledger/)** · [Research constitution](research/CONSTITUTION.md) · [Methodology](research/METHODOLOGY.md) · [Public dataset](site/data/ledger.json)
 
+## Our premise
+
+AI can help reindustrialize America: abundant power and domestic manufacturing support AI factories, models and agent systems; useful applications can turn that capability into business productivity, physical work and discovery. We follow the opportunity from local investment, purchasing and jobs to digital workers, productive robots, medicine, engineering, climate research and clean energy.
+
+This is our guiding ambition, tested against evidence. Announced investment is not delivered capacity, a robot demo is not an operating workforce, and a promising drug candidate is not a patient outcome. The constitution directs the daily researcher to look for these connections without inventing benefits or suppressing constraints.
+
 ## What is included
 
 - An original interactive five-layer illustration, responsive landing page and five dedicated dashboards.

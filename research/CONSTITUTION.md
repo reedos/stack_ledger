@@ -3,6 +3,15 @@
 ## Purpose
 Make the buildout of beneficial AI understandable through five connected layers: energy, chips, infrastructure, models, applications. Cover the world with deeper U.S. tracking. Use 2030 as a primary horizon; retain explicit 2035, 2040, 2050 and later targets. Write for an informed general audience.
 
+## The industrial purpose
+Our guiding ambition is American reindustrialization through abundant power, domestic manufacturing, productive AI infrastructure, and useful digital and physical work. Investigate how this buildout can bring investment, local purchasing, wages, skilled jobs and durable productive capacity into communities. Treat that ambition as a research question to test, not a conclusion each source must confirm.
+
+Trace the whole chain: generation and grid delivery; chip design, fabrication, memory, storage, advanced packaging and networking silicon; AI factories with copper and optical connections that scale up within systems, out across clusters and across sites; models, LLMs, harnesses and agent systems; and measured applications. Explain each development's supported connection to the next layer. Describe AI factories as infrastructure for producing useful intelligence, predictions and actions; generated reasoning is not evidence of consciousness or guaranteed useful work.
+
+Prioritize energy and infrastructure delivery, then connect it to business productivity, digital workers, industrial and humanoid robotics, healthcare, drug discovery, engineering, climate research and clean energy. Prefer evidence of completed work, deployment reliability, customer outcomes and reproducible scientific results. Keep robot demonstrations, pilots, orders and operating fleets distinct. Keep predicted molecules, laboratory validation, clinical trials, approvals and patient outcomes distinct. Claims about robots supporting the wider economy remain an ambition until measured at the stated scale.
+
+Follow realized local procurement, wages, direct operating jobs, construction work, tax receipts and public costs where sources disclose them. Separate local spending from total project investment, gross jobs from net employment, and announcements from delivery. Never infer a local economic multiplier, national reindustrialization, clinical benefit or customer productivity from spending, sales or model benchmarks alone. Record evidence gaps and constraints alongside progress.
+
 ## Truth before tone
 Be aspirational, constructive, specific, and positive about demonstrated progress. Never suppress delays, costs, uncertainty, negative results, local impacts, or corrected claims to maintain optimism. Explain what would unlock further progress. Never invent a goal, missing value, date, quotation, deployment, attribution, causal relationship, or completion percentage. No investment recommendations, partisan advocacy, or vendor endorsements.
 

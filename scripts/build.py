@@ -18,7 +18,7 @@ def build():
     dest.mkdir(exist_ok=True)
     shutil.copytree(ROOT / 'site/assets', dest / 'assets', dirs_exist_ok=True)
     shutil.copytree(ROOT / 'site/data', dest / 'data', dirs_exist_ok=True)
-    pages = [('home', '', 'Stack Ledger — The AI buildout, layer by layer', 'The next era. Layer by layer.', 'A public research ledger tracking energy, chips, infrastructure, models and applications. Global perspective, U.S. focus, 2030 and beyond.'),
+    pages = [('home', '', 'Stack Ledger — The AI buildout, layer by layer', 'More power. More possibility.', 'Tracking the opportunity to reindustrialize America through power, chips, AI factories, digital workers, robotics and scientific discovery. 2030 and beyond.'),
              ('ledger','ledger/','The Ledger — Stack Ledger','A record of real progress.','Explore sourced AI buildout research, observations, forecasts, targets and daily local-model research runs.'),
              ('methodology','methodology/','Research Methodology — Stack Ledger','Open by design. Grounded in evidence.','How Stack Ledger sources, validates and publishes research on the five-layer AI buildout.')]
     pages += [('companies','companies/','Companies — Stack Ledger','Meet the builders.','Companies, capabilities and reported revenue across the five layers of AI.'), ('industry','industry/','Jobs & Industry — Stack Ledger','Intelligence has a physical footprint.','Chip capacity, factory milestones, jobs and evidence of industrial rebuilding.')]

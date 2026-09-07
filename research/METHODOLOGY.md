@@ -5,6 +5,18 @@ Energy covers generation, grid delivery, storage and electricity demand. Chips c
 
 Records use observation (reported historical measurement), estimate (modeled historical quantity), forecast (future projection), government-target, or company-commitment. Status belongs to each point, not an entire chart. All-data-center measures are contextual indicators, never relabeled as AI-only. Benchmark results remain specific to a benchmark version, model and evaluation protocol; do not generalize one score into universal intelligence.
 
+## Testing the industrial premise
+
+The editorial premise is that abundant power, domestic manufacturing and useful AI can support American reindustrialization. It is a direction for research, not an established national outcome. Trace each supported step from delivered electricity and chip supply to operational AI factories, model and agent reliability, and completed work.
+
+Local value requires local evidence: supplier purchases, wages, realized operating jobs, tax receipts and relevant public costs. Total investment and company sales cannot substitute for these measures. Customer productivity needs a task, comparison, deployment context, quality measure and costs including human oversight where available.
+
+Robotics coverage distinguishes demonstrations, pilots, orders and operational deployments; record task completion, uptime, interventions, physical performance and economics when reported. Medical and drug-discovery coverage distinguishes predictions, laboratory results, trials, approvals and demonstrated patient outcomes. Science, engineering, climate and clean-energy coverage looks for reproducibility and validation beyond a model benchmark or simulation. Preserve negative results and limitations.
+
+Networking coverage includes compute, storage and networking chips, copper and optical links, and the distinction between scale up within systems, scale out across clusters and scale across sites. Record deployed scope, bandwidth and latency in context; do not infer application value from nominal link speed.
+
+The expanded narrative describes research priorities. It does not add observations or imply every topic is covered by the current source registry. New numeric series and sources still require review.
+
 ## Reading the charts
 Bars start at zero. Solid bars show reported observations or estimates; hatched bars show forecasts or commitments. Separate bars preserve the exact reported periods and avoid fabricated intervening history. Each figure includes a table with value, unit, year, status and source. We show source publication date and access date separately. A newly accessed historical source is not new progress.
 
