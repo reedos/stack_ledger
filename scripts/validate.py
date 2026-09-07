@@ -55,6 +55,8 @@ def observation_valid(o,metrics,sources):
     require(s.get('parent_source',s['id']) in m['source_ids'],'Metric/source mapping not approved')
     require(type(o['year']) is int and 2000<=o['year']<=2150,'Invalid year')
     require(o['status'] in STATUSES and o['precision'] in PRECISIONS,'Invalid classification')
+    if 'allowed_statuses' in m:
+        require(o['status'] in m['allowed_statuses'],'Status contradicts reviewed measurement basis')
     require(o['method'] in {'curated','automated'},'Invalid research method')
     for k in ['value','upper']:
         if o[k] is None and k=='upper':continue

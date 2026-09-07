@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T08:24:48Z",
+  "reviewed_at": "2026-09-07T09:23:36Z",
   "companies": [
     {
       "id": "nextera",
@@ -600,9 +600,395 @@
       "role_sources": [
         "macom-optics"
       ]
+    },
+    {
+      "id": "tesla",
+      "name": "Tesla",
+      "layers": [
+        "chips",
+        "infrastructure",
+        "applications"
+      ],
+      "role": "Develops FSD (Supervised), Robotaxi, Optimus and Cortex; Terafab co-developer. Customer FSD remains supervised.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "tesla-q2-2026",
+      "role_sources": [
+        "tesla-q2-2026"
+      ]
+    },
+    {
+      "id": "spacex",
+      "name": "SpaceX",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Terafab co-developer and counterparty to Anthropic’s Colossus agreement. Parent company is distinct from the SpaceXAI business.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "spacex-terafab-2026",
+      "role_sources": [
+        "spacex-terafab-2026"
+      ]
+    },
+    {
+      "id": "spacexai",
+      "name": "xAI / SpaceXAI",
+      "layers": [
+        "infrastructure",
+        "models"
+      ],
+      "role": "Grok model business and Colossus infrastructure under SpaceX. Contracted compute access is distinct from delivered model work.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "anthropic-colossus-contract",
+      "role_sources": [
+        "anthropic-colossus-contract"
+      ]
+    },
+    {
+      "id": "waymo",
+      "name": "Waymo (Alphabet)",
+      "layers": [
+        "applications"
+      ],
+      "role": "Operates rider-only ride-hailing. Paid service, safety-driver testing and future launches remain separate. Alphabet revenue is not Waymo revenue.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "waymo-growth-2026",
+      "role_sources": [
+        "waymo-growth-2026"
+      ]
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Supplies AI compute for named Stargate campuses used by OpenAI. Developer, chip owner and customer are distinct roles.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "epoch-openai-stargate-abilene",
+      "role_sources": [
+        "epoch-openai-stargate-abilene"
+      ]
+    },
+    {
+      "id": "softbank",
+      "name": "SoftBank",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Stargate partner; Epoch identifies its chip ownership at Milam. Program commitments are not cash spent at every site.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "epoch-openai-stargate-milam",
+      "role_sources": [
+        "epoch-openai-stargate-milam"
+      ]
+    },
+    {
+      "id": "vantage",
+      "name": "Vantage Data Centers",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Develops the Frontier campus in Shackelford County for Stargate; separate from Oracle chip ownership.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "epoch-openai-stargate-shackelford",
+      "role_sources": [
+        "epoch-openai-stargate-shackelford"
+      ]
+    },
+    {
+      "id": "crusoe",
+      "name": "Crusoe",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Develops Abilene data-center infrastructure supporting Oracle compute and OpenAI workloads.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "epoch-openai-stargate-abilene",
+      "role_sources": [
+        "epoch-openai-stargate-abilene"
+      ]
+    },
+    {
+      "id": "coreweave",
+      "name": "CoreWeave",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "GPU cloud infrastructure for training and inference. Backlog is future contracted revenue, not commissioned MW.",
+      "revenue_metric": "coreweave-annual-revenue",
+      "revenue_kind": "annual",
+      "source": "coreweave-fy2025",
+      "role_sources": [
+        "coreweave-fy2025"
+      ]
+    },
+    {
+      "id": "nebius",
+      "name": "Nebius",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "GPU cloud capacity; Microsoft contracted dedicated infrastructure at Vineland, subject to deployment and availability.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "nebius-msft-contract",
+      "role_sources": [
+        "nebius-msft-contract"
+      ]
+    },
+    {
+      "id": "amkor",
+      "name": "Amkor",
+      "layers": [
+        "chips"
+      ],
+      "role": "Advanced packaging and test. Arizona construction supports a future domestic packaging chain; not current output.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "amkor-arizona-2025",
+      "role_sources": [
+        "amkor-arizona-2025"
+      ]
+    },
+    {
+      "id": "supermicro",
+      "name": "Super Micro Computer",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "AI servers, racks and data-center building-block solutions, including liquid cooling. Revenue covers the whole company.",
+      "revenue_metric": "supermicro-annual-revenue",
+      "revenue_kind": "annual",
+      "source": "supermicro-fy2026",
+      "role_sources": [
+        "supermicro-fy2026"
+      ]
+    },
+    {
+      "id": "constellation",
+      "name": "Constellation Energy",
+      "layers": [
+        "energy"
+      ],
+      "role": "Nuclear generation and power contracts; Crane restart tied to Microsoft’s power-matching agreement and regulatory approvals.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "crane-plan-2024",
+      "role_sources": [
+        "crane-plan-2024"
+      ]
+    },
+    {
+      "id": "mlgw",
+      "name": "Memphis Light, Gas and Water",
+      "layers": [
+        "energy"
+      ],
+      "role": "Local utility distinguishes energized xAI service, new substations and requests requiring TVA approval.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "mlgw-may-2025",
+      "role_sources": [
+        "mlgw-may-2025"
+      ]
+    },
+    {
+      "id": "tva",
+      "name": "Tennessee Valley Authority",
+      "layers": [
+        "energy"
+      ],
+      "role": "Regional supplier and transmission approval authority in the MLGW–xAI power path.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "mlgw-may-2025",
+      "role_sources": [
+        "mlgw-may-2025"
+      ]
+    },
+    {
+      "id": "agility",
+      "name": "Agility Robotics",
+      "layers": [
+        "applications"
+      ],
+      "role": "Digit humanoids perform tote handling in commercial logistics. Contracts, completed tasks and fleet counts are distinct.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "agility-commercial-2026",
+      "role_sources": [
+        "agility-commercial-2026"
+      ]
+    },
+    {
+      "id": "dell",
+      "name": "Dell Technologies",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "AI servers, storage, networking and integrated enterprise deployments; rack-scale liquid-cooled architectures. Product support does not prove shipments into a named campus.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "dell-role",
+      "role_sources": [
+        "dell-role"
+      ]
+    },
+    {
+      "id": "foxconn",
+      "name": "Foxconn / Hon Hai",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Builds and integrates AI server racks and modular data-center systems. Demonstrated platforms and potential collaborations are not installed customer capacity.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "foxconn-role",
+      "role_sources": [
+        "foxconn-role"
+      ]
+    },
+    {
+      "id": "quanta-computer",
+      "name": "Quanta Computer / QCT",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "QCT supplies server, storage, networking and integrated rack solutions through parent Quanta Computer. Distinct from U.S. electrical contractor Quanta Services.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "quanta-computer-role",
+      "role_sources": [
+        "quanta-computer-role"
+      ]
+    },
+    {
+      "id": "wiwynn",
+      "name": "Wiwynn",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Cloud server and rack integration, including cold-plate liquid cooling and serviceable liquid connections.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "wiwynn-role",
+      "role_sources": [
+        "wiwynn-role"
+      ]
+    },
+    {
+      "id": "nvent",
+      "name": "nVent",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Data-center cooling infrastructure, including coolant distribution and heat-exchange systems. Vendor capability is not a named campus contract.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "nvent-role",
+      "role_sources": [
+        "nvent-role"
+      ]
+    },
+    {
+      "id": "coolit",
+      "name": "CoolIT Systems (Ecolab)",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Direct liquid cooling for AI and high-performance computing. The company now identifies itself as part of Ecolab; stand-alone revenue remains unverified here.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "coolit-role",
+      "role_sources": [
+        "coolit-role"
+      ]
+    },
+    {
+      "id": "johnson-controls",
+      "name": "Johnson Controls",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Data-center thermal management, building controls, security and fire-protection systems.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "johnson-controls-role",
+      "role_sources": [
+        "johnson-controls-role"
+      ]
+    },
+    {
+      "id": "ercot",
+      "name": "ERCOT",
+      "layers": [
+        "energy"
+      ],
+      "role": "Texas grid operator; verifies large-load interconnection requests. A queued project is not energized service.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "ercot-queue-review-2026",
+      "role_sources": [
+        "ercot-queue-review-2026"
+      ]
+    },
+    {
+      "id": "fervo",
+      "name": "Fervo Energy",
+      "layers": [
+        "energy"
+      ],
+      "role": "Enhanced geothermal developer at Cape Station. Phase I commissioning and Phase II construction remain distinct delivery stages.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "fervo-q2-2026",
+      "role_sources": [
+        "fervo-q2-2026"
+      ]
+    },
+    {
+      "id": "cognition",
+      "name": "Cognition",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "role": "Agent environment can write, run and test code with developer review. Vendor task-duration heuristics are not measured hours displaced.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "devin-product",
+      "role_sources": [
+        "devin-product",
+        "windsurf-product"
+      ]
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw (open-source project)",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "role": "Self-hosted agent runtime connecting models and tools. Runtime availability and this site’s configured use do not imply widespread adoption or completed research.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "openclaw-product",
+      "role_sources": [
+        "openclaw-product"
+      ]
     }
   ],
   "capacity_metrics": [
+    "tsmc-cowos-wpm",
     "tsmc-wafer-capacity",
     "advanced-wafer-capacity",
     "memory-wafer-capacity"

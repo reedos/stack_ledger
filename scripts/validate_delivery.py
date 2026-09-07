@@ -5,7 +5,8 @@ from datetime import datetime,timezone
 from pathlib import Path
 from validate import require,text,timestamp
 ROOT=Path(__file__).resolve().parents[1]
-STAGES={'operating','partly-operating','commissioning','construction','permitting'}
+STAGES={'operating','partly-operating','commissioning','construction','permitting',
+        'announced','site-selected','equipment-move-in','production-ramp','pilot','delayed'}
 
 def validate_delivery(d,ledger):
     require(set(d)=={'version','reviewed_at','projects','context_metrics','assessment','gaps'},'Unexpected delivery shape')
@@ -14,23 +15,34 @@ def validate_delivery(d,ledger):
     require(set(d['context_metrics'])<=metrics.keys(),'Unknown delivery context metric')
     ids=set()
     for p in d['projects']:
-        require(set(p)=={'id','name','layer','owner','location','category','stage','ai_relationship','observations','horizon','grid','next_evidence','milestones'},'Unexpected project fields')
+        required={'id','name','layer','owner','location','category','stage','ai_relationship','observations','horizon','grid','next_evidence','milestones'}
+        require(required<=p.keys() and p.keys()<=required|{'primary_user','measures'},'Unexpected project fields')
         require(re.fullmatch('[a-z0-9-]+',p['id']) and p['id'] not in ids,'Invalid or duplicate project ID');ids.add(p['id'])
-        require(p['layer'] in {'energy','infrastructure'} and p['stage'] in STAGES,'Invalid delivery stage/layer')
+        require(p['layer'] in {'energy','chips','infrastructure','models','applications'} and p['stage'] in STAGES,'Invalid delivery stage/layer')
+        if 'primary_user' in p:text(p['primary_user'],600)
         for k in ['name','owner','location','category','ai_relationship','horizon','grid','next_evidence']:text(p[k],600)
         require(p['milestones'],'Project needs sourced milestone evidence')
         dates=[]
         for m in p['milestones']:
             require(set(m)=={'date','summary','source'} and m['source'] in sources,'Missing milestone source')
-            dt=datetime.strptime(m['date'],'%Y-%m-%d').date();require(dt<=reviewed.date(),'Future milestone evidence')
+            if m['date'] is not None:
+                dt=datetime.strptime(m['date'],'%Y-%m-%d').date();require(dt<=reviewed.date(),'Future milestone evidence')
             require(m['date']==sources[m['source']]['published'],'Milestone must preserve source publication date')
-            require(p['layer'] in sources[m['source']]['layers'],'Milestone source layer mismatch');text(m['summary'],600);dates.append(m['date'])
+            require(p['layer'] in sources[m['source']]['layers'],'Milestone source layer mismatch');text(m['summary'],600)
+            if m['date'] is not None:dates.append(m['date'])
         require(dates==sorted(dates),'Milestones out of order')
         for id in p['observations']:
             require(id in obs and not obs[id].get('superseded_by'),'Missing or superseded project observation')
             require(metrics[obs[id]['metric']]['layer']==p['layer'],'Project capacity layer mismatch')
         if p['stage']=='operating' and p['observations']:
-            require(all(obs[id]['status']=='observation' for id in p['observations']),'Operating capacity cannot be supported by plans alone')
+            require(all(obs[id]['status'] in {'observation','estimate'} for id in p['observations']),'Operating capacity cannot be supported by plans alone')
+        if 'measures' in p:
+            require(isinstance(p['measures'],list),'Project measures must be a list')
+            for id in p['measures']:
+                require(id in obs and not obs[id].get('superseded_by'),'Missing or superseded project measure')
+                metric=metrics[obs[id]['metric']]
+                require(metric.get('project')==p['id'],'Project measure belongs to another site')
+                require('measurement_type' in metric and 'company' in metric,'Unscoped project measure')
     text(d['assessment'],1000)
     for gap in d['gaps']:text(gap,600)
     return True

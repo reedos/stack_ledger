@@ -25,9 +25,9 @@ class StaticPresentationTests(unittest.TestCase):
 
     def test_applications_adoption_cannot_become_productivity_headline(self):
         layer = self.data['layers'][-1]
-        self.assertIsNone(render.latest_headline(self.data, layer))
+        self.assertEqual(render.latest_headline(self.data, layer)['metric'], 'waymo-paid-weekly')
         cards = render.layer_cards(self.data, './')
-        self.assertIn('Research gap', cards)
+        self.assertIn('paid trips / week', cards)
         self.assertNotIn('88', cards)
 
     def test_source_and_period_are_escaped_in_static_html(self):

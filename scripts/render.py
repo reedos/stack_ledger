@@ -12,10 +12,10 @@ HOME_DESCRIPTION = ('Track energy, chips, infrastructure, models and application
                     'with deeper U.S. coverage and a horizon of 2030 and beyond.')
 LABELS = {
     'energy': ('Generate', 'Global data-center electricity demand (all workloads)', 'TWh / year'),
-    'chips': ('Compute', 'TSMC wafer capacity (company-wide), not AI accelerators', 'million 12-inch-equivalent wafers / year'),
-    'infrastructure': ('Connect', 'U.S. data centers (all types)', 'sites'),
+    'chips': ('Compute', 'TSMC CoWoS packaging capacity (Epoch estimate)', 'thousand wafers / month'),
+    'infrastructure': ('Connect', 'Stargate Abilene: estimated operating IT power', 'MW IT'),
     'models': ('Learn', 'GPT-3.5-level inference cost (MMLU benchmark)', 'USD / million tokens'),
-    'applications': ('Apply', 'Measured productivity and practical outcomes', ''),
+    'applications': ('Apply', 'Waymo One: reported paid weekly service', 'paid trips / week'),
 }
 STATUSES = {'observation': 'Observation', 'estimate': 'Estimate', 'forecast': 'Forecast',
             'government-target': 'Government target', 'company-commitment': 'Company commitment'}
@@ -33,9 +33,6 @@ def number(record):
 
 
 def latest_headline(data, layer):
-    # Do not convert the applications adoption survey into an outcome measure.
-    if layer['id'] == 'applications':
-        return None
     records = [o for o in data['observations'] if o['metric'] == layer['headline_metric']
                and not o.get('superseded_by') and o['status'] in ('observation', 'estimate')]
     return max(records, key=lambda o: (o['year'], o['period']), default=None)
@@ -48,7 +45,11 @@ def layer_cards(data, base):
         record = latest_headline(data, layer)
         if record:
             source = next(s for s in data['sources'] if s['id'] == record['source'])
-            evidence = (f'<div class="layer-value">{e(number(record))}</div>'
+            display = record
+            if record['metric'] == 'tsmc-cowos-wpm':
+                display = dict(record, value=record['value'] / 1000,
+                               upper=record['upper'] / 1000 if record['upper'] is not None else None)
+            evidence = (f'<div class="layer-value">{e(number(display))}</div>'
                         f'<div class="metric-context"><span>{e(unit)}</span><span>{e(record["period"])}</span></div>'
                         f'<p class="layer-label">{e(label)}</p>'
                         f'<span class="headline-status">{STATUSES[record["status"]]}</span>'

@@ -31,7 +31,7 @@
         "Accelerators, memory, storage and advanced packaging",
         "Networking silicon, optical connections and delivered supply"
       ],
-      "headline_metric": "tsmc-wafer-capacity",
+      "headline_metric": "tsmc-cowos-wpm",
       "headline_record": "chips-2025",
       "headline_label": "TSMC wafer capacity · 2025",
       "outlook": "Follow operational fabs and reproducible system benchmarks. Process-node names alone do not establish speed, efficiency or available AI capacity."
@@ -49,7 +49,7 @@
         "Compute, storage, networking and cooling",
         "Local purchasing, construction work and operating jobs"
       ],
-      "headline_metric": "us-data-centers",
+      "headline_metric": "abilene-it-operating",
       "headline_record": "infra-2026",
       "headline_label": "U.S. data centers · 2026 report",
       "outlook": "Follow projects from announcement through financing, construction and operation. Site counts and investment pledges are context, not delivered compute."
@@ -85,7 +85,7 @@
         "Industrial, mobile and humanoid robot deployments",
         "Healthcare, drug discovery, engineering, climate and clean energy"
       ],
-      "headline_metric": "ai-adoption",
+      "headline_metric": "waymo-paid-weekly",
       "headline_record": "apps-2025",
       "headline_label": "Surveyed organizations using AI · 2025",
       "outlook": "Follow useful work from trials into sustained deployment. Measure productivity, robot reliability and validated scientific or patient outcomes; keep future ambitions distinct from demonstrated results."
@@ -1217,6 +1217,1702 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-macom"
+      ]
+    },
+    {
+      "id": "colossus-one-it-epoch",
+      "layer": "infrastructure",
+      "title": "Colossus 1 · estimated current IT power",
+      "unit": "MW IT",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Epoch estimate of operating IT capacity; not metered consumption, facility load or contracted access.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch estimate of operating IT capacity; not metered consumption, facility load or contracted access.",
+      "source_ids": [
+        "epoch-colossus-1"
+      ],
+      "company": "spacexai",
+      "measurement_type": "site_it_mw_operating",
+      "project": "colossus-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus-one-access",
+      "layer": "infrastructure",
+      "title": "Colossus 1 · contracted compute access",
+      "unit": "MW (company-described capacity)",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Anthropic access within May 2026. IT-versus-facility basis unspecified; not interchangeable with Epoch IT MW.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Anthropic access within May 2026. IT-versus-facility basis unspecified; not interchangeable with Epoch IT MW.",
+      "source_ids": [
+        "anthropic-colossus-contract"
+      ],
+      "company": "anthropic",
+      "measurement_type": "compute_mw_contracted",
+      "project": "colossus-one",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "colossus-one-gpus-contract",
+      "layer": "infrastructure",
+      "title": "Colossus 1 · contracted NVIDIA GPUs",
+      "unit": "GPUs (mixed NVIDIA generations)",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Contracted access; not an installed-GPU census or H100-equivalent conversion.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Contracted access; not an installed-GPU census or H100-equivalent conversion.",
+      "source_ids": [
+        "anthropic-colossus-contract"
+      ],
+      "company": "anthropic",
+      "measurement_type": "accelerator_units_contracted",
+      "project": "colossus-one",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "colossus-two-it-epoch",
+      "layer": "infrastructure",
+      "title": "Colossus 2 · estimated current IT power",
+      "unit": "MW IT",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Epoch estimate of operating IT capacity; not metered consumption, facility load or contracted access.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch estimate of operating IT capacity; not metered consumption, facility load or contracted access.",
+      "source_ids": [
+        "epoch-colossus-2"
+      ],
+      "company": "spacexai",
+      "measurement_type": "site_it_mw_operating",
+      "project": "colossus-two",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus-two-it-endstate",
+      "layer": "infrastructure",
+      "title": "Colossus 2 · projected end-state IT power",
+      "unit": "MW IT",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Epoch Q1 2027 projection; not a company promise or commissioned capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch Q1 2027 projection; not a company promise or commissioned capacity.",
+      "source_ids": [
+        "epoch-colossus-2"
+      ],
+      "company": "spacexai",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "colossus-two",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "colossus-grid-energized",
+      "layer": "energy",
+      "title": "Colossus 1 · energized grid service",
+      "unit": "MW grid service",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "MLGW May 5 disclosure for Paul Lowry site; historical, not September 2026 capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "MLGW May 5 disclosure for Paul Lowry site; historical, not September 2026 capacity.",
+      "source_ids": [
+        "mlgw-may-2025"
+      ],
+      "company": "mlgw",
+      "measurement_type": "interconnection_mw_energized",
+      "project": "colossus-grid",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus-grid-requested",
+      "layer": "energy",
+      "title": "Colossus 1 · requested total grid service",
+      "unit": "MW requested",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Requested total includes existing service. Not additive or proof of energization.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Requested total includes existing service. Not additive or proof of energization.",
+      "source_ids": [
+        "mlgw-may-2025"
+      ],
+      "company": "spacexai",
+      "measurement_type": "interconnection_mw_requested",
+      "project": "colossus-grid",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "terafab-announced-capital",
+      "layer": "chips",
+      "title": "Terafab · initial announced investment",
+      "unit": "USD billion",
+      "geography": "Grimes County, Texas, U.S.",
+      "scope": "Initial phase requirement estimated by SpaceX; not expenditure or a producing fab.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Initial phase requirement estimated by SpaceX; not expenditure or a producing fab.",
+      "source_ids": [
+        "spacex-terafab-2026"
+      ],
+      "company": "spacex",
+      "measurement_type": "capex_announced_usd",
+      "project": "terafab",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "terafab-permanent-promised",
+      "layer": "chips",
+      "title": "Terafab · minimum permanent jobs promised",
+      "unit": "jobs (at least)",
+      "geography": "Grimes / Brazos counties, Texas, U.S.",
+      "scope": "At least 3,000 future facility employees. Actual hires and local share not disclosed for this project.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "At least 3,000 future facility employees. Actual hires and local share not disclosed for this project.",
+      "source_ids": [
+        "spacex-terafab-2026"
+      ],
+      "company": "spacex",
+      "measurement_type": "permanent_jobs_promised",
+      "project": "terafab",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "tesla-cortex-1-compute",
+      "layer": "infrastructure",
+      "title": "Tesla Cortex 1 · reported compute capacity",
+      "unit": "MW compute (Tesla basis)",
+      "geography": "Giga Texas, Austin, U.S.",
+      "scope": "Q2 2026 installed capacity marked Production; not independently defined IT load or metered consumption.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Q2 2026 installed capacity marked Production; not independently defined IT load or metered consumption.",
+      "source_ids": [
+        "tesla-q2-2026"
+      ],
+      "company": "tesla",
+      "measurement_type": "site_compute_mw_reported",
+      "project": "tesla-cortex-1",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tesla-cortex-2-compute",
+      "layer": "infrastructure",
+      "title": "Tesla Cortex 2 · reported compute capacity",
+      "unit": "MW compute (Tesla basis)",
+      "geography": "Giga Texas, Austin, U.S.",
+      "scope": "Q2 2026 installed capacity marked Production; not independently defined IT load or metered consumption.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Q2 2026 installed capacity marked Production; not independently defined IT load or metered consumption.",
+      "source_ids": [
+        "tesla-q2-2026"
+      ],
+      "company": "tesla",
+      "measurement_type": "site_compute_mw_reported",
+      "project": "tesla-cortex-2",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tsmc-cowos-wpm",
+      "layer": "chips",
+      "title": "TSMC CoWoS · year-end packaging capacity",
+      "unit": "wafers / month",
+      "geography": "TSMC global packaging footprint",
+      "scope": "Epoch ranges compiled from industry reports; TSMC does not disclose WPM. Year-end anchors, not annual averages or completed chips.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Epoch ranges compiled from industry reports; TSMC does not disclose WPM. Year-end anchors, not annual averages or completed chips.",
+      "source_ids": [
+        "epoch-components-method"
+      ],
+      "company": "tsmc",
+      "measurement_type": "cowos_or_advanced_packaging_wspm",
+      "project": null,
+      "allowed_statuses": [
+        "estimate",
+        "forecast"
+      ]
+    },
+    {
+      "id": "hynix-indiana-capital",
+      "layer": "chips",
+      "title": "SK hynix Indiana · announced investment",
+      "unit": "USD billion",
+      "geography": "West Lafayette, Indiana, U.S.",
+      "scope": "August 2026 plan; not cumulative cash spent.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "August 2026 plan; not cumulative cash spent.",
+      "source_ids": [
+        "hynix-indiana-2026"
+      ],
+      "company": "sk-hynix",
+      "measurement_type": "capex_announced_usd",
+      "project": "hynix-west-lafayette",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "hynix-indiana-jobs",
+      "layer": "chips",
+      "title": "SK hynix Indiana · workforce promised",
+      "unit": "jobs",
+      "geography": "West Lafayette, Indiana, U.S.",
+      "scope": "Approximately 1,000 future operating personnel; excludes regional direct/indirect multiplier claim.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Approximately 1,000 future operating personnel; excludes regional direct/indirect multiplier claim.",
+      "source_ids": [
+        "hynix-indiana-2026"
+      ],
+      "company": "sk-hynix",
+      "measurement_type": "permanent_jobs_promised",
+      "project": "hynix-west-lafayette",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "amkor-arizona-capital",
+      "layer": "chips",
+      "title": "Amkor Arizona · two-phase investment",
+      "unit": "USD billion",
+      "geography": "Peoria, Arizona, U.S.",
+      "scope": "Announced two-phase investment; not cash spent.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Announced two-phase investment; not cash spent.",
+      "source_ids": [
+        "amkor-arizona-2025"
+      ],
+      "company": "amkor",
+      "measurement_type": "capex_announced_usd",
+      "project": "amkor-arizona",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "abilene-it-operating",
+      "layer": "infrastructure",
+      "title": "Stargate · Abilene original campus · current IT power",
+      "unit": "MW IT",
+      "geography": "Abilene, Texas",
+      "scope": "Epoch site estimate from cooling and equipment evidence; not metered facility consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch site estimate from cooling and equipment evidence; not metered facility consumption. Campus boundary may exceed an individual building.",
+      "source_ids": [
+        "epoch-openai-stargate-abilene"
+      ],
+      "company": "oracle",
+      "measurement_type": "site_it_mw_operating",
+      "project": "abilene",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "abilene-it-endstate",
+      "layer": "infrastructure",
+      "title": "Stargate · Abilene original campus · planned end-state IT power",
+      "unit": "MW IT",
+      "geography": "Abilene, Texas",
+      "scope": "Epoch modeled end-state campus footprint. Not current capacity; Fairwater sibling buildings overlap this campus scope.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch modeled end-state campus footprint. Not current capacity; Fairwater sibling buildings overlap this campus scope.",
+      "source_ids": [
+        "epoch-openai-stargate-abilene"
+      ],
+      "company": "oracle",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "abilene",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "fairwater-one-it-operating",
+      "layer": "infrastructure",
+      "title": "Fairwater · first facility · current IT power",
+      "unit": "MW IT",
+      "geography": "Mount Pleasant, Wisconsin",
+      "scope": "Epoch site estimate from cooling and equipment evidence; not metered facility consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch site estimate from cooling and equipment evidence; not metered facility consumption. Campus boundary may exceed an individual building.",
+      "source_ids": [
+        "epoch-microsoft-fairwater-wisconsin"
+      ],
+      "company": "microsoft",
+      "measurement_type": "site_it_mw_operating",
+      "project": "fairwater-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "fairwater-one-it-endstate",
+      "layer": "infrastructure",
+      "title": "Fairwater · first facility · planned end-state IT power",
+      "unit": "MW IT",
+      "geography": "Mount Pleasant, Wisconsin",
+      "scope": "Epoch modeled end-state campus footprint. Not current capacity; Fairwater sibling buildings overlap this campus scope.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch modeled end-state campus footprint. Not current capacity; Fairwater sibling buildings overlap this campus scope.",
+      "source_ids": [
+        "epoch-microsoft-fairwater-wisconsin"
+      ],
+      "company": "microsoft",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "fairwater-one",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "new-carlisle-it-operating",
+      "layer": "infrastructure",
+      "title": "New Carlisle · current IT power",
+      "unit": "MW IT",
+      "geography": "New Carlisle, Indiana, U.S.",
+      "scope": "Epoch estimate for this campus, not all Project Rainier facilities. Not metered facility draw.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch estimate for this campus, not all Project Rainier facilities. Not metered facility draw.",
+      "source_ids": [
+        "epoch-anthropic-amazon-new-carlisle"
+      ],
+      "company": "aws",
+      "measurement_type": "site_it_mw_operating",
+      "project": "new-carlisle",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "new-carlisle-it-endstate",
+      "layer": "infrastructure",
+      "title": "New Carlisle · end-state IT power",
+      "unit": "MW IT",
+      "geography": "New Carlisle, Indiana, U.S.",
+      "scope": "Epoch modeled future campus capacity; not commissioned capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch modeled future campus capacity; not commissioned capacity.",
+      "source_ids": [
+        "epoch-anthropic-amazon-new-carlisle"
+      ],
+      "company": "aws",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "new-carlisle",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "stargate-new-mexico-it-endstate",
+      "layer": "infrastructure",
+      "title": "Stargate new-mexico · end-state IT power",
+      "unit": "MW IT",
+      "geography": "Santa Teresa, Doña Ana County, New Mexico, U.S.",
+      "scope": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "source_ids": [
+        "epoch-openai-stargate-new-mexico"
+      ],
+      "company": "oracle",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "stargate-new-mexico",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "stargate-wisconsin-it-endstate",
+      "layer": "infrastructure",
+      "title": "Stargate wisconsin · end-state IT power",
+      "unit": "MW IT",
+      "geography": "Port Washington, Wisconsin, U.S.",
+      "scope": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "source_ids": [
+        "epoch-openai-stargate-wisconsin"
+      ],
+      "company": "oracle",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "stargate-wisconsin",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "stargate-shackelford-it-endstate",
+      "layer": "infrastructure",
+      "title": "Stargate shackelford · end-state IT power",
+      "unit": "MW IT",
+      "geography": "Shackelford County, Texas, U.S.",
+      "scope": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "source_ids": [
+        "epoch-openai-stargate-shackelford"
+      ],
+      "company": "oracle",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "stargate-shackelford",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "stargate-milam-it-endstate",
+      "layer": "infrastructure",
+      "title": "Stargate milam · end-state IT power",
+      "unit": "MW IT",
+      "geography": "Burlington, Milam County, Texas, U.S.",
+      "scope": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Epoch forecast for the named site. Not energized load; do not add to overlapping Stargate program announcements.",
+      "source_ids": [
+        "epoch-openai-stargate-milam"
+      ],
+      "company": "softbank",
+      "measurement_type": "site_it_mw_planned_endstate",
+      "project": "stargate-milam",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "hyperion-investment",
+      "layer": "infrastructure",
+      "title": "Hyperion · announced regional investment",
+      "unit": "USD billion",
+      "geography": "Louisiana, U.S.",
+      "scope": "Regional multi-year investment plan; not capital expenditure paid.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Regional multi-year investment plan; not capital expenditure paid.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ],
+      "company": "meta",
+      "measurement_type": "capex_announced_usd",
+      "project": "hyperion",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "hyperion-local-contracts",
+      "layer": "infrastructure",
+      "title": "Hyperion · Louisiana contracts awarded",
+      "unit": "USD billion",
+      "geography": "Louisiana, U.S.",
+      "scope": "Contracts awarded to Louisiana businesses to date, not cash payments or total local economic output.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Contracts awarded to Louisiana businesses to date, not cash payments or total local economic output.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ],
+      "company": "meta",
+      "measurement_type": "local_procurement_usd",
+      "project": "hyperion",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "hyperion-construction-jobs",
+      "layer": "infrastructure",
+      "title": "Hyperion · peak construction jobs expected",
+      "unit": "jobs",
+      "geography": "Louisiana, U.S.",
+      "scope": "Expected peak construction workforce; not permanent hires or annual FTEs.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Expected peak construction workforce; not permanent hires or annual FTEs.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ],
+      "company": "meta",
+      "measurement_type": "construction_workers_peak",
+      "project": "hyperion",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "hyperion-permanent-jobs",
+      "layer": "infrastructure",
+      "title": "Hyperion · operating roles promised",
+      "unit": "jobs",
+      "geography": "Louisiana, U.S.",
+      "scope": "Future operating jobs; actual hires not disclosed in this release.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Future operating jobs; actual hires not disclosed in this release.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ],
+      "company": "meta",
+      "measurement_type": "permanent_jobs_promised",
+      "project": "hyperion",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "tesla-capex-q2-2026",
+      "layer": "infrastructure",
+      "title": "Tesla · recognized capital expenditures",
+      "unit": "USD billion",
+      "geography": "Tesla global operations",
+      "scope": "Q2 shareholder update includes energy-system purchases. Company-wide quarter, not Terafab or Cortex spending.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Q2 shareholder update includes energy-system purchases. Company-wide quarter, not Terafab or Cortex spending.",
+      "source_ids": [
+        "tesla-q2-2026"
+      ],
+      "company": "tesla",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "nebius-msft-contract-base",
+      "layer": "infrastructure",
+      "title": "Nebius / Microsoft · base contract value",
+      "unit": "USD billion",
+      "geography": "Vineland, New Jersey, U.S.",
+      "scope": "Base agreement through 2031, contingent on deployment and availability; expansion option is not included. Not recognized revenue or capex.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Base agreement through 2031, contingent on deployment and availability; expansion option is not included. Not recognized revenue or capex.",
+      "source_ids": [
+        "nebius-msft-6k-2025"
+      ],
+      "company": "nebius",
+      "measurement_type": "compute_contract_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "supermicro-annual-revenue",
+      "layer": "infrastructure",
+      "title": "supermicro · annual revenue",
+      "unit": "USD billion",
+      "geography": "Company global operations",
+      "scope": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity.",
+      "source_ids": [
+        "supermicro-fy2026"
+      ],
+      "company": "supermicro",
+      "measurement_type": "annual_revenue_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "coreweave-annual-revenue",
+      "layer": "infrastructure",
+      "title": "coreweave · annual revenue",
+      "unit": "USD billion",
+      "geography": "Company global operations",
+      "scope": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity.",
+      "source_ids": [
+        "coreweave-fy2025"
+      ],
+      "company": "coreweave",
+      "measurement_type": "annual_revenue_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "waymo-autonomous-weekly",
+      "layer": "applications",
+      "title": "Waymo · fully autonomous rides per week",
+      "unit": "rides / week",
+      "geography": "11 major U.S. cities in Alphabet disclosure",
+      "scope": "Company-reported service run-rate; this disclosure says fully autonomous rides, not explicitly paid trips. Not waitlist users.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Company-reported service run-rate; this disclosure says fully autonomous rides, not explicitly paid trips. Not waitlist users.",
+      "source_ids": [
+        "waymo-q1-2026"
+      ],
+      "company": "waymo",
+      "measurement_type": "autonomous_trips_per_week",
+      "project": "waymo-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "waymo-paid-weekly",
+      "layer": "applications",
+      "title": "Waymo One · paid trips per week",
+      "unit": "paid trips / week",
+      "geography": "Phoenix, San Francisco, Los Angeles and Austin, U.S.",
+      "scope": "Explicitly paid weekly trips, historical May 2025 snapshot. Not relabeled as current September 2026 volume.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Explicitly paid weekly trips, historical May 2025 snapshot. Not relabeled as current September 2026 volume.",
+      "source_ids": [
+        "waymo-fleet-2025"
+      ],
+      "company": "waymo",
+      "measurement_type": "paid_trips_per_week",
+      "project": "waymo-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "waymo-rider-only-miles",
+      "layer": "applications",
+      "title": "Waymo · cumulative rider-only mileage",
+      "unit": "million rider-only miles",
+      "geography": "Los Angeles, San Francisco, Phoenix, Austin and Atlanta, U.S.",
+      "scope": "Safety Impact dataset through March 2026. Different scope from Tesla supervised miles and its geofenced unsupervised service.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Safety Impact dataset through March 2026. Different scope from Tesla supervised miles and its geofenced unsupervised service.",
+      "source_ids": [
+        "waymo-rider-only-2026"
+      ],
+      "company": "waymo",
+      "measurement_type": "unsupervised_or_rider_only_miles",
+      "project": "waymo-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "waymo-operating-fleet",
+      "layer": "applications",
+      "title": "Waymo · commercial fleet",
+      "unit": "vehicles",
+      "geography": "San Francisco, Los Angeles, Phoenix and Austin, U.S.",
+      "scope": "Reported commercial vehicles; excludes future production commitments. Historical May 2025 footprint.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Reported commercial vehicles; excludes future production commitments. Historical May 2025 footprint.",
+      "source_ids": [
+        "waymo-fleet-2025"
+      ],
+      "company": "waymo",
+      "measurement_type": "operating_vehicle_count",
+      "project": "waymo-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "waymo-operating-metros",
+      "layer": "applications",
+      "title": "Waymo · reported operating cities",
+      "unit": "cities",
+      "geography": "United States",
+      "scope": "Alphabet calls these major cities, not a standardized metro-area statistical count. Geography follows the disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Alphabet calls these major cities, not a standardized metro-area statistical count. Geography follows the disclosure.",
+      "source_ids": [
+        "waymo-q1-2026"
+      ],
+      "company": "waymo",
+      "measurement_type": "operating_metro_count",
+      "project": "waymo-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tesla-supervised-europe-miles",
+      "layer": "applications",
+      "title": "Tesla FSD (Supervised) · European mileage",
+      "unit": "million supervised miles",
+      "geography": "Approved European markets in Tesla Q2 update",
+      "scope": "Over 50 million km / 31 million miles as of July. Driver supervision remains required; not a global fleet total or unsupervised Robotaxi mileage.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Over 50 million km / 31 million miles as of July. Driver supervision remains required; not a global fleet total or unsupervised Robotaxi mileage.",
+      "source_ids": [
+        "tesla-q2-2026"
+      ],
+      "company": "tesla",
+      "measurement_type": "supervised_driver_miles",
+      "project": "tesla-fsd",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "digit-gxo-totes",
+      "layer": "applications",
+      "title": "Agility Digit · totes moved at GXO",
+      "unit": "completed totes",
+      "geography": "Flowery Branch, Georgia, U.S.",
+      "scope": "Vendor-reported cumulative tote handling in commercial logistics. Not humanoid units or hours displaced; publication date unlisted.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Vendor-reported cumulative tote handling in commercial logistics. Not humanoid units or hours displaced; publication date unlisted.",
+      "source_ids": [
+        "agility-gxo-totes"
+      ],
+      "company": "agility",
+      "measurement_type": "completed_totes",
+      "project": "agility-gxo",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "claude-code-input-price",
+      "layer": "models",
+      "title": "Claude Code / Sonnet 4.6 · input token price",
+      "unit": "USD / million input tokens",
+      "geography": "Public API list pricing",
+      "scope": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "source_ids": [
+        "sonnet46-launch"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_input_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "claude-code-output-price",
+      "layer": "models",
+      "title": "Claude Code / Sonnet 4.6 · output token price",
+      "unit": "USD / million output tokens",
+      "geography": "Public API list pricing",
+      "scope": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "source_ids": [
+        "sonnet46-launch"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_output_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "codex-input-price",
+      "layer": "models",
+      "title": "OpenAI Codex / GPT-5.3-Codex · input token price",
+      "unit": "USD / million input tokens",
+      "geography": "Public API list pricing",
+      "scope": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "source_ids": [
+        "codex53-pricing"
+      ],
+      "company": "openai",
+      "measurement_type": "token_price_input_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "codex-output-price",
+      "layer": "models",
+      "title": "OpenAI Codex / GPT-5.3-Codex · output token price",
+      "unit": "USD / million output tokens",
+      "geography": "Public API list pricing",
+      "scope": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
+      "source_ids": [
+        "codex53-pricing"
+      ],
+      "company": "openai",
+      "measurement_type": "token_price_output_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "southaven-permanent-gas",
+      "layer": "energy",
+      "title": "Southaven · planned permanent gas generation",
+      "unit": "MW generation",
+      "geography": "Southaven, Mississippi, U.S.",
+      "scope": "Company-described plant under construction with a March 2026 air permit. Not operating generation, dependable capacity or IT load.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Company-described plant under construction with a March 2026 air permit. Not operating generation, dependable capacity or IT load.",
+      "source_ids": [
+        "spacexai-power-july"
+      ],
+      "company": "spacexai",
+      "measurement_type": "onsite_generation_mw_permanent",
+      "project": "southaven-permanent-power",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "colossus2-disclosed-cluster1",
+      "layer": "infrastructure",
+      "title": "Colossus 2 · disclosed GB200 cluster power",
+      "unit": "MW compute (SpaceX basis)",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Company prospectus compute-power basis for this cluster only; not total site IT or facility power. Keep separate from Epoch estimates and later expansion.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Company prospectus compute-power basis for this cluster only; not total site IT or facility power. Keep separate from Epoch estimates and later expansion.",
+      "source_ids": [
+        "spacex-prospectus-2026"
+      ],
+      "company": "spacexai",
+      "measurement_type": "site_compute_mw_reported",
+      "project": "colossus-two",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus2-disclosed-cluster2",
+      "layer": "infrastructure",
+      "title": "Colossus 2 · disclosed GB300 cluster power",
+      "unit": "MW compute (SpaceX basis)",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Company prospectus compute-power basis for this cluster only; not total site IT or facility power. Keep separate from Epoch estimates and later expansion.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Company prospectus compute-power basis for this cluster only; not total site IT or facility power. Keep separate from Epoch estimates and later expansion.",
+      "source_ids": [
+        "spacex-prospectus-2026"
+      ],
+      "company": "spacexai",
+      "measurement_type": "site_compute_mw_reported",
+      "project": "colossus-two",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus2-b200-installed",
+      "layer": "infrastructure",
+      "title": "Colossus 2 · estimated NVIDIA B200 units",
+      "unit": "accelerators",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Epoch installed chip estimate by generation; physical units, not H100-equivalents or a vendor shipment disclosure. These units support the same site IT-power estimate.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Epoch installed chip estimate by generation; physical units, not H100-equivalents or a vendor shipment disclosure. These units support the same site IT-power estimate.",
+      "source_ids": [
+        "epoch-colossus-2"
+      ],
+      "company": "spacexai",
+      "measurement_type": "accelerator_units_installed",
+      "project": "colossus-two",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus2-b300-installed",
+      "layer": "infrastructure",
+      "title": "Colossus 2 · estimated NVIDIA B300 units",
+      "unit": "accelerators",
+      "geography": "Memphis, Tennessee, U.S.",
+      "scope": "Epoch installed chip estimate by generation; physical units, not H100-equivalents or a vendor shipment disclosure. These units support the same site IT-power estimate.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Epoch installed chip estimate by generation; physical units, not H100-equivalents or a vendor shipment disclosure. These units support the same site IT-power estimate.",
+      "source_ids": [
+        "epoch-colossus-2"
+      ],
+      "company": "spacexai",
+      "measurement_type": "accelerator_units_installed",
+      "project": "colossus-two",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "terafab-permanent-jobs-reported",
+      "layer": "chips",
+      "title": "Tesla + SpaceX Terafab · actual permanent hires",
+      "unit": "jobs",
+      "geography": "Grimes County, Texas, U.S.",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "spacex-terafab-2026"
+      ],
+      "company": "spacex",
+      "measurement_type": "permanent_jobs_reported",
+      "project": "terafab",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "terafab-contractor-fte",
+      "layer": "chips",
+      "title": "Tesla + SpaceX Terafab · contractor FTEs on site",
+      "unit": "FTEs",
+      "geography": "Grimes County, Texas, U.S.",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "spacex-terafab-2026"
+      ],
+      "company": "spacex",
+      "measurement_type": "contractor_fte",
+      "project": "terafab",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "terafab-capex-recognized-usd",
+      "layer": "chips",
+      "title": "Tesla + SpaceX Terafab · capital expenditure paid / recognized",
+      "unit": "USD billion",
+      "geography": "Grimes County, Texas, U.S.",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "spacex-terafab-2026"
+      ],
+      "company": "spacex",
+      "measurement_type": "capex_recognized_usd",
+      "project": "terafab",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "hyperion-permanent-jobs-reported",
+      "layer": "infrastructure",
+      "title": "Hyperion · Richland Parish · actual permanent hires",
+      "unit": "jobs",
+      "geography": "Richland Parish, Louisiana",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ],
+      "company": "meta",
+      "measurement_type": "permanent_jobs_reported",
+      "project": "hyperion",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "hyperion-contractor-fte",
+      "layer": "infrastructure",
+      "title": "Hyperion · Richland Parish · contractor FTEs on site",
+      "unit": "FTEs",
+      "geography": "Richland Parish, Louisiana",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ],
+      "company": "meta",
+      "measurement_type": "contractor_fte",
+      "project": "hyperion",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "hyperion-capex-recognized-usd",
+      "layer": "infrastructure",
+      "title": "Hyperion · Richland Parish · capital expenditure paid / recognized",
+      "unit": "USD billion",
+      "geography": "Richland Parish, Louisiana",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ],
+      "company": "meta",
+      "measurement_type": "capex_recognized_usd",
+      "project": "hyperion",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "abilene-permanent-jobs-reported",
+      "layer": "infrastructure",
+      "title": "Stargate · Abilene original campus · actual permanent hires",
+      "unit": "jobs",
+      "geography": "Abilene, Texas",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "epoch-openai-stargate-abilene"
+      ],
+      "company": "oracle",
+      "measurement_type": "permanent_jobs_reported",
+      "project": "abilene",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "abilene-contractor-fte",
+      "layer": "infrastructure",
+      "title": "Stargate · Abilene original campus · contractor FTEs on site",
+      "unit": "FTEs",
+      "geography": "Abilene, Texas",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "epoch-openai-stargate-abilene"
+      ],
+      "company": "oracle",
+      "measurement_type": "contractor_fte",
+      "project": "abilene",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "abilene-capex-recognized-usd",
+      "layer": "infrastructure",
+      "title": "Stargate · Abilene original campus · capital expenditure paid / recognized",
+      "unit": "USD billion",
+      "geography": "Abilene, Texas",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "epoch-openai-stargate-abilene"
+      ],
+      "company": "oracle",
+      "measurement_type": "capex_recognized_usd",
+      "project": "abilene",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tsmc-arizona-phase1-permanent-jobs-reported",
+      "layer": "chips",
+      "title": "TSMC Arizona Fab 21 · phase 1 · actual permanent hires",
+      "unit": "jobs",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "permanent_jobs_reported",
+      "project": "tsmc-arizona-phase1",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tsmc-arizona-phase1-contractor-fte",
+      "layer": "chips",
+      "title": "TSMC Arizona Fab 21 · phase 1 · contractor FTEs on site",
+      "unit": "FTEs",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "contractor_fte",
+      "project": "tsmc-arizona-phase1",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tsmc-arizona-phase1-capex-recognized-usd",
+      "layer": "chips",
+      "title": "TSMC Arizona Fab 21 · phase 1 · capital expenditure paid / recognized",
+      "unit": "USD billion",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "capex_recognized_usd",
+      "project": "tsmc-arizona-phase1",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus-one-permanent-jobs-reported",
+      "layer": "infrastructure",
+      "title": "Colossus 1 · actual permanent hires",
+      "unit": "jobs",
+      "geography": "Memphis, Tennessee; Southaven power connection for Colossus 2",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "epoch-colossus-1"
+      ],
+      "company": "spacexai",
+      "measurement_type": "permanent_jobs_reported",
+      "project": "colossus-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus-one-contractor-fte",
+      "layer": "infrastructure",
+      "title": "Colossus 1 · contractor FTEs on site",
+      "unit": "FTEs",
+      "geography": "Memphis, Tennessee; Southaven power connection for Colossus 2",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "epoch-colossus-1"
+      ],
+      "company": "spacexai",
+      "measurement_type": "contractor_fte",
+      "project": "colossus-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "colossus-one-capex-recognized-usd",
+      "layer": "infrastructure",
+      "title": "Colossus 1 · capital expenditure paid / recognized",
+      "unit": "USD billion",
+      "geography": "Memphis, Tennessee; Southaven power connection for Colossus 2",
+      "scope": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Only a dated direct disclosure for this named site. No observation currently verified; company totals, promised jobs and multiplier estimates are excluded.",
+      "source_ids": [
+        "epoch-colossus-1"
+      ],
+      "company": "spacexai",
+      "measurement_type": "capex_recognized_usd",
+      "project": "colossus-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "terafab-wafer-starts",
+      "layer": "chips",
+      "title": "Terafab Wafer Starts",
+      "unit": "300mm wafer starts / month",
+      "geography": "Grimes County, Texas, U.S.",
+      "scope": "Terafab site and named node required; excludes global foundry totals.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Terafab site and named node required; excludes global foundry totals.",
+      "source_ids": [
+        "spacex-terafab-2026"
+      ],
+      "company": "spacex",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "terafab",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "hynix-indiana-hbm-stacks",
+      "layer": "chips",
+      "title": "Hynix Indiana Hbm Stacks",
+      "unit": "HBM stacks / month",
+      "geography": "West Lafayette, Indiana, U.S.",
+      "scope": "West Lafayette qualified HBM stacks by generation; revenue is not physical output.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "West Lafayette qualified HBM stacks by generation; revenue is not physical output.",
+      "source_ids": [
+        "hynix-indiana-2026"
+      ],
+      "company": "sk-hynix",
+      "measurement_type": "hbm_stack_capacity",
+      "project": "hynix-west-lafayette",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "abilene-facility-mw",
+      "layer": "infrastructure",
+      "title": "Abilene Facility Mw",
+      "unit": "MW facility",
+      "geography": "Abilene, Texas",
+      "scope": "Named original campus total electrical load including cooling; not IT or program capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Named original campus total electrical load including cooling; not IT or program capacity.",
+      "source_ids": [
+        "epoch-openai-stargate-abilene"
+      ],
+      "company": "oracle",
+      "measurement_type": "site_facility_mw",
+      "project": "abilene",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "southaven-temporary-generation",
+      "layer": "energy",
+      "title": "Southaven Temporary Generation",
+      "unit": "MW generation",
+      "geography": "Southaven, Mississippi, U.S.",
+      "scope": "Temporary Southaven generation: require capacity basis and date; turbine count alone is not MW.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Temporary Southaven generation: require capacity basis and date; turbine count alone is not MW.",
+      "source_ids": [
+        "spacexai-power-july"
+      ],
+      "company": "spacexai",
+      "measurement_type": "onsite_generation_mw_temporary",
+      "project": "southaven-permanent-power",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tesla-robotaxi-unsupervised",
+      "layer": "applications",
+      "title": "Tesla Robotaxi Unsupervised",
+      "unit": "unsupervised miles",
+      "geography": "United States; cities retain separate supervision status",
+      "scope": "Geofenced Tesla Robotaxi only; city, monitor status and exact exposure period required. Exclude consumer FSD miles.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Geofenced Tesla Robotaxi only; city, monitor status and exact exposure period required. Exclude consumer FSD miles.",
+      "source_ids": [
+        "tesla-q2-2026"
+      ],
+      "company": "tesla",
+      "measurement_type": "unsupervised_or_rider_only_miles",
+      "project": "tesla-robotaxi",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "optimus-productive-units",
+      "layer": "applications",
+      "title": "Optimus Productive Units",
+      "unit": "humanoids in productive use",
+      "geography": "Fremont, California and Austin, Texas, U.S.",
+      "scope": "Named productive task/site and current active units required; excludes prototypes, Academy training builds and promised production.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Named productive task/site and current active units required; excludes prototypes, Academy training builds and promised production.",
+      "source_ids": [
+        "tesla-q2-2026"
+      ],
+      "company": "tesla",
+      "measurement_type": "humanoid_units_in_production_use",
+      "project": "tesla-optimus",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "codex-paid-weekly-users",
+      "layer": "models",
+      "title": "Codex Paid Weekly Users",
+      "unit": "weekly active paid users",
+      "geography": "Global, named product only",
+      "scope": "Codex paid active users only; exact week and counting method required; exclude all ChatGPT users.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Codex paid active users only; exact week and counting method required; exclude all ChatGPT users.",
+      "source_ids": [
+        "codex53-pricing"
+      ],
+      "company": "openai",
+      "measurement_type": "weekly_paid_agent_or_seat_users",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "codex-task-success",
+      "layer": "models",
+      "title": "Codex Task Success",
+      "unit": "percent",
+      "geography": "Global, named product only",
+      "scope": "Named benchmark, version, date and evaluation protocol required; no universal reliability inference.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Named benchmark, version, date and evaluation protocol required; no universal reliability inference.",
+      "source_ids": [
+        "codex53-pricing"
+      ],
+      "company": "openai",
+      "measurement_type": "published_task_success_rate",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "codex-hours-automated",
+      "layer": "models",
+      "title": "Codex Hours Automated",
+      "unit": "hours",
+      "geography": "Global, named product only",
+      "scope": "Only a primary method with task, sample, comparison, quality and oversight accounting; unsupported marketing claims stay notes.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Only a primary method with task, sample, comparison, quality and oversight accounting; unsupported marketing claims stay notes.",
+      "source_ids": [
+        "codex53-pricing"
+      ],
+      "company": "openai",
+      "measurement_type": "hours_automated",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "tsmc-arizona-program-capital",
+      "layer": "chips",
+      "title": "TSMC Arizona · announced program investment",
+      "unit": "USD billion",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "Expanded multi-fab and packaging program including July 2026 plans. Not cash spent, four completed fabs or a capacity measure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Expanded multi-fab and packaging program including July 2026 plans. Not cash spent, four completed fabs or a capacity measure.",
+      "source_ids": [
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "capex_announced_usd",
+      "project": "tsmc-arizona-program",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "tsmc-arizona-first-three-jobs",
+      "layer": "chips",
+      "title": "TSMC Arizona · jobs promised across first three fabs",
+      "unit": "jobs",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "Future direct high-tech jobs across the first three fabs only, not phase 1 hires or employment across every later expansion.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Future direct high-tech jobs across the first three fabs only, not phase 1 hires or employment across every later expansion.",
+      "source_ids": [
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "permanent_jobs_promised",
+      "project": "tsmc-arizona-program",
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    },
+    {
+      "id": "stargate-program-envelope",
+      "layer": "infrastructure",
+      "title": "OpenAI Stargate · announced investment envelope",
+      "unit": "USD billion",
+      "geography": "United States; multiple sites and partnerships",
+      "scope": "Multi-year program commitment, not paid capex or a site-level investment. Overlaps subsequent campus and partner announcements.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Multi-year program commitment, not paid capex or a site-level investment. Overlaps subsequent campus and partner announcements.",
+      "source_ids": [
+        "openai-stargate-sites"
+      ],
+      "company": "openai",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
       ]
     }
   ],

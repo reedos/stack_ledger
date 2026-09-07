@@ -20,7 +20,7 @@ class DeliveryTests(unittest.TestCase):
         self.data['projects'][0]['milestones'][0]['date']='2026-09-07'
         with self.assertRaisesRegex(ValueError,'publication date'):validate_delivery(self.data,self.ledger)
     def test_unknown_capacity_is_valid_but_invented_reference_is_not(self):
-        p=next(p for p in self.data['projects'] if p['id']=='fairwater-one')
+        p=next(p for p in self.data['projects'] if p['id']=='fairwater-two')
         self.assertEqual(p['observations'],[])
         self.assertTrue(validate_delivery(self.data,self.ledger))
         p['observations']=['invented-capacity']

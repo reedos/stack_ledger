@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-07T09:34:15Z",
+  "products": [
+    {
+      "id": "claude-code",
+      "name": "Claude Code / Sonnet 4.6",
+      "company": "anthropic",
+      "stage": "Paid product",
+      "source": "sonnet46-launch",
+      "summary": "Coding-agent workflows attempt multi-step repository work. API model prices below are distinct from the product subscription.",
+      "observations": [
+        "claude-code-input-price-baseline",
+        "claude-code-output-price-baseline"
+      ],
+      "gap": "Comparable task success, intervention cost and independently measured hours saved."
+    },
+    {
+      "id": "codex",
+      "name": "OpenAI Codex / GPT-5.3-Codex",
+      "company": "openai",
+      "stage": "Paid product",
+      "source": "codex53-pricing",
+      "summary": "Coding-agent workflows attempt multi-step repository work. API model prices below are distinct from the product subscription.",
+      "observations": [
+        "codex-input-price-baseline",
+        "codex-output-price-baseline"
+      ],
+      "gap": "Comparable task success, intervention cost and independently measured hours saved."
+    },
+    {
+      "id": "chatgpt-agent",
+      "name": "ChatGPT agent / Operator lineage",
+      "company": "openai",
+      "stage": "Paid product",
+      "source": "chatgpt-agent-product",
+      "summary": "Browser, research and action tools combine in a multi-step agent. User confirmations and oversight remain part of deployment. This launch record is not an estimate of work displaced.",
+      "observations": [],
+      "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    },
+    {
+      "id": "gemini-agent",
+      "name": "Gemini Agent / Antigravity",
+      "company": "alphabet",
+      "stage": "Paid product",
+      "source": "gemini-agent-product",
+      "summary": "Google introduced Gemini Agent for Ultra subscribers and Antigravity for agentic development. Availability and product lineage do not establish customer productivity.",
+      "observations": [],
+      "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    },
+    {
+      "id": "github-copilot",
+      "name": "GitHub Copilot cloud agent",
+      "company": "microsoft",
+      "stage": "Paid product",
+      "source": "github-copilot-product",
+      "summary": "Assigns repository work to an agent and returns changes for review. This differs from a count of active paid seats or measured engineering hours saved.",
+      "observations": [],
+      "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "company": "spacex",
+      "stage": "Paid product",
+      "source": "cursor-product",
+      "summary": "Coding agents work in editor, terminal and cloud environments. The company site identifies Cursor as part of SpaceX; interface examples are not adoption statistics.",
+      "observations": [],
+      "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    },
+    {
+      "id": "devin",
+      "name": "Devin",
+      "company": "cognition",
+      "stage": "Paid product",
+      "source": "devin-product",
+      "summary": "Agent environment can write, run and test code with developer review. Vendor task-duration heuristics are not measured hours displaced.",
+      "observations": [],
+      "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    },
+    {
+      "id": "windsurf",
+      "name": "Windsurf / Cascade → Devin Desktop",
+      "company": "cognition",
+      "stage": "Documented product",
+      "source": "windsurf-product",
+      "summary": "The Windsurf Cascade documentation now redirects to Devin Desktop. Cascade combines code/chat modes and tool use; legacy branding is preserved for discoverability.",
+      "observations": [],
+      "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "company": "openclaw",
+      "stage": "Local runtime",
+      "source": "openclaw-product",
+      "summary": "Self-hosted agent runtime connecting models and tools. Runtime availability and this site’s configured use do not imply widespread adoption or completed research.",
+      "observations": [],
+      "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    }
+  ],
+  "jobs_projects": [
+    "terafab",
+    "hyperion",
+    "abilene",
+    "tsmc-arizona-program",
+    "colossus-one"
+  ],
+  "featured": {
+    "energy": [
+      "colossus-grid",
+      "southaven-permanent-power"
+    ],
+    "chips": [
+      "terafab",
+      "tsmc-arizona-program",
+      "tsmc-arizona-phase1",
+      "tsmc-arizona-phase2",
+      "tsmc-arizona-packaging",
+      "hynix-west-lafayette",
+      "amkor-arizona",
+      "samsung-taylor",
+      "intel-arizona",
+      "intel-ohio"
+    ],
+    "infrastructure": [
+      "colossus-one",
+      "colossus-two",
+      "colossus-stateline",
+      "abilene",
+      "new-carlisle",
+      "hyperion",
+      "fairwater-one",
+      "stargate-new-mexico",
+      "stargate-wisconsin",
+      "stargate-michigan",
+      "stargate-ohio",
+      "stargate-shackelford",
+      "stargate-milam"
+    ],
+    "models": [],
+    "applications": [
+      "waymo-one",
+      "tesla-fsd",
+      "tesla-robotaxi",
+      "tesla-optimus",
+      "agility-gxo"
+    ]
+  },
+  "gaps": [
+    "Later Colossus building capacity and informal names need property and commissioning evidence. Stateline Road is tracked by its regulator-listed address.",
+    "Tesla unsupervised mileage and Waymo year-end paid-trip target remain unquantified here until the original disclosures are verified.",
+    "Project cash paid, actual permanent hires and contractor FTEs remain sparse. Blank fields are not zero.",
+    "Site IT load and facility power are different measurement bases; no source estimates are averaged."
+  ]
+}

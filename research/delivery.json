@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T07:41:15Z",
+  "reviewed_at": "2026-09-07T09:34:15Z",
   "projects": [
     {
       "id": "gemini",
@@ -133,7 +133,9 @@
       "category": "AI data center",
       "stage": "operating",
       "ai_relationship": "Dedicated AI infrastructure.",
-      "observations": [],
+      "observations": [
+        "fairwater-one-it-operating-baseline"
+      ],
       "horizon": "Fully operational as reported June 2026",
       "grid": "Equipment startup occurred in April; operational status reported in June. Commissioned electrical MW are not quantified in this source.",
       "next_evidence": "Obtain commissioned MW, utilization and utility supply milestones.",
@@ -147,8 +149,17 @@
           "date": "2026-06-23",
           "summary": "Microsoft reports full operation and nearly 550 full-time employees on site.",
           "source": "fairwater-operating"
+        },
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch estimates current IT power separately from the later campus end-state. Original company disclosures below may use a broader facility or program basis.",
+          "source": "epoch-microsoft-fairwater-wisconsin"
         }
-      ]
+      ],
+      "measures": [
+        "fairwater-one-it-endstate-baseline"
+      ],
+      "primary_user": "Microsoft AI workloads"
     },
     {
       "id": "fairwater-two",
@@ -204,7 +215,8 @@
       "stage": "partly-operating",
       "ai_relationship": "Operating AI training site within a larger campus plan.",
       "observations": [
-        "abilene-campus-baseline"
+        "abilene-campus-baseline",
+        "abilene-it-operating-baseline"
       ],
       "horizon": "Original full-campus target: mid-2026; full delivery unverified",
       "grid": "OpenAI reports training GPT-5.5 here. That establishes use of the site, not commissioning of every planned building or the full power rating.",
@@ -224,8 +236,17 @@
           "date": "2026-08-03",
           "summary": "Regional context: ERCOT announces data-center load verification. Effects on this campus are not specified.",
           "source": "ercot-queue-review-2026"
+        },
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch estimates current IT power separately from the later campus end-state. Original company disclosures below may use a broader facility or program basis.",
+          "source": "epoch-openai-stargate-abilene"
         }
-      ]
+      ],
+      "measures": [
+        "abilene-it-endstate-baseline"
+      ],
+      "primary_user": "OpenAI"
     },
     {
       "id": "hyperion",
@@ -247,6 +268,789 @@
           "date": "2026-07-13",
           "summary": "Meta announces a larger campus plan and describes ongoing construction.",
           "source": "hyperion-plan-2026"
+        }
+      ],
+      "primary_user": "Meta AI workloads",
+      "measures": [
+        "hyperion-investment-baseline",
+        "hyperion-local-contracts-baseline",
+        "hyperion-construction-jobs-baseline",
+        "hyperion-permanent-jobs-baseline"
+      ]
+    },
+    {
+      "id": "colossus-one",
+      "name": "Colossus 1",
+      "layer": "infrastructure",
+      "owner": "SpaceXAI / SpaceX",
+      "primary_user": "Anthropic (contracted access)",
+      "location": "Memphis, Tennessee; Southaven power connection for Colossus 2",
+      "category": "AI training campus",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "colossus-one-it-epoch-baseline"
+      ],
+      "measures": [
+        "colossus-one-access-baseline",
+        "colossus-one-gpus-contract-baseline"
+      ],
+      "horizon": "September 3, 2026 operating estimate; later expansion separate.",
+      "grid": "Grid service and gas generation have separate dated records. Colossus 2 uses gas turbines across the Mississippi state line.",
+      "next_evidence": "Metered IT/facility power, chip inventory, current permits and utility service.",
+      "milestones": [
+        {
+          "date": "2026-05-06",
+          "summary": "Anthropic agreed to use Colossus 1 within May. Contracted access and Epoch IT-power estimates have different bases; neither measures utilization.",
+          "source": "anthropic-colossus-contract"
+        },
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch identifies an operating facility; its IT-power estimate combines imagery and infrastructure disclosures.",
+          "source": "epoch-colossus-1"
+        }
+      ]
+    },
+    {
+      "id": "colossus-two",
+      "name": "Colossus 2",
+      "layer": "infrastructure",
+      "owner": "SpaceXAI / SpaceX",
+      "primary_user": "SpaceXAI; Anthropic and Cursor identified by Epoch",
+      "location": "Memphis, Tennessee; Southaven power connection for Colossus 2",
+      "category": "AI training campus",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "colossus-two-it-epoch-baseline"
+      ],
+      "measures": [
+        "colossus-two-it-endstate-baseline",
+        "colossus2-disclosed-cluster1-baseline",
+        "colossus2-disclosed-cluster2-baseline",
+        "colossus2-b200-installed-baseline",
+        "colossus2-b300-installed-baseline"
+      ],
+      "horizon": "September 3, 2026 operating estimate; later expansion separate.",
+      "grid": "Grid service and gas generation have separate dated records. Colossus 2 uses gas turbines across the Mississippi state line.",
+      "next_evidence": "Metered IT/facility power, chip inventory, current permits and utility service.",
+      "milestones": [
+        {
+          "date": "2026-04-14",
+          "summary": "Filed complaint alleges air-permit violations at the Southaven gas plant. Allegations are not judicial findings; disposition and turbine-removal status need follow-up.",
+          "source": "colossus-southaven-complaint"
+        },
+        {
+          "date": "2026-06-05",
+          "summary": "Prospectus describes two online Blackwell clusters and a further phase still expected. Epoch later estimates a larger IT footprint from equipment evidence. Dates and power bases differ; figures are not averaged.",
+          "source": "spacex-prospectus-2026"
+        },
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch identifies an operating facility; its IT-power estimate combines imagery and infrastructure disclosures.",
+          "source": "epoch-colossus-2"
+        }
+      ]
+    },
+    {
+      "id": "colossus-grid",
+      "name": "Colossus power path · Paul Lowry / Tulane",
+      "layer": "energy",
+      "owner": "MLGW / TVA; xAI customer",
+      "primary_user": "Colossus facilities",
+      "location": "Memphis, Tennessee, U.S.",
+      "category": "Grid service and gas generation",
+      "stage": "partly-operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "colossus-grid-energized-baseline"
+      ],
+      "measures": [
+        "colossus-grid-requested-baseline"
+      ],
+      "horizon": "Latest energized increments require new utility records.",
+      "grid": "Early grid service and temporary gas generation supported the buildout. TVA approvals and substations govern expansion; engines, permits and actual operation are different stages.",
+      "next_evidence": "Current energized MW; temporary/permanent turbine capacity, issued permits and removal/compliance records.",
+      "milestones": [
+        {
+          "date": "2025-05-05",
+          "summary": "MLGW separates supplied power at Paul Lowry from the additional request and other site studies.",
+          "source": "mlgw-may-2025"
+        },
+        {
+          "date": "2026-07-30",
+          "summary": "Company reports a permanent Southaven plant under construction and a timetable to remove temporary turbines. This is separate from MLGW energized grid service.",
+          "source": "spacexai-power-july"
+        }
+      ]
+    },
+    {
+      "id": "terafab",
+      "name": "Tesla + SpaceX Terafab",
+      "layer": "chips",
+      "owner": "Tesla + SpaceX",
+      "primary_user": "Optimus / Cybercab and proposed SpaceX compute",
+      "location": "Grimes County, Texas, U.S.",
+      "category": "Logic, memory and packaging fab",
+      "stage": "site-selected",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "terafab-announced-capital-baseline",
+        "terafab-permanent-promised-baseline"
+      ],
+      "horizon": "No verified first-wafer or HVM date.",
+      "grid": "Site utility, permitted generation and water arrangements require project-level verification.",
+      "next_evidence": "Permits, equipment move-in, first wafers, yields, packaging qualification, cash spent and local hiring.",
+      "milestones": [
+        {
+          "date": "2026-08-06",
+          "summary": "SpaceX announced the site and initial capital requirement. The Austin research fab is a separate precursor, not evidence of Terafab output.",
+          "source": "spacex-terafab-2026"
+        }
+      ]
+    },
+    {
+      "id": "tesla-cortex-1",
+      "name": "Giga Texas Cortex 1",
+      "layer": "infrastructure",
+      "owner": "Tesla",
+      "primary_user": "Vehicle / humanoid autonomy research",
+      "location": "Austin, Texas, U.S.",
+      "category": "AI training cluster",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "tesla-cortex-1-compute-baseline"
+      ],
+      "measures": [],
+      "horizon": "Further 2026 ramp; numerical end-state target not verified.",
+      "grid": "Grid and backup arrangements not quantified in the deck.",
+      "next_evidence": "IT load, chip inventory and future capacity basis.",
+      "milestones": [
+        {
+          "date": "2026-07-22",
+          "summary": "Tesla lists the cluster in Production. Cortex 2 supports vehicle and humanoid autonomy development.",
+          "source": "tesla-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "tesla-cortex-2",
+      "name": "Giga Texas Cortex 2",
+      "layer": "infrastructure",
+      "owner": "Tesla",
+      "primary_user": "Vehicle / humanoid autonomy research",
+      "location": "Austin, Texas, U.S.",
+      "category": "AI training cluster",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "tesla-cortex-2-compute-baseline"
+      ],
+      "measures": [],
+      "horizon": "Further 2026 ramp; numerical end-state target not verified.",
+      "grid": "Grid and backup arrangements not quantified in the deck.",
+      "next_evidence": "IT load, chip inventory and future capacity basis.",
+      "milestones": [
+        {
+          "date": "2026-07-22",
+          "summary": "Tesla lists the cluster in Production. Cortex 2 supports vehicle and humanoid autonomy development.",
+          "source": "tesla-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "tsmc-arizona-phase1",
+      "name": "TSMC Arizona Fab 21 · phase 1",
+      "layer": "chips",
+      "owner": "TSMC",
+      "primary_user": "Foundry customers",
+      "location": "Phoenix, Arizona, U.S.",
+      "category": "Wafer fabrication / packaging",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "N4 HVM since Q4 2024",
+      "grid": "Utility capacity is not semiconductor output.",
+      "next_evidence": "Node/site wafer starts, move-in, qualification, domestic packaging throughput and actual local hires.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "TSMC reports N4 high-volume production since Q4 2024. Wafer fabrication does not establish finished domestic accelerator packaging.",
+          "source": "tsmc-arizona"
+        }
+      ]
+    },
+    {
+      "id": "tsmc-arizona-phase2",
+      "name": "TSMC Arizona Fab 21 · phase 2",
+      "layer": "chips",
+      "owner": "TSMC",
+      "primary_user": "Foundry customers",
+      "location": "Phoenix, Arizona, U.S.",
+      "category": "Wafer fabrication / packaging",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "N3 HVM target H2 2027",
+      "grid": "Utility capacity is not semiconductor output.",
+      "next_evidence": "Node/site wafer starts, move-in, qualification, domestic packaging throughput and actual local hires.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Fab structure completed in 2025; N3 volume production targeted for H2 2027.",
+          "source": "tsmc-arizona"
+        }
+      ]
+    },
+    {
+      "id": "tsmc-arizona-phase3",
+      "name": "TSMC Arizona Fab 21 · phase 3",
+      "layer": "chips",
+      "owner": "TSMC",
+      "primary_user": "Foundry customers",
+      "location": "Phoenix, Arizona, U.S.",
+      "category": "Wafer fabrication / packaging",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "HVM targeted by decade end",
+      "grid": "Utility capacity is not semiconductor output.",
+      "next_evidence": "Node/site wafer starts, move-in, qualification, domestic packaging throughput and actual local hires.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Third-fab groundbreaking in April 2025; intended processes N2 and A16.",
+          "source": "tsmc-arizona"
+        }
+      ]
+    },
+    {
+      "id": "tsmc-arizona-packaging",
+      "name": "TSMC Arizona · advanced packaging",
+      "layer": "chips",
+      "owner": "TSMC",
+      "primary_user": "Foundry customers",
+      "location": "Phoenix, Arizona, U.S.",
+      "category": "Wafer fabrication / packaging",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "First packaged output date unverified",
+      "grid": "Utility capacity is not semiconductor output.",
+      "next_evidence": "Node/site wafer starts, move-in, qualification, domestic packaging throughput and actual local hires.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Initial construction reported in early 2026. U.S. CoWoS production throughput is not verified here.",
+          "source": "tsmc-arizona"
+        }
+      ]
+    },
+    {
+      "id": "hynix-west-lafayette",
+      "name": "SK hynix West Lafayette HBM packaging",
+      "layer": "chips",
+      "owner": "SK hynix",
+      "primary_user": "U.S. AI memory customers",
+      "location": "West Lafayette, Indiana, U.S.",
+      "category": "HBM packaging and testing",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "hynix-indiana-capital-baseline",
+        "hynix-indiana-jobs-baseline"
+      ],
+      "horizon": "Cleanroom October 2028; mass production H2 2029",
+      "grid": "Construction utilities do not establish HBM output.",
+      "next_evidence": "Cleanroom, qualification, stacks shipped and actual hires.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Undated overview still describes end-2028 operations. The August 2026 release distinguishes cleanroom readiness from later HBM mass production.",
+          "source": "hynix-indiana-plan"
+        },
+        {
+          "date": "2026-08-28",
+          "summary": "Groundbreaking held August 27. Updated plan puts mass production in H2 2029, later than the older end-2028 overview. Wafers fabricated in Korea will be packaged and tested in Indiana.",
+          "source": "hynix-indiana-2026"
+        }
+      ]
+    },
+    {
+      "id": "amkor-arizona",
+      "name": "Amkor Arizona advanced packaging",
+      "layer": "chips",
+      "owner": "Amkor",
+      "primary_user": "Apple / NVIDIA among disclosed customers",
+      "location": "Peoria, Arizona, U.S.",
+      "category": "Advanced packaging and test",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "amkor-arizona-capital-baseline"
+      ],
+      "horizon": "First production target early 2028",
+      "grid": "Utility arrangements not quantified.",
+      "next_evidence": "Qualified production, packaging WPM and actual permanent hires.",
+      "milestones": [
+        {
+          "date": "2025-10-06",
+          "summary": "Groundbreaking and two-phase expansion announced. First-facility construction targets mid-2027; production early 2028.",
+          "source": "amkor-arizona-2025"
+        }
+      ]
+    },
+    {
+      "id": "intel-arizona",
+      "name": "Intel Arizona Fab 52 · 18A",
+      "layer": "chips",
+      "owner": "Intel",
+      "primary_user": "Panther Lake / Clearwater Forest",
+      "location": "Chandler, Arizona, U.S.",
+      "category": "18A wafer fabrication",
+      "stage": "production-ramp",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "2025 manufacturing milestone; subsequent rate unquantified",
+      "grid": "Power is not wafer output.",
+      "next_evidence": "18A HVM rate, yields and customer allocation.",
+      "milestones": [
+        {
+          "date": "2025-10-09",
+          "summary": "Intel identifies Fab 52 as manufacturing these products; product ramp and HVM milestones retain their dates.",
+          "source": "intel-fab52-18a"
+        }
+      ]
+    },
+    {
+      "id": "intel-ohio",
+      "name": "Intel Ohio One",
+      "layer": "chips",
+      "owner": "Intel",
+      "primary_user": "Foundry customers",
+      "location": "New Albany, Ohio, U.S.",
+      "category": "Fab campus",
+      "stage": "delayed",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "Mod 1 operations 2030–2031",
+      "grid": "Grid arrangements do not establish fab operation.",
+      "next_evidence": "Updated construction, equipment move-in and revised production schedule.",
+      "milestones": [
+        {
+          "date": "2025-02-28",
+          "summary": "Intel revised Mod 1 construction to 2030 and operations to 2030–2031; Mod 2 follows. Keep this delay visible pending a newer primary schedule.",
+          "source": "intel-ohio-delay"
+        }
+      ]
+    },
+    {
+      "id": "samsung-taylor",
+      "name": "Samsung Taylor foundry",
+      "layer": "chips",
+      "owner": "Samsung Electronics",
+      "primary_user": "Foundry customers; Tesla chip qualification separate",
+      "location": "Taylor, Texas, U.S.",
+      "category": "Leading-edge logic fab",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "Current HVM start and node throughput need verification",
+      "grid": "Site electrical load not quantified.",
+      "next_evidence": "Dated move-in, 2nm qualification and actual HVM; preserve schedule changes.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Samsung describes Taylor under construction and a future production ramp. Equipment installation and first wafers are not HVM.",
+          "source": "samsung-taylor-schedule"
+        }
+      ]
+    },
+    {
+      "id": "new-carlisle",
+      "name": "Anthropic + Amazon New Carlisle",
+      "layer": "infrastructure",
+      "owner": "Amazon / AWS",
+      "primary_user": "Anthropic",
+      "location": "New Carlisle, Indiana, U.S.",
+      "category": "Trainium AI campus",
+      "stage": "partly-operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "new-carlisle-it-operating-baseline"
+      ],
+      "measures": [
+        "new-carlisle-it-endstate-baseline"
+      ],
+      "horizon": "Epoch end-state forecast Q1 2028",
+      "grid": "Grid energization and IT equipment power require different evidence.",
+      "next_evidence": "Utility increments, exact installed chip inventory and campus-specific spending.",
+      "milestones": [
+        {
+          "date": "2026-09-03",
+          "summary": "Indiana campus supports Anthropic training on AWS Trainium. Project Rainier is a wider deployment; its chip total is not assigned wholesale to this site.",
+          "source": "epoch-anthropic-amazon-new-carlisle"
+        }
+      ]
+    },
+    {
+      "id": "stargate-new-mexico",
+      "name": "Stargate · New Mexico",
+      "layer": "infrastructure",
+      "owner": "Oracle",
+      "primary_user": "OpenAI",
+      "location": "Santa Teresa, Doña Ana County, New Mexico, U.S.",
+      "category": "AI campus",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "stargate-new-mexico-it-endstate-baseline"
+      ],
+      "horizon": "Q4 2028",
+      "grid": "Site grid and on-site generation need separately dated utility or permit records.",
+      "next_evidence": "First energized building, IT commissioning, chip inventory, cash spent and local hires.",
+      "milestones": [
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
+          "source": "epoch-openai-stargate-new-mexico"
+        }
+      ]
+    },
+    {
+      "id": "stargate-wisconsin",
+      "name": "Stargate · Wisconsin",
+      "layer": "infrastructure",
+      "owner": "Oracle / Vantage",
+      "primary_user": "OpenAI",
+      "location": "Port Washington, Wisconsin, U.S.",
+      "category": "AI campus",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "stargate-wisconsin-it-endstate-baseline"
+      ],
+      "horizon": "Q4 2028",
+      "grid": "Site grid and on-site generation need separately dated utility or permit records.",
+      "next_evidence": "First energized building, IT commissioning, chip inventory, cash spent and local hires.",
+      "milestones": [
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
+          "source": "epoch-openai-stargate-wisconsin"
+        }
+      ]
+    },
+    {
+      "id": "stargate-shackelford",
+      "name": "Stargate · Shackelford",
+      "layer": "infrastructure",
+      "owner": "Oracle / Vantage",
+      "primary_user": "OpenAI",
+      "location": "Shackelford County, Texas, U.S.",
+      "category": "AI campus",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "stargate-shackelford-it-endstate-baseline"
+      ],
+      "horizon": "Q4 2028",
+      "grid": "Site grid and on-site generation need separately dated utility or permit records.",
+      "next_evidence": "First energized building, IT commissioning, chip inventory, cash spent and local hires.",
+      "milestones": [
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
+          "source": "epoch-openai-stargate-shackelford"
+        }
+      ]
+    },
+    {
+      "id": "stargate-milam",
+      "name": "Stargate · Milam",
+      "layer": "infrastructure",
+      "owner": "SoftBank / SB Energy",
+      "primary_user": "OpenAI",
+      "location": "Burlington, Milam County, Texas, U.S.",
+      "category": "AI campus",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "stargate-milam-it-endstate-baseline"
+      ],
+      "horizon": "Q4 2028",
+      "grid": "Site grid and on-site generation need separately dated utility or permit records.",
+      "next_evidence": "First energized building, IT commissioning, chip inventory, cash spent and local hires.",
+      "milestones": [
+        {
+          "date": "2026-09-03",
+          "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
+          "source": "epoch-openai-stargate-milam"
+        }
+      ]
+    },
+    {
+      "id": "stargate-michigan",
+      "name": "Stargate · The Barn, Michigan",
+      "layer": "infrastructure",
+      "owner": "Oracle / Related Digital",
+      "primary_user": "OpenAI",
+      "location": "Saline Township, Michigan, U.S.",
+      "category": "AI campus",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "Construction milestone June 2026; operation not verified",
+      "grid": "Company pledges to pay project energy infrastructure costs; realized ratepayer impacts need utility evidence.",
+      "next_evidence": "Commissioned IT MW, energized service and actual local employment.",
+      "milestones": [
+        {
+          "date": "2026-06-01",
+          "summary": "OpenAI and partners marked construction on June 1. Company campus capacity and Epoch modeled IT load use different boundaries; operating IT MW remains unverified.",
+          "source": "openai-stargate-michigan"
+        }
+      ]
+    },
+    {
+      "id": "stargate-ohio",
+      "name": "Stargate · Lordstown, Ohio",
+      "layer": "infrastructure",
+      "owner": "SoftBank",
+      "primary_user": "OpenAI",
+      "location": "Lordstown, Ohio, U.S.",
+      "category": "AI campus",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "2026 company target; delivery not verified",
+      "grid": "Site-specific energized MW unknown. Combined Ohio/Texas plans cannot supply an Ohio number.",
+      "next_evidence": "Updated build status, first operating load and named chip deployment.",
+      "milestones": [
+        {
+          "date": "2025-09-23",
+          "summary": "OpenAI reported SoftBank groundbreaking in September 2025 and targeted operation the following year. This review has no later commissioning record.",
+          "source": "openai-stargate-sites"
+        }
+      ]
+    },
+    {
+      "id": "waymo-one",
+      "name": "Waymo One · commercial rider-only service",
+      "layer": "applications",
+      "owner": "Waymo / Alphabet",
+      "primary_user": "Paying riders",
+      "location": "United States; geofenced service areas",
+      "category": "Robotaxi operating fleet",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "waymo-autonomous-weekly-baseline",
+        "waymo-paid-weekly-baseline",
+        "waymo-rider-only-miles-baseline",
+        "waymo-operating-fleet-baseline",
+        "waymo-operating-metros-baseline"
+      ],
+      "measures": [],
+      "horizon": "Future city launches are not operating footprint",
+      "grid": "EV charging electricity; no AI-only electricity allocation claimed.",
+      "next_evidence": "New explicitly paid trip run-rate, verified year-end target, current fleet size and custom-silicon foundry status.",
+      "milestones": [
+        {
+          "date": "2025-05-05",
+          "summary": "Waymo disclosed paid trips and an operating commercial vehicle fleet; future vehicles were separately planned.",
+          "source": "waymo-fleet-2025"
+        },
+        {
+          "date": "2026-04-29",
+          "summary": "Alphabet reports fully autonomous service across named U.S. cities. Older paid-trip and vehicle disclosures keep their own dates.",
+          "source": "waymo-q1-2026"
+        }
+      ]
+    },
+    {
+      "id": "tesla-fsd",
+      "name": "Tesla FSD (Supervised) · consumer driving",
+      "layer": "applications",
+      "owner": "Tesla",
+      "primary_user": "Vehicle drivers",
+      "location": "Approved European markets; consumer supervision required",
+      "category": "Driver assistance",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "tesla-supervised-europe-miles-baseline"
+      ],
+      "measures": [],
+      "horizon": "Q2 update; mileage as of July 2026",
+      "grid": "Consumer EV fleet; training compute tracked under Cortex.",
+      "next_evidence": "Global supervised total, exact exposure period, interventions and comparable safety methodology.",
+      "milestones": [
+        {
+          "date": "2026-07-22",
+          "summary": "Tesla reports supervised European customer mileage. The human driver remains responsible for supervision; this is separate from the Robotaxi service.",
+          "source": "tesla-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "tesla-robotaxi",
+      "name": "Tesla Robotaxi / Cybercab",
+      "layer": "applications",
+      "owner": "Tesla",
+      "primary_user": "Riders in geofenced service areas",
+      "location": "United States; cities retain separate supervision status",
+      "category": "Robotaxi staged deployment",
+      "stage": "partly-operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "July 2026 disclosure; city status is dated",
+      "grid": "Cortex supports autonomy training; not a robotaxi energy-use measurement.",
+      "next_evidence": "Verified fleet count, paid trips, cumulative unsupervised miles, monitor arrangements and exposure denominator.",
+      "milestones": [
+        {
+          "date": "2026-07-22",
+          "summary": "Q2 update: SF Bay Area has a safety driver; Austin, Dallas, Houston, Miami, Orlando and Tampa are ramping unsupervised service. Cybercab public-road engineering tests and employee rides precede fleet deployment.",
+          "source": "tesla-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "tesla-optimus",
+      "name": "Tesla Optimus · factory training builds",
+      "layer": "applications",
+      "owner": "Tesla",
+      "primary_user": "Internal development",
+      "location": "Fremont, California and Austin, Texas, U.S.",
+      "category": "Humanoid development",
+      "stage": "pilot",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "Q2 2026 manufacturing preparations",
+      "grid": "Cortex training compute is tracked separately.",
+      "next_evidence": "Units in productive use, task throughput, uptime, interventions and customer acceptance.",
+      "milestones": [
+        {
+          "date": "2026-07-22",
+          "summary": "Initial Fremont builds are intended for Optimus Academy training-data collection and functionality development. Texas construction is not evidence of a fleet performing paid production tasks.",
+          "source": "tesla-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "agility-gxo",
+      "name": "Agility Digit + GXO · commercial tote handling",
+      "layer": "applications",
+      "owner": "Agility Robotics / GXO",
+      "primary_user": "GXO logistics operation",
+      "location": "Flowery Branch, Georgia, U.S.",
+      "category": "Humanoid paid production",
+      "stage": "operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [
+        "digit-gxo-totes-baseline"
+      ],
+      "measures": [],
+      "horizon": "Commercial deployment; milestone vintage unlisted",
+      "grid": "Operating electricity and full task economics not disclosed here.",
+      "next_evidence": "Fleet size, paid task volume, uptime and intervention rate.",
+      "milestones": [
+        {
+          "date": "2026-06-24",
+          "summary": "Agility identifies commercial deployments including GXO. The separate tote milestone measures completed handling tasks, not a robot fleet count.",
+          "source": "agility-commercial-2026"
+        }
+      ]
+    },
+    {
+      "id": "southaven-permanent-power",
+      "name": "Colossus · Southaven permanent gas plant",
+      "layer": "energy",
+      "owner": "SpaceXAI / MZX Tech",
+      "primary_user": "Greater Memphis Colossus facilities",
+      "location": "Southaven, Mississippi, U.S.",
+      "category": "Natural-gas power plant",
+      "stage": "construction",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "southaven-permanent-gas-baseline"
+      ],
+      "horizon": "Temporary removal starts August 2026; all removed by July 2027 per company statement",
+      "grid": "Permanent plant is under construction. Verify actual turbine removals and commissioned output against regulator records.",
+      "next_evidence": "Issued order, removal receipts, operating permit compliance and metered generation.",
+      "milestones": [
+        {
+          "date": "2026-07-30",
+          "summary": "SpaceXAI reports an agreed removal schedule for temporary mobile turbines and construction of a permitted permanent plant. The April lawsuit remains a filed allegation, not a final court finding.",
+          "source": "spacexai-power-july"
+        }
+      ]
+    },
+    {
+      "id": "colossus-stateline",
+      "name": "Colossus expansion · Stateline Road building",
+      "layer": "infrastructure",
+      "owner": "MZX Tech / SpaceXAI",
+      "primary_user": "Future AI workloads; allocation unverified",
+      "location": "2400 Stateline Road West, Southaven, Mississippi, U.S.",
+      "category": "Later Southaven building / Project Tulane",
+      "stage": "permitting",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [],
+      "horizon": "Later-building IT capacity and operation unverified",
+      "grid": "Stanton Road mailing address is distinct from the Stateline Road physical site.",
+      "next_evidence": "Property/building aliases, fit-out, power path and first operating IT MW.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "MDEQ lists the Stateline Road physical site and Project Tulane construction general-permit coverage dated August 18, 2026. Stormwater coverage is not an air permit or evidence of commissioned compute.",
+          "source": "southaven-stateline-permit"
+        }
+      ]
+    },
+    {
+      "id": "tsmc-arizona-program",
+      "name": "TSMC Phoenix · multi-phase program",
+      "layer": "chips",
+      "owner": "TSMC",
+      "primary_user": "Foundry and packaging customers",
+      "location": "Phoenix, Arizona, U.S.",
+      "category": "Program envelope; overlaps individual fab records",
+      "stage": "partly-operating",
+      "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
+      "observations": [],
+      "measures": [
+        "tsmc-arizona-program-capital-baseline",
+        "tsmc-arizona-first-three-jobs-baseline"
+      ],
+      "horizon": "Individual fab schedules below; no all-program completion date",
+      "grid": "On-site solar and renewable credits do not establish round-the-clock clean power supply.",
+      "next_evidence": "Phase-specific paid capex, hires, qualified output and domestic packaging.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Program overview combines operating N4 production with later fabs and packaging plans. Individual phases are tracked separately; campus commitments cannot be assigned to the operating first fab.",
+          "source": "tsmc-arizona"
         }
       ]
     }

@@ -1,5 +1,23 @@
 # Methodology
 
+## Coverage expansion: companies, capital and deployed work
+
+The reviewed `research/expansion.json` snapshot adds named layer projects, agent products and the promised-versus-reported jobs table. Its public mirror is `site/data/expansion.json`. `delivery.json` now spans all five layers; programs and overlapping individual phases are not summed. Projects retain owner, primary user when known, location, stage, source-linked milestones, operating quantities, separately scoped measures and next evidence needs.
+
+New metric entries in `catalog.json` include `company`, `measurement_type`, optional `project`, and `allowed_statuses`. Definitions without observations are intentional research gaps. `scripts/validate_expansion.py` validates the reviewed measurement types and cross-file references; the observation validator enforces status policy for both curated and daily model proposals. Promised jobs and announced capital cannot become actual hires or spent capital by merely changing a record's status. Those outcomes need their own reviewed metric.
+
+Money cards distinguish announced investment envelopes, compute contracts, paid/recognized capital expenditures and local contracts/procurement. Read the scope: Meta's Louisiana disclosure is contracts awarded, not payments. Company-wide capex and revenue do not become site-level investment. The jobs table leaves missing cells blank with accessible labels, distinguishes construction peaks and contractor FTEs from promised and reported permanent jobs, and publishes no combined jobs total.
+
+The chips headline uses Epoch's year-end CoWoS ranges. These are industry-report-based estimates, not direct TSMC throughput disclosures, annual averages or completed accelerator counts. Only published anchor ranges are shown; Stack Ledger does not interpolate them. Historical ranges remain estimates; the year-end 2026 anchor remains a forecast. An operating U.S. logic fab does not prove domestic advanced packaging is already producing.
+
+The infrastructure headline uses Epoch's estimate of Abilene's operating IT power, not U.S. all-purpose data-center counts or company-announced facility capacity. Cooling/equipment inference is not metered electrical draw. Fairwater's campus estimate can overlap sibling facilities. Colossus company cluster disclosures and later Epoch estimates retain their different dates, geographic boundaries and power bases. They are not averaged or summed into a manufactured total.
+
+The applications headline uses Waymo's explicitly paid weekly trips from May 2025. Alphabet's newer April 2026 fully autonomous ride count is a separate series because that disclosure does not explicitly characterize every trip as paid. Driver-supervised Tesla FSD exposure is separate from Tesla's city-specific Robotaxi status and Waymo rider-only mileage. Optimus Academy builds do not establish productive fleet deployment; Agility's tote count measures tasks, not robot units. Unknown global mileage, current fleet sizes and unverified targets remain gaps.
+
+Agent cards establish product availability and selected dated API model prices. Named model snapshots are not recommendations or claims to represent the latest frontier model. Subscription costs, tool charges and oversight are excluded unless stated. Primary active users, paid seats, benchmark-specific task success and method-supported hours saved need distinct records. OpenClaw's existence and this site's configured runtime do not establish adoption or a successful daily research run.
+
+This expansion is a curated review, separate from Ollama run receipts. Adding sources expands the pool rotated through the existing bounded daily document budget; it does not mean every registered source is fetched every day. HTML fetch failures and PDF limitations stay visible in private evidence receipts. Public pages preserve source links and dates without copying source articles.
+
 ## Scope and classifications
 Energy covers generation, grid delivery, storage and electricity demand. Chips covers accelerators, memory, packaging and manufacturing. Infrastructure covers operational data centers, networking, cooling and construction. Models covers reproducible capability, cost, efficiency and availability. Applications covers adoption and measured practical outcomes.
 
