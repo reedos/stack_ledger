@@ -23215,6 +23215,33 @@
         "chips",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T231817Z",
+      "started_at": "2026-09-07T23:18:17Z",
+      "finished_at": "2026-09-07T23:19:07Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-alphabet",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "company-openai",
+          "reason": "HTTPError"
+        }
+      ],
+      "model_calls": 1,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -23224,7 +23251,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T23:17:51Z",
+    "last_attempt": "2026-09-07T23:19:07Z",
     "last_success": "2026-09-07T22:57:54Z",
     "status": "partial"
   }
