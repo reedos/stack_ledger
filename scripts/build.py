@@ -50,7 +50,7 @@ def build():
         content = home(data, base) if page == 'home' else (f'<section class="page-hero"><div class="eyebrow">STACK LEDGER / OPEN RESEARCH</div><h1>{escape(heading)}</h1><p>{escape(description)}</p></section>')
         if page == 'company': content = company_snapshot(data, profiles[path], base)
         from layer_diagrams import DIAGRAMS, render_layer_diagram
-        if page in DIAGRAMS: content += render_layer_diagram(page, data['sources'])
+        if page in DIAGRAMS: content = render_layer_diagram(page, data['sources']) + content
         if page == 'claims':
             from render_claims import render_claims
             content = render_claims(json.loads((ROOT/'research/claims.json').read_text(encoding='utf-8')), data['sources'], base)
