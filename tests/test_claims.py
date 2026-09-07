@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from validate_claims import validate_claims, validate_files
-from render_claims import render_claims, water_values
+from render_claims import render_claims, water_values, resident_values
 
 
 class ClaimsTests(unittest.TestCase):
@@ -57,3 +57,12 @@ class ClaimsTests(unittest.TestCase):
         self.data['water_comparison']['query_gallons']=0
         with self.assertRaises(ValueError):
             validate_claims(self.data,{s['id'] for s in self.sources})
+
+    def test_resident_example_keeps_rates_and_bills_distinct(self):
+        rate,net=resident_values(self.data['resident_context'])
+        self.assertAlmostEqual(rate,29.694323144104804)
+        self.assertEqual(net,563)
+        html=render_claims(self.data,self.sources)
+        self.assertIn('constructed household example',html)
+        self.assertIn('not the average savings',html)
+        self.assertIn('solely because of data centers',html)

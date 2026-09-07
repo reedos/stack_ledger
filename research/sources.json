@@ -3685,6 +3685,51 @@
         "infrastructure"
       ],
       "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "loudoun-adopted-2027",
+      "publisher": "Loudoun County",
+      "title": "Board adopts FY2027 budget: tax-year 2026 household examples",
+      "url": "https://www.loudoun.gov/m/newsflash/home/detail/10535",
+      "published": "2026-04-07",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "diagram-asml",
+      "publisher": "ASML",
+      "title": "How microchips are made",
+      "url": "https://www.asml.com/en/technology/all-about-microchips/how-microchips-are-made",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "diagram-factory",
+      "publisher": "NVIDIA",
+      "title": "Enterprise AI Factory Overview",
+      "url": "https://docs.nvidia.com/ai-enterprise/planning-resource/ai-factory-white-paper/latest/ai-factory-overview.html",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "diagram-agents",
+      "publisher": "Anthropic",
+      "title": "Building effective agents",
+      "url": "https://www.anthropic.com/engineering/building-effective-agents",
+      "published": "2024-12-19",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
     }
   ],
   "discovery_keywords": [
@@ -7692,6 +7737,50 @@
       "region_book": "united-states",
       "company_id": null,
       "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "loudoun-adopted-2027": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "diagram-asml": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "architecture",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "diagram-factory": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "architecture",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "diagram-agents": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "architecture",
       "cadence": "weekly",
       "weekday": 0,
       "path_prefixes": [],

@@ -62,6 +62,10 @@ const server=http.createServer((req,res)=>{
    const version=await page.locator('body').getAttribute('data-build');assert.match(version,/^[a-f0-9]{16}$/);
    assert.ok(await page.locator('link[rel="stylesheet"], script[src]').evaluateAll((els,v)=>els.every(el=>new URL(el.href||el.src).searchParams.get('v')===v),version));
    if(['energy/','chips/','infrastructure/','models/','applications/'].includes(route)){
+    assert.equal(await page.locator('.layer-diagram').count(),1);
+    assert.equal(await page.locator('.diagram-explanation').count(),6);
+    assert.equal(await page.locator('.diagram-canvas a').count(),6);
+    if(route==='infrastructure/')await page.locator('.diagram-canvas').screenshot({path:path.join(evidence,'factory-diagram.png')});
     const layer=route.slice(0,-1),expected=companySnapshot.companies.filter(c=>c.layers.includes(layer)).map(c=>c.id).sort();
     const shown=await page.locator('#companies .builder-card').evaluateAll(els=>els.map(el=>el.dataset.company).sort());
     assert.deepEqual(shown,expected,layer+' must show every covered contributor exactly once');
@@ -78,6 +82,8 @@ const server=http.createServer((req,res)=>{
    for(const href of new Set(links)){assert.equal((await page.request.get(href)).status(),200,href);}
   }
   await page.goto(origin+'claims/');await page.locator('body[data-enhanced="true"]').waitFor();
+  assert.match(await page.locator('#resident-benefit').innerText(),/\$563 less/);
+  await page.locator('#resident-benefit').screenshot({path:path.join(evidence,'resident-context.png')});
   assert.equal(await page.locator('.claim-card').count(),27);
   assert.equal(await page.locator('.article-check').count(),16);
   await page.selectOption('#claim-topic','Water');assert.equal(await page.locator('.claim-card:visible').count(),5);

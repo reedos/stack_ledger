@@ -10,7 +10,7 @@ TOPICS = {'Water','Power & bills','Clean energy','Jobs & economy','Taxes & commu
 
 
 def validate_claims(data, sources):
-    require(set(data)=={'version','reviewed_at','reviewer','claims','highlights','article_audit','water_comparison'} and data['version']==1, 'Invalid claims snapshot')
+    require(set(data)=={'version','reviewed_at','reviewer','claims','highlights','article_audit','water_comparison','resident_context'} and data['version']==1, 'Invalid claims snapshot')
     timestamp(data['reviewed_at']); text(data['reviewer'],200)
     ids=set()
     def identity(value):
@@ -18,6 +18,12 @@ def validate_claims(data, sources):
         ids.add(value)
     def evidence(values):
         require(isinstance(values,list) and values and len(set(values))==len(values) and set(values)<=sources,'Unknown claims source')
+    rc=data['resident_context']
+    require(set(rc)=={'real_rate_2016','real_rate_2026','vehicle_rate_before','vehicle_rate_2026','vehicle_assessed_value','vehicle_saving_example','average_home_bill_increase','example_vehicles','sources'},'Invalid resident context')
+    evidence(rc['sources'])
+    for key,value in rc.items():
+        if key!='sources':require(type(value) in (int,float) and math.isfinite(value) and value>0,'Invalid resident example input')
+    require(type(rc['example_vehicles']) is int,'Vehicle count must be an integer')
     w=data['water_comparison']
     require(set(w)=={'blue_gallons_per_pound','almond_grams','query_gallons','almond_period','query_period','sources'},'Invalid water comparison')
     evidence(w['sources'])
