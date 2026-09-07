@@ -21,3 +21,4 @@
 @media(max-width:900px){.history-context-grid{grid-template-columns:minmax(0,1fr)}}
 
 .history-context-grid>.panel:first-child{grid-column:1/-1}.scope-warning{border-left:2px solid #efc77b;padding-left:12px}.comparison-legend{color:#efc77b}
+.frontier-nav{display:flex;flex-wrap:wrap;gap:12px 24px;margin:20px 0;color:#bce28b;font-size:.85rem}

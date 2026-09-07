@@ -4153,6 +4153,428 @@
       "allowed_statuses": [
         "forecast"
       ]
+    },
+    {
+      "id": "frontier-opus5-input",
+      "layer": "models",
+      "title": "Claude Opus 5 · API input price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "anthropic-opus5",
+        "claude-current-api-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_input_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-opus5-output",
+      "layer": "models",
+      "title": "Claude Opus 5 · API output price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "anthropic-opus5",
+        "claude-current-api-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_output_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-fable5-input",
+      "layer": "models",
+      "title": "Claude Fable 5 · API input price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "anthropic-fable5",
+        "claude-current-api-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_input_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-fable5-output",
+      "layer": "models",
+      "title": "Claude Fable 5 · API output price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "anthropic-fable5",
+        "claude-current-api-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_output_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-fable51-input",
+      "layer": "models",
+      "title": "Claude Fable 5.1 · API input price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "anthropic-fable51",
+        "claude-current-api-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_input_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-fable51-output",
+      "layer": "models",
+      "title": "Claude Fable 5.1 · API output price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "anthropic-fable51",
+        "claude-current-api-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "token_price_output_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-astra6-input",
+      "layer": "models",
+      "title": "GPT-6 Astra · API input price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "openai-astra-model"
+      ],
+      "company": "openai",
+      "measurement_type": "token_price_input_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-astra6-output",
+      "layer": "models",
+      "title": "GPT-6 Astra · API output price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "openai-astra-model"
+      ],
+      "company": "openai",
+      "measurement_type": "token_price_output_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-grok46-input",
+      "layer": "models",
+      "title": "Grok 4.6 · API input price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "grok46-api-model"
+      ],
+      "company": "spacexai",
+      "measurement_type": "token_price_input_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "frontier-grok46-output",
+      "layer": "models",
+      "title": "Grok 4.6 · API output price",
+      "unit": "USD / million tokens",
+      "geography": "U.S. list price",
+      "scope": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
+      "source_ids": [
+        "grok46-api-model"
+      ],
+      "company": "spacexai",
+      "measurement_type": "token_price_output_usd_per_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "premium-chatgpt-pro5",
+      "layer": "models",
+      "title": "ChatGPT Pro 5x · monthly subscription",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "source_ids": [
+        "codex-product-plans"
+      ],
+      "company": "openai",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "premium-chatgpt-pro20",
+      "layer": "models",
+      "title": "ChatGPT Pro 20x · monthly subscription",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "source_ids": [
+        "codex-product-plans"
+      ],
+      "company": "openai",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "premium-claude-max5",
+      "layer": "models",
+      "title": "Claude Max 5x · monthly subscription",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "source_ids": [
+        "claude-max-plan-guide"
+      ],
+      "company": "anthropic",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "premium-claude-max20",
+      "layer": "models",
+      "title": "Claude Max 20x · monthly subscription",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "source_ids": [
+        "claude-max-plan-guide"
+      ],
+      "company": "anthropic",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "premium-supergrok",
+      "layer": "models",
+      "title": "SuperGrok · monthly subscription",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "source_ids": [
+        "grok-current-plans"
+      ],
+      "company": "spacexai",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "premium-supergrok-plus",
+      "layer": "models",
+      "title": "SuperGrok Plus · monthly subscription",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
+      "source_ids": [
+        "grok-current-plans"
+      ],
+      "company": "spacexai",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
     }
   ],
   "sources": [
@@ -6517,6 +6939,160 @@
       "published": "2026-04-08",
       "layers": [
         "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-opus5",
+      "publisher": "Anthropic",
+      "title": "Introducing Claude Opus 5",
+      "url": "https://www.anthropic.com/news/claude-opus-5",
+      "published": "2026-07-24",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-fable5",
+      "publisher": "Anthropic",
+      "title": "Claude Fable 5 and Claude Mythos 5: launch",
+      "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+      "published": "2026-06-09",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-fable51",
+      "publisher": "Anthropic",
+      "title": "Introducing Claude Fable 5.1 and Claude Mythos 5.1",
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+      "published": "2026-09-01",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-fable-current",
+      "publisher": "Anthropic",
+      "title": "Claude Fable: current access and release history",
+      "url": "https://www.anthropic.com/claude/fable",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "openai-astra-model",
+      "publisher": "OpenAI",
+      "title": "GPT-6 Astra: API model specification and pricing",
+      "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "openai-current-model-access",
+      "publisher": "OpenAI",
+      "title": "Models: Astra rollout and client availability",
+      "url": "https://learn.chatgpt.com/docs/models",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "claude-max-plan-guide",
+      "publisher": "Anthropic",
+      "title": "Choose a Claude plan: Pro, Max 5x and Max 20x",
+      "url": "https://support.claude.com/en/articles/11049762-choose-a-claude-plan",
+      "published": "2026-05-19",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok46-api-model",
+      "publisher": "SpaceXAI",
+      "title": "Grok 4.6: model specification and token pricing",
+      "url": "https://docs.x.ai/developers/models/grok-4.6",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok46-launch",
+      "publisher": "SpaceXAI",
+      "title": "Introducing Grok 4.6",
+      "url": "https://x.ai/news/grok-4-6",
+      "published": "2026-08-12",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-current-plans",
+      "publisher": "SpaceXAI",
+      "title": "SuperGrok plan comparison",
+      "url": "https://x.ai/pricing",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-bot-overview",
+      "publisher": "SpaceXAI",
+      "title": "Grok Bot: persistent agents and plan options",
+      "url": "https://x.ai/bot",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-bot-plan-expansion",
+      "publisher": "SpaceXAI",
+      "title": "Grok Bot is now included with more plans",
+      "url": "https://x.ai/news/grok-bot-more-plans",
+      "published": "2026-08-26",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-release-notes",
+      "publisher": "SpaceXAI",
+      "title": "Grok developer release notes: release watch",
+      "url": "https://docs.x.ai/developers/release-notes",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "claude-current-api-pricing",
+      "publisher": "Anthropic",
+      "title": "Claude API pricing: current model rates and surcharges",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "published": null,
+      "layers": [
+        "models"
       ],
       "license": "Attributed public facts; source material retains original rights"
     }
@@ -9383,6 +9959,230 @@
       "retrieved_at": "2026-09-07T16:54:11Z",
       "method": "curated",
       "note": "AEO2026 Counterfactual Baseline, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
+    },
+    {
+      "id": "frontier-opus5-input-2026-09-07",
+      "metric": "frontier-opus5-input",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 5,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-current-api-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-opus5-output-2026-09-07",
+      "metric": "frontier-opus5-output",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 25,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-current-api-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-fable5-input-2026-09-07",
+      "metric": "frontier-fable5-input",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 10,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-current-api-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-fable5-output-2026-09-07",
+      "metric": "frontier-fable5-output",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 50,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-current-api-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-fable51-input-2026-09-07",
+      "metric": "frontier-fable51-input",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 10,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-current-api-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-fable51-output-2026-09-07",
+      "metric": "frontier-fable51-output",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 50,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-current-api-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-astra6-input-2026-09-07",
+      "metric": "frontier-astra6-input",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 10,
+      "upper": null,
+      "status": "observation",
+      "source": "openai-astra-model",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-astra6-output-2026-09-07",
+      "metric": "frontier-astra6-output",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 50,
+      "upper": null,
+      "status": "observation",
+      "source": "openai-astra-model",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-grok46-input-2026-09-07",
+      "metric": "frontier-grok46-input",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 2,
+      "upper": null,
+      "status": "observation",
+      "source": "grok46-api-model",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "frontier-grok46-output-2026-09-07",
+      "metric": "frontier-grok46-output",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 6,
+      "upper": null,
+      "status": "observation",
+      "source": "grok46-api-model",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate."
+    },
+    {
+      "id": "premium-chatgpt-pro5-2026-09-07",
+      "metric": "premium-chatgpt-pro5",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 100,
+      "upper": null,
+      "status": "observation",
+      "source": "codex-product-plans",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ."
+    },
+    {
+      "id": "premium-chatgpt-pro20-2026-09-07",
+      "metric": "premium-chatgpt-pro20",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 200,
+      "upper": null,
+      "status": "observation",
+      "source": "codex-product-plans",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ."
+    },
+    {
+      "id": "premium-claude-max5-2026-09-07",
+      "metric": "premium-claude-max5",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 100,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-max-plan-guide",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ."
+    },
+    {
+      "id": "premium-claude-max20-2026-09-07",
+      "metric": "premium-claude-max20",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 200,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-max-plan-guide",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ."
+    },
+    {
+      "id": "premium-supergrok-2026-09-07",
+      "metric": "premium-supergrok",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 30,
+      "upper": null,
+      "status": "observation",
+      "source": "grok-current-plans",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ."
+    },
+    {
+      "id": "premium-supergrok-plus-2026-09-07",
+      "metric": "premium-supergrok-plus",
+      "year": 2026,
+      "period": "2026-09-07 snapshot",
+      "value": 100,
+      "upper": null,
+      "status": "observation",
+      "source": "grok-current-plans",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T17:01:50Z",
+      "method": "curated",
+      "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ."
     }
   ],
   "events": [

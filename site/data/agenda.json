@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T16:40:50Z",
+  "reviewed_at": "2026-09-07T17:01:50Z",
   "sections": [
     {
       "id": "construction-economy",
@@ -456,6 +456,231 @@
             "dc-electricity-iea2025-lift-off-history-2035"
           ],
           "gap": "Track revised scenario vintages, efficiency assumptions, grid bottlenecks and delivered capacity."
+        }
+      ]
+    },
+    {
+      "id": "premium-model-plans",
+      "pages": [
+        "models"
+      ],
+      "title": "More capacity for serious work",
+      "intro": "Individual premium subscriptions, reviewed September 7, 2026. These buy different product allowances; matching prices or 5x/20x labels do not imply equivalent compute, models or completed work. API usage is billed separately.",
+      "charts": [],
+      "cards": [
+        {
+          "id": "premium-chatgpt-pro5",
+          "title": "ChatGPT Pro 5x",
+          "stage": "Monthly subscription",
+          "body": "Five times the Plus Codex allowance in the documented plan comparison. Task size, selected model, speed and weekly limits affect actual usage; API billing is separate.",
+          "sources": [
+            "codex-product-plans"
+          ],
+          "observations": [
+            "premium-chatgpt-pro5-2026-09-07"
+          ],
+          "gap": "Track changes to monthly/annual billing, model eligibility, allowance resets, extra usage and regional prices."
+        },
+        {
+          "id": "premium-chatgpt-pro20",
+          "title": "ChatGPT Pro 20x",
+          "stage": "Monthly subscription",
+          "body": "Twenty times the Plus Codex allowance. The documented unlimited desktop Voice benefit does not make agent tasks unlimited. API billing is separate.",
+          "sources": [
+            "codex-product-plans"
+          ],
+          "observations": [
+            "premium-chatgpt-pro20-2026-09-07"
+          ],
+          "gap": "Track changes to monthly/annual billing, model eligibility, allowance resets, extra usage and regional prices."
+        },
+        {
+          "id": "premium-claude-max5",
+          "title": "Claude Max 5x",
+          "stage": "Monthly subscription",
+          "body": "Five times Pro capacity per session in the official individual-plan guide. This is an allowance multiplier, not five times the intelligence or a guarantee of unlimited frontier-model usage.",
+          "sources": [
+            "claude-max-plan-guide"
+          ],
+          "observations": [
+            "premium-claude-max5-2026-09-07"
+          ],
+          "gap": "Track changes to monthly/annual billing, model eligibility, allowance resets, extra usage and regional prices."
+        },
+        {
+          "id": "premium-claude-max20",
+          "title": "Claude Max 20x",
+          "stage": "Monthly subscription",
+          "body": "Twenty times Pro capacity per session in the official individual-plan guide. Model availability, session and weekly limits, and any extra usage charges remain separate.",
+          "sources": [
+            "claude-max-plan-guide"
+          ],
+          "observations": [
+            "premium-claude-max20-2026-09-07"
+          ],
+          "gap": "Track changes to monthly/annual billing, model eligibility, allowance resets, extra usage and regional prices."
+        },
+        {
+          "id": "premium-supergrok",
+          "title": "SuperGrok",
+          "stage": "Monthly subscription",
+          "body": "The current comparison lists Grok 4.6, Grok Bot access, connectors and increased feature limits. A subscription is not an unrestricted API balance.",
+          "sources": [
+            "grok-current-plans"
+          ],
+          "observations": [
+            "premium-supergrok-2026-09-07"
+          ],
+          "gap": "Track changes to monthly/annual billing, model eligibility, allowance resets, extra usage and regional prices."
+        },
+        {
+          "id": "premium-supergrok-plus",
+          "title": "SuperGrok Plus",
+          "stage": "Monthly subscription",
+          "body": "Adds higher usage across Chat, Imagine, Voice and Build, priority access and 1080p video creation. Product usage and API token charges are different measures.",
+          "sources": [
+            "grok-current-plans"
+          ],
+          "observations": [
+            "premium-supergrok-plus-2026-09-07"
+          ],
+          "gap": "Track changes to monthly/annual billing, model eligibility, allowance resets, extra usage and regional prices."
+        },
+        {
+          "id": "premium-supergrok-heavy",
+          "title": "SuperGrok Heavy",
+          "stage": "Plan verified · current price unverified",
+          "body": "Heavy is listed on the official comparison and Bot eligibility pages. The accessible page did not expose its current monthly amount, and the interactive price tab could not be retrieved. Price remains unverified rather than reusing an older reported amount.",
+          "sources": [
+            "grok-current-plans",
+            "grok-bot-overview",
+            "grok-bot-plan-expansion"
+          ],
+          "observations": [],
+          "gap": "Verify the Heavy monthly and annual checkout amounts and exact usage allowance from the official plan surface."
+        }
+      ]
+    },
+    {
+      "id": "frontier-models",
+      "pages": [
+        "models"
+      ],
+      "title": "The frontier, with release status attached",
+      "intro": "Current models, their predecessors, restricted access and upcoming releases in one research view. Standard API input/output prices are compared separately from subscriptions. Vendor capability claims are not independent rankings.",
+      "charts": [],
+      "cards": [
+        {
+          "id": "frontier-opus5",
+          "title": "Claude Opus 5",
+          "stage": "Released · July 24, 2026",
+          "body": "Designed for coding and professional work. The launch identifies Opus 5 as an everyday model and describes improved efficiency. Launch-era default-plan claims are not treated as current model entitlements.",
+          "sources": [
+            "anthropic-opus5",
+            "claude-current-api-pricing"
+          ],
+          "observations": [
+            "frontier-opus5-input-2026-09-07",
+            "frontier-opus5-output-2026-09-07"
+          ],
+          "gap": "Track revised access, prices, independent evaluations, completed-task costs and reliability."
+        },
+        {
+          "id": "frontier-fable5",
+          "title": "Claude Fable 5",
+          "stage": "Released predecessor · June 9, 2026",
+          "body": "The first Fable generation targeted sustained coding and knowledge work. Access was suspended June 12 and restored July 1; Fable 5.1 is now the newer release. The original launch promotion is not a current subscription allowance.",
+          "sources": [
+            "anthropic-fable5",
+            "anthropic-fable-current",
+            "claude-current-api-pricing"
+          ],
+          "observations": [
+            "frontier-fable5-input-2026-09-07",
+            "frontier-fable5-output-2026-09-07"
+          ],
+          "gap": "Track revised access, prices, independent evaluations, completed-task costs and reliability."
+        },
+        {
+          "id": "frontier-fable51",
+          "title": "Claude Fable 5.1",
+          "stage": "Generally available · September 1, 2026",
+          "body": "Targets long-running coding, knowledge work and research. Cache reads cost $0.25 per million tokens. Anthropic estimates workload-dependent savings versus Fable 5; those are not guaranteed savings on every task. Pro, Max, Team and Enterprise access is documented, subject to plan limits.",
+          "sources": [
+            "anthropic-fable51",
+            "anthropic-fable-current",
+            "claude-current-api-pricing"
+          ],
+          "observations": [
+            "frontier-fable51-input-2026-09-07",
+            "frontier-fable51-output-2026-09-07"
+          ],
+          "gap": "Track revised access, prices, independent evaluations, completed-task costs and reliability."
+        },
+        {
+          "id": "frontier-astra6",
+          "title": "GPT-6 Astra",
+          "stage": "Documented release · access rolling out",
+          "body": "OpenAI documents text/image input, text output, a 1,050,000-token context window and 128,000 maximum output tokens. Intended for reasoning, coding, computer use, research and documents. Client and account access varies with rollout. Cached input is $1 per million tokens; long contexts and Fast mode cost more.",
+          "sources": [
+            "openai-astra-model",
+            "openai-current-model-access"
+          ],
+          "observations": [
+            "frontier-astra6-input-2026-09-07",
+            "frontier-astra6-output-2026-09-07"
+          ],
+          "gap": "Track revised access, prices, independent evaluations, completed-task costs and reliability."
+        },
+        {
+          "id": "frontier-grok46",
+          "title": "Grok 4.6",
+          "stage": "Released · August 12, 2026",
+          "body": "Targets coding, agentic tasks and knowledge work. The API documents text/image input, text output and a 500,000-token context window. Cached input costs $0.50 per million tokens. Requests beyond 200K context use higher pricing. Released in Grok Build and Cursor; API details are separately documented.",
+          "sources": [
+            "grok46-api-model",
+            "grok46-launch"
+          ],
+          "observations": [
+            "frontier-grok46-input-2026-09-07",
+            "frontier-grok46-output-2026-09-07"
+          ],
+          "gap": "Track revised access, prices, independent evaluations, completed-task costs and reliability."
+        },
+        {
+          "id": "frontier-mythos51",
+          "title": "Claude Mythos 5.1",
+          "stage": "Restricted access · September 2026",
+          "body": "Anthropic describes the same underlying model as Fable 5.1 with different safeguards, available through vetted access programs. A higher consumer subscription does not establish Mythos access.",
+          "sources": [
+            "anthropic-fable51"
+          ],
+          "observations": [],
+          "gap": "Track revised access, prices, independent evaluations, completed-task costs and reliability."
+        },
+        {
+          "id": "frontier-grok-bot",
+          "title": "Grok Bot",
+          "stage": "Agent product · available with eligible plans",
+          "body": "Persistent agents work on their own computers across connected apps and scheduled tasks. This is an agent product, not a new base model or proof of autonomous productivity. The August 26 announcement expands access across SuperGrok and Cursor plans and describes a separate Bot usage allowance. Account terms should be checked at signup.",
+          "sources": [
+            "grok-bot-overview",
+            "grok-bot-plan-expansion"
+          ],
+          "observations": [],
+          "gap": "Track revised access, prices, independent evaluations, completed-task costs and reliability."
+        },
+        {
+          "id": "frontier-grok47",
+          "title": "Grok 4.7",
+          "stage": "Upcoming watch · release not verified",
+          "body": "A requested successor to track. This review did not find a released 4.7 model entry in the accessible first-party documentation. The reported founder timing post could not be retrieved, so no launch date, API price, context length or benchmark score is published here.",
+          "sources": [
+            "grok-release-notes",
+            "grok46-api-model"
+          ],
+          "observations": [],
+          "gap": "Verify the original timing announcement, then a dated release note, documented model ID, pricing, access and model card. A forecast date passing is not a launch."
         }
       ]
     }

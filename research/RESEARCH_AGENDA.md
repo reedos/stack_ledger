@@ -32,3 +32,7 @@ Every new measurement should have a source, publication/retrieval dates, period,
 ## History and horizons · September 7, 2026
 
 Published EIA generation (2014–2024), BLS electrician snapshots (2019–2023, explicit 2021 break), TSMC revenue (2019–2025), and separate IEA 2025 scenarios through 2035. Extend compatible electricity, trades, capex and semiconductor series as original historical tables become available. Seek published 2040, 2050 and later outlooks without extrapolating them. Preserve forecast vintages and separate targets from scenarios. Every new metric needs reviewed history-window metadata; earlier backfills and definition changes require review.
+
+## Frontier models and premium plans
+
+Track named model releases, lifecycle changes, API input/output/cache pricing, context limits and access surfaces separately from individual subscriptions. Current coverage includes Opus 5, Fable 5/5.1, GPT-6 Astra, Grok 4.6, restricted Mythos 5.1 and Grok Bot. Prioritize verified Grok 4.7 launch artifacts and the current SuperGrok Heavy monthly/annual price. Plan multipliers are provider-specific usage allowances. Successor names, release states, benchmark definitions and corrections require review; never infer release from a passed target date. Collect independent task success, reliability, human intervention, latency and accepted-work cost before claiming a universal frontier ranking.

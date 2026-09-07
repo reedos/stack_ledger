@@ -2336,6 +2336,160 @@
         "energy"
       ],
       "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-opus5",
+      "publisher": "Anthropic",
+      "title": "Introducing Claude Opus 5",
+      "url": "https://www.anthropic.com/news/claude-opus-5",
+      "published": "2026-07-24",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-fable5",
+      "publisher": "Anthropic",
+      "title": "Claude Fable 5 and Claude Mythos 5: launch",
+      "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+      "published": "2026-06-09",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-fable51",
+      "publisher": "Anthropic",
+      "title": "Introducing Claude Fable 5.1 and Claude Mythos 5.1",
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+      "published": "2026-09-01",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "anthropic-fable-current",
+      "publisher": "Anthropic",
+      "title": "Claude Fable: current access and release history",
+      "url": "https://www.anthropic.com/claude/fable",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "openai-astra-model",
+      "publisher": "OpenAI",
+      "title": "GPT-6 Astra: API model specification and pricing",
+      "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "openai-current-model-access",
+      "publisher": "OpenAI",
+      "title": "Models: Astra rollout and client availability",
+      "url": "https://learn.chatgpt.com/docs/models",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "claude-max-plan-guide",
+      "publisher": "Anthropic",
+      "title": "Choose a Claude plan: Pro, Max 5x and Max 20x",
+      "url": "https://support.claude.com/en/articles/11049762-choose-a-claude-plan",
+      "published": "2026-05-19",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok46-api-model",
+      "publisher": "SpaceXAI",
+      "title": "Grok 4.6: model specification and token pricing",
+      "url": "https://docs.x.ai/developers/models/grok-4.6",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok46-launch",
+      "publisher": "SpaceXAI",
+      "title": "Introducing Grok 4.6",
+      "url": "https://x.ai/news/grok-4-6",
+      "published": "2026-08-12",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-current-plans",
+      "publisher": "SpaceXAI",
+      "title": "SuperGrok plan comparison",
+      "url": "https://x.ai/pricing",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-bot-overview",
+      "publisher": "SpaceXAI",
+      "title": "Grok Bot: persistent agents and plan options",
+      "url": "https://x.ai/bot",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-bot-plan-expansion",
+      "publisher": "SpaceXAI",
+      "title": "Grok Bot is now included with more plans",
+      "url": "https://x.ai/news/grok-bot-more-plans",
+      "published": "2026-08-26",
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "grok-release-notes",
+      "publisher": "SpaceXAI",
+      "title": "Grok developer release notes: release watch",
+      "url": "https://docs.x.ai/developers/release-notes",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "claude-current-api-pricing",
+      "publisher": "Anthropic",
+      "title": "Claude API pricing: current model rates and surcharges",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
     }
   ],
   "discovery_keywords": [
@@ -2401,7 +2555,21 @@
         "bls-electricians-may-2023",
         "bls-oews-method-2021",
         "eia-steo-aug2026-generation",
-        "eia-aeo2026-generation"
+        "eia-aeo2026-generation",
+        "anthropic-opus5",
+        "anthropic-fable5",
+        "anthropic-fable51",
+        "anthropic-fable-current",
+        "openai-astra-model",
+        "openai-current-model-access",
+        "claude-max-plan-guide",
+        "grok46-api-model",
+        "grok46-launch",
+        "grok-current-plans",
+        "grok-bot-overview",
+        "grok-bot-plan-expansion",
+        "grok-release-notes",
+        "claude-current-api-pricing"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -4944,6 +5112,160 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "anthropic-opus5": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "anthropic",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "anthropic-fable5": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "anthropic",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "anthropic-fable51": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "anthropic",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "anthropic-fable-current": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "anthropic",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "openai-astra-model": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "openai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "openai-current-model-access": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "openai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "claude-max-plan-guide": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "anthropic",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grok46-api-model": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "spacexai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grok46-launch": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "spacexai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grok-current-plans": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "spacexai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grok-bot-overview": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "spacexai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grok-bot-plan-expansion": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "spacexai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grok-release-notes": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "spacexai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "claude-current-api-pricing": {
+      "rank": 3,
+      "region_book": "united-states",
+      "company_id": "anthropic",
+      "claim_type": "other",
+      "cadence": "weekly",
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],

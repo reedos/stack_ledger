@@ -107,6 +107,13 @@ const server=http.createServer((req,res)=>{
   await page.screenshot({path:path.join(evidence,'infrastructure.png'),fullPage:true});
   await page.goto(origin+'models/');await page.locator('#agent-products').waitFor();
   assert.equal(await page.locator('#agent-harnesses table tbody tr').count(),4);
+  assert.equal(await page.locator('#frontier-models table tbody tr').count(),5);
+  assert.equal(await page.locator('#premium-model-plans table tbody tr').count(),7);
+  assert.match(await page.locator('#frontier-astra6').innerText(),/1,050,000/);
+  assert.match(await page.locator('#frontier-grok47').innerText(),/release not verified/);
+  assert.match(await page.locator('#premium-supergrok-heavy').innerText(),/current price unverified/);
+  assert.match(await page.locator('#frontier-grok-bot').innerText(),/not a new base model/);
+  await page.locator('#frontier-models').screenshot({path:path.join(evidence,'frontier-models.png')});
   assert.match(await page.locator('#codex-cloud').innerText(),/Hosted execution/);
   assert.match(await page.locator('#open-weight-licenses').innerText(),/Apache 2.0/);
   assert.equal(await page.locator('.agent-card').count(),9);

@@ -1,5 +1,13 @@
 # Methodology
 
+## Frontier models and premium subscriptions · September 7, 2026
+
+The Models page distinguishes Opus 5, Fable 5, Fable 5.1, GPT-6 Astra and Grok 4.6, with separate entries for restricted Mythos 5.1, the Grok Bot agent product and the Grok 4.7 release watch. API input and output prices have separate reviewed metric IDs for each model. Cached, long-context, region, tool and speed charges are qualifications rather than blended prices. Capability descriptions remain provider-attributed; no cross-vendor benchmark ranking is inferred from product claims or token prices.
+
+ChatGPT Pro 5x/20x, Claude Max 5x/20x and SuperGrok/Plus have individual monthly U.S. list-price snapshots. Plan multipliers use their provider's denominator: documented Codex allowances relative to Plus versus Claude capacity relative to Pro per session. They are not comparable units of compute or productivity. SuperGrok Heavy is explicitly included with an unverified current price because its dynamic price could not be retrieved. No stale price is silently reused. Organization contracts, regional taxes, app-store charges and paid extra usage require their own scopes.
+
+Fable 5's launch, interruption and restored access remain historical; an expired introductory allowance is not a current plan entitlement. Astra availability is rollout- and account-dependent. Grok Bot is distinct from the base model, and its dated August 26 access announcement describes its own usage allowance. Release watches cannot acquire availability, dates, prices or benchmark records from rumors. The original reported Grok 4.7 timing posts returned access errors, so the watch does not assert their content or a launch date. Daily automation cannot promote these reviewed card statuses or create successor metric IDs.
+
 ## Historical windows and longer forecasts · September 7, 2026
 
 Every metric now has reviewed history-window metadata. A start records the earliest reviewed comparable period or disclosure, not a claim that the underlying industry was born then. Unreviewed earlier years remain gaps. The default starts at 2019 where supported, with an all-history control for earlier catalogued values. Chart windows extend to the latest available future observation even when a daily append goes beyond the configured end. Categorical bars show only sourced periods, with no invented interpolation. Sources, report vintages, actual status-specific year ranges and methodology warnings appear on chart faces.
