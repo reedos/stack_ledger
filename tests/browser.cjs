@@ -152,7 +152,10 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#historical-context [data-metric="revenue-tsmc"]').count(),0);
   await page.locator('#historical-context').screenshot({path:path.join(evidence,'history-context.png')});
   assert.equal(await page.locator('#application-outcomes [data-metric="waymo-paid-weekly"] .bar').count(),2);
-  assert.equal(await page.locator('#application-outcomes .chart-wrap').count(),1);
+  assert.equal(await page.locator('#application-outcomes .chart-wrap').count(),2);
+  assert.match(await page.locator('#coding-agents').innerText(),/60 million[\s\S]*Cumulative Copilot code reviews/);
+  assert.equal(await page.locator('#coding-agents .bar').count(),2);
+  assert.match(await page.locator('#coding-agents .chart-footnote').allTextContents().then(x=>x.join(' ')),/not a measured productivity gain/);
   assert.match(await page.locator('#application-outcomes .waymo-safety').innerText(),/1.28[\s\S]*4.06/);
   assert.match(await page.locator('#application-outcomes .outcome-editorial').innerText(),/>100,000[\s\S]*GXO/);
   const scenarioStyles=await page.locator('#historical-context path.companion-line, #historical-context path.overlay-line').evaluateAll(els=>els.map(el=>[el.getAttribute('stroke'),el.getAttribute('stroke-dasharray')]));

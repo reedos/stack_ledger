@@ -1,5 +1,9 @@
 # Methodology
 
+## Coding-agent adoption · September 7, 2026
+
+The homepage coding card uses GitHub's March 5, 2026 Copilot code-review disclosure. Its reported 10× usage growth since April 2025 is shown as a normalized launch reference of 1 and a reported endpoint of 10. GitHub does not specify the usage denominator; no intermediate months, launch review count or productivity multiplier are inferred. A separate metric retains 60 million cumulative reviews from the report headline. These are provider-reported workflow adoption measures, not unique pull requests, accepted fixes, hours saved or a causal productivity estimate. The source HTML and hash are cached privately. This curated addition is not a Muse runtime receipt.
+
 ## Homepage evidence selection · September 7, 2026
 
 The nuclear target card includes an illustrative annual-energy conversion: capacity in GW × 8,760 hours × an assumed 90% capacity factor ÷ 1,000 gives TWh. The 400 GW target implies approximately 3,154 TWh/year, or 2,365 additional TWh/year relative to the target's approximate 100 GW starting fleet at the same assumed utilization. This calculation is not a sourced generation forecast, a delivery assessment, or a claim about the actual future capacity factor. The assumption and baseline are visible on the card; underlying observations remain unchanged.

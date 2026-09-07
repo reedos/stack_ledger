@@ -7188,6 +7188,60 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "One published study window. Earlier or later years are not inferred."
+    },
+    {
+      "layer": "applications",
+      "geography": "GitHub platform; global",
+      "direction": "context",
+      "min": 0,
+      "source_ids": [
+        "github-copilot-reviews-2026"
+      ],
+      "company": null,
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "definition_stable": true,
+      "chart_default_end": 2026,
+      "id": "copilot-review-usage-index",
+      "title": "Copilot code review · adoption since launch",
+      "unit": "index (launch = 1)",
+      "max": 100000,
+      "scope": "GitHub-reported code-review usage growth relative to April 2025 launch. Underlying usage denominator is not specified; not code output, developer productivity or hours saved.",
+      "note": "GitHub reports 10× usage growth since launch. Launch is normalized to 1; no intermediate months or raw review counts are inferred.",
+      "measurement_type": "normalized_usage_index",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "pre_period_note": "Two endpoints from the March 5, 2026 disclosure; normalization of a reported multiplier, not an independently measured time series."
+    },
+    {
+      "layer": "applications",
+      "geography": "GitHub platform; global",
+      "direction": "context",
+      "min": 0,
+      "source_ids": [
+        "github-copilot-reviews-2026"
+      ],
+      "company": null,
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "definition_stable": true,
+      "chart_default_end": 2026,
+      "id": "copilot-reviews-cumulative",
+      "title": "Copilot code reviews · cumulative volume",
+      "unit": "reviews",
+      "max": 100000000000,
+      "scope": "GitHub-reported cumulative Copilot code reviews. Reviews are not unique pull requests, merged changes or verified fixes.",
+      "note": "Provider-reported cumulative milestone; not a daily or annual rate.",
+      "measurement_type": "cumulative_reviews",
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "pre_period_note": "March 5, 2026 disclosure only; no earlier counts inferred."
     }
   ],
   "targets": [

@@ -7190,6 +7190,60 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "One published study window. Earlier or later years are not inferred."
+    },
+    {
+      "layer": "applications",
+      "geography": "GitHub platform; global",
+      "direction": "context",
+      "min": 0,
+      "source_ids": [
+        "github-copilot-reviews-2026"
+      ],
+      "company": null,
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "definition_stable": true,
+      "chart_default_end": 2026,
+      "id": "copilot-review-usage-index",
+      "title": "Copilot code review · adoption since launch",
+      "unit": "index (launch = 1)",
+      "max": 100000,
+      "scope": "GitHub-reported code-review usage growth relative to April 2025 launch. Underlying usage denominator is not specified; not code output, developer productivity or hours saved.",
+      "note": "GitHub reports 10× usage growth since launch. Launch is normalized to 1; no intermediate months or raw review counts are inferred.",
+      "measurement_type": "normalized_usage_index",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "pre_period_note": "Two endpoints from the March 5, 2026 disclosure; normalization of a reported multiplier, not an independently measured time series."
+    },
+    {
+      "layer": "applications",
+      "geography": "GitHub platform; global",
+      "direction": "context",
+      "min": 0,
+      "source_ids": [
+        "github-copilot-reviews-2026"
+      ],
+      "company": null,
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "definition_stable": true,
+      "chart_default_end": 2026,
+      "id": "copilot-reviews-cumulative",
+      "title": "Copilot code reviews · cumulative volume",
+      "unit": "reviews",
+      "max": 100000000000,
+      "scope": "GitHub-reported cumulative Copilot code reviews. Reviews are not unique pull requests, merged changes or verified fixes.",
+      "note": "Provider-reported cumulative milestone; not a daily or annual rate.",
+      "measurement_type": "cumulative_reviews",
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "pre_period_note": "March 5, 2026 disclosure only; no earlier counts inferred."
     }
   ],
   "sources": [
@@ -10403,6 +10457,17 @@
       "title": "Waymo’s driverless cars crash less often than people",
       "url": "https://www.iihs.org/news/detail/waymos-driverless-cars-crash-less-often-than-people",
       "published": "2026-07-23",
+      "layers": [
+        "applications"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "github-copilot-reviews-2026",
+      "publisher": "GitHub",
+      "title": "60 million Copilot code reviews and counting",
+      "url": "https://github.blog/ai-and-ml/github-copilot/60-million-copilot-code-reviews-and-counting/",
+      "published": "2026-03-05",
       "layers": [
         "applications"
       ],
@@ -18731,6 +18796,51 @@
       "retrieved_at": "2026-09-07T16:54:11Z",
       "method": "curated",
       "note": "AEO2026 High Economic Growth, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
+    },
+    {
+      "id": "copilot-review-launch-index",
+      "metric": "copilot-review-usage-index",
+      "year": 2025,
+      "period": "Apr 2025 · launch",
+      "value": 1,
+      "status": "estimate",
+      "note": "Normalized launch reference = 1, derived from the reported 10× growth comparison.",
+      "upper": null,
+      "source": "github-copilot-reviews-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T19:00:56.120545Z",
+      "method": "curated",
+      "document_sha256": "d683adec64419677214220c433b23f3af3bce43c700ef833aba20ef76b0e2234"
+    },
+    {
+      "id": "copilot-review-march-index",
+      "metric": "copilot-review-usage-index",
+      "year": 2026,
+      "period": "Mar 2026 · report",
+      "value": 10,
+      "status": "observation",
+      "note": "GitHub reports usage grew 10× since April 2025; denominator and intermediate values are not disclosed.",
+      "upper": null,
+      "source": "github-copilot-reviews-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T19:00:56.120545Z",
+      "method": "curated",
+      "document_sha256": "d683adec64419677214220c433b23f3af3bce43c700ef833aba20ef76b0e2234"
+    },
+    {
+      "id": "copilot-reviews-march-total",
+      "metric": "copilot-reviews-cumulative",
+      "year": 2026,
+      "period": "Mar 5, 2026 disclosure",
+      "value": 60000000,
+      "status": "observation",
+      "note": "Cumulative total stated in the report headline, not annual reviews or verified fixes.",
+      "upper": null,
+      "source": "github-copilot-reviews-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T19:00:56.120545Z",
+      "method": "curated",
+      "document_sha256": "d683adec64419677214220c433b23f3af3bce43c700ef833aba20ef76b0e2234"
     }
   ],
   "events": [

@@ -4,7 +4,7 @@ from pathlib import Path
 from validate import require, text, timestamp, STATUSES
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_TYPES={'construction_spending_saar','job_postings_index','crash_involvements_per_million_miles'}
+PUBLIC_TYPES={'construction_spending_saar','job_postings_index','crash_involvements_per_million_miles','normalized_usage_index','cumulative_reviews'}
 TYPES = PUBLIC_TYPES | {'training_seats_committed','training_funding_committed','nuclear_ppa_committed','smr_mw_committed','harness_list_price','clinical_trial_enrollment','clinical_endpoint_change',
     'site_it_mw_operating', 'site_it_mw_planned_endstate', 'site_facility_mw',
     'site_compute_mw_reported', 'onsite_generation_mw_temporary',
