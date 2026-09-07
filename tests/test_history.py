@@ -48,9 +48,11 @@ class HistoryTests(unittest.TestCase):
         o['metric']='us-utility-generation-history'
         with self.assertRaisesRegex(ValueError,'mapping not approved'):
             observation_valid(o,self.metrics,self.sources)
-        self.assertNotIn('chart_overlay_metric', self.metrics['us-utility-generation-history'])
+        self.assertEqual(self.metrics['us-utility-generation-history']['chart_type'],'line')
+        self.assertEqual(self.metrics['us-utility-generation-history']['chart_overlay_metric'],'us-total-generation-aeo2026-high-growth')
         self.assertEqual(self.metrics['dc-electricity']['chart_overlay_metric'],'dc-electricity-iea2025-lift-off')
-        self.assertEqual(self.metrics['dc-electricity']['chart_companion_metric'],'dc-electricity-iea2025-high-efficiency')
+        self.assertNotIn('chart_companion_metric', self.metrics['dc-electricity'])
+        self.assertIn(2035,{o['year'] for o in self.data['observations'] if o['metric']=='us-total-generation-aeo2026-high-growth'})
 
     def test_iihs_crash_rates_are_not_a_tesla_blend(self):
         waymo=next(o for o in self.data['observations'] if o['id']=='waymo-iihs-police-reportable-crash-rate-2021-2024')

@@ -102,7 +102,7 @@
       "direction": "context",
       "min": 0,
       "max": 100000,
-      "note": "2024 is the 2025 report baseline; 2025 and 2030 use the updated 2026 IEA outlook. 2035 High Efficiency and Lift-Off are 2025-vintage cases, not a revision of 2030.",
+      "note": "2024 is the 2025 report baseline; 2025 and 2030 use the updated 2026 IEA outlook. 2035 Lift-Off is a 2025-vintage case, not a revision of 2030.",
       "source_ids": [
         "iea-2025",
         "iea-2026"
@@ -112,13 +112,10 @@
       "chart_default_end": 2035,
       "definition_stable": true,
       "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero.",
-      "chart_companion_metric": "dc-electricity-iea2025-high-efficiency",
       "chart_overlay_metric": "dc-electricity-iea2025-lift-off",
       "chart_overlay_legend": "IEA 2025 Lift-Off case",
-      "chart_comparison_title": "Global data-center electricity: outlook and 2035 cases",
-      "chart_comparison_label": "2025-vintage 2035 cases",
-      "chart_comparison_legend": "IEA 2025 High Efficiency",
-      "chart_comparison_note": "2024–2030 follow the IEA 2026 outlook. The 2035 bars are the older IEA 2025 sensitivity cases: High Efficiency in front, Lift-Off behind. They are not an update of the 2030 figure, not AI-only, and not a probability interval. Missing years are not filled."
+      "chart_comparison_title": "Global data-center electricity: outlook and 2035 Lift-Off",
+      "chart_comparison_note": "2024–2030 follow the IEA 2026 outlook. The 2035 bar is the older IEA 2025 Lift-Off sensitivity case (more than 1,700 TWh). It is not an update of the 2030 figure, not AI-only, and not a probability interval. The 2025 High Efficiency case is not shown on this homepage chart."
     },
     {
       "id": "us-dc-electricity",
@@ -4475,12 +4472,15 @@
       ],
       "series_start_year": 2014,
       "chart_default_start": 2019,
-      "chart_default_end": 2030,
+      "chart_default_end": 2035,
       "definition_stable": true,
       "pre_period_note": "EIA annual history through 2024; 2025 historical total and 2026–2027 forecasts from August 2026 STEO. Earlier reviewed history begins in 2014. National generation, not AI-dedicated power.",
       "chart_companion_metric": "us-total-generation-aeo2026",
       "chart_comparison_title": "U.S. electricity generation: history and outlook",
-      "chart_comparison_note": "2019–2025: utility-scale history. 2026–2027: August 2026 STEO utility-scale forecasts. Amber bars from 2028: broader AEO2026 Counterfactual Baseline, including small on-site generation. Different scope and model vintage; not a continuous comparable trajectory."
+      "chart_comparison_note": "Solid line: utility-scale history. Dashed green: August 2026 STEO utility-scale forecasts. Amber dashes from 2028: AEO2026 Counterfactual Baseline total generation, including small on-site systems. Lighter amber: AEO2026 High Economic Growth, the same total-generation definition. The STEO and AEO series are different scopes; the line is not a continuous comparable trajectory. Only published years are plotted; connecting adjacent years is not interpolation of missing ones.",
+      "chart_type": "line",
+      "chart_overlay_metric": "us-total-generation-aeo2026-high-growth",
+      "chart_overlay_legend": "AEO2026 High Economic Growth"
     },
     {
       "id": "us-electrician-employment-oews",
@@ -4584,8 +4584,8 @@
       ],
       "series_start_year": 2026,
       "chart_default_start": 2026,
-      "chart_default_end": 2030,
-      "pre_period_note": "Selected published 2028–2030 scenario values; no missing annual values inferred. Source includes small on-site generation.",
+      "chart_default_end": 2035,
+      "pre_period_note": "Selected published 2028–2035 scenario values; no missing annual values inferred. Source includes small on-site generation.",
       "definition_stable": true,
       "allowed_statuses": [
         "forecast"
@@ -7124,8 +7124,8 @@
       ],
       "series_start_year": 2026,
       "chart_default_start": 2026,
-      "chart_default_end": 2030,
-      "pre_period_note": "Selected published 2028–2030 scenario values; no missing annual values inferred. Source includes small on-site generation.",
+      "chart_default_end": 2035,
+      "pre_period_note": "Selected published 2028–2035 scenario values; no missing annual values inferred. Source includes small on-site generation.",
       "definition_stable": true,
       "allowed_statuses": [
         "forecast"
