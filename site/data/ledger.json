@@ -20317,6 +20317,38 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T213333Z",
+      "started_at": "2026-09-07T21:33:33Z",
+      "finished_at": "2026-09-07T21:33:49Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [
+        {
+          "source": "claims-ferc-rosner",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "claims-ferc-facts",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "claims-scc",
+          "reason": "Blocked by robots policy"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -20326,7 +20358,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T21:33:08Z",
+    "last_attempt": "2026-09-07T21:33:49Z",
     "last_success": null,
     "status": "partial"
   }
