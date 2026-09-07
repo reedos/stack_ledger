@@ -50,7 +50,7 @@ const server=http.createServer((req,res)=>{
   assert.match(await fallback.locator('h1').innerText(),/A public record/);await fallback.close();
   const page=await browser.newPage({viewport:{width:1440,height:1000}});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','projects/','ledger/','methodology/'];
+  const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','projects/','ledger/','methodology/','claims/'];
   routes.push(...['nvidia','tsmc','asml','openai','openclaw','nebius','innolight','aws'].map(id=>`companies/${id}/`));
   routes.push(...['mistral','arm','siemens-energy','moonshot'].map(id=>`companies/${id}/`));
   for(const route of routes){
@@ -77,6 +77,17 @@ const server=http.createServer((req,res)=>{
    const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>new URL(a.getAttribute('href'),location.href).href).filter(u=>u.startsWith(location.origin)&&!u.includes('#')));
    for(const href of new Set(links)){assert.equal((await page.request.get(href)).status(),200,href);}
   }
+  await page.goto(origin+'claims/');await page.locator('body[data-enhanced="true"]').waitFor();
+  assert.equal(await page.locator('.claim-card').count(),22);
+  assert.equal(await page.locator('.article-check').count(),16);
+  await page.selectOption('#claim-topic','Water');assert.equal(await page.locator('.claim-card:visible').count(),3);
+  await page.fill('#claim-search','zz-no-matching-claim');assert.equal(await page.locator('#claims-empty').isVisible(),true);
+  await page.locator('.claims-controls button').click();await page.waitForFunction(()=>document.querySelectorAll('.claim-card:not([hidden])').length===22);
+  await page.locator('.evidence-highlights').screenshot({path:path.join(evidence,'claims-desktop.png')});
+  await page.setViewportSize({width:390,height:844});await page.locator('.evidence-highlights').screenshot({path:path.join(evidence,'claims-mobile.png')});
+  await page.setViewportSize({width:1440,height:1000});
+  const noScript=await browser.newContext({javaScriptEnabled:false});const claimsStatic=await noScript.newPage();
+  await claimsStatic.goto(origin+'claims/');assert.equal(await claimsStatic.locator('.claim-card').count(),22);assert.equal(await claimsStatic.locator('.claims-controls').isVisible(),false);await noScript.close();
   await page.goto(origin+'projects/');await page.locator('#project-count').waitFor();
   const signedChart=await page.evaluate(()=>{
    const observation=data.observations.find(o=>o.metric==='us-generation-growth-h1'),original=observation.value;

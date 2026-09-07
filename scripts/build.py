@@ -21,6 +21,8 @@ def build():
     validate_expansion_files()
     from validate_agenda import validate_files as validate_agenda_files
     validate_agenda_files()
+    from validate_claims import validate_files as validate_claims_files
+    validate_claims_files()
     data = json.loads((ROOT / 'site/data/ledger.json').read_text(encoding='utf-8'))
     template = (ROOT / 'site/template.html').read_text(encoding='utf-8')
     digest=hashlib.sha256()
@@ -37,6 +39,7 @@ def build():
              ('methodology','methodology/','Research Methodology — Stack Ledger','Open by design. Grounded in evidence.','How Stack Ledger sources, validates and publishes research on the five-layer AI buildout.')]
     pages += [('companies','companies/','Companies — Stack Ledger','Meet the builders.','Companies, capabilities and reported revenue across the five layers of AI.'), ('industry','industry/','Jobs & Industry — Stack Ledger','Intelligence has a physical footprint.','Chip capacity, factory milestones, jobs and evidence of industrial rebuilding.')]
     pages += [('projects','projects/','Delivery Tracker — Stack Ledger','From promise to power.','Track power, AI campuses, fabs and physical applications: sourced stages, capacity, capital and jobs.')]
+    pages += [('claims','claims/','Claims & Evidence — Stack Ledger','Build more. Know what it delivers.','Evidence on data-center water, electricity bills, jobs, taxes, clean energy and community benefits.')]
     pages += [(l['id'], l['id']+'/', l['name']+' — Stack Ledger', l['tagline'], l['description']) for l in data['layers']]
     companies = json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
     profiles = {f'companies/{c["id"]}/': c for c in companies}
@@ -46,6 +49,9 @@ def build():
         base = '../' * path.count('/') if path else './'
         content = home(data, base) if page == 'home' else (f'<section class="page-hero"><div class="eyebrow">STACK LEDGER / OPEN RESEARCH</div><h1>{escape(heading)}</h1><p>{escape(description)}</p></section>')
         if page == 'company': content = company_snapshot(data, profiles[path], base)
+        if page == 'claims':
+            from render_claims import render_claims
+            content = render_claims(json.loads((ROOT/'research/claims.json').read_text(encoding='utf-8')), data['sources'], base)
         for key, value in {'CONTENT': content, 'STACK_NAV': navigation(data, base, page), 'RUNTIME': runtime(data)}.items():
             rendered=rendered.replace('{{'+key+'}}', value)
         for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':base,'CANONICAL':path,'BUILD':build_version}.items():

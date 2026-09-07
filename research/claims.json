@@ -1,0 +1,488 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-07T19:44:23.354367+00:00",
+  "reviewer": "Curated with Ara; separate from local-model run receipts",
+  "claims": [
+    {
+      "id": "water-local",
+      "topic": "Water",
+      "claim": "Data-center water use is always a crisis—or always negligible.",
+      "verdict": "Depends on the project",
+      "scope": "Virginia · 2024 review",
+      "evidence": "JLARC found wide variation in water use. Virginia is water-rich overall, but some local supplies are constrained.",
+      "sources": [
+        "claims-jlarc"
+      ],
+      "future": "Publish annual consumption, peak summer demand, water source and drought operating limits for each campus. Compare with the supplying watershed and utility, not just national totals.",
+      "gap": "A finding about Virginia cannot establish safety in an arid watershed or for a denser future campus."
+    },
+    {
+      "id": "water-cooling",
+      "topic": "Water",
+      "claim": "Zero-water cooling means a data center has no water footprint.",
+      "verdict": "Needs qualification",
+      "scope": "Microsoft new designs · December 2024 announcement",
+      "evidence": "Microsoft says its new closed-loop designs avoid evaporation for cooling and could avoid over 125 million liters annually per data center. Water is still used for administrative needs. This is a design claim, not proof that the existing fleet or its electricity supply uses no water.",
+      "sources": [
+        "claims-ms-water"
+      ],
+      "future": "Track commissioning, measured make-up water and hot-weather electricity demand. Distinguish an internal recirculating liquid loop from the method used to reject heat outdoors.",
+      "gap": "The disclosure does not provide a complete measured lifecycle water account for every future site."
+    },
+    {
+      "id": "water-per-query",
+      "topic": "Water",
+      "claim": "One water-use number applies to every AI prompt.",
+      "verdict": "Not established",
+      "scope": "Cooling and electricity supply vary by location",
+      "evidence": "Microsoft’s change in cooling design illustrates why a site-independent water-per-query claim needs assumptions. A single prompt is not a uniform unit of computation.",
+      "sources": [
+        "claims-ms-water"
+      ],
+      "future": "Require model, task length, hardware utilization, location, season and an allocation method. Report direct cooling water separately from electricity-related and manufacturing water.",
+      "gap": "We have not verified a universal per-prompt estimate. Withdrawals, water returned and water consumed must not be treated as interchangeable quantities."
+    },
+    {
+      "id": "electricity-scale",
+      "topic": "Power & bills",
+      "claim": "Data centers are consuming most U.S. electricity.",
+      "verdict": "Contradicted at national scale",
+      "scope": "United States · DOE/LBNL 2024 report vintage",
+      "evidence": "DOE reports an estimated 4.4% share in 2023 and a projected 6.7–12% in 2028. These are all data centers, not AI alone. A national minority share can still be a large increment on a local grid.",
+      "sources": [
+        "claims-doe"
+      ],
+      "future": "Compare each project’s MW and annual MWh with regional available supply and upgrade schedules. Carry demand scenarios beyond 2030 without relabeling older forecasts as current observations.",
+      "gap": "The 2028 range is a forecast, not capacity already delivered or a guaranteed demand outcome."
+    },
+    {
+      "id": "electricity-bills",
+      "topic": "Power & bills",
+      "claim": "Data centers typically lower everyone’s electricity bills.",
+      "verdict": "Not established",
+      "scope": "Continental U.S. wholesale markets · March 2026 working paper",
+      "evidence": "Dallas Fed researchers estimate existing data centers raised wholesale prices by 3–5% on average in their dispatch model. This is a modeled wholesale effect, not an observed percentage increase in household bills. Effects depend on location, utilization and supply.",
+      "sources": [
+        "claims-dallas"
+      ],
+      "future": "Track retail tariffs, fuel and capacity charges, delivered generation and bills at fixed household usage. Identify who pays incremental costs before claiming savings.",
+      "gap": "We do not have a national causal study demonstrating typical retail bill reductions. Cheaper fixed-cost recovery and higher marginal energy costs can coexist."
+    },
+    {
+      "id": "bring-infrastructure",
+      "topic": "Power & bills",
+      "claim": "Every builder must bring and pay for all its own infrastructure.",
+      "verdict": "Jurisdiction-specific",
+      "scope": "AEP Ohio · PUCO order July 2025",
+      "evidence": "Ohio ordered a dedicated data-center tariff intended to protect other customers from costs of underused infrastructure. Such an order establishes a specific utility arrangement; it is not evidence of a universal national self-supply rule.",
+      "sources": [
+        "claims-ohio"
+      ],
+      "future": "Link the applicable tariff and signed service agreement. Identify responsibility for substations, transmission, generation, minimum bills, security and early exit costs.",
+      "gap": "A connection payment does not by itself settle every shared-system cost or prove additional generation is operating."
+    },
+    {
+      "id": "stranded-cost",
+      "topic": "Power & bills",
+      "claim": "An announced campus guarantees utility investment will be recovered.",
+      "verdict": "Not established",
+      "scope": "Large-load cost allocation · Ohio example",
+      "evidence": "PUCO’s customer-protection rationale explicitly addresses underused infrastructure. The need for protection persists when requested load does not materialize.",
+      "sources": [
+        "claims-ohio"
+      ],
+      "future": "Record binding contracted demand, commissioning phases, credit support and termination terms. Track decommissioning responsibility and land restoration arrangements separately.",
+      "gap": "A public investment announcement is not a disclosed enforceable payment guarantee."
+    },
+    {
+      "id": "clean-power",
+      "topic": "Clean energy",
+      "claim": "The buildout can finance more clean power.",
+      "verdict": "Supported opportunity",
+      "scope": "Global and U.S. supply · IEA 2025 Base Case",
+      "evidence": "IEA projects renewables meeting nearly half of global data-center demand growth through 2030. Some new capacity is financed through technology-company power contracts. In the U.S. it projects 110 TWh of additional annual renewable supply to data centers between 2024 and 2030.",
+      "sources": [
+        "claims-iea-supply"
+      ],
+      "future": "Track named wind, solar, storage, geothermal and nuclear projects from contract through operation, with annual delivered MWh. Keep factory investment separate from power generation.",
+      "gap": "A contract can support financing; it does not establish commissioning or prove all contracted generation is additional."
+    },
+    {
+      "id": "clean-matching",
+      "topic": "Clean energy",
+      "claim": "A renewable purchase means the campus runs on clean power every hour.",
+      "verdict": "Needs qualification",
+      "scope": "Global physical supply · IEA 2025",
+      "evidence": "IEA separates physical electricity supply from contractual sourcing. Its Base Case still has gas and coal meeting over 40% of additional global data-center demand through 2030.",
+      "sources": [
+        "claims-iea-supply"
+      ],
+      "future": "Report hourly, local carbon-free matching alongside annual purchases, storage duration and firm supply. Count operating clean generation and avoided emissions using a stated counterfactual.",
+      "gap": "Annual contractual matching cannot establish the physical mix at every hour or zero lifecycle emissions."
+    },
+    {
+      "id": "efficiency-demand",
+      "topic": "Clean energy",
+      "claim": "Better chips and cooling will make aggregate electricity demand fall.",
+      "verdict": "Not guaranteed",
+      "scope": "Global · IEA 2035 scenarios",
+      "evidence": "IEA’s High Efficiency Case still projects about 1,100 TWh of electricity generation supplying data centers in 2035, below its Base Case but above 2024. This supply measure includes losses and is not the same as electricity consumed at the facility.",
+      "sources": [
+        "claims-iea-supply"
+      ],
+      "future": "Measure energy per completed task and aggregate delivered work together. Preserve the source’s boundary when comparing TWh, and test demand under multiple adoption paths.",
+      "gap": "Efficiency reduces input per task; total demand also depends on how much work is performed."
+    },
+    {
+      "id": "construction-work",
+      "topic": "Jobs & economy",
+      "claim": "The buildout is creating demand for skilled trades.",
+      "verdict": "Supported, with scope",
+      "scope": "U.S. Indeed postings · July 2026 study",
+      "evidence": "Indeed reports data-center postings more than doubled over two years. Installation and maintenance account for about a quarter of openings; advertised installation wages carry a 42% premium, around $10 an hour.",
+      "sources": [
+        "indeed-dc-hiring-2026"
+      ],
+      "future": "Follow electricians, HVAC, pipefitters, lineworkers and commissioning technicians through hires, paid hours, apprenticeships and retention. Report the share hired locally.",
+      "gap": "Postings are not filled jobs. A cross-sectional advertised pay premium is not a 42% raise for the same worker or an electrician-only estimate."
+    },
+    {
+      "id": "permanent-jobs",
+      "topic": "Jobs & economy",
+      "claim": "Thousands of construction workers mean thousands of permanent campus jobs.",
+      "verdict": "Different measures",
+      "scope": "Virginia industry interviews · JLARC 2024",
+      "evidence": "Interviewees described roughly 1,500 workers at peak construction, versus about 50 full-time workers, half contractors, for a typical 250,000-square-foot facility.",
+      "sources": [
+        "claims-jlarc"
+      ],
+      "future": "Publish peak construction headcount, worker-years and permanent operating jobs as separate measures. Include construction duration and contractor scope; never add overlapping shifts or phases.",
+      "gap": "These illustrative facility figures are not a staffing forecast for every AI campus."
+    },
+    {
+      "id": "local-economy",
+      "topic": "Jobs & economy",
+      "claim": "Data centers can create substantial wider economic benefits.",
+      "verdict": "Supported estimate",
+      "scope": "Virginia · JLARC 2024 economic modeling",
+      "evidence": "JLARC estimates annual statewide contributions of 74,000 jobs, $5.5 billion in labor income and $9.1 billion in GDP, with benefits concentrated in construction.",
+      "sources": [
+        "claims-jlarc"
+      ],
+      "future": "Seek supplier contracts, actual local payments, wages and operating payroll. Trace power equipment, construction materials and services into the region’s businesses.",
+      "gap": "Modeled statewide contribution is not observed onsite staffing, net national employment, or a multiplier transferable to another county. Labor income and GDP overlap."
+    },
+    {
+      "id": "tax-benefits",
+      "topic": "Taxes & communities",
+      "claim": "Data-center taxes can materially fund local public services.",
+      "verdict": "Supported local example",
+      "scope": "Loudoun County · FY2026 and FY2027",
+      "evidence": "Loudoun reports $1.2 billion in FY2026 real and personal property tax revenue from data centers, or 39% of its budget. Its FY2027 adopted budget forecasts $1.3 billion and 40%. These are county-reported figures, not an independent audit by Stack Ledger.",
+      "sources": [
+        "claims-loudoun-story"
+      ],
+      "future": "Compare budgeted receipts with year-end collections, separated by tax type. Show schools, public safety and infrastructure spending without attributing every budget improvement to one industry.",
+      "gap": "Local tax rules, exemptions, equipment depreciation and public costs determine how much value each community retains."
+    },
+    {
+      "id": "tax-rate",
+      "topic": "Taxes & communities",
+      "claim": "A lower property-tax rate means every homeowner’s bill fell.",
+      "verdict": "Needs qualification",
+      "scope": "Loudoun County · tax years 2016–2026",
+      "evidence": "Loudoun reports its real-property rate fell from $1.145 to $0.805 per $100 of assessed value. It credits data-center revenue with supporting services and lower rates, while noting that individual bills vary with property values.",
+      "sources": [
+        "claims-loudoun-tax"
+      ],
+      "future": "Track rates and assessed values together. Compare household bills on a consistent property basis and account for exemptions.",
+      "gap": "The rate comparison alone cannot establish how much an individual homeowner saved because of data centers."
+    },
+    {
+      "id": "tax-net",
+      "topic": "Taxes & communities",
+      "claim": "Headline tax revenue proves every incentive package pays for itself.",
+      "verdict": "Not established",
+      "scope": "Local fiscal assessment",
+      "evidence": "Loudoun cautions against dependence on a single fast-growing revenue source. Gross receipts alone do not establish net fiscal return.",
+      "sources": [
+        "claims-loudoun-tax"
+      ],
+      "future": "Publish receipts less abatements, grants and attributable public service and infrastructure costs, over a stated horizon. Include a lower-growth scenario and the timing of equipment depreciation.",
+      "gap": "A reviewed project-level fiscal counterfactual is still needed before claiming incentives caused a net gain."
+    },
+    {
+      "id": "noise-land",
+      "topic": "Taxes & communities",
+      "claim": "Noise and land-use concerns are simply misinformation.",
+      "verdict": "Contradicted as a blanket claim",
+      "scope": "Virginia · JLARC 2024",
+      "evidence": "JLARC documents some residential impacts and challenges regulating continuous low-frequency noise.",
+      "sources": [
+        "claims-jlarc"
+      ],
+      "future": "Show setbacks, nighttime measurements, tonal noise and enforcement remedies. Choose compatible industrial sites and publish the applicable zoning decision.",
+      "gap": "A countywide economic benefit does not measure exposure at the nearest home; impacts vary by site design."
+    },
+    {
+      "id": "backup-emissions",
+      "topic": "Taxes & communities",
+      "claim": "Backup generators are either harmless or the dominant regional polluter.",
+      "verdict": "Needs qualification",
+      "scope": "Northern Virginia · JLARC 2024",
+      "evidence": "JLARC reports backup generators contribute under 4% of regional nitrogen oxides and at most 0.1% of carbon monoxide and particulate emissions; local impacts still require scrutiny.",
+      "sources": [
+        "claims-jlarc"
+      ],
+      "future": "Separate emergency backup from routine primary generation. Track permits, operating hours, fuel, local exposure and cleaner backup alternatives.",
+      "gap": "These regional shares cannot establish the effects of a future campus or engines operated continuously."
+    },
+    {
+      "id": "ai-job-apocalypse",
+      "topic": "AI & work",
+      "claim": "Mass unemployment caused by AI has already been demonstrated.",
+      "verdict": "Not established",
+      "scope": "United States · August 2026",
+      "evidence": "BLS reports 162,000 additional nonfarm payroll jobs in August and 4.1% unemployment. Stanford’s ADP-based analysis finds no widespread displacement associated with AI exposure so far. Neither establishes AI’s causal net job total.",
+      "sources": [
+        "claims-bls-aug",
+        "claims-stanford-labor"
+      ],
+      "future": "Track employment, hiring, separations, hours and wages by occupation and age. Compare exposed and less-exposed groups with transparent methods.",
+      "gap": "National employment growth does not prove every worker benefits, rule out displacement, or guarantee future outcomes."
+    },
+    {
+      "id": "young-workers",
+      "topic": "AI & work",
+      "claim": "Healthy aggregate employment means young workers face no disruption.",
+      "verdict": "Needs qualification",
+      "scope": "ADP sample · workers aged 22–25 · through June 2026",
+      "evidence": "Stanford reports employment in highly AI-exposed occupations about 19% below a counterfactual tracking less-exposed peers. The pattern is mainly weaker hiring, not elevated separations. The analysis is descriptive; controls and sample composition affect estimates.",
+      "sources": [
+        "claims-stanford-labor"
+      ],
+      "future": "Follow entry-level hiring and apprenticeship pathways alongside new technical jobs. Evaluate whether training connects displaced workers to opportunities.",
+      "gap": "This is not a 19% national unemployment rate, a count of workers fired by AI, or proof of causation."
+    },
+    {
+      "id": "ai-net-jobs",
+      "topic": "AI & work",
+      "claim": "A single headline establishes how many net jobs AI created.",
+      "verdict": "Estimate not reproduced",
+      "scope": "BizNews / The Economist · September 2026",
+      "evidence": "The linked article attributes around one million new U.S. jobs to AI, compared with roughly 200,000 AI-attributed layoffs. Its synthesis is not an official causal net-employment series.",
+      "sources": [
+        "claims-biznews"
+      ],
+      "future": "Require reproducible component series, a common period, an explicit counterfactual and checks for overlapping roles. Distinguish company explanations for layoffs from independently measured causes.",
+      "gap": "We have not reproduced the estimate. Gross additions and announced cuts from different sources cannot simply establish net employment."
+    },
+    {
+      "id": "productive-work",
+      "topic": "AI & work",
+      "claim": "AI makes every worker more productive immediately.",
+      "verdict": "Task-dependent",
+      "scope": "Customer support field study and developer experiments",
+      "evidence": "A customer-support field study (November 2024 revision) reports 15% higher issues resolved per hour with AI assistance. METR’s early-2025 experiment found experienced open-source developers took 19% longer with AI. METR’s February 2026 update describes selection and measurement difficulties in estimating newer tools’ effects.",
+      "sources": [
+        "productivity-field-study",
+        "claims-metr-study",
+        "claims-metr-update"
+      ],
+      "future": "Measure completed work, quality, review time and total cost for each deployment. Track productivity beyond coding in support, engineering, science and administration using task-appropriate evaluations.",
+      "gap": "Different tasks, tools, workers and study designs cannot be pooled into a universal productivity multiplier or assumed job-loss rate."
+    }
+  ],
+  "highlights": [
+    {
+      "id": "construction",
+      "title": "Construction spending is accelerating",
+      "unit": "USD billion / year, SAAR",
+      "scope": "U.S. private data-center construction",
+      "note": "July 2026 is preliminary. Annualized spending pace, not a full-year total, local procurement or commissioned capacity. Census reports 57.2% year-over-year growth.",
+      "source": "census-dc-saar-july2026",
+      "points": [
+        {
+          "period": "July 2025",
+          "value": 47.81,
+          "status": "observation"
+        },
+        {
+          "period": "July 2026",
+          "value": 75.166,
+          "status": "observation"
+        }
+      ]
+    },
+    {
+      "id": "tax",
+      "title": "A substantial community revenue base",
+      "unit": "USD billion",
+      "scope": "Loudoun data-center real and personal property tax",
+      "note": "County-reported FY2026 receipts and FY2027 adopted-budget forecast. Gross revenue, before attributing costs or incentives. Different geography and measure from the construction chart.",
+      "source": "claims-loudoun-story",
+      "points": [
+        {
+          "period": "FY2026",
+          "value": 1.2,
+          "status": "observation"
+        },
+        {
+          "period": "FY2027 budget",
+          "value": 1.3,
+          "status": "forecast"
+        }
+      ]
+    },
+    {
+      "id": "job-share",
+      "title": "A larger share of hiring demand",
+      "unit": "per 1,000 U.S. job postings",
+      "scope": "Indeed data-center-related postings",
+      "note": "Two reported endpoints, not a reconstructed monthly series. July 2026 study snapshot. Shares of postings measure demand, not actual hires or net job creation.",
+      "source": "indeed-dc-hiring-2026",
+      "points": [
+        {
+          "period": "May 2023",
+          "value": 2,
+          "status": "observation"
+        },
+        {
+          "period": "2026 study",
+          "value": 6,
+          "status": "observation"
+        }
+      ]
+    }
+  ],
+  "article_audit": [
+    {
+      "claim": "August payrolls +162,000; unemployment 4.1%.",
+      "status": "Corroborated",
+      "finding": "Matches the September 4 BLS release; economy-wide, not AI-attributable.",
+      "sources": [
+        "claims-bls-aug"
+      ]
+    },
+    {
+      "claim": "Construction above $75 billion annualized; nearly 60% growth.",
+      "status": "Corroborated",
+      "finding": "Census: $75.166 billion SAAR, up 57.2% year over year; preliminary July estimate.",
+      "sources": [
+        "census-dc-saar-july2026"
+      ]
+    },
+    {
+      "claim": "Data-center vacancies doubled; installation pay premium about 40%.",
+      "status": "Corroborated with scope",
+      "finding": "Indeed reports more than doubling and a 42% advertised premium. The occupation category is broader than electricians.",
+      "sources": [
+        "indeed-dc-hiring-2026"
+      ]
+    },
+    {
+      "claim": "About one million AI-created jobs versus 200,000 layoffs.",
+      "status": "Not reproduced",
+      "finding": "Attributed synthesis. Component overlap, causation and the counterfactual remain unresolved.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "Young workers are holding up well.",
+      "status": "Incomplete",
+      "finding": "Aggregate youth unemployment and highly exposed entry-level employment are different measures; Stanford finds a vulnerable subgroup.",
+      "sources": [
+        "claims-stanford-labor"
+      ]
+    },
+    {
+      "claim": "Goldman Sachs infrastructure-spending estimate.",
+      "status": "Primary evidence gap",
+      "finding": "Goldman Sachs estimate cited in the article; original calculation and investment boundary not reproduced.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "Industrial and professional employment above trend.",
+      "status": "Not reproduced",
+      "finding": "The article’s trend comparisons are not counts of jobs proven to be caused by AI.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "LinkedIn: 500,000 data-center and 640,000 AI-specific jobs.",
+      "status": "U.S. figures not reconciled",
+      "finding": "The January LinkedIn report instead presents global estimates: 1.3 million new AI roles in 2023–2025 and over 600,000 data-center jobs over the past year, including onsite and offsite roles. It does not corroborate the article’s specific U.S. counts.",
+      "sources": [
+        "claims-linkedin"
+      ]
+    },
+    {
+      "claim": "16,000 AI-related cuts monthly; 1.7 million usual layoffs.",
+      "status": "Updated primary figure",
+      "finding": "Challenger reports 116,175 AI-cited announced cuts through August: about 14,522 per month (total divided by eight). The article?s 16,000 pace fits the earlier seven-month total more closely. The separate 1.7 million usual-layoff comparison remains unreconciled; announced cuts differ from realized separations.",
+      "sources": [
+        "claims-challenger"
+      ]
+    },
+    {
+      "claim": "Professional hiring below its earlier average.",
+      "status": "Primary evidence gap",
+      "finding": "Needs the exact JOLTS series, seasonal treatment and averaging window; cannot identify AI as the cause.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "Electrical-industry wage growth.",
+      "status": "Primary evidence gap",
+      "finding": "Reproduce industry earnings series and period. Industry wage growth is not a same-worker or AI-caused raise.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "AI role growth and professional-job share.",
+      "status": "Primary evidence gap",
+      "finding": "Needs the LinkedIn and Burning Glass datasets, taxonomy and overlap treatment. Role prevalence is not net job creation.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "Paralegal and market-research employment growth.",
+      "status": "Primary evidence gap",
+      "finding": "Check occupational survey vintage and comparability before plotting the article’s 2023–2025 changes.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "Customer-service and administrative employment declines.",
+      "status": "Primary evidence gap",
+      "finding": "Exact underlying series remains unresolved. Occupational contraction alone does not establish its cause.",
+      "sources": [
+        "claims-biznews"
+      ]
+    },
+    {
+      "claim": "Utilities lead growth; office support loses 752,000 by 2035.",
+      "status": "Corroborated forecast",
+      "finding": "BLS projects utilities growth of 9.8% (+58,800 jobs) and office-support decline of 752,100 during 2025–2035. These are projections, not realized AI-caused changes.",
+      "sources": [
+        "claims-bls-projections"
+      ]
+    },
+    {
+      "claim": "Historical computer jobs and newer industries.",
+      "status": "Primary evidence gap",
+      "finding": "Definitions and overlap remain unresolved; historical analogy cannot quantify future AI employment.",
+      "sources": [
+        "claims-biznews"
+      ]
+    }
+  ]
+}
