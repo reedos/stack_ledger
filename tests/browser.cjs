@@ -221,6 +221,18 @@ const server=http.createServer((req,res)=>{
    for(const route of routes){await page.goto(origin+route);await page.locator('body[data-enhanced="true"]').waitFor();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' overflow at '+width);}
   }
   await page.setViewportSize({width:390,height:844});await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'mobile.png'),fullPage:true});
+  for(const width of [320,375,390]){
+   await page.setViewportSize({width,height:844});await page.goto(origin);await page.locator('#historical-context .line-point').first().waitFor();
+   const plot=page.locator('#historical-context .chart-plot');
+   assert.equal(await plot.evaluate(el=>el.scrollWidth>el.clientWidth),false,'generation chart must fit at '+width);
+   assert.equal(await plot.locator('.line-point').count(),25);
+   assert.deepEqual(await plot.locator('.chart-year').allTextContents(),['2020','2025','2030','2035']);
+   assert.equal(await plot.locator('svg').evaluate(svg=>[...svg.querySelectorAll('text')].some(t=>{const r=t.getBBox();return r.x<0||r.x+r.width>svg.viewBox.baseVal.width;})),false,'labels must fit at '+width);
+  }
+  await page.locator('#historical-context').screenshot({path:path.join(evidence,'generation-mobile.png')});
+  await page.setViewportSize({width:1440,height:1000});await page.waitForTimeout(200);
+  assert.equal(await page.locator('#historical-context .chart-year').count(),17,'resize restores desktop ticks');
+  await page.setViewportSize({width:390,height:844});await page.goto(origin);await page.locator('.hero').waitFor();
   await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.className),'skip');
   assert.deepEqual(errors,[]);
   await page.goto(origin+'companies/asml/');await page.locator('body[data-enhanced="true"]').waitFor();

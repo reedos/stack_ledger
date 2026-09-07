@@ -5,11 +5,26 @@ const root = document.querySelector('#main');
 let data;
 let chartSequence=0;
 const historyWindows=new Set();
+let chartResizeTimer,chartViewportWidth=window.innerWidth;
+window.addEventListener('resize',()=>{
+ if(window.innerWidth===chartViewportWidth)return;
+ chartViewportWidth=window.innerWidth;
+ clearTimeout(chartResizeTimer);
+ chartResizeTimer=setTimeout(()=>{
+  if(!data)return;
+  document.querySelectorAll('.chart-wrap[data-chart-type="line"]').forEach(wrap=>{
+   const open=[...wrap.querySelectorAll('details[open]')].map(el=>el.className);
+   const box=document.createElement('div');box.innerHTML=chart(wrap.dataset.metric,wrap.dataset.compact==='true');
+   open.forEach(cls=>box.querySelector(`details.${cls}`)?.setAttribute('open',''));
+   wrap.replaceWith(box.firstElementChild);
+  });
+ },120);
+});
 document.addEventListener('change',event=>{
  if(!event.target.matches('.history-window'))return;
  const wrap=event.target.closest('.chart-wrap'),id=wrap.dataset.metric;
  if(event.target.checked)historyWindows.add(id);else historyWindows.delete(id);
- wrap.outerHTML=chart(id);
+ wrap.outerHTML=chart(id,wrap.dataset.compact==='true');
  document.querySelector(`.chart-wrap[data-metric="${id}"] .history-window`)?.focus();
 });
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -52,7 +67,7 @@ function chart(metricId, compact=false) {
  const narrow=window.innerWidth<600;
  const stepSize = compact ? 70 : 88;
  const widthMin = narrow ? 360 : (compact ? 520 : 640);
- const width = m.chart_type==='line'?Math.max(narrow?720:960,years.length*45):Math.max(widthMin, years.length * stepSize + 75), height=m.chart_type==='line'?340:275, left=narrow?52:62, right=65, top=40, bottom=48;
+ const width = m.chart_type==='line'?(narrow?Math.max(240,window.innerWidth-82):Math.max(960,years.length*45)):Math.max(widthMin, years.length * stepSize + 75), height=m.chart_type==='line'?(narrow?360:340):275, left=narrow?44:62, right=m.chart_type==='line'&&narrow?22:65, top=m.chart_type==='line'&&narrow?58:40, bottom=48;
  const ceiling=m.chart_type==='line'?Math.ceil(Math.max(...obs.map(o=>o.value))/250)*250+250:Math.max(...obs.flatMap(o=>[Math.abs(o.value),Math.abs(o.upper??o.value)]),1)*1.2;
  const floor=m.chart_type==='line'?Math.floor((Math.min(...obs.map(o=>o.value))-150)/250)*250:obs.some(o=>o.value<0)?-ceiling:0;
  const plotH=height-top-bottom, plotW=width-left-right;
@@ -70,7 +85,7 @@ function chart(metricId, compact=false) {
    let d='',prev=null;
    pts.forEach(p=>{d+=(prev&&p.o.year===prev.o.year+1?'L':'M')+p.x+' '+p.y;prev=p;});
    content+=`<path class="chart-line ${cls}" d="${d}" fill="none" stroke="${color}" stroke-width="${cls==='overlay-line'?3:2.4}" stroke-linecap="round" stroke-linejoin="round"${dash?` stroke-dasharray="${cls==='overlay-line'?'2 5':'8 5'}"`:''}/>`;
-   pts.forEach(p=>{content+=`<g class="line-point ${cls}" data-series="${esc(p.o.metric)}"><title>${pointTitle(p.o)}</title><circle cx="${p.x}" cy="${p.y}" r="4" fill="${color}" stroke="#101511" stroke-width="1.2"/>${showLabels&&labeled.has(p.o.year)?`<text class="chart-value" x="${p.x}" y="${p.y+(cls==='companion-line'?24:-14)}" text-anchor="middle">${esc(chartValue(p.o))}</text>`:''}</g>`;});
+   pts.forEach(p=>{content+=`<g class="line-point ${cls}" data-series="${esc(p.o.metric)}"><title>${pointTitle(p.o)}</title><circle cx="${p.x}" cy="${p.y}" r="${narrow?2.5:4}" fill="${color}" stroke="#101511" stroke-width="1.2"/>${showLabels&&labeled.has(p.o.year)?`<text class="chart-value" x="${p.x}" y="${p.y+(cls==='companion-line'?24:-14)}" text-anchor="${narrow?(p.o.year===years[0]?'start':'end'):'middle'}">${esc(chartValue(p.o))}</text>`:''}</g>`;});
   };
   const primary=obs.filter(o=>o.metric===metricId);
   const reported=primary.filter(o=>!futureStatus(o.status)).sort((a,b)=>a.year-b.year);
@@ -86,7 +101,7 @@ function chart(metricId, compact=false) {
   }
   if(companion)drawSeries(obs.filter(o=>o.metric===companion.id),'#efc77b',true,'companion-line',true);
   if(overlayM)drawSeries(obs.filter(o=>o.metric===overlayM.id),'#78d9ef',true,'overlay-line',true);
-  years.filter(year=>!narrow||year%2===0||year===years.at(-1)).forEach(year=>{content+=`<text x="${xOf(year)}" y="${height-23}" text-anchor="middle">${year}</text>`;});
+  years.filter(year=>!narrow||year%5===0).forEach(year=>{content+=`<text class="chart-year" x="${xOf(year)}" y="${height-23}" text-anchor="middle">${year}</text>`;});
  }else{
   const drawBar=(o,xPos,barW,label)=>{
    const comparison=companion&&o.metric===companion.id, overlayBar=overlayM&&o.metric===overlayM.id;
@@ -108,7 +123,7 @@ function chart(metricId, compact=false) {
  }
  if(companion){
   const yi=years.findIndex(year=>obs.some(o=>o.year===year&&o.metric===companion.id));
-  if(yi>=0){const x=left+step*(yi+.5);content+=`<g class="scope-break-marker"><path d="M${x} ${top-12}V${height-bottom}" stroke="#efc77b" stroke-width="2" stroke-dasharray="5 4"/><text x="${x+6}" y="${top-22}">${esc(m.chart_comparison_label||"Broader AEO scope")} →</text></g>`;}
+  if(yi>=0){const x=left+step*(yi+.5);content+=`<g class="scope-break-marker"><path d="M${x} ${top-12}V${height-bottom}" stroke="#efc77b" stroke-width="2" stroke-dasharray="5 4"/><text x="${x+6}" y="${top-22}">${narrow&&m.chart_type==='line'?'2028: scope change':esc(m.chart_comparison_label||"Broader AEO scope")+' →'}</text></g>`;}
  }
  if(!m.definition_stable){
   const yi=years.findIndex(year=>year>=m.definition_break_year);
@@ -116,7 +131,7 @@ function chart(metricId, compact=false) {
  }
  const sourceIds=[...new Set(obs.map(o=>o.source))];
  const overlayLegend=overlayM?`<span class="comparison-legend overlay-legend ${m.chart_type==='line'?'line-key high-growth-key':''}">${m.chart_type==='line'?'┈':'▧'} ${esc(m.chart_overlay_legend||'Higher published case')}</span>`:'';
- return `<div class="chart-wrap" data-metric="${metricId}" style="--accent:${l.color}"><div class="panel-heading"><div><h3>${esc(chartTitle)}</h3><p>${esc(m.geography)} · ${esc(m.unit)}</p></div><span class="pill">${obs.some(o=>['forecast','company-commitment','government-target'].includes(o.status))?'OUTLOOK':'EVIDENCE'}</span></div>${compact?`<p class="chart-footnote">${esc(ranges)}</p><details class="chart-context"><summary>History & methodology</summary>${historyChrome}</details>`:historyChrome}${m.chart_type==='line'?`<p class="chart-footnote">Axis starts at ${number(floor)} TWh to show change. Dotted bridge at 2028 marks broader coverage, including small on-site generation.</p>`:''}<div class="chart-legend"><span><i class="legend-swatch"></i>Reported / estimated</span><span><i class="legend-swatch forecast"></i>Forecast / commitment</span>${companion?'<span class="comparison-legend baseline-key">'+(m.chart_type==='line'?'┄ ':'▧ ')+esc(m.chart_comparison_legend||'Broader AEO scenario (includes small on-site)')+'</span>':''}${overlayLegend}</div><div class="chart-plot" tabindex="0" role="region" aria-label="Scrollable chart: ${esc(m.title)}"><svg class="data-chart" style="min-width:${m.chart_type==='line'?(narrow?width:0):(narrow||years.length>8?width:0)}px" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc"><title id="${uid}-title">${esc(m.title)}</title><desc id="${uid}-desc">${obs.map(o=>`${esc(metricOf(o.metric).title)} ${esc(o.period)}: ${esc(chartValue(o))} ${esc(m.unit)}, ${statusLabel(o.status)}.`).join(' ')}</desc><defs><pattern id="${uid}-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="7" height="7" fill="${l.color}" fill-opacity=".08"/><path d="M0 0v7" stroke="${l.color}" stroke-width="2" stroke-opacity=".6"/></pattern><pattern id="${uid}-comparison" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="7" height="7" fill="#efc77b" fill-opacity=".08"/><path d="M0 0v7" stroke="#efc77b" stroke-width="2"/></pattern></defs>${content}</svg></div><p class="chart-footnote">${esc(m.note)} Sources: ${sourceIds.map(id=>`${sourceLink(id)} — ${esc(sourceOf(id).title)} · ${dateLabel(sourceOf(id).published)}`).join('; ')}.</p><details class="chart-table"><summary>View data & source details</summary><div class="table-scroll"><table><caption class="sr-only">${esc(m.title)} observations and sources</caption><thead><tr><th>Period</th><th>Value (${esc(m.unit)})</th><th>Classification</th><th>Source / accessed</th></tr></thead><tbody>${obs.map(o=>`<tr><td>${esc(o.period)}</td><td>${esc(chartValue(o))}</td><td>${statusLabel(o.status)}${companion||overlayM?`<br>${esc(metricOf(o.metric).title)}`:''}${o.method==='automated'?'<br>Automated extraction':''}</td><td>${sourceLink(o.source)}<br>Published ${dateLabel(sourceOf(o.source).published)}<br>Accessed ${dateLabel(o.retrieved_at)}<br><small>Record: ${esc(o.id)}</small><p>${esc(o.note)}</p></td></tr>`).join('')}</tbody></table></div><p class="chart-footnote">Scope: ${esc(m.scope)}${companion?` Companion: ${esc(companion.scope)}`:''}${overlayM?` Overlay: ${esc(overlayM.scope)}`:''}</p></details></div>`;
+ return `<div class="chart-wrap" data-metric="${metricId}" data-chart-type="${m.chart_type||'bar'}" data-compact="${compact}" style="--accent:${l.color}"><div class="panel-heading"><div><h3>${esc(chartTitle)}</h3><p>${esc(m.geography)} · ${esc(m.unit)}</p></div><span class="pill">${obs.some(o=>['forecast','company-commitment','government-target'].includes(o.status))?'OUTLOOK':'EVIDENCE'}</span></div>${compact?`<p class="chart-footnote">${esc(ranges)}</p><details class="chart-context"><summary>History & methodology</summary>${historyChrome}</details>`:historyChrome}${m.chart_type==='line'?`<p class="chart-footnote">Axis starts at ${number(floor)} TWh to show change. Dotted bridge at 2028 marks broader coverage, including small on-site generation.</p>`:''}<div class="chart-legend"><span><i class="legend-swatch"></i>Reported / estimated</span><span><i class="legend-swatch forecast"></i>Forecast / commitment</span>${companion?'<span class="comparison-legend baseline-key">'+(m.chart_type==='line'?'┄ ':'▧ ')+esc(m.chart_comparison_legend||'Broader AEO scenario (includes small on-site)')+'</span>':''}${overlayLegend}</div><div class="chart-plot" tabindex="0" role="region" aria-label="${m.chart_type==='line'?'Chart':'Scrollable chart'}: ${esc(m.title)}"><svg class="data-chart" style="min-width:${m.chart_type==='line'?0:(narrow||years.length>8?width:0)}px" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc"><title id="${uid}-title">${esc(m.title)}</title><desc id="${uid}-desc">${obs.map(o=>`${esc(metricOf(o.metric).title)} ${esc(o.period)}: ${esc(chartValue(o))} ${esc(m.unit)}, ${statusLabel(o.status)}.`).join(' ')}</desc><defs><pattern id="${uid}-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="7" height="7" fill="${l.color}" fill-opacity=".08"/><path d="M0 0v7" stroke="${l.color}" stroke-width="2" stroke-opacity=".6"/></pattern><pattern id="${uid}-comparison" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="7" height="7" fill="#efc77b" fill-opacity=".08"/><path d="M0 0v7" stroke="#efc77b" stroke-width="2"/></pattern></defs>${content}</svg></div><p class="chart-footnote">${esc(m.note)} Sources: ${sourceIds.map(id=>`${sourceLink(id)} — ${esc(sourceOf(id).title)} · ${dateLabel(sourceOf(id).published)}`).join('; ')}.</p><details class="chart-table"><summary>View data & source details</summary><div class="table-scroll"><table><caption class="sr-only">${esc(m.title)} observations and sources</caption><thead><tr><th>Period</th><th>Value (${esc(m.unit)})</th><th>Classification</th><th>Source / accessed</th></tr></thead><tbody>${obs.map(o=>`<tr><td>${esc(o.period)}</td><td>${esc(chartValue(o))}</td><td>${statusLabel(o.status)}${companion||overlayM?`<br>${esc(metricOf(o.metric).title)}`:''}${o.method==='automated'?'<br>Automated extraction':''}</td><td>${sourceLink(o.source)}<br>Published ${dateLabel(sourceOf(o.source).published)}<br>Accessed ${dateLabel(o.retrieved_at)}<br><small>Record: ${esc(o.id)}</small><p>${esc(o.note)}</p></td></tr>`).join('')}</tbody></table></div><p class="chart-footnote">Scope: ${esc(m.scope)}${companion?` Companion: ${esc(companion.scope)}`:''}${overlayM?` Overlay: ${esc(overlayM.scope)}`:''}</p></details></div>`;
 }
 
 function sortedEvents(){return [...data.events].sort((a,b)=>(b.retrieved_at || b.date || '').localeCompare(a.retrieved_at || a.date || ''));}
