@@ -94,7 +94,8 @@ def home(data, base):
       <div class="hero-actions"><a class="button" href="#stack">Explore the stack <span>↓</span></a><a class="text-link" href="{base}ledger/">Read the ledger <span>↗</span></a></div>
       <div class="hero-meta"><span>Global perspective</span><span>U.S. in focus</span><span>2030 &amp; beyond</span></div>
       </div><div class="hero-art">{stack}<div class="art-caption"><span>Five connected layers. Evidence at every step.</span></div></div></section>
-      <section class="section" id="stack"><div class="section-top"><div><div class="eyebrow muted">THE BUILDOUT, AT A GLANCE</div><h2>Every layer, with evidence.</h2></div><p>Power enables chips and AI factories. Models turn compute into capabilities; applications put them to work.</p></div>
+      <section class="section" id="stack"><div class="section-top"><div><div class="eyebrow muted">FIVE LAYERS. ONE CONNECTED PURPOSE.</div><h2>From power to useful work.</h2></div></div>
+      <p class="stack-thesis"><a href="{base}energy/">Power</a> enables <a href="{base}chips/">chips</a> and <a href="{base}infrastructure/">AI factories</a>.<br><a href="{base}models/">Models</a> turn compute into capabilities; <a href="{base}applications/">applications</a> put them to <strong>useful work.</strong></p>
       {layer_cards(data, base)}
       <p class="chart-footnote">Selected indicators, not an overall progress score. Each figure keeps its own scope, period and publisher. <a class="source-inline" href="{base}data/ledger.json">Inspect the raw ledger ↗</a></p></section>
       <aside class="reading-note homepage-reading"><strong>Pledged is not built.</strong><p>Announced ≠ financed ≠ under construction ≠ commissioned ≠ operating. Follow the evidence for each stage in the <a class="source-inline" href="{base}projects/">project tracker ↗</a>.</p></aside>
