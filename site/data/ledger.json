@@ -21288,6 +21288,31 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T222145Z",
+      "started_at": "2026-09-07T22:21:45Z",
+      "finished_at": "2026-09-07T22:23:27Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-first-solar",
+          "reason": "Insufficient readable source content"
+        },
+        {
+          "source": "ciena-optics",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 6,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -21297,7 +21322,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T22:21:20Z",
+    "last_attempt": "2026-09-07T22:23:27Z",
     "last_success": "2026-09-07T21:57:04Z",
     "status": "partial"
   }
