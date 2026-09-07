@@ -1,5 +1,7 @@
 """Deterministic, dependency-free GitHub Pages build."""
 import json
+import hashlib
+import re
 import shutil
 from pathlib import Path
 from xml.etree import ElementTree as ET
@@ -21,6 +23,11 @@ def build():
     validate_agenda_files()
     data = json.loads((ROOT / 'site/data/ledger.json').read_text(encoding='utf-8'))
     template = (ROOT / 'site/template.html').read_text(encoding='utf-8')
+    digest=hashlib.sha256()
+    for asset in sorted(p for directory in ['site/assets','site/data'] for p in (ROOT/directory).rglob('*') if p.is_file()):
+        digest.update(asset.relative_to(ROOT).as_posix().encode())
+        digest.update(asset.read_bytes())
+    build_version=digest.hexdigest()[:16]
     dest = ROOT / 'docs'
     dest.mkdir(exist_ok=True)
     shutil.copytree(ROOT / 'site/assets', dest / 'assets', dirs_exist_ok=True)
@@ -41,8 +48,9 @@ def build():
         if page == 'company': content = company_snapshot(data, profiles[path], base)
         for key, value in {'CONTENT': content, 'STACK_NAV': navigation(data, base, page), 'RUNTIME': runtime(data)}.items():
             rendered=rendered.replace('{{'+key+'}}', value)
-        for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':base,'CANONICAL':path}.items():
+        for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':base,'CANONICAL':path,'BUILD':build_version}.items():
             rendered=rendered.replace('{{'+key+'}}',escape(value,quote=True))
+        rendered=re.sub(r'((?:href|src)="[^"<>]*assets/[^"<>]+\.(?:css|js))"',lambda match:match[1]+'?v='+build_version+'"',rendered)
         folder=dest/path
         folder.mkdir(parents=True,exist_ok=True)
         (folder/'index.html').write_text(rendered,encoding='utf-8')

@@ -44,7 +44,7 @@ const server=http.createServer((req,res)=>{
   await staticPage.goto(origin);await staticPage.locator('.slab').first().focus();await staticPage.keyboard.press('Enter');
   await staticPage.waitForURL('**/energy/');
   await staticContext.close();
-  const fallback=await browser.newPage();await fallback.route('**/data/*.json',route=>route.abort());
+  const fallback=await browser.newPage();await fallback.route('**/data/*.json*',route=>route.abort());
   await fallback.goto(origin);await fallback.locator('#load-status').waitFor();
   assert.equal(await fallback.locator('.layer-card').count(),5);
   assert.match(await fallback.locator('h1').innerText(),/A public record/);await fallback.close();
@@ -59,11 +59,16 @@ const server=http.createServer((req,res)=>{
    assert.equal(await page.locator('h1').count(),1);
    assert.deepEqual(await page.locator('[id]').evaluateAll(els=>{const ids=els.map(el=>el.id);return ids.filter((id,i)=>ids.indexOf(id)!==i);}),[],route+' duplicate IDs');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' desktop overflow');
+   const version=await page.locator('body').getAttribute('data-build');assert.match(version,/^[a-f0-9]{16}$/);
+   assert.ok(await page.locator('link[rel="stylesheet"], script[src]').evaluateAll((els,v)=>els.every(el=>new URL(el.href||el.src).searchParams.get('v')===v),version));
    if(['energy/','chips/','infrastructure/','models/','applications/'].includes(route)){
     const layer=route.slice(0,-1),expected=companySnapshot.companies.filter(c=>c.layers.includes(layer)).map(c=>c.id).sort();
     const shown=await page.locator('#companies .builder-card').evaluateAll(els=>els.map(el=>el.dataset.company).sort());
     assert.deepEqual(shown,expected,layer+' must show every covered contributor exactly once');
     assert.equal(await page.locator('#companies .builder-nav a').count(),await page.locator('#companies .builder-group').count());
+    assert.equal(await page.locator('#companies .builder-nav').evaluate(el=>getComputedStyle(el).display),'grid');
+    assert.equal(await page.locator('#companies .builder-card').first().evaluate(el=>getComputedStyle(el).borderTopStyle),'solid');
+    if(layer==='chips')await page.locator('#companies .builder-group').first().screenshot({path:path.join(evidence,'chip-builders.png')});
     if(layer==='models'){
      assert.deepEqual(await page.locator('#companies .builder-group').first().locator('.builder-card').evaluateAll(els=>els.slice(0,5).map(el=>el.dataset.company)),['anthropic','openai','spacexai','alphabet','meta']);
      assert.match(await page.locator('#companies .builder-group').nth(1).innerText(),/Agent tools & runtimes[\s\S]*OpenClaw/);
