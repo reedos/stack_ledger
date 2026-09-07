@@ -23576,6 +23576,44 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T233158Z",
+      "started_at": "2026-09-07T23:31:58Z",
+      "finished_at": "2026-09-07T23:32:08Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "claims-linkedin",
+          "reason": "URL outside approved public host"
+        },
+        {
+          "source": "water-almond",
+          "reason": "Unsupported source content type"
+        },
+        {
+          "source": "water-lbnl",
+          "reason": "Unsupported source content type"
+        },
+        {
+          "source": "water-golf",
+          "reason": "Unsupported source content type"
+        },
+        {
+          "source": "claims-ferc-rosner",
+          "reason": "HTTPError"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -23585,7 +23623,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T23:31:33Z",
+    "last_attempt": "2026-09-07T23:32:08Z",
     "last_success": "2026-09-07T22:57:54Z",
     "status": "partial"
   }
