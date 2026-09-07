@@ -1,0 +1,256 @@
+{
+  "layers": [
+    {
+      "id": "energy",
+      "name": "Energy",
+      "number": "01",
+      "color": "#c5f277",
+      "tagline": "Powering possibility.",
+      "description": "Electricity is the foundation. Generation, storage and a stronger grid turn ambition into dependable power.",
+      "connection": "Reliable electricity powers chips. Grid connections and cooling determine where infrastructure can grow.",
+      "focus": [
+        "New generation and firm power",
+        "Grid connections and transmission",
+        "Storage, efficiency and local affordability"
+      ],
+      "headline_metric": "dc-electricity",
+      "headline_record": "energy-2025",
+      "headline_label": "Global data-center demand · 2025",
+      "outlook": "Track new generation, grid delivery and demand together. More annual energy does not automatically provide power in the right place at the right time."
+    },
+    {
+      "id": "chips",
+      "name": "Chips",
+      "number": "02",
+      "color": "#e8b66d",
+      "tagline": "More intelligence per watt.",
+      "description": "Accelerators, advanced memory and packaging transform electricity into compute. Manufacturing turns better designs into real supply.",
+      "connection": "Chips draw on energy and become useful at scale when infrastructure connects, powers and cools them.",
+      "focus": [
+        "Accelerator and memory supply",
+        "Advanced packaging and new fabs",
+        "Measured throughput per watt"
+      ],
+      "headline_metric": "tsmc-wafer-capacity",
+      "headline_record": "chips-2025",
+      "headline_label": "TSMC wafer capacity · 2025",
+      "outlook": "Follow operational fabs and reproducible system benchmarks. Process-node names alone do not establish speed, efficiency or available AI capacity."
+    },
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure",
+      "number": "03",
+      "color": "#79b8f5",
+      "tagline": "Where compute comes together.",
+      "description": "Data centers, networking and cooling bring individual processors together into systems that can train and serve AI.",
+      "connection": "Infrastructure joins energy and chips into usable capacity, making model training and inference possible.",
+      "focus": [
+        "Operational capacity and commissioning",
+        "Construction and investment milestones",
+        "Networking, cooling and community benefits"
+      ],
+      "headline_metric": "us-data-centers",
+      "headline_record": "infra-2026",
+      "headline_label": "U.S. data centers · 2026 report",
+      "outlook": "Follow projects from announcement through financing, construction and operation. Site counts and investment pledges are context, not delivered compute."
+    },
+    {
+      "id": "models",
+      "name": "Models",
+      "number": "04",
+      "color": "#b69af5",
+      "tagline": "Capability within reach.",
+      "description": "Models convert compute into useful capabilities: reasoning, language, science and understanding the physical world.",
+      "connection": "Models use infrastructure to learn and respond. Lower costs and stronger reliability unlock more applications.",
+      "focus": [
+        "Reproducible capability and reliability",
+        "Inference cost and energy efficiency",
+        "Open access and scientific models"
+      ],
+      "headline_metric": "inference-cost",
+      "headline_record": "models-2024",
+      "headline_label": "Comparable inference cost · Oct 2024",
+      "outlook": "Track capability, reliability, cost and openness separately. Better benchmark scores need to translate into dependable performance in real tasks."
+    },
+    {
+      "id": "applications",
+      "name": "Applications",
+      "number": "05",
+      "color": "#ec98bc",
+      "tagline": "Progress people can use.",
+      "description": "AI becomes valuable through what people do with it: better tools, scientific discovery, more productive work and new possibilities.",
+      "connection": "Applications turn model capability into practical outcomes and create demand throughout the layers below.",
+      "focus": [
+        "Adoption across sectors and regions",
+        "Measured productivity and quality",
+        "Scientific and real-world outcomes"
+      ],
+      "headline_metric": "ai-adoption",
+      "headline_record": "apps-2025",
+      "headline_label": "Surveyed organizations using AI · 2025",
+      "outlook": "Look beyond adoption toward demonstrated outcomes. Practical value depends on the task, implementation and people using the technology."
+    }
+  ],
+  "metrics": [
+    {
+      "id": "dc-electricity",
+      "layer": "energy",
+      "title": "Global data-center electricity demand",
+      "unit": "TWh / year",
+      "geography": "Global",
+      "scope": "All data centers, including non-AI workloads. Annual electricity consumption; not generation capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "2024 is the 2025 report baseline; 2025 and 2030 use the updated 2026 IEA outlook. The 2030 value is a forecast, not a generation target.",
+      "source_ids": [
+        "iea-2025",
+        "iea-2026"
+      ]
+    },
+    {
+      "id": "us-dc-electricity",
+      "layer": "energy",
+      "title": "U.S. data-center electricity demand",
+      "unit": "TWh / year",
+      "geography": "United States",
+      "scope": "All U.S. data centers. 2028 is a modeled range from the 2024 report, retained as a historical forecast vintage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "The 2028 interval is 325–580 TWh. A newer LBNL update exists; this series remains explicitly dated until reviewed.",
+      "source_ids": [
+        "doe-demand"
+      ]
+    },
+    {
+      "id": "us-nuclear",
+      "layer": "energy",
+      "title": "U.S. nuclear capacity ambition",
+      "unit": "GW",
+      "geography": "United States",
+      "scope": "Total U.S. nuclear generating capacity across the economy; not allocated to AI.",
+      "direction": "up",
+      "min": 0,
+      "max": 10000,
+      "note": "DOE describes an approximately 100 GW starting fleet and a 400 GW goal for 2050. The starting point is not a current progress measurement.",
+      "source_ids": [
+        "doe-nuclear"
+      ]
+    },
+    {
+      "id": "tsmc-wafer-capacity",
+      "layer": "chips",
+      "title": "TSMC annual manufacturing capacity",
+      "unit": "million 12-inch equivalent wafers / year",
+      "geography": "Global",
+      "scope": "All TSMC-managed facilities and subsidiaries; includes non-AI chips and mature processes.",
+      "direction": "up",
+      "min": 0,
+      "max": 1000,
+      "note": "Company-reported capacity exceeds 17 million wafers in 2025. This measures manufacturing context, not AI accelerator shipments.",
+      "source_ids": [
+        "tsmc-2025"
+      ]
+    },
+    {
+      "id": "us-data-centers",
+      "layer": "infrastructure",
+      "title": "U.S. data-center footprint",
+      "unit": "data centers",
+      "geography": "United States",
+      "scope": "Stanford AI Index 2026 reported count of U.S. data centers; all types, not AI-only facilities.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "A site count describes geographic footprint. It does not measure operational MW, utilization or installed AI compute. Period is the report vintage (2026).",
+      "source_ids": [
+        "stanford-2026"
+      ]
+    },
+    {
+      "id": "wisconsin-investment",
+      "layer": "infrastructure",
+      "title": "Microsoft Wisconsin investment commitments",
+      "unit": "USD billion",
+      "geography": "United States",
+      "scope": "Wisconsin data-center investment pledges; initial facility and additional second facility. Not recognized expenditure.",
+      "direction": "up",
+      "min": 0,
+      "max": 10000,
+      "note": "The September 2025 announcement adds $4B over three years to the initial $3.3B pledge. Completion and actual expenditure require subsequent evidence.",
+      "source_ids": [
+        "msft-wisconsin"
+      ]
+    },
+    {
+      "id": "inference-cost",
+      "layer": "models",
+      "title": "The falling cost of useful intelligence",
+      "unit": "USD / million tokens",
+      "geography": "Global",
+      "scope": "Cost of querying a model at GPT-3.5-equivalent MMLU performance, as defined by Stanford AI Index 2025.",
+      "direction": "down",
+      "min": 0,
+      "max": 10000,
+      "note": "Two historical price observations at a comparable benchmark threshold. These are not current provider prices or a universal capability measure.",
+      "source_ids": [
+        "stanford-cost"
+      ]
+    },
+    {
+      "id": "ai-adoption",
+      "layer": "applications",
+      "title": "AI use is becoming part of everyday work",
+      "unit": "% of surveyed organizations",
+      "geography": "Global",
+      "scope": "Organizations reporting AI use in at least one business function, as summarized by Stanford AI Index from survey evidence. Not population-wide adoption.",
+      "direction": "up",
+      "min": 0,
+      "max": 100,
+      "note": "Survey-based adoption across annual report vintages; sampling and methodology may change. Adoption is distinct from measured productivity or return on investment.",
+      "source_ids": [
+        "stanford-2025",
+        "stanford-2026"
+      ]
+    }
+  ],
+  "targets": [
+    {
+      "id": "power-outlook",
+      "layer": "energy",
+      "title": "Plan for global data-center electricity demand",
+      "owner": "IEA · 2026 outlook",
+      "year": 2030,
+      "type": "Independent forecast",
+      "value": "≈950 TWh / year",
+      "source": "iea-2026",
+      "assessment": "Planning reference",
+      "detail": "Demand projection for all data centers. A matched generation-and-grid delivery series is needed to assess readiness."
+    },
+    {
+      "id": "nuclear-goal",
+      "layer": "energy",
+      "title": "Expand U.S. nuclear generating capacity",
+      "owner": "U.S. Department of Energy",
+      "year": 2050,
+      "type": "Government target",
+      "value": "400 GW",
+      "source": "doe-nuclear",
+      "assessment": "Progress evidence needed",
+      "detail": "Economy-wide target. The approximate starting fleet is not a current measurement of additions toward the goal."
+    },
+    {
+      "id": "wisconsin-goal",
+      "layer": "infrastructure",
+      "title": "Build a second Wisconsin data center",
+      "owner": "Microsoft · September 2025",
+      "year": 2028,
+      "type": "Company commitment",
+      "value": "$4B additional",
+      "source": "msft-wisconsin",
+      "assessment": "Completion evidence needed",
+      "detail": "Three-year spending pledge. We need subsequent expenditure and commissioning evidence before assessing delivery."
+    }
+  ]
+}

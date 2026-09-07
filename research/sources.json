@@ -1,0 +1,196 @@
+{
+  "sources": [
+    {
+      "id": "iea-2026",
+      "publisher": "International Energy Agency",
+      "title": "Key Questions on Energy and AI · 2026",
+      "url": "https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary",
+      "published": "2026-04-16",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "iea-2025",
+      "publisher": "International Energy Agency",
+      "title": "Energy and AI · 2025",
+      "url": "https://www.iea.org/reports/energy-and-ai/executive-summary",
+      "published": "2025-04-10",
+      "layers": [
+        "energy"
+      ],
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "stanford-2026",
+      "publisher": "Stanford HAI",
+      "title": "The 2026 AI Index Report",
+      "url": "https://hai.stanford.edu/ai-index/2026-ai-index-report",
+      "published": null,
+      "layers": [
+        "models",
+        "applications",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply"
+    },
+    {
+      "id": "stanford-2025",
+      "publisher": "Stanford HAI",
+      "title": "The 2025 AI Index Report",
+      "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report",
+      "published": null,
+      "layers": [
+        "applications",
+        "models"
+      ],
+      "license": "Original source rights apply"
+    },
+    {
+      "id": "stanford-cost",
+      "publisher": "Stanford HAI",
+      "title": "AI Index 2025 · Research and development",
+      "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report/research-and-development",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Original source rights apply"
+    },
+    {
+      "id": "doe-demand",
+      "publisher": "U.S. Department of Energy / LBNL",
+      "title": "2024 U.S. data center energy use report announcement",
+      "url": "https://www.energy.gov/articles/doe-releases-new-report-evaluating-increase-electricity-demand-data-centers",
+      "published": "2024-12-20",
+      "layers": [
+        "energy"
+      ],
+      "license": "See original source"
+    },
+    {
+      "id": "doe-nuclear",
+      "publisher": "U.S. Department of Energy",
+      "title": "The nation’s nuclear reactor fleet is on the rise",
+      "url": "https://www.energy.gov/ne/articles/nations-nuclear-reactor-fleet-rise",
+      "published": "2026-03-12",
+      "layers": [
+        "energy"
+      ],
+      "license": "See original source"
+    },
+    {
+      "id": "tsmc-2025",
+      "publisher": "TSMC",
+      "title": "2025 Annual Report",
+      "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Original source rights apply"
+    },
+    {
+      "id": "msft-wisconsin",
+      "publisher": "Microsoft",
+      "title": "Made in Wisconsin · Fairwater investment update",
+      "url": "https://blogs.microsoft.com/on-the-issues/2025/09/18/made-in-wisconsin-the-worlds-most-powerful-ai-datacenter/",
+      "published": "2025-09-18",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Original source rights apply"
+    },
+    {
+      "id": "nvidia-framework",
+      "publisher": "NVIDIA",
+      "title": "AI is a 5-layer cake",
+      "url": "https://blogs.nvidia.com/blog/ai-5-layer-cake/",
+      "published": "2026-03-10",
+      "layers": [],
+      "license": "Original source rights apply"
+    },
+    {
+      "id": "doe-news",
+      "publisher": "U.S. Department of Energy",
+      "title": "Department of Energy news",
+      "url": "https://www.energy.gov/news",
+      "published": null,
+      "layers": [
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "nvidia-news",
+      "publisher": "NVIDIA",
+      "title": "NVIDIA AI infrastructure news",
+      "url": "https://blogs.nvidia.com/blog/category/enterprise/",
+      "published": null,
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "microsoft-news",
+      "publisher": "Microsoft",
+      "title": "Microsoft On the Issues",
+      "url": "https://blogs.microsoft.com/on-the-issues/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "google-research",
+      "publisher": "Google Research",
+      "title": "Google Research blog",
+      "url": "https://research.google/blog/",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "stanford-news",
+      "publisher": "Stanford HAI",
+      "title": "Stanford HAI news",
+      "url": "https://hai.stanford.edu/news",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    }
+  ],
+  "discovery_keywords": [
+    "ai",
+    "artificial-intelligence",
+    "data-center",
+    "data-centre",
+    "nuclear",
+    "annual",
+    "report",
+    "inference",
+    "semiconductor",
+    "model",
+    "chip",
+    "compute",
+    "power",
+    "intelligence"
+  ]
+}
