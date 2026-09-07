@@ -22914,6 +22914,31 @@
       "coverage_layers": [
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T231041Z",
+      "started_at": "2026-09-07T23:10:41Z",
+      "finished_at": "2026-09-07T23:10:51Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "intel-ohio-delay",
+          "reason": "URL outside approved public host"
+        },
+        {
+          "source": "intel-fab52-18a",
+          "reason": "URL outside approved public host"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -22923,7 +22948,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T23:10:16Z",
+    "last_attempt": "2026-09-07T23:10:51Z",
     "last_success": "2026-09-07T22:57:54Z",
     "status": "partial"
   }
