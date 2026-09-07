@@ -213,6 +213,351 @@
         "stanford-2025",
         "stanford-2026"
       ]
+    },
+    {
+      "id": "revenue-nextera",
+      "layer": "energy",
+      "title": "NextEra Energy · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide operating revenue, including FPL and NextEra Energy Resources.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Broader power business; this is not revenue from AI customers alone. Preliminary results release.",
+      "source_ids": [
+        "company-nextera"
+      ]
+    },
+    {
+      "id": "revenue-ge-vernova",
+      "layer": "energy",
+      "title": "GE Vernova · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide GAAP revenue across Power, Wind and Electrification.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Equipment revenue includes many uses beyond AI and data centers.",
+      "source_ids": [
+        "company-ge-vernova"
+      ]
+    },
+    {
+      "id": "revenue-schneider",
+      "layer": "energy",
+      "title": "Schneider Electric · annual revenue",
+      "unit": "EUR billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue across Energy Management and Industrial Automation.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Not an AI revenue breakout. Original euros are retained; no exchange-rate conversion.",
+      "source_ids": [
+        "company-schneider"
+      ]
+    },
+    {
+      "id": "revenue-nvidia",
+      "layer": "chips",
+      "title": "NVIDIA · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes Data Center, gaming and other markets; not a measure of AI-only sales. NVIDIA designs chips and relies on manufacturing partners.",
+      "source_ids": [
+        "company-nvidia"
+      ]
+    },
+    {
+      "id": "revenue-amd",
+      "layer": "chips",
+      "title": "AMD · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Data Center segment revenue was $16.6B in FY2025; that includes server CPUs as well as AI accelerators.",
+      "source_ids": [
+        "company-amd"
+      ]
+    },
+    {
+      "id": "revenue-broadcom",
+      "layer": "chips",
+      "title": "Broadcom · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net revenue, semiconductors plus infrastructure software.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes VMware and other non-AI businesses. Custom chip design is distinct from wafer fabrication.",
+      "source_ids": [
+        "company-broadcom"
+      ]
+    },
+    {
+      "id": "revenue-tsmc",
+      "layer": "chips",
+      "title": "TSMC · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, using TSMC’s reported U.S. dollar figure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "All customers and chip markets; not AI-only. Annual wafer capacity is tracked separately.",
+      "source_ids": [
+        "company-tsmc"
+      ]
+    },
+    {
+      "id": "revenue-samsung",
+      "layer": "chips",
+      "title": "Samsung Electronics · annual revenue",
+      "unit": "KRW trillion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue in trillions of Korean won.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes phones, displays and appliances. This figure is not semiconductor, foundry or AI revenue.",
+      "source_ids": [
+        "company-samsung"
+      ]
+    },
+    {
+      "id": "revenue-intel",
+      "layer": "chips",
+      "title": "Intel · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Internal foundry transfers are not additional consolidated sales; do not add segment revenues without eliminations.",
+      "source_ids": [
+        "company-intel"
+      ]
+    },
+    {
+      "id": "revenue-sk-hynix",
+      "layer": "chips",
+      "title": "SK hynix · annual revenue",
+      "unit": "KRW trillion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue in trillions of Korean won.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Total memory business; not an HBM-only or AI-only revenue figure.",
+      "source_ids": [
+        "company-sk-hynix"
+      ]
+    },
+    {
+      "id": "revenue-micron",
+      "layer": "chips",
+      "title": "Micron · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes memory and storage outside AI. This is fiscal 2025, not a 2026 run rate.",
+      "source_ids": [
+        "company-micron"
+      ]
+    },
+    {
+      "id": "revenue-asml",
+      "layer": "chips",
+      "title": "ASML · annual revenue",
+      "unit": "EUR billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "ASML sells manufacturing equipment; it does not fabricate customers’ finished chips. Original euros retained.",
+      "source_ids": [
+        "company-asml"
+      ]
+    },
+    {
+      "id": "revenue-vertiv",
+      "layer": "infrastructure",
+      "title": "Vertiv · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Critical digital infrastructure sales, not solely AI data centers.",
+      "source_ids": [
+        "company-vertiv"
+      ]
+    },
+    {
+      "id": "revenue-microsoft",
+      "layer": "infrastructure",
+      "title": "Microsoft · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Azure exceeded $100B annual revenue in FY2026, but Azure includes non-AI workloads. Copilot is not the whole company.",
+      "source_ids": [
+        "company-microsoft"
+      ]
+    },
+    {
+      "id": "revenue-aws",
+      "layer": "infrastructure",
+      "title": "Amazon Web Services · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "AWS segment annual net sales; excludes Amazon retail and other segments.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "A segment figure, not total Amazon revenue. Includes non-AI cloud services; not AI-only sales.",
+      "source_ids": [
+        "company-aws"
+      ]
+    },
+    {
+      "id": "revenue-alphabet",
+      "layer": "infrastructure",
+      "title": "Alphabet / Google · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated Alphabet annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes advertising and other businesses; not Google Cloud or Gemini revenue alone.",
+      "source_ids": [
+        "company-alphabet"
+      ]
+    },
+    {
+      "id": "revenue-meta",
+      "layer": "models",
+      "title": "Meta · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Predominantly the broader advertising business; not standalone model revenue or a direct measure of AI value added.",
+      "source_ids": [
+        "company-meta"
+      ]
+    },
+    {
+      "id": "revenue-openai",
+      "layer": "models",
+      "title": "OpenAI · annualized revenue run rate",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-reported annualized revenue run rate; not revenue earned over a full year.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Historical run-rate disclosure. It is not an audited annual revenue total or a current September 2026 estimate.",
+      "source_ids": [
+        "company-openai"
+      ]
+    },
+    {
+      "id": "revenue-anthropic",
+      "layer": "models",
+      "title": "Anthropic · annualized revenue run rate",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-reported annualized revenue run rate; not revenue earned over a full year.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Historical company disclosure from May 2026. Funding raised and valuation are separate from revenue.",
+      "source_ids": [
+        "company-anthropic"
+      ]
+    },
+    {
+      "id": "revenue-salesforce",
+      "layer": "applications",
+      "title": "Salesforce · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes the wider CRM and data business; not Agentforce-only revenue or measured customer productivity.",
+      "source_ids": [
+        "company-salesforce"
+      ]
+    },
+    {
+      "id": "revenue-palantir",
+      "layer": "applications",
+      "title": "Palantir · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as described in the annual report.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Government and commercial platform revenue; not AIP-only sales or a quantified economy-wide productivity effect.",
+      "source_ids": [
+        "company-palantir"
+      ]
+    },
+    {
+      "id": "advanced-wafer-capacity",
+      "layer": "chips",
+      "title": "Global advanced logic capacity · 7nm and below",
+      "unit": "million wafers / month",
+      "geography": "Global",
+      "scope": "Global 300mm fabrication capacity at 7nm and below, across all chip uses.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "June 2025 forecast vintage. Later calendar years remain forecasts until an observed update is sourced. Wafer capacity is not accelerator shipments.",
+      "source_ids": [
+        "semi-advanced-2025"
+      ]
+    },
+    {
+      "id": "memory-wafer-capacity",
+      "layer": "chips",
+      "title": "Global 300mm memory capacity",
+      "unit": "million wafers / month",
+      "geography": "Global",
+      "scope": "Global 300mm memory fabrication capacity, including DRAM and NAND.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "June 2026 forecast vintage. This is not HBM-only capacity and cannot be translated directly into GPU supply.",
+      "source_ids": [
+        "semi-memory-2026"
+      ]
     }
   ],
   "targets": [

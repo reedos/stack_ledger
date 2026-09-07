@@ -3,6 +3,7 @@ const base = document.body.dataset.base;
 const page = document.body.dataset.page;
 const root = document.querySelector('#main');
 let data;
+let chartSequence=0;
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl = value => { try { const u = new URL(value); return u.protocol === 'https:' ? esc(u.href) : '#'; } catch { return '#'; } };
 const layerOf = id => data.layers.find(l => l.id === id);
@@ -51,7 +52,7 @@ function layerCards() { return `<div class="layer-grid">${data.layers.map(l=>{co
 
 function chart(metricId, compact=false) {
  const m=metricOf(metricId), obs=records(metricId), l=layerOf(m.layer);
- const uid=`chart-${metricId}`;
+ const uid=`chart-${metricId}-${++chartSequence}`;
  const narrow=window.innerWidth<600;
  const width=narrow?360:640,height=275,left=narrow?40:52,right=narrow?12:25,top=40,bottom=48;
  const ceiling=Math.max(...obs.map(o=>o.upper??o.value),1)*1.2;
@@ -75,7 +76,7 @@ function home() {
 }
 
 function layerPage(id) {
- const l=layerOf(id), ms=data.metrics.filter(m=>m.layer===id), targets=data.targets.filter(t=>t.layer===id);
+ const l=layerOf(id), ms=data.metrics.filter(m=>m.layer===id&&!m.id.startsWith('revenue-')), targets=data.targets.filter(t=>t.layer===id);
  root.innerHTML=`<section class="page-hero" style="--accent:${l.color}"><div class="breadcrumb"><a href="${base}">Overview</a><span>/</span><span>${l.name}</span></div><div class="eyebrow">LAYER ${l.number} / ${l.name}</div><h1>${l.tagline}</h1><p>${l.description}</p></section><nav class="layer-nav" aria-label="Explore layers">${data.layers.map(v=>`<a href="${base}${v.id}/" class="${v.id===id?'active':''}" style="--accent:${v.color}" ${v.id===id?'aria-current="page"':''}>${v.number} &nbsp; ${v.name}</a>`).join('')}</nav><div class="detail-layout"><section class="panel"><label class="eyebrow muted" for="metric-select">TRACKED INDICATOR</label><select class="select-control" id="metric-select">${ms.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join('')}</select><div id="metric-chart" style="margin-top:24px">${chart(ms[0].id)}</div></section><aside class="panel" style="--accent:${l.color}"><div class="eyebrow muted">WHAT WE’RE WATCHING</div><h3 style="margin-top:15px">The next steps forward.</h3><ul class="research-focus">${l.focus.map(f=>`<li>${esc(f)}</li>`).join('')}</ul><p class="target-intro">${esc(l.outlook)}</p><div class="connection" style="margin-top:26px"><strong>Connected to the stack</strong>${esc(l.connection)}</div></aside></div><section class="section"><div class="section-top"><div><div class="eyebrow muted">GOALS & OUTLOOK</div><h2>What are we building toward?</h2></div></div>${targets.length?`<div class="target-grid">${targets.map(targetCard).join('')}</div>`:`<div class="panel"><h3>Progress has more than one measure.</h3><p class="target-intro">There is no single verified ${l.name.toLowerCase()} buildout target in this initial ledger. We track ${esc(l.focus.map(x=>x.toLowerCase()).join(', '))}. Attributed targets will be added as comparable evidence becomes available.</p><p class="chart-footnote">A missing target is a research gap, not evidence of missing progress.</p></div>`}</section><section class="section"><div class="section-top"><h2>Inside the ${l.name.toLowerCase()} layer.</h2><a class="section-link" href="${base}ledger/?layer=${l.id}">Open layer ledger ↗</a></div><div class="signal-list">${signalRows(sortedEvents().filter(e=>e.layer===id))}</div></section>`;
  document.querySelector('#metric-select').addEventListener('change',e=>document.querySelector('#metric-chart').innerHTML=chart(e.target.value));
 }
@@ -96,7 +97,7 @@ function methodology(){root.innerHTML=`<section class="page-hero"><div class="ey
 
 function runtime(){const r=data.runtime;const last=data.runs.at(-1);document.querySelector('#runtime').innerHTML=`<strong>Research runtime:</strong> ${esc(r.display_model)} · ${esc(r.engine)} · ${esc(r.hardware)}<br><strong>Last run:</strong> ${esc(pacific(r.last_attempt))} · <strong>Status:</strong> ${esc(r.status)} · <strong>Last successful research:</strong> ${esc(pacific(r.last_success))}<details><summary>Runtime details & provenance</summary><ul><li>Exact model: ${esc(r.model)}</li><li>Schedule: ${esc(r.schedule)}. Hardware configuration is owner-reported.</li><li>Initial curated dataset: ${esc(data.seed_date)}. Automated records are labeled individually.</li>${last?`<li>Latest run: ${last.documents_fetched} documents, ${last.accepted} accepted records, ${last.quarantined} quarantined proposals.</li>`:''}</ul></details>`;}
 
-fetch(`${base}data/ledger.json`).then(r=>{if(!r.ok)throw new Error(`Dataset request returned ${r.status}`);return r.json();}).then(d=>{data=d;if(page==='home')home();else if(page==='ledger')ledger();else if(page==='methodology')methodology();else if(layerOf(page))layerPage(page);else throw new Error('Unknown page');runtime();document.querySelector(`[data-nav="${page==='home'||layerOf(page)?'stack':page}"]`)?.classList.add('active');if(location.hash)requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView());}).catch(err=>{document.querySelector('#load-status').textContent='The research dataset could not be loaded. Please refresh, or use the repository link above to access the source data.';console.error(err);});
+Promise.all(['ledger','ecosystem'].map(name=>fetch(`${base}data/${name}.json`).then(r=>{if(!r.ok)throw new Error(`Dataset request returned ${r.status}`);return r.json();}))).then(([d,e])=>{data=d;ecosystem=e;if(page==='home')home();else if(page==='ledger')ledger();else if(page==='methodology')methodology();else if(page==='companies')companiesPage();else if(page==='industry')industryPage();else if(layerOf(page))layerPage(page);else throw new Error('Unknown page');extendWithEcosystem();runtime();document.querySelector(`[data-nav="${page==='home'||layerOf(page)?'stack':page}"]`)?.classList.add('active');if(location.hash)requestAnimationFrame(()=>document.getElementById(location.hash.slice(1))?.scrollIntoView());}).catch(err=>{root.innerHTML='<p id="load-status" class="empty"></p>';document.querySelector('#load-status').textContent='The research dataset could not be loaded. Please refresh, or use the repository link above to access the source data.';console.error(err);});
 
 let narrowCharts=window.innerWidth<600;
 window.addEventListener('resize',()=>{const next=window.innerWidth<600;if(data&&next!==narrowCharts){narrowCharts=next;document.querySelectorAll('.chart-wrap').forEach(el=>{el.outerHTML=chart(el.dataset.metric);});}});

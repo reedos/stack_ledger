@@ -215,6 +215,351 @@
         "stanford-2025",
         "stanford-2026"
       ]
+    },
+    {
+      "id": "revenue-nextera",
+      "layer": "energy",
+      "title": "NextEra Energy · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide operating revenue, including FPL and NextEra Energy Resources.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Broader power business; this is not revenue from AI customers alone. Preliminary results release.",
+      "source_ids": [
+        "company-nextera"
+      ]
+    },
+    {
+      "id": "revenue-ge-vernova",
+      "layer": "energy",
+      "title": "GE Vernova · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide GAAP revenue across Power, Wind and Electrification.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Equipment revenue includes many uses beyond AI and data centers.",
+      "source_ids": [
+        "company-ge-vernova"
+      ]
+    },
+    {
+      "id": "revenue-schneider",
+      "layer": "energy",
+      "title": "Schneider Electric · annual revenue",
+      "unit": "EUR billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue across Energy Management and Industrial Automation.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Not an AI revenue breakout. Original euros are retained; no exchange-rate conversion.",
+      "source_ids": [
+        "company-schneider"
+      ]
+    },
+    {
+      "id": "revenue-nvidia",
+      "layer": "chips",
+      "title": "NVIDIA · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes Data Center, gaming and other markets; not a measure of AI-only sales. NVIDIA designs chips and relies on manufacturing partners.",
+      "source_ids": [
+        "company-nvidia"
+      ]
+    },
+    {
+      "id": "revenue-amd",
+      "layer": "chips",
+      "title": "AMD · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Data Center segment revenue was $16.6B in FY2025; that includes server CPUs as well as AI accelerators.",
+      "source_ids": [
+        "company-amd"
+      ]
+    },
+    {
+      "id": "revenue-broadcom",
+      "layer": "chips",
+      "title": "Broadcom · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net revenue, semiconductors plus infrastructure software.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes VMware and other non-AI businesses. Custom chip design is distinct from wafer fabrication.",
+      "source_ids": [
+        "company-broadcom"
+      ]
+    },
+    {
+      "id": "revenue-tsmc",
+      "layer": "chips",
+      "title": "TSMC · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, using TSMC’s reported U.S. dollar figure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "All customers and chip markets; not AI-only. Annual wafer capacity is tracked separately.",
+      "source_ids": [
+        "company-tsmc"
+      ]
+    },
+    {
+      "id": "revenue-samsung",
+      "layer": "chips",
+      "title": "Samsung Electronics · annual revenue",
+      "unit": "KRW trillion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue in trillions of Korean won.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes phones, displays and appliances. This figure is not semiconductor, foundry or AI revenue.",
+      "source_ids": [
+        "company-samsung"
+      ]
+    },
+    {
+      "id": "revenue-intel",
+      "layer": "chips",
+      "title": "Intel · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Internal foundry transfers are not additional consolidated sales; do not add segment revenues without eliminations.",
+      "source_ids": [
+        "company-intel"
+      ]
+    },
+    {
+      "id": "revenue-sk-hynix",
+      "layer": "chips",
+      "title": "SK hynix · annual revenue",
+      "unit": "KRW trillion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue in trillions of Korean won.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Total memory business; not an HBM-only or AI-only revenue figure.",
+      "source_ids": [
+        "company-sk-hynix"
+      ]
+    },
+    {
+      "id": "revenue-micron",
+      "layer": "chips",
+      "title": "Micron · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes memory and storage outside AI. This is fiscal 2025, not a 2026 run rate.",
+      "source_ids": [
+        "company-micron"
+      ]
+    },
+    {
+      "id": "revenue-asml",
+      "layer": "chips",
+      "title": "ASML · annual revenue",
+      "unit": "EUR billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "ASML sells manufacturing equipment; it does not fabricate customers’ finished chips. Original euros retained.",
+      "source_ids": [
+        "company-asml"
+      ]
+    },
+    {
+      "id": "revenue-vertiv",
+      "layer": "infrastructure",
+      "title": "Vertiv · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Critical digital infrastructure sales, not solely AI data centers.",
+      "source_ids": [
+        "company-vertiv"
+      ]
+    },
+    {
+      "id": "revenue-microsoft",
+      "layer": "infrastructure",
+      "title": "Microsoft · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Azure exceeded $100B annual revenue in FY2026, but Azure includes non-AI workloads. Copilot is not the whole company.",
+      "source_ids": [
+        "company-microsoft"
+      ]
+    },
+    {
+      "id": "revenue-aws",
+      "layer": "infrastructure",
+      "title": "Amazon Web Services · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "AWS segment annual net sales; excludes Amazon retail and other segments.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "A segment figure, not total Amazon revenue. Includes non-AI cloud services; not AI-only sales.",
+      "source_ids": [
+        "company-aws"
+      ]
+    },
+    {
+      "id": "revenue-alphabet",
+      "layer": "infrastructure",
+      "title": "Alphabet / Google · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated Alphabet annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes advertising and other businesses; not Google Cloud or Gemini revenue alone.",
+      "source_ids": [
+        "company-alphabet"
+      ]
+    },
+    {
+      "id": "revenue-meta",
+      "layer": "models",
+      "title": "Meta · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Predominantly the broader advertising business; not standalone model revenue or a direct measure of AI value added.",
+      "source_ids": [
+        "company-meta"
+      ]
+    },
+    {
+      "id": "revenue-openai",
+      "layer": "models",
+      "title": "OpenAI · annualized revenue run rate",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-reported annualized revenue run rate; not revenue earned over a full year.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Historical run-rate disclosure. It is not an audited annual revenue total or a current September 2026 estimate.",
+      "source_ids": [
+        "company-openai"
+      ]
+    },
+    {
+      "id": "revenue-anthropic",
+      "layer": "models",
+      "title": "Anthropic · annualized revenue run rate",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-reported annualized revenue run rate; not revenue earned over a full year.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Historical company disclosure from May 2026. Funding raised and valuation are separate from revenue.",
+      "source_ids": [
+        "company-anthropic"
+      ]
+    },
+    {
+      "id": "revenue-salesforce",
+      "layer": "applications",
+      "title": "Salesforce · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Includes the wider CRM and data business; not Agentforce-only revenue or measured customer productivity.",
+      "source_ids": [
+        "company-salesforce"
+      ]
+    },
+    {
+      "id": "revenue-palantir",
+      "layer": "applications",
+      "title": "Palantir · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as described in the annual report.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Government and commercial platform revenue; not AIP-only sales or a quantified economy-wide productivity effect.",
+      "source_ids": [
+        "company-palantir"
+      ]
+    },
+    {
+      "id": "advanced-wafer-capacity",
+      "layer": "chips",
+      "title": "Global advanced logic capacity · 7nm and below",
+      "unit": "million wafers / month",
+      "geography": "Global",
+      "scope": "Global 300mm fabrication capacity at 7nm and below, across all chip uses.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "June 2025 forecast vintage. Later calendar years remain forecasts until an observed update is sourced. Wafer capacity is not accelerator shipments.",
+      "source_ids": [
+        "semi-advanced-2025"
+      ]
+    },
+    {
+      "id": "memory-wafer-capacity",
+      "layer": "chips",
+      "title": "Global 300mm memory capacity",
+      "unit": "million wafers / month",
+      "geography": "Global",
+      "scope": "Global 300mm memory fabrication capacity, including DRAM and NAND.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "June 2026 forecast vintage. This is not HBM-only capacity and cannot be translated directly into GPU supply.",
+      "source_ids": [
+        "semi-memory-2026"
+      ]
     }
   ],
   "sources": [
@@ -420,6 +765,320 @@
       ],
       "license": "Original source rights apply",
       "parent_source": "nvidia-news"
+    },
+    {
+      "id": "company-nextera",
+      "publisher": "NextEra Energy",
+      "title": "NextEra Energy · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://www.investor.nexteraenergy.com/~/media/Files/N/NEE-IR/reports-and-fillings/quarterly-earnings/2025/Q4%202025/2026-0127%20NEEQ42025News%20Release%20vF.pdf",
+      "published": "2026-01-27",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-ge-vernova",
+      "publisher": "GE Vernova",
+      "title": "GE Vernova · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://www.gevernova.com/news/articles/ge-vernova-releases-fourth-quarter-full-year-2025-financial-results",
+      "published": "2026-01-28",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-schneider",
+      "publisher": "Schneider Electric",
+      "title": "Schneider Electric · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://www.se.com/ww/en/assets/564/document/528237/release-fy-results-2025.pdf",
+      "published": "2026-02-26",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-nvidia",
+      "publisher": "NVIDIA",
+      "title": "NVIDIA · FY2026 · ended Jan 25, 2026 financial disclosure",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2026",
+      "published": "2026-02-25",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-amd",
+      "publisher": "AMD",
+      "title": "AMD · FY2025 · ended Dec 27, 2025 financial disclosure",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1276/amd-reports-fourth-quarter-and-full-year-2025-financial-results",
+      "published": "2026-02-03",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-broadcom",
+      "publisher": "Broadcom",
+      "title": "Broadcom · FY2025 · ended Nov 2, 2025 financial disclosure",
+      "url": "https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-fourth-quarter-and-fiscal-year-2025",
+      "published": "2025-12-11",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-tsmc",
+      "publisher": "TSMC",
+      "title": "TSMC · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-samsung",
+      "publisher": "Samsung Electronics",
+      "title": "Samsung Electronics · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://news.samsung.com/global/samsung-electronics-announces-fourth-quarter-and-fy-2025-results",
+      "published": "2026-01-29",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-intel",
+      "publisher": "Intel",
+      "title": "Intel · FY2025 · ended Dec 27, 2025 financial disclosure",
+      "url": "https://www.intc.com/filings-reports/all-sec-filings/content/0000050863-26-000009/q425earningsrelease.htm",
+      "published": "2026-01-22",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-sk-hynix",
+      "publisher": "SK hynix",
+      "title": "SK hynix · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://news.skhynix.com/en/sk-hynix-announces-fy25-financial-results/",
+      "published": "2026-01-28",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-micron",
+      "publisher": "Micron",
+      "title": "Micron · FY2025 · ended Aug 28, 2025 financial disclosure",
+      "url": "https://investors.micron.com/news/press-release/2025/Micron-Technology-Inc--Reports-Results-for-the-Fourth-Quarter-and-Full-Year-of-Fiscal-2025-09-23-2025/default.aspx",
+      "published": "2025-09-23",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-asml",
+      "publisher": "ASML",
+      "title": "ASML · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://www.asml.com/en/news/press-releases/2026/q4-2025-financial-results",
+      "published": "2026-01-28",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-vertiv",
+      "publisher": "Vertiv",
+      "title": "Vertiv · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://investors.vertiv.com/financials/annual-reports/2026-Shareholder-Letter/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-microsoft",
+      "publisher": "Microsoft",
+      "title": "Microsoft · FY2026 · ended Jun 30, 2026 financial disclosure",
+      "url": "https://www.microsoft.com/en-us/investor/earnings/fy-2026-q4/press-release-webcast",
+      "published": "2026-07-29",
+      "layers": [
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-aws",
+      "publisher": "Amazon Web Services",
+      "title": "Amazon Web Services · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/",
+      "published": "2026-02-05",
+      "layers": [
+        "infrastructure",
+        "chips",
+        "models"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-alphabet",
+      "publisher": "Alphabet / Google",
+      "title": "Alphabet / Google · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm",
+      "published": "2026-02-05",
+      "layers": [
+        "infrastructure",
+        "chips",
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-meta",
+      "publisher": "Meta",
+      "title": "Meta · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Fourth-Quarter-and-Full-Year-2025-Results/default.aspx",
+      "published": "2026-01-28",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-openai",
+      "publisher": "OpenAI",
+      "title": "OpenAI · 2025 annualized pace · disclosed Jan 2026 financial disclosure",
+      "url": "https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/",
+      "published": "2026-01-18",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-anthropic",
+      "publisher": "Anthropic",
+      "title": "Anthropic · May 2026 annualized pace financial disclosure",
+      "url": "https://www.anthropic.com/news/series-h",
+      "published": "2026-05-28",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-salesforce",
+      "publisher": "Salesforce",
+      "title": "Salesforce · FY2026 · ended Jan 31, 2026 financial disclosure",
+      "url": "https://investor.salesforce.com/news/news-details/2026/Salesforce-Delivers-Record-Fourth-Quarter-Fiscal-2026-Results/default.aspx",
+      "published": "2026-02-25",
+      "layers": [
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "company-palantir",
+      "publisher": "Palantir",
+      "title": "Palantir · FY2025 · year ended Dec 31 financial disclosure",
+      "url": "https://investors.palantir.com/files/2025%20FY%20PLTR%2010-K.pdf",
+      "published": null,
+      "layers": [
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "semi-advanced-2025",
+      "publisher": "SEMI",
+      "title": "300mm Fab Outlook · advanced capacity forecast",
+      "url": "https://www.semi.org/en/semi-press-release/semi-forecasts-69-percent-growth-in-advanced-chipmaking-capacity-through-2028-due-to-ai",
+      "published": "2025-06-25",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "semi-memory-2026",
+      "publisher": "SEMI",
+      "title": "300mm memory capacity and investment outlook",
+      "url": "https://www.semi.org/en/semi-press-release/semi-projects-300mm-memory-equipment-investment-to-surpass-50-billion-dollars-in-2026",
+      "published": "2026-06-29",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "tsmc-arizona",
+      "publisher": "TSMC",
+      "title": "Arizona · manufacturing milestones and economic impact",
+      "url": "https://www.tsmc.com/static/abouttsmcaz/index.htm",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "micron-ny-2026",
+      "publisher": "Micron",
+      "title": "New York megafab groundbreaking and production plan",
+      "url": "https://investors.micron.com/news/press-release/2026/Micron-Celebrates-Official-Groundbreaking-at-New-York-Megafab-Site-01-16-2026/default.aspx",
+      "published": "2026-01-16",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "ge-us-jobs-2025",
+      "publisher": "GE Vernova",
+      "title": "U.S. factory investment and expected jobs",
+      "url": "https://www.gevernova.com/news/press-releases/ge-vernova-invest-almost-600-million-us-factories-facilities-over-next-two-years",
+      "published": "2025-01-29",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "bls-aug-2026",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "title": "Employment Situation · August 2026",
+      "url": "https://www.bls.gov/news.release/archives/empsit_09042026.htm",
+      "published": "2026-09-04",
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "license": "Source material retains original rights"
     }
   ],
   "observations": [
@@ -660,6 +1319,384 @@
       "retrieved_at": "2026-09-07T02:50:00Z",
       "method": "curated",
       "note": ""
+    },
+    {
+      "id": "revenue-nextera-2025",
+      "metric": "revenue-nextera",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 27.412,
+      "upper": null,
+      "status": "observation",
+      "source": "company-nextera",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Broader power business; this is not revenue from AI customers alone. Preliminary results release."
+    },
+    {
+      "id": "revenue-ge-vernova-2025",
+      "metric": "revenue-ge-vernova",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 38.1,
+      "upper": null,
+      "status": "observation",
+      "source": "company-ge-vernova",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Equipment revenue includes many uses beyond AI and data centers."
+    },
+    {
+      "id": "revenue-schneider-2025",
+      "metric": "revenue-schneider",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 40.152,
+      "upper": null,
+      "status": "observation",
+      "source": "company-schneider",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Not an AI revenue breakout. Original euros are retained; no exchange-rate conversion."
+    },
+    {
+      "id": "revenue-nvidia-2026",
+      "metric": "revenue-nvidia",
+      "year": 2026,
+      "period": "FY2026 · ended Jan 25, 2026",
+      "value": 215.9,
+      "upper": null,
+      "status": "observation",
+      "source": "company-nvidia",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Includes Data Center, gaming and other markets; not a measure of AI-only sales. NVIDIA designs chips and relies on manufacturing partners."
+    },
+    {
+      "id": "revenue-amd-2025",
+      "metric": "revenue-amd",
+      "year": 2025,
+      "period": "FY2025 · ended Dec 27, 2025",
+      "value": 34.6,
+      "upper": null,
+      "status": "observation",
+      "source": "company-amd",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Data Center segment revenue was $16.6B in FY2025; that includes server CPUs as well as AI accelerators."
+    },
+    {
+      "id": "revenue-broadcom-2025",
+      "metric": "revenue-broadcom",
+      "year": 2025,
+      "period": "FY2025 · ended Nov 2, 2025",
+      "value": 63.887,
+      "upper": null,
+      "status": "observation",
+      "source": "company-broadcom",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Includes VMware and other non-AI businesses. Custom chip design is distinct from wafer fabrication."
+    },
+    {
+      "id": "revenue-tsmc-2025",
+      "metric": "revenue-tsmc",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 122.42,
+      "upper": null,
+      "status": "observation",
+      "source": "company-tsmc",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "All customers and chip markets; not AI-only. Annual wafer capacity is tracked separately."
+    },
+    {
+      "id": "revenue-samsung-2025",
+      "metric": "revenue-samsung",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 333.6,
+      "upper": null,
+      "status": "observation",
+      "source": "company-samsung",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Includes phones, displays and appliances. This figure is not semiconductor, foundry or AI revenue."
+    },
+    {
+      "id": "revenue-intel-2025",
+      "metric": "revenue-intel",
+      "year": 2025,
+      "period": "FY2025 · ended Dec 27, 2025",
+      "value": 52.9,
+      "upper": null,
+      "status": "observation",
+      "source": "company-intel",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Internal foundry transfers are not additional consolidated sales; do not add segment revenues without eliminations."
+    },
+    {
+      "id": "revenue-sk-hynix-2025",
+      "metric": "revenue-sk-hynix",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 97.1467,
+      "upper": null,
+      "status": "observation",
+      "source": "company-sk-hynix",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Total memory business; not an HBM-only or AI-only revenue figure."
+    },
+    {
+      "id": "revenue-micron-2025",
+      "metric": "revenue-micron",
+      "year": 2025,
+      "period": "FY2025 · ended Aug 28, 2025",
+      "value": 37.378,
+      "upper": null,
+      "status": "observation",
+      "source": "company-micron",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Includes memory and storage outside AI. This is fiscal 2025, not a 2026 run rate."
+    },
+    {
+      "id": "revenue-asml-2025",
+      "metric": "revenue-asml",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 32.7,
+      "upper": null,
+      "status": "observation",
+      "source": "company-asml",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "ASML sells manufacturing equipment; it does not fabricate customers’ finished chips. Original euros retained."
+    },
+    {
+      "id": "revenue-vertiv-2025",
+      "metric": "revenue-vertiv",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 10.2,
+      "upper": null,
+      "status": "observation",
+      "source": "company-vertiv",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Critical digital infrastructure sales, not solely AI data centers."
+    },
+    {
+      "id": "revenue-microsoft-2026",
+      "metric": "revenue-microsoft",
+      "year": 2026,
+      "period": "FY2026 · ended Jun 30, 2026",
+      "value": 331.8,
+      "upper": null,
+      "status": "observation",
+      "source": "company-microsoft",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Azure exceeded $100B annual revenue in FY2026, but Azure includes non-AI workloads. Copilot is not the whole company."
+    },
+    {
+      "id": "revenue-aws-2025",
+      "metric": "revenue-aws",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 128.7,
+      "upper": null,
+      "status": "observation",
+      "source": "company-aws",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "A segment figure, not total Amazon revenue. Includes non-AI cloud services; not AI-only sales."
+    },
+    {
+      "id": "revenue-alphabet-2025",
+      "metric": "revenue-alphabet",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 402.836,
+      "upper": null,
+      "status": "observation",
+      "source": "company-alphabet",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Includes advertising and other businesses; not Google Cloud or Gemini revenue alone."
+    },
+    {
+      "id": "revenue-meta-2025",
+      "metric": "revenue-meta",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 200.966,
+      "upper": null,
+      "status": "observation",
+      "source": "company-meta",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Predominantly the broader advertising business; not standalone model revenue or a direct measure of AI value added."
+    },
+    {
+      "id": "revenue-openai-2025",
+      "metric": "revenue-openai",
+      "year": 2025,
+      "period": "2025 annualized pace · disclosed Jan 2026",
+      "value": 20,
+      "upper": null,
+      "status": "observation",
+      "source": "company-openai",
+      "precision": "gt",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Historical run-rate disclosure. It is not an audited annual revenue total or a current September 2026 estimate."
+    },
+    {
+      "id": "revenue-anthropic-2026",
+      "metric": "revenue-anthropic",
+      "year": 2026,
+      "period": "May 2026 annualized pace",
+      "value": 47,
+      "upper": null,
+      "status": "observation",
+      "source": "company-anthropic",
+      "precision": "gt",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Historical company disclosure from May 2026. Funding raised and valuation are separate from revenue."
+    },
+    {
+      "id": "revenue-salesforce-2026",
+      "metric": "revenue-salesforce",
+      "year": 2026,
+      "period": "FY2026 · ended Jan 31, 2026",
+      "value": 41.5,
+      "upper": null,
+      "status": "observation",
+      "source": "company-salesforce",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Includes the wider CRM and data business; not Agentforce-only revenue or measured customer productivity."
+    },
+    {
+      "id": "revenue-palantir-2025",
+      "metric": "revenue-palantir",
+      "year": 2025,
+      "period": "FY2025 · year ended Dec 31",
+      "value": 4.5,
+      "upper": null,
+      "status": "observation",
+      "source": "company-palantir",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "Government and commercial platform revenue; not AIP-only sales or a quantified economy-wide productivity effect."
+    },
+    {
+      "id": "advanced-capacity-2024",
+      "metric": "advanced-wafer-capacity",
+      "year": 2024,
+      "period": "2024 · June 2025 outlook",
+      "value": 0.85,
+      "upper": null,
+      "status": "estimate",
+      "source": "semi-advanced-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "SEMI 2025 outlook; all advanced-node uses, not exclusively AI."
+    },
+    {
+      "id": "advanced-capacity-2025",
+      "metric": "advanced-wafer-capacity",
+      "year": 2025,
+      "period": "2025 · June 2025 outlook",
+      "value": 0.982,
+      "upper": null,
+      "status": "forecast",
+      "source": "semi-advanced-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "SEMI 2025 outlook; all advanced-node uses, not exclusively AI."
+    },
+    {
+      "id": "advanced-capacity-2026",
+      "metric": "advanced-wafer-capacity",
+      "year": 2026,
+      "period": "2026 · June 2025 outlook",
+      "value": 1.16,
+      "upper": null,
+      "status": "forecast",
+      "source": "semi-advanced-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "SEMI 2025 outlook; all advanced-node uses, not exclusively AI."
+    },
+    {
+      "id": "advanced-capacity-2028",
+      "metric": "advanced-wafer-capacity",
+      "year": 2028,
+      "period": "2028 · June 2025 outlook",
+      "value": 1.4,
+      "upper": null,
+      "status": "forecast",
+      "source": "semi-advanced-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": "SEMI 2025 outlook; all advanced-node uses, not exclusively AI."
+    },
+    {
+      "id": "memory-capacity-2026",
+      "metric": "memory-wafer-capacity",
+      "year": 2026,
+      "period": "2026 · June 2026 outlook",
+      "value": 4.1,
+      "upper": null,
+      "status": "forecast",
+      "source": "semi-memory-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "memory-capacity-2027",
+      "metric": "memory-wafer-capacity",
+      "year": 2027,
+      "period": "2027 · June 2026 outlook",
+      "value": 4.2,
+      "upper": null,
+      "status": "forecast",
+      "source": "semi-memory-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:23:30Z",
+      "method": "curated",
+      "note": ""
     }
   ],
   "events": [
@@ -742,6 +1779,42 @@
       "retrieved_at": "2026-09-07T03:00:30Z",
       "document_sha256": "e93b9baa24782565a54c993630ed358401706bfae9bc19f015f59ffd3d730c9c",
       "evidence_sha256": "ba4b404bca33c7ce43937bc77cdc101694e2c970bdbdc8b4857681b051c681e8"
+    },
+    {
+      "id": "industry-semi-memory-2026",
+      "layer": "chips",
+      "date": "2026-06-29",
+      "title": "Memory capacity outlook points to further expansion",
+      "summary": "SEMI projects global 300mm memory fabrication capacity of 4.1 million wafers per month in 2026 and 4.2 million in 2027. These are forecasts covering memory broadly, not HBM-only output or accelerator shipments.",
+      "source": "semi-memory-2026",
+      "kind": "Forecast update"
+    },
+    {
+      "id": "industry-micron-ny-2026",
+      "layer": "chips",
+      "date": "2026-01-16",
+      "title": "Micron announces New York groundbreaking; production expected in 2030",
+      "summary": "Micron announced the groundbreaking for its New York memory complex, with up to four fabs planned. The company expects production to start in 2030 and ramp through the decade. Its regional jobs projection is a long-term impact claim, not a count of workers already hired.",
+      "source": "micron-ny-2026",
+      "kind": "Company announcement"
+    },
+    {
+      "id": "industry-ge-jobs-2025",
+      "layer": "energy",
+      "date": "2025-01-29",
+      "title": "Power equipment expansion includes a U.S. workforce commitment",
+      "summary": "GE Vernova announced almost $600 million for U.S. factories and facilities over two years, with approximately 1,500 expected factory and engineering jobs. This is a dated investment and hiring plan; realized employment remains a follow-up question.",
+      "source": "ge-us-jobs-2025",
+      "kind": "Company announcement"
+    },
+    {
+      "id": "industry-bls-aug-2026",
+      "layer": "applications",
+      "date": "2026-09-04",
+      "title": "August payroll data show an uneven industrial employment picture",
+      "summary": "BLS reports a preliminary, seasonally adjusted gain of 16,000 U.S. manufacturing jobs and a decline of 23,000 information-sector jobs in August 2026. These broad sectors include activity beyond AI, so the changes cannot be attributed to AI alone.",
+      "source": "bls-aug-2026",
+      "kind": "Research finding"
     }
   ],
   "targets": [

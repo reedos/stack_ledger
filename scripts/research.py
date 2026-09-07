@@ -42,6 +42,13 @@ def save(path,value):
     os.replace(tmp,path)
 def normalize(value):return ' '.join(value.split())
 
+def source_queue(registry, day):
+    order=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
+    approved={s['id']:s for s in registry['sources']}
+    rest=[s for s in registry['sources'] if s['id'] not in order and s['layers']]
+    offset=(day.toordinal()*7)%len(rest) if rest else 0
+    return [approved[i] for i in order]+rest[offset:]+rest[:offset]
+
 class ReadableHTML(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True);self.parts=[];self.links=[];self.skip=[];self.published=None;self.title=[];self.in_title=False
@@ -247,10 +254,10 @@ def main():
         fetcher=Fetcher();coverage=set();model_failed=False
         limit=args.max_documents or config['max_documents']
         require(1<=limit<=config['max_documents'],'Invalid document limit')
-        # Interleave layers so the first five pages cover the entire stack.
-        order=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
-        approved={s['id']:s for s in registry['sources']}
-        queue=[approved[i] for i in order]+[s for s in registry['sources'] if s.get('index')]+[s for s in registry['sources'] if s['id'] not in order and s['layers'] and not s.get('index')]
+        # Keep the five-layer baseline, then rotate the broader registry daily.
+        # At most one child per approved page keeps seven rotating parents
+        # reachable within the default 24-document budget.
+        queue=source_queue(registry,datetime.now(timezone.utc).date())
         seen=set();attempts=0
         constitution=(ROOT/'research/CONSTITUTION.md').read_text(encoding='utf-8')
         while queue and attempts<limit:
@@ -275,8 +282,7 @@ def main():
                         if not any(word in u.path.lower() for word in registry['discovery_keywords']):continue
                         child=dict(source,id='discovered-'+digest(url)[:16],url=url,published=None,parent_source=source['id'],title='Discovered public update · '+source['publisher'])
                         child.pop('index',None)
-                        if source.get('index'):queue.insert(0,child)
-                        else:queue.append(child)
+                        queue.insert(0,child)
                         found+=1
                         if found>=config['max_discovered_per_source']:break
                 if source.get('index'):continue

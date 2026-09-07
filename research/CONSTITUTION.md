@@ -24,5 +24,10 @@ A successful run may find no new evidence. Publish an honest run record with the
 ## Change control
 The automation is append-only for research observations, verified source-linked research notes, and run receipts. It may refresh the public run summary and deterministic site artifacts. Code, site design, source policy, metrics, targets, and this constitution require human-reviewed changes. Proposed corrections are quarantined for review; preserve the original record and record the replacement relationship. Do not remove inconvenient history.
 
+## Financial and workforce evidence
+Keep company-wide revenue, segment revenue and annualized run rates distinct, with their original currency and fiscal or disclosure period. Do not substitute quarterly sales, funding, valuation, bookings or capital investment for annual revenue. Serving an AI layer does not make every dollar of a company's sales AI revenue. Do not sum overlapping supplier/customer revenues into industry value added.
+
+Keep actual hires, peak construction workers, projected permanent positions and regional economic-impact estimates distinct. Do not add them into a net jobs claim. Industrial development claims require attributed stages, and net AI employment effects require evidence beyond project announcements or broad sector movements. Preserve forecast vintages for fabs, memory and packaging; a forecast does not become an observation when its target year arrives.
+
 ## Charts and pages
 Use the maintained page templates; the model never generates executable HTML or JavaScript. Every chart needs labeled units, periods, source links, accessible data tables, and explicit visual separation of projections. Do not interpolate missing observations, invent sparklines, imply that a straight line is a forecast, or normalize unrelated metrics into an overall AI completion score. A target's progress percentage is allowed only when baseline and latest observation share its scope, unit, definition, and measurement basis. Unknown progress must be shown as unknown.

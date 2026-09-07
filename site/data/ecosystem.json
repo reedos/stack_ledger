@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-07T07:23:30Z",
+  "companies": [
+    {
+      "id": "nextera",
+      "name": "NextEra Energy",
+      "layers": [
+        "energy"
+      ],
+      "role": "Develops and operates power generation, renewable energy and storage; its utility delivers electricity to customers.",
+      "revenue_metric": "revenue-nextera",
+      "revenue_kind": "annual",
+      "source": "company-nextera"
+    },
+    {
+      "id": "ge-vernova",
+      "name": "GE Vernova",
+      "layers": [
+        "energy"
+      ],
+      "role": "Makes gas turbines, wind equipment and grid systems that expand electricity supply and delivery.",
+      "revenue_metric": "revenue-ge-vernova",
+      "revenue_kind": "annual",
+      "source": "company-ge-vernova"
+    },
+    {
+      "id": "schneider",
+      "name": "Schneider Electric",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "role": "Supplies power distribution, energy management and automation, connecting the grid to data-center equipment.",
+      "revenue_metric": "revenue-schneider",
+      "revenue_kind": "annual",
+      "source": "company-schneider"
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Designs GPUs and networking, and develops the software and systems that make accelerated computing usable at scale.",
+      "revenue_metric": "revenue-nvidia",
+      "revenue_kind": "annual",
+      "source": "company-nvidia"
+    },
+    {
+      "id": "amd",
+      "name": "AMD",
+      "layers": [
+        "chips"
+      ],
+      "role": "Designs Instinct accelerators and EPYC server CPUs, giving customers additional compute platforms.",
+      "revenue_metric": "revenue-amd",
+      "revenue_kind": "annual",
+      "source": "company-amd"
+    },
+    {
+      "id": "broadcom",
+      "name": "Broadcom",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Designs custom accelerators and networking silicon that connect large AI systems; also sells infrastructure software.",
+      "revenue_metric": "revenue-broadcom",
+      "revenue_kind": "annual",
+      "source": "company-broadcom"
+    },
+    {
+      "id": "tsmc",
+      "name": "TSMC",
+      "layers": [
+        "chips"
+      ],
+      "role": "Fabricates customers’ chip designs and provides advanced packaging, turning designs into manufacturable processors.",
+      "revenue_metric": "revenue-tsmc",
+      "revenue_kind": "annual",
+      "source": "company-tsmc"
+    },
+    {
+      "id": "samsung",
+      "name": "Samsung Electronics",
+      "layers": [
+        "chips"
+      ],
+      "role": "Manufactures memory and logic chips, and offers foundry services; HBM supports high-bandwidth accelerator memory.",
+      "revenue_metric": "revenue-samsung",
+      "revenue_kind": "annual",
+      "source": "company-samsung"
+    },
+    {
+      "id": "intel",
+      "name": "Intel",
+      "layers": [
+        "chips"
+      ],
+      "role": "Designs processors and operates semiconductor fabs, including a foundry business for external customers.",
+      "revenue_metric": "revenue-intel",
+      "revenue_kind": "annual",
+      "source": "company-intel"
+    },
+    {
+      "id": "sk-hynix",
+      "name": "SK hynix",
+      "layers": [
+        "chips"
+      ],
+      "role": "Manufactures DRAM, NAND and high-bandwidth memory, helping accelerators keep data close to compute.",
+      "revenue_metric": "revenue-sk-hynix",
+      "revenue_kind": "annual",
+      "source": "company-sk-hynix"
+    },
+    {
+      "id": "micron",
+      "name": "Micron",
+      "layers": [
+        "chips"
+      ],
+      "role": "Manufactures DRAM, NAND and HBM; expands the memory and packaging supply that AI systems require.",
+      "revenue_metric": "revenue-micron",
+      "revenue_kind": "annual",
+      "source": "company-micron"
+    },
+    {
+      "id": "asml",
+      "name": "ASML",
+      "layers": [
+        "chips"
+      ],
+      "role": "Supplies lithography systems that print chip patterns on wafers, enabling foundries to manufacture advanced nodes.",
+      "revenue_metric": "revenue-asml",
+      "revenue_kind": "annual",
+      "source": "company-asml"
+    },
+    {
+      "id": "vertiv",
+      "name": "Vertiv",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Supplies power and thermal management to keep dense computing systems powered and cooled.",
+      "revenue_metric": "revenue-vertiv",
+      "revenue_kind": "annual",
+      "source": "company-vertiv"
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "layers": [
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "role": "Operates Azure, provides model access and developer tools, and puts AI into work through Copilot applications.",
+      "revenue_metric": "revenue-microsoft",
+      "revenue_kind": "annual",
+      "source": "company-microsoft"
+    },
+    {
+      "id": "aws",
+      "name": "Amazon Web Services",
+      "layers": [
+        "infrastructure",
+        "chips",
+        "models"
+      ],
+      "role": "Rents cloud compute, designs Trainium chips and provides model access through Bedrock.",
+      "revenue_metric": "revenue-aws",
+      "revenue_kind": "annual",
+      "source": "company-aws"
+    },
+    {
+      "id": "alphabet",
+      "name": "Alphabet / Google",
+      "layers": [
+        "infrastructure",
+        "chips",
+        "models",
+        "applications"
+      ],
+      "role": "Designs TPUs, operates Google Cloud, develops Gemini and integrates AI into consumer and workplace products.",
+      "revenue_metric": "revenue-alphabet",
+      "revenue_kind": "annual",
+      "source": "company-alphabet"
+    },
+    {
+      "id": "meta",
+      "name": "Meta",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "role": "Develops Llama models and applies AI to recommendations, advertising and consumer assistants.",
+      "revenue_metric": "revenue-meta",
+      "revenue_kind": "annual",
+      "source": "company-meta"
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "role": "Develops frontier models, sells API access and subscriptions, and provides ChatGPT for individual and workplace use.",
+      "revenue_metric": "revenue-openai",
+      "revenue_kind": "run-rate",
+      "source": "company-openai"
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "role": "Develops Claude models and tools such as Claude Code, supporting API use and enterprise workflows.",
+      "revenue_metric": "revenue-anthropic",
+      "revenue_kind": "run-rate",
+      "source": "company-anthropic"
+    },
+    {
+      "id": "salesforce",
+      "name": "Salesforce",
+      "layers": [
+        "applications"
+      ],
+      "role": "Integrates AI agents into customer relationship management, sales and service workflows through Agentforce.",
+      "revenue_metric": "revenue-salesforce",
+      "revenue_kind": "annual",
+      "source": "company-salesforce"
+    },
+    {
+      "id": "palantir",
+      "name": "Palantir",
+      "layers": [
+        "applications"
+      ],
+      "role": "Connects organizational data to operational workflows and AI applications through its platforms and AIP.",
+      "revenue_metric": "revenue-palantir",
+      "revenue_kind": "annual",
+      "source": "company-palantir"
+    }
+  ],
+  "capacity_metrics": [
+    "tsmc-wafer-capacity",
+    "advanced-wafer-capacity",
+    "memory-wafer-capacity"
+  ],
+  "supply_chain": [
+    {
+      "title": "Design",
+      "role": "Architect the processor and its interconnects.",
+      "companies": [
+        "nvidia",
+        "amd",
+        "broadcom",
+        "aws",
+        "alphabet",
+        "intel"
+      ],
+      "note": "A chip designer may use an external foundry; cloud operators also design custom chips."
+    },
+    {
+      "title": "Fabrication",
+      "role": "Pattern and process silicon wafers in fabs.",
+      "companies": [
+        "tsmc",
+        "samsung",
+        "intel"
+      ],
+      "note": "Foundry process, yield and available production slots matter alongside nameplate capacity."
+    },
+    {
+      "title": "Memory",
+      "role": "Feed processors with high-bandwidth data.",
+      "companies": [
+        "sk-hynix",
+        "micron",
+        "samsung"
+      ],
+      "note": "HBM availability and qualification can limit complete accelerator supply."
+    },
+    {
+      "title": "Packaging",
+      "role": "Connect compute and memory into a working device.",
+      "companies": [
+        "tsmc"
+      ],
+      "note": "Advanced packaging is a separate production step. Foundry wafer starts do not measure packaging throughput."
+    },
+    {
+      "title": "Equipment",
+      "role": "Provide the machines that make fabrication possible.",
+      "companies": [
+        "asml"
+      ],
+      "note": "Lithography supports fabrication; additional equipment, materials and testing suppliers extend this chain."
+    }
+  ],
+  "projects": [
+    {
+      "company": "tsmc",
+      "title": "Arizona · first fab",
+      "stage": "Operating",
+      "period": "High-volume production began Q4 2024",
+      "detail": "N4 production is a delivered manufacturing milestone.",
+      "source": "tsmc-arizona"
+    },
+    {
+      "company": "tsmc",
+      "title": "Arizona · second fab",
+      "stage": "Construction milestone",
+      "period": "N3 production targeted H2 2027",
+      "detail": "Fab structure completed in 2025. Production remains a company target.",
+      "source": "tsmc-arizona"
+    },
+    {
+      "company": "tsmc",
+      "title": "Arizona · third fab",
+      "stage": "Construction milestone",
+      "period": "Production targeted by end of decade",
+      "detail": "Groundbreaking in April 2025; N2 and A16 planned.",
+      "source": "tsmc-arizona"
+    },
+    {
+      "company": "micron",
+      "title": "New York · memory complex",
+      "stage": "Groundbreaking announced",
+      "period": "Production expected to start in 2030",
+      "detail": "January 2026 groundbreaking announcement; up to four fabs planned, with ramp-up through the 2030s.",
+      "source": "micron-ny-2026"
+    }
+  ],
+  "jobs": [
+    {
+      "title": "TSMC Arizona",
+      "value": 6000,
+      "precision": "eq",
+      "status": "Expected direct jobs",
+      "period": "First three fabs · future operation",
+      "scope": "Direct high-tech roles. Not a count of current employees or the entire Arizona expansion.",
+      "source": "tsmc-arizona"
+    },
+    {
+      "title": "Microsoft Wisconsin",
+      "value": 3000,
+      "precision": "gt",
+      "status": "Reported construction workforce",
+      "period": "Daily peak · reported September 2025",
+      "scope": "People on site at the daily construction peak. Temporary construction work, not permanent jobs or job-years.",
+      "source": "msft-wisconsin"
+    },
+    {
+      "title": "Microsoft Wisconsin",
+      "value": 500,
+      "precision": "eq",
+      "status": "Expected operating jobs",
+      "period": "First facility · once operational",
+      "scope": "Permanent roles expected for the initial facility. A projection from the September 2025 announcement.",
+      "source": "msft-wisconsin"
+    },
+    {
+      "title": "GE Vernova · U.S. factories",
+      "value": 1500,
+      "precision": "approx",
+      "status": "Expected new jobs",
+      "period": "Two-year plan announced January 2025",
+      "scope": "Factory and engineering roles associated with the announced U.S. investment. Completion not verified here.",
+      "source": "ge-us-jobs-2025"
+    },
+    {
+      "title": "Micron New York",
+      "value": 50000,
+      "precision": "eq",
+      "status": "Projected regional jobs impact",
+      "period": "Long-term megafab buildout",
+      "scope": "Broad state-level impact claim. This disclosure does not separate direct, indirect and induced jobs; excluded from any total.",
+      "source": "micron-ny-2026"
+    }
+  ],
+  "employment": {
+    "period": "August 2026",
+    "geography": "United States",
+    "basis": "Seasonally adjusted monthly payroll change; preliminary release, subject to revision.",
+    "source": "bls-aug-2026",
+    "series": [
+      {
+        "name": "Manufacturing",
+        "value": 16000
+      },
+      {
+        "name": "Information",
+        "value": -23000
+      }
+    ],
+    "note": "Broad sectors include activity unrelated to AI. These changes do not measure jobs caused or displaced by AI."
+  },
+  "interpretation": "The evidence supports an expansion of U.S. semiconductor and power-equipment manufacturing, with some production already operating. That is a concrete sign of industrial rebuilding. Project announcements and one month of employment data cannot establish a sustained economy-wide re-industrialization or net jobs attributable to AI.",
+  "gaps": [
+    "No verified global total of usable AI accelerator capacity is available in this edition.",
+    "Comparable public HBM and advanced-packaging throughput series still need research.",
+    "Follow construction through equipment installation, qualification, production and sustained utilization.",
+    "Track realized permanent employment, wages, apprenticeships and local supplier activity over multiple years."
+  ]
+}

@@ -24,15 +24,33 @@ const server=http.createServer((req,res)=>{
  try{
   const page=await browser.newPage({viewport:{width:1440,height:1000}});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  const routes=['','energy/','chips/','infrastructure/','models/','applications/','ledger/','methodology/'];
+  const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','ledger/','methodology/'];
   for(const route of routes){
    const response=await page.goto(origin+route,{waitUntil:'networkidle'});assert.equal(response.status(),200);
    await page.locator('#runtime strong').first().waitFor();
    assert.equal(await page.locator('h1').count(),1);
+   assert.deepEqual(await page.locator('[id]').evaluateAll(els=>{const ids=els.map(el=>el.id);return ids.filter((id,i)=>ids.indexOf(id)!==i);}),[],route+' duplicate IDs');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' desktop overflow');
    const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>new URL(a.getAttribute('href'),location.href).href).filter(u=>u.startsWith(location.origin)&&!u.includes('#')));
    for(const href of new Set(links)){assert.equal((await page.request.get(href)).status(),200,href);}
   }
+  await page.goto(origin+'companies/?layer=chips');await page.locator('#company-count').waitFor();
+  assert.equal(await page.locator('[data-company-filter="chips"]').getAttribute('aria-pressed'),'true');
+  assert.ok(await page.locator('.company-card').count()>=10);
+  await page.locator('#company-search').fill('lithography');
+  assert.equal(await page.locator('.company-card').count(),1);
+  assert.match(await page.locator('.company-card').innerText(),/ASML/);
+  await page.locator('#company-search').fill('');await page.locator('[data-company-filter="all"]').click();
+  await page.selectOption('#revenue-basis','run-rate');assert.equal(await page.locator('.company-card').count(),2);
+  assert.equal(await page.locator('.company-revenue.run-rate').count(),2);
+  await page.selectOption('#revenue-basis','annual');assert.equal(await page.locator('.company-card').count(),19);
+  await page.selectOption('#revenue-basis','all');await page.screenshot({path:path.join(evidence,'companies.png'),fullPage:true});
+  await page.goto(origin+'industry/');await page.locator('.industry-verdict').waitFor();
+  assert.equal(await page.locator('.project-card .operating').count(),1);
+  assert.equal(await page.locator('.supply-step').count(),5);
+  assert.equal(await page.locator('.capacity-grid .chart-wrap').count(),3);
+  assert.match(await page.locator('.employment-chart').innerText(),/-23,000/);
+  await page.screenshot({path:path.join(evidence,'industry.png'),fullPage:true});
   await page.goto(origin);await page.locator('.layer-card').first().waitFor();
   assert.equal(await page.locator('.stack-svg a.slab').count(),5);
   await page.locator('.stack-svg a[aria-label="Explore layer 01: Energy"]').click();
@@ -55,6 +73,6 @@ const server=http.createServer((req,res)=>{
   await page.setViewportSize({width:390,height:844});await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'mobile.png'),fullPage:true});
   await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.className),'skip');
   assert.deepEqual(errors,[]);
-  console.log('Browser acceptance passed: 8 routes, 3 viewports, project prefix links, stack navigation, metric switching, accessible tables, search, filters, CSV, keyboard access, no page errors.');
+  console.log('Browser acceptance passed: 10 routes, 3 viewports, project prefix links, company search and revenue filters, industry charts and stages, stack navigation, metric switching, accessible tables, ledger search, CSV, keyboard access, no page errors.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});
