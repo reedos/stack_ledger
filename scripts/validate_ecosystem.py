@@ -13,13 +13,20 @@ def validate_ecosystem(e,ledger):
     ids=set()
     for c in e['companies']:
         required={'id','name','layers','role','revenue_metric','revenue_kind','source'}
-        require(required<=c.keys() and c.keys()<=required|{'role_sources'},'Unexpected company shape')
+        require(required<=c.keys() and c.keys()<=required|{'role_sources','ir_url','filings_jurisdiction','blog_urls','official_lang','region_book'},'Unexpected company shape')
         require(c['id'] not in ids,'Duplicate company ID');ids.add(c['id'])
         for k in ['id','name','role']:text(c[k])
         require(c['layers'] and set(c['layers'])<=set(LAYERS),'Invalid company layers')
         require(c['source'] in sources,'Unknown company source')
         if 'role_sources' in c:
             require(isinstance(c['role_sources'],list) and c['role_sources'] and set(c['role_sources'])<=sources,'Unknown company role source')
+        from source_policy import REGIONS
+        from urllib.parse import urlparse
+        require(c['region_book'] in REGIONS, 'Invalid company region')
+        for key in ['filings_jurisdiction','official_lang']: text(c[key])
+        require(isinstance(c['blog_urls'],list) and len(c['blog_urls'])<=5, 'Too many blog URLs')
+        for url in ([c['ir_url']] if c['ir_url'] else [])+c['blog_urls']:
+            u=urlparse(url); require(u.scheme=='https' and u.hostname and '*' not in url and not u.username and not u.password, 'Invalid company source URL')
         require(c['revenue_kind'] in {'annual','run-rate','unavailable'},'Invalid revenue basis')
         if c['revenue_kind']=='unavailable':
             require(c['revenue_metric'] is None,'Unverified revenue must have no numeric metric')

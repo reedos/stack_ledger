@@ -54,7 +54,7 @@ class StaticPresentationTests(unittest.TestCase):
     def test_daily_publisher_only_adds_existing_generated_page_paths(self):
         self.assertEqual(len(render.GENERATED_PAGES), 11)
         self.assertTrue(all((ROOT / p).is_file() for p in render.GENERATED_PAGES))
-        self.assertEqual(research.ALLOWED_CHANGES - {'site/data/ledger.json', 'docs/data/ledger.json', 'docs/feed.xml'}, render.GENERATED_PAGES)
+        self.assertEqual(research.ALLOWED_CHANGES - {'site/data/ledger.json', 'docs/data/ledger.json', 'docs/feed.xml', 'site/data/excerpts.json', 'docs/data/excerpts.json'}, render.GENERATED_PAGES)
         for path in ['site/template.html', 'scripts/render.py', 'research/CONSTITUTION.md',
                      'docs/assets/app.js', 'docs/new-page/index.html']:
             self.assertNotIn(path, research.ALLOWED_CHANGES)

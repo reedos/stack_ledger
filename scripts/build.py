@@ -17,6 +17,8 @@ def build():
     validate_fabric_files()
     from validate_expansion import validate_files as validate_expansion_files
     validate_expansion_files()
+    from validate_agenda import validate_files as validate_agenda_files
+    validate_agenda_files()
     data = json.loads((ROOT / 'site/data/ledger.json').read_text(encoding='utf-8'))
     template = (ROOT / 'site/template.html').read_text(encoding='utf-8')
     dest = ROOT / 'docs'

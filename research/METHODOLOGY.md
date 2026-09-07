@@ -1,5 +1,23 @@
 # Methodology
 
+## Five-layer agenda and source books · September 7, 2026
+
+`research/agenda.json` is a reviewed page snapshot, mirrored publicly. It adds construction and hiring anchors, training commitments, named contractors, nuclear deal classes, HBM stages, harness subscriptions, checkpoint licenses, clinical disclosures and operational weather forecasting. Cards retain source publication dates and a separate review date. Qualitative stages and licenses remain text, not invented numerical scores. Existing observations and run receipts are preserved.
+
+Census private data-center construction uses the September 2026 publication vintage of the July release, in nominal millions of dollars at a seasonally adjusted annual rate. July is preliminary; May and June are revised. Only published anchor months are plotted. Future releases may revise the same month and require reviewed correction records. The existing HTML-only unattended fetcher cannot parse Census PDF tables; those updates need curated review until a reviewed machine-readable adapter is added.
+
+The Indeed chart has only a normalized June 2024 baseline and a June 2026 lower bound derived from the study's statement that postings more than doubled. It does not reconstruct the study's daily series. The child electrician series remains unavailable in this review. Keyword matching is imperfect, and Indeed's user base is not the entire labor market. No wage premium or posting increase is interpreted as a causal effect on national wages or net jobs.
+
+`research/sources.json` now contains `region_books` and per-source `collection` policy. Discovery requires a reviewed same-host path prefix and topic. Most individual sources have discovery disabled; no automatic wildcard expansion occurs. Technical books rotate weekly within the existing document budget; daily books rotate separately. Explicit `--sources` requests can focus a reviewed source outside its ordinary cadence. Broad coverage does not mean every filing is polled on its publication day. Publication-triggered feeds and earnings-calendar automation remain future adapters, not claimed features.
+
+Company records include `ir_url`, `filings_jurisdiction`, constrained `blog_urls`, `official_lang` and `region_book`. An exact official financial disclosure may occupy the IR slot; private projects use official documentation. Unverified fields remain explicit. These source-home fields do not independently authorize crawling: collection still uses the approved registry. Global books can be empty and explain their gaps.
+
+`site/data/excerpts.json` is append-only during ordinary daily runs. Two-pass verified research notes can supply a short excerpt with identity inherited from reviewed policy. One excerpt per URL bounds public quotation volume. Full evidence remains in the private cache. Metric proposals without catalog mappings are private and cannot change the metric catalog or project snapshot. The curated Marvell excerpt is an architecture example, not an automated research receipt or shipment observation.
+
+Harness prices are monthly list-price snapshots checked September 7, 2026. They cover plans with different limits, billing rules and execution environments; they are not like-for-like task costs. Codex CLI and cloud are separate surfaces. MCP, Agent Skills, AGENTS.md and CLAUDE.md describe integration or instruction conventions, not businesses or usage measurements.
+
+The Moderna/Merck INTerpath-001 card retains the August 2026 company-reported Phase 3 topline result and reported enrollment. It does not reuse KEYNOTE-942 Phase 2b hazard ratios or claim approval. Recursion's small open-label polyp-burden result is not a randomized estimate of cancer prevention. Isomorphic's funding and platform disclosure is separate from a named clinical outcome. ECMWF operational service dates establish deployment, not universal forecast superiority or monetized economic benefits.
+
 ## Coverage expansion: companies, capital and deployed work
 
 The reviewed `research/expansion.json` snapshot adds named layer projects, agent products and the promised-versus-reported jobs table. Its public mirror is `site/data/expansion.json`. `delivery.json` now spans all five layers; programs and overlapping individual phases are not summed. Projects retain owner, primary user when known, location, stage, source-linked milestones, operating quantities, separately scoped measures and next evidence needs.

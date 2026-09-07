@@ -65,6 +65,10 @@ def observation_valid(o,metrics,sources):
     require((o['upper'] is not None)==(o['precision']=='range'),'Range bounds/precision mismatch')
     if o['upper'] is not None:require(o['upper']>=o['value'],'Inverted interval')
     dt=timestamp(o['retrieved_at'])
+    if m.get('period_basis')=='month':
+        require(re.fullmatch(r'20[0-9]{2}-(0[1-9]|1[0-2])',o['period']) is not None,'Monthly period requires YYYY-MM')
+        require(int(o['period'][:4])==o['year'],'Monthly period/year mismatch')
+        if o['status'] in {'estimate','observation'}:require(o['period']<=dt.strftime('%Y-%m'),'Historical month is in the future')
     if o['status'] in {'estimate','observation'}:require(o['year']<=dt.year,'Historical result cannot be in the future')
     text(o['period'],80)
     if o['note']:text(o['note'],300)

@@ -25,13 +25,14 @@ from urllib.robotparser import RobotFileParser
 
 from validate import validate, observation_valid, event_valid, require, STATUSES, PRECISIONS, LAYERS
 from build import build
+from source_policy import collection_for, due, discoverable, append_excerpt, validate_excerpts
 
 ROOT=Path(__file__).resolve().parents[1]
 LOCAL=ROOT/'.local'
 UA='StackLedgerBot/1.0 (+https://github.com/reedos/stack_ledger)'
 from render import GENERATED_PAGES
 # Exact build artifacts only; source templates, scripts and policies remain reviewed.
-ALLOWED_CHANGES={'site/data/ledger.json','docs/data/ledger.json','docs/feed.xml'} | GENERATED_PAGES
+ALLOWED_CHANGES={'site/data/ledger.json','docs/data/ledger.json','docs/feed.xml','site/data/excerpts.json','docs/data/excerpts.json'} | GENERATED_PAGES
 MAX_BYTES=2_000_000
 
 def now():return datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')
@@ -51,8 +52,11 @@ def source_queue(registry, day, selected=None):
         require(set(selected)<=approved.keys(),'Focused research requires approved source IDs')
         return [approved[i] for i in dict.fromkeys(selected)]
     rest=[s for s in registry['sources'] if s['id'] not in order and s['layers']]
-    offset=(day.toordinal()*7)%len(rest) if rest else 0
-    return [approved[i] for i in order]+rest[offset:]+rest[:offset]
+    daily=[s for s in rest if collection_for(registry,s).get('cadence')!='weekly']
+    weekly=[s for s in rest if collection_for(registry,s).get('cadence')=='weekly' and due(collection_for(registry,s),day)]
+    offset=(day.toordinal()*7)%len(daily) if daily else 0
+    weekly_offset=((day.toordinal()//7)*7)%len(weekly) if weekly else 0
+    return [approved[i] for i in order]+weekly[weekly_offset:]+weekly[:weekly_offset]+daily[offset:]+daily[:offset]
 
 class ReadableHTML(HTMLParser):
     def __init__(self):
@@ -190,8 +194,11 @@ def candidate_record(c,source,document,metrics,all_sources):
     observation_valid(record,metrics,all_sources)
     return record
 
-def duplicate_or_conflict(record,observations):
+def duplicate_or_conflict(record,observations,metrics=None):
+    monthly=metrics is not None and metrics[record['metric']].get('period_basis')=='month'
+    if monthly: require(re.fullmatch(r'20[0-9]{2}-(0[1-9]|1[0-2])',record['period']) is not None, 'Monthly period requires YYYY-MM')
     for old in observations:
+        if monthly and old['period']!=record['period']: continue
         if not old.get('superseded_by') and (old['metric'],old['year'])==(record['metric'],record['year']):
             same=all(old[k]==record[k] for k in ['value','upper','status','precision'])
             return 'duplicate' if same else 'conflict'
@@ -252,6 +259,8 @@ def main():
         if args.publish:preflight(config)
         data=load(ROOT/'site/data/ledger.json');validate(data)
         registry=load(ROOT/'research/sources.json')
+        excerpt_path=ROOT/'site/data/excerpts.json'
+        excerpts=load(excerpt_path) if excerpt_path.exists() else {'version':1,'excerpts':[]}
         metrics={m['id']:m for m in data['metrics']}
         sources={s['id']:s for s in data['sources']}
         stamp=now();run_id='run-'+stamp.replace(':','').replace('-','')
@@ -285,7 +294,7 @@ def main():
                         u=urlparse(url)
                         if u.scheme!='https' or u.hostname!=urlparse(source['url']).hostname or url in seen or u.query or u.path.endswith(('.pdf','.jpg','.png','.zip','.xml')):continue
                         if any(p in u.path for p in ['/category/','/tag/','/author/','/page/']):continue
-                        if not any(word in u.path.lower() for word in registry['discovery_keywords']):continue
+                        if not discoverable(source,url,collection_for(registry,source)):continue
                         child=dict(source,id='discovered-'+digest(url)[:16],url=url,published=None,parent_source=source['id'],title='Discovered public update · '+source['publisher'])
                         child.pop('index',None)
                         queue.insert(0,child)
@@ -295,13 +304,18 @@ def main():
                 if not args.refresh and cache.get(source['url'])==h:
                     run['documents_reviewed']+=1;coverage.update(source['layers']);continue
                 related=[m for m in metrics.values() if source.get('parent_source',source['id']) in m['source_ids']]
-                if source.get('parent_source'):
+                policy=collection_for(registry,source)
+                if source.get('parent_source') or policy.get('excerpts'):
                     try:note=extract_note(config,source,full_text,data['events'],run,quarantine)
                     except Exception:
                         model_failed=True;raise RuntimeError('Model note extraction or review failed')
                     if note:
                         if source['id'] not in {s['id'] for s in data['sources']}:data['sources'].append(source)
                         data['events'].append(note);sources[source['id']]=source;run['accepted']+=1
+                        proof=load(LOCAL/'evidence'/f'{note["id"]}.json')
+                        append_excerpt(excerpts,source,policy,proof['evidence'],note['summary'],note['retrieved_at'],status='company-commitment' if note['kind'] in {'Company announcement','Forward outlook'} else 'observation')
+                        if not related:
+                            save(LOCAL/'metric-candidates'/f'{note["id"]}.json',{'source':source['id'],'note':note,'review_required':True,'reason':'No reviewed metric. This proposal cannot create catalog IDs or change project stages.'})
                 if not related:
                     run['documents_reviewed']+=1;coverage.update(source['layers']);cache[source['url']]=h
                     continue
@@ -322,7 +336,7 @@ def main():
                         if source['id'] not in sources:
                             sources[source['id']]=source
                         record=candidate_record(candidate,source,content,metrics,sources)
-                        conflict=duplicate_or_conflict(record,data['observations'])
+                        conflict=duplicate_or_conflict(record,data['observations'],metrics)
                         if conflict=='duplicate':continue
                         require(conflict!='conflict','Conflicting metric/year requires reviewed correction')
                         checked.append((candidate,record))
@@ -339,7 +353,7 @@ def main():
                         model_failed=True;raise RuntimeError('Model evidence review failed')
                     for i,(candidate,record) in enumerate(checked):
                         verdict=verdict_map[i]
-                        if verdict.get('supported') is True and not duplicate_or_conflict(record,data['observations']):
+                        if verdict.get('supported') is True and not duplicate_or_conflict(record,data['observations'],metrics):
                             if record['source'] not in {s['id'] for s in data['sources']}:data['sources'].append(source)
                             data['observations'].append(record);run['accepted']+=1
                             save(LOCAL/'evidence'/f'{record["id"]}.json',{'record':record,'evidence':candidate['evidence'],'review':verdict})
@@ -360,9 +374,12 @@ def main():
         if run['status']=='success':data['runtime']['last_success']=run['finished_at']
         validate(data)
         save(LOCAL/'runs'/f'{run_id}.json',{'receipt':run,'quarantine':quarantine})
+        validate_excerpts(excerpts,data,registry)
+        save(LOCAL/'proposed-excerpts.json',excerpts)
         save(LOCAL/'proposed-ledger.json',data)
         if args.apply or args.publish:
             save(ROOT/'site/data/ledger.json',data)
+            save(excerpt_path,excerpts)
             build()
             require(load(ROOT/'docs/data/ledger.json')==data,'Build data mismatch')
             if args.publish:publish(config)

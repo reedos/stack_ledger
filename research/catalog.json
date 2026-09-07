@@ -2940,6 +2940,259 @@
         "company-commitment",
         "government-target"
       ]
+    },
+    {
+      "id": "census-dc-construction-saar",
+      "layer": "infrastructure",
+      "title": "U.S. private data-center construction spending",
+      "unit": "USD millions / year (SAAR)",
+      "geography": "United States",
+      "scope": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex.",
+      "source_ids": [
+        "census-dc-saar-july2026"
+      ],
+      "company": null,
+      "measurement_type": "construction_spending_saar",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "month"
+    },
+    {
+      "id": "indeed-dc-postings-index",
+      "layer": "infrastructure",
+      "title": "Indeed data-center job postings index",
+      "unit": "index (June 2024 = 100)",
+      "geography": "United States",
+      "scope": "Indeed U.S. postings containing data center, datacenter or data-center. June 2024 baseline and June 2026 lower bound only; no digitized intermediate points. Postings are not hires.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Indeed U.S. postings containing data center, datacenter or data-center. June 2024 baseline and June 2026 lower bound only; no digitized intermediate points. Postings are not hires.",
+      "source_ids": [
+        "indeed-dc-hiring-2026"
+      ],
+      "company": null,
+      "measurement_type": "job_postings_index",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "google-eta-apprentices-commitment",
+      "layer": "infrastructure",
+      "title": "Google / etA apprentice training commitment",
+      "unit": "new apprentices targeted",
+      "geography": "United States",
+      "scope": "Google-supported etA effort targets training new apprentices; IBEW/NECA partnership. Program ambition, not enrollments or placements; announcement publication day not verified.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Google-supported etA effort targets training new apprentices; IBEW/NECA partnership. Program ambition, not enrollments or placements; announcement publication day not verified.",
+      "source_ids": [
+        "google-eta-training"
+      ],
+      "company": "alphabet",
+      "measurement_type": "training_seats_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "meta-awa-first-year-funding",
+      "layer": "infrastructure",
+      "title": "Meta Workforce Academy first-year investment commitment",
+      "unit": "USD",
+      "geography": "United States",
+      "scope": "Meta announced initial first-year program investment; not verified expenditure, enrollment or hired-worker count.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Meta announced initial first-year program investment; not verified expenditure, enrollment or hired-worker count.",
+      "source_ids": [
+        "meta-awa-funding"
+      ],
+      "company": "meta",
+      "measurement_type": "training_funding_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "talen-amazon-fleet-ppa",
+      "layer": "energy",
+      "title": "Talen / Amazon full PPA quantity",
+      "unit": "MW contracted",
+      "geography": "Pennsylvania, United States",
+      "scope": "Existing Susquehanna nuclear fleet PPA. Full delivery expected no later than 2032 under June 2025 terms; contract through 2042. Not net-new generation or current delivered load.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Existing Susquehanna nuclear fleet PPA. Full delivery expected no later than 2032 under June 2025 terms; contract through 2042. Not net-new generation or current delivered load.",
+      "source_ids": [
+        "talen-amazon-ppa-2025"
+      ],
+      "company": "aws",
+      "measurement_type": "nuclear_ppa_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "google-kairos-smr-commitment",
+      "layer": "energy",
+      "title": "Google / Kairos new reactor agreement ceiling",
+      "unit": "MW agreement ceiling",
+      "geography": "United States; future plant locations",
+      "scope": "October 2024 agreement for up to 500 MW; first reactor targeted 2030 and subsequent deployments through 2035. Not operating U.S. SMR capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "October 2024 agreement for up to 500 MW; first reactor targeted 2030 and subsequent deployments through 2035. Not operating U.S. SMR capacity.",
+      "source_ids": [
+        "google-kairos-2024"
+      ],
+      "company": "alphabet",
+      "measurement_type": "smr_mw_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "claude-code-plan",
+      "layer": "models",
+      "title": "Claude Code · Pro subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "claude-harness-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "cursor-agent-plan",
+      "layer": "models",
+      "title": "Cursor Agent / CLI / cloud subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "cursor-harness-pricing"
+      ],
+      "company": "cursor",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "copilot-agent-plan",
+      "layer": "models",
+      "title": "GitHub Copilot · Pro subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "copilot-harness-pricing"
+      ],
+      "company": "microsoft",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "codex-cli-plan",
+      "layer": "models",
+      "title": "Codex CLI subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "codex-product-plans"
+      ],
+      "company": "openai",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "interpath001-trial-enrollment",
+      "layer": "applications",
+      "title": "INTerpath-001 reported enrollment",
+      "unit": "participants",
+      "geography": "Global clinical trial",
+      "scope": "Merck / Moderna Phase 3 company disclosure, August 19, 2026. NCT05933577; 2:1 randomization, resected stage IIB-IV melanoma. Enrollment is not a patient-benefit measure.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Merck / Moderna Phase 3 company disclosure, August 19, 2026. NCT05933577; 2:1 randomization, resected stage IIB-IV melanoma. Enrollment is not a patient-benefit measure.",
+      "source_ids": [
+        "merck-interpath001-phase3"
+      ],
+      "company": "moderna",
+      "measurement_type": "clinical_trial_enrollment",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "rec4881-polyp-reduction-week13",
+      "layer": "applications",
+      "title": "REC-4881 median polyp-burden reduction",
+      "unit": "percent reduction from baseline",
+      "geography": "TUPELO Phase 2 study participants",
+      "scope": "Company-reported open-label result after 12 weeks of treatment; n=12 evaluable participants, November 25, 2025 cutoff. No randomized concurrent comparator; not proven cancer prevention.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Company-reported open-label result after 12 weeks of treatment; n=12 evaluable participants, November 25, 2025 cutoff. No randomized concurrent comparator; not proven cancer prevention.",
+      "source_ids": [
+        "recursion-tupelo-dec2025"
+      ],
+      "company": "recursion",
+      "measurement_type": "clinical_endpoint_change",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
     }
   ],
   "targets": [

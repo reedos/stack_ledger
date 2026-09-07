@@ -4,7 +4,8 @@ from pathlib import Path
 from validate import require, text, timestamp, STATUSES
 
 ROOT = Path(__file__).resolve().parents[1]
-TYPES = {
+PUBLIC_TYPES={'construction_spending_saar','job_postings_index'}
+TYPES = PUBLIC_TYPES | {'training_seats_committed','training_funding_committed','nuclear_ppa_committed','smr_mw_committed','harness_list_price','clinical_trial_enrollment','clinical_endpoint_change',
     'site_it_mw_operating', 'site_it_mw_planned_endstate', 'site_facility_mw',
     'site_compute_mw_reported', 'onsite_generation_mw_temporary',
     'onsite_generation_mw_permanent', 'interconnection_mw_energized',
@@ -21,7 +22,7 @@ TYPES = {
     'autonomous_trips_per_week', 'operating_vehicle_count', 'operating_metro_count',
     'humanoid_units_in_production_use', 'completed_totes',
 }
-FUTURE_ONLY = {'capex_announced_usd', 'compute_contract_usd',
+FUTURE_ONLY = {'training_seats_committed','training_funding_committed','nuclear_ppa_committed','smr_mw_committed','capex_announced_usd', 'compute_contract_usd',
                'site_it_mw_planned_endstate', 'interconnection_mw_requested',
                'permanent_jobs_promised', 'accelerator_units_contracted',
                'compute_mw_contracted'}
@@ -45,7 +46,7 @@ def validate_expansion(x, ledger, ecosystem, delivery):
         if 'measurement_type' not in m:
             continue
         require(m['measurement_type'] in TYPES, 'Unreviewed measurement type')
-        require(m.get('company') in companies, 'Metric needs reviewed company')
+        require(m.get('company') in companies or (m.get('company') is None and m['measurement_type'] in PUBLIC_TYPES), 'Metric needs reviewed company')
         require(m.get('project') is None or m['project'] in projects, 'Unknown metric project')
         for k in ['unit', 'geography', 'scope']: text(m[k], 700)
         require(m.get('allowed_statuses') and set(m['allowed_statuses']) <= set(STATUSES), 'Missing measurement status policy')

@@ -21,7 +21,8 @@ class EcosystemTests(unittest.TestCase):
     def test_rotation_reaches_expanded_registry(self):
         registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         reached=set()
-        for n in range((len(registry['sources'])-5+6)//7):
+        # Weekly technical books have a separate rotation; test a complete horizon.
+        for n in range(len(registry['sources'])*7):
             queue=source_queue(registry,date(2026,9,7)+timedelta(days=n))
             self.assertEqual(len(queue),len({s['id'] for s in queue}))
             self.assertEqual(queue[0]['id'],'iea-2026')

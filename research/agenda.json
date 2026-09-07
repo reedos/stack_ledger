@@ -1,0 +1,374 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-07T16:11:03Z",
+  "sections": [
+    {
+      "id": "construction-economy",
+      "pages": [
+        "industry",
+        "infrastructure"
+      ],
+      "title": "The people building the AI factories.",
+      "intro": "Construction spending, recruitment demand and training are separate signals. These U.S. series cover data centers generally; they do not measure net jobs created by AI.",
+      "cards": [
+        {
+          "id": "indeed-method",
+          "title": "Recruitment demand",
+          "stage": "Study published July 14, 2026",
+          "body": "Indeed reports that data-center postings more than doubled over two years. Keyword matching can miss relevant roles and include unrelated jobs. Its installation/maintenance pay comparison is occupation- and study-specific, not a national electrician wage increase.",
+          "sources": [
+            "indeed-dc-hiring-2026"
+          ],
+          "observations": [],
+          "gap": "A downloadable DC electrician child series and exact intermediate index values were not verified. Missing values are not zero."
+        },
+        {
+          "id": "training-google",
+          "title": "Electrical training ALLIANCE",
+          "stage": "Training commitment",
+          "body": "Google supports etA, created by IBEW and NECA, to expand electrical training. Curriculum includes AI tools alongside trade skills. Apprentice targets are separate from training existing electrical workers.",
+          "sources": [
+            "google-eta-training"
+          ],
+          "observations": [
+            "google-eta-apprentices-commitment-0"
+          ],
+          "gap": "Actual cohort enrollment, completion and job-placement counts require program reporting."
+        },
+        {
+          "id": "training-meta",
+          "title": "America’s Workforce Academy",
+          "stage": "Funding commitment; first cohort reported",
+          "body": "Meta announced pilots in Louisiana, Ohio, Indiana and Texas. An August update reports the first graduating cohort. Its graduate job guarantee is a promise; no aggregate verified placement count is recorded here.",
+          "sources": [
+            "meta-awa-funding",
+            "meta-awa-graduates"
+          ],
+          "observations": [
+            "meta-awa-first-year-funding-0"
+          ],
+          "gap": "Separate promised jobs, graduates and verified placements. Applications are not training seats."
+        },
+        {
+          "id": "gc-turner",
+          "title": "Jeffersonville, Indiana · Turner",
+          "stage": "Contractor named January 25, 2024",
+          "body": "Turner identifies itself as the builder selected for Meta’s Jeffersonville campus. Its announcement describes prefabricated assemblies and anticipated construction work. This establishes the contractor relationship, not current completion.",
+          "sources": [
+            "turner-jeffersonville"
+          ],
+          "observations": [],
+          "gap": "Current commissioning, subcontractor roster and actual site payroll need newer primary evidence."
+        },
+        {
+          "id": "gc-mortenson",
+          "title": "Richland Parish, Louisiana · Mortenson",
+          "stage": "Contractor project disclosure",
+          "body": "Mortenson identifies site preparation, underground utilities, medium-voltage distribution and substations, water and wastewater facilities, and outside-plant fiber in its scope. These trades connect construction investment to a usable AI factory.",
+          "sources": [
+            "mortenson-richland"
+          ],
+          "observations": [],
+          "gap": "The project page has no verified publication date. Peak and expected jobs are not actual permanent hires."
+        }
+      ],
+      "charts": [
+        "census-dc-construction-saar",
+        "indeed-dc-postings-index"
+      ]
+    },
+    {
+      "id": "nuclear-deal-book",
+      "pages": [
+        "energy"
+      ],
+      "title": "Different routes to firm clean power.",
+      "intro": "A restart can restore generation, a fleet PPA contracts existing supply, and an SMR agreement supports future construction. Contracted MW cannot be added into new operating generation.",
+      "cards": [
+        {
+          "id": "crane-restart",
+          "title": "Crane · Constellation / Microsoft",
+          "stage": "Restart agreement",
+          "body": "The September 2024 agreement links a proposed plant restart to Microsoft power matching. The original commercial-operation target was 2028, subject to approvals; see the project tracker for subsequent milestones.",
+          "sources": [
+            "crane-plan-2024"
+          ],
+          "observations": [],
+          "gap": "Track regulatory authorization and first delivered generation separately from the PPA."
+        },
+        {
+          "id": "susquehanna-ppa",
+          "title": "Susquehanna · Talen / Amazon",
+          "stage": "Operating-fleet PPA; future delivery ramp",
+          "body": "Talen’s filed agreement contracts existing nuclear output. Separate discussions about uprates and small reactors do not establish that additional generation has been built.",
+          "sources": [
+            "talen-amazon-ppa-2025"
+          ],
+          "observations": [
+            "talen-amazon-fleet-ppa-0"
+          ],
+          "gap": "Additional measured outcomes remain a research priority."
+        },
+        {
+          "id": "kairos-smr",
+          "title": "Kairos Power / Google",
+          "stage": "SMR development commitment",
+          "body": "The original agreement targets a first reactor in 2030 and additional deployments through 2035. The displayed quantity is the agreement ceiling; permits, financed construction and commercial output require their own records.",
+          "sources": [
+            "google-kairos-2024"
+          ],
+          "observations": [
+            "google-kairos-smr-commitment-0"
+          ],
+          "gap": "Additional measured outcomes remain a research priority."
+        }
+      ],
+      "charts": []
+    },
+    {
+      "id": "memory-packaging",
+      "pages": [
+        "chips"
+      ],
+      "title": "A finished accelerator needs the whole supply chain.",
+      "intro": "A U.S.-fabricated logic die is not a finished domestic AI accelerator. HBM, advanced packaging, substrates and test have their own locations and production milestones; Arizona fabrication does not prove Arizona CoWoS output.",
+      "cards": [
+        {
+          "id": "sk-hynix-hbm4-ready",
+          "title": "SK hynix · HBM4",
+          "stage": "Production readiness · September 2025",
+          "body": "SK hynix reported completed development and a prepared mass-production system. This dated milestone does not itself establish shipment volume or every customer’s qualification.",
+          "sources": [
+            "sk-hynix-hbm4-ready"
+          ],
+          "observations": [],
+          "gap": "Additional measured outcomes remain a research priority."
+        },
+        {
+          "id": "samsung-hbm4-shipping",
+          "title": "Samsung · HBM4",
+          "stage": "Commercial shipments · February 2026",
+          "body": "Samsung reported mass production and commercial shipments to customers. Customer-by-customer qualification and shipped stack counts remain undisclosed in this source.",
+          "sources": [
+            "samsung-hbm4-shipping"
+          ],
+          "observations": [],
+          "gap": "Additional measured outcomes remain a research priority."
+        },
+        {
+          "id": "micron-hbm4-production",
+          "title": "Micron · HBM4",
+          "stage": "High-volume production · March 2026",
+          "body": "Micron reported HBM4 high-volume production designed for NVIDIA Vera Rubin. Memory production and completed accelerator deployments are different milestones.",
+          "sources": [
+            "micron-hbm4-production"
+          ],
+          "observations": [],
+          "gap": "Additional measured outcomes remain a research priority."
+        },
+        {
+          "id": "marvell-cpo-architecture",
+          "title": "Marvell and the CPO ecosystem",
+          "stage": "Architecture / reference design",
+          "body": "Marvell describes optical conversion near the ASIC and reference designs involving SENKO, Jabil and Mikros Technologies. The blog establishes component roles and serviceability concepts; it does not establish fleet deployment or CPO revenue.",
+          "sources": [
+            "marvell-cpo-architecture"
+          ],
+          "observations": [],
+          "gap": "Additional measured outcomes remain a research priority."
+        }
+      ],
+      "charts": []
+    },
+    {
+      "id": "agent-harnesses",
+      "pages": [
+        "models"
+      ],
+      "title": "From model responses to completed tasks.",
+      "intro": "A harness manages the tool loop, permissions, context, memory and execution environment around a model. Product availability and subscription prices do not measure useful work completed. Prices below were checked September 7, 2026; taxes, overages and human review can add cost.",
+      "cards": [
+        {
+          "id": "claude-code-plan",
+          "title": "Claude Code · Pro",
+          "stage": "Paid plan · dated list price",
+          "body": "Included in Claude Pro at monthly billing. The subscription spans Claude products and has usage limits; it is not a dedicated unlimited coding budget.",
+          "sources": [
+            "claude-harness-pricing"
+          ],
+          "observations": [
+            "claude-code-plan-0"
+          ],
+          "gap": "Subscription price is not cost per successfully completed task."
+        },
+        {
+          "id": "cursor-agent-plan",
+          "title": "Cursor Agent / CLI / cloud",
+          "stage": "Paid plan · dated list price",
+          "body": "Individual Pro monthly plan. Agent usage limits and separately metered products apply; editor, CLI and hosted cloud agents are different execution surfaces.",
+          "sources": [
+            "cursor-harness-pricing"
+          ],
+          "observations": [
+            "cursor-agent-plan-0"
+          ],
+          "gap": "Subscription price is not cost per successfully completed task."
+        },
+        {
+          "id": "copilot-agent-plan",
+          "title": "GitHub Copilot · Pro",
+          "stage": "Paid plan · dated list price",
+          "body": "Monthly per-user Pro plan includes access to cloud agent and code review. Included credits and additional usage are separate from seat price.",
+          "sources": [
+            "copilot-harness-pricing"
+          ],
+          "observations": [
+            "copilot-agent-plan-0"
+          ],
+          "gap": "Subscription price is not cost per successfully completed task."
+        },
+        {
+          "id": "codex-cli-plan",
+          "title": "Codex CLI",
+          "stage": "Paid plan · dated list price",
+          "body": "ChatGPT Plus monthly plan is one subscription route. Local CLI can also use separately billed API access; local tool execution does not imply a locally hosted model.",
+          "sources": [
+            "codex-product-plans"
+          ],
+          "observations": [
+            "codex-cli-plan-0"
+          ],
+          "gap": "Subscription price is not cost per successfully completed task."
+        },
+        {
+          "id": "codex-cloud",
+          "title": "Codex cloud",
+          "stage": "Hosted execution",
+          "body": "Cloud tasks run in hosted environments. The same reviewed plan page distinguishes cloud access from API-key CLI access; API-key billing does not include cloud features. This is a separate surface, not another model family.",
+          "sources": [
+            "codex-product-plans"
+          ],
+          "observations": [],
+          "gap": "Additional measured outcomes remain a research priority."
+        },
+        {
+          "id": "open-weight-licenses",
+          "title": "Open weights · explicit license scope",
+          "stage": "Repository licenses checked September 7, 2026",
+          "body": "DeepSeek-R1’s main weights and code use MIT terms; distilled Llama derivatives retain additional upstream conditions. Qwen3-32B uses Apache 2.0. These named checkpoints do not establish licenses for every family member, complete training-data openness or production adoption.",
+          "sources": [
+            "deepseek-r1-license",
+            "qwen3-32b-license"
+          ],
+          "observations": [],
+          "gap": "Other model families need checkpoint-specific license review. Downloads are not active enterprise deployments."
+        },
+        {
+          "id": "gemini-cli",
+          "title": "Gemini CLI",
+          "stage": "Documented terminal harness",
+          "body": "Google’s Apache 2.0 CLI offers file and shell tools, MCP connections and checkpointing. Software licensing is distinct from Gemini model access, quotas and billing.",
+          "sources": [
+            "gemini-cli-repository"
+          ],
+          "observations": [],
+          "gap": "Outcome measurements require independent follow-up."
+        },
+        {
+          "id": "openclaw-harness",
+          "title": "OpenClaw",
+          "stage": "Documented local agent runtime",
+          "body": "OpenClaw connects models, tools and scheduled work. Stack Ledger’s configured local runtime is shown in the footer; configuration does not establish global adoption or a completed daily run. Model inference, hardware and operations have separate costs.",
+          "sources": [
+            "openclaw-product"
+          ],
+          "observations": [],
+          "gap": "Outcome measurements require independent follow-up."
+        }
+      ],
+      "charts": []
+    },
+    {
+      "id": "application-families",
+      "pages": [
+        "applications"
+      ],
+      "title": "Useful outcomes, across different kinds of work.",
+      "intro": "Digital work, physical AI, medicine and science need different evidence. A merged change, paid trip, clinical endpoint and operational forecast are not interchangeable measures of progress.",
+      "cards": [
+        {
+          "id": "digital-work",
+          "title": "Digital work",
+          "stage": "Products available; outcome evidence required",
+          "body": "Coding harnesses can edit files, run tools and prepare changes. The Models page now separates execution surfaces and dated subscriptions. Seats, generated code and product revenue do not establish hours saved or quality-adjusted productivity.",
+          "sources": [
+            "copilot-harness-pricing",
+            "codex-product-plans"
+          ],
+          "observations": [],
+          "gap": "Named enterprise studies need task, comparison, sample, quality and human-oversight costs."
+        },
+        {
+          "id": "physical-ai",
+          "title": "Physical AI",
+          "stage": "See separate autonomy and robotics records",
+          "body": "Paid robotaxi trips, unsupervised miles and warehouse tasks remain separate datasets. The existing vehicle and robotics cards retain geography, supervision and deployment stage.",
+          "sources": [
+            "waymo-paid-march-2026"
+          ],
+          "observations": [],
+          "gap": "Additional measured outcomes remain a research priority."
+        },
+        {
+          "id": "medicine-intismeran",
+          "title": "Medicine · Moderna / Merck",
+          "stage": "Company-reported Phase 3 topline result",
+          "body": "INTerpath-001 (NCT05933577) compares intismeran autogene (mRNA-4157 / V940) plus pembrolizumab with pembrolizumab alone after melanoma surgery. The randomized, double-blind trial reportedly met recurrence-free and distant-metastasis-free survival endpoints. It is an investigational treatment, not an approval. This release does not isolate an AI contribution to clinical efficacy.",
+          "sources": [
+            "merck-interpath001-phase3"
+          ],
+          "observations": [
+            "interpath001-trial-enrollment-0"
+          ],
+          "gap": "Detailed Phase 3 effect sizes and safety tables await the cited presentation/publication. Earlier KEYNOTE-942 Phase 2b hazard ratios must not be substituted."
+        },
+        {
+          "id": "science-weather",
+          "title": "Science · operational AI weather",
+          "stage": "ECMWF operational service",
+          "body": "ECMWF documents operational support for AIFS Single from February 25, 2025 and AIFS ensemble from July 1, 2025. This is a deployed forecasting service, beyond a research-paper demonstration; weather skill and economic benefit still need separate evaluation.",
+          "sources": [
+            "ecmwf-aifs-operations"
+          ],
+          "observations": [],
+          "gap": "Track version-specific forecast verification, failure modes and user outcomes; initial operational dates do not identify today’s model version."
+        },
+        {
+          "id": "recursion-fap",
+          "title": "Medicine · Recursion REC-4881",
+          "stage": "Company-reported open-label Phase 2",
+          "body": "The December 2025 TUPELO disclosure reports polyp-burden reduction after treatment in a small evaluable group. The endpoint is a surrogate measure; open-label comparisons do not establish reduced cancer incidence or a benefit attributable specifically to AI.",
+          "sources": [
+            "recursion-tupelo-dec2025"
+          ],
+          "observations": [
+            "rec4881-dec2025-week13"
+          ],
+          "gap": "Track controlled confirmation, adverse events, complete participant disposition, and portfolio discontinuations alongside positive readouts."
+        },
+        {
+          "id": "isomorphic-platform",
+          "title": "Medicine · Isomorphic Labs",
+          "stage": "Platform and pipeline development",
+          "body": "The May 2026 disclosure describes funding to develop its drug-design engine and advance therapeutic programs toward the clinic. It does not identify a molecule-level clinical efficacy result. The molecule and trial stage remain unspecified for this disclosure.",
+          "sources": [
+            "isomorphic-may2026"
+          ],
+          "observations": [],
+          "gap": "A named asset, registry identifier, phase and results are needed before recording a clinical outcome."
+        }
+      ],
+      "charts": []
+    }
+  ]
+}

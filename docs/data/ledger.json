@@ -2942,6 +2942,259 @@
         "company-commitment",
         "government-target"
       ]
+    },
+    {
+      "id": "census-dc-construction-saar",
+      "layer": "infrastructure",
+      "title": "U.S. private data-center construction spending",
+      "unit": "USD millions / year (SAAR)",
+      "geography": "United States",
+      "scope": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex.",
+      "source_ids": [
+        "census-dc-saar-july2026"
+      ],
+      "company": null,
+      "measurement_type": "construction_spending_saar",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "month"
+    },
+    {
+      "id": "indeed-dc-postings-index",
+      "layer": "infrastructure",
+      "title": "Indeed data-center job postings index",
+      "unit": "index (June 2024 = 100)",
+      "geography": "United States",
+      "scope": "Indeed U.S. postings containing data center, datacenter or data-center. June 2024 baseline and June 2026 lower bound only; no digitized intermediate points. Postings are not hires.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Indeed U.S. postings containing data center, datacenter or data-center. June 2024 baseline and June 2026 lower bound only; no digitized intermediate points. Postings are not hires.",
+      "source_ids": [
+        "indeed-dc-hiring-2026"
+      ],
+      "company": null,
+      "measurement_type": "job_postings_index",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "google-eta-apprentices-commitment",
+      "layer": "infrastructure",
+      "title": "Google / etA apprentice training commitment",
+      "unit": "new apprentices targeted",
+      "geography": "United States",
+      "scope": "Google-supported etA effort targets training new apprentices; IBEW/NECA partnership. Program ambition, not enrollments or placements; announcement publication day not verified.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Google-supported etA effort targets training new apprentices; IBEW/NECA partnership. Program ambition, not enrollments or placements; announcement publication day not verified.",
+      "source_ids": [
+        "google-eta-training"
+      ],
+      "company": "alphabet",
+      "measurement_type": "training_seats_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "meta-awa-first-year-funding",
+      "layer": "infrastructure",
+      "title": "Meta Workforce Academy first-year investment commitment",
+      "unit": "USD",
+      "geography": "United States",
+      "scope": "Meta announced initial first-year program investment; not verified expenditure, enrollment or hired-worker count.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Meta announced initial first-year program investment; not verified expenditure, enrollment or hired-worker count.",
+      "source_ids": [
+        "meta-awa-funding"
+      ],
+      "company": "meta",
+      "measurement_type": "training_funding_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "talen-amazon-fleet-ppa",
+      "layer": "energy",
+      "title": "Talen / Amazon full PPA quantity",
+      "unit": "MW contracted",
+      "geography": "Pennsylvania, United States",
+      "scope": "Existing Susquehanna nuclear fleet PPA. Full delivery expected no later than 2032 under June 2025 terms; contract through 2042. Not net-new generation or current delivered load.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Existing Susquehanna nuclear fleet PPA. Full delivery expected no later than 2032 under June 2025 terms; contract through 2042. Not net-new generation or current delivered load.",
+      "source_ids": [
+        "talen-amazon-ppa-2025"
+      ],
+      "company": "aws",
+      "measurement_type": "nuclear_ppa_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "google-kairos-smr-commitment",
+      "layer": "energy",
+      "title": "Google / Kairos new reactor agreement ceiling",
+      "unit": "MW agreement ceiling",
+      "geography": "United States; future plant locations",
+      "scope": "October 2024 agreement for up to 500 MW; first reactor targeted 2030 and subsequent deployments through 2035. Not operating U.S. SMR capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "October 2024 agreement for up to 500 MW; first reactor targeted 2030 and subsequent deployments through 2035. Not operating U.S. SMR capacity.",
+      "source_ids": [
+        "google-kairos-2024"
+      ],
+      "company": "alphabet",
+      "measurement_type": "smr_mw_committed",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "claude-code-plan",
+      "layer": "models",
+      "title": "Claude Code · Pro subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "claude-harness-pricing"
+      ],
+      "company": "anthropic",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "cursor-agent-plan",
+      "layer": "models",
+      "title": "Cursor Agent / CLI / cloud subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "cursor-harness-pricing"
+      ],
+      "company": "cursor",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "copilot-agent-plan",
+      "layer": "models",
+      "title": "GitHub Copilot · Pro subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "copilot-harness-pricing"
+      ],
+      "company": "microsoft",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "codex-cli-plan",
+      "layer": "models",
+      "title": "Codex CLI subscription list price",
+      "unit": "USD / month",
+      "geography": "U.S. list price",
+      "scope": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
+      "source_ids": [
+        "codex-product-plans"
+      ],
+      "company": "openai",
+      "measurement_type": "harness_list_price",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "interpath001-trial-enrollment",
+      "layer": "applications",
+      "title": "INTerpath-001 reported enrollment",
+      "unit": "participants",
+      "geography": "Global clinical trial",
+      "scope": "Merck / Moderna Phase 3 company disclosure, August 19, 2026. NCT05933577; 2:1 randomization, resected stage IIB-IV melanoma. Enrollment is not a patient-benefit measure.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000.0,
+      "note": "Merck / Moderna Phase 3 company disclosure, August 19, 2026. NCT05933577; 2:1 randomization, resected stage IIB-IV melanoma. Enrollment is not a patient-benefit measure.",
+      "source_ids": [
+        "merck-interpath001-phase3"
+      ],
+      "company": "moderna",
+      "measurement_type": "clinical_trial_enrollment",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "rec4881-polyp-reduction-week13",
+      "layer": "applications",
+      "title": "REC-4881 median polyp-burden reduction",
+      "unit": "percent reduction from baseline",
+      "geography": "TUPELO Phase 2 study participants",
+      "scope": "Company-reported open-label result after 12 weeks of treatment; n=12 evaluable participants, November 25, 2025 cutoff. No randomized concurrent comparator; not proven cancer prevention.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Company-reported open-label result after 12 weeks of treatment; n=12 evaluable participants, November 25, 2025 cutoff. No randomized concurrent comparator; not proven cancer prevention.",
+      "source_ids": [
+        "recursion-tupelo-dec2025"
+      ],
+      "company": "recursion",
+      "measurement_type": "clinical_endpoint_change",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ]
     }
   ],
   "sources": [
@@ -4871,6 +5124,274 @@
       "title": "Tesla Cybercab launch speech, September 3, 2026; mileage disclosure at 3:27–3:40",
       "url": "https://www.youtube.com/watch?v=Oz0KQ2pZIhE&t=207s",
       "published": "2026-09-03",
+      "layers": [
+        "applications"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "census-dc-saar-july2026",
+      "publisher": "U.S. Census Bureau",
+      "title": "July 2026 private construction put in place, SAAR",
+      "url": "https://www.census.gov/construction/c30/pdf/privsa.pdf",
+      "published": "2026-09-01",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "indeed-dc-hiring-2026",
+      "publisher": "Indeed Hiring Lab",
+      "title": "Hiring for the data center build-out",
+      "url": "https://hiringlab.indeed.com/2026/07/14/hiring-for-the-data-center-build-out/",
+      "published": "2026-07-14",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "google-eta-training",
+      "publisher": "Google",
+      "title": "Electrical training ALLIANCE support",
+      "url": "https://blog.google/company-news/outreach-and-initiatives/google-org/electrical-workers-ai-training/",
+      "published": null,
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "meta-awa-funding",
+      "publisher": "Meta",
+      "title": "America’s Workforce Academy launch",
+      "url": "https://about.fb.com/news/2026/06/americas-workforce-academy-free-skilled-trade-training/",
+      "published": "2026-06-08",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "meta-awa-graduates",
+      "publisher": "Meta",
+      "title": "First America’s Workforce Academy cohort",
+      "url": "https://about.fb.com/news/2026/08/americas-workforce-academy-meta-skilled-trade-training-program/",
+      "published": "2026-08-18",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "turner-jeffersonville",
+      "publisher": "Turner Construction",
+      "title": "Meta Jeffersonville contractor appointment",
+      "url": "https://www.turnerconstruction.com/insights/turner-construction-company-to-build-hyperscale-data-center-for-meta-in-indiana",
+      "published": "2024-01-25",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "mortenson-richland",
+      "publisher": "Mortenson",
+      "title": "Richland Parish construction scope",
+      "url": "https://www.mortenson.com/projects/richland-parish-data-center",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "talen-amazon-ppa-2025",
+      "publisher": "Talen Energy",
+      "title": "Amazon expanded nuclear PPA; June 11, 2025 8-K",
+      "url": "https://ir.talenenergy.com/node/8676/html",
+      "published": "2025-06-11",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "google-kairos-2024",
+      "publisher": "Google",
+      "title": "Kairos Power nuclear purchase agreement",
+      "url": "https://blog.google/company-news/outreach-and-initiatives/sustainability/google-kairos-power-nuclear-energy-agreement/",
+      "published": "2024-10-14",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "sk-hynix-hbm4-ready",
+      "publisher": "SK hynix",
+      "title": "HBM4 development and production readiness",
+      "url": "https://news.skhynix.com/en/sk-hynix-completes-worlds-first-hbm4-development-and-readies-mass-production/",
+      "published": "2025-09-12",
+      "layers": [
+        "chips"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "micron-hbm4-production",
+      "publisher": "Micron",
+      "title": "HBM4 high-volume production for Vera Rubin",
+      "url": "https://investors.micron.com/news/press-release/2026/Micron-in-High-Volume-Production-of-HBM4-Designed-for-NVIDIA-Vera-Rubin-PCIe-Gen6-SSD-and-SOCAMM2-03-16-2026/default.aspx",
+      "published": "2026-03-16",
+      "layers": [
+        "chips"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "marvell-cpo-architecture",
+      "publisher": "Marvell",
+      "title": "CPO compute tray and switch reference designs",
+      "url": "https://www.marvell.com/blogs/co-packaged-optics-for-next-wave-ai-data-centers.html",
+      "published": "2025-11-03",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "claude-harness-pricing",
+      "publisher": "Anthropic",
+      "title": "Claude subscription pricing",
+      "url": "https://claude.com/pricing",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "cursor-harness-pricing",
+      "publisher": "Anysphere",
+      "title": "Cursor subscription pricing",
+      "url": "https://cursor.com/pricing",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "copilot-harness-pricing",
+      "publisher": "GitHub / Microsoft",
+      "title": "Copilot plans and pricing",
+      "url": "https://github.com/features/copilot/plans",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "deepseek-r1-license",
+      "publisher": "DeepSeek",
+      "title": "DeepSeek-R1 official model repository and license",
+      "url": "https://github.com/deepseek-ai/DeepSeek-R1",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "qwen3-32b-license",
+      "publisher": "Alibaba / Qwen",
+      "title": "Qwen3-32B license",
+      "url": "https://huggingface.co/Qwen/Qwen3-32B/blame/main/LICENSE",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "merck-interpath001-phase3",
+      "publisher": "Merck / Moderna",
+      "title": "INTerpath-001 Phase 3 topline disclosure",
+      "url": "https://www.merck.com/news/merck-and-moderna-announce-phase-3-interpath-001-trial-of-intismeran-autogene-plus-keytruda-met-endpoints-of-recurrence-free-survival-rfs-and-distant-metastasis-free-survival-dmfs-in-patient/",
+      "published": "2026-08-19",
+      "layers": [
+        "applications"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "ecmwf-aifs-operations",
+      "publisher": "ECMWF",
+      "title": "Machine learning services and operational support",
+      "url": "https://confluence.ecmwf.int/spaces/UDOC/pages/599165898/Machine+Learning+Services+and+Support",
+      "published": "2025-11-17",
+      "layers": [
+        "applications"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "neso-source-book",
+      "publisher": "NESO",
+      "title": "Great Britain electricity-system reports",
+      "url": "https://www.neso.energy/",
+      "published": null,
+      "layers": [
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "marvell-ir-book",
+      "publisher": "Marvell",
+      "title": "Investor relations and financial reports",
+      "url": "https://investor.marvell.com/",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "gemini-cli-repository",
+      "publisher": "Google",
+      "title": "Gemini CLI official repository",
+      "url": "https://github.com/google-gemini/gemini-cli",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "recursion-tupelo-dec2025",
+      "publisher": "Recursion",
+      "title": "TUPELO Phase 1b/2 company results",
+      "url": "https://ir.recursion.com/news-releases/news-release-details/positive-phase-1b2-results-ongoing-rec-4881-tupelo-trial-0",
+      "published": "2025-12-08",
+      "layers": [
+        "applications"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "isomorphic-may2026",
+      "publisher": "Isomorphic Labs",
+      "title": "May 2026 platform and pipeline funding disclosure",
+      "url": "https://www.isomorphiclabs.com/press/isomorphic-labs-funding",
+      "published": "2026-05-12",
       "layers": [
         "applications"
       ],
@@ -7011,6 +7532,258 @@
       "method": "curated",
       "note": "Company disclosure at 3:27?3:40 in the original speech; public transcript inspected. July city/monitor statuses are separately dated on the project card. City allocation, paid/test split, rider occupancy and remote-assistance exposure are unquantified.",
       "document_sha256": "f477ecab4bddb30651610f9b39bb1e2c5477054eee10685978f8da04c7a47021"
+    },
+    {
+      "id": "census-dc-construction-saar-0",
+      "metric": "census-dc-construction-saar",
+      "year": 2025,
+      "period": "2025-07",
+      "value": 47810,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-dc-saar-july2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex."
+    },
+    {
+      "id": "census-dc-construction-saar-1",
+      "metric": "census-dc-construction-saar",
+      "year": 2026,
+      "period": "2026-03",
+      "value": 58121,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-dc-saar-july2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex."
+    },
+    {
+      "id": "census-dc-construction-saar-2",
+      "metric": "census-dc-construction-saar",
+      "year": 2026,
+      "period": "2026-04",
+      "value": 61859,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-dc-saar-july2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex."
+    },
+    {
+      "id": "census-dc-construction-saar-3",
+      "metric": "census-dc-construction-saar",
+      "year": 2026,
+      "period": "2026-05",
+      "value": 65688,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-dc-saar-july2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex."
+    },
+    {
+      "id": "census-dc-construction-saar-4",
+      "metric": "census-dc-construction-saar",
+      "year": 2026,
+      "period": "2026-06",
+      "value": 70755,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-dc-saar-july2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex."
+    },
+    {
+      "id": "census-dc-construction-saar-5",
+      "metric": "census-dc-construction-saar",
+      "year": 2026,
+      "period": "2026-07",
+      "value": 75166,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-dc-saar-july2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Census construction put in place, nominal seasonally adjusted annual rate. July preliminary; May/June revised. September 2026 vintage. Excludes equipment purchases outside construction; not total AI capex."
+    },
+    {
+      "id": "indeed-dc-postings-index-0",
+      "metric": "indeed-dc-postings-index",
+      "year": 2024,
+      "period": "June 2024 baseline",
+      "value": 100,
+      "upper": null,
+      "status": "observation",
+      "source": "indeed-dc-hiring-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Indeed U.S. postings containing data center, datacenter or data-center. June 2024 baseline and June 2026 lower bound only; no digitized intermediate points. Postings are not hires."
+    },
+    {
+      "id": "indeed-dc-postings-index-1",
+      "metric": "indeed-dc-postings-index",
+      "year": 2026,
+      "period": "June 2026 lower bound",
+      "value": 200,
+      "upper": null,
+      "status": "observation",
+      "source": "indeed-dc-hiring-2026",
+      "precision": "gt",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Indeed U.S. postings containing data center, datacenter or data-center. June 2024 baseline and June 2026 lower bound only; no digitized intermediate points. Postings are not hires."
+    },
+    {
+      "id": "google-eta-apprentices-commitment-0",
+      "metric": "google-eta-apprentices-commitment",
+      "year": 2030,
+      "period": "2025 announcement; five-year program",
+      "value": 30000,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "google-eta-training",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Google-supported etA effort targets training new apprentices; IBEW/NECA partnership. Program ambition, not enrollments or placements; announcement publication day not verified."
+    },
+    {
+      "id": "meta-awa-first-year-funding-0",
+      "metric": "meta-awa-first-year-funding",
+      "year": 2026,
+      "period": "June 2026 launch commitment",
+      "value": 115000000,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "meta-awa-funding",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Meta announced initial first-year program investment; not verified expenditure, enrollment or hired-worker count."
+    },
+    {
+      "id": "talen-amazon-fleet-ppa-0",
+      "metric": "talen-amazon-fleet-ppa",
+      "year": 2032,
+      "period": "Full contract quantity by 2032",
+      "value": 1920,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "talen-amazon-ppa-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Existing Susquehanna nuclear fleet PPA. Full delivery expected no later than 2032 under June 2025 terms; contract through 2042. Not net-new generation or current delivered load."
+    },
+    {
+      "id": "google-kairos-smr-commitment-0",
+      "metric": "google-kairos-smr-commitment",
+      "year": 2035,
+      "period": "Agreement ceiling through 2035",
+      "value": 500,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "google-kairos-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "October 2024 agreement for up to 500 MW; first reactor targeted 2030 and subsequent deployments through 2035. Not operating U.S. SMR capacity."
+    },
+    {
+      "id": "claude-code-plan-0",
+      "metric": "claude-code-plan",
+      "year": 2026,
+      "period": "2026-09-07 pricing snapshot",
+      "value": 20,
+      "upper": null,
+      "status": "observation",
+      "source": "claude-harness-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply."
+    },
+    {
+      "id": "cursor-agent-plan-0",
+      "metric": "cursor-agent-plan",
+      "year": 2026,
+      "period": "2026-09-07 pricing snapshot",
+      "value": 20,
+      "upper": null,
+      "status": "observation",
+      "source": "cursor-harness-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply."
+    },
+    {
+      "id": "copilot-agent-plan-0",
+      "metric": "copilot-agent-plan",
+      "year": 2026,
+      "period": "2026-09-07 pricing snapshot",
+      "value": 10,
+      "upper": null,
+      "status": "observation",
+      "source": "copilot-harness-pricing",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply."
+    },
+    {
+      "id": "codex-cli-plan-0",
+      "metric": "codex-cli-plan",
+      "year": 2026,
+      "period": "2026-09-07 pricing snapshot",
+      "value": 20,
+      "upper": null,
+      "status": "observation",
+      "source": "codex-product-plans",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply."
+    },
+    {
+      "id": "interpath001-trial-enrollment-0",
+      "metric": "interpath001-trial-enrollment",
+      "year": 2026,
+      "period": "August 19, 2026 company disclosure",
+      "value": 1137,
+      "upper": null,
+      "status": "observation",
+      "source": "merck-interpath001-phase3",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:11:03Z",
+      "method": "curated",
+      "note": "Merck / Moderna Phase 3 company disclosure, August 19, 2026. NCT05933577; 2:1 randomization, resected stage IIB-IV melanoma. Enrollment is not a patient-benefit measure."
+    },
+    {
+      "id": "rec4881-dec2025-week13",
+      "metric": "rec4881-polyp-reduction-week13",
+      "year": 2025,
+      "period": "November 25, 2025 cutoff",
+      "value": 43,
+      "upper": null,
+      "status": "observation",
+      "source": "recursion-tupelo-dec2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:18:28Z",
+      "method": "curated",
+      "note": "Median reduction from baseline in 12 evaluable participants. Open-label Phase 2; not a randomized treatment effect or approval."
     }
   ],
   "events": [
