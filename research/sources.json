@@ -3165,6 +3165,28 @@
         "models"
       ],
       "license": "Public financial facts; linked paraphrase and numeric extraction only."
+    },
+    {
+      "id": "eia-aeo2026-high-growth",
+      "publisher": "U.S. EIA",
+      "title": "AEO2026 Table 8: High Economic Growth, total net electricity generation",
+      "url": "https://www.eia.gov/outlooks/aeo/excel/sidecases/highmacro/aeotab8.xlsx",
+      "published": "2026-04-08",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "iihs-waymo-crash-2026",
+      "publisher": "Insurance Institute for Highway Safety",
+      "title": "Waymo’s driverless cars crash less often than people",
+      "url": "https://www.iihs.org/news/detail/waymos-driverless-cars-crash-less-often-than-people",
+      "published": "2026-07-23",
+      "layers": [
+        "applications"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
     }
   ],
   "discovery_keywords": [
@@ -3231,6 +3253,7 @@
         "bls-oews-method-2021",
         "eia-steo-aug2026-generation",
         "eia-aeo2026-generation",
+        "eia-aeo2026-high-growth",
         "anthropic-opus5",
         "anthropic-fable5",
         "anthropic-fable51",
@@ -3258,7 +3281,8 @@
         "finance-merck-consensus-20260907",
         "finance-moderna-consensus-20260907",
         "finance-recursion-consensus-20260907",
-        "aws-annual-history-2024"
+        "aws-annual-history-2024",
+        "iihs-waymo-crash-2026"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -6888,6 +6912,28 @@
         "annual",
         "forecast"
       ],
+      "excerpts": false
+    },
+    "eia-aeo2026-high-growth": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "iihs-waymo-crash-2026": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "safety",
+      "cadence": "weekly",
+      "weekday": 3,
+      "path_prefixes": [],
+      "topics": [],
       "excerpts": false
     }
   }

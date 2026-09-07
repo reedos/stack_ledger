@@ -104,16 +104,23 @@
       "direction": "context",
       "min": 0,
       "max": 100000,
-      "note": "2024 is the 2025 report baseline; 2025 and 2030 use the updated 2026 IEA outlook. The 2030 value is a forecast, not a generation target.",
+      "note": "2024 is the 2025 report baseline; 2025 and 2030 use the updated 2026 IEA outlook. 2035 High Efficiency and Lift-Off are 2025-vintage cases, not a revision of 2030.",
       "source_ids": [
         "iea-2025",
         "iea-2026"
       ],
       "series_start_year": 2024,
       "chart_default_start": 2024,
-      "chart_default_end": 2030,
+      "chart_default_end": 2035,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero.",
+      "chart_companion_metric": "dc-electricity-iea2025-high-efficiency",
+      "chart_overlay_metric": "dc-electricity-iea2025-lift-off",
+      "chart_overlay_legend": "IEA 2025 Lift-Off case",
+      "chart_comparison_title": "Global data-center electricity: outlook and 2035 cases",
+      "chart_comparison_label": "2025-vintage 2035 cases",
+      "chart_comparison_legend": "IEA 2025 High Efficiency",
+      "chart_comparison_note": "2024–2030 follow the IEA 2026 outlook. The 2035 bars are the older IEA 2025 sensitivity cases: High Efficiency in front, Lift-Off behind. They are not an update of the 2030 figure, not AI-only, and not a probability interval. Missing years are not filled."
     },
     {
       "id": "us-dc-electricity",
@@ -4527,7 +4534,7 @@
       "id": "dc-electricity-iea2025-high-efficiency",
       "layer": "energy",
       "title": "Data-center electricity: IEA High Efficiency case (2025 vintage)",
-      "unit": "TWh",
+      "unit": "TWh / year",
       "geography": "Global",
       "scope": "IEA 2025 High Efficiency sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
       "direction": "context",
@@ -4547,7 +4554,7 @@
       "id": "dc-electricity-iea2025-lift-off",
       "layer": "energy",
       "title": "Data-center electricity: IEA Lift-Off case (2025 vintage)",
-      "unit": "TWh",
+      "unit": "TWh / year",
       "geography": "Global",
       "scope": "IEA 2025 Lift-Off sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
       "direction": "context",
@@ -7102,6 +7109,87 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "us-total-generation-aeo2026-high-growth",
+      "layer": "energy",
+      "title": "U.S. total generation: AEO2026 High Economic Growth",
+      "unit": "TWh",
+      "geography": "United States",
+      "scope": "Total net electricity generation, including small on-site end-use systems. Broader than utility-scale generation. AEO2026 High Economic Growth side case, not a current-policy promise or a probability interval.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "April 2026 vintage, Table 8 total net electricity generation. Billion kWh equals TWh. Same generation definition as the Counterfactual Baseline companion; not utility-scale-only history.",
+      "source_ids": [
+        "eia-aeo2026-high-growth"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "pre_period_note": "Selected published 2028–2030 scenario values; no missing annual values inferred. Source includes small on-site generation.",
+      "definition_stable": true,
+      "allowed_statuses": [
+        "forecast"
+      ]
+    },
+    {
+      "id": "waymo-iihs-police-reportable-crash-rate",
+      "layer": "applications",
+      "title": "Waymo driverless · police-reportable crash rate",
+      "unit": "crashes / million miles",
+      "geography": "San Francisco, Phoenix, Los Angeles and Austin, U.S.",
+      "scope": "IIHS-coded police-reportable crash involvements in Waymo driverless operation, 2021–2024. Not Tesla Robotaxi, not supervised FSD, and not a shared operator ranking.",
+      "direction": "down",
+      "min": 0,
+      "max": 1000,
+      "note": "Independent IIHS study of NHTSA Standing General Order narratives. About 50 million driverless miles. Austin’s small sample was 4% higher than humans; the four-city rate was 68% lower.",
+      "source_ids": [
+        "iihs-waymo-crash-2026"
+      ],
+      "company": "waymo",
+      "measurement_type": "crash_involvements_per_million_miles",
+      "project": "waymo-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "One published study window. Earlier or later years are not inferred.",
+      "chart_companion_metric": "human-iihs-matched-crash-rate",
+      "chart_comparison_title": "Police-reportable crashes: Waymo driverless vs human drivers",
+      "chart_comparison_note": "IIHS compared Waymo driverless operation with human drivers in the same four cities and years. Tesla Robotaxi and supervised FSD are not in this study. Grouped bars are separate rates, not a blended autonomous-vehicle average.",
+      "chart_comparison_label": "Matched human drivers",
+      "chart_comparison_legend": "Human drivers in the same areas and years"
+    },
+    {
+      "id": "human-iihs-matched-crash-rate",
+      "layer": "applications",
+      "title": "Human drivers · matched police-reportable crash rate",
+      "unit": "crashes / million miles",
+      "geography": "San Francisco, Phoenix, Los Angeles and Austin, U.S.",
+      "scope": "IIHS human-driver police-reported crash involvement rate in the same areas and years as the Waymo driverless sample. Not a national all-road average and not a Tesla comparison.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Human benchmark from the same IIHS study. About 222 billion human miles in the matched locations and years.",
+      "source_ids": [
+        "iihs-waymo-crash-2026"
+      ],
+      "company": null,
+      "measurement_type": "crash_involvements_per_million_miles",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "One published study window. Earlier or later years are not inferred."
     }
   ],
   "sources": [
@@ -10297,6 +10385,28 @@
         "models"
       ],
       "license": "Public financial facts; linked paraphrase and numeric extraction only."
+    },
+    {
+      "id": "eia-aeo2026-high-growth",
+      "publisher": "U.S. EIA",
+      "title": "AEO2026 Table 8: High Economic Growth, total net electricity generation",
+      "url": "https://www.eia.gov/outlooks/aeo/excel/sidecases/highmacro/aeotab8.xlsx",
+      "published": "2026-04-08",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "iihs-waymo-crash-2026",
+      "publisher": "Insurance Institute for Highway Safety",
+      "title": "Waymo’s driverless cars crash less often than people",
+      "url": "https://www.iihs.org/news/detail/waymos-driverless-cars-crash-less-often-than-people",
+      "published": "2026-07-23",
+      "layers": [
+        "applications"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
     }
   ],
   "observations": [
@@ -18411,6 +18521,76 @@
       "retrieved_at": "2026-09-07T17:16:38.529793Z",
       "method": "curated",
       "note": "AWS segment net sales in Amazon annual comparative table; USD millions converted to billions."
+    },
+    {
+      "id": "us-total-generation-aeo2026-high-growth-outlook-2028",
+      "metric": "us-total-generation-aeo2026-high-growth",
+      "year": 2028,
+      "period": "2028",
+      "value": 4660.391,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-aeo2026-high-growth",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "AEO2026 High Economic Growth, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
+    },
+    {
+      "id": "us-total-generation-aeo2026-high-growth-outlook-2029",
+      "metric": "us-total-generation-aeo2026-high-growth",
+      "year": 2029,
+      "period": "2029",
+      "value": 4716.977,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-aeo2026-high-growth",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "AEO2026 High Economic Growth, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
+    },
+    {
+      "id": "us-total-generation-aeo2026-high-growth-outlook-2030",
+      "metric": "us-total-generation-aeo2026-high-growth",
+      "year": 2030,
+      "period": "2030",
+      "value": 4780.946,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-aeo2026-high-growth",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "AEO2026 High Economic Growth, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
+    },
+    {
+      "id": "waymo-iihs-police-reportable-crash-rate-2021-2024",
+      "metric": "waymo-iihs-police-reportable-crash-rate",
+      "year": 2024,
+      "period": "2021–2024 study window",
+      "value": 1.28,
+      "upper": null,
+      "status": "observation",
+      "source": "iihs-waymo-crash-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "64 police-reportable crash involvements in driverless operation over about 50 million driverless miles. IIHS coded SGO narratives to a police-reportable standard."
+    },
+    {
+      "id": "human-iihs-matched-crash-rate-2021-2024",
+      "metric": "human-iihs-matched-crash-rate",
+      "year": 2024,
+      "period": "2021–2024 study window",
+      "value": 4.06,
+      "upper": null,
+      "status": "estimate",
+      "source": "iihs-waymo-crash-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "Human police-reported crash involvement rate in the same four cities and years, about 222 billion miles. Not a national all-road average."
     }
   ],
   "events": [

@@ -41,3 +41,22 @@ class HistoryTests(unittest.TestCase):
         o['metric']='us-utility-generation-history'
         with self.assertRaisesRegex(ValueError,'mapping not approved'):
             observation_valid(o,self.metrics,self.sources)
+
+    def test_high_growth_overlay_stays_on_its_own_metric(self):
+        o=copy.deepcopy(next(o for o in self.data['observations'] if o['metric']=='us-total-generation-aeo2026-high-growth'))
+        self.assertGreater(o['value'], next(x['value'] for x in self.data['observations'] if x['metric']=='us-total-generation-aeo2026' and x['year']==o['year']))
+        o['metric']='us-utility-generation-history'
+        with self.assertRaisesRegex(ValueError,'mapping not approved'):
+            observation_valid(o,self.metrics,self.sources)
+        self.assertNotIn('chart_overlay_metric', self.metrics['us-utility-generation-history'])
+        self.assertEqual(self.metrics['dc-electricity']['chart_overlay_metric'],'dc-electricity-iea2025-lift-off')
+        self.assertEqual(self.metrics['dc-electricity']['chart_companion_metric'],'dc-electricity-iea2025-high-efficiency')
+
+    def test_iihs_crash_rates_are_not_a_tesla_blend(self):
+        waymo=next(o for o in self.data['observations'] if o['id']=='waymo-iihs-police-reportable-crash-rate-2021-2024')
+        human=next(o for o in self.data['observations'] if o['id']=='human-iihs-matched-crash-rate-2021-2024')
+        self.assertEqual(waymo['value'],1.28)
+        self.assertEqual(human['value'],4.06)
+        self.assertEqual(waymo['source'],'iihs-waymo-crash-2026')
+        self.assertEqual(self.metrics['waymo-iihs-police-reportable-crash-rate']['company'],'waymo')
+        self.assertIsNone(self.metrics['human-iihs-matched-crash-rate']['company'])

@@ -4,7 +4,7 @@ from pathlib import Path
 from validate import require, text, timestamp, STATUSES
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_TYPES={'construction_spending_saar','job_postings_index'}
+PUBLIC_TYPES={'construction_spending_saar','job_postings_index','crash_involvements_per_million_miles'}
 TYPES = PUBLIC_TYPES | {'training_seats_committed','training_funding_committed','nuclear_ppa_committed','smr_mw_committed','harness_list_price','clinical_trial_enrollment','clinical_endpoint_change',
     'site_it_mw_operating', 'site_it_mw_planned_endstate', 'site_facility_mw',
     'site_compute_mw_reported', 'onsite_generation_mw_temporary',
@@ -21,6 +21,7 @@ TYPES = PUBLIC_TYPES | {'training_seats_committed','training_funding_committed',
     'unsupervised_or_rider_only_miles', 'paid_trips_per_week',
     'autonomous_trips_per_week', 'operating_vehicle_count', 'operating_metro_count',
     'humanoid_units_in_production_use', 'completed_totes',
+    'crash_involvements_per_million_miles',
 }
 FUTURE_ONLY = {'training_seats_committed','training_funding_committed','nuclear_ppa_committed','smr_mw_committed','capex_announced_usd', 'compute_contract_usd',
                'site_it_mw_planned_endstate', 'interconnection_mw_requested',
@@ -33,7 +34,8 @@ HISTORICAL_ONLY = {'annual_revenue_reported', 'site_it_mw_operating', 'capex_rec
                    'interconnection_mw_energized', 'accelerator_units_installed',
                    'supervised_driver_miles', 'unsupervised_or_rider_only_miles',
                    'operating_vehicle_count', 'operating_metro_count',
-                   'humanoid_units_in_production_use', 'completed_totes'}
+                   'humanoid_units_in_production_use', 'completed_totes',
+                   'crash_involvements_per_million_miles'}
 
 
 def validate_expansion(x, ledger, ecosystem, delivery):

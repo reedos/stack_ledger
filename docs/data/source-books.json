@@ -47,6 +47,7 @@
         "bls-oews-method-2021",
         "eia-steo-aug2026-generation",
         "eia-aeo2026-generation",
+        "eia-aeo2026-high-growth",
         "anthropic-opus5",
         "anthropic-fable5",
         "anthropic-fable51",
@@ -74,7 +75,8 @@
         "finance-merck-consensus-20260907",
         "finance-moderna-consensus-20260907",
         "finance-recursion-consensus-20260907",
-        "aws-annual-history-2024"
+        "aws-annual-history-2024",
+        "iihs-waymo-crash-2026"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -3704,6 +3706,28 @@
         "annual",
         "forecast"
       ],
+      "excerpts": false
+    },
+    "eia-aeo2026-high-growth": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "iihs-waymo-crash-2026": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "safety",
+      "cadence": "weekly",
+      "weekday": 3,
+      "path_prefixes": [],
+      "topics": [],
       "excerpts": false
     }
   }

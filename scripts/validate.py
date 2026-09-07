@@ -119,6 +119,12 @@ def validate(data):
                 for label in ['chart_comparison_label', 'chart_comparison_legend']: text(m.get(label), 180)
             text(m.get('chart_comparison_title'),250)
             text(m.get('chart_comparison_note'),1000)
+        if 'chart_overlay_metric' in m:
+            overlay=metrics.get(m['chart_overlay_metric'])
+            require(overlay is not None and overlay['id'] not in {m['id'], m.get('chart_companion_metric')},'Invalid chart overlay')
+            require(all(overlay[k]==m[k] for k in ['unit','geography','layer']),'Chart overlay units/geography/layer differ')
+            require(m.get('chart_companion_metric'),'Overlay requires a same-scope companion series')
+            text(m.get('chart_overlay_legend'),180)
         for field in ['series_start_year','chart_default_start','chart_default_end']:
             require(type(m.get(field)) is int and 2000<=m[field]<=2150,'Invalid chart history metadata')
         require(m['series_start_year']<=m['chart_default_start']<=m['chart_default_end'],'Inverted chart window')
