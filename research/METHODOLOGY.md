@@ -2,6 +2,8 @@
 
 ## Homepage evidence selection · September 7, 2026
 
+The nuclear target card includes an illustrative annual-energy conversion: capacity in GW × 8,760 hours × an assumed 90% capacity factor ÷ 1,000 gives TWh. The 400 GW target implies approximately 3,154 TWh/year, or 2,365 additional TWh/year relative to the target's approximate 100 GW starting fleet at the same assumed utilization. This calculation is not a sourced generation forecast, a delivery assessment, or a claim about the actual future capacity factor. The assumption and baseline are visible on the card; underlying observations remain unchanged.
+
 The generation line chart uses a labeled nonzero axis with padding below the lowest published value. Bar charts retain a zero baseline. Sparse endpoint labels and whole-number TWh presentation reduce overlap; stored source precision is unchanged. A dotted visual connector joins the 2027 STEO point to the 2028 AEO baseline, with the scope change explicitly marked: it does not establish comparable growth across those definitions. Forecast scenarios remain separate lines.
 
 Homepage workforce cards reuse catalogued construction spending, projected electrician openings and expected Hyperion peak construction jobs. These are distinct measures, not an estimate of realized net AI employment. The homepage retains one autonomous-driving chart; medical enrollment and small trial endpoint charts remain in the detailed coverage rather than serving as headline breakthrough evidence.

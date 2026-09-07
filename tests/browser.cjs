@@ -153,6 +153,12 @@ const server=http.createServer((req,res)=>{
   await page.locator('#historical-context').screenshot({path:path.join(evidence,'history-context.png')});
   assert.equal(await page.locator('#application-outcomes [data-metric="waymo-paid-weekly"] .bar').count(),2);
   assert.equal(await page.locator('#application-outcomes .chart-wrap').count(),1);
+  assert.match(await page.locator('#application-outcomes .waymo-safety').innerText(),/1.28[\s\S]*4.06/);
+  assert.match(await page.locator('#application-outcomes .outcome-editorial').innerText(),/>100,000[\s\S]*GXO/);
+  const scenarioStyles=await page.locator('#historical-context path.companion-line, #historical-context path.overlay-line').evaluateAll(els=>els.map(el=>[el.getAttribute('stroke'),el.getAttribute('stroke-dasharray')]));
+  assert.equal(scenarioStyles.length,2);
+  assert.notEqual(scenarioStyles[0][0],scenarioStyles[1][0]);
+  assert.notEqual(scenarioStyles[0][1],scenarioStyles[1][1]);
   assert.equal(await page.locator('#historical-context .scope-bridge').count(),1);
   assert.match(await page.locator('#historical-context').innerText(),/Axis starts at [1-9]/);
   assert.equal(await page.locator('#building-workforce .workforce-card').count(),3);
@@ -161,6 +167,8 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.stack-svg a.slab').count(),5);
   assert.equal(await page.locator('#outlook [data-metric="dc-electricity"] .bar:not(.overlay)').count(),3);
   assert.equal(await page.locator('#outlook [data-metric="dc-electricity"] .bar.overlay').count(),1);
+  assert.equal(await page.locator('#outlook .bar.overlay rect').getAttribute('width'),await page.locator('#outlook .bar:not(.overlay) rect').first().getAttribute('width'));
+  assert.match(await page.locator('#outlook .nuclear-equivalent').innerText(),/2,365 additional TWh[\s\S]*3,154[\s\S]*90%/);
   assert.match(await page.locator('#outlook').innerText(),/2035 bar is the IEA 2025 Lift-Off/i);
   assert.equal(await page.locator('#outlook .target-mini').count(),JSON.parse(fs.readFileSync(path.join(root,'data/ledger.json'),'utf8')).targets.length);
   assert.ok(await page.evaluate(()=>document.querySelector('#stack').compareDocumentPosition(document.querySelector('#premise'))&Node.DOCUMENT_POSITION_FOLLOWING));

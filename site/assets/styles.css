@@ -31,3 +31,5 @@
 
 /* Homepage evidence hierarchy */
 .workforce-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.workforce-card h3{margin:20px 0 12px}.workforce-value{font:500 clamp(34px,4vw,52px) var(--display);color:var(--green);margin:16px 0}.workforce-card p,.outcome-editorial p{color:var(--muted);font-size:13px;line-height:1.8}.outcome-editorial h3{font-size:28px;margin:24px 0}.outcome-editorial p{margin-bottom:22px}.chart-context{font-size:12px;color:var(--muted);margin:12px 0}.chart-context summary{cursor:pointer}.chart-value{paint-order:stroke;stroke:#101511;stroke-width:4px;stroke-linejoin:round}@media(max-width:900px){.workforce-grid{grid-template-columns:1fr}}
+
+.high-growth-key{color:#78d9ef}.baseline-key{color:#efc77b}.waymo-safety{border-top:1px solid var(--line);margin-top:24px;padding-top:20px}.waymo-safety p,.nuclear-equivalent p{font-size:12px;color:var(--muted);line-height:1.7;margin:10px 0}.nuclear-equivalent{border-left:2px solid var(--green);padding-left:12px;margin:16px 0}.nuclear-equivalent strong{color:var(--green);font-size:17px}.nuclear-equivalent summary{font-size:11px;cursor:pointer}
