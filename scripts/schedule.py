@@ -39,7 +39,13 @@ def main():
         job=existing[0]
         if len(existing)!=1 or not job.get('enabled') or job.get('payload',{}).get('argv')!=payload or job.get('schedule',{}).get('expr')!=config['schedule']:
             raise RuntimeError('An existing Stack Ledger job differs from the reviewed configuration; inspect it before changing it')
-    else:job=invoke(command)
+    else:
+        response=invoke(command)
+        job=response.get('job',response)
+        if not job.get('id'):
+            matches=[j for j in invoke(['cron','list','--json']).get('jobs',[]) if j.get('name')==NAME]
+            if len(matches)!=1:raise RuntimeError('Could not verify the installed Stack Ledger job')
+            job=matches[0]
     print(json.dumps({k:job.get(k) for k in ['id','name','enabled','schedule']},indent=2,ensure_ascii=False))
 
 if __name__=='__main__':main()
