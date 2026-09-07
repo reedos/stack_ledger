@@ -20229,6 +20229,30 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T213103Z",
+      "started_at": "2026-09-07T21:31:03Z",
+      "finished_at": "2026-09-07T21:31:50Z",
+      "status": "partial",
+      "documents_fetched": 7,
+      "documents_reviewed": 7,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "iea-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 7,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -20238,7 +20262,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T07:42:36Z",
+    "last_attempt": "2026-09-07T21:31:50Z",
     "last_success": null,
     "status": "partial"
   }
