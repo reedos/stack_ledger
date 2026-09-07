@@ -21472,6 +21472,35 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T222713Z",
+      "started_at": "2026-09-07T22:27:13Z",
+      "finished_at": "2026-09-07T22:27:24Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "alphafold-db",
+          "reason": "Insufficient readable source content"
+        },
+        {
+          "source": "alphafold-taar1",
+          "reason": "Insufficient readable source content"
+        },
+        {
+          "source": "alphafold-three",
+          "reason": "URL outside approved public host"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -21481,7 +21510,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T22:26:49Z",
+    "last_attempt": "2026-09-07T22:27:24Z",
     "last_success": "2026-09-07T21:57:04Z",
     "status": "partial"
   }
