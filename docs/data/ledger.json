@@ -19989,6 +19989,19 @@
       "retrieved_at": "2026-09-07T02:52:53Z",
       "document_sha256": "adf52c0f4f29a596bbaedd29e862cc5495c38890d26147ac78301b9b3675cc8e",
       "evidence_sha256": "648401964b3f865f2f5a47fc86d38c3b159d10d7454fa5d333abd722060242d1"
+    },
+    {
+      "title": "Lumentum UHP laser accelerated life test",
+      "summary": "Lumentum reports an accelerated life-test program for its ultra-high-power laser platform used in ELSFP solutions for co-packaged optics. The company states more than 100 million accelerated device hours with zero observed failures and stable operating characteristics, supporting reliability objectives for large-scale AI and CPO deployments.",
+      "layer": "chips",
+      "kind": "Company announcement",
+      "id": "note-191cdc963d3034277350",
+      "source": "lumentum-cpo",
+      "date": "2026-06-17",
+      "method": "automated",
+      "retrieved_at": "2026-09-07T21:48:24Z",
+      "document_sha256": "1653b1b723a417b7a313a31691e7a1ab2ea38fed8db96f6e1d48a5512c2851b7",
+      "evidence_sha256": "cbd2b3aa42cb5e47a30f27e22ec96fab5fa6fdd74f88b1274317d0f1224ae9ce"
     }
   ],
   "targets": [
@@ -20408,6 +20421,30 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T214756Z",
+      "started_at": "2026-09-07T21:47:56Z",
+      "finished_at": "2026-09-07T21:48:43Z",
+      "status": "partial",
+      "documents_fetched": 7,
+      "documents_reviewed": 4,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "micro1-opportunities",
+          "reason": "Insufficient readable source content"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -20417,7 +20454,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T21:35:25Z",
+    "last_attempt": "2026-09-07T21:48:43Z",
     "last_success": null,
     "status": "partial"
   }
