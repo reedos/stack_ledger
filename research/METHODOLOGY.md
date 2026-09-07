@@ -1,5 +1,11 @@
 # Methodology
 
+## Homepage evidence selection · September 7, 2026
+
+The generation line chart uses a labeled nonzero axis with padding below the lowest published value. Bar charts retain a zero baseline. Sparse endpoint labels and whole-number TWh presentation reduce overlap; stored source precision is unchanged. A dotted visual connector joins the 2027 STEO point to the 2028 AEO baseline, with the scope change explicitly marked: it does not establish comparable growth across those definitions. Forecast scenarios remain separate lines.
+
+Homepage workforce cards reuse catalogued construction spending, projected electrician openings and expected Hyperion peak construction jobs. These are distinct measures, not an estimate of realized net AI employment. The homepage retains one autonomous-driving chart; medical enrollment and small trial endpoint charts remain in the detailed coverage rather than serving as headline breakthrough evidence.
+
 ## Frontier models and premium subscriptions · September 7, 2026
 
 The Models page distinguishes Opus 5, Fable 5, Fable 5.1, GPT-6 Astra and Grok 4.6, with separate entries for restricted Mythos 5.1, the Grok Bot agent product and the Grok 4.7 release watch. API input and output prices have separate reviewed metric IDs for each model. Cached, long-context, region, tool and speed charges are qualifications rather than blended prices. Capability descriptions remain provider-attributed; no cross-vendor benchmark ranking is inferred from product claims or token prices.
