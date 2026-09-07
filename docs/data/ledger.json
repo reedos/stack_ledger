@@ -21790,6 +21790,26 @@
         "energy",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T223636Z",
+      "started_at": "2026-09-07T22:36:36Z",
+      "finished_at": "2026-09-07T22:37:00Z",
+      "status": "partial",
+      "documents_fetched": 7,
+      "documents_reviewed": 7,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "builder-role-meta",
+          "reason": "Insufficient readable source content"
+        }
+      ],
+      "model_calls": 1,
+      "coverage_layers": [
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -21799,7 +21819,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T22:36:11Z",
+    "last_attempt": "2026-09-07T22:37:00Z",
     "last_success": "2026-09-07T22:34:45Z",
     "status": "partial"
   }
