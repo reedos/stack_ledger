@@ -149,7 +149,13 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#historical-context .scope-break-marker').count(),1);
   assert.match(await page.locator('#historical-context .scope-warning').innerText(),/2028.*broader.*Counterfactual Baseline/);
   assert.equal(await page.locator('#historical-context [data-metric="revenue-tsmc"] .bar').count(),7);
+  assert.equal(await page.locator('#historical-context [data-metric="revenue-nvidia"]').count(),0);
+  assert.equal(await page.locator('#historical-context [data-metric="revenue-asml"]').count(),0);
   await page.locator('#historical-context').screenshot({path:path.join(evidence,'history-context.png')});
+  assert.equal(await page.locator('#application-outcomes [data-metric="waymo-paid-weekly"] .bar').count(),2);
+  assert.equal(await page.locator('#application-outcomes [data-metric="digit-gxo-totes"] .bar').count(),1);
+  assert.match(await page.locator('#application-outcomes').innerText(),/sourced operating results[\s\S]*not a productivity total/i);
+  await page.locator('#application-outcomes').screenshot({path:path.join(evidence,'application-outcomes.png')});
   assert.equal(await page.locator('.stack-svg a.slab').count(),5);
   assert.equal(await page.locator('#outlook .target-mini').count(),JSON.parse(fs.readFileSync(path.join(root,'data/ledger.json'),'utf8')).targets.length);
   assert.ok(await page.evaluate(()=>document.querySelector('#stack').compareDocumentPosition(document.querySelector('#premise'))&Node.DOCUMENT_POSITION_FOLLOWING));
