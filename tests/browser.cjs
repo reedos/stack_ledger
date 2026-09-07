@@ -52,12 +52,23 @@ const server=http.createServer((req,res)=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','projects/','ledger/','methodology/'];
   routes.push(...['nvidia','tsmc','asml','openai','openclaw','nebius','innolight','aws'].map(id=>`companies/${id}/`));
+  routes.push(...['mistral','arm','siemens-energy','moonshot'].map(id=>`companies/${id}/`));
   for(const route of routes){
    const response=await page.goto(origin+route,{waitUntil:'networkidle'});assert.equal(response.status(),200);
    await page.locator('body[data-enhanced="true"]').waitFor();
    assert.equal(await page.locator('h1').count(),1);
    assert.deepEqual(await page.locator('[id]').evaluateAll(els=>{const ids=els.map(el=>el.id);return ids.filter((id,i)=>ids.indexOf(id)!==i);}),[],route+' duplicate IDs');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' desktop overflow');
+   if(['energy/','chips/','infrastructure/','models/','applications/'].includes(route)){
+    const layer=route.slice(0,-1),expected=companySnapshot.companies.filter(c=>c.layers.includes(layer)).map(c=>c.id).sort();
+    const shown=await page.locator('#companies .builder-card').evaluateAll(els=>els.map(el=>el.dataset.company).sort());
+    assert.deepEqual(shown,expected,layer+' must show every covered contributor exactly once');
+    assert.equal(await page.locator('#companies .builder-nav a').count(),await page.locator('#companies .builder-group').count());
+    if(layer==='models'){
+     assert.deepEqual(await page.locator('#companies .builder-group').first().locator('.builder-card').evaluateAll(els=>els.slice(0,5).map(el=>el.dataset.company)),['anthropic','openai','spacexai','alphabet','meta']);
+     assert.match(await page.locator('#companies .builder-group').nth(1).innerText(),/Agent tools & runtimes[\s\S]*OpenClaw/);
+    }
+   }
    const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>new URL(a.getAttribute('href'),location.href).href).filter(u=>u.startsWith(location.origin)&&!u.includes('#')));
    for(const href of new Set(links)){assert.equal((await page.request.get(href)).status(),200,href);}
   }

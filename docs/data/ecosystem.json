@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T09:23:36Z",
+  "reviewed_at": "2026-09-07T19:11:08.544487Z",
   "companies": [
     {
       "id": "nextera",
@@ -56,7 +56,8 @@
       "name": "NVIDIA",
       "layers": [
         "chips",
-        "infrastructure"
+        "infrastructure",
+        "models"
       ],
       "role": "Designs GPUs and networking, and develops the software and systems that make accelerated computing usable at scale.",
       "revenue_metric": "revenue-nvidia",
@@ -66,7 +67,11 @@
       "filings_jurisdiction": "SEC",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "role_sources": [
+        "company-nvidia",
+        "builder-role-nvidia"
+      ]
     },
     {
       "id": "amd",
@@ -225,7 +230,7 @@
         "models",
         "applications"
       ],
-      "role": "Operates Azure, provides model access and developer tools, and puts AI into work through Copilot applications.",
+      "role": "Develops MAI and Phi model families, operates Azure and its model catalog, and delivers Copilot applications and developer tools.",
       "revenue_metric": "revenue-microsoft",
       "revenue_kind": "annual",
       "source": "company-microsoft",
@@ -233,7 +238,11 @@
       "filings_jurisdiction": "SEC",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "role_sources": [
+        "company-microsoft",
+        "builder-role-microsoft"
+      ]
     },
     {
       "id": "aws",
@@ -243,7 +252,7 @@
         "chips",
         "models"
       ],
-      "role": "Rents cloud compute, designs Trainium chips and provides model access through Bedrock.",
+      "role": "Develops Amazon Nova foundation models, offers third-party models through Bedrock, operates cloud compute and designs Trainium chips.",
       "revenue_metric": "revenue-aws",
       "revenue_kind": "annual",
       "source": "company-aws",
@@ -251,7 +260,11 @@
       "filings_jurisdiction": "SEC",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "role_sources": [
+        "company-aws",
+        "builder-role-aws"
+      ]
     },
     {
       "id": "alphabet",
@@ -277,9 +290,10 @@
       "name": "Meta",
       "layers": [
         "models",
-        "applications"
+        "applications",
+        "infrastructure"
       ],
-      "role": "Develops Llama models and applies AI to recommendations, advertising and consumer assistants.",
+      "role": "Develops Llama and Muse models and applies AI to consumer assistants, recommendations and advertising. Develops data-center campuses including Hyperion.",
       "revenue_metric": "revenue-meta",
       "revenue_kind": "annual",
       "source": "company-meta",
@@ -287,7 +301,12 @@
       "filings_jurisdiction": "SEC",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "role_sources": [
+        "company-meta",
+        "builder-role-meta",
+        "hyperion-plan-2026"
+      ]
     },
     {
       "id": "openai",
@@ -877,12 +896,13 @@
         "infrastructure",
         "models"
       ],
-      "role": "Grok model business and Colossus infrastructure under SpaceX. Contracted compute access is distinct from delivered model work.",
+      "role": "Develops Grok models and operates Colossus infrastructure. Model development, cloud capacity and contracted access are separate activities.",
       "revenue_metric": null,
       "revenue_kind": "unavailable",
       "source": "anthropic-colossus-contract",
       "role_sources": [
-        "anthropic-colossus-contract"
+        "anthropic-colossus-contract",
+        "builder-role-spacexai"
       ],
       "ir_url": null,
       "filings_jurisdiction": "unverified",
@@ -1353,7 +1373,8 @@
       "id": "cursor",
       "name": "Anysphere / Cursor",
       "layers": [
-        "models"
+        "models",
+        "applications"
       ],
       "role": "Builds editor, CLI and cloud agent harnesses.",
       "revenue_metric": null,
@@ -1520,6 +1541,234 @@
       "blog_urls": [],
       "official_lang": "en",
       "region_book": "europe"
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral AI",
+      "layers": [
+        "models"
+      ],
+      "role": "Develops Mistral language, coding, speech and document models; publishes model-specific access and license terms.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-mistral",
+      "role_sources": [
+        "builder-role-mistral"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "layers": [
+        "models"
+      ],
+      "role": "Develops Command generation models, Embed and Rerank retrieval models, and the multilingual Aya family.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-cohere",
+      "role_sources": [
+        "builder-role-cohere"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "ibm",
+      "name": "IBM",
+      "layers": [
+        "models"
+      ],
+      "role": "Develops Granite foundation models for enterprise uses, with model documentation and deployment tooling.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-ibm",
+      "role_sources": [
+        "builder-role-ibm"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "arm",
+      "name": "Arm",
+      "layers": [
+        "chips"
+      ],
+      "role": "Provides Neoverse CPU designs and compute subsystems used to develop cloud and data-center silicon; distinct from a wafer foundry.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-arm",
+      "role_sources": [
+        "builder-role-arm"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "applied-materials",
+      "name": "Applied Materials",
+      "layers": [
+        "chips"
+      ],
+      "role": "Supplies materials-engineering equipment used in semiconductor fabrication, enabling manufacturers to build chip structures.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-applied-materials",
+      "role_sources": [
+        "builder-role-applied-materials"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "lam-research",
+      "name": "Lam Research",
+      "layers": [
+        "chips"
+      ],
+      "role": "Supplies deposition, etch and cleaning equipment for wafer fabrication and advanced packaging processes.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-lam-research",
+      "role_sources": [
+        "builder-role-lam-research"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "synopsys",
+      "name": "Synopsys",
+      "layers": [
+        "chips"
+      ],
+      "role": "Supplies electronic design automation, verification tools and semiconductor IP for designing and validating chips.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-synopsys",
+      "role_sources": [
+        "builder-role-synopsys"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "cadence",
+      "name": "Cadence Design Systems",
+      "layers": [
+        "chips"
+      ],
+      "role": "Supplies digital chip-design, implementation and signoff software, supporting the design process before manufacturing.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-cadence",
+      "role_sources": [
+        "builder-role-cadence"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "siemens-energy",
+      "name": "Siemens Energy",
+      "layers": [
+        "energy"
+      ],
+      "role": "Supplies power-transmission technology including transformers, switchgear, substations and high-voltage AC/DC systems.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-siemens-energy",
+      "role_sources": [
+        "builder-role-siemens-energy"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown"
+    },
+    {
+      "id": "moonshot",
+      "name": "Moonshot AI / Kimi",
+      "layers": [
+        "models"
+      ],
+      "role": "Develops Kimi models and the Kimi assistant for language, reasoning and multimodal tasks.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-moonshot",
+      "role_sources": [
+        "builder-role-moonshot"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "china"
+    },
+    {
+      "id": "minimax",
+      "name": "MiniMax",
+      "layers": [
+        "models"
+      ],
+      "role": "Develops language, speech, music and video models, with model access and AI applications.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-minimax",
+      "role_sources": [
+        "builder-role-minimax"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "china"
+    },
+    {
+      "id": "z-ai",
+      "name": "Z.ai",
+      "layers": [
+        "models"
+      ],
+      "role": "Develops the GLM model family for language, reasoning, coding and multimodal tasks.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "builder-role-z-ai",
+      "role_sources": [
+        "builder-role-z-ai"
+      ],
+      "ir_url": null,
+      "filings_jurisdiction": "unverified",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "china"
     }
   ],
   "capacity_metrics": [

@@ -1,5 +1,11 @@
 # Methodology
 
+## Layer contributor selection · September 7, 2026
+
+Layer pages show every company or organization assigned to that layer, grouped by function rather than taking the first three records in file order. Models lead with model developers; agent tools and runtimes form a separate group. Microsoft and Amazon have first-party MAI/Phi and Nova roles distinct from distribution of other labs' models. NVIDIA's Nemotron and Meta's campus development have explicit cross-layer placement. OpenClaw remains identified as an open-source project, and utilities and grid operators are not all commercial companies.
+
+The role review adds Mistral, Cohere, IBM, Moonshot, MiniMax, Z.ai, Arm, Applied Materials, Lam Research, Synopsys, Cadence and Siemens Energy using official capability pages. New company revenue remains explicitly unverified in this edition; no funding or estimated revenue was substituted. Membership establishes a documented contribution, not a named customer relationship, market-share ranking or proof of operational deployment. The directory is expandable, not an exhaustive industry census. Future covered contributors appear even before an explicit group is assigned; browser checks guard against missing or duplicate entries.
+
 ## Coding-agent adoption · September 7, 2026
 
 The homepage coding card uses GitHub's March 5, 2026 Copilot code-review disclosure. Its reported 10× usage growth since April 2025 is shown as a normalized launch reference of 1 and a reported endpoint of 10. GitHub does not specify the usage denominator; no intermediate months, launch review count or productivity multiplier are inferred. A separate metric retains 60 million cumulative reviews from the report headline. These are provider-reported workflow adoption measures, not unique pull requests, accepted fixes, hours saved or a causal productivity estimate. The source HTML and hash are cached privately. This curated addition is not a Muse runtime receipt.
