@@ -407,6 +407,19 @@
       ],
       "license": "Original source rights apply",
       "parent_source": "stanford-2026"
+    },
+    {
+      "id": "discovered-f21b782b05987822",
+      "publisher": "NVIDIA",
+      "title": "Discovered public update · NVIDIA",
+      "url": "https://blogs.nvidia.com/blog/nvlink-fusion-xpu-ai-factory/",
+      "published": "2026-08-24",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "parent_source": "nvidia-news"
     }
   ],
   "observations": [
@@ -716,6 +729,19 @@
       "retrieved_at": "2026-09-07T02:52:53Z",
       "document_sha256": "adf52c0f4f29a596bbaedd29e862cc5495c38890d26147ac78301b9b3675cc8e",
       "evidence_sha256": "648401964b3f865f2f5a47fc86d38c3b159d10d7454fa5d333abd722060242d1"
+    },
+    {
+      "title": "NVLink Fusion enables XPU integration with NVIDIA AI infrastructure",
+      "summary": "NVIDIA announced NVLink Fusion to connect custom XPUs to its AI infrastructure, aiming to increase performance and accelerate time to market for semi-custom AI factories.",
+      "layer": "infrastructure",
+      "kind": "Research finding",
+      "id": "note-f21b782b05987822e4db",
+      "source": "discovered-f21b782b05987822",
+      "date": "2026-08-24",
+      "method": "automated",
+      "retrieved_at": "2026-09-07T03:00:30Z",
+      "document_sha256": "e93b9baa24782565a54c993630ed358401706bfae9bc19f015f59ffd3d730c9c",
+      "evidence_sha256": "ba4b404bca33c7ce43937bc77cdc101694e2c970bdbdc8b4857681b051c681e8"
     }
   ],
   "targets": [
@@ -792,6 +818,38 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T025935Z",
+      "started_at": "2026-09-07T02:59:35Z",
+      "finished_at": "2026-09-07T03:01:16Z",
+      "status": "partial",
+      "documents_fetched": 20,
+      "documents_reviewed": 15,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "iea-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "discovered-00476ffa0b63634d",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "iea-2025",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 3,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -801,7 +859,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T02:53:00Z",
+    "last_attempt": "2026-09-07T03:01:16Z",
     "last_success": null,
     "status": "partial"
   }
