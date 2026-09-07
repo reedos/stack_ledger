@@ -23277,6 +23277,30 @@
         "energy",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T232026Z",
+      "started_at": "2026-09-07T23:20:26Z",
+      "finished_at": "2026-09-07T23:20:35Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "bls-aug-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "lbl-queues-2026",
+          "reason": "Source crawl delay exceeds daily budget"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "energy"
+      ]
     }
   ],
   "runtime": {
@@ -23286,7 +23310,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T23:20:01Z",
+    "last_attempt": "2026-09-07T23:20:35Z",
     "last_success": "2026-09-07T22:57:54Z",
     "status": "partial"
   }
