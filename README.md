@@ -12,7 +12,7 @@ This is our guiding ambition, tested against evidence. Announced investment is n
 
 ## What is included
 
-- A 45-company directory with 38 annual revenue records, two annualized run rates and five explicit revenue coverage gaps; product-role sources are linked separately.
+- An expanding company directory with 38 annual revenue records, two annualized run rates and five explicit revenue coverage gaps; product-role sources are linked separately.
 - A searchable datacenter component map covering compute, memory, DSPs, SerDes, copper, optical modules, CPO, fiber, switching, assembly and electrical infrastructure.
 - Electrical workforce evidence and clean-energy manufacturing cases, distinguishing reported employment, projected openings, hiring plans and investment stages.
 
@@ -41,7 +41,7 @@ The homepage hero, isometric layer links, five evidence cards, navigation and ru
 
 Headline cards retain metric scope, units, periods, status and publisher. Applications deliberately shows a research gap until a measured-outcome metric is reviewed; the adoption survey remains in the applications research. Reindustrialization is a question below the evidence, and government targets, company commitments and independent projections retain separate books.
 
-Daily builds refresh these deterministic HTML snapshots from the ledger. The publisher permits only the eleven existing generated page paths in addition to ledger JSON and the feed; it cannot change source templates, navigation, styles, metric definitions or governance. Browser acceptance checks the homepage with JavaScript disabled, failed dataset requests and keyboard navigation as well as all routes at three viewport widths.
+Daily builds refresh these deterministic HTML snapshots from the ledger. The publisher permits only the reviewed generated page paths in addition to ledger JSON and the feed; it cannot change source templates, navigation, styles, metric definitions or governance. Browser acceptance checks the homepage with JavaScript disabled, failed dataset requests and keyboard navigation as well as all routes at three viewport widths.
 
 ## Research runtime
 
@@ -76,7 +76,7 @@ The model emits JSON using [Ollama structured outputs](https://docs.ollama.com/c
 
 ## Publication boundaries
 
-Daily publication changes only `site/data/ledger.json`, `docs/data/ledger.json`, and `docs/feed.xml`. The reviewed catalog and source registry must match public data. Newly discovered source URLs must retain an approved host and publisher. The agent may add numeric observations and source-supported research notes. It cannot change templates, code, metric definitions, targets, source policy or its constitution.
+Daily publication changes only approved ledger/excerpt data, the feed and the maintained generated HTML pages. The exact boundary is enforced by `ALLOWED_CHANGES` in `scripts/research.py`. The reviewed catalog and source registry must match public data. Newly discovered source URLs must retain an approved host and publisher. The agent may add numeric observations and source-supported research notes. It cannot change templates, code, metric definitions, targets, source policy or its constitution.
 
 The publisher requires a clean working tree, the exact expected repository and branch, no unexpected staged or untracked files, passing integrity tests and an ordinary fast-forward push. It stops on divergence and never force-pushes. GitHub code changes should be made through reviewed pull requests; this local publisher enforces its own narrower file boundary even though the owner’s Git credential can access other files.
 
@@ -126,3 +126,27 @@ The `/industry/` page includes the chip supply chain, capacity charts, project s
 Run `python scripts/validate_ecosystem.py` for reference and provenance checks; the build also runs this validation. Browser acceptance covers all eleven routes, company search, layer and revenue-basis filters, and three viewport widths. The daily 24-document budget retains five baseline sources and rotates the expanded source registry in seven-source steps so later sources are not permanently starved. Dated reports and PDFs may still require reviewed source additions or curated updates; see the methodology.
 
 The infrastructure and chips pages include a searchable component map and optical-technology milestones. The energy and industry pages show solar manufacturing and transformer investment cases; industry also tracks electrical workforce evidence. These reviewed snapshots live in `research/fabric.json`. Validate with `python scripts/validate_fabric.py`, also required by the build. Missing verified revenue is explicit, and is excluded from annual and run-rate views.
+
+
+## Local research readiness and downtime sessions
+
+See [the operating guide](research/OPERATING_GUIDE.md), [current research agenda](research/RESEARCH_AGENDA.md) and [September 7 readiness audit](research/READINESS-2026-09-07.md). Both extraction and verification receive the constitution and operating guide. Source-linked context is assembled from current reviewed company, project, fabric, expansion, agenda and claims snapshots.
+
+Repeated sessions prioritize never-attempted and oldest-attempted sources. Weekly sources become eligible on their scheduled day, when never checked, or after seven days without an attempt. Focused `--sources` runs override the queue using approved IDs only. Content caches also include policy, instructions, context and metric definitions, so changed guidance can trigger a new screening. First runs after this update may therefore use more GPU time.
+
+The existing 19:00 Pacific job remains unchanged. A separate downtime session is **not scheduled or running**. Its default command prints a plan without checking GPU usage or calling Ollama:
+
+```powershell
+python scripts/research_loop.py
+
+# When you choose to start: up to six batches, eight documents each.
+python scripts/research_loop.py --start --publish --minutes 120 --max-cycles 6 --batch-documents 8
+```
+
+The session waits for three low-utilization GPU samples before each batch. This is a utilization heuristic, not a reservation: it does not detect keyboard inactivity or preempt inference when a game starts. The model may remain loaded for five minutes. The time budget stops new documents; an active document can finish beyond the deadline. A batch error or an existing research lock stops the session. The daily job and downtime batches share the same runner lock.
+
+To request a stop before the next batch, create `.local/stop-research-loop`; remove that exact file yourself before a later session. There is no auto-restart. Without `--publish`, results remain private, and each batch is retained under `.local/proposals/` as well as the latest proposal files. Neither mode permits the model to change code or its own source policy.
+
+Private `.local/coverage/` receipts list source attempts and never-attempted IDs; `.local/coverage-progress.json` carries rotation across sessions. Attempted is not successfully reviewed. Read run failures alongside coverage. `.local/discovery-leads/` retains secondary evidence and selected external pointers for review without automatically fetching new hosts. `.local/metric-candidates/` retains source-supported notes that lack a reviewed metric. `.local/review-candidates/` queues accepted notes for possible updates to curated companies, projects, claims and agenda cards.
+
+HTML-only collection, limited discovery, undated pages, inaccessible filings and JavaScript-only job listings remain coverage gaps. A local model is not an unrestricted web-search service. Curated company pages, project stages, claims verdicts and chart definitions remain review-controlled; new evidence can appear in the ledger before those snapshots are updated.

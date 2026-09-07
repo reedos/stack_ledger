@@ -36,3 +36,20 @@ Published EIA generation (2014–2024), BLS electrician snapshots (2019–2023, 
 ## Frontier models and premium plans
 
 Track named model releases, lifecycle changes, API input/output/cache pricing, context limits and access surfaces separately from individual subscriptions. Current coverage includes Opus 5, Fable 5/5.1, GPT-6 Astra, Grok 4.6, restricted Mythos 5.1 and Grok Bot. Prioritize verified Grok 4.7 launch artifacts and the current SuperGrok Heavy monthly/annual price. Plan multipliers are provider-specific usage allowances. Successor names, release states, benchmark definitions and corrections require review; never infer release from a passed target date. Collect independent task success, reliability, human intervention, latency and accepted-work cost before claiming a universal frontier ranking.
+
+
+## Continuing coverage from the September 7 additions
+
+Treat `OPERATING_GUIDE.md` and source-linked snapshot context as the continuing instructions: open model builders, Hugging Face and Ai2; Omniverse and Cosmos; AlphaFold and validated medicine; AI employment, local taxes, household bills, water and electricity; broad semiconductor suppliers and revenue histories with sourced forecasts beyond 2030. The unattended runner adds evidence, not new chart designs, company definitions or claims verdicts.
+
+### Emerging occupations: micro1 lead
+
+The user supplied [Global South Opportunities' September 5 article](https://www.globalsouthopportunities.com/2026/09/05/micro1/), which advertises a 10,000-person campaign and $50?$90 hourly compensation. Treat these as secondary recruitment claims pending original-campaign verification, not filled jobs or annual earnings. Its linked Generalist application returned no readable body in this review. Geographic eligibility and the robotics-specific scope need the original dated role/campaign record.
+
+[Micro1's official trade-task page](https://www.micro1.ai/get-paid-to-record-tasks) describes paid approved recordings for robotics training, including electrical installations and other trade work. It lists electrician/power-line and plumbing opportunities; those are distinct listings from the article's Generalist campaign. The official opportunities page is also registered, but its dynamic listings are not fully readable by the HTML runner.
+
+Track robotics data collectors, annotators, teleoperators, expert evaluators, AI assurance, integration, commissioning and maintenance. Capture posting history, worker eligibility, contractor versus employee, advertised rate and basis, guaranteed hours when stated, approved paid hours, active contributors and actual payments. Track closures and shortages as well as new opportunities. Deduplicate reposts and campaigns. Do not sum listings, referral bonuses, platform membership and actual employment into a jobs total.
+
+### Remaining collection work
+
+Priorities for reviewed adapters: PDF filing/table extraction; official statistical APIs; readable employer/ATS feeds; earnings-calendar prioritization; published source freshness and topic completeness; structured proposals for new companies, projects and measurement types. Discovery currently captures bounded pointers for review, not arbitrary internet search. A completed batch is not a claim of exhaustive coverage.

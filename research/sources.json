@@ -3869,6 +3869,33 @@
         "applications"
       ],
       "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "micro1-trade-training",
+      "publisher": "micro1",
+      "title": "Paid trade-task recordings for robotics training",
+      "url": "https://www.micro1.ai/get-paid-to-record-tasks",
+      "published": null,
+      "layers": [
+        "models",
+        "applications",
+        "infrastructure"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "micro1-opportunities",
+      "publisher": "micro1",
+      "title": "Official micro1 opportunities",
+      "url": "https://www.micro1.ai/experts/opportunities",
+      "published": null,
+      "layers": [
+        "models",
+        "applications",
+        "infrastructure"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "index": true
     }
   ],
   "discovery_keywords": [
@@ -4139,7 +4166,9 @@
         "copilot-harness-pricing",
         "ecmwf-aifs-operations",
         "marvell-ir-book",
-        "iea-demand-scenarios-2025"
+        "iea-demand-scenarios-2025",
+        "micro1-trade-training",
+        "micro1-opportunities"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -4342,7 +4371,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "doe-news": {
       "rank": 1,
@@ -4706,7 +4735,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "ge-us-jobs-2025": {
       "rank": 4,
@@ -4717,7 +4746,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "bls-aug-2026": {
       "rank": 1,
@@ -4805,7 +4834,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "fairwater-operating": {
       "rank": 4,
@@ -4816,7 +4845,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "aws-delivery-2026": {
       "rank": 4,
@@ -4849,7 +4878,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "hyperion-plan-2026": {
       "rank": 4,
@@ -4871,7 +4900,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "mlperf-inference-2026": {
       "rank": 4,
@@ -4882,7 +4911,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "alphagenome-research": {
       "rank": 3,
@@ -4893,7 +4922,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "productivity-field-study": {
       "rank": 4,
@@ -4904,7 +4933,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "samsung-hbm4-shipping": {
       "rank": 4,
@@ -4915,7 +4944,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "amkor-arizona-2026": {
       "rank": 4,
@@ -4926,7 +4955,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "eia-output-aug-2026": {
       "rank": 1,
@@ -4948,7 +4977,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "ercot-queue-review-2026": {
       "rank": 4,
@@ -4959,7 +4988,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "marvell-optics": {
       "rank": 4,
@@ -4970,7 +4999,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "marvell-celestial": {
       "rank": 4,
@@ -4981,7 +5010,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "credo-dsp": {
       "rank": 4,
@@ -4992,7 +5021,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "broadcom-cpo": {
       "rank": 4,
@@ -5003,7 +5032,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "coherent-cpo": {
       "rank": 4,
@@ -5014,7 +5043,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "lumentum-cpo": {
       "rank": 3,
@@ -5025,7 +5054,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "cisco-silicon": {
       "rank": 4,
@@ -5036,7 +5065,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "cisco-optics": {
       "rank": 4,
@@ -5047,7 +5076,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "amphenol-interconnect": {
       "rank": 4,
@@ -5058,7 +5087,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "corning-meta": {
       "rank": 4,
@@ -5069,7 +5098,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "lightmatter-passage": {
       "rank": 4,
@@ -5080,7 +5109,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "ayar-optics": {
       "rank": 4,
@@ -5091,7 +5120,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "innolight-modules": {
       "rank": 4,
@@ -5102,7 +5131,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "eoptolink-modules": {
       "rank": 4,
@@ -5113,7 +5142,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "bls-electricians-2026": {
       "rank": 1,
@@ -5135,7 +5164,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "wh-aug-jobs-2026": {
       "rank": 1,
@@ -5146,7 +5175,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "eaton-transformers": {
       "rank": 4,
@@ -5388,7 +5417,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "company-semtech": {
       "rank": 2,
@@ -5410,7 +5439,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "company-macom": {
       "rank": 2,
@@ -5432,7 +5461,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "spacex-terafab-2026": {
       "rank": 4,
@@ -5454,7 +5483,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "tesla-q2-2026": {
       "rank": 4,
@@ -5476,7 +5505,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "waymo-q1-2026": {
       "rank": 3,
@@ -5520,7 +5549,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "anthropic-colossus-contract": {
       "rank": 4,
@@ -5553,7 +5582,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "epoch-colossus-1": {
       "rank": 5,
@@ -5696,7 +5725,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "amkor-arizona-2025": {
       "rank": 4,
@@ -5718,7 +5747,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "intel-fab52-18a": {
       "rank": 4,
@@ -5729,7 +5758,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "samsung-taylor-schedule": {
       "rank": 4,
@@ -5740,7 +5769,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "sonnet46-launch": {
       "rank": 4,
@@ -5795,7 +5824,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "coreweave-fy2025": {
       "rank": 2,
@@ -5817,7 +5846,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "supermicro-fy2026": {
       "rank": 2,
@@ -5850,7 +5879,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "dell-role": {
       "rank": 3,
@@ -5861,7 +5890,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "foxconn-role": {
       "rank": 4,
@@ -5872,7 +5901,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "quanta-computer-role": {
       "rank": 4,
@@ -5883,7 +5912,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "wiwynn-role": {
       "rank": 4,
@@ -5894,7 +5923,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "nvent-role": {
       "rank": 4,
@@ -5905,7 +5934,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "coolit-role": {
       "rank": 4,
@@ -5916,7 +5945,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "johnson-controls-role": {
       "rank": 4,
@@ -5927,7 +5956,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "spacexai-power-july": {
       "rank": 4,
@@ -5949,7 +5978,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "spacex-prospectus-2026": {
       "rank": 4,
@@ -5971,7 +6000,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "gemini-agent-product": {
       "rank": 3,
@@ -5982,7 +6011,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "github-copilot-product": {
       "rank": 4,
@@ -5993,7 +6022,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "cursor-product": {
       "rank": 4,
@@ -6004,7 +6033,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "devin-product": {
       "rank": 4,
@@ -6015,7 +6044,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "windsurf-product": {
       "rank": 4,
@@ -6026,7 +6055,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "openclaw-product": {
       "rank": 4,
@@ -6037,7 +6066,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "nebius-msft-6k-2025": {
       "rank": 1,
@@ -6147,7 +6176,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "turner-jeffersonville": {
       "rank": 4,
@@ -6158,7 +6187,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "mortenson-richland": {
       "rank": 4,
@@ -6169,7 +6198,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "talen-amazon-ppa-2025": {
       "rank": 4,
@@ -6202,7 +6231,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "micron-hbm4-production": {
       "rank": 4,
@@ -6213,7 +6242,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "marvell-cpo-architecture": {
       "rank": 3,
@@ -6279,7 +6308,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "merck-interpath001-phase3": {
       "rank": 4,
@@ -6301,7 +6330,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "neso-source-book": {
       "rank": 1,
@@ -6368,7 +6397,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "recursion-tupelo-dec2025": {
       "rank": 4,
@@ -6390,7 +6419,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "eia-generation-history-2024": {
       "rank": 1,
@@ -6599,7 +6628,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "openai-astra-model": {
       "rank": 3,
@@ -6621,7 +6650,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claude-max-plan-guide": {
       "rank": 3,
@@ -6654,7 +6683,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "grok-current-plans": {
       "rank": 3,
@@ -6676,7 +6705,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "grok-bot-plan-expansion": {
       "rank": 3,
@@ -6687,7 +6716,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "grok-release-notes": {
       "rank": 3,
@@ -6698,7 +6727,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claude-current-api-pricing": {
       "rank": 3,
@@ -7627,7 +7656,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-loudoun-story": {
       "rank": 2,
@@ -7638,7 +7667,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-loudoun-tax": {
       "rank": 2,
@@ -7649,7 +7678,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-ohio": {
       "rank": 2,
@@ -7660,7 +7689,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-dallas": {
       "rank": 2,
@@ -7671,7 +7700,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-doe": {
       "rank": 2,
@@ -7682,7 +7711,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-ms-water": {
       "rank": 2,
@@ -7693,7 +7722,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-iea-supply": {
       "rank": 2,
@@ -7704,7 +7733,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-stanford-labor": {
       "rank": 2,
@@ -7715,7 +7744,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-bls-aug": {
       "rank": 2,
@@ -7726,7 +7755,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-metr-study": {
       "rank": 2,
@@ -7737,7 +7766,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-metr-update": {
       "rank": 2,
@@ -7748,10 +7777,10 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-biznews": {
-      "rank": 6,
+      "rank": 5,
       "region_book": "united-states",
       "company_id": null,
       "claim_type": "other",
@@ -7770,7 +7799,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-linkedin": {
       "rank": 2,
@@ -7781,7 +7810,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-challenger": {
       "rank": 2,
@@ -7792,7 +7821,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "water-almond": {
       "rank": 2,
@@ -7803,7 +7832,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "water-altman": {
       "rank": 4,
@@ -7814,7 +7843,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "water-lbnl": {
       "rank": 2,
@@ -7825,7 +7854,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "water-golf": {
       "rank": 2,
@@ -7836,7 +7865,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-e3": {
       "rank": 2,
@@ -7847,7 +7876,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-ferc-rosner": {
       "rank": 2,
@@ -7858,7 +7887,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-ferc-facts": {
       "rank": 2,
@@ -7869,7 +7898,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-scc": {
       "rank": 2,
@@ -7880,7 +7909,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "loudoun-adopted-2027": {
       "rank": 3,
@@ -7891,7 +7920,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "diagram-asml": {
       "rank": 3,
@@ -7902,7 +7931,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "diagram-factory": {
       "rank": 3,
@@ -7913,7 +7942,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "diagram-agents": {
       "rank": 3,
@@ -7924,7 +7953,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "alphafold-nobel": {
       "rank": 3,
@@ -7935,7 +7964,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "alphafold-db": {
       "rank": 3,
@@ -7946,7 +7975,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "alphafold-taar1": {
       "rank": 3,
@@ -7957,7 +7986,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "alphafold-three": {
       "rank": 3,
@@ -7968,7 +7997,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-nyfed-ai-work": {
       "rank": 2,
@@ -7979,7 +8008,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "claims-yale-labor": {
       "rank": 2,
@@ -7990,7 +8019,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "open-hf-hub": {
       "rank": 3,
@@ -8001,7 +8030,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "open-hf-smollm": {
       "rank": 3,
@@ -8012,7 +8041,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "open-ai2-docs": {
       "rank": 3,
@@ -8023,7 +8052,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "physical-omniverse": {
       "rank": 3,
@@ -8034,7 +8063,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "physical-cosmos-three": {
       "rank": 3,
@@ -8045,7 +8074,7 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
-      "excerpts": false
+      "excerpts": true
     },
     "physical-omniverse-license": {
       "rank": 3,
@@ -8056,6 +8085,238 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
+      "excerpts": true
+    },
+    "github-copilot-reviews-2026": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "builder-role-mistral": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "mistral",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-cohere": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "cohere",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-ibm": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "ibm",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-arm": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "arm",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-applied-materials": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "applied-materials",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-lam-research": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "lam-research",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-synopsys": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "synopsys",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-cadence": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "cadence",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-siemens-energy": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "siemens-energy",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-microsoft": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "microsoft",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-aws": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "aws",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-meta": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "meta",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-spacexai": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "spacexai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-moonshot": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "moonshot",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-minimax": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "minimax",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-z-ai": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "z-ai",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "builder-role-nvidia": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "nvidia",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "micro1-trade-training": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [
+        "/experts/",
+        "/get-paid-to-record-tasks"
+      ],
+      "topics": [
+        "opportunities",
+        "record"
+      ],
+      "excerpts": true
+    },
+    "micro1-opportunities": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [
+        "/experts/",
+        "/get-paid-to-record-tasks"
+      ],
+      "topics": [
+        "opportunities",
+        "record"
+      ],
       "excerpts": false
     }
   }

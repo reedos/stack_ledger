@@ -100,7 +100,7 @@ class IntegrityTests(unittest.TestCase):
 
 class RunnerTests(unittest.TestCase):
     def fixture(self,path):
-        for name in ['research/runtime.json','research/sources.json','research/CONSTITUTION.md','site/data/ledger.json']:
+        for name in ['research/runtime.json','research/sources.json','research/CONSTITUTION.md','research/OPERATING_GUIDE.md','research/ecosystem.json','research/delivery.json','research/fabric.json','research/expansion.json','research/agenda.json','research/claims.json','site/data/ledger.json']:
             target=path/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/name).read_bytes())
     def test_no_change_run_is_honest_and_dry_run_does_not_mutate_site(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -146,5 +146,13 @@ class NoteTests(unittest.TestCase):
             event=research.extract_note({},self.source,self.note['evidence'],[],self.run,[])
         self.assertEqual(event['source'],self.source['id']);self.assertEqual(event['method'],'automated');self.assertEqual(len(event['evidence_sha256']),64)
         event_valid(event,{self.source['id']:self.source})
+
+    def test_updated_source_can_add_a_note_and_both_passes_receive_guidance(self):
+        previous={'source':self.source['id'],'summary':'Earlier release','document_sha256':'old','id':'old-note'}
+        with tempfile.TemporaryDirectory() as tmp,patch.object(research,'LOCAL',Path(tmp)),patch.object(research,'ollama',side_effect=[{'notes':[self.note]},{'verdicts':[{'index':0,'supported':True,'reason':'Direct support'}]}]) as model:
+            event=research.extract_note({'_instructions':'Reviewed operating guidance'},self.source,self.note['evidence'],[previous],self.run,[])
+            self.assertIsNotNone(event)
+            self.assertNotEqual(event['id'],previous['id'])
+            self.assertTrue(all('Reviewed operating guidance' in call.args[1] for call in model.call_args_list))
 
 if __name__=='__main__':unittest.main()
