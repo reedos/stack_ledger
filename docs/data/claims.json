@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T19:44:23.354367+00:00",
+  "reviewed_at": "2026-09-07T20:08:46.249563+00:00",
   "reviewer": "Curated with Ara; separate from local-model run receipts",
   "claims": [
     {
@@ -63,10 +63,11 @@
       "scope": "Continental U.S. wholesale markets · March 2026 working paper",
       "evidence": "Dallas Fed researchers estimate existing data centers raised wholesale prices by 3–5% on average in their dispatch model. This is a modeled wholesale effect, not an observed percentage increase in household bills. Effects depend on location, utilization and supply.",
       "sources": [
-        "claims-dallas"
+        "claims-dallas",
+        "claims-e3"
       ],
       "future": "Track retail tariffs, fuel and capacity charges, delivered generation and bills at fixed household usage. Identify who pays incremental costs before claiming savings.",
-      "gap": "We do not have a national causal study demonstrating typical retail bill reductions. Cheaper fixed-cost recovery and higher marginal energy costs can coexist."
+      "gap": "E3’s Amazon-commissioned facility studies identify potential allocated-cost surpluses; the Dallas Fed studies wholesale market effects. Those different boundaries can coexist. Neither establishes typical national retail bill savings."
     },
     {
       "id": "bring-infrastructure",
@@ -291,6 +292,74 @@
       ],
       "future": "Measure completed work, quality, review time and total cost for each deployment. Track productivity beyond coding in support, engineering, science and administration using task-appropriate evaluations.",
       "gap": "Different tasks, tools, workers and study designs cannot be pooled into a universal productivity multiplier or assumed job-loss rate."
+    },
+    {
+      "id": "water-national-context",
+      "topic": "Water",
+      "claim": "How does data-center water compare with golf irrigation?",
+      "verdict": "Useful context; different boundaries",
+      "scope": "United States · 2023 data centers / 2024 golf",
+      "evidence": "Berkeley Lab estimates 66 billion liters of direct data-center water consumption in 2023. GCSAA estimates 1.63 million acre-feet applied to golf facilities in 2024, about 2,011 billion liters after conversion. Data-center electricity-related water is excluded from the first figure; applied irrigation is not identical to consumption.",
+      "sources": [
+        "water-lbnl",
+        "water-golf"
+      ],
+      "future": "Publish comparable consumption and withdrawal measures for the same region and period. Include reclaimed water, return flows and indirect electricity-related consumption.",
+      "gap": "These totals include all data centers, not AI alone. They are context figures, not a matched impact ratio; neither settles the adequacy of a local water supply."
+    },
+    {
+      "id": "water-almond-context",
+      "topic": "Water",
+      "claim": "Can an almond provide an honest reference for AI water use?",
+      "verdict": "Conditional calculation",
+      "scope": "California historical irrigation estimate / reported ChatGPT average",
+      "evidence": "The featured calculation uses only the almond report’s blue-water component and an explicitly assumed kernel mass. It excludes rainfall and the grey-water pollution-assimilation indicator. Altman’s reported query average lacks enough methodological detail to verify matching boundaries.",
+      "sources": [
+        "water-almond",
+        "water-altman"
+      ],
+      "future": "Seek model-specific measured water consumption, task length, cooling location, indirect electricity scope and measurement dates. Recalculate when comparable data are disclosed.",
+      "gap": "The ratio is arithmetic using a disclosed assumption and attributed inputs. It is not an independently verified environmental equivalence or a measurement of every GPT prompt. Food and computation provide different benefits."
+    },
+    {
+      "id": "ratepayer-surplus",
+      "topic": "Power & bills",
+      "claim": "Can a data center contribute more utility revenue than its allocated cost?",
+      "verdict": "Supported modeling example",
+      "scope": "E3 study for Amazon · December 2025",
+      "evidence": "E3 evaluated Amazon facilities in four utility territories and found projected revenue covered estimated facility-level service costs. For an assumed 100 MW facility, it projected surplus utility revenue of $3.4 million in 2025 and $6.1 million in 2030. Such margins can reduce revenue required from other customers.",
+      "sources": [
+        "claims-e3"
+      ],
+      "future": "Track actual utility receipts, cost allocation and how regulators apply any surplus. Update cost studies as regional demand and supply change.",
+      "gap": "Amazon commissioned the study. Modeled allocated-cost coverage is not an observed household saving; macro-level generation and market-price effects remain a separate question."
+    },
+    {
+      "id": "colocation-benefit",
+      "topic": "Power & bills",
+      "claim": "Can co-location and flexible demand reduce grid costs?",
+      "verdict": "Supported regulatory pathway",
+      "scope": "PJM · FERC December 18, 2025 action",
+      "evidence": "FERC directed PJM to develop co-location service rules. Rosner explains how limiting contracted grid withdrawals and accepting curtailment can avoid unnecessary upgrades while preserving cost responsibility. His concurrence describes intended benefits; it is not a measured savings series.",
+      "sources": [
+        "claims-ferc-facts",
+        "claims-ferc-rosner"
+      ],
+      "future": "For each project, verify the subsequently accepted tariff, effective date, contracted imports, curtailment obligations and generation delivery. Identify whether generation is new or redirected from existing grid service.",
+      "gap": "The cited action does not establish that every proposed service is currently implemented or that every data center must self-supply. Review later orders before reporting current legal requirements."
+    },
+    {
+      "id": "scc-responsibility",
+      "topic": "Power & bills",
+      "claim": "Does the SCC overview demonstrate that Virginia households already save?",
+      "verdict": "Background, not an outcome study",
+      "scope": "Virginia SCC institutional overview",
+      "evidence": "The SCC lists proceedings examining data-center cost responsibility and flexibility. That establishes regulatory attention; the overview is not a quantitative household-bill evaluation.",
+      "sources": [
+        "claims-scc"
+      ],
+      "future": "Link specific utility orders, tariffs and cost-of-service studies. Follow approved rules through actual household bills at fixed electricity usage.",
+      "gap": "A regulator’s remit or symposium topic does not independently demonstrate an economic outcome."
     }
   ],
   "highlights": [
@@ -484,5 +553,16 @@
         "claims-biznews"
       ]
     }
-  ]
+  ],
+  "water_comparison": {
+    "blue_gallons_per_pound": 610,
+    "almond_grams": 1.2,
+    "query_gallons": 8.5e-05,
+    "almond_period": "2004–2014 California average",
+    "query_period": "2025 personal-blog disclosure; measurement period unspecified",
+    "sources": [
+      "water-almond",
+      "water-altman"
+    ]
+  }
 }

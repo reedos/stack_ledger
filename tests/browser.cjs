@@ -78,16 +78,16 @@ const server=http.createServer((req,res)=>{
    for(const href of new Set(links)){assert.equal((await page.request.get(href)).status(),200,href);}
   }
   await page.goto(origin+'claims/');await page.locator('body[data-enhanced="true"]').waitFor();
-  assert.equal(await page.locator('.claim-card').count(),22);
+  assert.equal(await page.locator('.claim-card').count(),27);
   assert.equal(await page.locator('.article-check').count(),16);
-  await page.selectOption('#claim-topic','Water');assert.equal(await page.locator('.claim-card:visible').count(),3);
+  await page.selectOption('#claim-topic','Water');assert.equal(await page.locator('.claim-card:visible').count(),5);
   await page.fill('#claim-search','zz-no-matching-claim');assert.equal(await page.locator('#claims-empty').isVisible(),true);
-  await page.locator('.claims-controls button').click();await page.waitForFunction(()=>document.querySelectorAll('.claim-card:not([hidden])').length===22);
-  await page.locator('.evidence-highlights').screenshot({path:path.join(evidence,'claims-desktop.png')});
-  await page.setViewportSize({width:390,height:844});await page.locator('.evidence-highlights').screenshot({path:path.join(evidence,'claims-mobile.png')});
+  await page.locator('.claims-controls button').click();await page.waitForFunction(()=>document.querySelectorAll('.claim-card:not([hidden])').length===27);
+  await page.locator('#water-perspective').screenshot({path:path.join(evidence,'water-desktop.png')});
+  await page.setViewportSize({width:390,height:844});await page.locator('#water-perspective').screenshot({path:path.join(evidence,'water-mobile.png')});
   await page.setViewportSize({width:1440,height:1000});
   const noScript=await browser.newContext({javaScriptEnabled:false});const claimsStatic=await noScript.newPage();
-  await claimsStatic.goto(origin+'claims/');assert.equal(await claimsStatic.locator('.claim-card').count(),22);assert.equal(await claimsStatic.locator('.claims-controls').isVisible(),false);await noScript.close();
+  await claimsStatic.goto(origin+'claims/');assert.equal(await claimsStatic.locator('.claim-card').count(),27);assert.equal(await claimsStatic.locator('.claims-controls').isVisible(),false);await noScript.close();
   await page.goto(origin+'projects/');await page.locator('#project-count').waitFor();
   const signedChart=await page.evaluate(()=>{
    const observation=data.observations.find(o=>o.metric==='us-generation-growth-h1'),original=observation.value;

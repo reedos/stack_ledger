@@ -10,7 +10,7 @@ TOPICS = {'Water','Power & bills','Clean energy','Jobs & economy','Taxes & commu
 
 
 def validate_claims(data, sources):
-    require(set(data)=={'version','reviewed_at','reviewer','claims','highlights','article_audit'} and data['version']==1, 'Invalid claims snapshot')
+    require(set(data)=={'version','reviewed_at','reviewer','claims','highlights','article_audit','water_comparison'} and data['version']==1, 'Invalid claims snapshot')
     timestamp(data['reviewed_at']); text(data['reviewer'],200)
     ids=set()
     def identity(value):
@@ -18,6 +18,12 @@ def validate_claims(data, sources):
         ids.add(value)
     def evidence(values):
         require(isinstance(values,list) and values and len(set(values))==len(values) and set(values)<=sources,'Unknown claims source')
+    w=data['water_comparison']
+    require(set(w)=={'blue_gallons_per_pound','almond_grams','query_gallons','almond_period','query_period','sources'},'Invalid water comparison')
+    evidence(w['sources'])
+    for key in ['blue_gallons_per_pound','almond_grams','query_gallons']:
+        require(type(w[key]) in (int,float) and math.isfinite(w[key]) and w[key]>0,'Invalid water calculation input')
+    for key in ['almond_period','query_period']:text(w[key],200)
     require(data['claims'] and data['highlights'] and data['article_audit'],'Empty claims review')
     for c in data['claims']:
         require(set(c)=={'id','topic','claim','verdict','scope','evidence','sources','future','gap'},'Invalid claim fields')

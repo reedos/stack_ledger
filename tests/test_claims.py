@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from validate_claims import validate_claims, validate_files
-from render_claims import render_claims
+from render_claims import render_claims, water_values
 
 
 class ClaimsTests(unittest.TestCase):
@@ -40,3 +40,20 @@ class ClaimsTests(unittest.TestCase):
         html=render_claims(self.data,self.sources)
         self.assertNotIn('<script>',html)
         self.assertIn('&lt;script&gt;',html)
+
+    def test_almond_calculation_converts_units_without_rounding_inputs(self):
+        liters,ml,ratio=water_values(self.data['water_comparison'])
+        self.assertAlmostEqual(ml,0.32176000164)
+        self.assertAlmostEqual(ratio,610*1.2/453.59237/0.000085)
+        self.assertGreater(liters,6.1)
+        self.assertLess(liters,6.2)
+        self.assertEqual(round(ratio/1000)*1000,19000)
+        html=render_claims(self.data,self.sources)
+        self.assertIn('not a verified equivalence',html)
+        self.assertIn('illustrative assumption',html)
+        self.assertIn('blue water only',html)
+
+    def test_zero_query_denominator_rejected(self):
+        self.data['water_comparison']['query_gallons']=0
+        with self.assertRaises(ValueError):
+            validate_claims(self.data,{s['id'] for s in self.sources})
