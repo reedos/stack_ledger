@@ -63,7 +63,7 @@ const server=http.createServer((req,res)=>{
    assert.ok(await page.locator('link[rel="stylesheet"], script[src]').evaluateAll((els,v)=>els.every(el=>new URL(el.href||el.src).searchParams.get('v')===v),version));
    if(['energy/','chips/','infrastructure/','models/','applications/'].includes(route)){
     assert.equal(await page.locator('.layer-diagram').count(),1);
-    assert.equal(await page.locator('#layer-diagram').evaluate(el=>el.parentElement.firstElementChild===el),true,route+' diagram must lead the page');
+    assert.equal(await page.locator('#layer-diagram').evaluate(el=>el.previousElementSibling?.matches('.page-hero')&&el.parentElement.firstElementChild===el.previousElementSibling),true,route+' introduction must lead directly into diagram');
     assert.equal(await page.locator('.diagram-explanation').count(),6);
     assert.equal(await page.locator('.diagram-canvas a').count(),6);
     if(route==='infrastructure/')await page.locator('.diagram-canvas').screenshot({path:path.join(evidence,'factory-diagram.png')});
