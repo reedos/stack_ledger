@@ -12,6 +12,8 @@ def build():
     validate_files()
     from validate_delivery import validate_files as validate_delivery_files
     validate_delivery_files()
+    from validate_fabric import validate_files as validate_fabric_files
+    validate_fabric_files()
     data = json.loads((ROOT / 'site/data/ledger.json').read_text(encoding='utf-8'))
     template = (ROOT / 'site/template.html').read_text(encoding='utf-8')
     dest = ROOT / 'docs'

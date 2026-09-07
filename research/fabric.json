@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-07T08:24:48Z",
+  "components": [
+    {
+      "id": "compute",
+      "title": "Compute & custom silicon",
+      "role": "GPUs, CPUs and custom accelerators execute workloads. Custom ASIC designers and hyperscalers define different pieces of the compute platform.",
+      "companies": [
+        "nvidia",
+        "amd",
+        "intel",
+        "broadcom",
+        "marvell",
+        "aws",
+        "alphabet"
+      ],
+      "sources": [
+        "company-nvidia",
+        "company-amd",
+        "marvell-optics"
+      ],
+      "watch": "Track actual shipments, system availability and measured work per watt."
+    },
+    {
+      "id": "memory",
+      "title": "Memory & storage silicon",
+      "role": "HBM feeds accelerators; other DRAM holds data, NAND stores it, and controllers move it. Memory bandwidth and capacity can limit usable compute.",
+      "companies": [
+        "sk-hynix",
+        "micron",
+        "samsung",
+        "marvell"
+      ],
+      "sources": [
+        "company-micron",
+        "company-samsung",
+        "marvell-optics"
+      ],
+      "watch": "Separate wafer capacity, memory output and storage-controller supply."
+    },
+    {
+      "id": "signal",
+      "title": "DSPs, SerDes & retimers",
+      "role": "SerDes serialize and recover electrical data. DSPs process high-speed signals; retimers restore signal timing along links. These functions support copper and optical paths.",
+      "companies": [
+        "marvell",
+        "credo",
+        "astera",
+        "cisco",
+        "ciena"
+      ],
+      "sources": [
+        "marvell-optics",
+        "credo-dsp",
+        "company-astera",
+        "cisco-optics",
+        "ciena-optics"
+      ],
+      "watch": "Compare reach, error performance, power and deployment stage; link speed alone is incomplete."
+    },
+    {
+      "id": "copper",
+      "title": "Copper cables & connectors",
+      "role": "Short electrical links connect boards, servers and racks. Active electrical cables add signal-conditioning electronics; connectors and cable assemblies complete the path.",
+      "companies": [
+        "credo",
+        "amphenol",
+        "astera",
+        "semtech"
+      ],
+      "sources": [
+        "company-credo",
+        "amphenol-interconnect",
+        "company-astera",
+        "semtech-optics"
+      ],
+      "watch": "Track qualified cable designs and delivered systems, with reach and power in context."
+    },
+    {
+      "id": "optics",
+      "title": "Lasers & optical modules",
+      "role": "Lasers supply light; modulators encode data and photodetectors receive it. Drivers and transimpedance amplifiers (TIAs) support transmit and receive signals. Transceiver modules assemble these functions into link endpoints.",
+      "companies": [
+        "coherent",
+        "lumentum",
+        "applied-opto",
+        "innolight",
+        "eoptolink",
+        "semtech",
+        "macom"
+      ],
+      "sources": [
+        "coherent-cpo",
+        "lumentum-cpo",
+        "company-applied-opto",
+        "innolight-modules",
+        "eoptolink-modules",
+        "semtech-optics",
+        "macom-optics"
+      ],
+      "watch": "Distinguish a DSP, laser, optical engine and complete module; avoid counting them as interchangeable products."
+    },
+    {
+      "id": "cpo",
+      "title": "Co-packaged optics & optical I/O",
+      "role": "CPO brings optical engines close to switching or compute silicon in a shared package. External lasers and fiber attachment are separate parts of the system.",
+      "companies": [
+        "broadcom",
+        "marvell",
+        "coherent",
+        "lumentum",
+        "lightmatter",
+        "ayar"
+      ],
+      "sources": [
+        "broadcom-cpo",
+        "marvell-celestial",
+        "coherent-cpo",
+        "lumentum-cpo",
+        "lightmatter-passage",
+        "ayar-optics"
+      ],
+      "watch": "Track sampling, qualification, production and deployments separately. Pluggable optics remain a distinct architecture."
+    },
+    {
+      "id": "fiber",
+      "title": "Fiber, cable & physical connectivity",
+      "role": "Fiber carries light between optical endpoints. Cable manufacturing, connectors and installation connect the semiconductor supply chain to physical infrastructure.",
+      "companies": [
+        "corning",
+        "amphenol"
+      ],
+      "sources": [
+        "corning-meta",
+        "amphenol-interconnect"
+      ],
+      "watch": "Look for factory expansion, cable deliveries and installed connections; contracts are not completed revenue."
+    },
+    {
+      "id": "switches",
+      "title": "Switches, fabrics & transport",
+      "role": "Switch silicon routes traffic; equipment and software coordinate the network. Coherent optical transport connects sites over longer distances.",
+      "companies": [
+        "nvidia",
+        "broadcom",
+        "cisco",
+        "arista",
+        "coherent",
+        "ciena"
+      ],
+      "sources": [
+        "company-nvidia",
+        "broadcom-cpo",
+        "cisco-silicon",
+        "cisco-optics",
+        "company-arista",
+        "ciena-optics"
+      ],
+      "watch": "Separate scale-up, scale-out and scale-across systems, and match throughput to the actual workload."
+    },
+    {
+      "id": "assembly",
+      "title": "Fabrication, packaging & system assembly",
+      "role": "Foundries manufacture chips; packaging and precision assembly integrate them into usable components and systems. These capabilities are distinct from chip design.",
+      "companies": [
+        "tsmc",
+        "samsung",
+        "intel",
+        "fabrinet",
+        "celestica"
+      ],
+      "sources": [
+        "company-tsmc",
+        "company-fabrinet",
+        "company-celestica"
+      ],
+      "watch": "Follow fabrication, assembly, qualification and production output without double-counting customer and supplier sales."
+    },
+    {
+      "id": "electrical",
+      "title": "Power equipment & skilled construction",
+      "role": "Transformers, distribution equipment, electrical installation and cooling connect grid supply to operating racks. Skilled trades turn equipment into working facilities.",
+      "companies": [
+        "eaton",
+        "schneider",
+        "ge-vernova",
+        "vertiv",
+        "quanta",
+        "emcor"
+      ],
+      "sources": [
+        "eaton-transformers",
+        "company-schneider",
+        "company-vertiv",
+        "company-quanta",
+        "company-emcor"
+      ],
+      "watch": "Track equipment delivery, energized sites, local wages and operating jobs separately from investment plans."
+    }
+  ],
+  "milestones": [
+    {
+      "title": "Broadcom Bailly CPO",
+      "stage": "Volume production reported",
+      "date": "2025-05-15",
+      "summary": "Broadcom described its Tomahawk 5-Bailly CPO generation as in volume production while announcing a newer generation. That does not establish universal CPO adoption.",
+      "source": "broadcom-cpo"
+    },
+    {
+      "title": "Lightmatter Passage",
+      "stage": "Sampling reported",
+      "date": "2026-03-11",
+      "summary": "Lightmatter reported Passage chiplet sampling and a throughput demonstration. Sampling is earlier than volume deployment.",
+      "source": "lightmatter-passage"
+    },
+    {
+      "title": "Marvell / Celestial AI",
+      "stage": "Acquisition completed",
+      "date": "2026-02-02",
+      "summary": "Marvell completed the acquisition of Celestial AI. Its optical scale-up technology now belongs within the Marvell profile; acquisition value is not product revenue.",
+      "source": "marvell-celestial"
+    },
+    {
+      "title": "Coherent optical engines",
+      "stage": "Demonstration announced",
+      "date": "2026-03-17",
+      "summary": "Coherent announced OFC demonstrations of several CPO architectures and components. This is a demonstration announcement, not evidence of installed production capacity.",
+      "source": "coherent-cpo"
+    }
+  ],
+  "workforce_metrics": [
+    "us-electricians"
+  ],
+  "workforce_observations": [
+    "us-construction-monthly-aug-2026",
+    "us-nonresidential-trades-monthly-aug-2026",
+    "electrician-openings-2035"
+  ],
+  "workforce_notes": [
+    {
+      "title": "What the August jobs report establishes",
+      "summary": "BLS reports gains of 22,000 construction jobs and 8,000 nonresidential specialty trade jobs, a subset of construction. BLS calls overall construction little changed. These broad industry figures do not isolate electricians or AI projects.",
+      "source": "bls-aug-2026"
+    },
+    {
+      "title": "The electrician outlook includes AI and the grid",
+      "summary": "BLS projects electrician employment to grow 9% over 2025–2035 and cites data centers, grid upgrades and renewable power connections among the drivers. Projected annual openings include replacement needs.",
+      "source": "bls-electricians-2026"
+    },
+    {
+      "title": "Training capacity matters",
+      "summary": "IBEW’s May 2025 reporting describes rising data-center labor demand and a nearly tripled apprenticeship program at Baltimore Local 24. This is a dated local union account, not a national hiring statistic.",
+      "source": "ibew-datacenters"
+    },
+    {
+      "title": "Reading the White House article",
+      "summary": "The administration presents the August report as evidence for its reindustrialization agenda. The ledger uses the underlying BLS release for measured payroll changes; those figures alone do not establish policy or AI causation.",
+      "source": "wh-aug-jobs-2026"
+    },
+    {
+      "title": "Fiber supply also creates industrial work",
+      "summary": "Corning’s Meta agreement is for up to $6 billion over multiple years and supports a North Carolina expansion. Its employment language includes sustaining an existing workforce, not 5,000 newly created jobs.",
+      "source": "corning-meta"
+    }
+  ],
+  "energy_cases": [
+    {
+      "name": "First Solar · Iberia Parish, Louisiana",
+      "stage": "Production reported",
+      "scope": "Solar module manufacturing began in July 2025, according to the November inauguration release. The investment and current workforce are company-reported; factory capacity is not installed generating capacity.",
+      "observations": [
+        "firstsolar-la-investment-reviewed",
+        "firstsolar-la-jobs-reviewed"
+      ],
+      "sources": [
+        "firstsolar-louisiana"
+      ]
+    },
+    {
+      "name": "Qcells · Georgia solar supply chain",
+      "stage": "Cell production started; ramp planned",
+      "scope": "June 2026: Cartersville cell production started and module assembly was at full capacity. Full integrated production remained a Q3 target. The investment program and expected jobs span Georgia facilities.",
+      "observations": [
+        "qcells-georgia-investment-reviewed",
+        "qcells-georgia-jobs-reviewed"
+      ],
+      "sources": [
+        "qcells-cartersville",
+        "qcells-investment"
+      ]
+    },
+    {
+      "name": "Eaton · Jonesville, South Carolina",
+      "stage": "Manufacturing investment plan",
+      "scope": "The 2025 plan targets transformer production and hiring from 2027. Transformers support utilities, industry and data centers; the investment is enabling grid equipment, not renewable generation itself.",
+      "observations": [
+        "eaton-jonesville-investment-reviewed",
+        "eaton-jonesville-jobs-reviewed"
+      ],
+      "sources": [
+        "eaton-transformers"
+      ]
+    }
+  ],
+  "gaps": [
+    "Company and product coverage is representative. A supplier list does not establish a contract between any two companies.",
+    "Comparable shipment volumes, yields, installed CPO ports and independently measured link energy still need research.",
+    "Five company profiles have no verified revenue record in this edition; this is a coverage gap, not zero sales.",
+    "Occupation projections, regional union reports and project hiring plans do not establish a national count of jobs caused by AI."
+  ]
+}

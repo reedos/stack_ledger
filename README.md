@@ -12,6 +12,10 @@ This is our guiding ambition, tested against evidence. Announced investment is n
 
 ## What is included
 
+- A 45-company directory with 38 annual revenue records, two annualized run rates and five explicit revenue coverage gaps; product-role sources are linked separately.
+- A searchable datacenter component map covering compute, memory, DSPs, SerDes, copper, optical modules, CPO, fiber, switching, assembly and electrical infrastructure.
+- Electrical workforce evidence and clean-energy manufacturing cases, distinguishing reported employment, projected openings, hiring plans and investment stages.
+
 - An original interactive five-layer illustration, responsive landing page and five dedicated dashboards.
 - Attributed observations, forecast charts, explicit units, accessible data tables, research notes and a source library.
 - Search, layer filters, CSV and JSON downloads, an Atom feed and correction links.
@@ -109,8 +113,10 @@ Tracker definitions live in `research/delivery.json`; numeric evidence lives in 
 
 ## Company and industry research
 
-The company directory covers 21 representative businesses across the five layers. Company roles and jobs/factory snapshots are reviewed metadata in `research/ecosystem.json`, mirrored to `site/data/ecosystem.json`. Revenue and chip-capacity observations use the main ledger and reviewed metric catalog. Annual revenue, AWS segment sales and private-company annualized run rates are labeled separately.
+The company directory covers 45 representative businesses across the five layers. Company roles and jobs/factory snapshots are reviewed metadata in `research/ecosystem.json`, mirrored to `site/data/ecosystem.json`. Revenue and chip-capacity observations use the main ledger and reviewed metric catalog. Annual revenue, AWS segment sales and private-company annualized run rates are labeled separately.
 
 The `/industry/` page includes the chip supply chain, capacity charts, project stages, jobs disclosures and BLS employment context. The chips page embeds the supply chain and capacity views; every layer links to its companies. These snapshots are dated; a daily research run does not imply that all financial statements or workforce claims were refreshed.
 
-Run `python scripts/validate_ecosystem.py` for reference and provenance checks; the build also runs this validation. Browser acceptance covers all ten routes, company search, layer and revenue-basis filters, and three viewport widths. The daily 24-document budget retains five baseline sources and rotates the expanded source registry in seven-source steps so later sources are not permanently starved. Dated reports and PDFs may still require reviewed source additions or curated updates; see the methodology.
+Run `python scripts/validate_ecosystem.py` for reference and provenance checks; the build also runs this validation. Browser acceptance covers all eleven routes, company search, layer and revenue-basis filters, and three viewport widths. The daily 24-document budget retains five baseline sources and rotates the expanded source registry in seven-source steps so later sources are not permanently starved. Dated reports and PDFs may still require reviewed source additions or curated updates; see the methodology.
+
+The infrastructure and chips pages include a searchable component map and optical-technology milestones. The energy and industry pages show solar manufacturing and transformer investment cases; industry also tracks electrical workforce evidence. These reviewed snapshots live in `research/fabric.json`. Validate with `python scripts/validate_fabric.py`, also required by the build. Missing verified revenue is explicit, and is excluded from annual and run-rate views.

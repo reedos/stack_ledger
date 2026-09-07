@@ -39,6 +39,14 @@ Jobs snapshots distinguish reported peak construction workers, expected direct o
 
 The daily 24-document budget retains five baseline sources and rotates the expanded registry in seven-source steps by UTC day. One relevant same-host child may follow each parent. Dated annual reports remain dated; new filings need discoverable approved links or a reviewed source addition. PDFs and inaccessible pages may require curated review because the unattended fetcher reads public HTML. Same-year run-rate revisions are quarantined by the conservative duplicate/conflict policy rather than automatically replacing the snapshot.
 
+## Components, skilled trades and clean-energy manufacturing
+
+`research/fabric.json`, mirrored to `site/data/fabric.json`, holds the reviewed component map, technology stages, workforce evidence and energy-manufacturing cases. Company-role sources are separate from financial sources where needed. A profile can explicitly have no verified revenue record; that is a coverage gap rather than a claim of zero revenue or universal non-disclosure. Such profiles are excluded from annual and run-rate filters.
+
+Component relationships describe capabilities, not a verified contract network or mandatory bill of materials. Co-packaged optics sampling, demonstrations and reported volume production retain their individual source dates. A newly accessed historical milestone remains historical. Unknown publication dates remain unlisted.
+
+Workforce observations retain the distinction between occupation estimates, industry payroll changes, annual openings and projected staffing. Construction includes nonresidential specialty trades; they cannot be summed. Electrician openings include replacements, while employment growth measures net change. Political and union commentary is attributed and kept separate from statistical findings. Manufacturing investment and module capacity do not establish power generation or an AI-only benefit. These cases and role mappings require review; the unattended researcher may append screened records within approved sources and metrics.
+
 ## Project delivery tracker
 
 `research/delivery.json` is a reviewed snapshot, mirrored to `site/data/delivery.json`. Each project has a stable ID, owner, location, scope, stage, dated source-linked milestones, capacity record references, grid context and next evidence needed. Energy and infrastructure pages link to the filtered tracker. A reported operating facility can have unknown electrical capacity; that is not zero. Partly operating campuses do not inherit the full planned rating as delivered capacity. Solar generation, storage discharge power, stored energy, transmission ratings, IT load and accelerator counts remain separate.

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T07:23:30Z",
+  "reviewed_at": "2026-09-07T08:24:48Z",
   "companies": [
     {
       "id": "nextera",
@@ -69,7 +69,10 @@
       "role": "Designs custom accelerators and networking silicon that connect large AI systems; also sells infrastructure software.",
       "revenue_metric": "revenue-broadcom",
       "revenue_kind": "annual",
-      "source": "company-broadcom"
+      "source": "company-broadcom",
+      "role_sources": [
+        "broadcom-cpo"
+      ]
     },
     {
       "id": "tsmc",
@@ -245,6 +248,358 @@
       "revenue_metric": "revenue-palantir",
       "revenue_kind": "annual",
       "source": "company-palantir"
+    },
+    {
+      "id": "marvell",
+      "name": "Marvell",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Designs custom compute ASICs, optical DSPs, SerDes, switching and storage silicon. Celestial AI adds optical scale-up interconnect technology.",
+      "revenue_metric": "revenue-marvell",
+      "revenue_kind": "annual",
+      "source": "company-marvell",
+      "role_sources": [
+        "marvell-optics",
+        "marvell-celestial"
+      ]
+    },
+    {
+      "id": "credo",
+      "name": "Credo",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Designs SerDes, optical DSPs and retimers, and supplies active electrical cables that preserve signal quality between high-speed systems.",
+      "revenue_metric": "revenue-credo",
+      "revenue_kind": "annual",
+      "source": "company-credo",
+      "role_sources": [
+        "credo-dsp"
+      ]
+    },
+    {
+      "id": "astera",
+      "name": "Astera Labs",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Supplies Aries PCIe retimers, Taurus Ethernet cable modules, Leo CXL memory controllers and Scorpio smart fabric switches to connect AI servers.",
+      "revenue_metric": "revenue-astera",
+      "revenue_kind": "annual",
+      "source": "company-astera",
+      "role_sources": [
+        "company-astera"
+      ]
+    },
+    {
+      "id": "coherent",
+      "name": "Coherent",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Makes lasers, photonic devices and optical transceivers; develops optical engines and packaging approaches for co-packaged optics.",
+      "revenue_metric": "revenue-coherent",
+      "revenue_kind": "annual",
+      "source": "company-coherent",
+      "role_sources": [
+        "coherent-cpo"
+      ]
+    },
+    {
+      "id": "lumentum",
+      "name": "Lumentum",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Supplies lasers and optical components and systems, including external laser sources for silicon photonics and co-packaged optics.",
+      "revenue_metric": "revenue-lumentum",
+      "revenue_kind": "annual",
+      "source": "company-lumentum",
+      "role_sources": [
+        "lumentum-cpo"
+      ]
+    },
+    {
+      "id": "applied-opto",
+      "name": "Applied Optoelectronics",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Makes optical networking components and transceiver modules for data centers, alongside cable-broadband networking products.",
+      "revenue_metric": "revenue-applied-opto",
+      "revenue_kind": "annual",
+      "source": "company-applied-opto",
+      "role_sources": [
+        "company-applied-opto"
+      ]
+    },
+    {
+      "id": "fabrinet",
+      "name": "Fabrinet",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Provides precision optical packaging, assembly and manufacturing services for equipment makers, bringing complex optical designs into production.",
+      "revenue_metric": "revenue-fabrinet",
+      "revenue_kind": "annual",
+      "source": "company-fabrinet",
+      "role_sources": [
+        "company-fabrinet"
+      ]
+    },
+    {
+      "id": "corning",
+      "name": "Corning",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Makes optical fiber, cable and connectivity for data-center networks; expands domestic manufacturing through long-term customer agreements.",
+      "revenue_metric": "revenue-corning",
+      "revenue_kind": "annual",
+      "source": "company-corning",
+      "role_sources": [
+        "corning-meta"
+      ]
+    },
+    {
+      "id": "amphenol",
+      "name": "Amphenol",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Makes high-speed copper cables, connectors, fiber-optic interconnects and power connections that join servers, boards and racks.",
+      "revenue_metric": "revenue-amphenol",
+      "revenue_kind": "annual",
+      "source": "company-amphenol",
+      "role_sources": [
+        "amphenol-interconnect"
+      ]
+    },
+    {
+      "id": "arista",
+      "name": "Arista Networks",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Builds Ethernet switching platforms and network software for AI and cloud clusters, turning networking silicon into managed systems.",
+      "revenue_metric": "revenue-arista",
+      "revenue_kind": "annual",
+      "source": "company-arista",
+      "role_sources": [
+        "company-arista"
+      ]
+    },
+    {
+      "id": "cisco",
+      "name": "Cisco",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Designs Silicon One networking chips and builds switching systems; its Acacia portfolio supplies coherent optical connectivity.",
+      "revenue_metric": "revenue-cisco",
+      "revenue_kind": "annual",
+      "source": "company-cisco",
+      "role_sources": [
+        "cisco-silicon",
+        "cisco-optics"
+      ]
+    },
+    {
+      "id": "celestica",
+      "name": "Celestica",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Designs and manufactures data-center infrastructure and advanced technology systems for customers, supporting hardware production at scale.",
+      "revenue_metric": "revenue-celestica",
+      "revenue_kind": "annual",
+      "source": "company-celestica",
+      "role_sources": [
+        "company-celestica"
+      ]
+    },
+    {
+      "id": "eaton",
+      "name": "Eaton",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "role": "Supplies electrical power-management equipment, including transformers, and expands manufacturing for utility, industrial and data-center demand.",
+      "revenue_metric": "revenue-eaton",
+      "revenue_kind": "annual",
+      "source": "company-eaton",
+      "role_sources": [
+        "eaton-transformers"
+      ]
+    },
+    {
+      "id": "quanta",
+      "name": "Quanta Services",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "role": "Builds and maintains electric power and other infrastructure, connecting engineering and skilled construction crews to grid and load growth.",
+      "revenue_metric": "revenue-quanta",
+      "revenue_kind": "annual",
+      "source": "company-quanta",
+      "role_sources": [
+        "company-quanta"
+      ]
+    },
+    {
+      "id": "emcor",
+      "name": "EMCOR",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Provides electrical and mechanical construction and building services, supplying the skilled installation and maintenance behind major facilities.",
+      "revenue_metric": "revenue-emcor",
+      "revenue_kind": "annual",
+      "source": "company-emcor",
+      "role_sources": [
+        "company-emcor"
+      ]
+    },
+    {
+      "id": "first-solar",
+      "name": "First Solar",
+      "layers": [
+        "energy"
+      ],
+      "role": "Manufactures thin-film solar modules; domestic plants connect renewable generation supply chains to skilled manufacturing work.",
+      "revenue_metric": "revenue-first-solar",
+      "revenue_kind": "annual",
+      "source": "company-first-solar",
+      "role_sources": [
+        "firstsolar-louisiana"
+      ]
+    },
+    {
+      "id": "lightmatter",
+      "name": "Lightmatter",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Develops Passage photonic interconnects and co-packaged optics. Its March 2026 disclosure describes chiplet sampling, not an installed fleet.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "lightmatter-passage",
+      "role_sources": [
+        "lightmatter-passage"
+      ]
+    },
+    {
+      "id": "ayar",
+      "name": "Ayar Labs",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Develops TeraPHY optical I/O engines and SuperNova external light sources for optical links near compute chips.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "ayar-optics",
+      "role_sources": [
+        "ayar-optics"
+      ]
+    },
+    {
+      "id": "innolight",
+      "name": "InnoLight",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Supplies high-speed optical transceiver modules that convert electrical data to optical signals for AI and data-center networks.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "innolight-modules",
+      "role_sources": [
+        "innolight-modules"
+      ]
+    },
+    {
+      "id": "eoptolink",
+      "name": "Eoptolink",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Designs and manufactures optical transceiver modules, including 1.6T products for AI and cloud networks.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "eoptolink-modules",
+      "role_sources": [
+        "eoptolink-modules"
+      ]
+    },
+    {
+      "id": "qcells",
+      "name": "Qcells",
+      "layers": [
+        "energy"
+      ],
+      "role": "Manufactures solar cells and modules, expanding the domestic solar supply chain through its Georgia factories. Part of Hanwha Solutions.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "qcells-cartersville",
+      "role_sources": [
+        "qcells-cartersville"
+      ]
+    },
+    {
+      "id": "ciena",
+      "name": "Ciena",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Develops WaveLogic coherent DSP technology, optical transport and networking systems that connect data centers across distance.",
+      "revenue_metric": "revenue-ciena",
+      "revenue_kind": "annual",
+      "source": "company-ciena",
+      "role_sources": [
+        "ciena-optics"
+      ]
+    },
+    {
+      "id": "semtech",
+      "name": "Semtech",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Supplies analog signal-integrity chips: laser drivers and transimpedance amplifiers for optical modules, plus CopperEdge equalizers for electrical links.",
+      "revenue_metric": "revenue-semtech",
+      "revenue_kind": "annual",
+      "source": "company-semtech",
+      "role_sources": [
+        "semtech-optics"
+      ]
+    },
+    {
+      "id": "macom",
+      "name": "MACOM",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Makes optical analog chips including laser drivers and transimpedance amplifiers, supporting transmit and receive functions inside optical modules.",
+      "revenue_metric": "revenue-macom",
+      "revenue_kind": "annual",
+      "source": "company-macom",
+      "role_sources": [
+        "macom-optics"
+      ]
     }
   ],
   "capacity_metrics": [
@@ -391,6 +746,33 @@
       "period": "June 2026 · first facility operating",
       "scope": "Company reports nearly 550 full-time employees on site. Employer breakdown is not specified. Earlier construction and hiring plans remain in the history.",
       "source": "fairwater-operating"
+    },
+    {
+      "title": "First Solar · Louisiana employees",
+      "value": 700,
+      "precision": "gt",
+      "status": "Reported employment",
+      "period": "November 2025",
+      "scope": "Current direct factory employment in the inauguration release; not the later year-end hiring target.",
+      "source": "firstsolar-louisiana"
+    },
+    {
+      "title": "Eaton · Jonesville manufacturing jobs",
+      "value": 700,
+      "precision": "eq",
+      "status": "Expected direct jobs",
+      "period": "Hiring planned from 2027",
+      "scope": "Transformer factory hiring plan, not reported employees or construction workers.",
+      "source": "eaton-transformers"
+    },
+    {
+      "title": "Qcells · Georgia manufacturing workforce",
+      "value": 3800,
+      "precision": "approx",
+      "status": "Expected direct jobs",
+      "period": "June 2026 disclosure",
+      "scope": "Combined Dalton and Cartersville employment expectation, not verified hires.",
+      "source": "qcells-cartersville"
     }
   ],
   "employment": {
@@ -399,6 +781,10 @@
     "basis": "Seasonally adjusted monthly payroll change; preliminary release, subject to revision.",
     "source": "bls-aug-2026",
     "series": [
+      {
+        "name": "Construction",
+        "value": 22000
+      },
       {
         "name": "Manufacturing",
         "value": 16000
@@ -413,7 +799,7 @@
   "interpretation": "The evidence supports an expansion of U.S. semiconductor and power-equipment manufacturing, with some production already operating. That is a concrete sign of industrial rebuilding. Project announcements and one month of employment data cannot establish a sustained economy-wide re-industrialization or net jobs attributable to AI.",
   "gaps": [
     "No verified global total of usable AI accelerator capacity is available in this edition.",
-    "Comparable public HBM and advanced-packaging throughput series still need research.",
+    "Comparable public HBM, advanced-packaging and optical-interconnect shipment series still need research.",
     "Follow construction through equipment installation, qualification, production and sustained utilization.",
     "Track realized permanent employment, wages, apprenticeships and local supplier activity over multiple years."
   ]

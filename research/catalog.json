@@ -783,6 +783,441 @@
       "source_ids": [
         "eia-output-aug-2026"
       ]
+    },
+    {
+      "id": "revenue-marvell",
+      "layer": "chips",
+      "title": "Marvell · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue; includes data-center and other markets. Celestial AI closed after this fiscal year.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-marvell"
+      ]
+    },
+    {
+      "id": "revenue-credo",
+      "layer": "chips",
+      "title": "Credo · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide connectivity revenue; not a count of chips, cables or AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-credo"
+      ]
+    },
+    {
+      "id": "revenue-astera",
+      "layer": "chips",
+      "title": "Astera Labs · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue, rounded as reported; product families have different deployment stages.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-astera"
+      ]
+    },
+    {
+      "id": "revenue-coherent",
+      "layer": "chips",
+      "title": "Coherent · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide photonics revenue; includes industrial applications beyond data centers.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-coherent"
+      ]
+    },
+    {
+      "id": "revenue-lumentum",
+      "layer": "chips",
+      "title": "Lumentum · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide optical components and systems revenue, not AI-only revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-lumentum"
+      ]
+    },
+    {
+      "id": "revenue-applied-opto",
+      "layer": "chips",
+      "title": "Applied Optoelectronics · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue includes data-center and hybrid fiber-coaxial broadband products.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-applied-opto"
+      ]
+    },
+    {
+      "id": "revenue-fabrinet",
+      "layer": "infrastructure",
+      "title": "Fabrinet · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide manufacturing-services revenue, rounded as reported; overlaps customers’ product revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-fabrinet"
+      ]
+    },
+    {
+      "id": "revenue-corning",
+      "layer": "infrastructure",
+      "title": "Corning · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide GAAP net sales; distinct from higher non-GAAP core sales. Includes display and other businesses.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-corning"
+      ]
+    },
+    {
+      "id": "revenue-amphenol",
+      "layer": "infrastructure",
+      "title": "Amphenol · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide sales, rounded as reported; includes many non-data-center markets.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-amphenol"
+      ]
+    },
+    {
+      "id": "revenue-arista",
+      "layer": "infrastructure",
+      "title": "Arista Networks · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue includes AI, cloud, campus and other networking.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-arista"
+      ]
+    },
+    {
+      "id": "revenue-cisco",
+      "layer": "chips",
+      "title": "Cisco · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue, rounded as reported; includes networking, security, collaboration and services.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-cisco"
+      ]
+    },
+    {
+      "id": "revenue-celestica",
+      "layer": "infrastructure",
+      "title": "Celestica · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue, rounded as reported; includes businesses beyond AI infrastructure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-celestica"
+      ]
+    },
+    {
+      "id": "revenue-eaton",
+      "layer": "energy",
+      "title": "Eaton · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide sales, rounded as reported; includes electrical, aerospace and other businesses.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-eaton"
+      ]
+    },
+    {
+      "id": "revenue-quanta",
+      "layer": "energy",
+      "title": "Quanta Services · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide contracting revenue; not wages, local spending or exclusively data-center work.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-quanta"
+      ]
+    },
+    {
+      "id": "revenue-emcor",
+      "layer": "infrastructure",
+      "title": "EMCOR · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue; not a measure of data-center-only construction or net jobs.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-emcor"
+      ]
+    },
+    {
+      "id": "revenue-first-solar",
+      "layer": "energy",
+      "title": "First Solar · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide net sales, rounded as reported in the FY2025 release; solar module sales are not electricity generation.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-first-solar"
+      ]
+    },
+    {
+      "id": "us-electricians",
+      "layer": "infrastructure",
+      "title": "U.S. electrician employment: baseline and outlook",
+      "unit": "jobs",
+      "geography": "United States",
+      "scope": "All electricians, SOC 47-2111; not AI-only employment.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "BLS 2025–2035 projection vintage. A projection is not a hiring commitment.",
+      "source_ids": [
+        "bls-electricians-2026"
+      ]
+    },
+    {
+      "id": "electrician-openings",
+      "layer": "infrastructure",
+      "title": "Projected annual electrician openings",
+      "unit": "openings / year",
+      "geography": "United States",
+      "scope": "Average openings across 2025–2035, including replacement needs.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Openings include retirement and occupational transfers; they are not net new jobs.",
+      "source_ids": [
+        "bls-electricians-2026"
+      ]
+    },
+    {
+      "id": "us-construction-monthly",
+      "layer": "infrastructure",
+      "title": "U.S. construction payroll change",
+      "unit": "jobs / month",
+      "geography": "United States",
+      "scope": "Seasonally adjusted August 2026 payroll change; preliminary. Includes work unrelated to AI.",
+      "direction": "context",
+      "min": -10000000,
+      "max": 10000000,
+      "note": "Nonresidential specialty trades are a subset of construction. Do not add the two.",
+      "source_ids": [
+        "bls-aug-2026"
+      ]
+    },
+    {
+      "id": "us-nonresidential-trades-monthly",
+      "layer": "infrastructure",
+      "title": "U.S. nonresidential specialty trade payroll change",
+      "unit": "jobs / month",
+      "geography": "United States",
+      "scope": "Seasonally adjusted August 2026 payroll change; preliminary. Includes work unrelated to AI.",
+      "direction": "context",
+      "min": -10000000,
+      "max": 10000000,
+      "note": "Nonresidential specialty trades are a subset of construction. Do not add the two.",
+      "source_ids": [
+        "bls-aug-2026"
+      ]
+    },
+    {
+      "id": "firstsolar-la-investment",
+      "layer": "energy",
+      "title": "First Solar Louisiana facility investment",
+      "unit": "USD billion",
+      "geography": "Iberia Parish, Louisiana",
+      "scope": "Company-reported facility investment at inauguration; not annual revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
+      "source_ids": [
+        "firstsolar-louisiana"
+      ]
+    },
+    {
+      "id": "firstsolar-la-jobs",
+      "layer": "energy",
+      "title": "First Solar Louisiana reported employment",
+      "unit": "jobs",
+      "geography": "Iberia Parish, Louisiana",
+      "scope": "Reported current employees at the factory; distinct from expected year-end staffing.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
+      "source_ids": [
+        "firstsolar-louisiana"
+      ]
+    },
+    {
+      "id": "qcells-georgia-investment",
+      "layer": "energy",
+      "title": "Qcells Georgia manufacturing investment program",
+      "unit": "USD billion",
+      "geography": "Georgia · Dalton and Cartersville",
+      "scope": "Company-described investment program across Georgia; cumulative actual spending is not independently established.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
+      "source_ids": [
+        "qcells-investment"
+      ]
+    },
+    {
+      "id": "qcells-georgia-jobs",
+      "layer": "energy",
+      "title": "Qcells Georgia expected direct employment",
+      "unit": "jobs",
+      "geography": "Georgia · Bartow and Whitfield counties",
+      "scope": "Expected combined workforce; not verified hires and not Cartersville alone.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
+      "source_ids": [
+        "qcells-cartersville"
+      ]
+    },
+    {
+      "id": "eaton-jonesville-investment",
+      "layer": "energy",
+      "title": "Eaton Jonesville transformer factory investment plan",
+      "unit": "USD million",
+      "geography": "Jonesville, South Carolina",
+      "scope": "Announced manufacturing investment; not completed spending.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
+      "source_ids": [
+        "eaton-transformers"
+      ]
+    },
+    {
+      "id": "eaton-jonesville-jobs",
+      "layer": "energy",
+      "title": "Eaton Jonesville planned local jobs",
+      "unit": "jobs",
+      "geography": "Jonesville, South Carolina",
+      "scope": "Hiring and production expected to begin in 2027 under the 2025 announcement.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
+      "source_ids": [
+        "eaton-transformers"
+      ]
+    },
+    {
+      "id": "revenue-ciena",
+      "layer": "chips",
+      "title": "Ciena · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as reported; includes markets beyond AI data centers.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-ciena"
+      ]
+    },
+    {
+      "id": "revenue-semtech",
+      "layer": "chips",
+      "title": "Semtech · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as reported; includes markets beyond AI data centers.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-semtech"
+      ]
+    },
+    {
+      "id": "revenue-macom",
+      "layer": "chips",
+      "title": "MACOM · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as reported; includes markets beyond AI data centers.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Original fiscal period and business scope retained.",
+      "source_ids": [
+        "company-macom"
+      ]
     }
   ],
   "targets": [

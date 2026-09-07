@@ -12,12 +12,18 @@ def validate_ecosystem(e,ledger):
     sources={s['id'] for s in ledger['sources']};metrics={m['id']:m for m in ledger['metrics']}
     ids=set()
     for c in e['companies']:
-        require(set(c)=={'id','name','layers','role','revenue_metric','revenue_kind','source'},'Unexpected company shape')
+        required={'id','name','layers','role','revenue_metric','revenue_kind','source'}
+        require(required<=c.keys() and c.keys()<=required|{'role_sources'},'Unexpected company shape')
         require(c['id'] not in ids,'Duplicate company ID');ids.add(c['id'])
         for k in ['id','name','role']:text(c[k])
         require(c['layers'] and set(c['layers'])<=set(LAYERS),'Invalid company layers')
         require(c['source'] in sources,'Unknown company source')
-        require(c['revenue_kind'] in {'annual','run-rate'},'Invalid revenue basis')
+        if 'role_sources' in c:
+            require(isinstance(c['role_sources'],list) and c['role_sources'] and set(c['role_sources'])<=sources,'Unknown company role source')
+        require(c['revenue_kind'] in {'annual','run-rate','unavailable'},'Invalid revenue basis')
+        if c['revenue_kind']=='unavailable':
+            require(c['revenue_metric'] is None,'Unverified revenue must have no numeric metric')
+            continue
         require(c['revenue_metric'] in metrics,'Missing revenue metric')
         require(c['source'] in metrics[c['revenue_metric']]['source_ids'],'Company revenue source mismatch')
         require(any(o['metric']==c['revenue_metric'] and o['status']=='observation' and not o.get('superseded_by') for o in ledger['observations']),'Missing reported revenue observation')
