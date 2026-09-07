@@ -28,3 +28,5 @@
 .stack-svg .slab:hover .slab-top,.stack-svg .slab:focus-visible .slab-top{stroke-width:2;fill-opacity:1}
 @media(max-width:1100px){.site-header nav{gap:16px}}
 @media(max-width:600px){.site-header nav{gap:8px}.hero h1{font-size:46px}.layer-card h3{font-size:16px}.metric-context{min-height:66px}.layer-label{min-height:80px}.layer-card:last-child .layer-label{min-height:0}.stack-destinations{top:calc(100% + 15px)}.research-gap{font-size:25px}.art-caption{line-height:1.7}}
+
+.project-attribution{margin:24px 0;color:var(--muted);font-size:12px;line-height:1.9}.project-attribution strong{color:var(--text);font-weight:600}
