@@ -20253,6 +20253,32 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T213215Z",
+      "started_at": "2026-09-07T21:32:15Z",
+      "finished_at": "2026-09-07T21:32:31Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [
+        {
+          "source": "claims-iea-supply",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "claims-bls-aug",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 6,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -20262,7 +20288,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T21:31:50Z",
+    "last_attempt": "2026-09-07T21:32:31Z",
     "last_success": null,
     "status": "partial"
   }
