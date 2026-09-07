@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T17:01:50Z",
+  "reviewed_at": "2026-09-07T20:24:36.550524+00:00",
   "sections": [
     {
       "id": "construction-economy",
@@ -681,6 +681,61 @@
           ],
           "observations": [],
           "gap": "Verify the original timing announcement, then a dated release note, documented model ID, pricing, access and model card. A forecast date passing is not a launch."
+        }
+      ]
+    },
+    {
+      "id": "alphafold-medicine",
+      "pages": [
+        "applications"
+      ],
+      "title": "AlphaFold: a Nobel-recognized advance for medicine.",
+      "intro": "Knowing a protein’s shape helps researchers investigate how it works and where a drug might bind. AlphaFold makes predicted structures available early in discovery, helping scientists choose what to test. The benefit is a better starting point for experiments—not an automatic route to an approved treatment.",
+      "charts": [],
+      "cards": [
+        {
+          "id": "alphafold-recognition",
+          "title": "The 2024 Nobel recognition",
+          "stage": "Awarded to the researchers",
+          "body": "Demis Hassabis and John Jumper jointly received half of the 2024 Nobel Prize in Chemistry for protein structure prediction, following their work on AlphaFold2. David Baker received the other half for computational protein design. AlphaFold is a scientific application of AI beyond language and coding.",
+          "sources": [
+            "alphafold-nobel"
+          ],
+          "observations": [],
+          "gap": "Keep AlphaFold2’s Nobel-recognized contribution distinct from subsequent models and from Baker’s protein-design work."
+        },
+        {
+          "id": "alphafold-research-scale",
+          "title": "More than 200 million predicted structures",
+          "stage": "Open research resource · reviewed September 2026",
+          "body": "The AlphaFold Protein Structure Database, developed by Google DeepMind and EMBL-EBI, provides open access to more than 200 million protein structure predictions. Researchers can begin with a structural hypothesis rather than starting every investigation without one. This is research infrastructure at scale, not a count of medicines discovered.",
+          "sources": [
+            "alphafold-db"
+          ],
+          "observations": [],
+          "gap": "Track experimentally supported uses and task-specific time savings. Confidence varies by region and protein; predictions are not interchangeable with experimentally determined structures."
+        },
+        {
+          "id": "alphafold-discovery-evidence",
+          "title": "60% hit rate in a targeted discovery study",
+          "stage": "Experimental screening and mouse evidence · 2024",
+          "body": "Researchers screened over 16 million compounds computationally against TAAR1, a receptor of interest in neuropsychiatric research. Of 30 AlphaFold-selected candidates tested experimentally, 60% were hits—more than twice the homology-model comparator’s hit rate. A selected agonist also showed effects in mice. This demonstrates useful candidate selection in a specific preclinical workflow.",
+          "sources": [
+            "alphafold-taar1"
+          ],
+          "observations": [],
+          "gap": "This is not a clinical success rate or evidence that total development time was halved. Track replication, optimization, toxicity and human trials separately; the study does not establish patient benefit."
+        },
+        {
+          "id": "alphafold-interactions",
+          "title": "AlphaFold 3: predicting molecular interactions",
+          "stage": "Peer-reviewed model study · May 2024",
+          "body": "AlphaFold 3 extends prediction to complexes involving proteins, DNA, RNA, small molecules and other components. That can help researchers form hypotheses about binding and molecular interactions relevant to drug discovery. Structural prediction supports experiments; it does not alone establish binding strength, efficacy or safety.",
+          "sources": [
+            "alphafold-three"
+          ],
+          "observations": [],
+          "gap": "Follow prospective experimental validation and measured improvements to discovery workflows. Keep model accuracy, discovery speed, trial outcomes and approved medicines as separate evidence."
         }
       ]
     }
