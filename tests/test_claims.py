@@ -58,6 +58,26 @@ class ClaimsTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_claims(self.data,{s['id'] for s in self.sources})
 
+    def test_employment_survey_rejects_invalid_shares_and_missing_provenance(self):
+        for value in [-1,101,float('nan'),True]:
+            data=copy.deepcopy(self.data)
+            data['employment_context']['survey']['points'][0]['value']=value
+            with self.subTest(value=value),self.assertRaises(ValueError):
+                validate_claims(data,{s['id'] for s in self.sources})
+        self.data['employment_context']['survey']['source']='invented'
+        with self.assertRaises(ValueError):
+            validate_claims(self.data,{s['id'] for s in self.sources})
+
+    def test_employment_survey_preserves_units_and_zero_baseline_without_js(self):
+        html=render_claims(self.data,self.sources)
+        self.assertIn('id="ai-employment"',html)
+        for point in self.data['employment_context']['survey']['points']:
+            self.assertIn(f'width:{point["value"]:g}%',html)
+            self.assertIn(f'<td>{point["value"]:g}%</td>',html)
+        self.assertIn('shares of firms, not shares of workers',html)
+        self.assertIn('cannot be added or subtracted',html)
+        self.assertIn('0%</span><span>50%</span><span>100%',html)
+
     def test_resident_example_keeps_rates_and_bills_distinct(self):
         rate,net=resident_values(self.data['resident_context'])
         self.assertAlmostEqual(rate,29.694323144104804)

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T20:08:46.249563+00:00",
+  "reviewed_at": "2026-09-07T20:32:30.945529+00:00",
   "reviewer": "Curated with Ara; separate from local-model run receipts",
   "claims": [
     {
@@ -244,10 +244,12 @@
       "claim": "Mass unemployment caused by AI has already been demonstrated.",
       "verdict": "Not established",
       "scope": "United States · August 2026",
-      "evidence": "BLS reports 162,000 additional nonfarm payroll jobs in August and 4.1% unemployment. Stanford’s ADP-based analysis finds no widespread displacement associated with AI exposure so far. Neither establishes AI’s causal net job total.",
+      "evidence": "BLS reports positive August 2026 payroll growth and 4.1% unemployment; these aggregates cannot establish causation. Yale finds no clear aggregate AI labor-market footprint in its August update. Regional New York Fed evidence shows both AI-related hiring and reduced hiring, with layoffs uncommon. Stanford finds a narrower entry-level employment warning. Together, these do not establish mass unemployment caused by AI or prove that AI has no employment costs.",
       "sources": [
         "claims-bls-aug",
-        "claims-stanford-labor"
+        "claims-stanford-labor",
+        "claims-yale-labor",
+        "claims-nyfed-ai-work"
       ],
       "future": "Track employment, hiring, separations, hours and wages by occupation and age. Compare exposed and less-exposed groups with transparent methods.",
       "gap": "National employment growth does not prove every worker benefits, rule out displacement, or guarantee future outcomes."
@@ -578,5 +580,61 @@
       "claims-loudoun-tax",
       "loudoun-adopted-2027"
     ]
+  },
+  "employment_context": {
+    "verdict": "Mass unemployment caused by AI is not established by the evidence reviewed.",
+    "summary": "AI is changing work, and some workers face real disruption. National employment, employer surveys and studies of exposed occupations answer different questions. This is an assessment of evidence available on September 7, 2026, not a guarantee about the future.",
+    "cards": [
+      {
+        "title": "The national picture",
+        "headline": "4.1% unemployment",
+        "scope": "United States / August 2026 / BLS seasonally adjusted estimates",
+        "body": "Payrolls rose by 162,000 in August; the prior 12 months averaged only 31,000 monthly. Information employment fell by 23,000. Participation was 61.6%, down 0.5 percentage point since January. A positive headline can coexist with sector losses and weaker workforce participation. These figures do not identify AI’s causal effect.",
+        "sources": [
+          "claims-bls-aug"
+        ]
+      },
+      {
+        "title": "Testing an AI explanation",
+        "headline": "No clear aggregate footprint",
+        "scope": "Yale Budget Lab / analysis updated August 19, 2026",
+        "body": "Yale finds no clear shift in the occupational mix aligned with AI, or connection between its AI-use measures and employment or unemployment changes. Its exposure analysis also does not yet isolate a clear labor-market footprint. Failure to detect an effect is not proof that effects are zero.",
+        "sources": [
+          "claims-yale-labor"
+        ]
+      },
+      {
+        "title": "The entry-level warning",
+        "headline": "Weaker hiring deserves attention",
+        "scope": "Stanford / ADP payroll sample through June 2026",
+        "body": "Young workers in highly exposed occupations show weaker employment relative to a comparison path, with reduced hiring the main observed channel. This is a descriptive association, not a causal estimate. This narrower warning can coexist with stable national unemployment. It is not evidence that all young workers are losing jobs.",
+        "sources": [
+          "claims-stanford-labor"
+        ]
+      }
+    ],
+    "survey": {
+      "title": "How AI-using service firms changed staffing",
+      "scope": "New York and Northern New Jersey / August 2026 survey / reported actions over the previous six months",
+      "unit": "Percent of surveyed service firms using AI",
+      "status": "observation",
+      "source": "claims-nyfed-ai-work",
+      "points": [
+        {
+          "label": "Laid off workers due to AI",
+          "value": 4
+        },
+        {
+          "label": "Hired more workers due to AI",
+          "value": 13
+        },
+        {
+          "label": "Hired fewer workers than otherwise",
+          "value": 15
+        }
+      ],
+      "note": "Employer self-reports; shares of firms, not shares of workers. Categories need not be mutually exclusive and cannot be added or subtracted into a net jobs estimate. Regional findings are not nationally representative. More than a third of AI-using service firms reported retraining workers."
+    },
+    "future": "For future buildouts, track actual construction and operating hires, local wages, apprentices completing training and moving into paid work. For AI adoption, follow hiring, separations, hours, pay and unemployment duration by occupation, age and AI exposure, using comparable groups and accounting for economic conditions. Review adverse evidence as carefully as benefits."
   }
 }

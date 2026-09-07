@@ -99,7 +99,7 @@ def home(data, base):
       {layer_cards(data, base)}
       <p class="chart-footnote">Selected indicators, not an overall progress score. Each figure keeps its own scope, period and publisher. <a class="source-inline" href="{base}data/ledger.json">Inspect the raw ledger ↗</a></p></section>
       <aside class="reading-note homepage-reading"><strong>Pledged is not built.</strong><p>Announced ≠ financed ≠ under construction ≠ commissioned ≠ operating. Follow the evidence for each stage in the <a class="source-inline" href="{base}projects/">project tracker ↗</a>.</p></aside>
-      <aside class="claims-invitation"><div><div class="eyebrow">CLAIMS & EVIDENCE</div><h2>What does the buildout deliver for communities?</h2><p>Explore the evidence on skilled jobs, local taxes, water, power bills and clean energy—and what future projects need to demonstrate.</p></div><a href="{base}claims/">Examine the evidence ↗</a></aside>
+      <aside class="claims-invitation"><div><div class="eyebrow">CLAIMS & EVIDENCE</div><h2>What does the buildout deliver for communities?</h2><p>Explore the evidence on AI and employment, skilled jobs, local taxes, water, power bills and clean energy—and what future projects need to demonstrate.</p><p><a href="{base}claims/#ai-employment">Is AI causing mass unemployment? Check the evidence.</a></p></div><a href="{base}claims/">Examine the evidence ↗</a></aside>
       <div id="home-details"></div>'''
 
 

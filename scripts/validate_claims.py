@@ -10,7 +10,7 @@ TOPICS = {'Water','Power & bills','Clean energy','Jobs & economy','Taxes & commu
 
 
 def validate_claims(data, sources):
-    require(set(data)=={'version','reviewed_at','reviewer','claims','highlights','article_audit','water_comparison','resident_context'} and data['version']==1, 'Invalid claims snapshot')
+    require(set(data)=={'version','reviewed_at','reviewer','claims','highlights','article_audit','water_comparison','resident_context','employment_context'} and data['version']==1, 'Invalid claims snapshot')
     timestamp(data['reviewed_at']); text(data['reviewer'],200)
     ids=set()
     def identity(value):
@@ -18,6 +18,26 @@ def validate_claims(data, sources):
         ids.add(value)
     def evidence(values):
         require(isinstance(values,list) and values and len(set(values))==len(values) and set(values)<=sources,'Unknown claims source')
+    employment=data['employment_context']
+    require(set(employment)=={'verdict','summary','cards','survey','future'},'Invalid employment context')
+    for key in ['verdict','summary','future']:text(employment[key],1500)
+    require(isinstance(employment['cards'],list) and employment['cards'],'Missing employment evidence')
+    for card in employment['cards']:
+        require(set(card)=={'title','headline','scope','body','sources'},'Invalid employment card')
+        evidence(card['sources'])
+        for key in ['title','headline','scope','body']:text(card[key],1500)
+    survey=employment['survey']
+    require(set(survey)=={'title','scope','unit','status','source','points','note'},'Invalid employment survey')
+    evidence([survey['source']])
+    for key in ['title','scope','unit','note']:text(survey[key],1500)
+    require(survey['status']=='observation','Survey must retain reported status')
+    require(isinstance(survey['points'],list) and len(survey['points'])>=2,'Missing survey comparison')
+    labels=set()
+    for point in survey['points']:
+        require(set(point)=={'label','value'},'Invalid survey point')
+        text(point['label'],200)
+        require(point['label'] not in labels,'Duplicate survey category');labels.add(point['label'])
+        require(type(point['value']) in (int,float) and math.isfinite(point['value']) and 0<=point['value']<=100,'Invalid survey percentage')
     rc=data['resident_context']
     require(set(rc)=={'real_rate_2016','real_rate_2026','vehicle_rate_before','vehicle_rate_2026','vehicle_assessed_value','vehicle_saving_example','average_home_bill_increase','example_vehicles','sources'},'Invalid resident context')
     evidence(rc['sources'])
