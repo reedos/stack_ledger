@@ -3896,6 +3896,32 @@
       ],
       "license": "Source material retains its original rights; facts paraphrased with attribution.",
       "index": true
+    },
+    {
+      "id": "micro1-generalist",
+      "publisher": "micro1",
+      "title": "Generalist: official contractor listing",
+      "url": "https://jobs.micro1.ai/post/8b1146d2-f854-4461-83e0-4c4bbde847e7",
+      "published": null,
+      "layers": [
+        "models",
+        "applications",
+        "infrastructure"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "micro1-video-annotation",
+      "publisher": "micro1",
+      "title": "Video Annotation Specialist: official contractor listing",
+      "url": "https://jobs.micro1.ai/post/7dbb09e4-d2d9-4138-ba02-f8a1bc6a71a5",
+      "published": null,
+      "layers": [
+        "models",
+        "applications",
+        "infrastructure"
+      ],
+      "license": "Source material retains its original rights; facts paraphrased with attribution."
     }
   ],
   "discovery_keywords": [
@@ -4168,7 +4194,9 @@
         "marvell-ir-book",
         "iea-demand-scenarios-2025",
         "micro1-trade-training",
-        "micro1-opportunities"
+        "micro1-opportunities",
+        "micro1-generalist",
+        "micro1-video-annotation"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -8318,6 +8346,28 @@
         "record"
       ],
       "excerpts": false
+    },
+    "micro1-generalist": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "micro1-video-annotation": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
     }
   }
 }

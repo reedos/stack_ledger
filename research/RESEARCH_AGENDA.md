@@ -44,7 +44,7 @@ Treat `OPERATING_GUIDE.md` and source-linked snapshot context as the continuing 
 
 ### Emerging occupations: micro1 lead
 
-The user supplied [Global South Opportunities' September 5 article](https://www.globalsouthopportunities.com/2026/09/05/micro1/), which advertises a 10,000-person campaign and $50?$90 hourly compensation. Treat these as secondary recruitment claims pending original-campaign verification, not filled jobs or annual earnings. Its linked Generalist application returned no readable body in this review. Geographic eligibility and the robotics-specific scope need the original dated role/campaign record.
+The user supplied [Global South Opportunities' September 5 article](https://www.globalsouthopportunities.com/2026/09/05/micro1/), which advertises a 10,000-person campaign and $50-$90 hourly compensation. Treat these as secondary recruitment claims pending original-campaign verification, not filled jobs or annual earnings. Its linked Generalist application returned no readable body in this review. Geographic eligibility and the robotics-specific scope need the original dated role/campaign record.
 
 [Micro1's official trade-task page](https://www.micro1.ai/get-paid-to-record-tasks) describes paid approved recordings for robotics training, including electrical installations and other trade work. It lists electrician/power-line and plumbing opportunities; those are distinct listings from the article's Generalist campaign. The official opportunities page is also registered, but its dynamic listings are not fully readable by the HTML runner.
 
@@ -53,3 +53,8 @@ Track robotics data collectors, annotators, teleoperators, expert evaluators, AI
 ### Remaining collection work
 
 Priorities for reviewed adapters: PDF filing/table extraction; official statistical APIs; readable employer/ATS feeds; earnings-calendar prioritization; published source freshness and topic completeness; structured proposals for new companies, projects and measurement types. Discovery currently captures bounded pointers for review, not arbitrary internet search. A completed batch is not a claim of exhaustive coverage.
+
+
+### Official micro1 listings verified in browser follow-up
+
+On September 7, both user-supplied official pages were read in a public browser without logging in or applying. [Generalist](https://jobs.micro1.ai/post/8b1146d2-f854-4461-83e0-4c4bbde847e7) and [Video Annotation Specialist](https://jobs.micro1.ai/post/7dbb09e4-d2d9-4138-ba02-f8a1bc6a71a5) each advertise remote contractor work at $50-$90/hour. The second explicitly concerns reviewing videos of robotic arms performing tasks. This verifies the advertised rate and robotics scope more directly than the earlier secondary article. Neither page states 10,000 positions, guaranteed hours or actual paid-worker counts. Publication dates remain unknown. The listings are now registered individually; stripped UTM parameters do not create duplicate sources. Browser-rendered text and hashes are cached privately. HTML-only automation still needs a reviewed rendering adapter for dependable extraction from these pages.

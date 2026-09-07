@@ -35,3 +35,6 @@ When the owner elects to run it, `--start --publish` enables bounded batches, wi
 ## micro1 follow-up
 
 See the emerging-work section in RESEARCH_AGENDA.md. The official trade-task page supports a recruitment opportunity for paid approved recordings. The linked secondary article's 10,000-person campaign and $50–$90/hour should remain attributed recruitment claims pending original-campaign verification; they do not establish completed hires, guaranteed hours, annual income or economy-wide net job creation.
+
+
+Follow-up: the two official listings were subsequently verified using a public browser; see RESEARCH_AGENDA.md. Advertised $50-$90/hour and the specialist robotics-video task are now directly supported. The campaign headcount and actual hiring remain unresolved. No Ollama research run was started.

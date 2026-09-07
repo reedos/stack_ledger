@@ -253,7 +253,9 @@
         "marvell-ir-book",
         "iea-demand-scenarios-2025",
         "micro1-trade-training",
-        "micro1-opportunities"
+        "micro1-opportunities",
+        "micro1-generalist",
+        "micro1-video-annotation"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -4403,6 +4405,28 @@
         "record"
       ],
       "excerpts": false
+    },
+    "micro1-generalist": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
+    },
+    "micro1-video-annotation": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": true
     }
   }
 }
