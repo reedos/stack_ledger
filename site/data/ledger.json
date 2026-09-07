@@ -22590,6 +22590,36 @@
         "applications",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T230041Z",
+      "started_at": "2026-09-07T23:00:41Z",
+      "finished_at": "2026-09-07T23:01:04Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "discovered-1f5f7adf3ae84e6e",
+          "reason": "Insufficient readable source content"
+        },
+        {
+          "source": "micro1-generalist",
+          "reason": "Insufficient readable source content"
+        },
+        {
+          "source": "micro1-video-annotation",
+          "reason": "Insufficient readable source content"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -22599,7 +22629,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T23:00:15Z",
+    "last_attempt": "2026-09-07T23:01:04Z",
     "last_success": "2026-09-07T22:57:54Z",
     "status": "partial"
   }
