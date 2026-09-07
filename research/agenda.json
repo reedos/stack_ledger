@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T16:11:03Z",
+  "reviewed_at": "2026-09-07T16:40:50Z",
   "sections": [
     {
       "id": "construction-economy",
@@ -369,6 +369,95 @@
         }
       ],
       "charts": []
+    },
+    {
+      "id": "electricity-long-view",
+      "pages": [
+        "energy"
+      ],
+      "title": "Power, with a pre-boom baseline",
+      "intro": "National generation gives the buildout context. These historical totals do not measure electricity reserved for AI factories.",
+      "charts": [
+        "us-utility-generation-history"
+      ],
+      "cards": []
+    },
+    {
+      "id": "trades-long-view",
+      "pages": [
+        "industry",
+        "infrastructure"
+      ],
+      "title": "The trades behind the buildout",
+      "intro": "Five historical electrician-employment estimates put today’s electrical buildout in context. A marked 2021 methodology break limits comparisons; this is not a count of AI-created jobs.",
+      "charts": [
+        "us-electrician-employment-oews"
+      ],
+      "cards": []
+    },
+    {
+      "id": "foundry-long-view",
+      "pages": [
+        "chips"
+      ],
+      "title": "Foundry revenue before and during the AI ramp",
+      "intro": "Seven annual observations cover all TSMC customers and end markets. Revenue is not wafer capacity or domestic value added.",
+      "charts": [
+        "revenue-tsmc"
+      ],
+      "cards": []
+    },
+    {
+      "id": "energy-beyond-2030",
+      "pages": [
+        "energy"
+      ],
+      "title": "Planning beyond 2030",
+      "intro": "IEA’s 2025 sensitivity cases extend to 2035. Each case stays separate, with its original vintage; the newer headline outlook elsewhere remains unchanged. Government targets through 2050 are a different evidence class.",
+      "charts": [
+        "dc-electricity-iea2025-high-efficiency"
+      ],
+      "cards": [
+        {
+          "id": "scenario-headwinds",
+          "title": "Headwinds",
+          "stage": "2035 scenario · published 2025",
+          "body": "A separate sensitivity case for planning power supply. Historical demand and this scenario endpoint are not an interpolated annual path.",
+          "sources": [
+            "iea-demand-scenarios-2025"
+          ],
+          "observations": [
+            "dc-electricity-iea2025-headwinds-history-2035"
+          ],
+          "gap": "Track revised scenario vintages, efficiency assumptions, grid bottlenecks and delivered capacity."
+        },
+        {
+          "id": "scenario-high-efficiency",
+          "title": "High Efficiency",
+          "stage": "2035 scenario · published 2025",
+          "body": "A separate sensitivity case for planning power supply. Historical demand and this scenario endpoint are not an interpolated annual path.",
+          "sources": [
+            "iea-demand-scenarios-2025"
+          ],
+          "observations": [
+            "dc-electricity-iea2025-high-efficiency-history-2035"
+          ],
+          "gap": "Track revised scenario vintages, efficiency assumptions, grid bottlenecks and delivered capacity."
+        },
+        {
+          "id": "scenario-lift-off",
+          "title": "Lift-Off",
+          "stage": "2035 scenario · published 2025",
+          "body": "A separate sensitivity case for planning power supply. Historical demand and this scenario endpoint are not an interpolated annual path.",
+          "sources": [
+            "iea-demand-scenarios-2025"
+          ],
+          "observations": [
+            "dc-electricity-iea2025-lift-off-history-2035"
+          ],
+          "gap": "Track revised scenario vintages, efficiency assumptions, grid bottlenecks and delivered capacity."
+        }
+      ]
     }
   ]
 }

@@ -2171,6 +2171,149 @@
         "applications"
       ],
       "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "eia-generation-history-2024",
+      "publisher": "U.S. EIA",
+      "title": "Electric Power Annual 2024, Table 3.1.A: utility-scale generation, 2014–2024",
+      "url": "https://www.eia.gov/electricity/annual/html/epa_03_01_a.html",
+      "published": "2025-10-16",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "bls-electricians-may-2019",
+      "publisher": "U.S. BLS",
+      "title": "May 2019 OEWS national occupational estimates: electricians (47-2111)",
+      "url": "https://www.bls.gov/oes/2019/may/oes472111.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "bls-electricians-may-2020",
+      "publisher": "U.S. BLS",
+      "title": "May 2020 OEWS national occupational estimates: electricians (47-2111)",
+      "url": "https://www.bls.gov/oes/2020/may/oes472111.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "bls-electricians-may-2021",
+      "publisher": "U.S. BLS",
+      "title": "May 2021 OEWS national occupational estimates: electricians (47-2111)",
+      "url": "https://www.bls.gov/oes/2021/may/oes472111.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "bls-electricians-may-2022",
+      "publisher": "U.S. BLS",
+      "title": "May 2022 OEWS national occupational estimates: electricians (47-2111)",
+      "url": "https://www.bls.gov/oes/2022/may/oes472111.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "bls-electricians-may-2023",
+      "publisher": "U.S. BLS",
+      "title": "May 2023 OEWS national occupational estimates: electricians (47-2111)",
+      "url": "https://www.bls.gov/oes/2023/may/oes472111.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "bls-oews-method-2021",
+      "publisher": "U.S. BLS",
+      "title": "May 2021 OEWS technical notes: model-based estimation and occupational classification",
+      "url": "https://www.bls.gov/oes/2021/may/oes_tec.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "tsmc-annual-history-2019",
+      "publisher": "TSMC",
+      "title": "2019 annual report: company-wide revenue in reported U.S. dollars",
+      "url": "https://investor.tsmc.com/static/annualReports/2019/english/index.html",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "tsmc-annual-history-2021",
+      "publisher": "TSMC",
+      "title": "2021 annual report: company-wide revenue in reported U.S. dollars",
+      "url": "https://investor.tsmc.com/static/annualReports/2021/english/index.html",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "tsmc-annual-history-2022",
+      "publisher": "TSMC",
+      "title": "2022 annual report: company-wide revenue in reported U.S. dollars",
+      "url": "https://investor.tsmc.com/static/annualReports/2022/english/index.html",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "tsmc-annual-history-2023",
+      "publisher": "TSMC",
+      "title": "2023 annual report: company-wide revenue in reported U.S. dollars",
+      "url": "https://investor.tsmc.com/static/annualReports/2023/english/index.html",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "tsmc-annual-history-2024",
+      "publisher": "TSMC",
+      "title": "2024 annual report: company-wide revenue in reported U.S. dollars",
+      "url": "https://investor.tsmc.com/static/annualReports/2024/english/index.html",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "iea-demand-scenarios-2025",
+      "publisher": "IEA",
+      "title": "Energy and AI (2025): electricity demand sensitivity cases through 2035",
+      "url": "https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai",
+      "published": "2025-04-10",
+      "layers": [
+        "energy"
+      ],
+      "license": "CC BY 4.0"
     }
   ],
   "discovery_keywords": [
@@ -2227,7 +2370,14 @@
         "marvell-cpo-architecture",
         "merck-interpath001-phase3",
         "gemini-cli-repository",
-        "recursion-tupelo-dec2025"
+        "recursion-tupelo-dec2025",
+        "eia-generation-history-2024",
+        "bls-electricians-may-2019",
+        "bls-electricians-may-2020",
+        "bls-electricians-may-2021",
+        "bls-electricians-may-2022",
+        "bls-electricians-may-2023",
+        "bls-oews-method-2021"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -2238,7 +2388,12 @@
         "company-quanta",
         "foxconn-role",
         "quanta-computer-role",
-        "wiwynn-role"
+        "wiwynn-role",
+        "tsmc-annual-history-2019",
+        "tsmc-annual-history-2021",
+        "tsmc-annual-history-2022",
+        "tsmc-annual-history-2023",
+        "tsmc-annual-history-2024"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -2380,7 +2535,8 @@
         "claude-harness-pricing",
         "copilot-harness-pricing",
         "ecmwf-aifs-operations",
-        "marvell-ir-book"
+        "marvell-ir-book",
+        "iea-demand-scenarios-2025"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -4598,6 +4754,149 @@
       "region_book": "europe",
       "company_id": "isomorphic",
       "claim_type": "roadmap",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-generation-history-2024": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2019": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2020": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2021": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2022": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2023": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-oews-method-2021": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2019": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2021": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2022": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2023": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2024": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "iea-demand-scenarios-2025": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
       "cadence": "daily",
       "weekday": 0,
       "path_prefixes": [],

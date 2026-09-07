@@ -54,6 +54,7 @@ def observation_valid(o,metrics,sources):
     s=sources[o['source']]
     require(s.get('parent_source',s['id']) in m['source_ids'],'Metric/source mapping not approved')
     require(type(o['year']) is int and 2000<=o['year']<=2150,'Invalid year')
+    require(o['year']>=m.get('series_start_year',2000),'Year precedes reviewed series start; backfill requires review')
     require(o['status'] in STATUSES and o['precision'] in PRECISIONS,'Invalid classification')
     if 'allowed_statuses' in m:
         require(o['status'] in m['allowed_statuses'],'Status contradicts reviewed measurement basis')
@@ -108,6 +109,14 @@ def validate(data):
     for s in data['sources']:source_valid(s,approved)
     metrics={m['id']:m for m in data['metrics']}
     require(len(metrics)==len(data['metrics']),'Duplicate metric IDs')
+    for m in metrics.values():
+        for field in ['series_start_year','chart_default_start','chart_default_end']:
+            require(type(m.get(field)) is int and 2000<=m[field]<=2150,'Invalid chart history metadata')
+        require(m['series_start_year']<=m['chart_default_start']<=m['chart_default_end'],'Inverted chart window')
+        require(type(m.get('definition_stable')) is bool,'Missing definition stability')
+        text(m.get('pre_period_note'),1000)
+        if not m['definition_stable']:
+            require(type(m.get('definition_break_year')) is int and m['series_start_year']<=m['definition_break_year']<=m['chart_default_end'],'Missing methodology break marker')
     ids=set(); periods=set()
     for o in data['observations']:
         observation_valid(o,metrics,sources)

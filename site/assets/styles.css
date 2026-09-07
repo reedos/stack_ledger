@@ -8,3 +8,14 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
 .hero-art{overflow:hidden}.section-top .section-link{flex-shrink:0}@media(max-width:600px){.section-top .section-link{align-self:flex-start;margin-top:0}.hero h1{font-size:clamp(42px,13.8vw,54px)}}
+
+/* Per-metric historical windows preserve readable labels on small screens. */
+.chart-wrap,.history-context-grid>.panel{min-width:0;max-width:100%}
+.chart-plot{position:relative;overflow-x:auto;max-width:100%;scrollbar-color:#789967 #182119}
+.chart-plot .data-chart{display:block;width:100%}
+.chart-history{font-size:.78rem;line-height:1.65;color:var(--muted);margin:14px 0}
+.chart-history p{margin:5px 0}.chart-history strong{color:var(--text)}
+.chart-history label{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.chart-history input{accent-color:#bce28b}.methodology-break{border-left:2px solid #efc77b;padding:7px 12px;color:#efc77b}
+.history-context-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-bottom:20px}
+@media(max-width:900px){.history-context-grid{grid-template-columns:minmax(0,1fr)}}

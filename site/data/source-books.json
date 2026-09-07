@@ -37,7 +37,14 @@
         "marvell-cpo-architecture",
         "merck-interpath001-phase3",
         "gemini-cli-repository",
-        "recursion-tupelo-dec2025"
+        "recursion-tupelo-dec2025",
+        "eia-generation-history-2024",
+        "bls-electricians-may-2019",
+        "bls-electricians-may-2020",
+        "bls-electricians-may-2021",
+        "bls-electricians-may-2022",
+        "bls-electricians-may-2023",
+        "bls-oews-method-2021"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -48,7 +55,12 @@
         "company-quanta",
         "foxconn-role",
         "quanta-computer-role",
-        "wiwynn-role"
+        "wiwynn-role",
+        "tsmc-annual-history-2019",
+        "tsmc-annual-history-2021",
+        "tsmc-annual-history-2022",
+        "tsmc-annual-history-2023",
+        "tsmc-annual-history-2024"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -190,7 +202,8 @@
         "claude-harness-pricing",
         "copilot-harness-pricing",
         "ecmwf-aifs-operations",
-        "marvell-ir-book"
+        "marvell-ir-book",
+        "iea-demand-scenarios-2025"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -2408,6 +2421,149 @@
       "region_book": "europe",
       "company_id": "isomorphic",
       "claim_type": "roadmap",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-generation-history-2024": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2019": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2020": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2021": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2022": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-electricians-may-2023": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-oews-method-2021": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2019": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2021": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2022": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2023": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "tsmc-annual-history-2024": {
+      "rank": 1,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "iea-demand-scenarios-2025": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
       "cadence": "daily",
       "weekday": 0,
       "path_prefixes": [],

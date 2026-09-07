@@ -1,5 +1,17 @@
 # Methodology
 
+## Historical windows and longer forecasts · September 7, 2026
+
+Every metric now has reviewed history-window metadata. A start records the earliest reviewed comparable period or disclosure, not a claim that the underlying industry was born then. Unreviewed earlier years remain gaps. The default starts at 2019 where supported, with an all-history control for earlier catalogued values. Chart windows extend to the latest available future observation even when a daily append goes beyond the configured end. Categorical bars show only sourced periods, with no invented interpolation. Sources, report vintages, actual status-specific year ranges and methodology warnings appear on chart faces.
+
+EIA Electric Power Annual 2024 Table 3.1.A supplies utility-scale generation for 2014–2024; its thousand-MWh totals are divided by 1,000 to express TWh in this curated migration. Small-scale solar is excluded. These are national totals, not electricity dedicated to AI. The homepage defaults to six observations from 2019–2024 and offers all eleven years.
+
+BLS May 2019–2023 OEWS electrician snapshots are estimates of employees, excluding the self-employed and covering all industries. The 2021 model-based MB3 estimation and occupational-classification change is marked on the chart. Do not calculate growth across that break, interpret these snapshots as AI-created jobs, or join them to the separately scoped Occupational Outlook Handbook projections. Unknown publication dates remain null; each source title retains its May survey vintage.
+
+TSMC company-wide revenue adds 2019–2024 to the retained 2025 record. Values use TSMC's reported U.S. dollars; 2020 is the comparative figure in its 2021 report. This is neither constant-currency growth nor AI-only sales, wafer capacity or domestic value added.
+
+Three IEA 2025 sensitivity cases retain separate metric IDs and published 2035 endpoints. Each shares the report's estimated 2024 anchor, with no intervening annual values inferred. The High Efficiency case is charted; all three endpoints are displayed and selectable. These older scenario vintages do not replace the newer headline outlook. Forecasts, government targets and company commitments retain separate statuses, including the existing 2050 nuclear target. The changes in this release are curated builder research, not a Muse runtime receipt.
+
 ## Five-layer agenda and source books · September 7, 2026
 
 `research/agenda.json` is a reviewed page snapshot, mirrored publicly. It adds construction and hiring anchors, training commitments, named contractors, nuclear deal classes, HBM stages, harness subscriptions, checkpoint licenses, clinical disclosures and operational weather forecasting. Cards retain source publication dates and a separate review date. Qualitative stages and licenses remain text, not invented numerical scores. Existing observations and run receipts are preserved.

@@ -28,3 +28,7 @@ Applications: full Phase 3 effect sizes and safety tables, clinical registries a
 The runner currently polls bounded readable HTML. It does not provide complete event-triggered filing ingestion, automatic earnings-calendar prioritization, PDF-table extraction or a global filings census. Those need reviewed adapters, coverage receipts and meaningful tests. Empty regional books and unverified source-home metadata stay visible until primary sources are checked. Exact technical article URLs are preferred to broad blog indexes.
 
 Every new measurement should have a source, publication/retrieval dates, period, geography, units, status and scope before it reaches a chart. A positive narrative must accommodate delays, missing data and negative results. There is no combined national AI-jobs total or overall five-layer completion score.
+
+## History and horizons · September 7, 2026
+
+Published EIA generation (2014–2024), BLS electrician snapshots (2019–2023, explicit 2021 break), TSMC revenue (2019–2025), and separate IEA 2025 scenarios through 2035. Extend compatible electricity, trades, capex and semiconductor series as original historical tables become available. Seek published 2040, 2050 and later outlooks without extrapolating them. Preserve forecast vintages and separate targets from scenarios. Every new metric needs reviewed history-window metadata; earlier backfills and definition changes require review.

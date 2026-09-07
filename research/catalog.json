@@ -106,7 +106,12 @@
       "source_ids": [
         "iea-2025",
         "iea-2026"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-dc-electricity",
@@ -121,7 +126,12 @@
       "note": "The 2028 interval is 325–580 TWh. A newer LBNL update exists; this series remains explicitly dated until reviewed.",
       "source_ids": [
         "doe-demand"
-      ]
+      ],
+      "series_start_year": 2014,
+      "chart_default_start": 2019,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-nuclear",
@@ -136,7 +146,12 @@
       "note": "DOE describes an approximately 100 GW starting fleet and a 400 GW goal for 2050. The starting point is not a current progress measurement.",
       "source_ids": [
         "doe-nuclear"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2050,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "tsmc-wafer-capacity",
@@ -151,7 +166,12 @@
       "note": "Company-reported capacity exceeds 17 million wafers in 2025. This measures manufacturing context, not AI accelerator shipments.",
       "source_ids": [
         "tsmc-2025"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-data-centers",
@@ -166,7 +186,12 @@
       "note": "A site count describes geographic footprint. It does not measure operational MW, utilization or installed AI compute. Period is the report vintage (2026).",
       "source_ids": [
         "stanford-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "wisconsin-investment",
@@ -181,7 +206,12 @@
       "note": "The September 2025 announcement adds $4B over three years to the initial $3.3B pledge. Completion and actual expenditure require subsequent evidence.",
       "source_ids": [
         "msft-wisconsin"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "inference-cost",
@@ -196,7 +226,12 @@
       "note": "Two historical price observations at a comparable benchmark threshold. These are not current provider prices or a universal capability measure.",
       "source_ids": [
         "stanford-cost"
-      ]
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "ai-adoption",
@@ -212,7 +247,12 @@
       "source_ids": [
         "stanford-2025",
         "stanford-2026"
-      ]
+      ],
+      "series_start_year": 2023,
+      "chart_default_start": 2023,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-nextera",
@@ -227,7 +267,12 @@
       "note": "Broader power business; this is not revenue from AI customers alone. Preliminary results release.",
       "source_ids": [
         "company-nextera"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-ge-vernova",
@@ -242,7 +287,12 @@
       "note": "Equipment revenue includes many uses beyond AI and data centers.",
       "source_ids": [
         "company-ge-vernova"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-schneider",
@@ -257,7 +307,12 @@
       "note": "Not an AI revenue breakout. Original euros are retained; no exchange-rate conversion.",
       "source_ids": [
         "company-schneider"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-nvidia",
@@ -272,7 +327,12 @@
       "note": "Includes Data Center, gaming and other markets; not a measure of AI-only sales. NVIDIA designs chips and relies on manufacturing partners.",
       "source_ids": [
         "company-nvidia"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-amd",
@@ -287,7 +347,12 @@
       "note": "Data Center segment revenue was $16.6B in FY2025; that includes server CPUs as well as AI accelerators.",
       "source_ids": [
         "company-amd"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-broadcom",
@@ -302,7 +367,12 @@
       "note": "Includes VMware and other non-AI businesses. Custom chip design is distinct from wafer fabrication.",
       "source_ids": [
         "company-broadcom"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-tsmc",
@@ -316,8 +386,18 @@
       "max": 10000,
       "note": "All customers and chip markets; not AI-only. Annual wafer capacity is tracked separately.",
       "source_ids": [
-        "company-tsmc"
-      ]
+        "company-tsmc",
+        "tsmc-annual-history-2019",
+        "tsmc-annual-history-2021",
+        "tsmc-annual-history-2022",
+        "tsmc-annual-history-2023",
+        "tsmc-annual-history-2024"
+      ],
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Company-wide annual revenue, 2019–2025, using each annual report’s USD presentation. Not inflation adjusted and not AI-only."
     },
     {
       "id": "revenue-samsung",
@@ -332,7 +412,12 @@
       "note": "Includes phones, displays and appliances. This figure is not semiconductor, foundry or AI revenue.",
       "source_ids": [
         "company-samsung"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-intel",
@@ -347,7 +432,12 @@
       "note": "Internal foundry transfers are not additional consolidated sales; do not add segment revenues without eliminations.",
       "source_ids": [
         "company-intel"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-sk-hynix",
@@ -362,7 +452,12 @@
       "note": "Total memory business; not an HBM-only or AI-only revenue figure.",
       "source_ids": [
         "company-sk-hynix"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-micron",
@@ -377,7 +472,12 @@
       "note": "Includes memory and storage outside AI. This is fiscal 2025, not a 2026 run rate.",
       "source_ids": [
         "company-micron"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-asml",
@@ -392,7 +492,12 @@
       "note": "ASML sells manufacturing equipment; it does not fabricate customers’ finished chips. Original euros retained.",
       "source_ids": [
         "company-asml"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-vertiv",
@@ -407,7 +512,12 @@
       "note": "Critical digital infrastructure sales, not solely AI data centers.",
       "source_ids": [
         "company-vertiv"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-microsoft",
@@ -422,7 +532,12 @@
       "note": "Azure exceeded $100B annual revenue in FY2026, but Azure includes non-AI workloads. Copilot is not the whole company.",
       "source_ids": [
         "company-microsoft"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-aws",
@@ -437,7 +552,12 @@
       "note": "A segment figure, not total Amazon revenue. Includes non-AI cloud services; not AI-only sales.",
       "source_ids": [
         "company-aws"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-alphabet",
@@ -452,7 +572,12 @@
       "note": "Includes advertising and other businesses; not Google Cloud or Gemini revenue alone.",
       "source_ids": [
         "company-alphabet"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-meta",
@@ -467,7 +592,12 @@
       "note": "Predominantly the broader advertising business; not standalone model revenue or a direct measure of AI value added.",
       "source_ids": [
         "company-meta"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-openai",
@@ -482,7 +612,12 @@
       "note": "Historical run-rate disclosure. It is not an audited annual revenue total or a current September 2026 estimate.",
       "source_ids": [
         "company-openai"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-anthropic",
@@ -497,7 +632,12 @@
       "note": "Historical company disclosure from May 2026. Funding raised and valuation are separate from revenue.",
       "source_ids": [
         "company-anthropic"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-salesforce",
@@ -512,7 +652,12 @@
       "note": "Includes the wider CRM and data business; not Agentforce-only revenue or measured customer productivity.",
       "source_ids": [
         "company-salesforce"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-palantir",
@@ -527,7 +672,12 @@
       "note": "Government and commercial platform revenue; not AIP-only sales or a quantified economy-wide productivity effect.",
       "source_ids": [
         "company-palantir"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "advanced-wafer-capacity",
@@ -542,7 +692,12 @@
       "note": "June 2025 forecast vintage. Later calendar years remain forecasts until an observed update is sourced. Wafer capacity is not accelerator shipments.",
       "source_ids": [
         "semi-advanced-2025"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "memory-wafer-capacity",
@@ -557,7 +712,12 @@
       "note": "June 2026 forecast vintage. This is not HBM-only capacity and cannot be translated directly into GPU supply.",
       "source_ids": [
         "semi-memory-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-solar-additions",
@@ -572,7 +732,12 @@
       "note": "EIA February 2026 inventory: reported 2025 additions versus developers’ 2026 plans. Plans are not delivered capacity.",
       "source_ids": [
         "eia-additions-2026"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-storage-additions",
@@ -587,7 +752,12 @@
       "note": "EIA February 2026 inventory: reported 2025 additions versus developers’ 2026 plans. Plans are not delivered capacity.",
       "source_ids": [
         "eia-additions-2026"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-grid-queue",
@@ -602,7 +772,12 @@
       "note": "Queue entry is a development signal, not financing, an interconnection agreement or operational supply.",
       "source_ids": [
         "lbl-queues-2026"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "gemini-solar",
@@ -617,7 +792,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "gemini-operating"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "gemini-storage",
@@ -632,7 +812,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "gemini-operating"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "gemini-storage-energy",
@@ -647,7 +832,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "gemini-operating"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "chpe-transfer",
@@ -662,7 +852,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "chpe-operating"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "cape-phase-one",
@@ -677,7 +872,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "fervo-q2-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "cape-phase-two",
@@ -692,7 +892,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "fervo-q2-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "crane-restart",
@@ -707,7 +912,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "crane-plan-2024"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "rainier-chips",
@@ -722,7 +932,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "aws-delivery-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "trainium2-landed",
@@ -737,7 +952,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "aws-delivery-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "abilene-campus",
@@ -752,7 +972,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "abilene-plan-2025"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "hyperion-campus",
@@ -767,7 +992,12 @@
       "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
       "source_ids": [
         "hyperion-plan-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-generation-growth-h1",
@@ -782,7 +1012,12 @@
       "note": "EIA August 2026 reports a 37 billion kWh increase, or 1.8%, in first-half generation. This historical estimate is subject to revision.",
       "source_ids": [
         "eia-output-aug-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-marvell",
@@ -797,7 +1032,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-marvell"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-credo",
@@ -812,7 +1052,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-credo"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-astera",
@@ -827,7 +1072,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-astera"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-coherent",
@@ -842,7 +1092,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-coherent"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-lumentum",
@@ -857,7 +1112,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-lumentum"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-applied-opto",
@@ -872,7 +1132,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-applied-opto"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-fabrinet",
@@ -887,7 +1152,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-fabrinet"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-corning",
@@ -902,7 +1172,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-corning"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-amphenol",
@@ -917,7 +1192,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-amphenol"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-arista",
@@ -932,7 +1212,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-arista"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-cisco",
@@ -947,7 +1232,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-cisco"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-celestica",
@@ -962,7 +1252,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-celestica"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-eaton",
@@ -977,7 +1272,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-eaton"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-quanta",
@@ -992,7 +1292,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-quanta"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-emcor",
@@ -1007,7 +1312,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-emcor"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-first-solar",
@@ -1022,7 +1332,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-first-solar"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-electricians",
@@ -1037,7 +1352,12 @@
       "note": "BLS 2025–2035 projection vintage. A projection is not a hiring commitment.",
       "source_ids": [
         "bls-electricians-2026"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2035,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "electrician-openings",
@@ -1052,7 +1372,12 @@
       "note": "Openings include retirement and occupational transfers; they are not net new jobs.",
       "source_ids": [
         "bls-electricians-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2035,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-construction-monthly",
@@ -1067,7 +1392,12 @@
       "note": "Nonresidential specialty trades are a subset of construction. Do not add the two.",
       "source_ids": [
         "bls-aug-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "us-nonresidential-trades-monthly",
@@ -1082,7 +1412,12 @@
       "note": "Nonresidential specialty trades are a subset of construction. Do not add the two.",
       "source_ids": [
         "bls-aug-2026"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "firstsolar-la-investment",
@@ -1097,7 +1432,12 @@
       "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
       "source_ids": [
         "firstsolar-louisiana"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "firstsolar-la-jobs",
@@ -1112,7 +1452,12 @@
       "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
       "source_ids": [
         "firstsolar-louisiana"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "qcells-georgia-investment",
@@ -1127,7 +1472,12 @@
       "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
       "source_ids": [
         "qcells-investment"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "qcells-georgia-jobs",
@@ -1142,7 +1492,12 @@
       "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
       "source_ids": [
         "qcells-cartersville"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "eaton-jonesville-investment",
@@ -1157,7 +1512,12 @@
       "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
       "source_ids": [
         "eaton-transformers"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "eaton-jonesville-jobs",
@@ -1172,7 +1532,12 @@
       "note": "Keep the disclosed stage, scope and period; no aggregation across unlike measures.",
       "source_ids": [
         "eaton-transformers"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-ciena",
@@ -1187,7 +1552,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-ciena"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-semtech",
@@ -1202,7 +1572,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-semtech"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "revenue-macom",
@@ -1217,7 +1592,12 @@
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
         "company-macom"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "colossus-one-it-epoch",
@@ -1239,7 +1619,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-one-access",
@@ -1262,7 +1647,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-one-gpus-contract",
@@ -1285,7 +1675,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-two-it-epoch",
@@ -1307,7 +1702,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-two-it-endstate",
@@ -1330,7 +1730,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-grid-energized",
@@ -1352,7 +1757,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-grid-requested",
@@ -1375,7 +1785,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "terafab-announced-capital",
@@ -1398,7 +1813,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "terafab-permanent-promised",
@@ -1421,7 +1841,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tesla-cortex-1-compute",
@@ -1443,7 +1868,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tesla-cortex-2-compute",
@@ -1465,7 +1895,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tsmc-cowos-wpm",
@@ -1487,7 +1922,12 @@
       "allowed_statuses": [
         "estimate",
         "forecast"
-      ]
+      ],
+      "series_start_year": 2023,
+      "chart_default_start": 2023,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "hynix-indiana-capital",
@@ -1510,7 +1950,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hynix-indiana-jobs",
@@ -1533,7 +1978,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "amkor-arizona-capital",
@@ -1556,7 +2006,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "abilene-it-operating",
@@ -1578,7 +2033,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "abilene-it-endstate",
@@ -1601,7 +2061,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "fairwater-one-it-operating",
@@ -1623,7 +2088,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "fairwater-one-it-endstate",
@@ -1646,7 +2116,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "new-carlisle-it-operating",
@@ -1668,7 +2143,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "new-carlisle-it-endstate",
@@ -1691,7 +2171,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "stargate-new-mexico-it-endstate",
@@ -1714,7 +2199,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "stargate-wisconsin-it-endstate",
@@ -1737,7 +2227,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "stargate-shackelford-it-endstate",
@@ -1760,7 +2255,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "stargate-milam-it-endstate",
@@ -1783,7 +2283,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hyperion-investment",
@@ -1806,7 +2311,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hyperion-local-contracts",
@@ -1828,7 +2338,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hyperion-construction-jobs",
@@ -1851,7 +2366,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hyperion-permanent-jobs",
@@ -1874,7 +2394,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tesla-capex-q2-2026",
@@ -1896,7 +2421,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "nebius-msft-contract-base",
@@ -1919,7 +2449,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "supermicro-annual-revenue",
@@ -1941,7 +2476,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "coreweave-annual-revenue",
@@ -1963,7 +2503,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "waymo-autonomous-weekly",
@@ -1985,7 +2530,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "waymo-paid-weekly",
@@ -2009,7 +2559,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "waymo-rider-only-miles",
@@ -2031,7 +2586,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "waymo-operating-fleet",
@@ -2053,7 +2613,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "waymo-operating-metros",
@@ -2075,7 +2640,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tesla-supervised-europe-miles",
@@ -2097,7 +2667,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "digit-gxo-totes",
@@ -2119,7 +2694,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "claude-code-input-price",
@@ -2141,7 +2721,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "claude-code-output-price",
@@ -2163,7 +2748,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "codex-input-price",
@@ -2185,7 +2775,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "codex-output-price",
@@ -2207,7 +2802,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "southaven-permanent-gas",
@@ -2230,7 +2830,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus2-disclosed-cluster1",
@@ -2252,7 +2857,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus2-disclosed-cluster2",
@@ -2274,7 +2884,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus2-b200-installed",
@@ -2296,7 +2911,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus2-b300-installed",
@@ -2318,7 +2938,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "terafab-permanent-jobs-reported",
@@ -2340,7 +2965,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "terafab-contractor-fte",
@@ -2362,7 +2992,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "terafab-capex-recognized-usd",
@@ -2384,7 +3019,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hyperion-permanent-jobs-reported",
@@ -2406,7 +3046,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hyperion-contractor-fte",
@@ -2428,7 +3073,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hyperion-capex-recognized-usd",
@@ -2450,7 +3100,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "abilene-permanent-jobs-reported",
@@ -2472,7 +3127,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "abilene-contractor-fte",
@@ -2494,7 +3154,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "abilene-capex-recognized-usd",
@@ -2516,7 +3181,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tsmc-arizona-phase1-permanent-jobs-reported",
@@ -2538,7 +3208,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tsmc-arizona-phase1-contractor-fte",
@@ -2560,7 +3235,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tsmc-arizona-phase1-capex-recognized-usd",
@@ -2582,7 +3262,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-one-permanent-jobs-reported",
@@ -2604,7 +3289,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-one-contractor-fte",
@@ -2626,7 +3316,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "colossus-one-capex-recognized-usd",
@@ -2648,7 +3343,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "terafab-wafer-starts",
@@ -2670,7 +3370,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "hynix-indiana-hbm-stacks",
@@ -2692,7 +3397,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "abilene-facility-mw",
@@ -2714,7 +3424,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "southaven-temporary-generation",
@@ -2736,7 +3451,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tesla-robotaxi-unsupervised",
@@ -2759,7 +3479,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "optimus-productive-units",
@@ -2781,7 +3506,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "codex-paid-weekly-users",
@@ -2803,7 +3533,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "codex-task-success",
@@ -2825,7 +3560,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "codex-hours-automated",
@@ -2847,7 +3587,12 @@
       "allowed_statuses": [
         "observation",
         "estimate"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "tsmc-arizona-program-capital",
@@ -2870,7 +3615,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "tsmc-arizona-first-three-jobs",
@@ -2893,7 +3643,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "stargate-program-envelope",
@@ -2916,7 +3671,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "waymo-weekly-rides-target",
@@ -2939,7 +3699,12 @@
         "forecast",
         "company-commitment",
         "government-target"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
       "id": "census-dc-construction-saar",
@@ -2961,7 +3726,12 @@
       "allowed_statuses": [
         "estimate"
       ],
-      "period_basis": "month"
+      "period_basis": "month",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "indeed-dc-postings-index",
@@ -2982,7 +3752,12 @@
       "project": null,
       "allowed_statuses": [
         "observation"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "google-eta-apprentices-commitment",
@@ -3003,7 +3778,12 @@
       "project": null,
       "allowed_statuses": [
         "company-commitment"
-      ]
+      ],
+      "series_start_year": 2030,
+      "chart_default_start": 2030,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "meta-awa-first-year-funding",
@@ -3024,7 +3804,12 @@
       "project": null,
       "allowed_statuses": [
         "company-commitment"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "talen-amazon-fleet-ppa",
@@ -3045,7 +3830,12 @@
       "project": null,
       "allowed_statuses": [
         "company-commitment"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2032,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "google-kairos-smr-commitment",
@@ -3066,7 +3856,12 @@
       "project": null,
       "allowed_statuses": [
         "company-commitment"
-      ]
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2035,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "claude-code-plan",
@@ -3087,7 +3882,12 @@
       "project": null,
       "allowed_statuses": [
         "observation"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "cursor-agent-plan",
@@ -3108,7 +3908,12 @@
       "project": null,
       "allowed_statuses": [
         "observation"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "copilot-agent-plan",
@@ -3129,7 +3934,12 @@
       "project": null,
       "allowed_statuses": [
         "observation"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "codex-cli-plan",
@@ -3150,7 +3960,12 @@
       "project": null,
       "allowed_statuses": [
         "observation"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "interpath001-trial-enrollment",
@@ -3171,7 +3986,12 @@
       "project": null,
       "allowed_statuses": [
         "observation"
-      ]
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     },
     {
       "id": "rec4881-polyp-reduction-week13",
@@ -3192,7 +4012,118 @@
       "project": null,
       "allowed_statuses": [
         "observation"
-      ]
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+    },
+    {
+      "id": "us-utility-generation-history",
+      "layer": "energy",
+      "title": "U.S. utility-scale electricity generation",
+      "unit": "TWh",
+      "geography": "United States",
+      "scope": "All-sector utility-scale net generation; excludes small-scale solar. National context, not AI-only supply. Source thousand MWh divided by 1,000 to express TWh.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000.0,
+      "note": "All-sector utility-scale net generation; excludes small-scale solar. National context, not AI-only supply. Source thousand MWh divided by 1,000 to express TWh.",
+      "source_ids": [
+        "eia-generation-history-2024"
+      ],
+      "series_start_year": 2014,
+      "chart_default_start": 2019,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Comparable utility-scale totals, 2014–2024, in the 2024 annual-report vintage. Default view starts in 2019; all-history view includes 2014–2018."
+    },
+    {
+      "id": "us-electrician-employment-oews",
+      "layer": "infrastructure",
+      "title": "Electricians: national employment snapshots",
+      "unit": "employees",
+      "geography": "United States",
+      "scope": "OEWS employee estimates exclude self-employed workers and cover all industries, not AI-only jobs. Six survey panels span three years. Do not combine with OOH employment projections or infer net AI hiring.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000.0,
+      "note": "OEWS employee estimates exclude self-employed workers and cover all industries, not AI-only jobs. Six survey panels span three years. Do not combine with OOH employment projections or infer net AI hiring.",
+      "source_ids": [
+        "bls-electricians-may-2019",
+        "bls-electricians-may-2020",
+        "bls-electricians-may-2021",
+        "bls-electricians-may-2022",
+        "bls-electricians-may-2023",
+        "bls-oews-method-2021"
+      ],
+      "definition_break_year": 2021,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2030,
+      "definition_stable": false,
+      "pre_period_note": "Methodology break in 2021: new MB3 estimation and full 2018 SOC classification. Earlier hybrid-SOC snapshots are shown separately; no growth rate across the break."
+    },
+    {
+      "id": "dc-electricity-iea2025-headwinds",
+      "layer": "energy",
+      "title": "Data-center electricity: IEA Headwinds case (2025 vintage)",
+      "unit": "TWh",
+      "geography": "Global",
+      "scope": "IEA 2025 Headwinds sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000.0,
+      "note": "IEA 2025 Headwinds sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
+      "source_ids": [
+        "iea-demand-scenarios-2025"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2035,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+    },
+    {
+      "id": "dc-electricity-iea2025-high-efficiency",
+      "layer": "energy",
+      "title": "Data-center electricity: IEA High Efficiency case (2025 vintage)",
+      "unit": "TWh",
+      "geography": "Global",
+      "scope": "IEA 2025 High Efficiency sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000.0,
+      "note": "IEA 2025 High Efficiency sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
+      "source_ids": [
+        "iea-demand-scenarios-2025"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2035,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+    },
+    {
+      "id": "dc-electricity-iea2025-lift-off",
+      "layer": "energy",
+      "title": "Data-center electricity: IEA Lift-Off case (2025 vintage)",
+      "unit": "TWh",
+      "geography": "Global",
+      "scope": "IEA 2025 Lift-Off sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000.0,
+      "note": "IEA 2025 Lift-Off sensitivity case for all data-center electricity, not AI-only. Separate scenario, not a probability interval or an updated 2026 forecast. Only published anchors are shown.",
+      "source_ids": [
+        "iea-demand-scenarios-2025"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2035,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
     }
   ],
   "targets": [
