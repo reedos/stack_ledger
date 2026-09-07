@@ -558,6 +558,231 @@
       "source_ids": [
         "semi-memory-2026"
       ]
+    },
+    {
+      "id": "us-solar-additions",
+      "layer": "energy",
+      "title": "U.S. utility-scale solar additions",
+      "unit": "GW / year",
+      "geography": "United States",
+      "scope": "New utility-scale solar nameplate capacity; not annual generation or dependable capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "EIA February 2026 inventory: reported 2025 additions versus developers’ 2026 plans. Plans are not delivered capacity.",
+      "source_ids": [
+        "eia-additions-2026"
+      ]
+    },
+    {
+      "id": "us-storage-additions",
+      "layer": "energy",
+      "title": "U.S. utility-scale battery additions",
+      "unit": "GW / year",
+      "geography": "United States",
+      "scope": "New battery discharge-power capacity; not energy generated or stored energy in GWh.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "EIA February 2026 inventory: reported 2025 additions versus developers’ 2026 plans. Plans are not delivered capacity.",
+      "source_ids": [
+        "eia-additions-2026"
+      ]
+    },
+    {
+      "id": "us-grid-queue",
+      "layer": "energy",
+      "title": "Generation and storage in U.S. interconnection queues",
+      "unit": "GW",
+      "geography": "United States",
+      "scope": "Active proposed generation and storage capacity at end-2025; queue coverage spans approximately 98% of installed U.S. generation.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Queue entry is a development signal, not financing, an interconnection agreement or operational supply.",
+      "source_ids": [
+        "lbl-queues-2026"
+      ]
+    },
+    {
+      "id": "gemini-solar",
+      "layer": "energy",
+      "title": "Gemini solar generating capacity",
+      "unit": "MW",
+      "geography": "Clark County, Nevada",
+      "scope": "Company-reported solar power capacity at commercial operation; variable output.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "gemini-operating"
+      ]
+    },
+    {
+      "id": "gemini-storage",
+      "layer": "energy",
+      "title": "Gemini battery power capacity",
+      "unit": "MW",
+      "geography": "Clark County, Nevada",
+      "scope": "Battery discharge-power capacity, separate from solar generation.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "gemini-operating"
+      ]
+    },
+    {
+      "id": "gemini-storage-energy",
+      "layer": "energy",
+      "title": "Gemini battery energy capacity",
+      "unit": "MWh",
+      "geography": "Clark County, Nevada",
+      "scope": "Company-reported stored-energy capacity. Do not derive it from nominal discharge power and duration.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "gemini-operating"
+      ]
+    },
+    {
+      "id": "chpe-transfer",
+      "layer": "energy",
+      "title": "CHPE transmission transfer capacity",
+      "unit": "MW",
+      "geography": "Quebec to New York City",
+      "scope": "Transmission capability at commercial operation, not new generation capacity or observed continuous flow.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "chpe-operating"
+      ]
+    },
+    {
+      "id": "cape-phase-one",
+      "layer": "energy",
+      "title": "Cape Station Phase I planned capacity",
+      "unit": "MW",
+      "geography": "Beaver County, Utah",
+      "scope": "Planned total across three GeoBlocks. First power on one block does not commission the whole phase.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "fervo-q2-2026"
+      ]
+    },
+    {
+      "id": "cape-phase-two",
+      "layer": "energy",
+      "title": "Cape Station Phase II planned capacity",
+      "unit": "MW",
+      "geography": "Beaver County, Utah",
+      "scope": "Eight planned GeoBlocks in the second phase, distinct from Phase I.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "fervo-q2-2026"
+      ]
+    },
+    {
+      "id": "crane-restart",
+      "layer": "energy",
+      "title": "Crane restart planned capacity",
+      "unit": "MW",
+      "geography": "Londonderry, Pennsylvania",
+      "scope": "Capacity proposed for restart in the September 2024 announcement. Updated timing is tracked separately.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "crane-plan-2024"
+      ]
+    },
+    {
+      "id": "rainier-chips",
+      "layer": "infrastructure",
+      "title": "Project Rainier deployed Trainium2 chips",
+      "unit": "chips",
+      "geography": "United States · AWS cluster",
+      "scope": "Trainium2 chip count in the operating Rainier cluster. Not MW, GPU-equivalent compute or global accelerator supply.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "aws-delivery-2026"
+      ]
+    },
+    {
+      "id": "trainium2-landed",
+      "layer": "chips",
+      "title": "AWS Trainium2 chips landed",
+      "unit": "million chips",
+      "geography": "AWS fleet",
+      "scope": "Company-reported chips landed across the fleet. Includes Rainier; not equivalent to all chips operating simultaneously.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "aws-delivery-2026"
+      ]
+    },
+    {
+      "id": "abilene-campus",
+      "layer": "infrastructure",
+      "title": "Abilene original eight-building campus plan",
+      "unit": "GW",
+      "geography": "Abilene, Texas",
+      "scope": "Planned campus power capacity, not confirmed commissioned IT load. Excludes separately announced later campus expansions.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "abilene-plan-2025"
+      ]
+    },
+    {
+      "id": "hyperion-campus",
+      "layer": "infrastructure",
+      "title": "Meta Richland Parish campus plan",
+      "unit": "GW",
+      "geography": "Richland Parish, Louisiana",
+      "scope": "Issuer-described compute capacity in a campus expansion plan. Electrical versus IT-load accounting is not clarified in this disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ]
+    },
+    {
+      "id": "us-generation-growth-h1",
+      "layer": "energy",
+      "title": "U.S. electricity generation growth · first half",
+      "unit": "billion kWh versus prior-year first half",
+      "geography": "United States",
+      "scope": "Change in electric power sector generation in 1H2026 compared with 1H2025. Not total generation, capacity or electricity dedicated to AI.",
+      "direction": "context",
+      "min": -100000,
+      "max": 100000,
+      "note": "EIA August 2026 reports a 37 billion kWh increase, or 1.8%, in first-half generation. This historical estimate is subject to revision.",
+      "source_ids": [
+        "eia-output-aug-2026"
+      ]
     }
   ],
   "targets": [

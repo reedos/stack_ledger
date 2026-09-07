@@ -42,9 +42,12 @@ def save(path,value):
     os.replace(tmp,path)
 def normalize(value):return ' '.join(value.split())
 
-def source_queue(registry, day):
+def source_queue(registry, day, selected=None):
     order=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
     approved={s['id']:s for s in registry['sources']}
+    if selected:
+        require(set(selected)<=approved.keys(),'Focused research requires approved source IDs')
+        return [approved[i] for i in dict.fromkeys(selected)]
     rest=[s for s in registry['sources'] if s['id'] not in order and s['layers']]
     offset=(day.toordinal()*7)%len(rest) if rest else 0
     return [approved[i] for i in order]+rest[offset:]+rest[:offset]
@@ -240,6 +243,7 @@ def main():
     mode.add_argument('--publish',action='store_true')
     parser.add_argument('--max-documents',type=int,default=None)
     parser.add_argument('--refresh',action='store_true',help='Re-extract unchanged source documents')
+    parser.add_argument('--sources',nargs='+',help='Focus this run on approved source IDs; normal evidence checks still apply')
     args=parser.parse_args()
     with lock():
         config=load(ROOT/'research/runtime.json')
@@ -257,7 +261,7 @@ def main():
         # Keep the five-layer baseline, then rotate the broader registry daily.
         # At most one child per approved page keeps seven rotating parents
         # reachable within the default 24-document budget.
-        queue=source_queue(registry,datetime.now(timezone.utc).date())
+        queue=source_queue(registry,datetime.now(timezone.utc).date(),args.sources)
         seen=set();attempts=0
         constitution=(ROOT/'research/CONSTITUTION.md').read_text(encoding='utf-8')
         while queue and attempts<limit:

@@ -560,6 +560,231 @@
       "source_ids": [
         "semi-memory-2026"
       ]
+    },
+    {
+      "id": "us-solar-additions",
+      "layer": "energy",
+      "title": "U.S. utility-scale solar additions",
+      "unit": "GW / year",
+      "geography": "United States",
+      "scope": "New utility-scale solar nameplate capacity; not annual generation or dependable capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "EIA February 2026 inventory: reported 2025 additions versus developers’ 2026 plans. Plans are not delivered capacity.",
+      "source_ids": [
+        "eia-additions-2026"
+      ]
+    },
+    {
+      "id": "us-storage-additions",
+      "layer": "energy",
+      "title": "U.S. utility-scale battery additions",
+      "unit": "GW / year",
+      "geography": "United States",
+      "scope": "New battery discharge-power capacity; not energy generated or stored energy in GWh.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "EIA February 2026 inventory: reported 2025 additions versus developers’ 2026 plans. Plans are not delivered capacity.",
+      "source_ids": [
+        "eia-additions-2026"
+      ]
+    },
+    {
+      "id": "us-grid-queue",
+      "layer": "energy",
+      "title": "Generation and storage in U.S. interconnection queues",
+      "unit": "GW",
+      "geography": "United States",
+      "scope": "Active proposed generation and storage capacity at end-2025; queue coverage spans approximately 98% of installed U.S. generation.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Queue entry is a development signal, not financing, an interconnection agreement or operational supply.",
+      "source_ids": [
+        "lbl-queues-2026"
+      ]
+    },
+    {
+      "id": "gemini-solar",
+      "layer": "energy",
+      "title": "Gemini solar generating capacity",
+      "unit": "MW",
+      "geography": "Clark County, Nevada",
+      "scope": "Company-reported solar power capacity at commercial operation; variable output.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "gemini-operating"
+      ]
+    },
+    {
+      "id": "gemini-storage",
+      "layer": "energy",
+      "title": "Gemini battery power capacity",
+      "unit": "MW",
+      "geography": "Clark County, Nevada",
+      "scope": "Battery discharge-power capacity, separate from solar generation.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "gemini-operating"
+      ]
+    },
+    {
+      "id": "gemini-storage-energy",
+      "layer": "energy",
+      "title": "Gemini battery energy capacity",
+      "unit": "MWh",
+      "geography": "Clark County, Nevada",
+      "scope": "Company-reported stored-energy capacity. Do not derive it from nominal discharge power and duration.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "gemini-operating"
+      ]
+    },
+    {
+      "id": "chpe-transfer",
+      "layer": "energy",
+      "title": "CHPE transmission transfer capacity",
+      "unit": "MW",
+      "geography": "Quebec to New York City",
+      "scope": "Transmission capability at commercial operation, not new generation capacity or observed continuous flow.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "chpe-operating"
+      ]
+    },
+    {
+      "id": "cape-phase-one",
+      "layer": "energy",
+      "title": "Cape Station Phase I planned capacity",
+      "unit": "MW",
+      "geography": "Beaver County, Utah",
+      "scope": "Planned total across three GeoBlocks. First power on one block does not commission the whole phase.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "fervo-q2-2026"
+      ]
+    },
+    {
+      "id": "cape-phase-two",
+      "layer": "energy",
+      "title": "Cape Station Phase II planned capacity",
+      "unit": "MW",
+      "geography": "Beaver County, Utah",
+      "scope": "Eight planned GeoBlocks in the second phase, distinct from Phase I.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "fervo-q2-2026"
+      ]
+    },
+    {
+      "id": "crane-restart",
+      "layer": "energy",
+      "title": "Crane restart planned capacity",
+      "unit": "MW",
+      "geography": "Londonderry, Pennsylvania",
+      "scope": "Capacity proposed for restart in the September 2024 announcement. Updated timing is tracked separately.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "crane-plan-2024"
+      ]
+    },
+    {
+      "id": "rainier-chips",
+      "layer": "infrastructure",
+      "title": "Project Rainier deployed Trainium2 chips",
+      "unit": "chips",
+      "geography": "United States · AWS cluster",
+      "scope": "Trainium2 chip count in the operating Rainier cluster. Not MW, GPU-equivalent compute or global accelerator supply.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "aws-delivery-2026"
+      ]
+    },
+    {
+      "id": "trainium2-landed",
+      "layer": "chips",
+      "title": "AWS Trainium2 chips landed",
+      "unit": "million chips",
+      "geography": "AWS fleet",
+      "scope": "Company-reported chips landed across the fleet. Includes Rainier; not equivalent to all chips operating simultaneously.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "aws-delivery-2026"
+      ]
+    },
+    {
+      "id": "abilene-campus",
+      "layer": "infrastructure",
+      "title": "Abilene original eight-building campus plan",
+      "unit": "GW",
+      "geography": "Abilene, Texas",
+      "scope": "Planned campus power capacity, not confirmed commissioned IT load. Excludes separately announced later campus expansions.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "abilene-plan-2025"
+      ]
+    },
+    {
+      "id": "hyperion-campus",
+      "layer": "infrastructure",
+      "title": "Meta Richland Parish campus plan",
+      "unit": "GW",
+      "geography": "Richland Parish, Louisiana",
+      "scope": "Issuer-described compute capacity in a campus expansion plan. Electrical versus IT-load accounting is not clarified in this disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Project-specific disclosure. Preserve source date, stage and scope; do not aggregate unlike capacity measures.",
+      "source_ids": [
+        "hyperion-plan-2026"
+      ]
+    },
+    {
+      "id": "us-generation-growth-h1",
+      "layer": "energy",
+      "title": "U.S. electricity generation growth · first half",
+      "unit": "billion kWh versus prior-year first half",
+      "geography": "United States",
+      "scope": "Change in electric power sector generation in 1H2026 compared with 1H2025. Not total generation, capacity or electricity dedicated to AI.",
+      "direction": "context",
+      "min": -100000,
+      "max": 100000,
+      "note": "EIA August 2026 reports a 37 billion kWh increase, or 1.8%, in first-half generation. This historical estimate is subject to revision.",
+      "source_ids": [
+        "eia-output-aug-2026"
+      ]
     }
   ],
   "sources": [
@@ -1077,6 +1302,242 @@
         "infrastructure",
         "models",
         "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "eia-additions-2026",
+      "publisher": "U.S. EIA",
+      "title": "2025 additions and 2026 planned utility-scale capacity",
+      "url": "https://www.eia.gov/todayinenergy/detail.php?id=67205",
+      "published": "2026-02-20",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "lbl-queues-2026",
+      "publisher": "Berkeley Lab",
+      "title": "Queued Up 2026 · interconnection backlog and delivery times",
+      "url": "https://emp.lbl.gov/news/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-amidst",
+      "published": "2026-07-01",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "gemini-operating",
+      "publisher": "Primergy / Quinbrook",
+      "title": "Gemini solar and storage reaches commercial operation",
+      "url": "https://www.primergypower.com/news/historic-gemini-solar-energy-storage-project-reaches-commercial-operations-in-nevada",
+      "published": "2024-07-18",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "chpe-operating",
+      "publisher": "Transmission Developers Inc.",
+      "title": "Champlain Hudson Power Express commercial operation",
+      "url": "https://chpexpress.com/news/the-champlain-hudson-power-express-marks-completion-of-a-landmark-1250-mw-energy-infrastructure-project-connecting-quebec-to-new-york-city/",
+      "published": "2026-06-16",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "fervo-q2-2026",
+      "publisher": "Fervo Energy",
+      "title": "Cape Station commissioning and phased production outlook",
+      "url": "https://fervoenergy.gcs-web.com/news-releases/news-release-details/fervo-energy-reports-second-quarter-2026-results",
+      "published": "2026-08-12",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "crane-plan-2024",
+      "publisher": "Constellation",
+      "title": "Crane restart announcement and Microsoft power agreement",
+      "url": "https://www.constellationenergy.com/news/2024/Constellation-to-Launch-Crane-Clean-Energy-Center-Restoring-Jobs-and-Carbon-Free-Power-to-The-Grid.html",
+      "published": "2024-09-20",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "crane-q2-2026",
+      "publisher": "Constellation",
+      "title": "Crane regulatory milestones and 2027 restart outlook",
+      "url": "https://investors.constellationenergy.com/news-releases/news-release-details/constellation-reports-second-quarter-2026-results",
+      "published": "2026-08-06",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "fairwater-operating",
+      "publisher": "Microsoft",
+      "title": "Fairwater operating milestone and on-site workforce",
+      "url": "https://news.microsoft.com/source/2026/06/23/microsoft-completes-construction-on-first-datacenter-facility-in-mount-pleasant-wisconsin/",
+      "published": "2026-06-23",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "aws-delivery-2026",
+      "publisher": "Amazon",
+      "title": "Q4 2025 results · Trainium supply and Rainier operation",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-earnings-q4-2025-report",
+      "published": "2026-02-05",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "abilene-plan-2025",
+      "publisher": "Crusoe",
+      "title": "Abilene campus expansion to 1.2 GW",
+      "url": "https://www.crusoe.ai/resources/newsroom/crusoe-expands-ai-data-center-campus-in-abilene-to-1-2-gigawatts",
+      "published": "2025-03-18",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "stargate-delivery-2026",
+      "publisher": "OpenAI",
+      "title": "Abilene training milestone and future compute plans",
+      "url": "https://openai.com/index/building-the-compute-infrastructure-for-the-intelligence-age/",
+      "published": "2026-04-29",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "hyperion-plan-2026",
+      "publisher": "Meta",
+      "title": "Richland Parish expansion and power infrastructure plans",
+      "url": "https://datacenters.atmeta.com/2026/07/deepening-our-investment-in-richland-parish-louisiana/",
+      "published": "2026-07-13",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "metr-horizons-2026",
+      "publisher": "METR",
+      "title": "Time Horizon 1.1 · capability and reliability methodology",
+      "url": "https://metr.org/time-horizons/",
+      "published": "2026-05-08",
+      "layers": [
+        "models"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "mlperf-inference-2026",
+      "publisher": "MLCommons",
+      "title": "MLPerf Inference v6.0 results",
+      "url": "https://mlcommons.org/2026/04/mlperf-inference-v6-0-results/",
+      "published": "2026-04-01",
+      "layers": [
+        "chips",
+        "models"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "alphagenome-research",
+      "publisher": "Google DeepMind",
+      "title": "AlphaGenome · regulatory sequence and variant prediction",
+      "url": "https://deepmind.google/blog/alphagenome-ai-for-better-understanding-the-genome/",
+      "published": "2025-06-25",
+      "layers": [
+        "applications",
+        "models"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "productivity-field-study",
+      "publisher": "Brynjolfsson, Li and Raymond",
+      "title": "Generative AI at Work · revised research paper",
+      "url": "https://arxiv.org/abs/2304.11771v2",
+      "published": "2024-11-06",
+      "layers": [
+        "applications"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "samsung-hbm4-shipping",
+      "publisher": "Samsung Electronics",
+      "title": "HBM4 mass production and commercial shipments",
+      "url": "https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing",
+      "published": "2026-02-12",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "amkor-arizona-2026",
+      "publisher": "Amkor / TSMC",
+      "title": "Arizona advanced packaging partnership and development",
+      "url": "https://ir.amkor.com/news-releases/news-release-details/tsmc-and-amkor-technology-announce-long-term-partnership",
+      "published": "2026-07-16",
+      "layers": [
+        "chips"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "eia-output-aug-2026",
+      "publisher": "U.S. EIA",
+      "title": "August 2026 Short-Term Energy Outlook · actual generation context",
+      "url": "https://www.eia.gov/outlooks/steo/archives/aug26.pdf",
+      "published": "2026-08-11",
+      "layers": [
+        "energy"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "inference-price-research-2026",
+      "publisher": "Gundlach and colleagues",
+      "title": "The Price of Progress · revised inference price-performance research",
+      "url": "https://arxiv.org/abs/2511.23455v2",
+      "published": "2026-03-23",
+      "layers": [
+        "models"
+      ],
+      "license": "Source material retains original rights"
+    },
+    {
+      "id": "ercot-queue-review-2026",
+      "publisher": "ERCOT",
+      "title": "Large-load verification and interconnection timeline update",
+      "url": "https://www.ercot.com/services/comm/mkt_notices/M-A080326-01",
+      "published": "2026-08-03",
+      "layers": [
+        "energy",
+        "infrastructure"
       ],
       "license": "Source material retains original rights"
     }
@@ -1697,6 +2158,244 @@
       "retrieved_at": "2026-09-07T07:23:30Z",
       "method": "curated",
       "note": ""
+    },
+    {
+      "id": "us-solar-additions-2025",
+      "metric": "us-solar-additions",
+      "year": 2025,
+      "period": "2025 · reported additions",
+      "value": 27.2,
+      "upper": null,
+      "status": "observation",
+      "source": "eia-additions-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "us-solar-additions-2026",
+      "metric": "us-solar-additions",
+      "year": 2026,
+      "period": "2026 · developer plans",
+      "value": 43.4,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "eia-additions-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "us-storage-additions-2025",
+      "metric": "us-storage-additions",
+      "year": 2025,
+      "period": "2025 · reported additions",
+      "value": 15,
+      "upper": null,
+      "status": "observation",
+      "source": "eia-additions-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "us-storage-additions-2026",
+      "metric": "us-storage-additions",
+      "year": 2026,
+      "period": "2026 · developer plans",
+      "value": 24,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "eia-additions-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "grid-queue-2025",
+      "metric": "us-grid-queue",
+      "year": 2025,
+      "period": "End-2025 queue snapshot",
+      "value": 2061,
+      "upper": null,
+      "status": "observation",
+      "source": "lbl-queues-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "gemini-solar-baseline",
+      "metric": "gemini-solar",
+      "year": 2024,
+      "period": "Commercial operation · July 2024",
+      "value": 690,
+      "upper": null,
+      "status": "observation",
+      "source": "gemini-operating",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "gemini-storage-baseline",
+      "metric": "gemini-storage",
+      "year": 2024,
+      "period": "Commercial operation · July 2024",
+      "value": 380,
+      "upper": null,
+      "status": "observation",
+      "source": "gemini-operating",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "gemini-storage-energy-baseline",
+      "metric": "gemini-storage-energy",
+      "year": 2024,
+      "period": "Commercial operation · July 2024",
+      "value": 1400,
+      "upper": null,
+      "status": "observation",
+      "source": "gemini-operating",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "chpe-transfer-baseline",
+      "metric": "chpe-transfer",
+      "year": 2026,
+      "period": "Commercial operation · June 2026",
+      "value": 1250,
+      "upper": null,
+      "status": "observation",
+      "source": "chpe-operating",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "cape-phase-one-baseline",
+      "metric": "cape-phase-one",
+      "year": 2026,
+      "period": "Phase I plan · August 2026",
+      "value": 100,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "fervo-q2-2026",
+      "precision": "approx",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "cape-phase-two-baseline",
+      "metric": "cape-phase-two",
+      "year": 2028,
+      "period": "Phase II delivery target · 2028",
+      "value": 400,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "fervo-q2-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "crane-restart-baseline",
+      "metric": "crane-restart",
+      "year": 2024,
+      "period": "Restart plan announced · September 2024",
+      "value": 835,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "crane-plan-2024",
+      "precision": "approx",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "rainier-chips-baseline",
+      "metric": "rainier-chips",
+      "year": 2026,
+      "period": "Company disclosure · February 2026",
+      "value": 500000,
+      "upper": null,
+      "status": "observation",
+      "source": "aws-delivery-2026",
+      "precision": "gt",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "trainium2-landed-baseline",
+      "metric": "trainium2-landed",
+      "year": 2026,
+      "period": "Company disclosure · February 2026",
+      "value": 1.4,
+      "upper": null,
+      "status": "observation",
+      "source": "aws-delivery-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "abilene-campus-baseline",
+      "metric": "abilene-campus",
+      "year": 2026,
+      "period": "Original completion target · mid-2026",
+      "value": 1.2,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "abilene-plan-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "hyperion-campus-baseline",
+      "metric": "hyperion-campus",
+      "year": 2026,
+      "period": "Expansion plan announced · July 2026",
+      "value": 5,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "hyperion-plan-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:41:15Z",
+      "method": "curated",
+      "note": ""
+    },
+    {
+      "id": "generation-growth-h1-2026",
+      "metric": "us-generation-growth-h1",
+      "year": 2026,
+      "period": "1H2026 versus 1H2025",
+      "value": 37,
+      "upper": null,
+      "status": "estimate",
+      "source": "eia-output-aug-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T07:48:03Z",
+      "method": "curated",
+      "note": "Historical generation increase, not a full-year forecast."
     }
   ],
   "events": [
@@ -1815,6 +2514,141 @@
       "summary": "BLS reports a preliminary, seasonally adjusted gain of 16,000 U.S. manufacturing jobs and a decline of 23,000 information-sector jobs in August 2026. These broad sectors include activity beyond AI, so the changes cannot be attributed to AI alone.",
       "source": "bls-aug-2026",
       "kind": "Research finding"
+    },
+    {
+      "id": "delivery-grid-queues",
+      "layer": "energy",
+      "date": "2026-07-01",
+      "title": "Grid agreements are improving, but the queue is not delivered power",
+      "summary": "Berkeley Lab reports 2,061 GW of generation and storage active in end-2025 queues. Several regions processed record agreement volumes, while the median path to commercial operation exceeded five years in the available regional data. Queue withdrawals also contributed to the smaller backlog.",
+      "source": "lbl-queues-2026",
+      "kind": "Research finding"
+    },
+    {
+      "id": "delivery-cape-phases",
+      "layer": "energy",
+      "date": "2026-08-12",
+      "title": "Cape Station advances commissioning with a phased power schedule",
+      "summary": "Fervo reports mechanical completion on its first two GeoBlocks. Block 1 targets first power in Q4 2026, with blocks 2 and 3 following in early 2027; Phase II targets 2028. Commissioning progress should not be recorded as the entire first phase already generating.",
+      "source": "fervo-q2-2026",
+      "kind": "Company announcement"
+    },
+    {
+      "id": "delivery-chpe",
+      "layer": "energy",
+      "date": "2026-06-16",
+      "title": "CHPE adds an operating transmission link to New York City",
+      "summary": "The developer reports commercial operation and power deliveries on the 1,250 MW Quebec-to-New York City link. This is transmission capability, not new generating capacity. The June disclosure also identifies temporary market restrictions; later resolution remains a follow-up.",
+      "source": "chpe-operating",
+      "kind": "Reported milestone"
+    },
+    {
+      "id": "delivery-fairwater",
+      "layer": "infrastructure",
+      "date": "2026-06-23",
+      "title": "Fairwater moves from construction plans to reported operation",
+      "summary": "Microsoft reports its first Mount Pleasant facility fully operational, with nearly 550 full-time employees on site. Construction of the adjacent second facility continues toward a 2028 completion schedule. No commissioned-MW total is supplied in this release.",
+      "source": "fairwater-operating",
+      "kind": "Reported milestone"
+    },
+    {
+      "id": "delivery-hyperion",
+      "layer": "infrastructure",
+      "date": "2026-07-13",
+      "title": "Hyperion’s expanded campus remains a construction-stage plan",
+      "summary": "Meta describes a 5 GW campus expansion and future Entergy-backed energy infrastructure. The project tracker keeps the announced rating separate from verified operational capacity and asks for generation, grid and data-center commissioning evidence.",
+      "source": "hyperion-plan-2026",
+      "kind": "Company announcement"
+    },
+    {
+      "id": "delivery-rainier",
+      "layer": "chips",
+      "date": "2026-02-05",
+      "title": "AWS reports deployed accelerator supply and production workloads",
+      "summary": "Amazon reports 1.4 million Trainium2 chips landed across its fleet and more than 500,000 in the operational Rainier cluster. Rainier is a subset of the fleet, so these counts must not be added. The same release says Trainium3 is delivering production workloads.",
+      "source": "aws-delivery-2026",
+      "kind": "Reported milestone"
+    },
+    {
+      "id": "delivery-hbm",
+      "layer": "chips",
+      "date": "2026-02-12",
+      "title": "Samsung reports commercial HBM4 shipments",
+      "summary": "Samsung says HBM4 mass production has begun and commercial products have shipped. This establishes a product milestone, not a verified industry-wide output rate; comparable shipment volumes and packaging throughput remain research gaps.",
+      "source": "samsung-hbm4-shipping",
+      "kind": "Company announcement"
+    },
+    {
+      "id": "delivery-packaging",
+      "layer": "chips",
+      "date": "2026-07-16",
+      "title": "TSMC and Amkor extend the Arizona packaging supply chain",
+      "summary": "The companies describe a long-term U.S. advanced-packaging partnership while Amkor’s Arizona campus and TSMC’s fabrication facilities continue development. An agreement and an expanding site do not establish commissioned packaging throughput.",
+      "source": "amkor-arizona-2026",
+      "kind": "Company announcement"
+    },
+    {
+      "id": "delivery-metr",
+      "layer": "models",
+      "date": "2026-05-08",
+      "title": "Model capability needs a reliability threshold",
+      "summary": "METR’s current Time Horizon 1.1 page distinguishes 50% and 80% success on software tasks measured in human-expert time. It warns that measurements above 16 hours are unreliable with its current task suite. These results do not establish dependable autonomy across ordinary jobs.",
+      "source": "metr-horizons-2026",
+      "kind": "Research finding"
+    },
+    {
+      "id": "delivery-mlperf",
+      "layer": "models",
+      "date": "2026-04-01",
+      "title": "New inference results broaden the measurement toolkit",
+      "summary": "MLPerf Inference v6.0 adds a GPT-OSS 120B workload and an interactive DeepSeek-R1 scenario permitting speculative decoding. Compare compatible workloads, quality targets, accelerator counts and serving scenarios. Throughput results do not by themselves measure dollar cost or application reliability.",
+      "source": "mlperf-inference-2026",
+      "kind": "Research finding"
+    },
+    {
+      "id": "delivery-productivity",
+      "layer": "applications",
+      "date": "2024-11-06",
+      "title": "Customer-support field evidence goes beyond adoption counts",
+      "summary": "The revised Generative AI at Work paper studies 5,172 support agents and reports a 15% average increase in issues resolved per hour, with heterogeneous effects. This is historical evidence from a particular workplace setting, not a 2026 economy-wide productivity estimate.",
+      "source": "productivity-field-study",
+      "kind": "Research finding"
+    },
+    {
+      "id": "delivery-alphagenome",
+      "layer": "applications",
+      "date": "2025-06-25",
+      "title": "AlphaGenome supplies measured scientific prediction results",
+      "summary": "DeepMind reports gains on DNA-sequence and regulatory-variant prediction evaluations; its research page notes Nature publication in January 2026. These are research prediction outcomes, not evidence of new treatments or demonstrated clinical benefit.",
+      "source": "alphagenome-research",
+      "kind": "Research finding"
+    },
+    {
+      "id": "delivery-generation-growth",
+      "layer": "energy",
+      "date": "2026-08-11",
+      "title": "Actual electricity output is growing alongside capacity plans",
+      "summary": "EIA estimates U.S. electric power sector generation rose by 37 billion kWh, or 1.8%, in the first half of 2026 versus the same period in 2025. Solar and wind generation increased 21% and 6%. These are historical output changes, not nameplate additions or electricity dedicated to AI.",
+      "source": "eia-output-aug-2026",
+      "kind": "Research finding"
+    },
+    {
+      "id": "delivery-inference-cost",
+      "layer": "models",
+      "date": "2026-03-23",
+      "title": "Inference price-performance research extends the cost picture",
+      "summary": "A revised research paper estimates roughly 5–10-fold annual declines in the price of achieving a fixed benchmark performance level across several task families. This is a retrospective benchmark-based estimate, not a guarantee that frontier API prices or every real task get cheaper at that rate.",
+      "source": "inference-price-research-2026",
+      "kind": "Research finding"
+    },
+    {
+      "id": "delivery-ercot-review",
+      "layer": "infrastructure",
+      "date": "2026-08-03",
+      "title": "Texas grid-connection review changes the scheduling context",
+      "summary": "ERCOT says data-center large loads must undergo verification before advancing through interconnection, and delays its planned Batch Zero classification notices. The notice does not establish that Abilene’s operating facilities have stopped or identify the effect on each expansion.",
+      "source": "ercot-queue-review-2026",
+      "kind": "Constraint update"
     }
   ],
   "targets": [
@@ -1987,6 +2821,62 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260907T073512Z",
+      "started_at": "2026-09-07T07:35:12Z",
+      "finished_at": "2026-09-07T07:35:41Z",
+      "status": "partial",
+      "documents_fetched": 7,
+      "documents_reviewed": 7,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "iea-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "discovered-d0b76c3b559f18eb",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "discovered-00476ffa0b63634d",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "semi-advanced-2025",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "semi-memory-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260907T074157Z",
+      "started_at": "2026-09-07T07:41:57Z",
+      "finished_at": "2026-09-07T07:42:36Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 8,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -1996,7 +2886,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T07:12:14Z",
+    "last_attempt": "2026-09-07T07:42:36Z",
     "last_success": null,
     "status": "partial"
   }

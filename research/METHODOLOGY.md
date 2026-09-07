@@ -27,6 +27,14 @@ Jobs snapshots distinguish reported peak construction workers, expected direct o
 
 The daily 24-document budget retains five baseline sources and rotates the expanded registry in seven-source steps by UTC day. One relevant same-host child may follow each parent. Dated annual reports remain dated; new filings need discoverable approved links or a reviewed source addition. PDFs and inaccessible pages may require curated review because the unattended fetcher reads public HTML. Same-year run-rate revisions are quarantined by the conservative duplicate/conflict policy rather than automatically replacing the snapshot.
 
+## Project delivery tracker
+
+`research/delivery.json` is a reviewed snapshot, mirrored to `site/data/delivery.json`. Each project has a stable ID, owner, location, scope, stage, dated source-linked milestones, capacity record references, grid context and next evidence needed. Energy and infrastructure pages link to the filtered tracker. A reported operating facility can have unknown electrical capacity; that is not zero. Partly operating campuses do not inherit the full planned rating as delivered capacity. Solar generation, storage discharge power, stored energy, transmission ratings, IT load and accelerator counts remain separate.
+
+Milestone dates preserve source publication dates. A commissioning target does not become an operating event after its date passes. A broad regional regulatory change is labeled context; it cannot establish that a particular operating facility stopped. The tracker currently provides selected-project evidence and national context, not a complete regional resource-adequacy model. Project counts are coverage counts and are never presented as an AI completion rate.
+
+Stage and timeline changes require review; daily automation can append screened numeric records and research notes within approved mappings. If a referenced capacity record is superseded, tracker validation blocks publication until its reference is reviewed. Focused research can use `--sources` with registered source IDs; unknown IDs are rejected. Focused runs retain the normal evidence checks, and are marked partial when they do not cover all five layers, even if all selected sources were accessible.
+
 ## Corrections
 Open a GitHub issue with the record ID, original source, proposed correction, and supporting evidence. A reviewer marks the incorrect record with superseded_by and adds a replacement with correction_of and a correction_reason. Charts exclude superseded records; the raw ledger and Git history retain them. The daily agent quarantines conflicting values instead of overwriting them.
 

@@ -18,15 +18,22 @@ class EcosystemTests(unittest.TestCase):
     def test_reviewed_dataset_has_resolvable_evidence(self):
         self.assertTrue(validate_files())
 
-    def test_weekly_rotation_reaches_expanded_registry(self):
+    def test_rotation_reaches_expanded_registry(self):
         registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         reached=set()
-        for n in range(7):
+        for n in range((len(registry['sources'])-5+6)//7):
             queue=source_queue(registry,date(2026,9,7)+timedelta(days=n))
             self.assertEqual(len(queue),len({s['id'] for s in queue}))
             self.assertEqual(queue[0]['id'],'iea-2026')
             reached.update(s['id'] for s in queue[:12])
         self.assertEqual(reached,{s['id'] for s in registry['sources'] if s['layers']})
+
+    def test_focused_research_cannot_introduce_unapproved_source(self):
+        registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
+        with self.assertRaisesRegex(ValueError,'approved source IDs'):
+            source_queue(registry,date(2026,9,7),['https://unapproved.example'])
+        selected=['fairwater-operating','fervo-q2-2026','fairwater-operating']
+        self.assertEqual([s['id'] for s in source_queue(registry,date(2026,9,7),selected)],selected[:2])
 
     def test_missing_revenue_or_source_blocks_publication(self):
         data=copy.deepcopy(self.data);data['companies'][0]['revenue_metric']='invented'

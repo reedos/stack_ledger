@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-07T07:41:15Z",
+  "projects": [
+    {
+      "id": "gemini",
+      "name": "Gemini solar + storage",
+      "layer": "energy",
+      "owner": "Primergy / Quinbrook",
+      "location": "Clark County, Nevada",
+      "category": "Generation + storage",
+      "stage": "operating",
+      "ai_relationship": "Regional grid supply; AI-specific allocation not established.",
+      "observations": [
+        "gemini-solar-baseline",
+        "gemini-storage-baseline",
+        "gemini-storage-energy-baseline"
+      ],
+      "horizon": "Commercial operation reported July 2024",
+      "grid": "Reported delivering to the regional grid. Nameplate solar output is weather-dependent.",
+      "next_evidence": "Track actual generation, availability and storage dispatch.",
+      "milestones": [
+        {
+          "date": "2024-07-18",
+          "summary": "Developer announced full commercial operation.",
+          "source": "gemini-operating"
+        }
+      ]
+    },
+    {
+      "id": "chpe",
+      "name": "Champlain Hudson Power Express",
+      "layer": "energy",
+      "owner": "Transmission Developers Inc. / Hydro-Quebec",
+      "location": "Quebec → New York City",
+      "category": "Transmission",
+      "stage": "operating",
+      "ai_relationship": "Regional grid supply; no dedicated AI allocation established.",
+      "observations": [
+        "chpe-transfer-baseline"
+      ],
+      "horizon": "Commercial operation reported June 2026",
+      "grid": "Power deliveries reported. June disclosure noted temporary market restrictions; later resolution not verified here.",
+      "next_evidence": "Verify sustained energy deliveries and resolution of the stated market restrictions.",
+      "milestones": [
+        {
+          "date": "2026-06-16",
+          "summary": "Commercial operation and power deliveries to New York City reported.",
+          "source": "chpe-operating"
+        }
+      ]
+    },
+    {
+      "id": "cape-one",
+      "name": "Cape Station · Phase I",
+      "layer": "energy",
+      "owner": "Fervo Energy",
+      "location": "Beaver County, Utah",
+      "category": "Geothermal generation",
+      "stage": "commissioning",
+      "ai_relationship": "Firm-power expansion in a market that includes AI demand; allocation to a specific AI site not established.",
+      "observations": [
+        "cape-phase-one-baseline"
+      ],
+      "horizon": "Block 1: Q4 2026 first power; blocks 2–3: early 2027 initial power",
+      "grid": "Commissioning is underway; commercial electricity delivery is not yet established by the August disclosure.",
+      "next_evidence": "Verify first power, commercial operation and separate ramp-up of each block.",
+      "milestones": [
+        {
+          "date": "2026-08-12",
+          "summary": "Mechanical completion reported for blocks 1 and 2; commissioning progressing.",
+          "source": "fervo-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "cape-two",
+      "name": "Cape Station · Phase II",
+      "layer": "energy",
+      "owner": "Fervo Energy",
+      "location": "Beaver County, Utah",
+      "category": "Geothermal generation",
+      "stage": "construction",
+      "ai_relationship": "Broader firm-power development; AI-specific delivery not established.",
+      "observations": [
+        "cape-phase-two-baseline"
+      ],
+      "horizon": "Company delivery target: 2028",
+      "grid": "Second-phase development and drilling progressing. Future output is not current grid supply.",
+      "next_evidence": "Verify block-level commissioning dates and actual generation.",
+      "milestones": [
+        {
+          "date": "2026-08-12",
+          "summary": "Second phase progressing toward its stated 2028 delivery date.",
+          "source": "fervo-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "crane",
+      "name": "Crane Clean Energy Center",
+      "layer": "energy",
+      "owner": "Constellation",
+      "location": "Londonderry, Pennsylvania",
+      "category": "Nuclear restart",
+      "stage": "permitting",
+      "ai_relationship": "Microsoft power purchase agreement supports restart; a PPA is not physical delivery.",
+      "observations": [
+        "crane-restart-baseline"
+      ],
+      "horizon": "Updated restart target: 2027",
+      "grid": "Constellation reports FERC approval for a capacity-interconnection-rights transfer and an NRC fuel license amendment. These do not establish an operating restart.",
+      "next_evidence": "Verify remaining restart approvals, fuel loading and commercial generation.",
+      "milestones": [
+        {
+          "date": "2024-09-20",
+          "summary": "Restart and Microsoft power agreement announced; original target was 2028.",
+          "source": "crane-plan-2024"
+        },
+        {
+          "date": "2026-08-06",
+          "summary": "Regulatory milestones reported; restart expected in 2027.",
+          "source": "crane-q2-2026"
+        }
+      ]
+    },
+    {
+      "id": "fairwater-one",
+      "name": "Fairwater · first facility",
+      "layer": "infrastructure",
+      "owner": "Microsoft",
+      "location": "Mount Pleasant, Wisconsin",
+      "category": "AI data center",
+      "stage": "operating",
+      "ai_relationship": "Dedicated AI infrastructure.",
+      "observations": [],
+      "horizon": "Fully operational as reported June 2026",
+      "grid": "Equipment startup occurred in April; operational status reported in June. Commissioned electrical MW are not quantified in this source.",
+      "next_evidence": "Obtain commissioned MW, utilization and utility supply milestones.",
+      "milestones": [
+        {
+          "date": "2025-09-18",
+          "summary": "Construction nearing completion, with an early-2026 operating goal.",
+          "source": "msft-wisconsin"
+        },
+        {
+          "date": "2026-06-23",
+          "summary": "Microsoft reports full operation and nearly 550 full-time employees on site.",
+          "source": "fairwater-operating"
+        }
+      ]
+    },
+    {
+      "id": "fairwater-two",
+      "name": "Fairwater · second facility",
+      "layer": "infrastructure",
+      "owner": "Microsoft",
+      "location": "Mount Pleasant, Wisconsin",
+      "category": "AI data center",
+      "stage": "construction",
+      "ai_relationship": "Expansion of AI infrastructure adjacent to the first facility.",
+      "observations": [],
+      "horizon": "Scheduled completion: 2028",
+      "grid": "Foundation, steel and underground utility work reported; grid energization not established.",
+      "next_evidence": "Verify energization and operation separately from building completion.",
+      "milestones": [
+        {
+          "date": "2026-06-23",
+          "summary": "Microsoft reports ongoing construction and a 2028 completion schedule.",
+          "source": "fairwater-operating"
+        }
+      ]
+    },
+    {
+      "id": "rainier",
+      "name": "Project Rainier",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services / Anthropic",
+      "location": "United States · distributed AWS infrastructure",
+      "category": "AI compute cluster",
+      "stage": "operating",
+      "ai_relationship": "Used by Anthropic for Claude training.",
+      "observations": [
+        "rainier-chips-baseline"
+      ],
+      "horizon": "Operational in February 2026 disclosure",
+      "grid": "Operational compute is reported. The disclosure does not provide a comparable commissioned-MW figure.",
+      "next_evidence": "Track active chips, utilization and power on a consistent system boundary.",
+      "milestones": [
+        {
+          "date": "2026-02-05",
+          "summary": "Amazon reports an operational Trainium2 cluster used for Claude training.",
+          "source": "aws-delivery-2026"
+        }
+      ]
+    },
+    {
+      "id": "abilene",
+      "name": "Stargate · Abilene original campus",
+      "layer": "infrastructure",
+      "owner": "Crusoe / Lancium / Oracle / OpenAI",
+      "location": "Abilene, Texas",
+      "category": "AI data center",
+      "stage": "partly-operating",
+      "ai_relationship": "Operating AI training site within a larger campus plan.",
+      "observations": [
+        "abilene-campus-baseline"
+      ],
+      "horizon": "Original full-campus target: mid-2026; full delivery unverified",
+      "grid": "OpenAI reports training GPT-5.5 here. That establishes use of the site, not commissioning of every planned building or the full power rating.",
+      "next_evidence": "Verify full commissioned capacity, distinguish adjacent expansions, and check the applicability of ERCOT’s August review.",
+      "milestones": [
+        {
+          "date": "2025-03-18",
+          "summary": "Crusoe announces expansion of the original campus.",
+          "source": "abilene-plan-2025"
+        },
+        {
+          "date": "2026-04-29",
+          "summary": "OpenAI reports its GPT-5.5 model was trained at Abilene.",
+          "source": "stargate-delivery-2026"
+        },
+        {
+          "date": "2026-08-03",
+          "summary": "Regional context: ERCOT announces data-center load verification. Effects on this campus are not specified.",
+          "source": "ercot-queue-review-2026"
+        }
+      ]
+    },
+    {
+      "id": "hyperion",
+      "name": "Hyperion · Richland Parish",
+      "layer": "infrastructure",
+      "owner": "Meta / Entergy",
+      "location": "Richland Parish, Louisiana",
+      "category": "AI data center",
+      "stage": "construction",
+      "ai_relationship": "Planned AI training campus.",
+      "observations": [
+        "hyperion-campus-baseline"
+      ],
+      "horizon": "Full expansion completion date not verified in this disclosure",
+      "grid": "Meta describes funding future gas plants, storage and nuclear uprates through Entergy. These commitments are not evidence of energized campus supply.",
+      "next_evidence": "Track generation, transmission, energization and operational IT capacity as separate milestones.",
+      "milestones": [
+        {
+          "date": "2026-07-13",
+          "summary": "Meta announces a larger campus plan and describes ongoing construction.",
+          "source": "hyperion-plan-2026"
+        }
+      ]
+    }
+  ],
+  "context_metrics": [
+    "us-generation-growth-h1",
+    "us-solar-additions",
+    "us-storage-additions",
+    "us-grid-queue"
+  ],
+  "assessment": "Delivery is visible at individual sites, but the evidence is not sufficient to say the whole system is on track. Regional grid access, dependable power and phased commissioning determine whether new supply meets new demand at the right place and time. This tracker is a selected project sample, not a national supply-demand balance.",
+  "gaps": [
+    "Match each region’s dependable supply, transmission capability and commissioning dates to its load forecast.",
+    "Verify operational MW and actual electricity output instead of treating spending, signed contracts or queued projects as delivered supply.",
+    "Preserve phased schedules and unknown capacity; do not sum generation, storage, transmission and data-center ratings."
+  ]
+}

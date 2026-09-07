@@ -24,7 +24,7 @@ const server=http.createServer((req,res)=>{
  try{
   const page=await browser.newPage({viewport:{width:1440,height:1000}});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','ledger/','methodology/'];
+  const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','projects/','ledger/','methodology/'];
   for(const route of routes){
    const response=await page.goto(origin+route,{waitUntil:'networkidle'});assert.equal(response.status(),200);
    await page.locator('#runtime strong').first().waitFor();
@@ -34,6 +34,23 @@ const server=http.createServer((req,res)=>{
    const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>new URL(a.getAttribute('href'),location.href).href).filter(u=>u.startsWith(location.origin)&&!u.includes('#')));
    for(const href of new Set(links)){assert.equal((await page.request.get(href)).status(),200,href);}
   }
+  await page.goto(origin+'projects/');await page.locator('#project-count').waitFor();
+  const signedChart=await page.evaluate(()=>{
+   const observation=data.observations.find(o=>o.metric==='us-generation-growth-h1'),original=observation.value;
+   try{observation.value=-37;const box=document.createElement('div');box.innerHTML=chart(observation.metric);const bar=box.querySelector('.bar rect');return {y:Number(bar.getAttribute('y')),height:Number(bar.getAttribute('height')),zero:Number(box.querySelector('.zero-baseline').getAttribute('d').match(/M\S+ ([\d.]+)/)[1]),text:box.textContent};}
+   finally{observation.value=original;}
+  });
+  assert.equal(signedChart.y,signedChart.zero);assert.ok(signedChart.height>0&&signedChart.y+signedChart.height<=227);assert.match(signedChart.text,/-37/);
+  assert.equal(await page.locator('.delivery-card').count(),10);
+  await page.locator('[data-project-layer="energy"]').click();assert.equal(await page.locator('.delivery-card').count(),5);
+  await page.selectOption('#project-stage','operating');assert.equal(await page.locator('.delivery-card').count(),2);
+  await page.locator('#project-search').fill('Quebec');assert.equal(await page.locator('.delivery-card').count(),1);
+  await page.locator('.delivery-history summary').click();assert.match(await page.locator('.delivery-history').innerText(),/1,250|transmission/i);
+  await page.locator('#project-search').fill('missing-project');assert.equal(await page.locator('.delivery-card').count(),0);
+  await page.locator('#project-search').fill('');await page.selectOption('#project-stage','all');await page.locator('[data-project-layer="infrastructure"]').click();
+  assert.match(await page.locator('#project-fairwater-one .unknown').innerText(),/Not quantified/);
+  assert.equal(await page.locator('#project-abilene .planned').count(),1);
+  await page.locator('[data-project-layer="all"]').click();await page.screenshot({path:path.join(evidence,'projects.png'),fullPage:true});
   await page.goto(origin+'companies/?layer=chips');await page.locator('#company-count').waitFor();
   assert.equal(await page.locator('[data-company-filter="chips"]').getAttribute('aria-pressed'),'true');
   assert.ok(await page.locator('.company-card').count()>=10);
@@ -73,6 +90,6 @@ const server=http.createServer((req,res)=>{
   await page.setViewportSize({width:390,height:844});await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'mobile.png'),fullPage:true});
   await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.className),'skip');
   assert.deepEqual(errors,[]);
-  console.log('Browser acceptance passed: 10 routes, 3 viewports, project prefix links, company search and revenue filters, industry charts and stages, stack navigation, metric switching, accessible tables, ledger search, CSV, keyboard access, no page errors.');
+  console.log('Browser acceptance passed: 11 routes, 3 viewports, project stage/layer/search filters, unknown versus planned capacity, source timelines, company filters, charts, navigation, ledger search, CSV, keyboard access, no page errors.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

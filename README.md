@@ -95,6 +95,12 @@ Source failures produce a **partial** run when usable research remains. A model 
 
 The organizing concept is inspired by [Jensen Huang’s five-layer AI framework](https://blogs.nvidia.com/blog/ai-5-layer-cake/). Stack Ledger is independent and unaffiliated with NVIDIA. Site code and original graphics are MIT licensed. Original source content retains its rights; factual records preserve attribution. IEA material is attributed under its stated CC BY 4.0 license where applicable. This repository does not redistribute complete source articles.
 
+## Energy and infrastructure delivery
+
+The `/projects/` tracker follows ten selected projects across generation, storage, transmission and AI infrastructure. Filter by stage, layer, owner or location. Each card separates reported quantities from plans, retains an evidence timeline, records grid context and identifies the next missing evidence. The site also includes new research on accelerator delivery, HBM, packaging, model reliability, inference price-performance, workplace productivity and scientific prediction.
+
+Tracker definitions live in `research/delivery.json`; numeric evidence lives in the main ledger. Validate with `python scripts/validate_delivery.py` (also run by the build). Stages are reviewed snapshots, while the daily runner can append screened observations and notes. For a fresh, focused local research pass: `python scripts/research.py --apply --refresh --max-documents 6 --sources fervo-q2-2026 eia-additions-2026 aws-delivery-2026`. Use `--publish` instead of `--apply` only with a clean working tree. A focused pass may be partial because its coverage is intentionally limited.
+
 ## Company and industry research
 
 The company directory covers 21 representative businesses across the five layers. Company roles and jobs/factory snapshots are reviewed metadata in `research/ecosystem.json`, mirrored to `site/data/ecosystem.json`. Revenue and chip-capacity observations use the main ledger and reviewed metric catalog. Annual revenue, AWS segment sales and private-company annualized run rates are labeled separately.

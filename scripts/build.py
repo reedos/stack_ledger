@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 def build():
     from validate_ecosystem import validate_files
     validate_files()
+    from validate_delivery import validate_files as validate_delivery_files
+    validate_delivery_files()
     data = json.loads((ROOT / 'site/data/ledger.json').read_text(encoding='utf-8'))
     template = (ROOT / 'site/template.html').read_text(encoding='utf-8')
     dest = ROOT / 'docs'
@@ -20,6 +22,7 @@ def build():
              ('ledger','ledger/','The Ledger — Stack Ledger','A record of real progress.','Explore sourced AI buildout research, observations, forecasts, targets and daily local-model research runs.'),
              ('methodology','methodology/','Research Methodology — Stack Ledger','Open by design. Grounded in evidence.','How Stack Ledger sources, validates and publishes research on the five-layer AI buildout.')]
     pages += [('companies','companies/','Companies — Stack Ledger','Meet the builders.','Companies, capabilities and reported revenue across the five layers of AI.'), ('industry','industry/','Jobs & Industry — Stack Ledger','Intelligence has a physical footprint.','Chip capacity, factory milestones, jobs and evidence of industrial rebuilding.')]
+    pages += [('projects','projects/','Delivery Tracker — Stack Ledger','From promise to power.','Energy and AI infrastructure projects: capacity, grid connections, commissioning and operation.')]
     pages += [(l['id'], l['id']+'/', l['name']+' — Stack Ledger', l['tagline'], l['description']) for l in data['layers']]
     for page,path,title,heading,description in pages:
         rendered=template
