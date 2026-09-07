@@ -4033,13 +4033,17 @@
       "max": 10000000.0,
       "note": "All-sector utility-scale net generation; excludes small-scale solar. National context, not AI-only supply. Source thousand MWh divided by 1,000 to express TWh.",
       "source_ids": [
-        "eia-generation-history-2024"
+        "eia-generation-history-2024",
+        "eia-steo-aug2026-generation"
       ],
       "series_start_year": 2014,
       "chart_default_start": 2019,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Comparable utility-scale totals, 2014–2024, in the 2024 annual-report vintage. Default view starts in 2019; all-history view includes 2014–2018."
+      "pre_period_note": "EIA annual history through 2024; 2025 historical total and 2026–2027 forecasts from August 2026 STEO. Earlier reviewed history begins in 2014. National generation, not AI-dedicated power.",
+      "chart_companion_metric": "us-total-generation-aeo2026",
+      "chart_comparison_title": "U.S. electricity generation: history and outlook",
+      "chart_comparison_note": "2019–2025: utility-scale history. 2026–2027: August 2026 STEO utility-scale forecasts. Amber bars from 2028: broader AEO2026 Counterfactual Baseline, including small on-site generation. Different scope and model vintage; not a continuous comparable trajectory."
     },
     {
       "id": "us-electrician-employment-oews",
@@ -4126,6 +4130,29 @@
       "chart_default_end": 2035,
       "definition_stable": true,
       "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+    },
+    {
+      "id": "us-total-generation-aeo2026",
+      "layer": "energy",
+      "title": "U.S. total generation: AEO2026 Counterfactual Baseline",
+      "unit": "TWh",
+      "geography": "United States",
+      "scope": "Total net electricity generation, including small on-site end-use systems. Broader than utility-scale generation. AEO2026 Counterfactual Baseline scenario, not a current-policy promise.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "April 2026 vintage, NEMS cb2026.d021826b, Table 8 row 55. Billion kWh equals TWh. Not directly comparable with utility-scale-only history.",
+      "source_ids": [
+        "eia-aeo2026-generation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "pre_period_note": "Selected published 2028–2030 scenario values; no missing annual values inferred. Source includes small on-site generation.",
+      "definition_stable": true,
+      "allowed_statuses": [
+        "forecast"
+      ]
     }
   ],
   "sources": [
@@ -6470,6 +6497,28 @@
         "energy"
       ],
       "license": "CC BY 4.0"
+    },
+    {
+      "id": "eia-steo-aug2026-generation",
+      "publisher": "U.S. EIA",
+      "title": "August 2026 STEO, Table 7a: utility-scale electricity generation",
+      "url": "https://www.eia.gov/outlooks/steo/archives/aug26.pdf",
+      "published": "2026-08-11",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "eia-aeo2026-generation",
+      "publisher": "U.S. EIA",
+      "title": "AEO2026 Table 8: Counterfactual Baseline, total net electricity generation",
+      "url": "https://www.eia.gov/outlooks/aeo/excel/aeotab8.xlsx",
+      "published": "2026-04-08",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
     }
   ],
   "observations": [
@@ -9250,6 +9299,90 @@
       "retrieved_at": "2026-09-07T16:40:50Z",
       "method": "curated",
       "note": ""
+    },
+    {
+      "id": "us-utility-generation-history-outlook-2025",
+      "metric": "us-utility-generation-history",
+      "year": 2025,
+      "period": "2025",
+      "value": 4430,
+      "upper": null,
+      "status": "observation",
+      "source": "eia-steo-aug2026-generation",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "STEO Table 7a electricity generation, not total supply or electric-power-sector-only generation. At least 1 MW; excludes small-scale solar. Rounded source total in billion kWh = TWh."
+    },
+    {
+      "id": "us-utility-generation-history-outlook-2026",
+      "metric": "us-utility-generation-history",
+      "year": 2026,
+      "period": "2026",
+      "value": 4508,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-steo-aug2026-generation",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "STEO Table 7a electricity generation, not total supply or electric-power-sector-only generation. At least 1 MW; excludes small-scale solar. Rounded source total in billion kWh = TWh."
+    },
+    {
+      "id": "us-utility-generation-history-outlook-2027",
+      "metric": "us-utility-generation-history",
+      "year": 2027,
+      "period": "2027",
+      "value": 4632,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-steo-aug2026-generation",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "STEO Table 7a electricity generation, not total supply or electric-power-sector-only generation. At least 1 MW; excludes small-scale solar. Rounded source total in billion kWh = TWh."
+    },
+    {
+      "id": "us-total-generation-aeo2026-outlook-2028",
+      "metric": "us-total-generation-aeo2026",
+      "year": 2028,
+      "period": "2028",
+      "value": 4649.312,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-aeo2026-generation",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "AEO2026 Counterfactual Baseline, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
+    },
+    {
+      "id": "us-total-generation-aeo2026-outlook-2029",
+      "metric": "us-total-generation-aeo2026",
+      "year": 2029,
+      "period": "2029",
+      "value": 4690.965,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-aeo2026-generation",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "AEO2026 Counterfactual Baseline, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
+    },
+    {
+      "id": "us-total-generation-aeo2026-outlook-2030",
+      "metric": "us-total-generation-aeo2026",
+      "year": 2030,
+      "period": "2030",
+      "value": 4734.411,
+      "upper": null,
+      "status": "forecast",
+      "source": "eia-aeo2026-generation",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T16:54:11Z",
+      "method": "curated",
+      "note": "AEO2026 Counterfactual Baseline, Table 8 total net electricity generation. Includes small on-site systems; not utility-scale-only. Source rounded to 0.001 TWh."
     }
   ],
   "events": [

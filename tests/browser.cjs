@@ -136,7 +136,10 @@ const server=http.createServer((req,res)=>{
   assert.match(await page.locator('#trades-long-view .methodology-break').innerText(),/2021/);
   await page.screenshot({path:path.join(evidence,'industry.png'),fullPage:true});
   await page.goto(origin);await page.locator('.layer-card').first().waitFor();
-  assert.equal(await page.locator('#historical-context [data-metric="us-utility-generation-history"] .bar').count(),6);
+  assert.equal(await page.locator('#historical-context [data-metric="us-utility-generation-history"] .bar').count(),12);
+  assert.equal(await page.locator('#historical-context [data-metric="us-utility-generation-history"] .bar rect[fill^="url"]').count(),5);
+  assert.equal(await page.locator('#historical-context .scope-break-marker').count(),1);
+  assert.match(await page.locator('#historical-context .scope-warning').innerText(),/2028.*broader.*Counterfactual Baseline/);
   assert.equal(await page.locator('#historical-context [data-metric="revenue-tsmc"] .bar').count(),7);
   await page.locator('#historical-context').screenshot({path:path.join(evidence,'history-context.png')});
   assert.equal(await page.locator('.stack-svg a.slab').count(),5);
@@ -153,10 +156,10 @@ const server=http.createServer((req,res)=>{
   await page.locator('#metric-chart summary').click();assert.equal(await page.locator('#metric-chart tbody tr').count(),2);
   await page.locator('#metric-chart .history-window').check();assert.equal(await page.locator('#metric-chart tbody tr').count(),3);
   await page.selectOption('#metric-select','us-utility-generation-history');
-  assert.equal(await page.locator('#metric-chart .bar').count(),6);
-  await page.locator('#metric-chart .history-window').check();assert.equal(await page.locator('#metric-chart .bar').count(),11);
+  assert.equal(await page.locator('#metric-chart .bar').count(),12);
+  await page.locator('#metric-chart .history-window').check();assert.equal(await page.locator('#metric-chart .bar').count(),17);
   await page.setViewportSize({width:390,height:844});
-  assert.equal(await page.locator('#metric-chart .bar').count(),11);
+  assert.equal(await page.locator('#metric-chart .bar').count(),17);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await page.setViewportSize({width:1440,height:1000});
   await page.selectOption('#metric-select','dc-electricity-iea2025-high-efficiency');

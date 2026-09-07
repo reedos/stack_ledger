@@ -35,3 +35,9 @@ class HistoryTests(unittest.TestCase):
             self.assertIn(2019,years);self.assertGreaterEqual(len(years),5)
         self.assertFalse(self.metrics['us-electrician-employment-oews']['definition_stable'])
         self.assertEqual(self.metrics['us-electrician-employment-oews']['definition_break_year'],2021)
+
+    def test_broader_aeo_cannot_be_appended_as_utility_scale(self):
+        o=copy.deepcopy(next(o for o in self.data['observations'] if o['metric']=='us-total-generation-aeo2026'))
+        o['metric']='us-utility-generation-history'
+        with self.assertRaisesRegex(ValueError,'mapping not approved'):
+            observation_valid(o,self.metrics,self.sources)

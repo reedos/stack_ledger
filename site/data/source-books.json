@@ -44,7 +44,9 @@
         "bls-electricians-may-2021",
         "bls-electricians-may-2022",
         "bls-electricians-may-2023",
-        "bls-oews-method-2021"
+        "bls-oews-method-2021",
+        "eia-steo-aug2026-generation",
+        "eia-aeo2026-generation"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -2562,6 +2564,28 @@
     "iea-demand-scenarios-2025": {
       "rank": 1,
       "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-steo-aug2026-generation": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-aeo2026-generation": {
+      "rank": 1,
+      "region_book": "united-states",
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",

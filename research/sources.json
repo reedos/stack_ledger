@@ -2314,6 +2314,28 @@
         "energy"
       ],
       "license": "CC BY 4.0"
+    },
+    {
+      "id": "eia-steo-aug2026-generation",
+      "publisher": "U.S. EIA",
+      "title": "August 2026 STEO, Table 7a: utility-scale electricity generation",
+      "url": "https://www.eia.gov/outlooks/steo/archives/aug26.pdf",
+      "published": "2026-08-11",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
+    },
+    {
+      "id": "eia-aeo2026-generation",
+      "publisher": "U.S. EIA",
+      "title": "AEO2026 Table 8: Counterfactual Baseline, total net electricity generation",
+      "url": "https://www.eia.gov/outlooks/aeo/excel/aeotab8.xlsx",
+      "published": "2026-04-08",
+      "layers": [
+        "energy"
+      ],
+      "license": "Attributed public facts; source material retains original rights"
     }
   ],
   "discovery_keywords": [
@@ -2377,7 +2399,9 @@
         "bls-electricians-may-2021",
         "bls-electricians-may-2022",
         "bls-electricians-may-2023",
-        "bls-oews-method-2021"
+        "bls-oews-method-2021",
+        "eia-steo-aug2026-generation",
+        "eia-aeo2026-generation"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -4895,6 +4919,28 @@
     "iea-demand-scenarios-2025": {
       "rank": 1,
       "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-steo-aug2026-generation": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-aeo2026-generation": {
+      "rank": 1,
+      "region_book": "united-states",
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",

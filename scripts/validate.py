@@ -110,6 +110,12 @@ def validate(data):
     metrics={m['id']:m for m in data['metrics']}
     require(len(metrics)==len(data['metrics']),'Duplicate metric IDs')
     for m in metrics.values():
+        if 'chart_companion_metric' in m:
+            companion=metrics.get(m['chart_companion_metric'])
+            require(companion is not None and companion['id']!=m['id'],'Invalid chart companion')
+            require(all(companion[k]==m[k] for k in ['unit','geography','layer']),'Chart companion units/geography/layer differ')
+            text(m.get('chart_comparison_title'),250)
+            text(m.get('chart_comparison_note'),1000)
         for field in ['series_start_year','chart_default_start','chart_default_end']:
             require(type(m.get(field)) is int and 2000<=m[field]<=2150,'Invalid chart history metadata')
         require(m['series_start_year']<=m['chart_default_start']<=m['chart_default_end'],'Inverted chart window')
