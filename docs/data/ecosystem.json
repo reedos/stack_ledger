@@ -118,7 +118,8 @@
       "filings_jurisdiction": "TWSE / SEC",
       "blog_urls": [],
       "official_lang": "zh-Hant; en",
-      "region_book": "taiwan"
+      "region_book": "taiwan",
+      "revenue_chart_metric": "revenue-tsmc-reported"
     },
     {
       "id": "samsung",
@@ -718,9 +719,9 @@
         "infrastructure"
       ],
       "role": "Supplies high-speed optical transceiver modules that convert electrical data to optical signals for AI and data-center networks.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "innolight-modules",
+      "revenue_metric": "revenue-innolight-reported",
+      "revenue_kind": "annual",
+      "source": "finance-innolight-consensus-20260907",
       "role_sources": [
         "innolight-modules"
       ],
@@ -737,9 +738,9 @@
         "infrastructure"
       ],
       "role": "Designs and manufactures optical transceiver modules, including 1.6T products for AI and cloud networks.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "eoptolink-modules",
+      "revenue_metric": "revenue-eoptolink-reported",
+      "revenue_kind": "annual",
+      "source": "finance-eoptolink-consensus-20260907",
       "role_sources": [
         "eoptolink-modules"
       ],
@@ -837,9 +838,9 @@
         "applications"
       ],
       "role": "Develops FSD (Supervised), Robotaxi, Optimus and Cortex; Terafab co-developer. Customer FSD remains supervised.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "tesla-q2-2026",
+      "revenue_metric": "revenue-tesla-reported",
+      "revenue_kind": "annual",
+      "source": "finance-tesla-consensus-20260907",
       "role_sources": [
         "tesla-q2-2026"
       ],
@@ -915,9 +916,9 @@
         "infrastructure"
       ],
       "role": "Supplies AI compute for named Stargate campuses used by OpenAI. Developer, chip owner and customer are distinct roles.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "epoch-openai-stargate-abilene",
+      "revenue_metric": "revenue-oracle-reported",
+      "revenue_kind": "annual",
+      "source": "finance-oracle-consensus-20260907",
       "role_sources": [
         "epoch-openai-stargate-abilene"
       ],
@@ -934,9 +935,9 @@
         "infrastructure"
       ],
       "role": "Stargate partner; Epoch identifies its chip ownership at Milam. Program commitments are not cash spent at every site.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "epoch-openai-stargate-milam",
+      "revenue_metric": "revenue-softbank-reported",
+      "revenue_kind": "annual",
+      "source": "finance-softbank-consensus-20260907",
       "role_sources": [
         "epoch-openai-stargate-milam"
       ],
@@ -1010,9 +1011,9 @@
         "infrastructure"
       ],
       "role": "GPU cloud capacity; Microsoft contracted dedicated infrastructure at Vineland, subject to deployment and availability.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "nebius-msft-contract",
+      "revenue_metric": "revenue-nebius-reported",
+      "revenue_kind": "annual",
+      "source": "finance-nebius-consensus-20260907",
       "role_sources": [
         "nebius-msft-contract"
       ],
@@ -1029,9 +1030,9 @@
         "chips"
       ],
       "role": "Advanced packaging and test. Arizona construction supports a future domestic packaging chain; not current output.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "amkor-arizona-2025",
+      "revenue_metric": "revenue-amkor-reported",
+      "revenue_kind": "annual",
+      "source": "finance-amkor-consensus-20260907",
       "role_sources": [
         "amkor-arizona-2025"
       ],
@@ -1067,9 +1068,9 @@
         "energy"
       ],
       "role": "Nuclear generation and power contracts; Crane restart tied to Microsoft’s power-matching agreement and regulatory approvals.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "crane-plan-2024",
+      "revenue_metric": "revenue-constellation-reported",
+      "revenue_kind": "annual",
+      "source": "finance-constellation-consensus-20260907",
       "role_sources": [
         "crane-plan-2024"
       ],
@@ -1143,9 +1144,9 @@
         "infrastructure"
       ],
       "role": "AI servers, storage, networking and integrated enterprise deployments; rack-scale liquid-cooled architectures. Product support does not prove shipments into a named campus.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "dell-role",
+      "revenue_metric": "revenue-dell-reported",
+      "revenue_kind": "annual",
+      "source": "finance-dell-consensus-20260907",
       "role_sources": [
         "dell-role"
       ],
@@ -1162,9 +1163,9 @@
         "infrastructure"
       ],
       "role": "Builds and integrates AI server racks and modular data-center systems. Demonstrated platforms and potential collaborations are not installed customer capacity.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "foxconn-role",
+      "revenue_metric": "revenue-foxconn-reported",
+      "revenue_kind": "annual",
+      "source": "finance-foxconn-consensus-20260907",
       "role_sources": [
         "foxconn-role"
       ],
@@ -1181,9 +1182,9 @@
         "infrastructure"
       ],
       "role": "QCT supplies server, storage, networking and integrated rack solutions through parent Quanta Computer. Distinct from U.S. electrical contractor Quanta Services.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "quanta-computer-role",
+      "revenue_metric": "revenue-quanta-computer-reported",
+      "revenue_kind": "annual",
+      "source": "finance-quanta-computer-consensus-20260907",
       "role_sources": [
         "quanta-computer-role"
       ],
@@ -1200,9 +1201,9 @@
         "infrastructure"
       ],
       "role": "Cloud server and rack integration, including cold-plate liquid cooling and serviceable liquid connections.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "wiwynn-role",
+      "revenue_metric": "revenue-wiwynn-reported",
+      "revenue_kind": "annual",
+      "source": "finance-wiwynn-consensus-20260907",
       "role_sources": [
         "wiwynn-role"
       ],
@@ -1219,9 +1220,9 @@
         "infrastructure"
       ],
       "role": "Data-center cooling infrastructure, including coolant distribution and heat-exchange systems. Vendor capability is not a named campus contract.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "nvent-role",
+      "revenue_metric": "revenue-nvent-reported",
+      "revenue_kind": "annual",
+      "source": "finance-nvent-consensus-20260907",
       "role_sources": [
         "nvent-role"
       ],
@@ -1257,9 +1258,9 @@
         "infrastructure"
       ],
       "role": "Data-center thermal management, building controls, security and fire-protection systems.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "johnson-controls-role",
+      "revenue_metric": "revenue-johnson-controls-reported",
+      "revenue_kind": "annual",
+      "source": "finance-johnson-controls-consensus-20260907",
       "role_sources": [
         "johnson-controls-role"
       ],
@@ -1374,9 +1375,9 @@
         "applications"
       ],
       "role": "Develops medicines; co-develops intismeran with Moderna. Company trial reports are not approvals.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "merck-interpath001-phase3",
+      "revenue_metric": "revenue-merck-reported",
+      "revenue_kind": "annual",
+      "source": "finance-merck-consensus-20260907",
       "role_sources": [
         "merck-interpath001-phase3"
       ],
@@ -1393,9 +1394,9 @@
         "applications"
       ],
       "role": "Develops mRNA medicines and individualized neoantigen therapy with Merck.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "merck-interpath001-phase3",
+      "revenue_metric": "revenue-moderna-reported",
+      "revenue_kind": "annual",
+      "source": "finance-moderna-consensus-20260907",
       "role_sources": [
         "merck-interpath001-phase3"
       ],
@@ -1432,9 +1433,9 @@
         "infrastructure"
       ],
       "role": "Develops Qwen model families and cloud infrastructure.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "qwen3-32b-license",
+      "revenue_metric": "revenue-alibaba-reported",
+      "revenue_kind": "annual",
+      "source": "finance-alibaba-consensus-20260907",
       "role_sources": [
         "qwen3-32b-license"
       ],
@@ -1489,9 +1490,9 @@
         "applications"
       ],
       "role": "Develops computationally informed clinical drug candidates; reported early trial endpoints are not approvals.",
-      "revenue_metric": null,
-      "revenue_kind": "unavailable",
-      "source": "recursion-tupelo-dec2025",
+      "revenue_metric": "revenue-recursion-reported",
+      "revenue_kind": "annual",
+      "source": "finance-recursion-consensus-20260907",
       "role_sources": [
         "recursion-tupelo-dec2025"
       ],

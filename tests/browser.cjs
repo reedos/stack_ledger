@@ -51,6 +51,7 @@ const server=http.createServer((req,res)=>{
   const page=await browser.newPage({viewport:{width:1440,height:1000}});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','projects/','ledger/','methodology/'];
+  routes.push(...['nvidia','tsmc','asml','openai','openclaw','nebius','innolight','aws'].map(id=>`companies/${id}/`));
   for(const route of routes){
    const response=await page.goto(origin+route,{waitUntil:'networkidle'});assert.equal(response.status(),200);
    await page.locator('body[data-enhanced="true"]').waitFor();
@@ -100,7 +101,7 @@ const server=http.createServer((req,res)=>{
   await page.goto(origin+'infrastructure/');await page.locator('#fabric-count').waitFor();
   assert.equal(await page.locator('.component-card').count(),10);
   await page.locator('#fabric-search').fill('DSP');assert.ok(await page.locator('.component-card').count()>0);
-  assert.ok(await page.locator('#component-signal a[href$="#marvell"]').count());
+  assert.ok(await page.locator('#component-signal a[href$="companies/marvell/"]').count());
   await page.locator('#fabric-search').fill('nonexistent-component');assert.equal(await page.locator('.component-card').count(),0);
   await page.locator('.fabric-path a').first().click();assert.equal(await page.locator('.component-card').count(),10);
   await page.evaluate(()=>{document.activeElement.blur();window.scrollTo({top:0,behavior:'instant'});});
@@ -189,6 +190,15 @@ const server=http.createServer((req,res)=>{
   await page.setViewportSize({width:390,height:844});await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'mobile.png'),fullPage:true});
   await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.className),'skip');
   assert.deepEqual(errors,[]);
-  console.log('Browser acceptance passed: 11 routes, 3 viewports, project stage/layer/search filters, unknown versus planned capacity, source timelines, company filters, charts, navigation, ledger search, CSV, keyboard access, no page errors.');
+  await page.goto(origin+'companies/asml/');await page.locator('body[data-enhanced="true"]').waitFor();
+  assert.match(await page.locator('#revenue').innerText(),/2030/);
+  assert.equal(await page.locator('#revenue .bar rect[fill^="url"]').count(),3);
+  assert.doesNotMatch(await page.locator('#revenue').innerText(),/Broader AEO/);
+  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:path.join(evidence,'company-asml.png'),fullPage:true});
+  await page.goto(origin+'companies/tsmc/');await page.locator('body[data-enhanced="true"]').waitFor();
+  assert.match(await page.locator('#revenue').innerText(),/TWD billion/);
+  assert.equal(await page.locator('[data-metric="revenue-tsmc"] .bar').count(),7);
+  assert.deepEqual(errors,[]);
+  console.log(`Browser acceptance passed: ${routes.length} routes, 3 viewports, company revenue histories/forecasts, filters, navigation, keyboard access and no page errors.`);
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

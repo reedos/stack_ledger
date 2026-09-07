@@ -22,3 +22,9 @@
 
 .history-context-grid>.panel:first-child{grid-column:1/-1}.scope-warning{border-left:2px solid #efc77b;padding-left:12px}.comparison-legend{color:#efc77b}
 .frontier-nav{display:flex;flex-wrap:wrap;gap:12px 24px;margin:20px 0;color:#bce28b;font-size:.85rem}
+
+/* Dedicated company research pages. */
+.company-coverage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line,#364231);border:1px solid #364231;border-radius:12px;overflow:hidden;margin-bottom:40px}
+.company-coverage>div{background:#172016;padding:24px}.company-coverage span{display:block;font-size:11px;letter-spacing:.12em;color:#a9b89e;margin-bottom:12px}.company-coverage strong{font-size:clamp(18px,2.5vw,28px);font-weight:500}
+.company-data-grid{display:grid;gap:24px;margin-top:24px}.company-profile-link{display:block;margin:18px 0}.company-heading h3 a{color:inherit;text-decoration:none}.company-heading h3 a:hover{text-decoration:underline}.company-financials .panel{min-width:0}.company-hero h1{overflow-wrap:anywhere}
+@media(max-width:600px){.company-coverage{grid-template-columns:1fr}.company-coverage>div{padding:16px}.company-coverage strong{font-size:22px}}

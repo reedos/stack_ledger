@@ -2,20 +2,20 @@
 let ecosystem;
 const companyOf = id => ecosystem.companies.find(c => c.id === id);
 const latestRevenue = c => records(c.revenue_metric).filter(o => o.status === 'observation').at(-1);
-const companyLink = id => `<a href="${base}companies/#${esc(id)}">${esc(companyOf(id).name)}</a>`;
+const companyLink = id => `<a href="${base}companies/${esc(id)}/">${esc(companyOf(id).name)}</a>`;
 const researchStamp = () => `<p class="chart-footnote">Company roles, projects and jobs reviewed ${dateLabel(ecosystem.reviewed_at)}. Revenue and capacity observations retain their own periods and access dates. ${ecosystem.companies.length} companies in a reviewed snapshot, not a complete industry census. Companies can serve multiple layers; counts overlap.</p>`;
 
 function companyCard(c) {
  const o=latestRevenue(c), m=metricOf(c.revenue_metric), accent=layerOf(c.layers[0]).color;
  return `<article class="company-card" id="${esc(c.id)}" style="--accent:${accent}">
-  <div class="company-heading"><span class="company-monogram" aria-hidden="true">${esc(c.name.replace('NextEra','NE').split(/\s+/).map(s=>s[0]).join('').slice(0,2))}</span><h3>${esc(c.name)}</h3></div>
+  <div class="company-heading"><span class="company-monogram" aria-hidden="true">${esc(c.name.replace('NextEra','NE').split(/\s+/).map(s=>s[0]).join('').slice(0,2))}</span><h3>${companyLink(c.id)}</h3></div>
   <div class="company-layers">${c.layers.map(id=>`<a href="${base}${id}/" style="--tag:${layerOf(id).color}">${layerOf(id).name}</a>`).join('')}</div>
   <p class="company-role">${esc(c.role)}</p>
   ${c.role_sources?`<details class="company-role-sources"><summary>Sources for company role</summary><div>${c.role_sources.map(id=>`${sourceLink(id)} · ${dateLabel(sourceOf(id).published)}`).join('<br>')}</div></details>`:''}
   ${c.revenue_kind==='unavailable'?`<div class="company-revenue unavailable"><span class="eyebrow">REVENUE COVERAGE GAP</span><strong>Not yet verified</strong><p>No sourced revenue record in this edition. This is not zero revenue; funding and valuation are not substitutes.</p></div><div class="company-source">${sourceLink(c.source)}<span>Company role source · ${dateLabel(sourceOf(c.source).published)}</span></div>`:`<div class="company-revenue ${c.revenue_kind==='run-rate'?'run-rate':''}"><span class="eyebrow">${c.revenue_kind==='run-rate'?'ANNUALIZED RUN RATE':'REPORTED ANNUAL REVENUE'}</span><strong>${esc(valueOf(o))}<small>${esc(m.unit)}</small></strong><p>${esc(o.period)}</p></div>
   <p class="company-scope">${esc(m.scope)}</p><p class="chart-footnote">${esc(o.note || m.note)}</p>
   <div class="company-source">${sourceLink(o.source)}<span>Published ${dateLabel(sourceOf(o.source).published)} · Accessed ${dateLabel(o.retrieved_at)} · ${o.method==='automated'?'Automated':'Curated'}</span></div>`}
- ${companyMeasures(c)}</article>`;
+ <a class="section-link company-profile-link" href="${base}companies/${esc(c.id)}/">Revenue history & company research ↗</a>${companyMeasures(c)}</article>`;
 }
 
 function companySection(layer) {
@@ -71,4 +71,25 @@ function extendWithEcosystem() {
  } else if(layerOf(page)) {
   root.insertAdjacentHTML('beforeend',companySection(page)+(page==='chips'?supplyChain()+capacitySection():''));
  }
+}
+
+
+function companyPage() {
+ const id=root.querySelector('[data-company]')?.dataset.company || location.pathname.split('/').filter(Boolean).at(-1),c=companyOf(id);
+ if(!c)throw new Error('Unknown company profile');
+ const mid=c.revenue_chart_metric||c.revenue_metric,m=metricOf(mid),f=m?.chart_companion_metric?metricOf(m.chart_companion_metric):null;
+ const financials=m?[m,...(f?[f]:[])]:[],os=financials.flatMap(m=>records(m.id)),past=os.filter(o=>['observation','estimate'].includes(o.status)),future=os.filter(o=>o.status==='forecast');
+ const years=rows=>rows.length?`${Math.min(...rows.map(o=>o.year))}–${Math.max(...rows.map(o=>o.year))}`:'Not verified';
+ const extra=data.metrics.filter(x=>x.company===id&&!financials.some(m=>m.id===x.id)&&x.id!==c.revenue_metric&&records(x.id).length);
+ const projects=[...new Set(extra.map(x=>x.project).filter(Boolean))].map(pid=>delivery.projects.find(p=>p.id===pid)).filter(Boolean);
+ const peers=ecosystem.companies.filter(x=>x.id!==id&&x.layers.some(l=>c.layers.includes(l))).slice(0,8);
+ root.innerHTML=`<section class="page-hero company-hero" style="--accent:${layerOf(c.layers[0]).color}"><a class="section-link" href="${base}companies/">← All companies</a><div class="eyebrow">THE BUILDERS / COMPANY RESEARCH</div><h1>${esc(c.name)}</h1><p>${esc(c.role)}</p><div class="company-layers">${c.layers.map(l=>`<a href="${base}${l}/" style="--tag:${layerOf(l).color}">${esc(layerOf(l).name)}</a>`).join('')}</div><p class="chart-footnote">Role evidence: ${(c.role_sources||[c.source]).map(sourceLink).join(' · ')}${c.ir_url?` · <a class="source-inline" href="${safeUrl(c.ir_url)}">Investor relations ↗</a>`:''}</p></section>
+ <div class="company-coverage"><div><span>REPORTED HISTORY</span><strong>${years(past)}</strong></div><div><span>REVIEWED OUTLOOK</span><strong>${years(future)}</strong></div><div><span>REVENUE BASIS</span><strong>${esc(c.revenue_kind==='run-rate'?'Annualized run rate':m?.unit||'Coverage gap')}</strong></div></div>
+ <section class="section company-financials" id="revenue"><div class="section-top"><div><div class="eyebrow muted">THE BUSINESS BEHIND THE BUILDOUT</div><h2>Revenue, through time.</h2></div></div>${m?`<div class="panel">${chart(mid)}</div>`:`<div class="panel"><h3>Revenue history not yet verified</h3><p>${id==='openclaw'?'OpenClaw is an open-source project. A conventional company revenue chart is not applicable without a defined reporting entity.':'No reviewed standalone revenue series is available in this edition.'}</p><p>Missing values are not zero. Funding, valuation, contracts and a parent company’s sales do not replace this entity’s revenue.</p></div>`}
+ ${!future.length?`<p class="next-evidence"><strong>Forecast coverage:</strong> No comparable annual revenue forecast has been verified for this entity. ${id==='aws'?'AWS is an Amazon segment; Amazon-wide forecasts cannot stand in for AWS.':''} The page will extend when a source supplies a defined period, currency and revenue basis.</p>`:`<p class="next-evidence"><strong>Forecast horizon:</strong> ${Math.max(...future.map(o=>o.year))} is the furthest reviewed revenue year. Later paywalled estimates are not reproduced; no values are extrapolated to 2030 or beyond. A dated company scenario can have a different vintage from current analyst consensus.</p>`}
+ ${c.revenue_kind==='run-rate'?'<aside class="reading-note"><strong>Run rate is not annual revenue.</strong><p>This disclosure annualizes a point-in-time business pace. It does not establish recognized revenue for the fiscal year.</p></aside>':''}
+ ${c.revenue_chart_metric&&c.revenue_metric?`<details class="panel"><summary>Original reported currency series</summary>${chart(c.revenue_metric)}</details>`:''}
+ <p class="chart-footnote">Company-wide revenue includes every business reported within its scope. It is not automatically AI revenue, customer productivity, local spending or jobs. Fiscal calendars and currencies differ. Public consensus is attributed to Stock Analysis / S&P Global; company outlooks name their issuer. Every point retains its access date and source.</p></section>
+ <section class="section"><h2>Capital, jobs & delivered capacity.</h2>${companyMeasures(c)}${projects.length?`<div class="supplier-links">${projects.map(p=>`<a href="${base}projects/#project-${esc(p.id)}">${esc(p.name)} ↗</a>`).join('')}</div>`:''}${extra.length?`<div class="company-data-grid">${extra.map(x=>`<div class="panel">${chart(x.id)}</div>`).join('')}</div>`:'<p class="empty">Additional company-specific operating metrics remain a research priority.</p>'}</section>
+ <section class="section"><h2>Connected builders.</h2><div class="supplier-links">${peers.map(c=>companyLink(c.id)).join('')}</div><p class="chart-footnote">Other covered organizations in the same layers; shared coverage does not assert a commercial partnership.</p></section>`;
 }

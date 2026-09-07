@@ -1,6 +1,7 @@
 """Validate reviewed company mappings and industry evidence before building."""
 import json
 import math
+import re
 from pathlib import Path
 from validate import require, text, timestamp, LAYERS
 
@@ -13,7 +14,10 @@ def validate_ecosystem(e,ledger):
     ids=set()
     for c in e['companies']:
         required={'id','name','layers','role','revenue_metric','revenue_kind','source'}
-        require(required<=c.keys() and c.keys()<=required|{'role_sources','ir_url','filings_jurisdiction','blog_urls','official_lang','region_book'},'Unexpected company shape')
+        require(required<=c.keys() and c.keys()<=required|{'role_sources','ir_url','filings_jurisdiction','blog_urls','official_lang','region_book','revenue_chart_metric'},'Unexpected company shape')
+        require(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', c['id']) is not None, 'Unsafe company route')
+        if c.get('revenue_chart_metric'):
+            require(c['revenue_chart_metric'] in metrics and metrics[c['revenue_chart_metric']].get('company') == c['id'], 'Company chart ownership mismatch')
         require(c['id'] not in ids,'Duplicate company ID');ids.add(c['id'])
         for k in ['id','name','role']:text(c[k])
         require(c['layers'] and set(c['layers'])<=set(LAYERS),'Invalid company layers')

@@ -3,11 +3,29 @@ from datetime import datetime
 from html import escape as e
 from pathlib import Path
 from urllib.parse import urlsplit
+import json
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE_IDS = ('home', 'energy', 'chips', 'infrastructure', 'models', 'applications',
             'projects', 'companies', 'industry', 'ledger', 'methodology')
 GENERATED_PAGES = {'docs/' + ('' if p == 'home' else p + '/') + 'index.html' for p in PAGE_IDS}
+COMPANY_IDS = tuple(c['id'] for c in json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies'])
+assert all(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', cid) for cid in COMPANY_IDS)
+GENERATED_PAGES |= {f'docs/companies/{cid}/index.html' for cid in COMPANY_IDS}
+
+
+def company_snapshot(data, company, base):
+    """Useful financial evidence even without JavaScript."""
+    sources = {s['id']: s for s in data['sources']}
+    metrics = {m['id']: m for m in data['metrics']}
+    mid = company.get('revenue_chart_metric') or company['revenue_metric']
+    metric = metrics.get(mid)
+    mids = {mid, metric.get('chart_companion_metric') if metric else None}
+    records = sorted((o for o in data['observations'] if o['metric'] in mids and not o.get('superseded_by')), key=lambda o: (o['year'], o['period']))
+    rows = ''.join(f'<tr><td>{e(o["period"])}</td><td>{e(number(o))}</td><td>{STATUSES[o["status"]]}</td><td><a href="{link_url(sources[o["source"]]["url"])}">{e(sources[o["source"]]["publisher"])}</a></td></tr>' for o in records)
+    financials = (f'<h2>Revenue history &amp; outlook</h2><p>{e(metric["scope"])} · {e(metric["unit"])}</p><div class="table-scroll"><table><thead><tr><th>Period</th><th>Revenue</th><th>Classification</th><th>Source</th></tr></thead><tbody>{rows}</tbody></table></div>' if records else '<h2>Revenue coverage</h2><p>No reviewed revenue series yet. Missing data does not mean zero revenue. Funding and valuation are not substitutes.</p>')
+    return (f'<section class="page-hero" data-company="{e(company["id"])}"><a class="section-link" href="{base}companies/">← All companies</a><div class="eyebrow">THE BUILDERS / COMPANY RESEARCH</div><h1>{e(company["name"])}</h1><p>{e(company["role"])}</p></section><section class="panel">{financials}</section>')
 HOME_DESCRIPTION = ('Track energy, chips, infrastructure, models and applications worldwide, '
                     'with deeper U.S. coverage and a horizon of 2030 and beyond.')
 LABELS = {

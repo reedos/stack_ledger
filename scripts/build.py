@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from html import escape
-from render import HOME_DESCRIPTION, home, navigation, runtime
+from render import HOME_DESCRIPTION, home, navigation, runtime, company_snapshot
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -31,13 +31,17 @@ def build():
     pages += [('companies','companies/','Companies — Stack Ledger','Meet the builders.','Companies, capabilities and reported revenue across the five layers of AI.'), ('industry','industry/','Jobs & Industry — Stack Ledger','Intelligence has a physical footprint.','Chip capacity, factory milestones, jobs and evidence of industrial rebuilding.')]
     pages += [('projects','projects/','Delivery Tracker — Stack Ledger','From promise to power.','Track power, AI campuses, fabs and physical applications: sourced stages, capacity, capital and jobs.')]
     pages += [(l['id'], l['id']+'/', l['name']+' — Stack Ledger', l['tagline'], l['description']) for l in data['layers']]
+    companies = json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
+    profiles = {f'companies/{c["id"]}/': c for c in companies}
+    pages += [('company', path, c['name']+' — Revenue & research — Stack Ledger', c['name'], c['role']) for path,c in profiles.items()]
     for page,path,title,heading,description in pages:
         rendered=template
-        base = '../' if path else './'
+        base = '../' * path.count('/') if path else './'
         content = home(data, base) if page == 'home' else (f'<section class="page-hero"><div class="eyebrow">STACK LEDGER / OPEN RESEARCH</div><h1>{escape(heading)}</h1><p>{escape(description)}</p></section>')
+        if page == 'company': content = company_snapshot(data, profiles[path], base)
         for key, value in {'CONTENT': content, 'STACK_NAV': navigation(data, base, page), 'RUNTIME': runtime(data)}.items():
             rendered=rendered.replace('{{'+key+'}}', value)
-        for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':'../' if path else './','CANONICAL':path}.items():
+        for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':base,'CANONICAL':path}.items():
             rendered=rendered.replace('{{'+key+'}}',escape(value,quote=True))
         folder=dest/path
         folder.mkdir(parents=True,exist_ok=True)

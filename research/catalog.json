@@ -266,13 +266,24 @@
       "max": 10000,
       "note": "Broader power business; this is not revenue from AI customers alone. Preliminary results release.",
       "source_ids": [
-        "company-nextera"
+        "company-nextera",
+        "finance-nextera-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-nextera-forecast",
+      "chart_comparison_title": "NextEra Energy — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "nextera",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-ge-vernova",
@@ -286,13 +297,25 @@
       "max": 10000,
       "note": "Equipment revenue includes many uses beyond AI and data centers.",
       "source_ids": [
-        "company-ge-vernova"
+        "company-ge-vernova",
+        "finance-ge-vernova-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
-      "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "definition_stable": false,
+      "pre_period_note": "Reporting perimeter changes require care: pre-spin, acquired or disposed businesses and restated comparatives may differ. These are reported totals, not a constant-business growth comparison.",
+      "definition_break_year": 2024,
+      "chart_companion_metric": "revenue-ge-vernova-forecast",
+      "chart_comparison_title": "GE Vernova — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "ge-vernova",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-schneider",
@@ -306,13 +329,24 @@
       "max": 10000,
       "note": "Not an AI revenue breakout. Original euros are retained; no exchange-rate conversion.",
       "source_ids": [
-        "company-schneider"
+        "company-schneider",
+        "finance-schneider-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-schneider-forecast",
+      "chart_comparison_title": "Schneider Electric — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "schneider",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-nvidia",
@@ -326,13 +360,24 @@
       "max": 10000,
       "note": "Includes Data Center, gaming and other markets; not a measure of AI-only sales. NVIDIA designs chips and relies on manufacturing partners.",
       "source_ids": [
-        "company-nvidia"
+        "company-nvidia",
+        "finance-nvidia-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-nvidia-forecast",
+      "chart_comparison_title": "NVIDIA — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "nvidia",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-amd",
@@ -346,13 +391,24 @@
       "max": 10000,
       "note": "Data Center segment revenue was $16.6B in FY2025; that includes server CPUs as well as AI accelerators.",
       "source_ids": [
-        "company-amd"
+        "company-amd",
+        "finance-amd-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-amd-forecast",
+      "chart_comparison_title": "AMD — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "amd",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-broadcom",
@@ -366,13 +422,25 @@
       "max": 10000,
       "note": "Includes VMware and other non-AI businesses. Custom chip design is distinct from wafer fabrication.",
       "source_ids": [
-        "company-broadcom"
+        "company-broadcom",
+        "finance-broadcom-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
-      "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "definition_stable": false,
+      "pre_period_note": "Reporting perimeter changes require care: pre-spin, acquired or disposed businesses and restated comparatives may differ. These are reported totals, not a constant-business growth comparison.",
+      "definition_break_year": 2024,
+      "chart_companion_metric": "revenue-broadcom-forecast",
+      "chart_comparison_title": "Broadcom — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "broadcom",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-tsmc",
@@ -397,7 +465,12 @@
       "chart_default_start": 2019,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Company-wide annual revenue, 2019–2025, using each annual report’s USD presentation. Not inflation adjusted and not AI-only."
+      "pre_period_note": "Company-wide annual revenue, 2019–2025, using each annual report’s USD presentation. Not inflation adjusted and not AI-only.",
+      "company": "tsmc",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-samsung",
@@ -411,13 +484,24 @@
       "max": 10000,
       "note": "Includes phones, displays and appliances. This figure is not semiconductor, foundry or AI revenue.",
       "source_ids": [
-        "company-samsung"
+        "company-samsung",
+        "finance-samsung-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-samsung-forecast",
+      "chart_comparison_title": "Samsung Electronics — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "samsung",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-intel",
@@ -431,13 +515,24 @@
       "max": 10000,
       "note": "Internal foundry transfers are not additional consolidated sales; do not add segment revenues without eliminations.",
       "source_ids": [
-        "company-intel"
+        "company-intel",
+        "finance-intel-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-intel-forecast",
+      "chart_comparison_title": "Intel — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "intel",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-sk-hynix",
@@ -451,13 +546,24 @@
       "max": 10000,
       "note": "Total memory business; not an HBM-only or AI-only revenue figure.",
       "source_ids": [
-        "company-sk-hynix"
+        "company-sk-hynix",
+        "finance-sk-hynix-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-sk-hynix-forecast",
+      "chart_comparison_title": "SK hynix — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "sk-hynix",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-micron",
@@ -471,13 +577,24 @@
       "max": 10000,
       "note": "Includes memory and storage outside AI. This is fiscal 2025, not a 2026 run rate.",
       "source_ids": [
-        "company-micron"
+        "company-micron",
+        "finance-micron-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-micron-forecast",
+      "chart_comparison_title": "Micron — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "micron",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-asml",
@@ -491,13 +608,24 @@
       "max": 10000,
       "note": "ASML sells manufacturing equipment; it does not fabricate customers’ finished chips. Original euros retained.",
       "source_ids": [
-        "company-asml"
+        "company-asml",
+        "finance-asml-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-asml-forecast",
+      "chart_comparison_title": "ASML — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "asml",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-vertiv",
@@ -511,13 +639,24 @@
       "max": 10000,
       "note": "Critical digital infrastructure sales, not solely AI data centers.",
       "source_ids": [
-        "company-vertiv"
+        "company-vertiv",
+        "finance-vertiv-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-vertiv-forecast",
+      "chart_comparison_title": "Vertiv — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "vertiv",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-microsoft",
@@ -531,13 +670,24 @@
       "max": 10000,
       "note": "Azure exceeded $100B annual revenue in FY2026, but Azure includes non-AI workloads. Copilot is not the whole company.",
       "source_ids": [
-        "company-microsoft"
+        "company-microsoft",
+        "finance-microsoft-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-microsoft-forecast",
+      "chart_comparison_title": "Microsoft — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "microsoft",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-aws",
@@ -551,13 +701,19 @@
       "max": 10000,
       "note": "A segment figure, not total Amazon revenue. Includes non-AI cloud services; not AI-only sales.",
       "source_ids": [
-        "company-aws"
+        "company-aws",
+        "aws-annual-history-2024"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2023,
+      "chart_default_start": 2023,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "AWS segment sales only. Amazon consolidated revenue and forecasts are excluded.",
+      "company": "aws",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-alphabet",
@@ -571,13 +727,24 @@
       "max": 10000,
       "note": "Includes advertising and other businesses; not Google Cloud or Gemini revenue alone.",
       "source_ids": [
-        "company-alphabet"
+        "company-alphabet",
+        "finance-alphabet-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-alphabet-forecast",
+      "chart_comparison_title": "Alphabet / Google — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "alphabet",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-meta",
@@ -591,13 +758,24 @@
       "max": 10000,
       "note": "Predominantly the broader advertising business; not standalone model revenue or a direct measure of AI value added.",
       "source_ids": [
-        "company-meta"
+        "company-meta",
+        "finance-meta-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-meta-forecast",
+      "chart_comparison_title": "Meta — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "meta",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-openai",
@@ -617,7 +795,12 @@
       "chart_default_start": 2025,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero.",
+      "company": "openai",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-anthropic",
@@ -637,7 +820,12 @@
       "chart_default_start": 2026,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero.",
+      "company": "anthropic",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-salesforce",
@@ -651,13 +839,24 @@
       "max": 10000,
       "note": "Includes the wider CRM and data business; not Agentforce-only revenue or measured customer productivity.",
       "source_ids": [
-        "company-salesforce"
+        "company-salesforce",
+        "finance-salesforce-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-salesforce-forecast",
+      "chart_comparison_title": "Salesforce — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "salesforce",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-palantir",
@@ -671,13 +870,24 @@
       "max": 10000,
       "note": "Government and commercial platform revenue; not AIP-only sales or a quantified economy-wide productivity effect.",
       "source_ids": [
-        "company-palantir"
+        "company-palantir",
+        "finance-palantir-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-palantir-forecast",
+      "chart_comparison_title": "Palantir — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "palantir",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "advanced-wafer-capacity",
@@ -1031,13 +1241,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-marvell"
+        "company-marvell",
+        "finance-marvell-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-marvell-forecast",
+      "chart_comparison_title": "Marvell — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "marvell",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-credo",
@@ -1051,13 +1272,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-credo"
+        "company-credo",
+        "finance-credo-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-credo-forecast",
+      "chart_comparison_title": "Credo — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "credo",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-astera",
@@ -1071,13 +1303,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-astera"
+        "company-astera",
+        "finance-astera-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-astera-forecast",
+      "chart_comparison_title": "Astera Labs — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "astera",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-coherent",
@@ -1091,13 +1334,25 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-coherent"
+        "company-coherent",
+        "finance-coherent-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
-      "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "definition_stable": false,
+      "pre_period_note": "Reporting perimeter changes require care: pre-spin, acquired or disposed businesses and restated comparatives may differ. These are reported totals, not a constant-business growth comparison.",
+      "definition_break_year": 2023,
+      "chart_companion_metric": "revenue-coherent-forecast",
+      "chart_comparison_title": "Coherent — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "coherent",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-lumentum",
@@ -1111,13 +1366,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-lumentum"
+        "company-lumentum",
+        "finance-lumentum-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-lumentum-forecast",
+      "chart_comparison_title": "Lumentum — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "lumentum",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-applied-opto",
@@ -1131,13 +1397,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-applied-opto"
+        "company-applied-opto",
+        "finance-applied-opto-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-applied-opto-forecast",
+      "chart_comparison_title": "Applied Optoelectronics — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "applied-opto",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-fabrinet",
@@ -1151,13 +1428,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-fabrinet"
+        "company-fabrinet",
+        "finance-fabrinet-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-fabrinet-forecast",
+      "chart_comparison_title": "Fabrinet — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "fabrinet",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-corning",
@@ -1171,13 +1459,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-corning"
+        "company-corning",
+        "finance-corning-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-corning-forecast",
+      "chart_comparison_title": "Corning — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "corning",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-amphenol",
@@ -1191,13 +1490,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-amphenol"
+        "company-amphenol",
+        "finance-amphenol-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-amphenol-forecast",
+      "chart_comparison_title": "Amphenol — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "amphenol",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-arista",
@@ -1211,13 +1521,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-arista"
+        "company-arista",
+        "finance-arista-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-arista-forecast",
+      "chart_comparison_title": "Arista Networks — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "arista",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-cisco",
@@ -1231,13 +1552,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-cisco"
+        "company-cisco",
+        "finance-cisco-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-cisco-forecast",
+      "chart_comparison_title": "Cisco — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "cisco",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-celestica",
@@ -1251,13 +1583,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-celestica"
+        "company-celestica",
+        "finance-celestica-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-celestica-forecast",
+      "chart_comparison_title": "Celestica — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "celestica",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-eaton",
@@ -1271,13 +1614,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-eaton"
+        "company-eaton",
+        "finance-eaton-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-eaton-forecast",
+      "chart_comparison_title": "Eaton — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "eaton",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-quanta",
@@ -1291,13 +1645,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-quanta"
+        "company-quanta",
+        "finance-quanta-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-quanta-forecast",
+      "chart_comparison_title": "Quanta Services — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "quanta",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-emcor",
@@ -1311,13 +1676,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-emcor"
+        "company-emcor",
+        "finance-emcor-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-emcor-forecast",
+      "chart_comparison_title": "EMCOR — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "emcor",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-first-solar",
@@ -1331,13 +1707,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-first-solar"
+        "company-first-solar",
+        "finance-first-solar-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-first-solar-forecast",
+      "chart_comparison_title": "First Solar — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "first-solar",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "us-electricians",
@@ -1551,13 +1938,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-ciena"
+        "company-ciena",
+        "finance-ciena-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-ciena-forecast",
+      "chart_comparison_title": "Ciena — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "ciena",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-semtech",
@@ -1571,13 +1969,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-semtech"
+        "company-semtech",
+        "finance-semtech-consensus-20260907"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-semtech-forecast",
+      "chart_comparison_title": "Semtech — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "semtech",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "revenue-macom",
@@ -1591,13 +2000,24 @@
       "max": 10000,
       "note": "Original fiscal period and business scope retained.",
       "source_ids": [
-        "company-macom"
+        "company-macom",
+        "finance-macom-consensus-20260907"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-macom-forecast",
+      "chart_comparison_title": "MACOM — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook",
+      "company": "macom",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     },
     {
       "id": "colossus-one-it-epoch",
@@ -2468,7 +2888,8 @@
       "max": 10000,
       "note": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity.",
       "source_ids": [
-        "supermicro-fy2026"
+        "supermicro-fy2026",
+        "finance-supermicro-consensus-20260907"
       ],
       "company": "supermicro",
       "measurement_type": "annual_revenue_usd",
@@ -2477,11 +2898,16 @@
         "observation",
         "estimate"
       ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-supermicro-forecast",
+      "chart_comparison_title": "Super Micro Computer — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
     },
     {
       "id": "coreweave-annual-revenue",
@@ -2495,7 +2921,8 @@
       "max": 10000,
       "note": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity.",
       "source_ids": [
-        "coreweave-fy2025"
+        "coreweave-fy2025",
+        "finance-coreweave-consensus-20260907"
       ],
       "company": "coreweave",
       "measurement_type": "annual_revenue_usd",
@@ -2504,11 +2931,16 @@
         "observation",
         "estimate"
       ],
-      "series_start_year": 2025,
-      "chart_default_start": 2025,
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+      "pre_period_note": "Historical backfill uses the cited public financial table, rounded by its publisher. Existing primary-source observations are retained. Acquisitions and disposals can change reporting scope.",
+      "chart_companion_metric": "revenue-coreweave-forecast",
+      "chart_comparison_title": "CoreWeave — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
     },
     {
       "id": "waymo-autonomous-weekly",
@@ -4573,6 +5005,2101 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Price snapshot reviewed September 7, 2026. Earlier prices are not inferred."
+    },
+    {
+      "id": "revenue-nvidia-forecast",
+      "company": "nvidia",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "NVIDIA — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-nvidia-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-amd-forecast",
+      "company": "amd",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "AMD — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-amd-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-broadcom-forecast",
+      "company": "broadcom",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Broadcom — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net revenue, semiconductors plus infrastructure software. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-broadcom-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-microsoft-forecast",
+      "company": "microsoft",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Microsoft — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-microsoft-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-alphabet-forecast",
+      "company": "alphabet",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Alphabet / Google — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated Alphabet annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-alphabet-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-meta-forecast",
+      "company": "meta",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "models",
+      "title": "Meta — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-meta-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-tsmc-reported",
+      "company": "tsmc",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "layer": "chips",
+      "title": "TSMC — annual revenue",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-tsmc-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-tsmc-forecast",
+      "chart_comparison_title": "TSMC — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-tsmc-forecast",
+      "company": "tsmc",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "TSMC — revenue outlook",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-tsmc-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-nextera-forecast",
+      "company": "nextera",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "energy",
+      "title": "NextEra Energy — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide operating revenue, including FPL and NextEra Energy Resources. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-nextera-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-ge-vernova-forecast",
+      "company": "ge-vernova",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "energy",
+      "title": "GE Vernova — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide GAAP revenue across Power, Wind and Electrification. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-ge-vernova-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-intel-forecast",
+      "company": "intel",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Intel — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated company-wide annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-intel-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-micron-forecast",
+      "company": "micron",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Micron — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-micron-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-vertiv-forecast",
+      "company": "vertiv",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Vertiv — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-vertiv-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-salesforce-forecast",
+      "company": "salesforce",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "applications",
+      "title": "Salesforce — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-salesforce-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-palantir-forecast",
+      "company": "palantir",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "applications",
+      "title": "Palantir — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as described in the annual report. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-palantir-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-marvell-forecast",
+      "company": "marvell",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Marvell — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue; includes data-center and other markets. Celestial AI closed after this fiscal year. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-marvell-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-credo-forecast",
+      "company": "credo",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Credo — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide connectivity revenue; not a count of chips, cables or AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-credo-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-astera-forecast",
+      "company": "astera",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Astera Labs — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue, rounded as reported; product families have different deployment stages. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-astera-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-coherent-forecast",
+      "company": "coherent",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Coherent — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide photonics revenue; includes industrial applications beyond data centers. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-coherent-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-lumentum-forecast",
+      "company": "lumentum",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Lumentum — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide optical components and systems revenue, not AI-only revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-lumentum-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-applied-opto-forecast",
+      "company": "applied-opto",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Applied Optoelectronics — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue includes data-center and hybrid fiber-coaxial broadband products. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-applied-opto-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-fabrinet-forecast",
+      "company": "fabrinet",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Fabrinet — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide manufacturing-services revenue, rounded as reported; overlaps customers’ product revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-fabrinet-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-corning-forecast",
+      "company": "corning",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Corning — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide GAAP net sales; distinct from higher non-GAAP core sales. Includes display and other businesses. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-corning-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-amphenol-forecast",
+      "company": "amphenol",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Amphenol — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide sales, rounded as reported; includes many non-data-center markets. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-amphenol-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-arista-forecast",
+      "company": "arista",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Arista Networks — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue includes AI, cloud, campus and other networking. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-arista-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-cisco-forecast",
+      "company": "cisco",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Cisco — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue, rounded as reported; includes networking, security, collaboration and services. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-cisco-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-celestica-forecast",
+      "company": "celestica",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Celestica — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue, rounded as reported; includes businesses beyond AI infrastructure. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-celestica-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-eaton-forecast",
+      "company": "eaton",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "energy",
+      "title": "Eaton — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide sales, rounded as reported; includes electrical, aerospace and other businesses. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-eaton-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-quanta-forecast",
+      "company": "quanta",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "energy",
+      "title": "Quanta Services — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide contracting revenue; not wages, local spending or exclusively data-center work. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-quanta-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-emcor-forecast",
+      "company": "emcor",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "EMCOR — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue; not a measure of data-center-only construction or net jobs. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-emcor-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-first-solar-forecast",
+      "company": "first-solar",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "energy",
+      "title": "First Solar — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide net sales, rounded as reported in the FY2025 release; solar module sales are not electricity generation. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-first-solar-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-ciena-forecast",
+      "company": "ciena",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Ciena — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as reported; includes markets beyond AI data centers. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-ciena-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-semtech-forecast",
+      "company": "semtech",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Semtech — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as reported; includes markets beyond AI data centers. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-semtech-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-macom-forecast",
+      "company": "macom",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "MACOM — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue, rounded as reported; includes markets beyond AI data centers. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-macom-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-tesla-reported",
+      "company": "tesla",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "chips",
+      "title": "Tesla — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-tesla-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-tesla-forecast",
+      "chart_comparison_title": "Tesla — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-tesla-forecast",
+      "company": "tesla",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Tesla — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-tesla-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-oracle-reported",
+      "company": "oracle",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Oracle — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-oracle-consensus-20260907"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-oracle-forecast",
+      "chart_comparison_title": "Oracle — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-oracle-forecast",
+      "company": "oracle",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Oracle — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-oracle-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-coreweave-forecast",
+      "company": "coreweave",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "CoreWeave — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Company global operations",
+      "scope": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-coreweave-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-nebius-reported",
+      "company": "nebius",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Nebius — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-nebius-consensus-20260907"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": false,
+      "pre_period_note": "History starts in 2024 after the Yandex divestment. Earlier Yandex revenue is excluded from the AI-cloud comparison.",
+      "definition_break_year": 2024,
+      "chart_companion_metric": "revenue-nebius-forecast",
+      "chart_comparison_title": "Nebius — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-nebius-forecast",
+      "company": "nebius",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Nebius — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-nebius-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-amkor-reported",
+      "company": "amkor",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "chips",
+      "title": "Amkor — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-amkor-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-amkor-forecast",
+      "chart_comparison_title": "Amkor — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-amkor-forecast",
+      "company": "amkor",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Amkor — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-amkor-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-supermicro-forecast",
+      "company": "supermicro",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Super Micro Computer — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Company global operations",
+      "scope": "Rounded company-wide annual revenue; not project investment, AI-only sales or customer productivity. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-supermicro-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-constellation-reported",
+      "company": "constellation",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "energy",
+      "title": "Constellation Energy — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-constellation-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": false,
+      "pre_period_note": "Reporting perimeter changes require care: pre-spin, acquired or disposed businesses and restated comparatives may differ. These are reported totals, not a constant-business growth comparison.",
+      "definition_break_year": 2022,
+      "chart_companion_metric": "revenue-constellation-forecast",
+      "chart_comparison_title": "Constellation Energy — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-constellation-forecast",
+      "company": "constellation",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "energy",
+      "title": "Constellation Energy — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-constellation-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-dell-reported",
+      "company": "dell",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Dell Technologies — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-dell-consensus-20260907"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-dell-forecast",
+      "chart_comparison_title": "Dell Technologies — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-dell-forecast",
+      "company": "dell",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Dell Technologies — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-dell-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-nvent-reported",
+      "company": "nvent",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "nVent — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-nvent-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": false,
+      "pre_period_note": "Reporting perimeter changes require care: pre-spin, acquired or disposed businesses and restated comparatives may differ. These are reported totals, not a constant-business growth comparison.",
+      "definition_break_year": 2022,
+      "chart_companion_metric": "revenue-nvent-forecast",
+      "chart_comparison_title": "nVent — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-nvent-forecast",
+      "company": "nvent",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "nVent — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-nvent-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-johnson-controls-reported",
+      "company": "johnson-controls",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Johnson Controls — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-johnson-controls-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": false,
+      "pre_period_note": "Reporting perimeter changes require care: pre-spin, acquired or disposed businesses and restated comparatives may differ. These are reported totals, not a constant-business growth comparison.",
+      "definition_break_year": 2022,
+      "chart_companion_metric": "revenue-johnson-controls-forecast",
+      "chart_comparison_title": "Johnson Controls — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-johnson-controls-forecast",
+      "company": "johnson-controls",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Johnson Controls — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-johnson-controls-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-merck-reported",
+      "company": "merck",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "applications",
+      "title": "Merck — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-merck-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-merck-forecast",
+      "chart_comparison_title": "Merck — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-merck-forecast",
+      "company": "merck",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "applications",
+      "title": "Merck — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-merck-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-moderna-reported",
+      "company": "moderna",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "applications",
+      "title": "Moderna — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-moderna-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-moderna-forecast",
+      "chart_comparison_title": "Moderna — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-moderna-forecast",
+      "company": "moderna",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "applications",
+      "title": "Moderna — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-moderna-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-alibaba-reported",
+      "company": "alibaba",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "models",
+      "title": "Alibaba / Qwen — annual revenue",
+      "unit": "CNY billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-alibaba-consensus-20260907"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-alibaba-forecast",
+      "chart_comparison_title": "Alibaba / Qwen — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-alibaba-forecast",
+      "company": "alibaba",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "models",
+      "title": "Alibaba / Qwen — revenue outlook",
+      "unit": "CNY billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-alibaba-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-recursion-reported",
+      "company": "recursion",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "applications",
+      "title": "Recursion — annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-recursion-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-recursion-forecast",
+      "chart_comparison_title": "Recursion — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-recursion-forecast",
+      "company": "recursion",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "applications",
+      "title": "Recursion — revenue outlook",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-recursion-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-asml-forecast",
+      "company": "asml",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "ASML — revenue outlook",
+      "unit": "EUR billion",
+      "geography": "Global",
+      "scope": "Company-wide annual net sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-asml-consensus-20260907",
+        "asml-2030-revenue-scenario"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-samsung-forecast",
+      "company": "samsung",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "Samsung Electronics — revenue outlook",
+      "unit": "KRW trillion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue in trillions of Korean won. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-samsung-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-sk-hynix-forecast",
+      "company": "sk-hynix",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "chips",
+      "title": "SK hynix — revenue outlook",
+      "unit": "KRW trillion",
+      "geography": "Global",
+      "scope": "Company-wide annual revenue in trillions of Korean won. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-sk-hynix-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-schneider-forecast",
+      "company": "schneider",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "energy",
+      "title": "Schneider Electric — revenue outlook",
+      "unit": "EUR billion",
+      "geography": "Global",
+      "scope": "Company-wide revenue across Energy Management and Industrial Automation. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-schneider-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-foxconn-reported",
+      "company": "foxconn",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Foxconn / Hon Hai — annual revenue",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-foxconn-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-foxconn-forecast",
+      "chart_comparison_title": "Foxconn / Hon Hai — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-foxconn-forecast",
+      "company": "foxconn",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Foxconn / Hon Hai — revenue outlook",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-foxconn-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-quanta-computer-reported",
+      "company": "quanta-computer",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Quanta Computer / QCT — annual revenue",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-quanta-computer-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-quanta-computer-forecast",
+      "chart_comparison_title": "Quanta Computer / QCT — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-quanta-computer-forecast",
+      "company": "quanta-computer",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Quanta Computer / QCT — revenue outlook",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-quanta-computer-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-wiwynn-reported",
+      "company": "wiwynn",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Wiwynn — annual revenue",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-wiwynn-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": false,
+      "pre_period_note": "Reporting perimeter changes require care: pre-spin, acquired or disposed businesses and restated comparatives may differ. These are reported totals, not a constant-business growth comparison.",
+      "definition_break_year": 2026,
+      "chart_companion_metric": "revenue-wiwynn-forecast",
+      "chart_comparison_title": "Wiwynn — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-wiwynn-forecast",
+      "company": "wiwynn",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Wiwynn — revenue outlook",
+      "unit": "TWD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-wiwynn-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-softbank-reported",
+      "company": "softbank",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "SoftBank — annual revenue",
+      "unit": "JPY billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-softbank-consensus-20260907"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-softbank-forecast",
+      "chart_comparison_title": "SoftBank — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-softbank-forecast",
+      "company": "softbank",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "SoftBank — revenue outlook",
+      "unit": "JPY billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-softbank-consensus-20260907"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-innolight-reported",
+      "company": "innolight",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "InnoLight — annual revenue",
+      "unit": "CNY billion",
+      "geography": "Global",
+      "scope": "Zhongji Innolight consolidated parent-company annual revenue, including its businesses; not standalone optical-module or AI revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-innolight-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-innolight-forecast",
+      "chart_comparison_title": "InnoLight — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-innolight-forecast",
+      "company": "innolight",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "InnoLight — revenue outlook",
+      "unit": "CNY billion",
+      "geography": "Global",
+      "scope": "Zhongji Innolight consolidated parent-company annual revenue, including its businesses; not standalone optical-module or AI revenue. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-innolight-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
+    },
+    {
+      "id": "revenue-eoptolink-reported",
+      "company": "eoptolink",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ],
+      "layer": "infrastructure",
+      "title": "Eoptolink — annual revenue",
+      "unit": "CNY billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-eoptolink-consensus-20260907"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies.",
+      "chart_companion_metric": "revenue-eoptolink-forecast",
+      "chart_comparison_title": "Eoptolink — revenue history & outlook",
+      "chart_comparison_note": "Solid bars: reported annual revenue. Amber hatched bars: dated analyst consensus or explicitly labeled company scenarios. Forecasts stop at the last publicly reviewed horizon; missing years are not filled.",
+      "chart_comparison_label": "Revenue outlook",
+      "chart_comparison_legend": "Analyst consensus / company outlook"
+    },
+    {
+      "id": "revenue-eoptolink-forecast",
+      "company": "eoptolink",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "layer": "infrastructure",
+      "title": "Eoptolink — revenue outlook",
+      "unit": "CNY billion",
+      "geography": "Global",
+      "scope": "Consolidated annual company revenue; all business lines, not AI-only sales. Analyst consensus is a third-party forecast, not company guidance.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Fiscal years retain the publisher’s year labels. Acquisitions, disposals and accounting changes can affect comparability.",
+      "source_ids": [
+        "finance-eoptolink-consensus-20260907"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Only sourced fiscal years are shown. No interpolation or extrapolation. Fiscal year ends differ across companies."
     }
   ],
   "targets": [

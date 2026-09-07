@@ -26,7 +26,9 @@ FUTURE_ONLY = {'training_seats_committed','training_funding_committed','nuclear_
                'site_it_mw_planned_endstate', 'interconnection_mw_requested',
                'permanent_jobs_promised', 'accelerator_units_contracted',
                'compute_mw_contracted'}
-HISTORICAL_ONLY = {'site_it_mw_operating', 'capex_recognized_usd',
+TYPES |= {'annual_revenue_reported', 'annual_revenue_forecast'}
+FUTURE_ONLY |= {'annual_revenue_forecast'}
+HISTORICAL_ONLY = {'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
                    'permanent_jobs_reported', 'annual_revenue_usd',
                    'interconnection_mw_energized', 'accelerator_units_installed',
                    'supervised_driver_miles', 'unsupervised_or_rider_only_miles',
@@ -52,6 +54,8 @@ def validate_expansion(x, ledger, ecosystem, delivery):
         require(m.get('allowed_statuses') and set(m['allowed_statuses']) <= set(STATUSES), 'Missing measurement status policy')
         if m['measurement_type'] in FUTURE_ONLY:
             require(set(m['allowed_statuses']) <= {'forecast', 'company-commitment', 'government-target'}, 'Promised measurement allows actual results')
+        if m['measurement_type'] == 'annual_revenue_forecast':
+            require(m['allowed_statuses'] == ['forecast'], 'Revenue outlook must remain a forecast')
         if m['measurement_type'] in HISTORICAL_ONLY:
             require(set(m['allowed_statuses']) <= {'observation', 'estimate'}, 'Historical measurement allows plans')
         require(m['source_ids'] and set(m['source_ids']) <= sources.keys(), 'Missing approved metric source')

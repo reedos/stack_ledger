@@ -114,6 +114,9 @@ def validate(data):
             companion=metrics.get(m['chart_companion_metric'])
             require(companion is not None and companion['id']!=m['id'],'Invalid chart companion')
             require(all(companion[k]==m[k] for k in ['unit','geography','layer']),'Chart companion units/geography/layer differ')
+            if companion.get('measurement_type') == 'annual_revenue_forecast':
+                require(companion.get('company') is not None, 'Revenue outlook needs company attribution')
+                for label in ['chart_comparison_label', 'chart_comparison_legend']: text(m.get(label), 180)
             text(m.get('chart_comparison_title'),250)
             text(m.get('chart_comparison_note'),1000)
         for field in ['series_start_year','chart_default_start','chart_default_end']:

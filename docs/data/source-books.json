@@ -60,7 +60,21 @@
         "grok-bot-overview",
         "grok-bot-plan-expansion",
         "grok-release-notes",
-        "claude-current-api-pricing"
+        "claude-current-api-pricing",
+        "finance-nvidia-consensus-20260907",
+        "finance-amd-consensus-20260907",
+        "finance-microsoft-consensus-20260907",
+        "finance-alphabet-consensus-20260907",
+        "finance-meta-consensus-20260907",
+        "finance-intel-consensus-20260907",
+        "finance-micron-consensus-20260907",
+        "finance-marvell-consensus-20260907",
+        "finance-tesla-consensus-20260907",
+        "finance-constellation-consensus-20260907",
+        "finance-merck-consensus-20260907",
+        "finance-moderna-consensus-20260907",
+        "finance-recursion-consensus-20260907",
+        "aws-annual-history-2024"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -76,7 +90,12 @@
         "tsmc-annual-history-2021",
         "tsmc-annual-history-2022",
         "tsmc-annual-history-2023",
-        "tsmc-annual-history-2024"
+        "tsmc-annual-history-2024",
+        "finance-tsmc-consensus-20260907",
+        "finance-quanta-consensus-20260907",
+        "finance-foxconn-consensus-20260907",
+        "finance-quanta-computer-consensus-20260907",
+        "finance-wiwynn-consensus-20260907"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -85,14 +104,17 @@
       "sources": [
         "company-samsung",
         "company-sk-hynix",
-        "qcells-cartersville"
+        "qcells-cartersville",
+        "finance-samsung-consensus-20260907",
+        "finance-sk-hynix-consensus-20260907"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
     "japan": {
       "label": "Japan",
       "sources": [
-        "epoch-openai-stargate-milam"
+        "epoch-openai-stargate-milam",
+        "finance-softbank-consensus-20260907"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -102,7 +124,10 @@
         "innolight-modules",
         "eoptolink-modules",
         "qwen3-32b-license",
-        "deepseek-r1-license"
+        "deepseek-r1-license",
+        "finance-alibaba-consensus-20260907",
+        "finance-innolight-consensus-20260907",
+        "finance-eoptolink-consensus-20260907"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -113,7 +138,11 @@
         "company-asml",
         "nebius-msft-contract",
         "neso-source-book",
-        "isomorphic-may2026"
+        "isomorphic-may2026",
+        "finance-nebius-consensus-20260907",
+        "finance-asml-consensus-20260907",
+        "finance-schneider-consensus-20260907",
+        "asml-2030-revenue-scenario"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -131,7 +160,8 @@
       "label": "Canada / Latin America / Africa / ANZ",
       "sources": [
         "company-celestica",
-        "coolit-role"
+        "coolit-role",
+        "finance-celestica-consensus-20260907"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -279,7 +309,36 @@
         "nvent-role",
         "johnson-controls-role",
         "devin-product",
-        "windsurf-product"
+        "windsurf-product",
+        "finance-broadcom-consensus-20260907",
+        "finance-nextera-consensus-20260907",
+        "finance-ge-vernova-consensus-20260907",
+        "finance-vertiv-consensus-20260907",
+        "finance-salesforce-consensus-20260907",
+        "finance-palantir-consensus-20260907",
+        "finance-credo-consensus-20260907",
+        "finance-astera-consensus-20260907",
+        "finance-coherent-consensus-20260907",
+        "finance-lumentum-consensus-20260907",
+        "finance-applied-opto-consensus-20260907",
+        "finance-fabrinet-consensus-20260907",
+        "finance-corning-consensus-20260907",
+        "finance-amphenol-consensus-20260907",
+        "finance-arista-consensus-20260907",
+        "finance-cisco-consensus-20260907",
+        "finance-eaton-consensus-20260907",
+        "finance-emcor-consensus-20260907",
+        "finance-first-solar-consensus-20260907",
+        "finance-ciena-consensus-20260907",
+        "finance-semtech-consensus-20260907",
+        "finance-macom-consensus-20260907",
+        "finance-oracle-consensus-20260907",
+        "finance-coreweave-consensus-20260907",
+        "finance-amkor-consensus-20260907",
+        "finance-supermicro-consensus-20260907",
+        "finance-dell-consensus-20260907",
+        "finance-nvent-consensus-20260907",
+        "finance-johnson-controls-consensus-20260907"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     }
@@ -2760,6 +2819,891 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
+      "excerpts": false
+    },
+    "finance-nvidia-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "nvidia",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-amd-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "amd",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-broadcom-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "broadcom",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-microsoft-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "microsoft",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-alphabet-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "alphabet",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-meta-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "meta",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-tsmc-consensus-20260907": {
+      "rank": 5,
+      "region_book": "taiwan",
+      "company_id": "tsmc",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-nextera-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "nextera",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-ge-vernova-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "ge-vernova",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-intel-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "intel",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-micron-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "micron",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-vertiv-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "vertiv",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-salesforce-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "salesforce",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-palantir-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "palantir",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-marvell-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "marvell",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-credo-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "credo",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-astera-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "astera",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-coherent-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "coherent",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-lumentum-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "lumentum",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-applied-opto-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "applied-opto",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-fabrinet-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "fabrinet",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-corning-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "corning",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-amphenol-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "amphenol",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-arista-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "arista",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-cisco-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "cisco",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-celestica-consensus-20260907": {
+      "rank": 5,
+      "region_book": "canada-latam-africa-anz",
+      "company_id": "celestica",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-eaton-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "eaton",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-quanta-consensus-20260907": {
+      "rank": 5,
+      "region_book": "taiwan",
+      "company_id": "quanta",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-emcor-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "emcor",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-first-solar-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "first-solar",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-ciena-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "ciena",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-semtech-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "semtech",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-macom-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "macom",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-tesla-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "tesla",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-oracle-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "oracle",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-coreweave-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "coreweave",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-nebius-consensus-20260907": {
+      "rank": 5,
+      "region_book": "europe",
+      "company_id": "nebius",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-amkor-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "amkor",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-supermicro-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "supermicro",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-constellation-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "constellation",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-dell-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "dell",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-nvent-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "nvent",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-johnson-controls-consensus-20260907": {
+      "rank": 5,
+      "region_book": "unknown",
+      "company_id": "johnson-controls",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-merck-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "merck",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-moderna-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "moderna",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-alibaba-consensus-20260907": {
+      "rank": 5,
+      "region_book": "china",
+      "company_id": "alibaba",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-recursion-consensus-20260907": {
+      "rank": 5,
+      "region_book": "united-states",
+      "company_id": "recursion",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-asml-consensus-20260907": {
+      "rank": 5,
+      "region_book": "europe",
+      "company_id": "asml",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-samsung-consensus-20260907": {
+      "rank": 5,
+      "region_book": "korea",
+      "company_id": "samsung",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-sk-hynix-consensus-20260907": {
+      "rank": 5,
+      "region_book": "korea",
+      "company_id": "sk-hynix",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-schneider-consensus-20260907": {
+      "rank": 5,
+      "region_book": "europe",
+      "company_id": "schneider",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-foxconn-consensus-20260907": {
+      "rank": 5,
+      "region_book": "taiwan",
+      "company_id": "foxconn",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-quanta-computer-consensus-20260907": {
+      "rank": 5,
+      "region_book": "taiwan",
+      "company_id": "quanta-computer",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-wiwynn-consensus-20260907": {
+      "rank": 5,
+      "region_book": "taiwan",
+      "company_id": "wiwynn",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-softbank-consensus-20260907": {
+      "rank": 5,
+      "region_book": "japan",
+      "company_id": "softbank",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-innolight-consensus-20260907": {
+      "rank": 5,
+      "region_book": "china",
+      "company_id": "innolight",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "finance-eoptolink-consensus-20260907": {
+      "rank": 5,
+      "region_book": "china",
+      "company_id": "eoptolink",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "asml-2030-revenue-scenario": {
+      "rank": 2,
+      "region_book": "europe",
+      "company_id": "asml",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
+      "excerpts": false
+    },
+    "aws-annual-history-2024": {
+      "rank": 2,
+      "region_book": "united-states",
+      "company_id": "aws",
+      "claim_type": "financial",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [
+        "revenue",
+        "annual",
+        "forecast"
+      ],
       "excerpts": false
     }
   }
