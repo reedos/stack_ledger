@@ -23438,6 +23438,32 @@
         "chips",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260907T232619Z",
+      "started_at": "2026-09-07T23:26:19Z",
+      "finished_at": "2026-09-07T23:27:32Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-eaton",
+          "reason": "TimeoutError"
+        },
+        {
+          "source": "company-first-solar",
+          "reason": "Insufficient readable source content"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -23447,7 +23473,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 19:00 Pacific",
-    "last_attempt": "2026-09-07T23:25:54Z",
+    "last_attempt": "2026-09-07T23:27:32Z",
     "last_success": "2026-09-07T22:57:54Z",
     "status": "partial"
   }
