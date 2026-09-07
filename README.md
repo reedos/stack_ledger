@@ -139,8 +139,8 @@ The existing 19:00 Pacific job remains unchanged. A separate downtime session is
 ```powershell
 python scripts/research_loop.py
 
-# When you choose to start: up to six batches, eight documents each.
-python scripts/research_loop.py --start --publish --minutes 120 --max-cycles 6 --batch-documents 8
+# When you choose to start: a two-hour session, eight documents per batch.
+python scripts/research_loop.py --start --publish --min-minutes 120 --minutes 120 --batch-documents 8
 ```
 
 The session waits for three low-utilization GPU samples before each batch. This is a utilization heuristic, not a reservation: it does not detect keyboard inactivity or preempt inference when a game starts. The model may remain loaded for five minutes. The time budget stops new documents; an active document can finish beyond the deadline. A batch error or an existing research lock stops the session. The daily job and downtime batches share the same runner lock.
@@ -150,3 +150,5 @@ To request a stop before the next batch, create `.local/stop-research-loop`; rem
 Private `.local/coverage/` receipts list source attempts and never-attempted IDs; `.local/coverage-progress.json` carries rotation across sessions. Attempted is not successfully reviewed. Read run failures alongside coverage. `.local/discovery-leads/` retains secondary evidence and selected external pointers for review without automatically fetching new hosts. `.local/metric-candidates/` retains source-supported notes that lack a reviewed metric. `.local/review-candidates/` queues accepted notes for possible updates to curated companies, projects, claims and agenda cards.
 
 HTML-only collection, limited discovery, undated pages, inaccessible filings and JavaScript-only job listings remain coverage gaps. A local model is not an unrestricted web-search service. Curated company pages, project stages, claims verdicts and chart definitions remain review-controlled; new evidence can appear in the ledger before those snapshots are updated.
+
+The downtime session now defaults to a 120-minute minimum and maximum elapsed-time window. The cycle cap cannot end it before the minimum. GPU waits count toward elapsed time; errors, stop requests and conflicts can still end it early. An active document may finish after the window. Use `--min-minutes 0` to restore a cycle-limited session. This setting does not change the daily scheduler.

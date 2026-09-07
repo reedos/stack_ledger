@@ -12,6 +12,12 @@ import research_loop
 
 
 class OperationsTests(unittest.TestCase):
+    def test_minimum_duration_overrides_cycle_cap_but_not_deadline(self):
+        self.assertTrue(research_loop.session_active(300,6,7200,7200,6))
+        self.assertTrue(research_loop.session_active(7199,100,7200,7200,6))
+        self.assertFalse(research_loop.session_active(7200,100,7200,7200,6))
+        self.assertFalse(research_loop.session_active(300,6,0,7200,6))
+
     def test_plan_does_not_query_gpu_or_start_research(self):
         with patch.object(research_loop,'gpu_idle') as gpu,patch.object(research_loop.subprocess,'run') as run,patch('builtins.print'):
             self.assertEqual(research_loop.main([]),0)

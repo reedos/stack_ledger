@@ -10,6 +10,10 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 
 
+def session_active(elapsed,cycles,minimum,maximum,max_cycles):
+    return elapsed<maximum and (elapsed<minimum or cycles<max_cycles)
+
+
 def gpu_idle(threshold):
     command=shutil.which('nvidia-smi')
     if not command:raise RuntimeError('Cannot check GPU use: nvidia-smi unavailable')
@@ -23,16 +27,17 @@ def main(argv=None):
     p.add_argument('--start',action='store_true')
     p.add_argument('--publish',action='store_true',help='Publish validated batches; otherwise private proposals only')
     p.add_argument('--minutes',type=int,default=120)
+    p.add_argument('--min-minutes',type=int,default=120,help='Keep batching through this elapsed session time even after max-cycles; errors and stop requests still stop')
     p.add_argument('--max-cycles',type=int,default=6)
     p.add_argument('--batch-documents',type=int,default=8)
     p.add_argument('--idle-percent',type=int,default=10)
     a=p.parse_args(argv)
-    if not(1<=a.minutes<=720 and 1<=a.max_cycles<=48 and 1<=a.batch_documents<=24 and 0<=a.idle_percent<=20):p.error('Invalid session limits')
-    print(json.dumps(dict(start=a.start,publish=a.publish,minutes=a.minutes,max_cycles=a.max_cycles,batch_documents=a.batch_documents,idle_percent=a.idle_percent,stop_file='.local/stop-research-loop',budget='Stops between documents; active document may finish beyond session deadline'),indent=2),flush=True)
+    if not(1<=a.minutes<=720 and 0<=a.min_minutes<=a.minutes and 1<=a.max_cycles<=48 and 1<=a.batch_documents<=24 and 0<=a.idle_percent<=20):p.error('Invalid session limits')
+    print(json.dumps(dict(start=a.start,publish=a.publish,minutes=a.minutes,min_minutes=a.min_minutes,max_cycles=a.max_cycles,batch_documents=a.batch_documents,idle_percent=a.idle_percent,stop_file='.local/stop-research-loop',budget='Minimum is elapsed session time; GPU waits count. Cycle cap applies after minimum. Stops between documents; active document may finish beyond session deadline.'),indent=2),flush=True)
     if not a.start:return 0
-    deadline=time.monotonic()+a.minutes*60
+    started=time.monotonic();deadline=started+a.minutes*60
     idle_samples=0;cycles=0
-    while cycles<a.max_cycles and time.monotonic()<deadline:
+    while session_active(time.monotonic()-started,cycles,a.min_minutes*60,a.minutes*60,a.max_cycles):
         if (ROOT/'.local/stop-research-loop').exists():print('Stop requested',flush=True);break
         if (ROOT/'.local/research.lock').exists():print('Another research run is active; stopping',flush=True);break
         idle_samples=idle_samples+1 if gpu_idle(a.idle_percent) else 0
