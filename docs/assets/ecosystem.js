@@ -3,7 +3,7 @@ let ecosystem;
 const companyOf = id => ecosystem.companies.find(c => c.id === id);
 const latestRevenue = c => records(c.revenue_metric).filter(o => o.status === 'observation').at(-1);
 const companyLink = id => `<a href="${base}companies/#${esc(id)}">${esc(companyOf(id).name)}</a>`;
-const researchStamp = () => `<p class="chart-footnote">Company roles, projects and jobs reviewed ${dateLabel(ecosystem.reviewed_at)}. Revenue and capacity observations retain their own periods and access dates. Representative coverage; not a complete industry census.</p>`;
+const researchStamp = () => `<p class="chart-footnote">Company roles, projects and jobs reviewed ${dateLabel(ecosystem.reviewed_at)}. Revenue and capacity observations retain their own periods and access dates. ${ecosystem.companies.length} companies in a reviewed snapshot, not a complete industry census. Companies can serve multiple layers; counts overlap.</p>`;
 
 function companyCard(c) {
  const o=latestRevenue(c), m=metricOf(c.revenue_metric), accent=layerOf(c.layers[0]).color;

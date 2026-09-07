@@ -29,7 +29,9 @@ from build import build
 ROOT=Path(__file__).resolve().parents[1]
 LOCAL=ROOT/'.local'
 UA='StackLedgerBot/1.0 (+https://github.com/reedos/stack_ledger)'
-ALLOWED_CHANGES={'site/data/ledger.json','docs/data/ledger.json','docs/feed.xml'}
+from render import GENERATED_PAGES
+# Exact build artifacts only; source templates, scripts and policies remain reviewed.
+ALLOWED_CHANGES={'site/data/ledger.json','docs/data/ledger.json','docs/feed.xml'} | GENERATED_PAGES
 MAX_BYTES=2_000_000
 
 def now():return datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')

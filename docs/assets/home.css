@@ -1,0 +1,30 @@
+/* The established visual system, with a readable ledger face and native navigation. */
+.stack-menu{position:relative;color:var(--muted);white-space:nowrap}
+.stack-menu summary{cursor:pointer;list-style:none}
+.stack-menu summary::-webkit-details-marker{display:none}
+.stack-menu summary:after{content:'⌄';margin-left:6px}
+.stack-menu[open] summary,.stack-menu summary:hover{color:var(--text)}
+.stack-destinations{position:absolute;top:calc(100% + 19px);left:-18px;min-width:220px;background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:10px;box-shadow:0 18px 36px #0006}
+.site-header .stack-destinations a{display:block;padding:10px 12px;font-size:13px;border-radius:4px}
+.site-header .stack-destinations a:hover,.site-header .stack-destinations a[aria-current]{background:var(--panel2);color:var(--accent)}
+.site-header nav{align-items:center}
+.hero h1{font-size:clamp(45px,4.5vw,68px)}
+.layer-card{display:flex;flex-direction:column;min-width:0}
+.layer-card h3{margin-bottom:21px}
+.layer-card h3 a:hover{text-decoration:underline;text-underline-offset:5px}
+.layer-verb{color:var(--accent);font-size:12px}
+.layer-value{margin:0 0 9px;line-height:1.2}
+.metric-context{display:flex;flex-direction:column;gap:3px;font-size:11px;line-height:1.5;color:var(--text);min-height:65px}
+.metric-context span:last-child{color:var(--accent)}
+.layer-label{margin:12px 0;min-height:66px;font-size:12px;line-height:1.65}
+.headline-status{font-size:10px;align-self:flex-start;border:1px solid var(--line);border-radius:4px;padding:3px 7px;color:var(--accent);margin-bottom:10px}
+.headline-source{font-size:11px;color:var(--text);text-decoration:underline;text-underline-offset:3px;margin-bottom:10px}
+.headline-note{font-size:11px;line-height:1.65;color:var(--muted);margin-bottom:14px}
+.research-gap{font-size:25px;margin-bottom:22px}
+.layer-card-bottom{margin-top:auto;padding-top:18px}
+.homepage-reading{margin:0 0 32px}
+.homepage-reading p{margin-top:6px}
+.stack-svg .slab:focus-visible text{fill:#fff}
+.stack-svg .slab:hover .slab-top,.stack-svg .slab:focus-visible .slab-top{stroke-width:2;fill-opacity:1}
+@media(max-width:1100px){.site-header nav{gap:16px}}
+@media(max-width:600px){.site-header nav{gap:8px}.hero h1{font-size:46px}.layer-card h3{font-size:16px}.metric-context{min-height:66px}.layer-label{min-height:80px}.layer-card:last-child .layer-label{min-height:0}.stack-destinations{top:calc(100% + 15px)}.research-gap{font-size:25px}.art-caption{line-height:1.7}}

@@ -1,14 +1,14 @@
 // Reviewed editorial context. Research observations remain in the sourced ledger.
 function industrialPremise() {
  return `<section class="section industrial-premise" id="premise" aria-labelledby="premise-title">
-  <div class="section-top"><div><div class="eyebrow muted">OUR PREMISE / AMERICAN REINDUSTRIALIZATION</div><h2 id="premise-title">Build more. Make it useful.</h2></div><a class="section-link" href="${base}industry/">Follow jobs & industry ↗</a></div>
-  <p class="premise-lead">We believe AI can help reindustrialize America: build abundant power, expand domestic manufacturing, and turn investment into productive infrastructure, skilled jobs and stronger local economies.</p>
+  <div class="section-top"><div><div class="eyebrow muted">THE QUESTION / AMERICAN REINDUSTRIALIZATION</div><h2 id="premise-title">Is the buildout rebuilding industry?</h2></div><a class="section-link" href="${base}industry/">Follow jobs & industry ↗</a></div>
+  <p class="premise-lead">Can AI help reindustrialize America? Our ambition is abundant power, stronger domestic manufacturing and investment that delivers skilled jobs and lasting local value. We test that possibility against what is actually built and used.</p>
   <div class="premise-flow">
    <article style="--accent:#c5f277"><span class="eyebrow">POWER & SILICON</span><h3>Build the foundations.</h3><p>More generation, stronger grids and factories making the chips for compute, memory, storage and networking. Follow the projects, suppliers and people doing the work.</p><a href="${base}energy/">Energy ↗</a><a href="${base}chips/">Chips ↗</a></article>
    <article style="--accent:#79b8f5"><span class="eyebrow">AI FACTORIES & MODELS</span><h3>Turn energy into capability.</h3><p>Connected data centers supply the compute. Models and agent systems turn it into generated reasoning, predictions and actions—the building blocks of useful intelligence.</p><a href="${base}infrastructure/">Infrastructure ↗</a><a href="${base}models/">Models ↗</a></article>
    <article style="--accent:#ec98bc"><span class="eyebrow">WORK & DISCOVERY</span><h3>Put intelligence to work.</h3><p>The ambition: digital workers helping companies, capable robots working in the physical world, and better tools for medicine, engineering, climate science and clean energy.</p><a href="${base}applications/">Applications ↗</a></article>
   </div>
-  <div class="premise-measure"><strong>The return we’re looking for</strong><p>Power delivered. Local purchasing and wages. Lasting jobs. Useful work completed. Scientific and health outcomes that hold up to scrutiny.</p><a class="section-link" href="${base}methodology/#premise-evidence">How we test this vision ↗</a></div>
+  <div class="premise-measure"><strong>The return we’re looking for</strong><p>Power delivered. Local purchasing and wages. Lasting jobs. Useful work completed. Scientific and health outcomes that hold up to scrutiny. Track missing evidence, delivery delays and local costs alongside those benefits.</p><a class="section-link" href="${base}methodology/#premise-evidence">How we test this vision ↗</a></div>
   <p class="chart-footnote">This is our guiding ambition. The ledger tracks where it is becoming real, what remains unproven, and what would help it happen.</p>
  </section>`;
 }

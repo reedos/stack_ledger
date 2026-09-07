@@ -37,6 +37,12 @@ python -m http.server 4173 --directory docs --bind 127.0.0.1
 
 Open http://127.0.0.1:4173. Website source is in `site/`; `docs/` is the deterministic GitHub Pages build. GitHub Pages serves `main:/docs`, with `.nojekyll`. All links support the `/stack_ledger/` project prefix and direct visits to individual layer pages. There are no runtime server services, analytics or API keys in the public site. Google Fonts is optional; system font fallbacks work offline.
 
+The homepage hero, isometric layer links, five evidence cards, navigation and runtime footer are rendered into HTML by `scripts/render.py`. Charts and directory filters progressively load in the browser. The static snapshot and raw-data links remain usable without JavaScript or after a data-request failure. The reviewed stack artwork lives in `site/partials/stack.html`.
+
+Headline cards retain metric scope, units, periods, status and publisher. Applications deliberately shows a research gap until a measured-outcome metric is reviewed; the adoption survey remains in the applications research. Reindustrialization is a question below the evidence, and government targets, company commitments and independent projections retain separate books.
+
+Daily builds refresh these deterministic HTML snapshots from the ledger. The publisher permits only the eleven existing generated page paths in addition to ledger JSON and the feed; it cannot change source templates, navigation, styles, metric definitions or governance. Browser acceptance checks the homepage with JavaScript disabled, failed dataset requests and keyboard navigation as well as all routes at three viewport widths.
+
 ## Research runtime
 
 Configuration lives in [`research/runtime.json`](research/runtime.json):

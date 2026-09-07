@@ -4,6 +4,7 @@ import shutil
 from pathlib import Path
 from xml.etree import ElementTree as ET
 from html import escape
+from render import HOME_DESCRIPTION, home, navigation, runtime
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -20,7 +21,7 @@ def build():
     dest.mkdir(exist_ok=True)
     shutil.copytree(ROOT / 'site/assets', dest / 'assets', dirs_exist_ok=True)
     shutil.copytree(ROOT / 'site/data', dest / 'data', dirs_exist_ok=True)
-    pages = [('home', '', 'Stack Ledger — The AI buildout, layer by layer', 'More power. More possibility.', 'Tracking the opportunity to reindustrialize America through power, chips, AI factories, digital workers, robotics and scientific discovery. 2030 and beyond.'),
+    pages = [('home', '', 'Stack Ledger — The AI buildout, layer by layer', 'A public record of the AI buildout.', HOME_DESCRIPTION),
              ('ledger','ledger/','The Ledger — Stack Ledger','A record of real progress.','Explore sourced AI buildout research, observations, forecasts, targets and daily local-model research runs.'),
              ('methodology','methodology/','Research Methodology — Stack Ledger','Open by design. Grounded in evidence.','How Stack Ledger sources, validates and publishes research on the five-layer AI buildout.')]
     pages += [('companies','companies/','Companies — Stack Ledger','Meet the builders.','Companies, capabilities and reported revenue across the five layers of AI.'), ('industry','industry/','Jobs & Industry — Stack Ledger','Intelligence has a physical footprint.','Chip capacity, factory milestones, jobs and evidence of industrial rebuilding.')]
@@ -28,6 +29,10 @@ def build():
     pages += [(l['id'], l['id']+'/', l['name']+' — Stack Ledger', l['tagline'], l['description']) for l in data['layers']]
     for page,path,title,heading,description in pages:
         rendered=template
+        base = '../' if path else './'
+        content = home(data, base) if page == 'home' else (f'<section class="page-hero"><div class="eyebrow">STACK LEDGER / OPEN RESEARCH</div><h1>{escape(heading)}</h1><p>{escape(description)}</p></section>')
+        for key, value in {'CONTENT': content, 'STACK_NAV': navigation(data, base, page), 'RUNTIME': runtime(data)}.items():
+            rendered=rendered.replace('{{'+key+'}}', value)
         for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':'../' if path else './','CANONICAL':path}.items():
             rendered=rendered.replace('{{'+key+'}}',escape(value,quote=True))
         folder=dest/path

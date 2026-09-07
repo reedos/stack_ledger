@@ -22,12 +22,35 @@ const server=http.createServer((req,res)=>{
  const origin=`http://127.0.0.1:${server.address().port}/stack_ledger/`;
  const browser=await chromium.launch({channel:'chrome',headless:true});
  try{
+  // The public homepage contract must survive disabled JavaScript and failed fetches.
+  const staticContext=await browser.newContext({javaScriptEnabled:false,viewport:{width:1440,height:1000}});
+  const staticPage=await staticContext.newPage();await staticPage.goto(origin);
+  assert.match(await staticPage.locator('h1').innerText(),/A public record of\s+the AI buildout/);
+  assert.equal(await staticPage.locator('.layer-card').count(),5);
+  assert.equal(await staticPage.locator('.headline-source').count(),4);
+  assert.match(await staticPage.locator('[data-layer="chips"]').innerText(),/company-wide.*not AI accelerators/s);
+  assert.match(await staticPage.locator('[data-layer="infrastructure"]').innerText(),/all types/);
+  assert.match(await staticPage.locator('[data-layer="models"]').innerText(),/Oct 2024/);
+  assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/Research gap/);
+  assert.match(await staticPage.locator('#runtime').innerText(),/RTX 5090.*Last run:.*Last successful research:/s);
+  assert.ok(await staticPage.locator('noscript a[href$="data/ledger.json"]').isVisible());
+  await staticPage.locator('.stack-menu summary').focus();await staticPage.keyboard.press('Enter');
+  assert.equal(await staticPage.locator('.stack-destinations a:visible').count(),5);
+  await staticPage.keyboard.press('Tab');await staticPage.keyboard.press('Enter');
+  await staticPage.waitForURL('**/energy/');
+  await staticPage.goto(origin);await staticPage.locator('.slab').first().focus();await staticPage.keyboard.press('Enter');
+  await staticPage.waitForURL('**/energy/');
+  await staticContext.close();
+  const fallback=await browser.newPage();await fallback.route('**/data/*.json',route=>route.abort());
+  await fallback.goto(origin);await fallback.locator('#load-status').waitFor();
+  assert.equal(await fallback.locator('.layer-card').count(),5);
+  assert.match(await fallback.locator('h1').innerText(),/A public record/);await fallback.close();
   const page=await browser.newPage({viewport:{width:1440,height:1000}});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   const routes=['','energy/','chips/','infrastructure/','models/','applications/','companies/','industry/','projects/','ledger/','methodology/'];
   for(const route of routes){
    const response=await page.goto(origin+route,{waitUntil:'networkidle'});assert.equal(response.status(),200);
-   await page.locator('#runtime strong').first().waitFor();
+   await page.locator('body[data-enhanced="true"]').waitFor();
    assert.equal(await page.locator('h1').count(),1);
    assert.deepEqual(await page.locator('[id]').evaluateAll(els=>{const ids=els.map(el=>el.id);return ids.filter((id,i)=>ids.indexOf(id)!==i);}),[],route+' duplicate IDs');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' desktop overflow');
@@ -85,6 +108,10 @@ const server=http.createServer((req,res)=>{
   await page.screenshot({path:path.join(evidence,'industry.png'),fullPage:true});
   await page.goto(origin);await page.locator('.layer-card').first().waitFor();
   assert.equal(await page.locator('.stack-svg a.slab').count(),5);
+  assert.equal(await page.locator('#outlook .target-mini').count(),3);
+  assert.ok(await page.evaluate(()=>document.querySelector('#stack').compareDocumentPosition(document.querySelector('#premise'))&Node.DOCUMENT_POSITION_FOLLOWING));
+  await page.locator('.stack-menu summary').click();await page.keyboard.press('Escape');
+  assert.equal(await page.locator('.stack-menu').getAttribute('open'),null);
   await page.locator('.stack-svg a[aria-label="Explore layer 01: Energy"]').click();
   await page.waitForURL('**/energy/');await page.locator('#metric-select').waitFor();
   await page.selectOption('#metric-select','us-dc-electricity');
@@ -97,10 +124,10 @@ const server=http.createServer((req,res)=>{
   await page.locator('#research-search').fill('');await page.locator('[data-layer="all"]').click();
   const downloaded=page.waitForEvent('download');await page.locator('#download-csv').click();const csv=await downloaded;await csv.saveAs(path.join(evidence,'observations.csv'));
   assert.match(fs.readFileSync(path.join(evidence,'observations.csv'),'utf-8'),/source_url/);
-  await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'desktop.png'),fullPage:true});
+  await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'desktop.png'),fullPage:true});await page.screenshot({path:path.join(evidence,'homepage-viewport.png')});
   for(const width of [390,768]){
    await page.setViewportSize({width,height:844});
-   for(const route of routes){await page.goto(origin+route);await page.locator('#runtime strong').first().waitFor();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' overflow at '+width);}
+   for(const route of routes){await page.goto(origin+route);await page.locator('body[data-enhanced="true"]').waitFor();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' overflow at '+width);}
   }
   await page.setViewportSize({width:390,height:844});await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'mobile.png'),fullPage:true});
   await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.className),'skip');
