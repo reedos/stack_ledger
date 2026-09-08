@@ -20067,6 +20067,19 @@
       "retrieved_at": "2026-09-08T18:18:41Z",
       "document_sha256": "a13b072798c98196e6b948929d2310de2e389058012bec90011017d8ecf2a16e",
       "evidence_sha256": "703d8dbdc0e8bc6c749f4859dd4656533dd8bef136ad7a627ad3de505fa17b8d"
+    },
+    {
+      "title": "America’s Workforce Academy first cohort graduates",
+      "summary": "Meta reports the first cohort of America’s Workforce Academy graduated last week and will work at Meta construction sites. The free program guarantees jobs for graduates and awards NCCER credential and AWA certificate, funded by an initial $115 million first-year investment.",
+      "layer": "infrastructure",
+      "kind": "Research finding",
+      "id": "note-6da38e8f55121f0e70a0",
+      "source": "meta-awa-graduates",
+      "date": "2026-08-18",
+      "method": "automated",
+      "retrieved_at": "2026-09-08T19:53:48Z",
+      "document_sha256": "da52d7b3ccfb229a2c17bd0dcca2b89bae8f567add23760ef01eadeaa4c88ba0",
+      "evidence_sha256": "4739b238c0b5a3a0156f21969bd56c48c4fa4bff9c88b219d2afa8158ae2c7cc"
     }
   ],
   "targets": [
@@ -26416,6 +26429,34 @@
         "applications",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T195252Z-f093289adb47475b8f1b071c874cc39c",
+      "started_at": "2026-09-08T19:52:52Z",
+      "finished_at": "2026-09-08T19:53:51Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "waymo-paid-march-post",
+          "reason": "Blocked by robots policy"
+        },
+        {
+          "source": "tesla-cybercab-speech-2026",
+          "reason": "Insufficient readable source content"
+        },
+        {
+          "source": "census-dc-saar-july2026",
+          "reason": "Unsupported source content type"
+        }
+      ],
+      "model_calls": 3,
+      "coverage_layers": [
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -26425,7 +26466,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T19:52:16Z",
+    "last_attempt": "2026-09-08T19:53:51Z",
     "last_success": "2026-09-08T19:27:20Z",
     "status": "partial"
   }
