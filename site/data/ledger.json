@@ -28626,6 +28626,27 @@
         "chips",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T215926Z-8b59e12ee6f84ec78b64c92fbb4f43b6",
+      "started_at": "2026-09-08T21:59:26Z",
+      "finished_at": "2026-09-08T22:00:13Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "openai-stargate-sites",
+          "reason": "HTTPError"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -28635,7 +28656,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T21:58:51Z",
+    "last_attempt": "2026-09-08T22:00:13Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
