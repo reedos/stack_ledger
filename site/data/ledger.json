@@ -29480,6 +29480,34 @@
         "applications",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T224602Z-e1ec6fe4f8bb435b82a341ad1f41b844",
+      "started_at": "2026-09-08T22:46:02Z",
+      "finished_at": "2026-09-08T22:46:36Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "waymo-paid-march-post",
+          "reason": "Blocked by robots policy"
+        },
+        {
+          "source": "tesla-cybercab-speech-2026",
+          "reason": "Insufficient readable source content"
+        },
+        {
+          "source": "census-dc-saar-july2026",
+          "reason": "Unsupported source content type"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -29489,7 +29517,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T22:45:27Z",
+    "last_attempt": "2026-09-08T22:46:36Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
