@@ -30034,6 +30034,40 @@
         "chips",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260908T231743Z-e74a12dd71cc4f37ba6a08f91b670c3f",
+      "started_at": "2026-09-08T23:17:43Z",
+      "finished_at": "2026-09-08T23:18:25Z",
+      "status": "partial",
+      "documents_fetched": 2,
+      "documents_reviewed": 2,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "tesla-q2-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "tesla-fsd-safety",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "mlgw-may-2025",
+          "reason": "Unsupported source content type"
+        },
+        {
+          "source": "colossus-southaven-complaint",
+          "reason": "Unsupported source content type"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -30043,7 +30077,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T23:17:07Z",
+    "last_attempt": "2026-09-08T23:18:25Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
