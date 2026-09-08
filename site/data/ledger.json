@@ -24852,6 +24852,29 @@
       "coverage_layers": [
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260908T182049Z-ac0051a552364b98b849658536de9f2c",
+      "started_at": "2026-09-08T18:20:49Z",
+      "finished_at": "2026-09-08T18:21:33Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "spacex-prospectus-2026",
+          "reason": "Unsupported source content type"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -24861,7 +24884,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T18:20:11Z",
+    "last_attempt": "2026-09-08T18:21:33Z",
     "last_success": "2026-09-08T17:54:47Z",
     "status": "partial"
   }
