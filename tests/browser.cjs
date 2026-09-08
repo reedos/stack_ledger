@@ -37,7 +37,16 @@ const server=http.createServer((req,res)=>{
   assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/paid trips/);
   assert.match(await staticPage.locator('#runtime').innerText(),/RTX 5090.*Last run:.*Last successful research:/s);
   assert.equal(await staticPage.locator('#recent-changes').count(),1);
-  assert.match(await staticPage.locator('#recent-changes').innerText(),/No developments have been approved/);
+  const recentConfig=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../research/homepage.json'),'utf8'));
+  const recentText=await staticPage.locator('#recent-changes').innerText();
+  if(recentConfig.recent_changes.length){
+    assert.ok(await staticPage.locator('#recent-changes article').count()>0);
+    assert.ok(await staticPage.locator('#recent-changes a.source-inline').count()>0);
+    assert.match(recentText,/Event: .*Reviewed:/);
+    assert.doesNotMatch(recentText,/No developments have been approved/);
+  } else {
+    assert.match(recentText,/No developments have been approved/);
+  }
   assert.equal(await staticPage.locator('.headline-history svg').count(),2);
   assert.ok(await staticPage.locator('noscript a[href$="data/ledger.json"]').isVisible());
   await staticPage.locator('.stack-menu summary').focus();await staticPage.keyboard.press('Enter');

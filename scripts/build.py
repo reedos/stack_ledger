@@ -10,6 +10,17 @@ from render import HOME_DESCRIPTION, home, navigation, runtime, company_snapshot
 
 ROOT = Path(__file__).resolve().parents[1]
 
+def analytics_tag(config, base):
+    """Public endpoint only; analytics configuration is outside research permissions."""
+    if not isinstance(config,dict) or set(config)!={'goatcounter_site'}:
+        raise ValueError('Unexpected analytics configuration')
+    code=config['goatcounter_site']
+    if code is None:
+        return ''
+    if not isinstance(code,str) or not re.fullmatch(r'[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?',code):
+        raise ValueError('Use the GoatCounter site code, without a URL or credentials')
+    return f'<script src="{escape(base,quote=True)}assets/analytics.js" data-goatcounter="https://{code}.goatcounter.com/count" defer></script>'
+
 def build():
     from validate_ecosystem import validate_files
     validate_files()
@@ -29,6 +40,8 @@ def build():
     editorial_policy = read(ROOT/'research/editorial-policy.json')
     validate_config(homepage, data, editorial_policy)
     template = (ROOT / 'site/template.html').read_text(encoding='utf-8')
+    analytics = json.loads((ROOT/'site/analytics.json').read_text(encoding='utf-8'))
+    analytics_tag(analytics, './')
     digest=hashlib.sha256()
     digest.update(json.dumps(homepage, sort_keys=True).encode())
     digest.update(json.dumps(editorial_policy, sort_keys=True).encode())
@@ -60,7 +73,7 @@ def build():
         if page == 'claims':
             from render_claims import render_claims
             content = render_claims(json.loads((ROOT/'research/claims.json').read_text(encoding='utf-8')), data['sources'], base)
-        for key, value in {'CONTENT': content, 'STACK_NAV': navigation(data, base, page), 'RUNTIME': runtime(data)}.items():
+        for key, value in {'CONTENT': content, 'STACK_NAV': navigation(data, base, page), 'RUNTIME': runtime(data), 'ANALYTICS': analytics_tag(analytics, base)}.items():
             rendered=rendered.replace('{{'+key+'}}', value)
         for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':base,'CANONICAL':path,'BUILD':build_version}.items():
             rendered=rendered.replace('{{'+key+'}}',escape(value,quote=True))

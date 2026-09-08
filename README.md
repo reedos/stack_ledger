@@ -154,3 +154,11 @@ Preview with `python scripts/discovery.py`; monitor `python scripts/discovery.py
 HTML-only collection, limited discovery, undated pages, inaccessible filings and JavaScript-only job listings remain coverage gaps. A local model is not an unrestricted web-search service. Curated company pages, project stages, claims verdicts and chart definitions remain review-controlled; new evidence can appear in the ledger before those snapshots are updated.
 
 The downtime session now defaults to a 120-minute minimum and maximum elapsed-time window. The cycle cap cannot end it before the minimum. GPU waits count toward elapsed time; errors, stop requests and conflicts can still end it early. An active document may finish after the window. Use `--min-minutes 0` to restore a cycle-limited session. This setting does not change the daily scheduler.
+
+## Website analytics
+
+GoatCounter integration is controlled by `site/analytics.json`. `goatcounter_site: null` disables it. Set that field to the confirmed site code (for example `your-stack-ledger-code`, without a URL), then run `python scripts/build.py` to include it on the maintained pages. The site code is public; no API key or account credentials belong in this repository. The research model and daily publisher cannot change this configuration.
+
+Use a separate site under the existing GoatCounter login via **Settings → Sites**, so Stack Ledger traffic stays distinct from other projects. See [multiple-site setup](https://www.goatcounter.com/help/domains) and [tracking setup](https://www.goatcounter.com/help/start). View results in that site's GoatCounter dashboard after deployment.
+
+The loader runs only on `reedos.github.io/stack_ledger/`, loads asynchronously and disables automatic click-event tracking. Existing canonical URLs keep filter/search query strings out of the page paths. Local previews and browser tests do not load GoatCounter. Blocking analytics does not block site rendering. Verify configuration with the Python tests and the loader with `node tests/analytics.cjs`. Enabling analytics does not run local-model research or alter the runtime block.

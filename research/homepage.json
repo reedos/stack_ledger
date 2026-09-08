@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T23:59:00Z",
+  "reviewed_at": "2026-09-08T06:02:54Z",
   "slots": {
     "energy": {
       "metric_id": "dc-electricity",
@@ -40,6 +40,70 @@
   },
   "recent_limit": 3,
   "recent_window_days": 45,
-  "recent_changes": [],
+  "recent_changes": [
+    {
+      "id": "recent-hynix-indiana-2026",
+      "event_key": "hynix-indiana-2026",
+      "layer": "chips",
+      "title": "Indiana HBM packaging project breaks ground",
+      "what_changed": "SK hynix reports an August 27 groundbreaking for its Indiana advanced-packaging facility. It targets mass production in the second half of 2029.",
+      "significance": "The project would add U.S. packaging and testing capacity for high-bandwidth memory used in AI systems, using wafers made in Korea.",
+      "scope": "Groundbreaking is a reported milestone; production remains a company target. This is packaging and testing, not U.S. wafer fabrication. The company's approximately 1,000 operating positions are projected, not verified hires.",
+      "event_date": "2026-08-27",
+      "reviewed_at": "2026-09-08T06:02:54Z",
+      "reviewer": "reedos",
+      "rationale": "Owner authorized commit and push after reviewing the three source-checked cards in RECENT_DEVELOPMENTS_REVIEW-2026-09-07.md. Preserve disclosure-date caveats and distinguish reported milestones from targets.",
+      "source_ids": [
+        "hynix-indiana-2026"
+      ],
+      "before_id": null,
+      "after_id": null,
+      "priority": 5,
+      "pinned": false,
+      "kind": "development"
+    },
+    {
+      "id": "recent-meta-awa-graduates",
+      "event_key": "meta-awa-graduates",
+      "layer": "infrastructure",
+      "title": "Meta reports its first skilled-trades training graduates",
+      "what_changed": "Meta's August 18 update reports the first graduating cohort of America's Workforce Academy, a four-week program offering training and jobs with its partners.",
+      "significance": "Fiber-technician and construction training provide a concrete pathway into the workforce building data centers.",
+      "scope": "This is a company-reported graduation milestone and job guarantee, not a verified placement count or a measure of net national job creation. The release says graduation occurred the preceding week; it does not establish an exact graduation date.",
+      "event_date": "2026-08-18",
+      "reviewed_at": "2026-09-08T06:02:54Z",
+      "reviewer": "reedos",
+      "rationale": "Owner authorized commit and push after reviewing the three source-checked cards in RECENT_DEVELOPMENTS_REVIEW-2026-09-07.md. Preserve disclosure-date caveats and distinguish reported milestones from targets.",
+      "source_ids": [
+        "meta-awa-graduates"
+      ],
+      "before_id": null,
+      "after_id": null,
+      "priority": 5,
+      "pinned": false,
+      "kind": "development"
+    },
+    {
+      "id": "recent-fervo-q2-2026",
+      "event_key": "fervo-q2-2026",
+      "layer": "energy",
+      "title": "Cape Station reports progress toward first power",
+      "what_changed": "In its August 12 update, Fervo reports mechanical completion of Cape Station GeoBlocks 1 and 2 and continuing commissioning. It targets first power from GeoBlock 1 in the fourth quarter of 2026, followed by initial power from GeoBlocks 2 and 3 in early 2027.",
+      "significance": "Commissioning provides a nearer-term delivery checkpoint for new firm geothermal power.",
+      "scope": "These are company-reported construction and commissioning milestones, not confirmation of commercial generation. The update covers the quarter ended June 30 and subsequent outlook; August 12 is the disclosure date, not an inferred completion date.",
+      "event_date": "2026-08-12",
+      "reviewed_at": "2026-09-08T06:02:54Z",
+      "reviewer": "reedos",
+      "rationale": "Owner authorized commit and push after reviewing the three source-checked cards in RECENT_DEVELOPMENTS_REVIEW-2026-09-07.md. Preserve disclosure-date caveats and distinguish reported milestones from targets.",
+      "source_ids": [
+        "fervo-q2-2026"
+      ],
+      "before_id": null,
+      "after_id": null,
+      "priority": 5,
+      "pinned": false,
+      "kind": "development"
+    }
+  ],
   "delivery_accounting": null
 }
