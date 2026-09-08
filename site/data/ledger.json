@@ -25255,6 +25255,37 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T184300Z-6b6369b5a4704669809aedb2d5c0d121",
+      "started_at": "2026-09-08T18:43:00Z",
+      "finished_at": "2026-09-08T18:44:09Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "samsung-hbm4-shipping",
+          "reason": "ConnectionResetError"
+        },
+        {
+          "source": "eia-output-aug-2026",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "marvell-optics",
+          "reason": "Source exceeds size cap"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -25264,7 +25295,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T18:42:22Z",
+    "last_attempt": "2026-09-08T18:44:09Z",
     "last_success": "2026-09-08T17:54:47Z",
     "status": "partial"
   }
