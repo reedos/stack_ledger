@@ -26492,6 +26492,35 @@
         "energy",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T195732Z-f1ee5d0a06584289983d333c841ba0de",
+      "started_at": "2026-09-08T19:57:32Z",
+      "finished_at": "2026-09-08T19:58:03Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "bls-electricians-may-2019",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "bls-electricians-may-2020",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "bls-electricians-may-2021",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "energy"
+      ]
     }
   ],
   "runtime": {
@@ -26501,7 +26530,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T19:56:53Z",
+    "last_attempt": "2026-09-08T19:58:03Z",
     "last_success": "2026-09-08T19:27:20Z",
     "status": "partial"
   }
