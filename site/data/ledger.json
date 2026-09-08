@@ -27361,6 +27361,28 @@
       ],
       "model_calls": 0,
       "coverage_layers": []
+    },
+    {
+      "id": "run-20260908T204628Z-953a4d5e95344580bbe4c227e7a47ec9",
+      "started_at": "2026-09-08T20:46:28Z",
+      "finished_at": "2026-09-08T20:47:02Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "iea-2025",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -27370,8 +27392,8 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T20:45:15Z",
+    "last_attempt": "2026-09-08T20:47:02Z",
     "last_success": "2026-09-08T20:13:05Z",
-    "status": "failed"
+    "status": "partial"
   }
 }
