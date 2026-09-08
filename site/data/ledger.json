@@ -24765,6 +24765,35 @@
         "chips",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260908T181639Z-6d01d14ecdfe44d7a629be335e7184c3",
+      "started_at": "2026-09-08T18:16:39Z",
+      "finished_at": "2026-09-08T18:17:20Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "intel-ohio-delay",
+          "reason": "URL outside approved public host"
+        },
+        {
+          "source": "intel-fab52-18a",
+          "reason": "URL outside approved public host"
+        },
+        {
+          "source": "samsung-taylor-schedule",
+          "reason": "Blocked by robots policy"
+        }
+      ],
+      "model_calls": 3,
+      "coverage_layers": [
+        "chips",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -24774,7 +24803,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T18:16:00Z",
+    "last_attempt": "2026-09-08T18:17:20Z",
     "last_success": "2026-09-08T17:54:47Z",
     "status": "partial"
   }
