@@ -27612,6 +27612,31 @@
         "chips",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260908T210029Z-3247796fc18043de92ec687f171ee018",
+      "started_at": "2026-09-08T21:00:29Z",
+      "finished_at": "2026-09-08T21:01:12Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "amphenol-interconnect",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "corning-meta",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -27621,7 +27646,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T20:59:52Z",
+    "last_attempt": "2026-09-08T21:01:12Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
