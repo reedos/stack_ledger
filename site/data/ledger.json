@@ -29097,6 +29097,35 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T222401Z-7e01c6fcb84746ca97602419f198ed92",
+      "started_at": "2026-09-08T22:24:01Z",
+      "finished_at": "2026-09-08T22:24:27Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "marvell-celestial",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "cisco-silicon",
+          "reason": "URLError"
+        },
+        {
+          "source": "cisco-optics",
+          "reason": "URLError"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -29106,7 +29135,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T22:23:27Z",
+    "last_attempt": "2026-09-08T22:24:27Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
