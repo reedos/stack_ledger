@@ -392,6 +392,11 @@ def main():
     application = sub.add_parser('apply')
     application.add_argument('id')
     sub.add_parser('questions', help='Seed bounded follow-ups into the existing private queue; no research starts')
+    discovery_review = sub.add_parser('review-discovery', help='Human coverage triage; never registers or publishes a source')
+    discovery_review.add_argument('id')
+    discovery_review.add_argument('--decision', choices=['investigate','deferred','rejected'], required=True)
+    discovery_review.add_argument('--reviewer', required=True)
+    discovery_review.add_argument('--rationale', required=True)
     for command in ['review-question', 'resolve-question']:
         qparser = sub.add_parser(command)
         qparser.add_argument('id')
@@ -410,6 +415,18 @@ def main():
     elif args.command == 'questions':
         from editorial_questions import enqueue_questions
         print(json.dumps(enqueue_questions(ROOT, assemble(ROOT, now())), indent=2))
+    elif args.command == 'review-discovery':
+        import re
+        from discovery import record_review as review_discovery
+        require(sys.stdin.isatty() and sys.stdout.isatty(), 'Human review requires an interactive local terminal')
+        policy = ed.read(ROOT/'research/editorial-policy.json')
+        require(getpass.getuser().lower() in policy.get('reviewer_accounts', {}).get(args.reviewer, []), 'Unauthorized local reviewer account')
+        require(re.fullmatch(r'discovery-[0-9a-f]{24}', args.id), 'Invalid discovery ID')
+        print(json.dumps(ed.read(queue(ROOT)/(args.id+'.json')), indent=2))
+        print(json.dumps({'decision':args.decision,'rationale':args.rationale}))
+        require(input('Type the complete discovery ID to confirm human triage: ').strip() == args.id, 'Discovery decision not confirmed')
+        review_discovery(ROOT,args.id,args.decision,args.reviewer,args.rationale,now(),human_confirm=True)
+        print('Private coverage triage recorded. Source registration, catalog changes and publication still require reviewed implementation.')
     elif args.command in {'review-question', 'resolve-question'}:
         from editorial_questions import load_question, record_question_review, record_result
         require(sys.stdin.isatty() and sys.stdout.isatty(), 'Human review requires an interactive local terminal')

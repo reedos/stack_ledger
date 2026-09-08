@@ -137,7 +137,7 @@ class Fetcher:
             body=response.read(MAX_BYTES+1)
             require(len(body)<=MAX_BYTES,'Source exceeds size cap')
             return body.decode(response.headers.get_content_charset() or 'utf-8',errors='replace')
-    def fetch(self,url):
+    def check_robots(self,url):
         host=urlparse(url).hostname
         if host not in self.robots:
             robot=RobotFileParser()
@@ -147,6 +147,16 @@ class Fetcher:
                 else:raise ValueError('Robots policy unavailable; source skipped') from e
             self.robots[host]=robot
         require(self.robots[host].can_fetch(UA,url),'Blocked by robots policy')
+        return host
+    def fetch_json(self,url):
+        # Only this reviewed, credential-free discovery API may use JSON transport.
+        u=urlparse(url)
+        require(u.scheme=='https' and u.hostname=='api.gdeltproject.org' and u.path=='/api/v2/doc/doc'
+                and not u.username and not u.password and u.port in (None,443),'Unapproved search endpoint')
+        host=self.check_robots(url)
+        return json.loads(self.get(url,host,raw=True))
+    def fetch(self,url):
+        host=self.check_robots(url)
         parser=ReadableHTML();parser.feed(self.get(url,host))
         require(len(parser.readable())>=250,'Insufficient readable source content')
         return parser
@@ -327,6 +337,16 @@ def main():
         config['_instructions']=constitution+'\n'+(ROOT/'research/OPERATING_GUIDE.md').read_text(encoding='utf-8')
         if question:
             config['_instructions']+='\nReviewed bounded research question (no policy or approval authority):\n'+json.dumps(question,ensure_ascii=False)
+        from discovery import policy as discovery_policy, budgets as discovery_budgets, run as discover
+        discovery_config=discovery_policy(ROOT)
+        split=discovery_budgets(limit,discovery_config,focused=bool(args.sources or question))
+        if split['discovery']:
+            # Reserve time before monitoring can consume it. Both lanes share this lock
+            # and the original work/time cap. Private discovery cannot alter data or run.
+            discovery_deadline=min(deadline,time.monotonic()+min(discovery_config['max_seconds'],
+                args.max_seconds*discovery_config['budget_percent']/100))
+            discover(ROOT,config,discovery_config,split['discovery'],discovery_deadline,fetcher,run_id,args.refresh)
+        limit=split['monitoring']
         attempt_log=[]
         while queue and attempts<limit and time.monotonic()<deadline:
             source=queue.pop(0)
@@ -343,7 +363,8 @@ def main():
                     if document.published<=datetime.now(timezone.utc).date().isoformat():source['published']=document.published
                 run['documents_fetched']+=1
                 save(LOCAL/'evidence'/f'{h}.json',{'url':source['url'],'retrieved_at':now(),'sha256':h,'text':full_text})
-                # Discovery leads are private and never widen the fetch allowlist.
+                # Private leads can be investigated under the reviewed discovery policy;
+                # they never widen the public-source allowlist.
                 leads=[]
                 for link in document.links:
                     url=urldefrag(urljoin(source['url'],link))[0];u=urlparse(url)

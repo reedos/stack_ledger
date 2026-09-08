@@ -179,6 +179,9 @@ def validate(data):
     return True
 
 if __name__=='__main__':
+    from discovery import policy as discovery_policy, agenda as discovery_agenda
+    discovery_policy(ROOT)
+    discovery_agenda(ROOT)
     data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
     validate(data)
     from editorial import read, validate_config

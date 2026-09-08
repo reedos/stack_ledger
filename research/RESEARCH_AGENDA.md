@@ -1,6 +1,8 @@
 # Continuing five-layer research agenda
 
-Reviewed September 7, 2026. This is a collection plan, not a set of factual claims. It implements the owner's layer-expansion, five-layer-agenda and global-source-policy briefs. New sources, definitions and stages require reviewed changes; the unattended model can only fill approved records.
+Reviewed September 7, 2026. This is a collection plan, not a set of factual claims. It implements the owner's layer-expansion, five-layer-agenda and global-source-policy briefs. Public sources, definitions and stages require reviewed changes; the unattended model can fill approved public records and propose private coverage expansions under `discovery-policy.json`.
+
+Named products and companies below are non-exhaustive examples and dated context, never a ceiling on discovery. Ask which contributors and measures we are missing, including competitors, new entrants, regional builders, suppliers, occupations and negative evidence. Preserve the five-layer premise while allowing unfamiliar technologies and cross-layer connections. The active "Next evidence by layer" section is read directly by private discovery; its structured rotation lives in `discovery-policy.json`. Human-approved editorial follow-ups remain a separate, deliberately narrower workflow for specific accepted-data gaps.
 
 ## Published in this expansion
 
@@ -52,7 +54,7 @@ Track robotics data collectors, annotators, teleoperators, expert evaluators, AI
 
 ### Remaining collection work
 
-Priorities for reviewed adapters: PDF filing/table extraction; official statistical APIs; readable employer/ATS feeds; earnings-calendar prioritization; published source freshness and topic completeness; structured proposals for new companies, projects and measurement types. Discovery currently captures bounded pointers for review, not arbitrary internet search. A completed batch is not a claim of exhaustive coverage.
+Private discovery now investigates eligible retained links, performs bounded broad news searches through GDELT and proposes new companies, projects, sources, measurements, occupations and topics in the existing review queue. The adapter is not a comprehensive web search, filings or scholarly index. Priorities for further reviewed adapters: PDF filing/table extraction; official statistical APIs; readable employer/ATS feeds; scholarly metadata and original papers; earnings-calendar prioritization; source freshness and topic completeness. Search availability, missing formats and geographic/language gaps remain explicit limitations. A completed batch is not a claim of exhaustive coverage.
 
 
 ### Official micro1 listings verified in browser follow-up

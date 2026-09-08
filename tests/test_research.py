@@ -100,8 +100,11 @@ class IntegrityTests(unittest.TestCase):
 
 class RunnerTests(unittest.TestCase):
     def fixture(self,path):
-        for name in ['research/runtime.json','research/sources.json','research/CONSTITUTION.md','research/OPERATING_GUIDE.md','research/ecosystem.json','research/delivery.json','research/fabric.json','research/expansion.json','research/agenda.json','research/claims.json','site/data/ledger.json']:
+        for name in ['research/discovery-policy.json','research/RESEARCH_AGENDA.md','research/runtime.json','research/sources.json','research/CONSTITUTION.md','research/OPERATING_GUIDE.md','research/ecosystem.json','research/delivery.json','research/fabric.json','research/expansion.json','research/agenda.json','research/claims.json','site/data/ledger.json']:
             target=path/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/name).read_bytes())
+        # These fixtures isolate legacy monitoring. Discovery integration has its own E2E test.
+        policy=research.load(path/'research/discovery-policy.json');policy['enabled']=False
+        research.save(path/'research/discovery-policy.json',policy)
     def test_no_change_run_is_honest_and_dry_run_does_not_mutate_site(self):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp);self.fixture(path)

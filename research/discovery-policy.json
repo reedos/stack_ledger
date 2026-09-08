@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "enabled": true,
+  "budget_percent": 25,
+  "max_seconds": 300,
+  "max_model_calls": 4,
+  "search_results": 5,
+  "search_cooldown_hours": 24,
+  "revisit_days": 7,
+  "max_leads": 2000,
+  "regions": ["", "United States", "Europe", "Asia", "Africa", "Latin America"],
+  "layers": {
+    "energy": [
+      {"query": "electricity grid", "question": "Which generators, grid operators and equipment suppliers are delivering additional dependable power? Compare operation, financing, queues, cancellations and published outlooks beyond 2030."},
+      {"query": "clean energy", "question": "What new supply, storage and clean-energy manufacturing is being delivered, by whom, where, and against which dated commitments?"},
+      {"query": "data center utility", "question": "Who pays for new power, grid and water infrastructure? Seek measured household bills, permits, water consumption and withdrawal, local benefits and adverse effects."},
+      {"query": "geothermal power", "question": "Which new developers, drilling suppliers and grid connections deliver geothermal power, and which constraints remain? Compare measured output with announced capacity."},
+      {"query": "nuclear capacity", "question": "Which operating fleets, restarts, new reactors and fuel-cycle suppliers change dependable power availability? Separate licensing, construction, operation and future targets."}
+    ],
+    "chips": [
+      {"query": "semiconductor capacity", "question": "Which established or emerging designers, foundries, toolmakers, packaging and test suppliers expand real capacity? Preserve fab phase, node, location and shipment basis."},
+      {"query": "semiconductor networking", "question": "Which memory, storage, DSP, SerDes, copper, fiber, laser, module and co-packaged optics contributors remove or expose bottlenecks? Distinguish qualification from volume shipments."},
+      {"query": "AI chip investment", "question": "What comparable revenue, capacity, yield, employment or equipment lead-time evidence reveals delivery, shortages or overcapacity? Keep revenue separate from funding and orders."},
+      {"query": "high bandwidth memory", "question": "Which memory builders, equipment and materials suppliers expand qualified HBM, packaging and test supply? What evidence distinguishes shipped stacks, yields and usable capacity from announced plans?"},
+      {"query": "optical interconnect", "question": "Which photonics, DSP, laser, module, fiber and co-packaged optics contributors enable compute to scale within and across AI factories? Seek deployment and production evidence with costs and limitations."}
+    ],
+    "infrastructure": [
+      {"query": "data center construction", "question": "Which owners, operators, regional clouds, builders and suppliers bring AI factories into service? Track site phases, energized IT capacity and delays without double counting."},
+      {"query": "data center jobs", "question": "Which contractors and training providers report actual paid work, wages, placements and shortages? Separate construction peaks, postings and permanent jobs."},
+      {"query": "data center local economy", "question": "What electrical, cooling and networking constraints or local procurement and fiscal outcomes matter? Seek public costs, tax incentives and household effects alongside receipts."},
+      {"query": "data center cooling", "question": "Which cooling and electrical suppliers change usable facility capacity, water use and energy efficiency? Seek measured operation, equipment delivery and bottlenecks rather than nominal product ratings."}
+    ],
+    "models": [
+      {"query": "open model release", "question": "Which new or established open-weight and open-source builders, repositories and research groups contribute models or datasets? Verify checkpoint-specific license and availability; named incumbents are examples only."},
+      {"query": "language model evaluation", "question": "What comparable capability, failure rate, latency, energy and accepted-work cost evidence exists across commercial and open models, languages and domains? Seek independent replication and regressions."},
+      {"query": "AI agent tools", "question": "Which model builders, serving stacks and agent harnesses enable useful work? Track current releases, total costs, subscription conditions and human intervention without assuming successor names."}
+    ],
+    "applications": [
+      {"query": "AI productivity employment", "question": "Which companies and researchers demonstrate completed digital work beyond coding? Seek quality-adjusted productivity, adoption, new occupations, displacement and credible causal employment studies."},
+      {"query": "AI clinical trials", "question": "Which labs, hospitals and developers improve discovery, engineering, climate or medicine? Seek reproduced results, negative trials, safety and patient outcomes, not merely predictions or funding."},
+      {"query": "robotics deployment", "question": "Which robotics, simulation, world-model and autonomous-system contributors show productive deployments? Preserve task-hours, interventions, uptime, safety, labor conditions and operating limits."},
+      {"query": "AI scientific research", "question": "Which new groups demonstrate reproducible improvements in biology, chemistry, materials, mathematics or engineering? Distinguish open research resources, predictions, experimental validation and practical outcomes."},
+      {"query": "AI weather forecast", "question": "Which researchers and operational services improve weather, climate, clean-energy management or disaster preparedness? Seek independent verification, failure cases and real-world decisions rather than isolated benchmark wins."}
+    ]
+  }
+}

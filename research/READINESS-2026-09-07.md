@@ -1,5 +1,7 @@
 # Local research readiness audit — September 7, 2026
 
+This is a historical, as-of readiness snapshot. It is not loaded as research instructions and does not constrain future companies, products or topics. For current operation use `OPERATING_GUIDE.md`, `RESEARCH_AGENDA.md`, `DISCOVERY.md`, the reviewed configuration and actual latest private receipts. The findings below retain their original audit scope; later implementations may resolve listed gaps.
+
 ## What was checked without running research
 
 - Ollama's local `/api/tags` endpoint responded and lists `muse-glimmer:30b-q4_K_M-dflash`. No inference, model load, research batch or GPU benchmark was requested.
