@@ -101,7 +101,14 @@ def recent_changes(config, ledger, base, at=None):
                     values += f'<p>{"Previous" if name == "before_id" else "New"}: {e(number(o))} · {e(o["period"])} · {STATUSES[o["status"]]}</p>'
             old = 'Historical event, newly reviewed. ' if (ed.instant(item['reviewed_at']).date()-datetime.fromisoformat(item['event_date']).date()).days > config['recent_window_days'] else ''
             links = ' · '.join(f'<a class="source-inline" href="{link_url(sources[s]["url"])}">{e(sources[s]["publisher"])}</a>' for s in item['source_ids'])
-            cards.append(f'<article class="panel"><span class="eyebrow">{e(item["layer"])} · {e(item["kind"])}</span><h3>{e(item["title"])}</h3><p>{e(item["what_changed"])}</p>{values}<p><strong>Why it matters:</strong> {e(item["significance"])}</p><p>{e(item["scope"])}</p><p class="chart-footnote">{old}Event: {e(item["event_date"])} · Reviewed: {e(item["reviewed_at"][:10])}</p>{links}</article>')
+            cards.append(
+                f'<article class="panel recent-card"><header><span class="eyebrow">{e(item["layer"])} &middot; {e(item["kind"])}</span>'
+                f'<h3>{e(item["title"])}</h3></header><p class="recent-summary">{e(item["what_changed"])}</p>{values}'
+                f'<div class="recent-significance"><strong>Why it matters:</strong><p>{e(item["significance"])}</p></div>'
+                f'<details class="recent-scope"><summary>Scope &amp; qualifications</summary><p>{e(item["scope"])}</p></details>'
+                f'<div class="recent-meta"><p>{old}Event: <time datetime="{e(item["event_date"], quote=True)}">{e(item["event_date"])}</time>'
+                f' &middot; Reviewed: <time datetime="{e(item["reviewed_at"], quote=True)}">{e(item["reviewed_at"][:10])}</time></p>'
+                f'<div class="recent-sources">{links}</div></div></article>')
         content = '<div class="reviewed-change-grid">'+''.join(cards)+'</div>'
     return f'<section class="section" id="recent-changes" aria-labelledby="recent-changes-title"><div class="eyebrow muted">REVIEWED DEVELOPMENTS</div><h2 id="recent-changes-title">What changed recently?</h2>{content}<a class="section-link" href="{base}ledger/">Explore the research ledger ↗</a></section>'
 

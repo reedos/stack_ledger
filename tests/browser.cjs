@@ -44,6 +44,11 @@ const server=http.createServer((req,res)=>{
     assert.ok(await staticPage.locator('#recent-changes a.source-inline').count()>0);
     assert.match(recentText,/Event: .*Reviewed:/);
     assert.doesNotMatch(recentText,/No developments have been approved/);
+    const scope=staticPage.locator('#recent-changes .recent-scope').first();
+    assert.equal(await scope.getAttribute('open'),null);
+    await scope.locator('summary').focus();await staticPage.keyboard.press('Enter');
+    assert.ok(await scope.locator('p').isVisible());
+    await staticPage.keyboard.press('Enter');
   } else {
     assert.match(recentText,/No developments have been approved/);
   }
@@ -278,6 +283,9 @@ const server=http.createServer((req,res)=>{
   await page.goto(origin);await page.locator('body[data-enhanced="true"]').waitFor();
   await page.locator('#stack').screenshot({path:path.join(evidence,'editorial-cards-mobile.png')});
   await page.setViewportSize({width:1440,height:1000});await page.locator('#stack').screenshot({path:path.join(evidence,'editorial-cards-desktop.png')});
+  await page.locator('#recent-changes').screenshot({path:path.join(evidence,'recent-changes-desktop.png')});
+  await page.setViewportSize({width:390,height:844});
+  await page.locator('#recent-changes').screenshot({path:path.join(evidence,'recent-changes-mobile.png')});
   for(const width of [320,375,390]){
    await page.setViewportSize({width,height:844});await page.goto(origin);await page.locator('#historical-context .line-point').first().waitFor();
    const plot=page.locator('#historical-context .chart-plot');
