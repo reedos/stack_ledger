@@ -25159,6 +25159,36 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T183745Z-7b501dc4890448a490886e2253a10fff",
+      "started_at": "2026-09-08T18:37:45Z",
+      "finished_at": "2026-09-08T18:38:25Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-palantir",
+          "reason": "Unsupported source content type"
+        },
+        {
+          "source": "semi-memory-2026",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "tsmc-arizona",
+          "reason": "HTTPError"
+        }
+      ],
+      "model_calls": 1,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -25168,7 +25198,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T18:37:09Z",
+    "last_attempt": "2026-09-08T18:38:25Z",
     "last_success": "2026-09-08T17:54:47Z",
     "status": "partial"
   }
