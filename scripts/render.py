@@ -56,11 +56,19 @@ def latest_headline(data, layer):
     return max(records, key=lambda o: (o['year'], o['period']), default=None)
 
 
-def layer_cards(data, base):
+def layer_cards(data, base, config=None, policy=None):
     cards = []
     for layer in data['layers']:
         verb, label, unit = LABELS[layer['id']]
-        record = latest_headline(data, layer)
+        slot = config['slots'][layer['id']] if config else None
+        if slot:
+            from render_editorial import selected, history
+            record = selected(data, slot, policy)
+            if slot['metric_id'] != layer['headline_metric']:
+                metric = next(m for m in data['metrics'] if m['id'] == slot['metric_id'])
+                label, unit = metric['title'], metric['unit']
+        else:
+            record = latest_headline(data, layer)
         if record:
             source = next(s for s in data['sources'] if s['id'] == record['source'])
             display = record
@@ -78,15 +86,35 @@ def layer_cards(data, base):
             evidence = (f'<div class="layer-value research-gap">Research gap</div>'
                         f'<p class="layer-label">{e(label)}</p><span class="headline-status">No headline observation</span>'
                         '<p class="headline-note">No reviewed outcome metric in the catalog yet. Adoption is not productivity.</p>')
-        cards.append(f'<article class="layer-card" style="--accent:{e(layer["color"])}" data-layer="{e(layer["id"])}">'
+        if slot:
+            if slot['visualization'] == 'demoted':
+                evidence = '<p class="headline-note">This featured indicator is under editorial reconsideration. Follow the layer for scoped evidence.</p>'
+            else:
+                evidence += history(data, slot, policy, base)
+            for mid in slot['supporting']:
+                metric = next(m for m in data['metrics'] if m['id'] == mid)
+                from editorial import contract
+                supporting_slot = dict(metric_id=mid, profile=contract(metric,policy)['profile'], visualization='history', pin=None, supporting=[])
+                supporting_record = selected(data,supporting_slot,policy)
+                if supporting_record:
+                    source = next(s for s in data['sources'] if s['id']==supporting_record['source'])
+                    evidence += (f'<aside class="headline-support"><h4>Supporting context: {e(metric["title"])}</h4>'
+                                 f'<p>{e(number(supporting_record))} {e(metric["unit"])} · {e(supporting_record["period"])} · {STATUSES[supporting_record["status"]]}</p>'
+                                 f'<p>{e(metric["scope"])}</p><a href="{link_url(source["url"])}">{e(source["publisher"])}</a>'
+                                 + history(data,supporting_slot,policy,base)+'</aside>')
+        marker = f' data-observation="{e(record["id"])}"' if record else ''
+        cards.append(f'<article class="layer-card" style="--accent:{e(layer["color"])}" data-layer="{e(layer["id"])}"{marker}>'
                      f'<div class="layer-card-top"><span class="layer-verb">{verb}</span><span class="ordinal">LAYER {e(layer["number"])}</span></div>'
                      f'<h3><a href="{base}{e(layer["id"])}/">{e(layer["name"])}</a></h3>{evidence}'
                      f'<a class="layer-card-bottom" href="{base}{e(layer["id"])}/"><span>Explore {e(layer["name"].lower())}</span><span>↗</span></a></article>')
     return '<div class="layer-grid">' + ''.join(cards) + '</div>'
 
 
-def home(data, base):
+def home(data, base, config=None, policy=None):
     stack = (ROOT / 'site/partials/stack.html').read_text(encoding='utf-8').replace('{{BASE}}', base)
+    from render_editorial import recent_changes, delivery_context
+    reviewed = recent_changes(config, data, base) if config else ''
+    delivery = delivery_context(config, data, base) if config else ''
     return f'''<section class="hero"><div class="hero-copy">
       <div class="eyebrow"><span class="dot"></span>A PUBLIC LEDGER OF THE AI BUILDOUT</div>
       <h1>A public record of<br><em>the AI buildout.</em></h1>
@@ -96,10 +124,11 @@ def home(data, base):
       </div><div class="hero-art">{stack}<div class="art-caption"><span>Five connected layers. Evidence at every step.</span></div></div></section>
       <section class="section" id="stack"><div class="section-top"><div><div class="eyebrow muted">FIVE LAYERS. ONE CONNECTED PURPOSE.</div><h2>From power to useful work.</h2></div></div>
       <p class="stack-thesis"><a href="{base}energy/">Power</a> enables <a href="{base}chips/">chips</a> and <a href="{base}infrastructure/">AI factories</a>.<br><a href="{base}models/">Models</a> turn compute into capabilities; <a href="{base}applications/">applications</a> put them to <strong>useful work.</strong></p>
-      {layer_cards(data, base)}
+      {layer_cards(data, base, config, policy)}
       <p class="chart-footnote">Selected indicators, not an overall progress score. Each figure keeps its own scope, period and publisher. <a class="source-inline" href="{base}data/ledger.json">Inspect the raw ledger ↗</a></p></section>
       <aside class="reading-note homepage-reading"><strong>Pledged is not built.</strong><p>Announced ≠ financed ≠ under construction ≠ commissioned ≠ operating. Follow the evidence for each stage in the <a class="source-inline" href="{base}projects/">project tracker ↗</a>.</p></aside>
-      <aside class="claims-invitation"><div><div class="eyebrow">CLAIMS & EVIDENCE</div><h2>What does the buildout deliver for communities?</h2><p>Explore the evidence on AI and employment, skilled jobs, local taxes, water, power bills and clean energy—and what future projects need to demonstrate.</p><p><a href="{base}claims/#ai-employment">Is AI causing mass unemployment? Check the evidence.</a></p></div><a href="{base}claims/">Examine the evidence ↗</a></aside>
+      {delivery}{reviewed}
+      <aside class="claims-invitation"><div><div class="eyebrow">FROM INFRASTRUCTURE TO OUTCOMES</div><h2>What does the buildout deliver for communities?</h2><p>Follow the evidence from investment and activity to household bills, collected taxes, lasting jobs and useful work. Spending and adoption alone do not establish a benefit.</p><p>Explore AI and employment, skilled jobs, local taxes, water, power bills and clean energy—and what future projects need to demonstrate. Local benefits, public costs and uncertainty belong in the same assessment.</p><p><a href="{base}claims/#ai-employment">Is AI causing mass unemployment? Check the evidence.</a></p></div><a href="{base}claims/">Examine the evidence ↗</a></aside>
       <div id="home-details"></div>'''
 
 

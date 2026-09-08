@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "authority": "Reviewable test expectations, not an independent human audit or a live-model quality measurement.",
+  "cases": [
+    {"id":"keep-plateau","action":"KEEP","mutation":null,"accept":true,"reason":"A well-sourced plateau is useful evidence of a persistent constraint; novelty is not required."},
+    {"id":"refresh-pin","action":"REFRESH_DATA","mutation":"pin","accept":true,"reason":"The same metric has a later accepted comparable record; a human must release the pin."},
+    {"id":"rechart-history","action":"IMPROVE_VISUALIZATION","mutation":null,"accept":true,"reason":"The incumbent has accepted spaced checkpoints; use a truthful chart without replacing the measure."},
+    {"id":"replace-better-scope","action":"REPLACE_METRIC","mutation":"better_scope","accept":true,"reason":"The fixture contrasts installed nominal units with usable operating units. A direct comparison clears the same-profile heuristic margin; it still needs human adjudication."},
+    {"id":"demote-critical-flaw","action":"DEMOTE","mutation":"method_break","accept":true,"reason":"A changed measurement method interrupts the incumbent's comparable evidence. The proposed demotion is surfaced for human adjudication."},
+    {"id":"abstain-sparse","action":"INSUFFICIENT_EVIDENCE","mutation":"sparse","accept":true,"reason":"Sparse evidence supports abstention, not an inferred inflection or invented history."},
+    {"id":"reject-flashy-forecast","action":"REPLACE_METRIC","mutation":"forecast","accept":false,"reason":"An unsupported forecast cannot replace a historical indicator regardless of its dramatic curve."},
+    {"id":"reject-fabricated-claim","action":"REPLACE_METRIC","mutation":"fabricated","accept":false,"reason":"A quantity in model prose without structured exact evidence is rejected."}
+  ],
+  "question_cases": [
+    {"outcome":"resolved","evidence_ids":["energy-metric-2025"],"expected_resolution":true},
+    {"outcome":"source_inaccessible","evidence_ids":[],"expected_resolution":false},
+    {"outcome":"no_new_evidence","evidence_ids":[],"expected_resolution":false}
+  ]
+}

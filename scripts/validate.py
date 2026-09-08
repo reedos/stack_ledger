@@ -179,5 +179,8 @@ def validate(data):
     return True
 
 if __name__=='__main__':
-    validate(json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8')))
+    data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+    validate(data)
+    from editorial import read, validate_config
+    validate_config(read(ROOT/'research/homepage.json'),data,read(ROOT/'research/editorial-policy.json'))
     print('Ledger validation passed')

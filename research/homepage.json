@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-07T23:59:00Z",
+  "slots": {
+    "energy": {
+      "metric_id": "dc-electricity",
+      "profile": "trajectory",
+      "visualization": "history",
+      "pin": null,
+      "supporting": []
+    },
+    "chips": {
+      "metric_id": "tsmc-cowos-wpm",
+      "profile": "trajectory",
+      "visualization": "history",
+      "pin": null,
+      "supporting": []
+    },
+    "infrastructure": {
+      "metric_id": "abilene-it-operating",
+      "profile": "delivery-state",
+      "visualization": "snapshot",
+      "pin": null,
+      "supporting": []
+    },
+    "models": {
+      "metric_id": "codex-input-price",
+      "profile": "delivery-state",
+      "visualization": "snapshot",
+      "pin": null,
+      "supporting": []
+    },
+    "applications": {
+      "metric_id": "waymo-paid-weekly",
+      "profile": "trajectory",
+      "visualization": "history",
+      "pin": null,
+      "supporting": []
+    }
+  },
+  "recent_limit": 3,
+  "recent_window_days": 45,
+  "recent_changes": [],
+  "delivery_accounting": null
+}

@@ -45,6 +45,14 @@ def save(path,value):
     os.replace(tmp,path)
 def normalize(value):return ' '.join(value.split())
 
+def processing_identity(document_hash,config,policy,related):
+    """Do not replay screening after a model, schema, prompt or code change."""
+    return digest(json.dumps({'document':document_hash,'instructions':config['_instructions'],
+        'coverage':config['_coverage'],'policy':policy,'metrics':related,'model':config['model'],
+        'max_candidates':config['max_candidates_per_document'],
+        'generation':config.get('_generation_settings',{'temperature':0,'num_ctx':16384,'num_predict':2500,'think':False}),
+        'implementation':digest(Path(__file__).read_text(encoding='utf-8'))},sort_keys=True))
+
 def source_queue(registry, day, selected=None, attempted=None):
     order=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
     approved={s['id']:s for s in registry['sources']}
@@ -146,8 +154,10 @@ class Fetcher:
 def ollama(config,system,prompt,schema):
     endpoint=urlparse(config['ollama_url'])
     require(endpoint.scheme=='http' and endpoint.hostname in {'127.0.0.1','localhost','::1'},'Model endpoint must remain local')
+    settings=config.get('_generation_settings',{'temperature':0,'num_ctx':16384,'num_predict':2500,'think':False})
+    require(set(settings)=={'temperature','num_ctx','num_predict','think'} and settings['temperature']==0 and settings['num_ctx']==16384 and settings['think'] is False and type(settings['num_predict']) is int and 1<=settings['num_predict']<=2500,'Unapproved generation settings')
     body={'model':config['model'],'stream':False,'think':False,'format':schema,'keep_alive':'5m',
-          'options':{'temperature':0,'num_ctx':16384,'num_predict':2500},
+          'options':{k:settings[k] for k in ['temperature','num_ctx','num_predict']},
           'messages':[{'role':'system','content':system},{'role':'user','content':prompt}]}
     print('  Local model evidence pass',flush=True)
     req=Request(config['ollama_url']+'/api/chat',data=json.dumps(body).encode(),headers={'Content-Type':'application/json'})
@@ -280,10 +290,19 @@ def main():
     parser.add_argument('--max-documents',type=int,default=None)
     parser.add_argument('--refresh',action='store_true',help='Re-extract unchanged source documents')
     parser.add_argument('--sources',nargs='+',help='Focus this run on approved source IDs; normal evidence checks still apply')
+    parser.add_argument('--question',help='Focus on a human-approved bounded question from the existing private review queue')
     parser.add_argument('--max-seconds',type=int,default=3600,help='Stop starting documents after this time budget; finish the active document')
     args=parser.parse_args()
     with lock():
         config=load(ROOT/'research/runtime.json')
+        question=None
+        if args.question:
+            from editorial_questions import approved_question
+            question=approved_question(ROOT,args.question)
+            require(not args.sources or set(args.sources)<=set(question['eligible_sources']),'Source selection exceeds question approval')
+            args.sources=args.sources or question['eligible_sources']
+            require(args.max_documents is None or args.max_documents<=question['budget'],'Document budget exceeds question approval')
+            args.max_documents=args.max_documents or question['budget']
         require(1<=args.max_seconds<=3600,'Invalid research time budget')
         deadline=time.monotonic()+args.max_seconds
         if args.publish:preflight(config)
@@ -306,6 +325,8 @@ def main():
         seen=set();attempts=0
         constitution=(ROOT/'research/CONSTITUTION.md').read_text(encoding='utf-8')
         config['_instructions']=constitution+'\n'+(ROOT/'research/OPERATING_GUIDE.md').read_text(encoding='utf-8')
+        if question:
+            config['_instructions']+='\nReviewed bounded research question (no policy or approval authority):\n'+json.dumps(question,ensure_ascii=False)
         attempt_log=[]
         while queue and attempts<limit and time.monotonic()<deadline:
             source=queue.pop(0)
@@ -349,7 +370,7 @@ def main():
                 if source.get('index'):continue
                 related=[m for m in metrics.values() if source.get('parent_source',source['id']) in m['source_ids']]
                 policy=collection_for(registry,source)
-                processing_hash=digest(h+config['_instructions']+config['_coverage']+json.dumps(policy,sort_keys=True)+json.dumps(related,sort_keys=True))
+                processing_hash=processing_identity(h,config,policy,related)
                 if not args.refresh and cache.get(source['url'])==processing_hash:
                     run['documents_reviewed']+=1;coverage.update(source['layers']);continue
                 if source.get('parent_source') or policy.get('excerpts'):

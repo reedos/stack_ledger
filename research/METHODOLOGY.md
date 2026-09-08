@@ -1,5 +1,11 @@
 # Methodology
 
+## Homepage editorial review · September 7, 2026
+
+The approved `research/homepage.json` preserves the five existing featured metrics. Compact CoWoS range and Waymo checkpoint charts add only accepted historical evidence, retaining estimate ranges, a lower bound, service footprint and date precision. IEA report editions are kept separate, so no edition-spliced Energy mini-trajectory is inferred. Abilene and the named-model input price remain scoped snapshots. Forecasts stay in the existing labeled outlook charts, outside realized-trend calculations.
+
+The reviewed recent-changes module does not promote machine-accepted notes. Its initial empty state is intentional. The community transition keeps contested questions and distinguishes activity from downstream outcomes. The project tracker has no reviewed non-overlapping phase accounting yet, so its explanation remains textual and no delivery percentage is added. See `EDITORIAL_RECOMMENDER.md` for private recommendation, human approval, freshness clocks, testing and the unchanged publication boundary. These coding changes do not advance the research runtime receipt.
+
 ## Layer contributor selection · September 7, 2026
 
 Layer pages show every company or organization assigned to that layer, grouped by function rather than taking the first three records in file order. Models lead with model developers; agent tools and runtimes form a separate group. Microsoft and Amazon have first-party MAI/Phi and Nova roles distinct from distribution of other labs' models. NVIDIA's Nemotron and Meta's campus development have explicit cross-layer placement. OpenClaw remains identified as an open-source project, and utilities and grid operators are not all commercial companies.

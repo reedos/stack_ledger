@@ -28,13 +28,24 @@ def invoke(args):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--install',action='store_true',help='Create the daily command job')
+    parser.add_argument('--editorial',action='store_true',help='Preview the optional monthly editorial job; installation remains explicit')
     args=parser.parse_args()
     config=json.loads((ROOT/'research/runtime.json').read_text(encoding='utf-8'))
     payload=[sys.executable,str(ROOT/'scripts/research.py'),'--publish']
-    command=['cron','add','--name',NAME,'--description','Research the five AI layers, validate evidence, build, commit and push data updates. No chat delivery.','--cron',config['schedule'],'--tz',config['timezone'],'--exact','--session','isolated','--command-argv',json.dumps(payload),'--command-cwd',str(ROOT),'--timeout-seconds','5400','--no-output-timeout-seconds','420','--no-deliver','--declaration-key','stack-ledger-daily-v1','--json']
+    name=NAME
+    declaration='stack-ledger-daily-v1'
+    description='Research the five AI layers, validate evidence, build, commit and push data updates. No chat delivery.'
+    if args.editorial:
+        policy=json.loads((ROOT/'research/editorial-policy.json').read_text(encoding='utf-8'))
+        config=dict(config,schedule=policy['schedule'],timezone=policy['timezone'])
+        payload=[sys.executable,str(ROOT/'scripts/editorial_review.py'),'assess','--model','--trigger','monthly']
+        name='Stack Ledger · monthly editorial review'
+        declaration='stack-ledger-editorial-v1'
+        description='Bounded accepted-evidence comparison into the private review queue. No approval, build or publication.'
+    command=['cron','add','--name',name,'--description',description,'--cron',config['schedule'],'--tz',config['timezone'],'--exact','--session','isolated','--command-argv',json.dumps(payload),'--command-cwd',str(ROOT),'--timeout-seconds','5400','--no-output-timeout-seconds','420','--no-deliver','--declaration-key',declaration,'--json']
     if not args.install:
-        print(json.dumps({'name':NAME,'schedule':config['schedule'],'timezone':config['timezone'],'argv':payload,'cwd':str(ROOT),'delivery':'none'},indent=2));return
-    existing=[j for j in invoke(['cron','list','--json']).get('jobs',[]) if j.get('name')==NAME]
+        print(json.dumps({'name':name,'schedule':config['schedule'],'timezone':config['timezone'],'argv':payload,'cwd':str(ROOT),'delivery':'none'},indent=2));return
+    existing=[j for j in invoke(['cron','list','--json']).get('jobs',[]) if j.get('name')==name]
     if existing:
         job=existing[0]
         if len(existing)!=1 or not job.get('enabled') or job.get('payload',{}).get('argv')!=payload or job.get('schedule',{}).get('expr')!=config['schedule']:
@@ -43,7 +54,7 @@ def main():
         response=invoke(command)
         job=response.get('job',response)
         if not job.get('id'):
-            matches=[j for j in invoke(['cron','list','--json']).get('jobs',[]) if j.get('name')==NAME]
+            matches=[j for j in invoke(['cron','list','--json']).get('jobs',[]) if j.get('name')==name]
             if len(matches)!=1:raise RuntimeError('Could not verify the installed Stack Ledger job')
             job=matches[0]
     print(json.dumps({k:job.get(k) for k in ['id','name','enabled','schedule']},indent=2,ensure_ascii=False))

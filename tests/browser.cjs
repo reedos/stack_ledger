@@ -36,6 +36,9 @@ const server=http.createServer((req,res)=>{
   assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/500,000[\s\S]*Mar 2026/);
   assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/paid trips/);
   assert.match(await staticPage.locator('#runtime').innerText(),/RTX 5090.*Last run:.*Last successful research:/s);
+  assert.equal(await staticPage.locator('#recent-changes').count(),1);
+  assert.match(await staticPage.locator('#recent-changes').innerText(),/No developments have been approved/);
+  assert.equal(await staticPage.locator('.headline-history svg').count(),2);
   assert.ok(await staticPage.locator('noscript a[href$="data/ledger.json"]').isVisible());
   await staticPage.locator('.stack-menu summary').focus();await staticPage.keyboard.press('Enter');
   assert.equal(await staticPage.locator('.stack-destinations a:visible').count(),5);
@@ -248,6 +251,19 @@ const server=http.createServer((req,res)=>{
    for(const route of routes){await page.goto(origin+route);await page.locator('body[data-enhanced="true"]').waitFor();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' overflow at '+width);}
   }
   await page.setViewportSize({width:390,height:844});await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'mobile.png'),fullPage:true});
+  // Editorial additions must not alter the protected footer or its dynamic enhancement.
+  await page.locator('body[data-enhanced="true"]').waitFor();
+  assert.equal(await page.locator('#runtime').evaluate(el=>el.previousElementSibling.className),'project-attribution');
+  assert.equal(await page.locator('#runtime').evaluate(el=>el.nextElementSibling.className),'footer-bottom');
+  const originalRuntime=await page.locator('#runtime').innerHTML();
+  await page.evaluate(()=>{data.runtime.status='failed';data.runtime.display_model='Browser fixture model';data.runs.at(-1).accepted=777;runtime();});
+  assert.match(await page.locator('#runtime').innerText(),/Browser fixture model.*Status: failed/s);
+  await page.locator('#runtime summary').click();
+  assert.match(await page.locator('#runtime details').innerText(),/777 accepted records/);
+  assert.notEqual(await page.locator('#runtime').innerHTML(),originalRuntime);
+  await page.goto(origin);await page.locator('body[data-enhanced="true"]').waitFor();
+  await page.locator('#stack').screenshot({path:path.join(evidence,'editorial-cards-mobile.png')});
+  await page.setViewportSize({width:1440,height:1000});await page.locator('#stack').screenshot({path:path.join(evidence,'editorial-cards-desktop.png')});
   for(const width of [320,375,390]){
    await page.setViewportSize({width,height:844});await page.goto(origin);await page.locator('#historical-context .line-point').first().waitFor();
    const plot=page.locator('#historical-context .chart-plot');
@@ -255,6 +271,10 @@ const server=http.createServer((req,res)=>{
    assert.equal(await plot.locator('.line-point').count(),25);
    assert.deepEqual(await plot.locator('.chart-year').allTextContents(),['2020','2025','2030','2035']);
    assert.equal(await plot.locator('svg').evaluate(svg=>[...svg.querySelectorAll('text')].some(t=>{const r=t.getBBox();return r.x<0||r.x+r.width>svg.viewBox.baseVal.width;})),false,'labels must fit at '+width);
+   for(const chart of await page.locator('.headline-history svg').all()){
+    assert.equal(await chart.evaluate(el=>el.getBoundingClientRect().right>innerWidth),false,'headline history fits at '+width);
+    assert.ok(await chart.getAttribute('aria-label'));
+   }
   }
   await page.locator('#historical-context').screenshot({path:path.join(evidence,'generation-mobile.png')});
   await page.setViewportSize({width:1440,height:1000});await page.waitForTimeout(200);

@@ -24,8 +24,14 @@ def build():
     from validate_claims import validate_files as validate_claims_files
     validate_claims_files()
     data = json.loads((ROOT / 'site/data/ledger.json').read_text(encoding='utf-8'))
+    from editorial import read, validate_config
+    homepage = read(ROOT/'research/homepage.json')
+    editorial_policy = read(ROOT/'research/editorial-policy.json')
+    validate_config(homepage, data, editorial_policy)
     template = (ROOT / 'site/template.html').read_text(encoding='utf-8')
     digest=hashlib.sha256()
+    digest.update(json.dumps(homepage, sort_keys=True).encode())
+    digest.update(json.dumps(editorial_policy, sort_keys=True).encode())
     for asset in sorted(p for directory in ['site/assets','site/data'] for p in (ROOT/directory).rglob('*') if p.is_file()):
         digest.update(asset.relative_to(ROOT).as_posix().encode())
         digest.update(asset.read_bytes())
@@ -47,7 +53,7 @@ def build():
     for page,path,title,heading,description in pages:
         rendered=template
         base = '../' * path.count('/') if path else './'
-        content = home(data, base) if page == 'home' else (f'<section class="page-hero"><div class="eyebrow">STACK LEDGER / OPEN RESEARCH</div><h1>{escape(heading)}</h1><p>{escape(description)}</p></section>')
+        content = home(data, base, homepage, editorial_policy) if page == 'home' else (f'<section class="page-hero"><div class="eyebrow">STACK LEDGER / OPEN RESEARCH</div><h1>{escape(heading)}</h1><p>{escape(description)}</p></section>')
         if page == 'company': content = company_snapshot(data, profiles[path], base)
         from layer_diagrams import DIAGRAMS, render_layer_diagram
         if page in DIAGRAMS: content += render_layer_diagram(page, data['sources'], next(l['color'] for l in data['layers'] if l['id']==page))

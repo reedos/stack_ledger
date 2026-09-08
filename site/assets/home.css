@@ -30,3 +30,13 @@
 @media(max-width:600px){.site-header nav{gap:8px}.hero h1{font-size:46px}.layer-card h3{font-size:16px}.metric-context{min-height:66px}.layer-label{min-height:80px}.layer-card:last-child .layer-label{min-height:0}.stack-destinations{top:calc(100% + 15px)}.research-gap{font-size:25px}.art-caption{line-height:1.7}}
 
 .project-attribution{margin:24px 0;color:var(--muted);font-size:12px;line-height:1.9}.project-attribution strong{color:var(--text);font-weight:600}
+.headline-history{margin:18px 0 8px;color:var(--accent);max-width:100%}
+.headline-history svg{display:block;width:100%;height:auto;overflow:visible}
+.headline-history svg text{font:11px system-ui;fill:currentColor}
+.headline-history figcaption,.headline-history-data{font-size:12px;line-height:1.6;color:var(--muted,#a9b5a8)}
+.headline-history-data summary{cursor:pointer;padding:10px 0;text-decoration:underline;text-underline-offset:3px}
+.headline-support{border-top:1px solid currentColor;margin-top:16px;padding-top:12px;font-size:12px;line-height:1.6}
+.headline-history-data table{font-size:12px;min-width:0;overflow-wrap:anywhere}
+.headline-history-data th,.headline-history-data td{padding:6px}
+.reviewed-change-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px}
+#recent-changes h2{margin:12px 0 20px}

@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "schema_version": "1",
+  "prompt_version": "1",
+  "implementation_version": "1",
+  "reviewers": [
+    "reedos"
+  ],
+  "reviewer_accounts": {
+    "reedos": [
+      "reedo"
+    ]
+  },
+  "weights": {
+    "layer_fidelity": 15,
+    "delivered_vs_promised": 15,
+    "evidence_quality": 15,
+    "explanatory_value": 20,
+    "freshness": 15,
+    "significance": 10,
+    "interpretability": 10
+  },
+  "replacement_margin": 10,
+  "cooldown_days": 30,
+  "schedule": "0 10 1 * *",
+  "timezone": "America/Los_Angeles",
+  "debounce_hours": 24,
+  "budgets": {
+    "model_calls": 5,
+    "candidates_per_layer": 4,
+    "input_characters": 40000,
+    "output_tokens": 2500,
+    "research_questions": 5
+  },
+  "metrics": {
+    "dc-electricity": {
+      "profile": "trajectory",
+      "min_points": 2,
+      "min_span_days": 180,
+      "max_gap_days": 550,
+      "cadence": "annual",
+      "expected_days": 365,
+      "monitor_days": 7,
+      "grace_days": 120,
+      "allow_change_statistics": false,
+      "methodology": "reviewed catalog definition",
+      "period_basis": "annual",
+      "source_groups": {
+        "iea-2025": "IEA 2025 edition",
+        "iea-2026": "IEA 2026 edition"
+      },
+      "context": "All data centers, including non-AI workloads. Annual electricity consumption; not generation capacity."
+    },
+    "tsmc-cowos-wpm": {
+      "profile": "trajectory",
+      "min_points": 3,
+      "min_span_days": 700,
+      "max_gap_days": 550,
+      "cadence": "annual",
+      "expected_days": 365,
+      "monitor_days": 7,
+      "grace_days": 120,
+      "allow_change_statistics": false,
+      "methodology": "Epoch industry-report ranges",
+      "period_basis": "year-end",
+      "source_groups": {},
+      "context": "Epoch ranges compiled from industry reports; TSMC does not disclose WPM. Year-end anchors, not annual averages or completed chips."
+    },
+    "abilene-it-operating": {
+      "profile": "delivery-state",
+      "min_points": 1,
+      "min_span_days": 0,
+      "max_gap_days": 550,
+      "cadence": "event",
+      "expected_days": null,
+      "monitor_days": 7,
+      "grace_days": 120,
+      "allow_change_statistics": false,
+      "methodology": "reviewed catalog definition",
+      "period_basis": "snapshot",
+      "source_groups": {},
+      "context": "Epoch site estimate from cooling and equipment evidence; not metered facility consumption. Campus boundary may exceed an individual building."
+    },
+    "codex-input-price": {
+      "profile": "delivery-state",
+      "min_points": 1,
+      "min_span_days": 0,
+      "max_gap_days": 550,
+      "cadence": "event",
+      "expected_days": null,
+      "monitor_days": 7,
+      "grace_days": 120,
+      "allow_change_statistics": false,
+      "methodology": "reviewed catalog definition",
+      "period_basis": "snapshot",
+      "source_groups": {},
+      "context": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model."
+    },
+    "waymo-paid-weekly": {
+      "profile": "trajectory",
+      "min_points": 2,
+      "min_span_days": 180,
+      "max_gap_days": 550,
+      "cadence": "event",
+      "expected_days": null,
+      "monitor_days": 7,
+      "grace_days": 120,
+      "allow_change_statistics": false,
+      "methodology": "reviewed catalog definition",
+      "period_basis": "snapshot",
+      "source_groups": {},
+      "context": "Paid weekly trips across the commercial markets operating at each disclosure: four markets in May 2025; ten U.S. cities in the March 2026 company post. This is a changing-footprint service series, not a same-city utilization comparison."
+    }
+  },
+  "candidate_focus": {
+    "energy": [
+      "us-utility-generation-history",
+      "chpe-transfer",
+      "colossus-grid-energized"
+    ],
+    "chips": [
+      "advanced-wafer-capacity",
+      "revenue-tsmc"
+    ],
+    "infrastructure": [
+      "census-dc-construction-saar",
+      "colossus-one-it-epoch",
+      "colossus-two-it-epoch"
+    ],
+    "models": [
+      "inference-cost",
+      "frontier-astra6-input",
+      "codex-task-success"
+    ],
+    "applications": [
+      "digit-gxo-totes",
+      "waymo-iihs-police-reportable-crash-rate",
+      "copilot-review-usage-index"
+    ]
+  }
+}
