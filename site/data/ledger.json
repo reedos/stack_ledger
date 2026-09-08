@@ -27486,6 +27486,31 @@
         "chips",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T205403Z-323bae1bfa744aac9020325de8a2aa73",
+      "started_at": "2026-09-08T20:54:03Z",
+      "finished_at": "2026-09-08T20:54:41Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "bls-aug-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "lbl-queues-2026",
+          "reason": "Source crawl delay exceeds daily budget"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "energy"
+      ]
     }
   ],
   "runtime": {
@@ -27495,7 +27520,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T20:53:29Z",
+    "last_attempt": "2026-09-08T20:54:41Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
