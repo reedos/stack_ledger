@@ -24711,6 +24711,29 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T181219Z-cd01f83fcde34271a2266cc2858a9fbf",
+      "started_at": "2026-09-08T18:12:19Z",
+      "finished_at": "2026-09-08T18:13:11Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "iea-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -24720,7 +24743,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T18:11:43Z",
+    "last_attempt": "2026-09-08T18:13:11Z",
     "last_success": "2026-09-08T17:54:47Z",
     "status": "partial"
   }
