@@ -25116,6 +25116,26 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260908T183425Z-f63bcce3906f46c4af317454e6b8f24d",
+      "started_at": "2026-09-08T18:34:25Z",
+      "finished_at": "2026-09-08T18:35:30Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-samsung",
+          "reason": "ConnectionResetError"
+        }
+      ],
+      "model_calls": 1,
+      "coverage_layers": [
+        "chips"
+      ]
     }
   ],
   "runtime": {
@@ -25125,7 +25145,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T18:33:47Z",
+    "last_attempt": "2026-09-08T18:35:30Z",
     "last_success": "2026-09-08T17:54:47Z",
     "status": "partial"
   }
