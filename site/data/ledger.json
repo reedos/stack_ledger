@@ -24222,6 +24222,44 @@
         "applications",
         "energy"
       ]
+    },
+    {
+      "id": "run-20260908T173808Z-6f50c751903f4648a52c56087f9aedda",
+      "started_at": "2026-09-08T17:38:08Z",
+      "finished_at": "2026-09-08T17:38:38Z",
+      "status": "failed",
+      "documents_fetched": 0,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "bls-electricians-may-2022",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "bls-electricians-may-2023",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "bls-oews-method-2021",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "tsmc-annual-history-2019",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "tsmc-annual-history-2021",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "tsmc-annual-history-2022",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": []
     }
   ],
   "runtime": {
@@ -24231,8 +24269,8 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T17:37:30Z",
+    "last_attempt": "2026-09-08T17:38:38Z",
     "last_success": "2026-09-07T22:57:54Z",
-    "status": "partial"
+    "status": "failed"
   }
 }
