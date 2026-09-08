@@ -67,7 +67,7 @@ function chart(metricId, compact=false) {
  const narrow=window.innerWidth<600;
  const stepSize = compact ? 70 : 88;
  const widthMin = narrow ? 360 : (compact ? 520 : 640);
- const width = m.chart_type==='line'?(narrow?Math.max(240,window.innerWidth-82):Math.max(960,years.length*45)):Math.max(widthMin, years.length * stepSize + 75), height=m.chart_type==='line'?(narrow?360:340):275, left=narrow?44:62, right=m.chart_type==='line'&&narrow?22:65, top=m.chart_type==='line'&&narrow?58:40, bottom=48;
+ const width = m.chart_type==='line'?(narrow?Math.max(240,window.innerWidth-82):Math.max(960,years.length*45)):Math.max(widthMin, years.length * stepSize + 75), height=m.chart_type==='line'?(narrow?360:340):275, left=narrow?(m.chart_type==='line'?60:44):62, right=m.chart_type==='line'&&narrow?22:65, top=m.chart_type==='line'&&narrow?58:40, bottom=48;
  const ceiling=m.chart_type==='line'?Math.ceil(Math.max(...obs.map(o=>o.value))/250)*250+250:Math.max(...obs.flatMap(o=>[Math.abs(o.value),Math.abs(o.upper??o.value)]),1)*1.2;
  const floor=m.chart_type==='line'?Math.floor((Math.min(...obs.map(o=>o.value))-150)/250)*250:obs.some(o=>o.value<0)?-ceiling:0;
  const plotH=height-top-bottom, plotW=width-left-right;
@@ -123,7 +123,7 @@ function chart(metricId, compact=false) {
  }
  if(companion){
   const yi=years.findIndex(year=>obs.some(o=>o.year===year&&o.metric===companion.id));
-  if(yi>=0){const x=left+step*(yi+.5);content+=`<g class="scope-break-marker"><path d="M${x} ${top-12}V${height-bottom}" stroke="#efc77b" stroke-width="2" stroke-dasharray="5 4"/><text x="${x+6}" y="${top-22}">${narrow&&m.chart_type==='line'?'2028: scope change':esc(m.chart_comparison_label||"Broader AEO scope")+' →'}</text></g>`;}
+  if(yi>=0){const x=left+step*(yi+.5);content+=`<g class="scope-break-marker"><path d="M${x} ${top-12}V${height-bottom}" stroke="#efc77b" stroke-width="2" stroke-dasharray="5 4"/><text x="${narrow&&m.chart_type==='line'?width-right:x+6}" y="${top-22}" text-anchor="${narrow&&m.chart_type==='line'?'end':'start'}">${narrow&&m.chart_type==='line'?'2028: scope change':esc(m.chart_comparison_label||"Broader AEO scope")+' →'}</text></g>`;}
  }
  if(!m.definition_stable){
   const yi=years.findIndex(year=>year>=m.definition_break_year);

@@ -1,6 +1,15 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const key=location.pathname.split('/')[1];
+// An already-running Python server may serve new HTML without the new review route.
+// reviews.js replaces these fallbacks once it loads successfully.
+function reviewFallback(review){
+  $('session-panel').hidden=review;$('review-panel').hidden=!review;
+  $('session-tab').setAttribute('aria-pressed',String(!review));$('review-tab').setAttribute('aria-pressed',String(review));
+  if(review)$('review-message').textContent='Review controls could not load. Reopen Research-Control.cmd and use the newly opened tab to load the current panel server. Opening the panel does not start or stop research.';
+}
+$('session-tab').onclick=()=>reviewFallback(false);
+$('review-tab').onclick=()=>reviewFallback(true);
 async function send(action,value){
   const r=await fetch(action,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':key},body:JSON.stringify(value)});
   const data=await r.json();if(!r.ok)throw new Error(data.error||'Request failed');return data;
@@ -16,7 +25,8 @@ async function poll(){
   try{
     const r=await fetch('status');if(!r.ok)throw new Error();const d=await r.json(),s=d.session||{};
     $('connection').textContent='Connected locally';$('start').disabled=d.active||d.launching;$('stop').disabled=!d.active;
-    $('state').textContent=s.state?((!d.active&&!['completed','stopped','cycle limit reached','interrupted'].includes(s.state))?'Controller inactive — inspect diagnostics':s.state):'Ready when you are.';
+    $('state').textContent=s.state?((!d.active&&!['completed','stopped','cycle limit reached','interrupted','blocked','failed'].includes(s.state))?'Controller inactive — inspect diagnostics':s.state):'Ready when you are.';
+    if(s.failure_reason)$('state').textContent+=' — '+s.failure_reason;
     $('elapsed').textContent=s.duration_seconds?`${Math.floor((s.elapsed_seconds||0)/60)} / ${Math.round(s.duration_seconds/60)} min`:'—';
     $('batches').textContent=`${s.batches||0} / ${s.failed_batches||0}`;
     $('progress').value=s.duration_seconds?Math.min(100,100*s.elapsed_seconds/s.duration_seconds):0;

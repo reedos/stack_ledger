@@ -105,6 +105,11 @@ class RunnerTests(unittest.TestCase):
         # These fixtures isolate legacy monitoring. Discovery integration has its own E2E test.
         policy=research.load(path/'research/discovery-policy.json');policy['enabled']=False
         research.save(path/'research/discovery-policy.json',policy)
+        # Accepted catalog/evidence stays representative; live execution history must
+        # not make a test depend on when an unattended publishing batch runs it.
+        ledger=research.load(path/'site/data/ledger.json');ledger['runs']=[]
+        ledger['runtime'].update(last_attempt=None,last_success=None,status='awaiting-first-run')
+        research.save(path/'site/data/ledger.json',ledger)
     def test_no_change_run_is_honest_and_dry_run_does_not_mutate_site(self):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp);self.fixture(path)

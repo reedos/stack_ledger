@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from session_options import add_arguments, choice_args, stopped
+from atomic_json import save as atomic
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -73,11 +74,6 @@ def overlap_notice(root):
     except Exception:print('Could not deliver overlap notification; research remains skipped',flush=True)
 
 
-def atomic(path,value):
-    path.parent.mkdir(parents=True,exist_ok=True)
-    tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8');os.replace(tmp,path)
-
-
 def batch_command(args,sid,remaining):
     command=[sys.executable,str(ROOT/'scripts/research.py'),'--session-id',sid,
              '--max-documents',str(args.batch_documents),'--max-seconds',str(max(1,min(900,int(remaining)))),*choice_args(args)]
@@ -114,11 +110,14 @@ def main(argv=None):
         folder=ROOT/'.local/sessions'/sid;folder.mkdir(parents=True,exist_ok=True)
         report=dict(session_id=sid,pid=os.getpid(),started_at=datetime.now(timezone.utc).isoformat(),
                     ends_at=(datetime.now(timezone.utc)+timedelta(seconds=duration)).isoformat(),
-                    duration_seconds=duration,batches=0,failed_batches=0,state='starting',options=plan)
+                    duration_seconds=duration,batches=0,failed_batches=0,consecutive_failures=0,state='starting',options=plan)
         started=time.monotonic();deadline=started+duration
         def checkpoint(state,**fields):
             report.update(state=state,elapsed_seconds=round(time.monotonic()-started),**fields)
-            atomic(folder/'status.json',report);atomic(ROOT/'.local/session-status.json',report)
+            # The per-session record is authoritative; a locked UI mirror cannot kill research.
+            atomic(folder/'status.json',report)
+            try:atomic(ROOT/'.local/session-status.json',report)
+            except OSError:print('Status mirror unavailable; per-session status is current.',flush=True)
         def pause(seconds,state):
             until=min(deadline,time.monotonic()+seconds)
             while time.monotonic()<until and not stopped(ROOT,sid):
@@ -129,13 +128,19 @@ def main(argv=None):
                 awake=bool(ctypes.windll.kernel32.SetThreadExecutionState(0x80000001))
                 if not awake:raise RuntimeError('Windows could not enable keep-awake')
             checkpoint('starting',keep_awake_active=awake)
-            cycles=0;idle_samples=0
+            cycles=0;idle_samples=0;telemetry_failures=0
             while session_active(time.monotonic()-started,cycles,a.min_minutes*60,duration,a.max_cycles):
                 if stopped(ROOT,sid):checkpoint('stopped');return 0
                 if (ROOT/'.local/research.lock').exists():pause(30,'waiting for another research batch');continue
                 if not a.ignore_gpu_busy:
-                    try:idle_samples=idle_samples+1 if gpu_idle(a.idle_percent) else 0
-                    except (RuntimeError,subprocess.SubprocessError):idle_samples=0
+                    try:
+                        idle_samples=idle_samples+1 if gpu_idle(a.idle_percent) else 0
+                        telemetry_failures=0
+                    except (OSError,ValueError,RuntimeError,subprocess.SubprocessError):
+                        idle_samples=0;telemetry_failures+=1
+                        if telemetry_failures>=3:
+                            checkpoint('blocked',failure_reason='GPU telemetry failed three times; cannot verify the requested idle condition. Check nvidia-smi before restarting.')
+                            return 1
                     if idle_samples<3:pause(10,'waiting for idle GPU');continue
                 remaining=deadline-time.monotonic()
                 if remaining<1:break
@@ -153,13 +158,28 @@ def main(argv=None):
                 report['batches']=cycles
                 if child.returncode:
                     report['failed_batches']+=1
+                    report['consecutive_failures']+=1
                     checkpoint('batch failed',last_exit_code=child.returncode)
+                    if child.returncode==3 or report['consecutive_failures']>=3:
+                        reason=('Publication/preflight failed. Saved evidence is retained; inspect the batch log and resolve repository or validation errors before restarting.'
+                                if child.returncode==3 else 'Three consecutive batch failures. Inspect the batch log before restarting; retries have stopped.')
+                        checkpoint('blocked',failure_reason=reason)
+                        print(reason,flush=True)
+                        return 1
                     pause(60,'retrying after batch failure')
-                else:pause(20,'between batches')
+                else:
+                    report['consecutive_failures']=0
+                    pause(20,'between batches')
+            if report['consecutive_failures']:
+                checkpoint('failed',failure_reason='Session ended with unresolved batch failures. Inspect the batch log.')
+                return 1
             checkpoint('completed' if time.monotonic()>=deadline else 'cycle limit reached')
             return 0
         except BaseException:
-            (folder/'stop').touch();checkpoint('interrupted');raise
+            (folder/'stop').touch()
+            try:checkpoint('interrupted')
+            except OSError:report['state']='interrupted'
+            raise
         finally:
             if awake:ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
             from research_notify import notify_session

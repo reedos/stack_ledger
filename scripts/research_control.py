@@ -95,8 +95,10 @@ class Controller:
 
     def status(self):
         report=read(self.root/'.local/session-status.json',{})
-        sid=report.get('session_id','')
+        lock=read(self.root/'.local/research-session.lock',{})
+        sid=lock.get('session_id',report.get('session_id',''))
         valid=bool(re.fullmatch('[a-f0-9]{32}',sid))
+        if valid:report=read(self.root/'.local/sessions'/sid/'status.json',report)
         active=(self.root/'.local/research-session.lock').exists()
         return dict(session=report,active=active,launching=bool(self.child and self.child.poll() is None),
             log=tail(self.root/'.local/sessions'/sid/'output.log') if valid else '',
@@ -176,10 +178,13 @@ def server(root=ROOT):
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--open',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--open',action='store_true')
+    parser.add_argument('--ephemeral',action='store_true',help='Do not replace the saved panel URL (for isolated UI tests)')
+    args=parser.parse_args()
     http,url=server()
-    (ROOT/'.local').mkdir(exist_ok=True)
-    (ROOT/'.local/research-control-url.txt').write_text(url,encoding='utf-8')
+    if not args.ephemeral:
+        (ROOT/'.local').mkdir(exist_ok=True)
+        (ROOT/'.local/research-control-url.txt').write_text(url,encoding='utf-8')
     print('Research control: '+url,flush=True)
     if args.open:webbrowser.open(url)
     try:http.serve_forever()

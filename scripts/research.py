@@ -15,6 +15,7 @@ import socket
 import subprocess
 import sys
 import time
+import uuid
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -26,6 +27,7 @@ from urllib.robotparser import RobotFileParser
 from validate import validate, observation_valid, event_valid, require, STATUSES, PRECISIONS, LAYERS
 from build import build
 from source_policy import collection_for, due, discoverable, append_excerpt, validate_excerpts
+from atomic_json import save
 
 ROOT=Path(__file__).resolve().parents[1]
 LOCAL=ROOT/'.local'
@@ -38,11 +40,6 @@ MAX_BYTES=2_000_000
 def now():return datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')
 def digest(value):return hashlib.sha256(value.encode('utf-8')).hexdigest()
 def load(path):return json.loads(path.read_text(encoding='utf-8'))
-def save(path,value):
-    path.parent.mkdir(parents=True,exist_ok=True)
-    tmp=path.with_suffix(path.suffix+'.tmp')
-    tmp.write_text(json.dumps(value,indent=2,ensure_ascii=False,allow_nan=False)+'\n',encoding='utf-8')
-    os.replace(tmp,path)
 def normalize(value):return ' '.join(value.split())
 
 def processing_identity(document_hash,config,policy,related):
@@ -320,7 +317,11 @@ def main():
             args.max_documents=args.max_documents or question['budget']
         require(1<=args.max_seconds<=3600,'Invalid research time budget')
         deadline=time.monotonic()+args.max_seconds
-        if args.publish:preflight(config)
+        if args.publish:
+            try:preflight(config)
+            except Exception as error:
+                print(f'Publication preflight blocked: {type(error).__name__}: {error}',file=sys.stderr)
+                return 3  # Requires maintenance; the session must not retry unchanged state.
         data=load(ROOT/'site/data/ledger.json');validate(data)
         registry=load(ROOT/'research/sources.json')
         excerpt_path=ROOT/'site/data/excerpts.json'
@@ -331,7 +332,12 @@ def main():
             excerpts=load(private_session/'excerpts.json')
         metrics={m['id']:m for m in data['metrics']}
         sources={s['id']:s for s in data['sources']}
-        stamp=now();run_id='run-'+stamp.replace(':','').replace('-','')
+        stamp=now();run_id='run-'+stamp.replace(':','').replace('-','')+'-'+uuid.uuid4().hex
+        # Tests and fast successive runs may share a timestamp with accepted history.
+        existing_ids={r['id'] for r in data['runs']}
+        base_id=run_id;suffix=1
+        while run_id in existing_ids:
+            run_id=f'{base_id}-{suffix}';suffix+=1
         run={'id':run_id,'started_at':stamp,'finished_at':None,'status':'failed','documents_fetched':0,'documents_reviewed':0,'accepted':0,'quarantined':0,'source_failures':[],'model_calls':0,'coverage_layers':[]}
         quarantine=[];cache=load(LOCAL/'cache.json') if (LOCAL/'cache.json').exists() else {}
         if private_session and (private_session/'cache.json').exists():cache=load(private_session/'cache.json')
@@ -499,15 +505,20 @@ def main():
                 save(private_session/'excerpts.json',excerpts)
                 save(private_session/'cache.json',cache)
         if args.apply or args.publish:
-            save(ROOT/'site/data/ledger.json',data)
-            save(excerpt_path,excerpts)
-            build()
-            require(load(ROOT/'docs/data/ledger.json')==data,'Build data mismatch')
-            if args.publish:
-                publish(config)
-                batch_receipt['publication']='pushed'
-                if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),batch_receipt)
-            save(LOCAL/'cache.json',cache)
+            try:
+                save(ROOT/'site/data/ledger.json',data)
+                save(excerpt_path,excerpts)
+                build()
+                require(load(ROOT/'docs/data/ledger.json')==data,'Build data mismatch')
+                if args.publish:
+                    publish(config)
+                    batch_receipt['publication']='pushed'
+                    if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),batch_receipt)
+                save(LOCAL/'cache.json',cache)
+            except Exception as error:
+                if not args.publish:raise
+                print(f'Publication blocked; saved evidence retained: {type(error).__name__}: {error}',file=sys.stderr)
+                return 3
         print(json.dumps(run,indent=2),flush=True)
         return 1 if run['status']=='failed' else 0
 

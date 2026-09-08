@@ -24163,6 +24163,23 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T071948Z",
+      "started_at": "2026-09-08T07:19:48Z",
+      "finished_at": "2026-09-08T07:20:43Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -24172,7 +24189,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T07:19:10Z",
+    "last_attempt": "2026-09-08T07:20:43Z",
     "last_success": "2026-09-07T22:57:54Z",
     "status": "partial"
   }

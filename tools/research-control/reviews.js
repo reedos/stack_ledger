@@ -13,7 +13,9 @@
   async function refresh(){
     el('review-message').textContent='Loading private findings…';
     try{
-      const r=await fetch('findings'),data=await r.json();if(!r.ok)throw new Error(data.error||'Could not load findings');
+      const r=await fetch('findings');
+      if(r.status===404)throw new Error('This panel server predates review findings. Reopen Research-Control.cmd and use the newly opened tab. Your research and saved findings are unaffected.');
+      const data=await r.json();if(!r.ok)throw new Error(data.error||'Could not load findings');
       findings=data.findings;owner=data.reviewer;limit=10;
       el('review-identity').textContent=owner?`Reviewing as ${owner} · Decisions are recorded locally with evidence hashes.`:'Read-only: this local account is not an authorized reviewer.';
       draw();if(data.invalid_files)el('review-message').textContent+=` ${data.invalid_files} unreadable records need maintenance.`;

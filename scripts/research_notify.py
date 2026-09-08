@@ -26,6 +26,7 @@ def message(report,totals):
     if report.get('status')=='skipped':return 'Stack Ledger: scheduled research skipped.\nAnother research run is active and continues unchanged. Next automatic attempt: the next scheduled night.'
     return '\n'.join([
         'Stack Ledger research: '+report['state']+'.',
+        ('Research stopped for maintenance; inspect the local batch log.' if report['state'] in {'blocked','failed','interrupted'} else 'Session receipt; elapsed time includes waits and publication checks.'),
         f"Elapsed: {round(report.get('elapsed_seconds',0)/60)} min | Batches: {report.get('batches',0)} ({report.get('failed_batches',0)} failed)",
         f"Documents fetched: {totals['documents']} | Model calls: {totals['model_calls']}",
         f"Monitoring records accepted: {totals['accepted']} | Quarantined: {totals['quarantined']}",

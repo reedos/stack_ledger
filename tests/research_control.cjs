@@ -3,7 +3,9 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const {spawn}=require('node:child_process');
 const path=require('node:path'),fs=require('node:fs'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
-const child=spawn('python',['scripts/research_control.py'],{cwd:root,windowsHide:true});
+const savedURL=path.join(root,'.local/research-control-url.txt');
+const previousURL=fs.existsSync(savedURL)?fs.readFileSync(savedURL,'utf8'):null;
+const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:root,windowsHide:true});
 (async()=>{
  let browser;
  try{
@@ -13,6 +15,18 @@ const child=spawn('python',['scripts/research_control.py'],{cwd:root,windowsHide
    child.once('error',reject);child.once('exit',code=>{clearTimeout(timer);reject(new Error('Control exited '+code));});
   });
   browser=await chromium.launch({headless:true});
+  assert.equal(fs.existsSync(savedURL)?fs.readFileSync(savedURL,'utf8'):null,previousURL,'UI tests must not replace the live panel URL');
+  const stale=await browser.newPage();
+  await stale.route('**/reviews.js',route=>route.fulfill({status:404,contentType:'application/json',body:'{}'}));
+  await stale.goto(url);await stale.locator('#review-tab').click();
+  await stale.locator('#review-panel').waitFor();
+  assert.match(await stale.locator('#review-message').innerText(),/Reopen Research-Control.cmd/);
+  await stale.locator('#session-tab').click();await stale.locator('#session-panel').waitFor();
+  await stale.unroute('**/reviews.js');
+  await stale.route('**/findings',route=>route.fulfill({status:404,contentType:'application/json',body:'{}'}));
+  await stale.reload();await stale.locator('#review-tab').click();
+  await stale.waitForFunction(()=>document.querySelector('#review-message').textContent.includes('predates review findings'));
+  await stale.close();
   const page=await browser.newPage({viewport:{width:1440,height:1200}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   let unavailable=false;
@@ -72,6 +86,9 @@ const child=spawn('python',['scripts/research_control.py'],{cwd:root,windowsHide
   unavailable=true;
   await page.waitForFunction(()=>document.querySelector('#gpu-status').textContent==='Telemetry unavailable');
   assert.equal(await page.locator('#gpu-usage').innerText(),'Unavailable');
+  await page.route('**/status',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({active:false,launching:false,session:{state:'blocked',failure_reason:'Publication failed. Inspect the batch log.',batches:1,failed_batches:1}})}));
+  await page.waitForFunction(()=>document.querySelector('#state').textContent==='blocked — Publication failed. Inspect the batch log.');
+  assert.equal(await page.locator('#start').isDisabled(),false);
   assert.deepEqual(errors,[]);
   console.log('Research control passed: desktop/mobile, GPU charts and missing readings, optional filters, private default, mocked start, no live research.');
  }finally{if(browser)await browser.close();child.kill();}

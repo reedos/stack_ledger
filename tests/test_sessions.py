@@ -25,6 +25,114 @@ DEFAULT={'minutes':360,'direction':'balanced','layers':[],'source_kinds':[],
 
 
 class SessionTests(unittest.TestCase):
+    def test_missing_gpu_telemetry_does_not_wait_for_six_hours(self):
+        with tempfile.TemporaryDirectory() as t:
+            clock=[0]
+            def sleep(seconds):clock[0]+=seconds
+            with patch.object(loop,'ROOT',Path(t)),patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]), \
+                 patch.object(loop.time,'sleep',side_effect=sleep),patch.object(loop,'gpu_idle',side_effect=ValueError('bad telemetry')), \
+                 patch.object(loop.subprocess,'Popen') as spawn,patch('research_notify.notify_session',return_value={'status':'disabled'}),patch('builtins.print'):
+                self.assertEqual(loop.main(['--start','--minutes','360']),1)
+                spawn.assert_not_called()
+            report=json.loads((Path(t)/'.local/session-status.json').read_text())
+            self.assertEqual(report['state'],'blocked');self.assertLessEqual(report['elapsed_seconds'],20)
+
+    def test_same_timestamp_in_separate_private_sessions_never_overwrites_receipts(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);test_research.RunnerTests().fixture(root)
+            document=research.ReadableHTML();document.feed('<p>Public evidence about energy infrastructure.</p>')
+            at=research.now()
+            with patch.object(research,'ROOT',root),patch.object(research,'LOCAL',root/'.local'), \
+                 patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[]}), \
+                 patch.object(research,'now',return_value=at),patch('sys.stdout',new=io.StringIO()):
+                for sid in ['a'*32,'b'*32]:
+                    with patch.object(sys,'argv',['research.py','--session-id',sid,'--sources','iea-2026']):
+                        self.assertEqual(research.main(),0)
+            self.assertEqual(len(list((root/'.local/runs').glob('*.json'))),2)
+            self.assertEqual(len(list((root/'.local/proposals').glob('*.json'))),2)
+
+    def test_persistent_failures_stop_promptly_and_notify(self):
+        for code,expected in [(1,3),(3,1)]:
+            with self.subTest(code=code),tempfile.TemporaryDirectory() as t:
+                clock=[0]
+                def sleep(seconds):clock[0]+=seconds
+                child=Mock(returncode=code);child.poll.return_value=code
+                with patch.object(loop,'ROOT',Path(t)),patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]), \
+                     patch.object(loop.time,'sleep',side_effect=sleep),patch.object(loop.subprocess,'Popen',return_value=child) as spawn, \
+                     patch('research_notify.notify_session',return_value={'status':'sent'}) as notify,patch('builtins.print'):
+                    self.assertEqual(loop.main(['--start','--minutes','360','--publish','--ignore-gpu-busy']),1)
+                report=json.loads((Path(t)/'.local/session-status.json').read_text())
+                self.assertEqual(spawn.call_count,expected)
+                self.assertEqual(report['state'],'blocked')
+                self.assertLessEqual(report['elapsed_seconds'],120)
+                self.assertFalse((Path(t)/'.local/research-session.lock').exists())
+                notify.assert_called_once()
+                self.assertEqual(notify.call_args.args[1]['state'],'blocked')
+
+    def test_status_replace_retries_windows_sharing_errors(self):
+        with tempfile.TemporaryDirectory() as t:
+            path=Path(t)/'status.json';path.write_text('{"old":true}')
+            replace=loop.os.replace
+            calls=[]
+            def locked(source,target):
+                calls.append(source)
+                if len(calls)<3:raise PermissionError('sharing violation')
+                replace(source,target)
+            with patch.object(loop.os,'replace',side_effect=locked),patch.object(loop.time,'sleep'):
+                loop.atomic(path,{'state':'blocked'})
+            self.assertEqual(json.loads(path.read_text()),{'state':'blocked'})
+            self.assertEqual(len(calls),3)
+            with patch.object(loop.os,'replace',side_effect=PermissionError('locked')),patch.object(loop.time,'sleep'):
+                with self.assertRaises(PermissionError):loop.atomic(path,{'new':True})
+            self.assertEqual(list(Path(t).glob('*.tmp')),[])
+            self.assertEqual(json.loads(path.read_text()),{'state':'blocked'})
+
+    def test_locked_status_mirror_does_not_abort_session(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);clock=[0];real_atomic=loop.atomic
+            def write(path,value):
+                if path.name=='session-status.json':raise PermissionError('locked mirror')
+                real_atomic(path,value)
+            def sleep(seconds):clock[0]+=seconds
+            child=Mock(returncode=0);child.poll.return_value=0
+            with patch.object(loop,'ROOT',root),patch.object(loop,'atomic',side_effect=write), \
+                 patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]),patch.object(loop.time,'sleep',side_effect=sleep), \
+                 patch.object(loop.subprocess,'Popen',return_value=child),patch('research_notify.notify_session',return_value={'status':'disabled'}),patch('builtins.print'):
+                self.assertEqual(loop.main(['--start','--minutes','1','--ignore-gpu-busy']),0)
+            report=json.loads(next((root/'.local/sessions').glob('*/status.json')).read_text())
+            self.assertEqual(report['state'],'completed')
+
+    def test_control_uses_active_session_when_status_mirror_is_stale(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);sid='b'*32;folder=root/'.local/sessions'/sid;folder.mkdir(parents=True)
+            loop.atomic(root/'.local/session-status.json',{'session_id':'a'*32,'state':'researching'})
+            loop.atomic(root/'.local/research-session.lock',{'session_id':sid})
+            loop.atomic(folder/'status.json',{'session_id':sid,'state':'batch failed'})
+            self.assertEqual(control.Controller(root).status()['session']['state'],'batch failed')
+
+    def test_preflight_failure_does_not_fetch_or_retry(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);test_research.RunnerTests().fixture(root)
+            with patch.object(research,'ROOT',root),patch.object(research,'LOCAL',root/'.local'), \
+                 patch.object(research,'preflight',side_effect=ValueError('Working tree must be clean')), \
+                 patch.object(research.Fetcher,'fetch') as fetch,patch.object(sys,'argv',['research.py','--publish']),patch('sys.stderr',new=io.StringIO()):
+                self.assertEqual(research.main(),3);fetch.assert_not_called()
+
+    def test_build_failure_retains_evidence_and_signals_publication_block(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);test_research.RunnerTests().fixture(root);sid='a'*32
+            document=research.ReadableHTML();document.feed('<p>Public evidence about energy infrastructure.</p>')
+            with patch.object(research,'ROOT',root),patch.object(research,'LOCAL',root/'.local'), \
+                 patch.object(research,'preflight'),patch.object(research.Fetcher,'fetch',return_value=document), \
+                 patch.object(research,'ollama',return_value={'observations':[]}), \
+                 patch.object(research,'build',side_effect=RuntimeError('build failed')),patch.object(research,'publish') as publish, \
+                 patch.object(sys,'argv',['research.py','--publish','--session-id',sid,'--sources','iea-2026']), \
+                 patch('sys.stderr',new=io.StringIO()),patch('sys.stdout',new=io.StringIO()):
+                self.assertEqual(research.main(),3);publish.assert_not_called()
+            self.assertTrue((root/'.local/proposed-ledger.json').exists())
+            receipt=json.loads(next((root/'.local/sessions'/sid/'batches').glob('*.json')).read_text())
+            self.assertEqual(receipt['publication'],'pending')
+
     def test_gpu_readings_preserve_missing_values_and_reject_invalid_data(self):
         self.assertEqual(control.gpu_values('RTX 5090, 90, 56')['temperature'],56)
         missing=control.gpu_values('RTX 5090, [N/A], 56')
@@ -156,7 +264,8 @@ class SessionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);test_research.RunnerTests().fixture(root);sid='a'*32
             first=(datetime.now(timezone.utc)-timedelta(minutes=2)).isoformat(timespec='seconds').replace('+00:00','Z')
-            second=(datetime.now(timezone.utc)-timedelta(minutes=1)).isoformat(timespec='seconds').replace('+00:00','Z')
+            # Deliberately collide timestamps, including with any accepted history.
+            second=first
             original=(root/'site/data/ledger.json').read_bytes()
             document=research.ReadableHTML();document.feed('<p>Public evidence about energy infrastructure.</p>')
             with patch.object(research,'ROOT',root),patch.object(research,'LOCAL',root/'.local'), \
@@ -168,8 +277,8 @@ class SessionTests(unittest.TestCase):
                 with patch.object(research,'now',return_value=second):research.main()
                 self.assertEqual(model.call_count,calls)
             staged=research.load(root/'.local/sessions'/sid/'ledger.json')
-            self.assertEqual(staged['runs'][-2]['id'],'run-'+first.replace(':','').replace('-',''))
-            self.assertEqual(staged['runs'][-1]['id'],'run-'+second.replace(':','').replace('-',''))
+            self.assertNotEqual(staged['runs'][-2]['id'],staged['runs'][-1]['id'])
+            self.assertEqual(len({r['id'] for r in staged['runs']}),len(staged['runs']))
             self.assertEqual((root/'site/data/ledger.json').read_bytes(),original)
 
 
