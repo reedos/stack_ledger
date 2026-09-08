@@ -18,6 +18,11 @@ import render_editorial as presentation
 ROOT = fx.ROOT
 
 
+def css_fingerprint(content):
+    """Git checkout line endings vary by OS; all other CSS bytes stay protected."""
+    return hashlib.sha256(content.replace(b'\r\n', b'\n')).hexdigest()
+
+
 class EvidenceContracts(unittest.TestCase):
     def test_old_report_retrieval_does_not_reset_evidence_age(self):
         s = fx.snapshot()
@@ -295,7 +300,15 @@ class HomepageContracts(unittest.TestCase):
         footer=(ROOT/'site/template.html').read_text(encoding='utf-8').split('<footer')[1].split('</footer>')[0]
         self.assertEqual(footer,baseline['template_footer'])
         for name,value in baseline['runtime_css'].items():
-            self.assertEqual(hashlib.sha256((ROOT/'site/assets'/name).read_bytes()).hexdigest(),value)
+            self.assertEqual(css_fingerprint((ROOT/'site/assets'/name).read_bytes()),value)
+
+    def test_runtime_css_contract_accepts_both_checkout_endings_but_not_style_changes(self):
+        baseline=ed.read(ROOT/'tests/fixtures/editorial/runtime-contract.json')
+        for name,value in baseline['runtime_css'].items():
+            lf=(ROOT/'site/assets'/name).read_bytes().replace(b'\r\n',b'\n')
+            self.assertEqual(css_fingerprint(lf),value)
+            self.assertEqual(css_fingerprint(lf.replace(b'\n',b'\r\n')),value)
+            self.assertNotEqual(css_fingerprint(lf+b'\n.runtime{display:none}'),value)
 
     def test_runtime_values_and_counters_still_dynamic(self):
         import render
