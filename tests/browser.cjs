@@ -79,10 +79,13 @@ const server=http.createServer((req,res)=>{
     if(layer==='chips')await page.locator('#companies .builder-group').first().screenshot({path:path.join(evidence,'chip-builders.png')});
     if(layer==='models'){
      assert.deepEqual(await page.locator('#companies .builder-group').first().locator('.builder-card').evaluateAll(els=>els.slice(0,5).map(el=>el.dataset.company)),['anthropic','openai','spacexai','alphabet','meta']);
-     assert.match(await page.locator('#companies .builder-group').filter({hasText:'Agent tools & runtimes'}).innerText(),/Agent tools & runtimes[\s\S]*OpenClaw/);
+     await page.locator('#companies .builder-nav a').filter({hasText:'Agent tools & runtimes'}).click();
+     assert.match(await page.locator('#companies .builder-disclosure').filter({hasText:'Agent tools & runtimes'}).innerText(),/Agent tools & runtimes[\s\S]*OpenClaw/);
      assert.equal(await page.locator('#companies [data-company="hugging-face"]').count(),1);
      assert.equal(await page.locator('#companies [data-company="ai2"]').count(),1);
      assert.match(await page.locator('#open-model-ecosystem').innerText(),/SmolLM/);
+     await page.evaluate(()=>{location.hash='physical-ai-development';});
+     await page.locator('#physical-ai-development').waitFor({state:'visible'});
      assert.match(await page.locator('#physical-ai-development').innerText(),/Omniverse and Cosmos/);
     }
    }
@@ -156,11 +159,13 @@ const server=http.createServer((req,res)=>{
   assert.match(await page.locator('#premium-supergrok-heavy').innerText(),/current price unverified/);
   assert.match(await page.locator('#frontier-grok-bot').innerText(),/not a new base model/);
   await page.locator('#frontier-models').screenshot({path:path.join(evidence,'frontier-models.png')});
+  for(const id of ['codex-cloud','open-weight-licenses']){await page.evaluate(id=>{location.hash=id;},id);await page.locator('#'+id).waitFor({state:'visible'});}
   assert.match(await page.locator('#codex-cloud').innerText(),/Hosted execution/);
   assert.match(await page.locator('#open-weight-licenses').innerText(),/Apache 2.0/);
   assert.equal(await page.locator('.agent-card').count(),9);
   assert.match(await page.locator('#agent-codex').innerText(),/1.75/);
   await page.goto(origin+'applications/');await page.locator('#named-projects').waitFor();
+  for(const id of ['medicine-intismeran','science-weather']){await page.evaluate(id=>{location.hash=id;},id);await page.locator('#'+id).waitFor({state:'visible'});}
   assert.match(await page.locator('#medicine-intismeran').innerText(),/1,137/);
   assert.match(await page.locator('#medicine-intismeran').innerText(),/not an approval/);
   assert.match(await page.locator('#science-weather').innerText(),/operational support/);
@@ -291,6 +296,49 @@ const server=http.createServer((req,res)=>{
   assert.match(await page.locator('#revenue').innerText(),/TWD billion/);
   assert.equal(await page.locator('[data-metric="revenue-tsmc"] .bar').count(),7);
   assert.deepEqual(errors,[]);
-  console.log(`Browser acceptance passed: ${routes.length} routes, 3 viewports, company revenue histories/forecasts, filters, navigation, keyboard access and no page errors.`);
+  // Browsing contract: bounded visible results, complete search/export data, keyboard menu and deep links.
+  await page.setViewportSize({width:390,height:844});await page.goto(origin);
+  await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('#main-navigation').isVisible(),false);
+  await page.getByRole('button',{name:'Menu',exact:true}).click();
+  assert.equal(await page.locator('#main-navigation').isVisible(),true);
+  assert.ok(await page.locator('#main-navigation a[data-nav="claims"]').evaluate(el=>el.getBoundingClientRect().height>=44));
+  await page.keyboard.press('Escape');assert.equal(await page.locator('#main-navigation').isVisible(),false);
+  assert.equal(await page.locator('.menu-toggle').evaluate(el=>el===document.activeElement),true);
+  await page.goto(origin+'companies/');await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('#company-results .company-card:visible').count(),12);
+  const firstCompany=await page.locator('#company-results .company-card:visible').first().getAttribute('id');
+  await page.getByRole('button',{name:'Next companies',exact:true}).click();
+  assert.notEqual(await page.locator('#company-results .company-card:visible').first().getAttribute('id'),firstCompany);
+  await page.locator('#company-search').fill('lithography');
+  assert.equal(await page.locator('#company-results .company-card:visible').count(),1);
+  assert.equal(await page.getByRole('button',{name:'Previous companies',exact:true}).isDisabled(),true);
+  assert.match(await page.locator('#company-results .company-card:visible').innerText(),/ASML/);
+  await page.goto(origin+'projects/#project-colossus-two');await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('#project-colossus-two').isVisible(),true);
+  assert.ok(await page.locator('#project-results .delivery-card:visible').count()<=8);
+  await page.goto(origin+'ledger/');await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('#record-results .record-row:visible').count(),12);
+  assert.ok(await page.locator('#research-results .signal-row:visible').count()<=8);
+  const laterRecord=await page.locator('#record-results .record-row').nth(30).getAttribute('id');
+  await page.goto(origin+'ledger/#'+laterRecord);await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('#'+laterRecord).isVisible(),true);
+  await page.locator('#research-search').fill('no-such-record-fixture');
+  assert.equal(await page.locator('#record-results .record-row:visible').count(),0);
+  await page.locator('#research-search').fill('');
+  assert.equal(await page.locator('#record-results .record-row:visible').count(),12);
+  await page.goto(origin+'models/#builders-models-1');await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('#builders-models-1').isVisible(),true);
+  assert.equal(await page.locator('.page-hero').evaluate(el=>el.nextElementSibling.id), 'layer-diagram');
+  assert.equal(await page.locator('.page-contents select').isVisible(),true);
+  await page.goto(origin+'methodology/');await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('.source-card:visible').count(),12);
+  await page.getByRole('searchbox',{name:'Search sources',exact:true}).fill('nonexistent-source-fixture');
+  assert.equal(await page.locator('.source-card:visible').count(),0);
+  const noJS=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
+  const noJSPage=await noJS.newPage();await noJSPage.goto(origin);
+  assert.equal(await noJSPage.locator('#main-navigation a[data-nav="claims"]').isVisible(),true);
+  await noJS.close();
+  console.log(`Browser acceptance passed: ${routes.length} routes, 3 viewports, pagination/filter resets, deep links, mobile menu, no-JS navigation, company revenue histories/forecasts, keyboard access and no page errors.`);
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

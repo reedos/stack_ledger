@@ -1,0 +1,29 @@
+/* Scoped browsing improvements; runtime/footer presentation is intentionally untouched. */
+[hidden]{display:none!important}
+.menu-toggle,.browse-buttons button{min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:#192019;color:var(--text);font:inherit;cursor:pointer}
+.browse-buttons button:disabled{opacity:.4;cursor:default}
+.browse-controls{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:24px 0 18px;scroll-margin-top:24px}
+.browse-count{font-size:13px;color:var(--muted)}.browse-buttons{display:flex;gap:8px}.browse-controls>.search{flex:1 1 100%;width:100%}
+.browse-disclosure{border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0}
+.browse-disclosure>summary{cursor:pointer;font-size:14px;line-height:1.6;min-height:28px;color:var(--green)}
+.browse-disclosure[open]>summary{margin-bottom:18px}.browse-disclosure>.section{margin-top:0;padding-top:16px}
+.builder-disclosure>.builder-group{margin-top:0}.builder-disclosure>.builder-group>h3{display:none}
+.page-contents{margin:24px 0 32px;border-block:1px solid var(--line);padding:14px 0;display:flex;gap:16px;align-items:center}
+.page-contents>select{display:none}.page-contents>details{width:100%}.page-contents summary{cursor:pointer;min-height:32px;line-height:32px;color:var(--green)}
+.page-contents a{display:inline-block;padding:12px 16px 12px 0;font-size:13px;color:var(--muted)}
+main [id]{scroll-margin-top:24px}
+#company-results .company-card{padding:22px;gap:12px}#company-results .company-role{font-size:14px}#company-results .company-revenue{margin:12px 0}#company-results .company-revenue strong{font-size:27px}
+#project-results .delivery-card{padding:24px}#project-results .delivery-quantity{padding:16px}#project-results .delivery-latest{margin-top:16px}
+.browse-buttons button:focus-visible,.menu-toggle:focus-visible,.page-contents a:focus-visible,.browse-disclosure summary:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+@media(max-width:1100px) and (min-width:801px){.header-inner{gap:16px}.site-header nav{gap:14px}.site-header .repo-link{display:none}}
+@media(max-width:800px){
+ .site-header .header-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;padding-block:16px;gap:16px}
+ .site-header .repo-link{display:none}
+ .site-header #main-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:8px;order:3;white-space:normal}
+ .site-header #main-navigation>a,.site-header .stack-menu>summary{font-size:14px;min-height:44px;display:flex;align-items:center;padding:10px 12px;border-radius:8px;background:#192019}
+ .site-header .stack-menu{grid-column:1/-1;width:100%}.site-header .stack-destinations{position:static;width:100%;margin-top:8px;box-sizing:border-box}.site-header .stack-destinations a{min-height:44px;font-size:14px}
+ .page-contents>details{display:none}.page-contents>select{display:block;width:100%;min-height:48px;font-size:14px}
+ .browse-controls{gap:10px}.browse-count{width:100%}.browse-buttons{width:100%}.browse-buttons button{flex:1}
+ #company-results.company-grid,#project-results.delivery-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

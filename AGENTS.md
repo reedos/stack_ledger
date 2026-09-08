@@ -11,3 +11,5 @@ Private discovery may investigate new public hosts under the reviewed research/d
 Use Python 3.11+ standard library. Build: python scripts/build.py. Validate: python scripts/validate.py. Tests: python -m unittest discover -s tests. Preview: python -m http.server 4173 --directory docs --bind 127.0.0.1.
 
 The site is deployed by GitHub Pages from main:/docs. Generated docs must match site and the build script. All public prose and chart labels must distinguish observations, estimates, projections, and commitments. No synthetic history or decorative data.
+
+Public browsing controls live in site/assets/browsing.js and browsing.css. Use the full canonical data for research and review, not the first visible page of results. Preserve filters across pagination, reset pagination on filter changes, and reveal linked records/sections inside collapsed content. Do not alter the footer/runtime contract. Browser acceptance is `node tests/browser.cjs` with PLAYWRIGHT_MODULE pointing to an installed Playwright module.
