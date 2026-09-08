@@ -27783,6 +27783,32 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T211219Z-7c3c7b67bf024befa3e27eff0ed7090b",
+      "started_at": "2026-09-08T21:12:19Z",
+      "finished_at": "2026-09-08T21:13:07Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "iea-2026",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "tsmc-2025",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 2,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -27792,7 +27818,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T21:11:43Z",
+    "last_attempt": "2026-09-08T21:13:07Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
