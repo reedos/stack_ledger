@@ -28843,6 +28843,42 @@
       "coverage_layers": [
         "chips"
       ]
+    },
+    {
+      "id": "run-20260908T221036Z-29c149d28f7f400b95e2e5f1dcc4fccd",
+      "started_at": "2026-09-08T22:10:36Z",
+      "finished_at": "2026-09-08T22:11:06Z",
+      "status": "partial",
+      "documents_fetched": 1,
+      "documents_reviewed": 1,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "tsmc-annual-history-2023",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "iea-demand-scenarios-2025",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "eia-steo-aug2026-generation",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "eia-aeo2026-generation",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "eia-aeo2026-high-growth",
+          "reason": "HTTPError"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips"
+      ]
     }
   ],
   "runtime": {
@@ -28852,7 +28888,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T22:10:00Z",
+    "last_attempt": "2026-09-08T22:11:06Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
