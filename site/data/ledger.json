@@ -30226,6 +30226,31 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T232713Z-d1f7dd8c40a546058a2da1906e81385e",
+      "started_at": "2026-09-08T23:27:13Z",
+      "finished_at": "2026-09-08T23:27:38Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "nebius-msft-6k-2025",
+          "reason": "Robots policy unavailable; source skipped"
+        },
+        {
+          "source": "waymo-paid-march-2026",
+          "reason": "Blocked by robots policy"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -30235,7 +30260,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T23:26:38Z",
+    "last_attempt": "2026-09-08T23:27:38Z",
     "last_success": "2026-09-08T20:13:05Z",
     "status": "partial"
   }
