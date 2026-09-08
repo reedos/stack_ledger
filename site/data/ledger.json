@@ -25851,6 +25851,32 @@
         "energy",
         "models"
       ]
+    },
+    {
+      "id": "run-20260908T191801Z-97fb3699226649b39037fdbd06bb6f5d",
+      "started_at": "2026-09-08T19:18:01Z",
+      "finished_at": "2026-09-08T19:18:41Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-nextera",
+          "reason": "Unsupported source content type"
+        },
+        {
+          "source": "company-schneider",
+          "reason": "Unsupported source content type"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -25860,7 +25886,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-08T19:17:27Z",
+    "last_attempt": "2026-09-08T19:18:41Z",
     "last_success": "2026-09-08T17:54:47Z",
     "status": "partial"
   }
