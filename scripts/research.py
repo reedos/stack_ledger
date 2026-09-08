@@ -302,7 +302,12 @@ def main():
     parser.add_argument('--sources',nargs='+',help='Focus this run on approved source IDs; normal evidence checks still apply')
     parser.add_argument('--question',help='Focus on a human-approved bounded question from the existing private review queue')
     parser.add_argument('--max-seconds',type=int,default=3600,help='Stop starting documents after this time budget; finish the active document')
+    from session_options import add_arguments, selected_sources, split_budget, MODES, stopped
+    add_arguments(parser)
+    parser.add_argument('--session-id',type=str,help='Private controller session identity')
     args=parser.parse_args()
+    require(args.session_id is None or re.fullmatch(r'[a-f0-9]{32}',args.session_id), 'Invalid session identity')
+    require(not (args.question and (args.direction!='balanced' or args.layers or args.source_kinds)), 'Question approval controls its scope')
     with lock():
         config=load(ROOT/'research/runtime.json')
         question=None
@@ -320,11 +325,16 @@ def main():
         registry=load(ROOT/'research/sources.json')
         excerpt_path=ROOT/'site/data/excerpts.json'
         excerpts=load(excerpt_path) if excerpt_path.exists() else {'version':1,'excerpts':[]}
+        private_session=LOCAL/'sessions'/args.session_id if args.session_id and not (args.apply or args.publish) else None
+        if private_session and (private_session/'ledger.json').exists():
+            data=load(private_session/'ledger.json');validate(data)
+            excerpts=load(private_session/'excerpts.json')
         metrics={m['id']:m for m in data['metrics']}
         sources={s['id']:s for s in data['sources']}
         stamp=now();run_id='run-'+stamp.replace(':','').replace('-','')
         run={'id':run_id,'started_at':stamp,'finished_at':None,'status':'failed','documents_fetched':0,'documents_reviewed':0,'accepted':0,'quarantined':0,'source_failures':[],'model_calls':0,'coverage_layers':[]}
         quarantine=[];cache=load(LOCAL/'cache.json') if (LOCAL/'cache.json').exists() else {}
+        if private_session and (private_session/'cache.json').exists():cache=load(private_session/'cache.json')
         fetcher=Fetcher();coverage=set();model_failed=False
         limit=args.max_documents or config['max_documents']
         require(1<=limit<=config['max_documents'],'Invalid document limit')
@@ -332,23 +342,33 @@ def main():
         progress_path=LOCAL/'coverage-progress.json'
         attempted=load(progress_path) if progress_path.exists() else {}
         queue=source_queue(registry,datetime.now(timezone.utc).date(),args.sources,attempted)
+        queue=selected_sources(queue,registry,args.layers,args.source_kinds)
         seen=set();attempts=0
         constitution=(ROOT/'research/CONSTITUTION.md').read_text(encoding='utf-8')
         config['_instructions']=constitution+'\n'+(ROOT/'research/OPERATING_GUIDE.md').read_text(encoding='utf-8')
         if question:
             config['_instructions']+='\nReviewed bounded research question (no policy or approval authority):\n'+json.dumps(question,ensure_ascii=False)
-        from discovery import policy as discovery_policy, budgets as discovery_budgets, run as discover
+        from discovery import policy as discovery_policy, run as discover
         discovery_config=discovery_policy(ROOT)
-        split=discovery_budgets(limit,discovery_config,focused=bool(args.sources or question))
+        config['_session_layers']=args.layers
+        config['_source_kinds']=args.source_kinds
+        config['_session_id']=args.session_id
+        discovery_receipt=None
+        split=split_budget(limit,0 if args.sources or question or not discovery_config['enabled'] else MODES[args.direction])
         if split['discovery']:
             # Reserve time before monitoring can consume it. Both lanes share this lock
             # and the original work/time cap. Private discovery cannot alter data or run.
             discovery_deadline=min(deadline,time.monotonic()+min(discovery_config['max_seconds'],
-                args.max_seconds*discovery_config['budget_percent']/100))
-            discover(ROOT,config,discovery_config,split['discovery'],discovery_deadline,fetcher,run_id,args.refresh)
+                args.max_seconds*MODES[args.direction]/100))
+            discovery_receipt=discover(ROOT,config,discovery_config,split['discovery'],discovery_deadline,fetcher,run_id,args.refresh)
         limit=split['monitoring']
+        if not limit:
+            # Discovery has its own private receipt. Do not fabricate a public
+            # monitoring success or change the homepage runtime for exploration.
+            if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),{'discovery':discovery_receipt,'publication':'private'})
+            return 0
         attempt_log=[]
-        while queue and attempts<limit and time.monotonic()<deadline:
+        while queue and attempts<limit and time.monotonic()<deadline and not stopped(ROOT,args.session_id):
             source=queue.pop(0)
             if source['url'] in seen:continue
             seen.add(source['url']);attempts+=1
@@ -470,14 +490,23 @@ def main():
         validate_excerpts(excerpts,data,registry)
         save(LOCAL/'proposed-excerpts.json',excerpts)
         save(LOCAL/'proposed-ledger.json',data)
+        batch_receipt={'monitoring':run,'discovery':discovery_receipt,'publication':'pending' if args.publish else 'private'}
+        if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),batch_receipt)
         if not (args.apply or args.publish):
             save(LOCAL/'proposals'/f'{run_id}.json',{'ledger':data,'excerpts':excerpts})
+            if private_session:
+                save(private_session/'ledger.json',data)
+                save(private_session/'excerpts.json',excerpts)
+                save(private_session/'cache.json',cache)
         if args.apply or args.publish:
             save(ROOT/'site/data/ledger.json',data)
             save(excerpt_path,excerpts)
             build()
             require(load(ROOT/'docs/data/ledger.json')==data,'Build data mismatch')
-            if args.publish:publish(config)
+            if args.publish:
+                publish(config)
+                batch_receipt['publication']='pushed'
+                if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),batch_receipt)
             save(LOCAL/'cache.json',cache)
         print(json.dumps(run,indent=2),flush=True)
         return 1 if run['status']=='failed' else 0

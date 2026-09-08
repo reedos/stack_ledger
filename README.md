@@ -49,7 +49,7 @@ Configuration lives in [`research/runtime.json`](research/runtime.json):
 
 - Ollama model: `muse-glimmer:30b-q4_K_M-dflash` (public label: muse glimmer:30B dflash).
 - Endpoint: `http://127.0.0.1:11434`, reachable only on the local host.
-- Scheduler: OpenClaw, **19:00 America/Los_Angeles daily**, following Pacific daylight-saving changes.
+- Scheduler: OpenClaw, **01:00 America/Los_Angeles daily, researching through 07:00**, following Pacific daylight-saving changes.
 - Hardware: Ryzen 9 9950X3D, RTX 5090, 64 GB DDR5 (owner-provided configuration).
 - At most 24 documents, one discovered link per approved source page, bounded context, bounded generation and network timeouts. Unchanged successfully screened documents reuse their recorded content hash.
 
@@ -134,7 +134,7 @@ See [the operating guide](research/OPERATING_GUIDE.md), [current research agenda
 
 Repeated sessions prioritize never-attempted and oldest-attempted sources. Weekly sources become eligible on their scheduled day, when never checked, or after seven days without an attempt. Focused `--sources` runs override the queue using approved IDs only. Content caches also include policy, instructions, context and metric definitions, so changed guidance can trigger a new screening. First runs after this update may therefore use more GPU time.
 
-The existing 19:00 Pacific job remains unchanged. A separate downtime session is **not scheduled or running**. Its default command prints a plan without checking GPU usage or calling Ollama:
+The daily OpenClaw job runs a duration-driven overnight session from 1 AM toward 7 AM Pacific, with at least six elapsed hours. Manual sessions are optional. Double-click `Research-Control.cmd` for the local control panel, or see [session controls and operating details](research/RESEARCH_SESSIONS.md). Opening the panel does not start research. The default CLI command also only prints a plan:
 
 ```powershell
 python scripts/research_loop.py
@@ -147,13 +147,13 @@ The session waits for three low-utilization GPU samples before each batch. This 
 
 To request a stop before the next batch, create `.local/stop-research-loop`; remove that exact file yourself before a later session. There is no auto-restart. Without `--publish`, results remain private, and each batch is retained under `.local/proposals/` as well as the latest proposal files. Neither mode permits the model to change code or its own source policy.
 
-Private `.local/coverage/` receipts list source attempts and never-attempted IDs; `.local/coverage-progress.json` carries rotation across sessions. Attempted is not successfully reviewed. Read run failures alongside coverage. `.local/discovery-leads/` retains secondary evidence and selected external pointers. The bounded discovery lane imports eligible leads and investigates new public hosts privately, alongside rotating broad GDELT news searches. It reserves 25% of general-run work units: 18 monitoring + 6 discovery in the daily 24-unit budget, or 6 + 2 in an eight-unit downtime batch. Searches count toward that cap. No new schedule or publication permission is added.
+Private `.local/coverage/` receipts list source attempts and never-attempted IDs; `.local/coverage-progress.json` carries rotation across sessions. Attempted is not successfully reviewed. Read run failures alongside coverage. `.local/discovery-leads/` retains secondary evidence and selected external pointers. The bounded discovery lane imports eligible leads and investigates new public hosts privately, alongside rotating broad GDELT news searches. Balanced mode reserves 25% of general-run work units: 18 monitoring + 6 discovery in the daily 24-unit budget, or 6 + 2 in an eight-unit downtime batch. Searches count toward that cap. No new schedule or publication permission is added.
 
 Preview with `python scripts/discovery.py`; monitor `python scripts/discovery.py --status` and `.local/discovery/digest.md`. These inspection commands do not start research. Persistent URL/content memory and retry backoff avoid repeatedly screening unchanged evidence. `.local/review-candidates/` now also holds structured `coverage_expansion` proposals, with human triage in the existing editorial event log. New sources, companies, projects, metrics and topics remain proposals until separately reviewed and implemented. `.local/metric-candidates/` and accepted-note review candidates retain their existing roles.
 
 HTML-only collection, limited discovery, undated pages, inaccessible filings and JavaScript-only job listings remain coverage gaps. A local model is not an unrestricted web-search service. Curated company pages, project stages, claims verdicts and chart definitions remain review-controlled; new evidence can appear in the ledger before those snapshots are updated.
 
-The downtime session now defaults to a 120-minute minimum and maximum elapsed-time window. The cycle cap cannot end it before the minimum. GPU waits count toward elapsed time; errors, stop requests and conflicts can still end it early. An active document may finish after the window. Use `--min-minutes 0` to restore a cycle-limited session. This setting does not change the daily scheduler.
+Sessions have no default batch-count cap and retry failed batches within the chosen duration. Manual CLI duration defaults to 120 minutes; the panel and scheduled job default to 360. Optional GPU waits count toward elapsed time. Publication conflicts remain blocked without unsafe cleanup. The panel provides duration, direction, layer and source-category selections, publication mode, keep-awake, live logs and graceful stop. Normal nightly operation uses dedicated GPU time. See [research sessions](research/RESEARCH_SESSIONS.md) for sleep prerequisites, DST behavior, private proposal memory and bounded per-batch checks.
 
 ## Website analytics
 

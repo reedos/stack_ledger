@@ -244,13 +244,22 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
         save(folder/'state.json',s)
         save(folder/'latest.json',receipt)
     receipt['imported_leads']=import_leads(root,s,p,at)
-    context = topic(p,s['cursor']);search_key = digest(json.dumps(context,sort_keys=True))
+    from session_options import SOURCE_KINDS, stopped
+    layers=config.get('_session_layers')
+    topics_policy=dict(p,layers={k:v for k,v in p['layers'].items() if not layers or k in layers})
+    context = topic(topics_policy,s['cursor'])
+    kinds=config.get('_source_kinds')
+    if kinds:
+        cues=list(dict.fromkeys(SOURCE_KINDS[k][2] for k in kinds if SOURCE_KINDS[k][2]))
+        if cues:context['query']+=' ('+' OR '.join('"'+c+'"' for c in cues)+')'
+        context['question']+=' Operator source-category preference: '+', '.join(SOURCE_KINDS[k][0] for k in kinds)+'. Verify actual source type; search matches are only leads.'
+    search_key = digest(json.dumps(context,sort_keys=True))
     receipt['search_topic']=context
     previous = s['searches'].get(search_key)
     fresh = set()
     # With a one-unit batch alternate search and follow-up so neither can starve.
     do_search = units>=2 or s['lead_turn']%2==0 or not s['leads']
-    if do_search and (not previous or previous['next_attempt']<=at) and time.monotonic()<deadline:
+    if do_search and (not previous or previous['next_attempt']<=at) and time.monotonic()<deadline and not stopped(root,config.get('_session_id')):
         s['cursor']+=1;receipt['units_used']+=1;receipt['search_calls']+=1
         s['searches'][search_key]={'next_attempt':(datetime.fromisoformat(at.replace('Z','+00:00'))+timedelta(hours=p['search_cooldown_hours'])).isoformat(),'status':'attempting'}
         checkpoint()
@@ -266,14 +275,14 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
             receipt['errors'].append({'stage':'search','type':type(error).__name__,'outcome':'source_inaccessible'})
     elif do_search and previous and previous['next_attempt']>at:
         s['cursor']+=1  # Advance past cooling topics rather than freeze the rotation.
-    due = [(k,v) for k,v in s['leads'].items() if v['next_attempt']<=at]
+    due = [(k,v) for k,v in s['leads'].items() if v['next_attempt']<=at and (not layers or v['context']['layer'] in layers)]
     prefer_fresh = s['lead_turn']%2==0
     reviewed={e['id']:e['status'] for e in events(root) if e.get('kind')=='coverage_expansion'}
     due.sort(key=lambda kv: (0 if reviewed.get(kv[1].get('proposal_id'))=='investigate' else 1,
                             0 if prefer_fresh and kv[0] in fresh else 1,kv[1]['last_attempt'] or '',kv[0]))
     s['lead_turn']+=1
     for key, lead in due:
-        if receipt['units_used']>=units or time.monotonic()>=deadline or receipt['model_calls']+2>p['max_model_calls']:
+        if receipt['units_used']>=units or time.monotonic()>=deadline or receipt['model_calls']+2>p['max_model_calls'] or stopped(root,config.get('_session_id')):
             break
         receipt['units_used']+=1;lead['last_attempt']=now();lead['attempts']+=1;lead['status']='fetching'
         receipt['attempts'].append({'url':lead['url'],'layer':lead['context']['layer']})
@@ -283,7 +292,9 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
             canonical(lead['url'])  # Recheck imported/persisted URLs before every request.
             document = fetcher.fetch(lead['url']);body=document.readable();body_hash=digest(body)
             receipt['documents_fetched']+=1
-            save(folder/'evidence'/(body_hash+'.json'),{'url':lead['url'],'retrieved_at':now(),'text':body,'sha256':body_hash})
+            published=document.published
+            if not isinstance(published,str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',published) or published>at[:10]:published=None
+            save(folder/'evidence'/(body_hash+'.json'),{'url':lead['url'],'published_at':published,'retrieved_at':now(),'text':body,'sha256':body_hash})
             stage='screen'
             identity=digest(json.dumps({'body':body_hash,'policy':p,'agenda':agenda(root),'context':lead['context'],
                 'coverage':load(root/'research/ecosystem.json'),'metrics':load(root/'site/data/ledger.json')['metrics'],
@@ -327,7 +338,7 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     return receipt
 
 
-def record_review(root, rid, decision, reviewer, rationale, at, *, human_confirm):
+def record_review(root, rid, decision, reviewer, rationale, at, *, human_confirm, expected_hash=None, expected_review=None):
     from research import load, digest
     require(re.fullmatch(r'discovery-[0-9a-f]{24}',rid), 'Invalid discovery ID')
     p=load(root/'research/editorial-policy.json')
@@ -336,6 +347,11 @@ def record_review(root, rid, decision, reviewer, rationale, at, *, human_confirm
     with locked(root):
         item=load(queue(root)/(rid+'.json'))
         require(item['kind']=='coverage_expansion' and item['id']==rid,'Invalid coverage proposal')
+        if expected_hash is not None:
+            require(digest(json.dumps(item,sort_keys=True))==expected_hash,'Finding changed; reload before reviewing')
+            history=[e for e in events(root) if e.get('kind')=='coverage_expansion' and e.get('id')==rid]
+            current=history[-1] if history else None
+            require(digest(json.dumps(current,sort_keys=True))==expected_review,'Review changed; reload before reviewing')
         append_event(root,{'id':rid,'kind':'coverage_expansion','layer':item['layer'],'status':decision,
                           'reviewer':reviewer,'rationale':rationale,'at':at,
                           'proposal_hash':digest(json.dumps(item,sort_keys=True))})
