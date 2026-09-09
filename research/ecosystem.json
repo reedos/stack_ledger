@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T07:22:33.276817Z",
+  "reviewed_at": "2026-09-09T23:31:22Z",
   "companies": [
     {
       "id": "nextera",
@@ -92,7 +92,8 @@
             "reviewed_at": "2026-09-09T07:08:45.433794Z"
           }
         }
-      ]
+      ],
+      "output_metric": "epoch-nvidia-ai-chips-cumulative-yearly"
     },
     {
       "id": "amd",
@@ -108,7 +109,8 @@
       "filings_jurisdiction": "SEC",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "output_metric": "epoch-amd-ai-chips-cumulative-yearly"
     },
     {
       "id": "broadcom",
@@ -145,7 +147,8 @@
       "blog_urls": [],
       "official_lang": "zh-Hant; en",
       "region_book": "taiwan",
-      "revenue_chart_metric": "revenue-tsmc-reported"
+      "revenue_chart_metric": "revenue-tsmc-reported",
+      "output_metric": "tsmc-cowos-wpm"
     },
     {
       "id": "samsung",
