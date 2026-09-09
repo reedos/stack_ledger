@@ -9,10 +9,12 @@
   "research_window": "02:00-07:00 America/Los_Angeles",
   "repository": "reedos/stack_ledger",
   "branch": "main",
-  "screening_version": "2026-09-09.2",
-  "instructions": "full",
+  "screening_version": "2026-09-09.3",
+  "instructions": "brief",
   "max_documents": 24,
   "max_discovered_per_source": 1,
   "model_timeout_seconds": 300,
-  "max_candidates_per_document": 4
+  "max_candidates_per_document": 4,
+  "document_window_chars": 60000,
+  "max_private_notes_per_run": 12
 }

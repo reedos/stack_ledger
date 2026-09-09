@@ -272,10 +272,11 @@ def process_document(index, doc, source, match_type, ledger_base, registry, base
             e['source'] == source['id'] and e.get('document_sha256') == research.digest(doc['text'])
             for e in data['events'])
         note_quarantine = []
-        note_result = None
-        if publishable or not related:
-            config['_document_windows'] = collection.setdefault('document_windows', [])
-            note_result = research.extract_note(config, source, doc['text'], data['events'], run, note_quarantine)
+        # Mirrors main(): the note lane now runs for every document, not only publishable
+        # or unrelated ones; a note from a non-publishable, metric-linked source is simply
+        # not routed to publication below (matching note_row's private/quarantine reporting).
+        config['_document_windows'] = collection.setdefault('document_windows', [])
+        note_result = research.extract_note(config, source, doc['text'], data['events'], run, note_quarantine, collection)
         metric_quarantine = []
         accepted_records = []
         if related:

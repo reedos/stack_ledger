@@ -154,6 +154,50 @@ def coverage(document, windows):
             'document_sha256':hashlib.sha256(document.encode('utf-8')).hexdigest()}
 
 
+_SENTENCE_BREAK = re.compile(r'(?<=[.!?])\s+|\n+')
+
+
+def shrink_to_numbers(document, located, numbers, cap):
+    """The shortest run of whole sentences inside `located` that still contains every
+    number in `numbers` and fits within `cap` characters, or None if no such run exists.
+
+    Sentences split on '.', '!' or '?' followed by whitespace, or a newline. The result
+    is always a contiguous substring of `located` (and so of `document`) -- never
+    rewritten, joined or reordered. A candidate too long to shrink this way is
+    quarantined instead of accepted with truncated or fabricated evidence.
+    """
+    if not isinstance(located, str) or located not in document:
+        return None
+    if len(located) <= cap:
+        return located
+    targets = []
+    for n in numbers:
+        try:
+            targets.append(float(str(n).replace(',', '')))
+        except (TypeError, ValueError):
+            continue
+    def supports(text):
+        values = [float(t.replace(',', '')) for t in numeric_tokens(text)]
+        return all(any(v == target for v in values) for target in targets)
+    spans = []
+    start = 0
+    for m in _SENTENCE_BREAK.finditer(located):
+        spans.append((start, m.end())); start = m.end()
+    if start < len(located):
+        spans.append((start, len(located)))
+    spans = [(a, b) for a, b in spans if b > a]
+    best = None
+    for i in range(len(spans)):
+        for j in range(i, len(spans)):
+            piece = located[spans[i][0]:spans[j][1]]
+            if len(piece) > cap:
+                break
+            if supports(piece) and (best is None or len(piece) < len(best)):
+                best = piece
+                break
+    return best
+
+
 def implementation_hash():
     from pathlib import Path
     return hashlib.sha256(Path(__file__).read_bytes()).hexdigest()

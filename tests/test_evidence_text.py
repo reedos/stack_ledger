@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, coverage, fold, locate, locate_in_windows, focus_text
+from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, coverage, fold, locate, locate_in_windows, focus_text, shrink_to_numbers
 from research import numeric_support
 from document_formats import as_html, CollectionGap
 
@@ -81,6 +81,39 @@ class EvidenceTextTests(unittest.TestCase):
         self.assertIn('2026-09-08',as_html(atom,'application/atom+xml'))
         with self.assertRaises(CollectionGap):as_html('<!DOCTYPE rss [<!ENTITY x SYSTEM "file:///secret">]><rss/>','application/xml')
         with self.assertRaises(CollectionGap):as_html('<workbook/>','text/xml')
+
+
+class ShrinkToNumbersTests(unittest.TestCase):
+    def test_already_under_cap_is_returned_unchanged(self):
+        self.assertEqual(shrink_to_numbers('short text 5','short text 5',[5],100),'short text 5')
+
+    def test_shrinks_to_the_shortest_sentence_run_that_keeps_every_number(self):
+        pad='Filler sentence padding out the passage well beyond the cap so this is not short.'
+        doc=pad+' '+'Alpha reached 5. Beta reached 9.'+' '+pad
+        result=shrink_to_numbers(doc,doc,[5,9],45)
+        self.assertEqual(result,'Alpha reached 5. Beta reached 9. ')
+        self.assertIn(result,doc)  # verbatim substring
+        self.assertLessEqual(len(result),45)
+        self.assertEqual(set(numeric_tokens(result))&{'5','9'},{'5','9'})
+        # a single number only needs its own sentence, not the whole span
+        self.assertEqual(shrink_to_numbers(doc,doc,[9],45),'Beta reached 9. ')
+
+    def test_keeps_all_numbers_or_refuses(self):
+        pad='Padding text that has no digits in it whatsoever, just words. '
+        doc=pad*3+'Revenue was 2 in 2023, 6 in 2024, and 20 in 2025.'
+        result=shrink_to_numbers(doc,doc,[2,6,20],60)
+        self.assertIsNotNone(result)
+        self.assertIn(result,doc)
+        self.assertLessEqual(len(result),60)
+        for n in ['2','6','20']:self.assertIn(n,numeric_tokens(result))
+
+    def test_refuses_when_no_run_of_sentences_fits_the_cap(self):
+        # One unbroken sentence longer than the cap: no smaller verbatim run exists.
+        giant='A'*50+' 7 '+'B'*200
+        self.assertIsNone(shrink_to_numbers(giant,giant,[7],50))
+
+    def test_refuses_when_the_located_text_is_not_from_the_document(self):
+        self.assertIsNone(shrink_to_numbers('Actual document text.','Fabricated text.',[1],5))
 
 
 if __name__=='__main__':unittest.main()

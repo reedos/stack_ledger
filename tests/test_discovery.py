@@ -57,6 +57,7 @@ class DiscoveryTests(unittest.TestCase):
         schema=args[3]
         if schema==d.SCHEMA:return {'findings':[self.finding],'reason':'Specific attributed candidate in fixture.'}
         if schema==r.VERDICT_SCHEMA:return self.verdict
+        if schema==r.NOTE_SCHEMA:return {'notes':[]}
         return {'observations':[]}
 
     def test_budget_reservation_and_focused_scope(self):

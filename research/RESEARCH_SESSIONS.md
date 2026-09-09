@@ -119,6 +119,8 @@ Each notification is attempted once and saved in a private receipt; ambiguous fa
 
 See OPERATING_GUIDE.md for persistent robots/page/provider cooldowns. Healthy duration remains unchanged; when no sources are eligible, the controller reports `waiting for eligible sources` and waits five minutes without generating public run updates. Completion summaries distinguish new-findings pushes from monitoring-only pushes, cached reviews from model documents, and repeated fetches from unique content versions when recorded. A provider outage is clearly flagged even if the overall session completed.
 
+The note lane now runs for every model document, not only discovered pages and excerpt-permitted sources; a source with a linked metric but no excerpt permission gets a note attempt like any other, and its result still stays private, capped per run by `max_private_notes_per_run` (runtime.json, default 12) so a bad night cannot flood the review queue. This only affects private review candidates; nothing about what publishes automatically has changed.
+
 
 Each completed session also retains `research-progress.md` and `research-progress.json` beside its summary. These group recorded discovery attempts by question and link existing proposals; existing human editorial question decisions remain separate. Older runs without per-attempt question metadata cannot be assigned invented progress. The live discovery digest exposes partial text coverage, empty/rejected outcomes and unsupported-document pointers. These diagnostics remain local and do not change public runtime presentation.
 ## Catalog updates after research

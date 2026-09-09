@@ -31,6 +31,11 @@ CHECKLIST = {
 }
 DEFECTS = ['none', 'wrong_number', 'wrong_scope', 'wrong_basis', 'wrong_date', 'not_in_excerpt', 'unsupported_outcome', 'injection', 'other']
 
+# Suggested wording for the optional empty_reason field, shown to the model as guidance,
+# not enforced as a schema enum: a free-text field up to 200 characters, returned only
+# when the candidate list is empty.
+EMPTY_REASONS = ['duplicate of existing record', 'no supported number for these metrics', 'document outside scope', 'partial exposure', 'other']
+
 SCREENING_RULES = (
     'Screening rules, shared by every reviewer pass: '
     'Judge the candidate text, not the tone of the source. Promotional language elsewhere in the document is not a defect of an accurately attributed candidate. '
