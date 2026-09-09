@@ -11498,6 +11498,168 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-aiken-it-mw",
+      "layer": "infrastructure",
+      "title": "Meta · Aiken · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "7601 State Hwy 105, Trenton, SC 29847, USA, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "meta-aiken",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-aiken-h100e",
+      "layer": "infrastructure",
+      "title": "Meta · Aiken · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "7601 State Hwy 105, Trenton, SC 29847, USA, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "meta-aiken",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-aiken-capex",
+      "layer": "infrastructure",
+      "title": "Meta · Aiken · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "7601 State Hwy 105, Trenton, SC 29847, USA, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "meta-aiken",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-eagle-mountain-it-mw",
+      "layer": "infrastructure",
+      "title": "Meta · Eagle Mountain · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "1275 N Community Cir, Eagle Mountain, UT 84005, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "meta-eagle-mountain",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-eagle-mountain-h100e",
+      "layer": "infrastructure",
+      "title": "Meta · Eagle Mountain · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "1275 N Community Cir, Eagle Mountain, UT 84005, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "meta-eagle-mountain",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-eagle-mountain-capex",
+      "layer": "infrastructure",
+      "title": "Meta · Eagle Mountain · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "1275 N Community Cir, Eagle Mountain, UT 84005, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "meta-eagle-mountain",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
     }
   ],
   "targets": [
