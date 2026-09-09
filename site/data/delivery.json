@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:19:09Z",
+  "reviewed_at": "2026-09-09T11:20:28Z",
   "projects": [
     {
       "id": "gemini",
@@ -2985,7 +2985,10 @@
       "category": "Cloud data-center locality",
       "stage": "operating",
       "ai_relationship": "Cloud infrastructure can support AI and other services. AI-only allocation is not disclosed.",
-      "observations": [],
+      "observations": [
+        "epoch-google-lancaster-ohio-it-mw-2026-09-09",
+        "epoch-google-lancaster-ohio-h100e-2026-09-09"
+      ],
       "horizon": "Follow the dated source milestone; subsequent delivery needs new evidence.",
       "grid": "Site-specific power draw, grid allocation and operating utilization are not quantified in this record.",
       "next_evidence": "Seek a dated operating update, scoped capacity, actual utilization and verified local employment.",
@@ -3783,7 +3786,10 @@
       "category": "Cloud data-center locality",
       "stage": "operating",
       "ai_relationship": "Cloud infrastructure supports AI alongside other services; no AI-only capacity is inferred.",
-      "observations": [],
+      "observations": [
+        "epoch-google-waltham-cross-united-kingdom-it-mw-2026-09-09",
+        "epoch-google-waltham-cross-united-kingdom-h100e-2026-09-09"
+      ],
       "horizon": "Follow the dated source milestone; subsequent delivery needs new evidence.",
       "grid": "Site-specific power draw, grid allocation and operating utilization are not quantified in this record.",
       "next_evidence": "Seek a dated operating update, scoped capacity, actual utilization and verified local employment.",

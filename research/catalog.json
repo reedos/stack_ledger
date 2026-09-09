@@ -9230,6 +9230,168 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-lancaster-ohio-it-mw",
+      "layer": "infrastructure",
+      "title": "Google · Lancaster, Ohio · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "105 Whiley Rd, Lancaster, OH 43130, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "google-lancaster-ohio",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-lancaster-ohio-h100e",
+      "layer": "infrastructure",
+      "title": "Google · Lancaster, Ohio · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "105 Whiley Rd, Lancaster, OH 43130, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "google-lancaster-ohio",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-lancaster-ohio-capex",
+      "layer": "infrastructure",
+      "title": "Google · Lancaster, Ohio · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "105 Whiley Rd, Lancaster, OH 43130, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "google-lancaster-ohio",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-waltham-cross-united-kingdom-it-mw",
+      "layer": "infrastructure",
+      "title": "Google · Waltham Cross, United Kingdom · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "Land at Maxwell's Farm West, Great Cambridge Road, Cheshunt, EN8 8XH, United Kingdom",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "google-waltham-cross-united-kingdom",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-waltham-cross-united-kingdom-h100e",
+      "layer": "infrastructure",
+      "title": "Google · Waltham Cross, United Kingdom · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "Land at Maxwell's Farm West, Great Cambridge Road, Cheshunt, EN8 8XH, United Kingdom",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "google-waltham-cross-united-kingdom",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-waltham-cross-united-kingdom-capex",
+      "layer": "infrastructure",
+      "title": "Google · Waltham Cross, United Kingdom · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "Land at Maxwell's Farm West, Great Cambridge Road, Cheshunt, EN8 8XH, United Kingdom",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "google-waltham-cross-united-kingdom",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
     }
   ],
   "targets": [
