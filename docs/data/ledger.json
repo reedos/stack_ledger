@@ -8260,6 +8260,87 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch series begins Q1 2022. Earlier quarters are not estimated. Missing quarters are not zero."
+    },
+    {
+      "id": "epoch-google-mesa-it-mw",
+      "layer": "infrastructure",
+      "title": "Google Mesa · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "google-mesa",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-mesa-h100e",
+      "layer": "infrastructure",
+      "title": "Google Mesa · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "google-mesa",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-google-mesa-capex",
+      "layer": "infrastructure",
+      "title": "Google Mesa · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "alphabet",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "google-mesa",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
     }
   ],
   "sources": [
@@ -24963,6 +25044,48 @@
       "retrieved_at": "2026-09-09T11:03:44Z",
       "method": "curated",
       "note": "Epoch AI median estimate; 5th to 95th percentile 18,283,448 to 23,989,231. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
+    },
+    {
+      "id": "epoch-google-mesa-it-mw-2026-09-09",
+      "metric": "epoch-google-mesa-it-mw",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 183.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
+      "id": "epoch-google-mesa-h100e-2026-09-09",
+      "metric": "epoch-google-mesa-h100e",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 289540,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
+      "id": "epoch-google-mesa-capex-2026-09-09",
+      "metric": "epoch-google-mesa-capex",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 6.93,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
     }
   ],
   "events": [
