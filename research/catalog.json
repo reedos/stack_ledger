@@ -7702,6 +7702,136 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-consensus-2025-09-aws",
+      "layer": "infrastructure",
+      "title": "Amazon capex forecast · September 2025 vintage",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Calendar-year company capital spending, S&P Capital IQ consensus as of September 2025 reproduced in Apollo exhibit 8. Rounded source values. Older expectations, not current guidance or cash-only actuals.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Preserve this forecast vintage separately. Do not splice it into later guidance.",
+      "source_ids": [
+        "capital-apollo-2026-outlook"
+      ],
+      "company": "aws",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Forecast begins in 2026. No 2030 value is supplied."
+    },
+    {
+      "id": "capital-consensus-2025-09-alphabet",
+      "layer": "infrastructure",
+      "title": "Alphabet capex forecast · September 2025 vintage",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Calendar-year company capital spending, S&P Capital IQ consensus as of September 2025 reproduced in Apollo exhibit 8. Rounded source values. Older expectations, not current guidance or cash-only actuals.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Preserve this forecast vintage separately. Do not splice it into later guidance.",
+      "source_ids": [
+        "capital-apollo-2026-outlook"
+      ],
+      "company": "alphabet",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Forecast begins in 2026. No 2030 value is supplied."
+    },
+    {
+      "id": "capital-consensus-2025-09-meta",
+      "layer": "infrastructure",
+      "title": "Meta capex forecast · September 2025 vintage",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Calendar-year company capital spending, S&P Capital IQ consensus as of September 2025 reproduced in Apollo exhibit 8. Rounded source values. Older expectations, not current guidance or cash-only actuals.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Preserve this forecast vintage separately. Do not splice it into later guidance.",
+      "source_ids": [
+        "capital-apollo-2026-outlook"
+      ],
+      "company": "meta",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Forecast begins in 2026. No 2030 value is supplied."
+    },
+    {
+      "id": "capital-consensus-2025-09-microsoft",
+      "layer": "infrastructure",
+      "title": "Microsoft capex forecast · September 2025 vintage",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Calendar-year company capital spending, S&P Capital IQ consensus as of September 2025 reproduced in Apollo exhibit 8. Rounded source values. Older expectations, not current guidance or cash-only actuals.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Preserve this forecast vintage separately. Do not splice it into later guidance.",
+      "source_ids": [
+        "capital-apollo-2026-outlook"
+      ],
+      "company": "microsoft",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Forecast begins in 2026. No 2030 value is supplied."
+    },
+    {
+      "id": "capital-consensus-2025-09-oracle",
+      "layer": "infrastructure",
+      "title": "Oracle capex forecast · September 2025 vintage",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Calendar-year company capital spending, S&P Capital IQ consensus as of September 2025 reproduced in Apollo exhibit 8. Rounded source values. Older expectations, not current guidance or cash-only actuals.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Preserve this forecast vintage separately. Do not splice it into later guidance.",
+      "source_ids": [
+        "capital-apollo-2026-outlook"
+      ],
+      "company": "oracle",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Forecast begins in 2026. No 2030 value is supplied."
     }
   ],
   "targets": [

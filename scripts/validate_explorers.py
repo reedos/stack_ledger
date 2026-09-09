@@ -22,7 +22,7 @@ def validate_explorers(x,ledger,ecosystem):
     sources={s['id']:s for s in ledger['sources']};metrics={m['id']:m for m in ledger['metrics']}
     companies={c['id'] for c in ecosystem['companies']}
     if 'capital' in x:
-        c=x['capital'];require(set(c)=={'companies','reviewed_at','scope','gaps'},'Unexpected capital configuration')
+        c=x['capital'];require({'companies','reviewed_at','scope','gaps'}<=c.keys() and c.keys()<={'companies','reviewed_at','scope','gaps','archived_forecast'},'Unexpected capital configuration')
         timestamp(c['reviewed_at']);text(c['scope'],700)
         require(isinstance(c['companies'],list) and c['companies'],'Empty capital comparison')
         seen=set()
@@ -39,6 +39,18 @@ def validate_explorers(x,ledger,ecosystem):
                 require(records and all(o['status']==status for o in records),'Missing or mixed capital records')
                 require(len(records)==len({o['year'] for o in records}),'Conflicting capital vintages need correction review')
         for gap in c['gaps']:text(gap,600)
+        if 'archived_forecast' in c:
+            a=c['archived_forecast']
+            require(set(a)=={'label','as_of','source','companies'} and a['source'] in sources,'Invalid forecast archive')
+            text(a['label'],150);require(re.fullmatch(r'\d{4}-\d{2}',a['as_of']),'Invalid forecast vintage')
+            require(len(a['companies'])==len(seen) and {r['company'] for r in a['companies']}==seen,'Forecast archive must cover the complete cohort')
+            for row in a['companies']:
+                require(set(row)=={'company','metric'},'Invalid forecast member')
+                m=metrics.get(row['metric'],{})
+                require(m.get('company')==row['company'] and m.get('unit')=='USD billion' and m.get('allowed_statuses')==['forecast'],'Archived forecast basis mismatch')
+                os=[o for o in ledger['observations'] if o['metric']==row['metric'] and not o.get('superseded_by')]
+                require(os and all(o['source']==a['source'] and o['status']=='forecast' for o in os),'Mixed archived forecast source/status')
+                require(len(os)==len({o['year'] for o in os}),'Duplicate archived forecast years')
     if 'capabilities' in x:
         c=x['capabilities']
         require(set(c)=={'source','method_source','retrieved_at','document_sha256','confidence_level','rows'},'Unexpected capabilities snapshot')
@@ -48,9 +60,9 @@ def validate_explorers(x,ledger,ecosystem):
         require(isinstance(c['rows'],list) and c['rows'],'Empty capability snapshot')
         ids=set()
         for r in c['rows']:
-            require(set(r)=={'id','name','released','organization','access','score','low','high'},'Unexpected capability row')
+            require(set(r)=={'id','name','released','organization','country','access','score','low','high'},'Unexpected capability row')
             require(re.fullmatch('eci-[a-f0-9]{16}',r['id']) and r['id'] not in ids,'Duplicate or invalid capability ID');ids.add(r['id'])
-            for field in ('name','organization'):text(r[field],200)
+            for field in ('name','organization','country'):text(r[field],200)
             require(date.fromisoformat(r['released'])<=retrieved.date(),'Future model release')
             require(r['access'] in {'Open weights','Closed weights','Other'},'Unknown model accessibility')
             require(finite(r['score']),'Invalid ECI score')

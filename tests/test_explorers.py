@@ -8,12 +8,29 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from validate_explorers import validate_explorers,validate_location
-from render_explorers import capital,capabilities,project_map
+from render_explorers import capital,capabilities,project_map,capital_totals,capital_projections,default_models
 
 class ExplorerTests(unittest.TestCase):
     def setUp(self):
         read=lambda name:json.loads((ROOT/'site/data'/f'{name}.json').read_text(encoding='utf-8'))
         self.x,self.l,self.e,self.d=[read(name) for name in ['expansion','ledger','ecosystem','delivery']]
+    def test_total_requires_complete_cohort_and_keeps_vintages_separate(self):
+        series=[({},[{'year':2025,'value':1.1},{'year':2026,'value':5}]),({},[{'year':2025,'value':2.2}])]
+        self.assertEqual(capital_totals(series),[(2025,3.3)])
+        projected=capital_projections(self.l,self.x['capital'])
+        self.assertEqual([y for y,_ in projected],[2026])
+        self.assertEqual(len(projected[0][1]),5)
+        bad=copy.deepcopy(self.x);bad['capital']['archived_forecast']['companies'].pop()
+        with self.assertRaisesRegex(ValueError,'complete cohort'):validate_explorers(bad,self.l,self.e)
+    def test_default_model_view_is_only_a_display_filter(self):
+        c=self.x['capabilities'];shown=default_models(c)
+        from collections import Counter
+        counts=Counter(r['organization'] for r in c['rows'])
+        self.assertTrue(all(counts[r['organization']]>3 and r['organization']!='Not listed by Epoch' for r in shown))
+        self.assertLess(len(shown),len(c['rows']))
+        self.assertTrue(all(r['country'] for r in c['rows']))
+        html=capabilities(self.l,self.x,'./');self.assertIn('Country of organization',html)
+        self.assertNotIn('id="eci-developer"',html)
     def test_real_data_resolves(self):
         self.assertTrue(validate_explorers(self.x,self.l,self.e))
     def test_capital_does_not_accept_forecast_as_actual(self):
@@ -26,7 +43,8 @@ class ExplorerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Conflicting capital'):validate_explorers(self.x,self.l,self.e)
     def test_capital_source_vintages_and_scopes_are_visible(self):
         html=capital(self.l,self.x,'./')
-        self.assertIn('No combined total',html)
+        self.assertIn('Total · all five',html)
+        self.assertIn('September 2025',html)
         self.assertIn('lease reclassification',html)
         self.assertIn('CY2026 guidance',html)
         self.assertIn('FY2026 ended May 31',html)

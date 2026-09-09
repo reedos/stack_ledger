@@ -4851,6 +4851,7 @@
         "energy",
         "chips",
         "infrastructure",
+        "models",
         "applications"
       ],
       "license": "U.S. government geographic data."
@@ -4865,6 +4866,7 @@
         "energy",
         "chips",
         "infrastructure",
+        "models",
         "applications"
       ],
       "license": "U.S. government geographic data."
@@ -4876,10 +4878,145 @@
       "url": "https://download.geonames.org/export/dump/cities5000.zip",
       "published": null,
       "layers": [
+        "energy",
         "chips",
-        "infrastructure"
+        "infrastructure",
+        "models",
+        "applications"
       ],
       "license": "GeoNames geographical data · CC BY 4.0."
+    },
+    {
+      "id": "map-google-directory",
+      "publisher": "Google",
+      "title": "Data center location directory · active and in-development locations",
+      "url": "https://www.datacenters.google/locations/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-vogtle",
+      "publisher": "Georgia Power",
+      "title": "Vogtle Unit 4 enters commercial operation",
+      "url": "https://www.georgiapower.com/news-hub/press-releases/vogtle-unit-4-enters-commercial-operation.html",
+      "published": "2024-04-29",
+      "layers": [
+        "energy"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-lumina",
+      "publisher": "Intersect",
+      "title": "Lumina Solar reaches commercial operation",
+      "url": "https://www.intersect.com/historical-releases/intersect-power-lumina-solar-project-reaches-commercial-operation",
+      "published": "2024-01-03",
+      "layers": [
+        "energy"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-cvow",
+      "publisher": "Dominion Energy",
+      "title": "Coastal Virginia Offshore Wind · project timeline",
+      "url": "https://coastalvawind.com/about/the-project/timeline",
+      "published": null,
+      "layers": [
+        "energy"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-tsmc-fabs",
+      "publisher": "TSMC",
+      "title": "Fab directory · Taiwan manufacturing locations",
+      "url": "https://www.tsmc.com/english/aboutTSMC/TSMC_Fabs",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-gf-singapore",
+      "publisher": "GlobalFoundries",
+      "title": "Singapore expansion facility opening",
+      "url": "https://gf.com/news-and-events/news/globalfoundries-officially-opens-us4-billion-expansion-facility-in-singapore-creating-1000-new-jobs/",
+      "published": "2023-09-12",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-apertus",
+      "publisher": "CSCS / ETH Zurich / EPFL",
+      "title": "Apertus 1.5 release and Alps training location",
+      "url": "https://www.cscs.ch/science/computer-science-hpc/2026/apertus-15-building-the-next-generation-of-open-ai-infrastructure",
+      "published": "2026-07-24",
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-olmo-lumi",
+      "publisher": "LUMI / CSC",
+      "title": "OLMo released following LUMI development",
+      "url": "https://lumi-supercomputer.eu/a-truly-open-large-language-model-released-developed-with-lumi/",
+      "published": "2024-02-02",
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-lumi-location",
+      "publisher": "CSC",
+      "title": "LUMI supercomputer · Kajaani location",
+      "url": "https://csc.fi/en/our-expertise/high-performance-computing/lumi-supercomputer/",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-bmw-robots",
+      "publisher": "BMW Group",
+      "title": "Humanoid robotics in Leipzig and Spartanburg",
+      "url": "https://www.bmwgroup.com/en/news/general/2026/humanoid-robot-in-leipzig.html",
+      "published": "2026-03-09",
+      "layers": [
+        "applications"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-waymo-mesa",
+      "publisher": "Waymo",
+      "title": "Scaling our fleet through U.S. manufacturing",
+      "url": "https://waymo.com/blog/2025/05/scaling-our-fleet-through-us-manufacturing",
+      "published": "2025-05-05",
+      "layers": [
+        "applications"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-apollo-2026-outlook",
+      "publisher": "Apollo",
+      "title": "2026 Credit Outlook · exhibit 8, September 2025 consensus vintage",
+      "url": "https://www.apollo.com/content/dam/apolloaem/documents/insights/outlook/apollo-global-2026-credit-outlook.pdf",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
     }
   ],
   "discovery_keywords": [
@@ -5173,7 +5310,19 @@
         "epoch-eci-method",
         "census-map-places",
         "census-map-counties",
-        "geonames-map"
+        "geonames-map",
+        "map-google-directory",
+        "map-vogtle",
+        "map-lumina",
+        "map-cvow",
+        "map-tsmc-fabs",
+        "map-gf-singapore",
+        "map-apertus",
+        "map-olmo-lumi",
+        "map-lumi-location",
+        "map-bmw-robots",
+        "map-waymo-mesa",
+        "capital-apollo-2026-outlook"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -9546,6 +9695,138 @@
     },
     "geonames-map": {
       "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-google-directory": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-vogtle": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-lumina": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-cvow": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-tsmc-fabs": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-gf-singapore": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-apertus": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-olmo-lumi": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-lumi-location": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-bmw-robots": {
+      "rank": 3,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "map-waymo-mesa": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "capital-apollo-2026-outlook": {
+      "rank": 5,
       "region_book": "global",
       "company_id": null,
       "claim_type": "other",

@@ -209,7 +209,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('.energy-case').count(),3);
   assert.equal(await page.locator('.energy-case').first().locator('.planned').count(),0);
   assert.equal(await page.locator('.energy-case').last().locator('.planned').count(),2);
-  assert.equal(await page.locator('.project-card .operating').count(),1);
+  assert.equal(await page.locator('.project-card .operating').count(),snapshot.projects.filter(p=>p.layer==='chips'&&p.stage==='operating').length);
   assert.equal(await page.locator('.supply-step').count(),5);
   assert.equal(await page.locator('.capacity-grid .chart-wrap').count(),4);
   assert.match(await page.locator('.employment-chart').innerText(),/-23,000/);

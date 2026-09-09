@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T05:58:24Z",
+  "reviewed_at": "2026-09-09T06:30:40Z",
   "products": [
     {
       "id": "claude-code",
@@ -797,13 +797,41 @@
         "year_end": "May 31"
       }
     ],
-    "reviewed_at": "2026-09-09T05:58:24Z",
-    "scope": "Selected hyperscalers, worldwide company spending. History uses reported cash PP&E; guidance uses each issuer’s stated definition. No combined total is calculated across different fiscal periods or accounting bases.",
+    "reviewed_at": "2026-09-09T06:30:40Z",
+    "scope": "Simple sums use reported fiscal years ending in the labeled year, with all five companies required. Fiscal periods and cash/lease accounting differ. Totals describe this covered group, not calendar-year, AI-only or U.S. investment. Latest-bar sums mix explicitly labeled actuals and guidance and are not a uniform forecast.",
     "gaps": [
       "Oracle has a reported FY2026 result; no verified calendar-2026 guidance is included.",
       "Amazon and Alphabet July guidance is attributed to AP earnings reporting; obtain primary transcripts before changing its attribution.",
-      "No sufficiently reviewed quantitative forecast beyond 2026 is included. Longer horizons remain eligible when sourced."
-    ]
+      "No complete 2030 company-by-company forecast is verified. The 2026–2029 analyst vintage is older than current guidance and is kept separate.",
+      "J.P. Morgan August 2026 chart was not merged: its public caption labels U.S. spending and does not supply numeric company-by-company values."
+    ],
+    "archived_forecast": {
+      "label": "September 2025 consensus · older forecast",
+      "as_of": "2025-09",
+      "source": "capital-apollo-2026-outlook",
+      "companies": [
+        {
+          "company": "aws",
+          "metric": "capital-consensus-2025-09-aws"
+        },
+        {
+          "company": "alphabet",
+          "metric": "capital-consensus-2025-09-alphabet"
+        },
+        {
+          "company": "meta",
+          "metric": "capital-consensus-2025-09-meta"
+        },
+        {
+          "company": "microsoft",
+          "metric": "capital-consensus-2025-09-microsoft"
+        },
+        {
+          "company": "oracle",
+          "metric": "capital-consensus-2025-09-oracle"
+        }
+      ]
+    }
   },
   "capabilities": {
     "source": "epoch-eci-dataset",
@@ -820,7 +848,8 @@
         "access": "Closed weights",
         "score": 166.57,
         "low": 163.34,
-        "high": 171.7
+        "high": 171.7,
+        "country": "United States of America"
       },
       {
         "id": "eci-a5ee67b5769bd618",
@@ -830,7 +859,8 @@
         "access": "Closed weights",
         "score": 164.24,
         "low": 161.3,
-        "high": 167.85
+        "high": 167.85,
+        "country": "United States of America"
       },
       {
         "id": "eci-3456ef96946f535f",
@@ -840,7 +870,8 @@
         "access": "Closed weights",
         "score": 163.41,
         "low": 160.68,
-        "high": 167.1
+        "high": 167.1,
+        "country": "United States of America"
       },
       {
         "id": "eci-cd8eedc764b60783",
@@ -850,7 +881,8 @@
         "access": "Closed weights",
         "score": 162.59,
         "low": 160.09,
-        "high": 165.69
+        "high": 165.69,
+        "country": "United States of America"
       },
       {
         "id": "eci-22e77de72b898d0e",
@@ -860,7 +892,8 @@
         "access": "Closed weights",
         "score": 162.26,
         "low": 159.3,
-        "high": 165.37
+        "high": 165.37,
+        "country": "United States of America"
       },
       {
         "id": "eci-4c15583ff6e2f485",
@@ -870,7 +903,8 @@
         "access": "Closed weights",
         "score": 161.76,
         "low": 159.53,
-        "high": 164.88
+        "high": 164.88,
+        "country": "United States of America"
       },
       {
         "id": "eci-2719c688ad2de027",
@@ -880,7 +914,8 @@
         "access": "Closed weights",
         "score": 159.15,
         "low": 156.64,
-        "high": 161.84
+        "high": 161.84,
+        "country": "United States of America"
       },
       {
         "id": "eci-8f07378d04631b33",
@@ -890,7 +925,8 @@
         "access": "Closed weights",
         "score": 159.14,
         "low": 156.91,
-        "high": 161.87
+        "high": 161.87,
+        "country": "United States of America"
       },
       {
         "id": "eci-bfdb7a2a68cfcaa4",
@@ -900,7 +936,8 @@
         "access": "Closed weights",
         "score": 158.93,
         "low": 156.35,
-        "high": 161.87
+        "high": 161.87,
+        "country": "United States of America"
       },
       {
         "id": "eci-ca919179bb3d7990",
@@ -910,7 +947,8 @@
         "access": "Closed weights",
         "score": 158.32,
         "low": 156.33,
-        "high": 160.46
+        "high": 160.46,
+        "country": "United States of America"
       },
       {
         "id": "eci-cacf6b25954a57c2",
@@ -920,7 +958,8 @@
         "access": "Open weights",
         "score": 157.64,
         "low": 155.01,
-        "high": 160.58
+        "high": 160.58,
+        "country": "China"
       },
       {
         "id": "eci-947c93ec19c0e402",
@@ -930,7 +969,8 @@
         "access": "Closed weights",
         "score": 157.44,
         "low": 155.52,
-        "high": 160.08
+        "high": 160.08,
+        "country": "United States of America"
       },
       {
         "id": "eci-bc29172dffc618fc",
@@ -940,7 +980,8 @@
         "access": "Closed weights",
         "score": 156.86,
         "low": 155.05,
-        "high": 158.79
+        "high": 158.79,
+        "country": "United States of America"
       },
       {
         "id": "eci-ec19fd19ceb56069",
@@ -950,7 +991,8 @@
         "access": "Closed weights",
         "score": 156.62,
         "low": 154.45,
-        "high": 158.45
+        "high": 158.45,
+        "country": "China"
       },
       {
         "id": "eci-a89ee82d1dfe8d5f",
@@ -960,7 +1002,8 @@
         "access": "Closed weights",
         "score": 156.59,
         "low": 154.13,
-        "high": 159.41
+        "high": 159.41,
+        "country": "United States of America"
       },
       {
         "id": "eci-b575622cfba6f284",
@@ -970,7 +1013,8 @@
         "access": "Closed weights",
         "score": 156.34,
         "low": 154.45,
-        "high": 158.34
+        "high": 158.34,
+        "country": "United States of America"
       },
       {
         "id": "eci-4e2ddcfc52b369f9",
@@ -980,7 +1024,8 @@
         "access": "Closed weights",
         "score": 156.34,
         "low": 154.57,
-        "high": 158.47
+        "high": 158.47,
+        "country": "United States of America"
       },
       {
         "id": "eci-95d3f179cfe80e1b",
@@ -990,7 +1035,8 @@
         "access": "Closed weights",
         "score": 156.31,
         "low": 153.75,
-        "high": 158.49
+        "high": 158.49,
+        "country": "United States of America"
       },
       {
         "id": "eci-061c2e29e26808a0",
@@ -1000,7 +1046,8 @@
         "access": "Closed weights",
         "score": 156.23,
         "low": 153.39,
-        "high": 158.5
+        "high": 158.5,
+        "country": "United States of America"
       },
       {
         "id": "eci-9f0e4feef3f69b3b",
@@ -1010,7 +1057,8 @@
         "access": "Closed weights",
         "score": 155.49,
         "low": 153.76,
-        "high": 158.7
+        "high": 158.7,
+        "country": "United States of America"
       },
       {
         "id": "eci-45c9ea1cd8e20e3c",
@@ -1020,7 +1068,8 @@
         "access": "Open weights",
         "score": 155.44,
         "low": 153.65,
-        "high": 157.54
+        "high": 157.54,
+        "country": "China"
       },
       {
         "id": "eci-2902cfcf44bca341",
@@ -1030,7 +1079,8 @@
         "access": "Closed weights",
         "score": 155.34,
         "low": 153.51,
-        "high": 157.14
+        "high": 157.14,
+        "country": "United States of America"
       },
       {
         "id": "eci-bb65db55bb22cdbe",
@@ -1040,7 +1090,8 @@
         "access": "Closed weights",
         "score": 155.34,
         "low": 153.04,
-        "high": 157.88
+        "high": 157.88,
+        "country": "United States of America"
       },
       {
         "id": "eci-a8bfe9eb2a1ce6c1",
@@ -1050,7 +1101,8 @@
         "access": "Closed weights",
         "score": 155.25,
         "low": 153.15,
-        "high": 157.51
+        "high": 157.51,
+        "country": "China"
       },
       {
         "id": "eci-18a24eab73044b5a",
@@ -1060,7 +1112,8 @@
         "access": "Closed weights",
         "score": 155.0,
         "low": 152.77,
-        "high": 157.56
+        "high": 157.56,
+        "country": "United States of America"
       },
       {
         "id": "eci-371dab1ad2a41cfe",
@@ -1070,7 +1123,8 @@
         "access": "Closed weights",
         "score": 154.69,
         "low": 152.76,
-        "high": 156.78
+        "high": 156.78,
+        "country": "United States of America"
       },
       {
         "id": "eci-d1fe05702b9f9f9c",
@@ -1080,7 +1134,8 @@
         "access": "Closed weights",
         "score": 154.64,
         "low": 152.26,
-        "high": 157.96
+        "high": 157.96,
+        "country": "United States of America"
       },
       {
         "id": "eci-b615c1e4921f7fea",
@@ -1090,7 +1145,8 @@
         "access": "Open weights",
         "score": 154.49,
         "low": 152.05,
-        "high": 156.45
+        "high": 156.45,
+        "country": "China"
       },
       {
         "id": "eci-c48adb0bec4f98ad",
@@ -1100,7 +1156,8 @@
         "access": "Closed weights",
         "score": 154.32,
         "low": 152.6,
-        "high": 156.05
+        "high": 156.05,
+        "country": "United States of America"
       },
       {
         "id": "eci-eba10bb66138299a",
@@ -1110,7 +1167,8 @@
         "access": "Closed weights",
         "score": 153.92,
         "low": 152.32,
-        "high": 155.71
+        "high": 155.71,
+        "country": "United States of America"
       },
       {
         "id": "eci-96507293a0a4fe6a",
@@ -1120,7 +1178,8 @@
         "access": "Closed weights",
         "score": 153.72,
         "low": 151.87,
-        "high": 155.95
+        "high": 155.95,
+        "country": "China"
       },
       {
         "id": "eci-4dda9489c142ee68",
@@ -1130,7 +1189,8 @@
         "access": "Closed weights",
         "score": 153.49,
         "low": 151.77,
-        "high": 155.17
+        "high": 155.17,
+        "country": "United States of America"
       },
       {
         "id": "eci-2f96e3cdfc593a90",
@@ -1140,7 +1200,8 @@
         "access": "Closed weights",
         "score": 153.01,
         "low": 151.16,
-        "high": 154.96
+        "high": 154.96,
+        "country": "United States of America"
       },
       {
         "id": "eci-11bf1657f662888b",
@@ -1150,7 +1211,8 @@
         "access": "Closed weights",
         "score": 152.29,
         "low": 149.78,
-        "high": 154.35
+        "high": 154.35,
+        "country": "United States of America"
       },
       {
         "id": "eci-61dc4a612a111e57",
@@ -1160,7 +1222,8 @@
         "access": "Closed weights",
         "score": 152.13,
         "low": 150.18,
-        "high": 155.41
+        "high": 155.41,
+        "country": "United States of America"
       },
       {
         "id": "eci-1df02a89dd910e15",
@@ -1170,7 +1233,8 @@
         "access": "Closed weights",
         "score": 152.03,
         "low": 149.08,
-        "high": 154.45
+        "high": 154.45,
+        "country": "United States of America"
       },
       {
         "id": "eci-8efd4aa5f78ad9b5",
@@ -1180,7 +1244,8 @@
         "access": "Open weights",
         "score": 151.88,
         "low": 150.11,
-        "high": 153.88
+        "high": 153.88,
+        "country": "China"
       },
       {
         "id": "eci-d9baf7ed767e9c96",
@@ -1190,7 +1255,8 @@
         "access": "Closed weights",
         "score": 151.84,
         "low": 150.5,
-        "high": 153.45
+        "high": 153.45,
+        "country": "United States of America"
       },
       {
         "id": "eci-e8f0d28d3c21c3b3",
@@ -1200,7 +1266,8 @@
         "access": "Open weights",
         "score": 151.45,
         "low": 148.96,
-        "high": 153.42
+        "high": 153.42,
+        "country": "China"
       },
       {
         "id": "eci-2a36290594fff2da",
@@ -1210,7 +1277,8 @@
         "access": "Open weights",
         "score": 151.01,
         "low": 149.07,
-        "high": 152.65
+        "high": 152.65,
+        "country": "China"
       },
       {
         "id": "eci-b4421acff2f5aa4d",
@@ -1220,7 +1288,8 @@
         "access": "Closed weights",
         "score": 150.28,
         "low": 148.77,
-        "high": 152.52
+        "high": 152.52,
+        "country": "United States of America"
       },
       {
         "id": "eci-60d3c69f0791526d",
@@ -1230,7 +1299,8 @@
         "access": "Open weights",
         "score": 150.17,
         "low": 147.44,
-        "high": 151.96
+        "high": 151.96,
+        "country": "United States of America"
       },
       {
         "id": "eci-7d099cbc635f5e7c",
@@ -1240,7 +1310,8 @@
         "access": "Closed weights",
         "score": 150.11,
         "low": 148.0,
-        "high": 152.85
+        "high": 152.85,
+        "country": "United States of America"
       },
       {
         "id": "eci-ea53fba6906cd294",
@@ -1250,7 +1321,8 @@
         "access": "Open weights",
         "score": 150.1,
         "low": 148.39,
-        "high": 151.76
+        "high": 151.76,
+        "country": "China"
       },
       {
         "id": "eci-ff2529f856f4d2ed",
@@ -1260,7 +1332,8 @@
         "access": "Closed weights",
         "score": 150.0,
         "low": null,
-        "high": null
+        "high": null,
+        "country": "United States of America"
       },
       {
         "id": "eci-539e801876c70558",
@@ -1270,7 +1343,8 @@
         "access": "Open weights",
         "score": 149.73,
         "low": 147.65,
-        "high": 151.48
+        "high": 151.48,
+        "country": "China"
       },
       {
         "id": "eci-44700474f3c5f932",
@@ -1280,7 +1354,8 @@
         "access": "Closed weights",
         "score": 149.65,
         "low": 148.34,
-        "high": 151.05
+        "high": 151.05,
+        "country": "United States of America"
       },
       {
         "id": "eci-252b8b957738f60f",
@@ -1290,7 +1365,8 @@
         "access": "Other",
         "score": 149.3,
         "low": 147.55,
-        "high": 152.27
+        "high": 152.27,
+        "country": "China"
       },
       {
         "id": "eci-9bee3638f39d8e00",
@@ -1300,7 +1376,8 @@
         "access": "Closed weights",
         "score": 149.18,
         "low": 147.59,
-        "high": 150.59
+        "high": 150.59,
+        "country": "United States of America"
       },
       {
         "id": "eci-9db5201cc1f8dc04",
@@ -1310,7 +1387,8 @@
         "access": "Open weights",
         "score": 149.1,
         "low": 147.29,
-        "high": 150.44
+        "high": 150.44,
+        "country": "China"
       },
       {
         "id": "eci-4e917cf200726bf5",
@@ -1320,7 +1398,8 @@
         "access": "Closed weights",
         "score": 148.98,
         "low": 147.08,
-        "high": 150.7
+        "high": 150.7,
+        "country": "United States of America"
       },
       {
         "id": "eci-24d5400a33446098",
@@ -1330,7 +1409,8 @@
         "access": "Open weights",
         "score": 148.64,
         "low": 145.93,
-        "high": 150.5
+        "high": 150.5,
+        "country": "United States of America"
       },
       {
         "id": "eci-97a650582ba3a3f9",
@@ -1340,7 +1420,8 @@
         "access": "Open weights",
         "score": 148.03,
         "low": 146.24,
-        "high": 149.09
+        "high": 149.09,
+        "country": "China"
       },
       {
         "id": "eci-157f8a956dfba17b",
@@ -1350,7 +1431,8 @@
         "access": "Closed weights",
         "score": 147.69,
         "low": 145.8,
-        "high": 149.26
+        "high": 149.26,
+        "country": "China"
       },
       {
         "id": "eci-109f0072c1fda3cc",
@@ -1360,7 +1442,8 @@
         "access": "Closed weights",
         "score": 147.45,
         "low": 145.86,
-        "high": 150.15
+        "high": 150.15,
+        "country": "United States of America"
       },
       {
         "id": "eci-d28245944782f5b6",
@@ -1370,7 +1453,8 @@
         "access": "Other",
         "score": 147.42,
         "low": 145.83,
-        "high": 148.78
+        "high": 148.78,
+        "country": "China"
       },
       {
         "id": "eci-d9a93d9b6596075b",
@@ -1380,7 +1464,8 @@
         "access": "Open weights",
         "score": 146.98,
         "low": 145.27,
-        "high": 148.83
+        "high": 148.83,
+        "country": "China"
       },
       {
         "id": "eci-de2d91dc0a258041",
@@ -1390,7 +1475,8 @@
         "access": "Closed weights",
         "score": 146.91,
         "low": 144.99,
-        "high": 148.44
+        "high": 148.44,
+        "country": "United States of America"
       },
       {
         "id": "eci-e856df356cc92fba",
@@ -1400,7 +1486,8 @@
         "access": "Closed weights",
         "score": 146.85,
         "low": 145.32,
-        "high": 148.21
+        "high": 148.21,
+        "country": "United States of America"
       },
       {
         "id": "eci-a99008f0e5756a50",
@@ -1410,7 +1497,8 @@
         "access": "Other",
         "score": 146.75,
         "low": 144.6,
-        "high": 147.94
+        "high": 147.94,
+        "country": "China"
       },
       {
         "id": "eci-32a6b67da07170b1",
@@ -1420,7 +1508,8 @@
         "access": "Open weights",
         "score": 146.52,
         "low": 138.5,
-        "high": 147.57
+        "high": 147.57,
+        "country": "China"
       },
       {
         "id": "eci-817a1ed13eb9b4be",
@@ -1430,7 +1519,8 @@
         "access": "Open weights",
         "score": 146.51,
         "low": 144.53,
-        "high": 147.8
+        "high": 147.8,
+        "country": "China"
       },
       {
         "id": "eci-ac72b9b986af3932",
@@ -1440,7 +1530,8 @@
         "access": "Open weights",
         "score": 146.5,
         "low": 142.31,
-        "high": 149.19
+        "high": 149.19,
+        "country": "China"
       },
       {
         "id": "eci-7bbfd3233499a3ac",
@@ -1450,7 +1541,8 @@
         "access": "Closed weights",
         "score": 146.45,
         "low": 144.39,
-        "high": 148.14
+        "high": 148.14,
+        "country": "United States of America"
       },
       {
         "id": "eci-0e2484a13fd6b4c6",
@@ -1460,7 +1552,8 @@
         "access": "Open weights",
         "score": 146.29,
         "low": 143.85,
-        "high": 148.27
+        "high": 148.27,
+        "country": "United States of America"
       },
       {
         "id": "eci-28e8e5323b06e68c",
@@ -1470,7 +1563,8 @@
         "access": "Open weights",
         "score": 146.2,
         "low": 144.34,
-        "high": 147.39
+        "high": 147.39,
+        "country": "China"
       },
       {
         "id": "eci-25ff2f3e5e17a3c4",
@@ -1480,7 +1574,8 @@
         "access": "Open weights",
         "score": 146.12,
         "low": 143.67,
-        "high": 147.87
+        "high": 147.87,
+        "country": "China"
       },
       {
         "id": "eci-68a79c562fa5737d",
@@ -1490,7 +1585,8 @@
         "access": "Closed weights",
         "score": 145.87,
         "low": 143.46,
-        "high": 147.52
+        "high": 147.52,
+        "country": "United States of America"
       },
       {
         "id": "eci-4a3c8d12f0d5d485",
@@ -1500,7 +1596,8 @@
         "access": "Open weights",
         "score": 145.87,
         "low": 143.94,
-        "high": 147.8
+        "high": 147.8,
+        "country": "China"
       },
       {
         "id": "eci-ea0d72ff356988b6",
@@ -1510,7 +1607,8 @@
         "access": "Open weights",
         "score": 145.81,
         "low": 138.38,
-        "high": 147.74
+        "high": 147.74,
+        "country": "China"
       },
       {
         "id": "eci-d22724b7a2eec23a",
@@ -1520,7 +1618,8 @@
         "access": "Open weights",
         "score": 145.77,
         "low": 143.31,
-        "high": 147.12
+        "high": 147.12,
+        "country": "China"
       },
       {
         "id": "eci-9056e3300ca806c0",
@@ -1530,7 +1629,8 @@
         "access": "Closed weights",
         "score": 145.66,
         "low": 143.29,
-        "high": 147.27
+        "high": 147.27,
+        "country": "United States of America"
       },
       {
         "id": "eci-3c3ede7f1533fc78",
@@ -1540,7 +1640,8 @@
         "access": "Closed weights",
         "score": 145.54,
         "low": 143.51,
-        "high": 147.11
+        "high": 147.11,
+        "country": "United States of America"
       },
       {
         "id": "eci-a201562c7d7940b6",
@@ -1550,7 +1651,8 @@
         "access": "Closed weights",
         "score": 145.27,
         "low": 143.59,
-        "high": 146.71
+        "high": 146.71,
+        "country": "United States of America"
       },
       {
         "id": "eci-aa9268f76b4a438d",
@@ -1560,7 +1662,8 @@
         "access": "Closed weights",
         "score": 145.14,
         "low": 142.4,
-        "high": 146.7
+        "high": 146.7,
+        "country": "United States of America"
       },
       {
         "id": "eci-fcde6b7025335af9",
@@ -1570,7 +1673,8 @@
         "access": "Open weights",
         "score": 145.03,
         "low": 142.53,
-        "high": 147.0
+        "high": 147.0,
+        "country": "China"
       },
       {
         "id": "eci-e4c52f2590a61975",
@@ -1580,7 +1684,8 @@
         "access": "Closed weights",
         "score": 144.64,
         "low": 142.69,
-        "high": 147.52
+        "high": 147.52,
+        "country": "China"
       },
       {
         "id": "eci-8e58bd1600019abd",
@@ -1590,7 +1695,8 @@
         "access": "Closed weights",
         "score": 144.5,
         "low": 142.72,
-        "high": 145.98
+        "high": 145.98,
+        "country": "United States of America"
       },
       {
         "id": "eci-aa5f70bd6142a9a9",
@@ -1600,7 +1706,8 @@
         "access": "Closed weights",
         "score": 144.22,
         "low": 141.74,
-        "high": 146.28
+        "high": 146.28,
+        "country": "United States of America"
       },
       {
         "id": "eci-10d7f9ee30b6bf3e",
@@ -1610,7 +1717,8 @@
         "access": "Closed weights",
         "score": 144.17,
         "low": 141.94,
-        "high": 146.84
+        "high": 146.84,
+        "country": "United States of America"
       },
       {
         "id": "eci-eab5646fbfe336dd",
@@ -1620,7 +1728,8 @@
         "access": "Closed weights",
         "score": 144.12,
         "low": 141.76,
-        "high": 145.99
+        "high": 145.99,
+        "country": "United States of America"
       },
       {
         "id": "eci-7e07b64198f3236f",
@@ -1630,7 +1739,8 @@
         "access": "Other",
         "score": 144.01,
         "low": 141.92,
-        "high": 145.67
+        "high": 145.67,
+        "country": "China"
       },
       {
         "id": "eci-a8384a23218e0393",
@@ -1640,7 +1750,8 @@
         "access": "Open weights",
         "score": 143.88,
         "low": 141.77,
-        "high": 145.36
+        "high": 145.36,
+        "country": "China"
       },
       {
         "id": "eci-82094e5584650818",
@@ -1650,7 +1761,8 @@
         "access": "Open weights",
         "score": 143.87,
         "low": 141.31,
-        "high": 146.0
+        "high": 146.0,
+        "country": "China"
       },
       {
         "id": "eci-9f17c730ead75e11",
@@ -1660,7 +1772,8 @@
         "access": "Open weights",
         "score": 143.47,
         "low": 141.16,
-        "high": 145.49
+        "high": 145.49,
+        "country": "China"
       },
       {
         "id": "eci-4a1d04970ebf8260",
@@ -1670,7 +1783,8 @@
         "access": "Other",
         "score": 143.28,
         "low": 140.98,
-        "high": 144.78
+        "high": 144.78,
+        "country": "China"
       },
       {
         "id": "eci-0670e890b1dcde03",
@@ -1680,7 +1794,8 @@
         "access": "Closed weights",
         "score": 143.0,
         "low": 139.77,
-        "high": 146.62
+        "high": 146.62,
+        "country": "United States of America"
       },
       {
         "id": "eci-471bcce32a67cdda",
@@ -1690,7 +1805,8 @@
         "access": "Closed weights",
         "score": 142.68,
         "low": 140.58,
-        "high": 144.11
+        "high": 144.11,
+        "country": "United States of America"
       },
       {
         "id": "eci-e82dbaef8d8c3cd7",
@@ -1700,7 +1816,8 @@
         "access": "Open weights",
         "score": 142.68,
         "low": 140.28,
-        "high": 144.75
+        "high": 144.75,
+        "country": "United States of America"
       },
       {
         "id": "eci-9a321acccb2fa475",
@@ -1710,7 +1827,8 @@
         "access": "Open weights",
         "score": 142.54,
         "low": 140.22,
-        "high": 144.87
+        "high": 144.87,
+        "country": "China"
       },
       {
         "id": "eci-f95116fec4f5ec7a",
@@ -1720,7 +1838,8 @@
         "access": "Closed weights",
         "score": 142.52,
         "low": 139.99,
-        "high": 145.21
+        "high": 145.21,
+        "country": "United States of America"
       },
       {
         "id": "eci-ef9fbc377c0b0667",
@@ -1730,7 +1849,8 @@
         "access": "Closed weights",
         "score": 142.48,
         "low": 139.15,
-        "high": 145.14
+        "high": 145.14,
+        "country": "United States of America"
       },
       {
         "id": "eci-c5c2fd2366e39d66",
@@ -1740,7 +1860,8 @@
         "access": "Closed weights",
         "score": 142.44,
         "low": 140.12,
-        "high": 144.73
+        "high": 144.73,
+        "country": "China"
       },
       {
         "id": "eci-aae9e84e04d199a6",
@@ -1750,7 +1871,8 @@
         "access": "Closed weights",
         "score": 142.39,
         "low": 139.47,
-        "high": 144.03
+        "high": 144.03,
+        "country": "United States of America"
       },
       {
         "id": "eci-4b1189a696e8e9cc",
@@ -1760,7 +1882,8 @@
         "access": "Open weights",
         "score": 141.87,
         "low": 138.55,
-        "high": 143.58
+        "high": 143.58,
+        "country": "United States of America"
       },
       {
         "id": "eci-2352da7280f1decc",
@@ -1770,7 +1893,8 @@
         "access": "Closed weights",
         "score": 141.87,
         "low": 139.83,
-        "high": 143.14
+        "high": 143.14,
+        "country": "United States of America"
       },
       {
         "id": "eci-66aeb8c46b2fd22a",
@@ -1780,7 +1904,8 @@
         "access": "Closed weights",
         "score": 141.69,
         "low": 138.85,
-        "high": 143.08
+        "high": 143.08,
+        "country": "United States of America"
       },
       {
         "id": "eci-8cd358cb16e966de",
@@ -1790,7 +1915,8 @@
         "access": "Closed weights",
         "score": 141.55,
         "low": 139.51,
-        "high": 142.98
+        "high": 142.98,
+        "country": "United States of America"
       },
       {
         "id": "eci-5ae4de4ed6faf969",
@@ -1800,7 +1926,8 @@
         "access": "Open weights",
         "score": 141.3,
         "low": 139.17,
-        "high": 142.91
+        "high": 142.91,
+        "country": "China"
       },
       {
         "id": "eci-ed5f601030c3af10",
@@ -1810,7 +1937,8 @@
         "access": "Open weights",
         "score": 141.29,
         "low": 138.78,
-        "high": 143.1
+        "high": 143.1,
+        "country": "France"
       },
       {
         "id": "eci-76e3dba66433c22f",
@@ -1820,7 +1948,8 @@
         "access": "Closed weights",
         "score": 141.17,
         "low": 139.01,
-        "high": 142.68
+        "high": 142.68,
+        "country": "United States of America"
       },
       {
         "id": "eci-e9cb69d903bbe3d3",
@@ -1830,7 +1959,8 @@
         "access": "Open weights",
         "score": 140.79,
         "low": 134.21,
-        "high": 142.64
+        "high": 142.64,
+        "country": "China"
       },
       {
         "id": "eci-c33b388f7058f505",
@@ -1840,7 +1970,8 @@
         "access": "Closed weights",
         "score": 140.53,
         "low": 138.18,
-        "high": 141.98
+        "high": 141.98,
+        "country": "United States of America"
       },
       {
         "id": "eci-dfc325305b0caf80",
@@ -1850,7 +1981,8 @@
         "access": "Closed weights",
         "score": 140.36,
         "low": 137.47,
-        "high": 141.8
+        "high": 141.8,
+        "country": "United States of America"
       },
       {
         "id": "eci-f5f807e1d0c7e936",
@@ -1860,7 +1992,8 @@
         "access": "Closed weights",
         "score": 140.36,
         "low": 137.67,
-        "high": 142.02
+        "high": 142.02,
+        "country": "United States of America"
       },
       {
         "id": "eci-75ba797cc1823241",
@@ -1870,7 +2003,8 @@
         "access": "Open weights",
         "score": 140.12,
         "low": 136.65,
-        "high": 142.03
+        "high": 142.03,
+        "country": "China"
       },
       {
         "id": "eci-82386b4b368b0ab8",
@@ -1880,7 +2014,8 @@
         "access": "Open weights",
         "score": 140.11,
         "low": 135.39,
-        "high": 142.42
+        "high": 142.42,
+        "country": "United States of America"
       },
       {
         "id": "eci-7d564e0e1938a86b",
@@ -1890,7 +2025,8 @@
         "access": "Closed weights",
         "score": 139.98,
         "low": 136.37,
-        "high": 142.05
+        "high": 142.05,
+        "country": "United States of America"
       },
       {
         "id": "eci-cd40178d5b8c265b",
@@ -1900,7 +2036,8 @@
         "access": "Open weights",
         "score": 139.93,
         "low": 135.79,
-        "high": 143.19
+        "high": 143.19,
+        "country": "China"
       },
       {
         "id": "eci-c2b78fd7004645be",
@@ -1910,7 +2047,8 @@
         "access": "Open weights",
         "score": 139.65,
         "low": 135.15,
-        "high": 141.06
+        "high": 141.06,
+        "country": "China"
       },
       {
         "id": "eci-3e3c04992a0d23a2",
@@ -1920,7 +2058,8 @@
         "access": "Open weights",
         "score": 139.45,
         "low": 136.59,
-        "high": 141.07
+        "high": 141.07,
+        "country": "China"
       },
       {
         "id": "eci-bc471781684e9030",
@@ -1930,7 +2069,8 @@
         "access": "Closed weights",
         "score": 139.4,
         "low": 134.43,
-        "high": 141.52
+        "high": 141.52,
+        "country": "United States of America"
       },
       {
         "id": "eci-9753a222f0ee7079",
@@ -1940,7 +2080,8 @@
         "access": "Open weights",
         "score": 139.36,
         "low": 135.59,
-        "high": 140.99
+        "high": 140.99,
+        "country": "China"
       },
       {
         "id": "eci-f7d79f342a93114c",
@@ -1950,7 +2091,8 @@
         "access": "Open weights",
         "score": 138.98,
         "low": 136.62,
-        "high": 140.38
+        "high": 140.38,
+        "country": "China"
       },
       {
         "id": "eci-738cb185a03b5ed2",
@@ -1960,7 +2102,8 @@
         "access": "Open weights",
         "score": 138.93,
         "low": 136.19,
-        "high": 140.82
+        "high": 140.82,
+        "country": "China"
       },
       {
         "id": "eci-27af7c76b6457b76",
@@ -1970,7 +2113,8 @@
         "access": "Open weights",
         "score": 138.52,
         "low": 135.14,
-        "high": 140.32
+        "high": 140.32,
+        "country": "China"
       },
       {
         "id": "eci-bf105335be0e76a7",
@@ -1980,7 +2124,8 @@
         "access": "Closed weights",
         "score": 138.3,
         "low": 135.61,
-        "high": 139.8
+        "high": 139.8,
+        "country": "United States of America"
       },
       {
         "id": "eci-3efd78bbd3d35b21",
@@ -1990,7 +2135,8 @@
         "access": "Open weights",
         "score": 138.25,
         "low": 133.68,
-        "high": 139.84
+        "high": 139.84,
+        "country": "China"
       },
       {
         "id": "eci-ca1fe4e9c1499d82",
@@ -2000,7 +2146,8 @@
         "access": "Open weights",
         "score": 137.81,
         "low": 132.89,
-        "high": 139.56
+        "high": 139.56,
+        "country": "United States of America"
       },
       {
         "id": "eci-4ff8980a69dd2fb9",
@@ -2010,7 +2157,8 @@
         "access": "Open weights",
         "score": 137.6,
         "low": 133.05,
-        "high": 141.72
+        "high": 141.72,
+        "country": "China"
       },
       {
         "id": "eci-0ba9009f78dccd01",
@@ -2020,7 +2168,8 @@
         "access": "Open weights",
         "score": 137.43,
         "low": 126.69,
-        "high": 138.7
+        "high": 138.7,
+        "country": "China"
       },
       {
         "id": "eci-4b9dfc020070b400",
@@ -2030,7 +2179,8 @@
         "access": "Open weights",
         "score": 137.43,
         "low": 132.32,
-        "high": 139.54
+        "high": 139.54,
+        "country": "China"
       },
       {
         "id": "eci-cab28bc8feb26807",
@@ -2040,7 +2190,8 @@
         "access": "Closed weights",
         "score": 136.8,
         "low": 134.21,
-        "high": 138.54
+        "high": 138.54,
+        "country": "United States of America"
       },
       {
         "id": "eci-e48e11ec92338950",
@@ -2050,7 +2201,8 @@
         "access": "Closed weights",
         "score": 136.75,
         "low": 133.97,
-        "high": 138.6
+        "high": 138.6,
+        "country": "United States of America"
       },
       {
         "id": "eci-155aaf9a3362ee55",
@@ -2060,7 +2212,8 @@
         "access": "Open weights",
         "score": 136.19,
         "low": 130.82,
-        "high": 138.76
+        "high": 138.76,
+        "country": "China"
       },
       {
         "id": "eci-39aa6615487815b2",
@@ -2070,7 +2223,8 @@
         "access": "Open weights",
         "score": 136.18,
         "low": 129.58,
-        "high": 138.07
+        "high": 138.07,
+        "country": "China"
       },
       {
         "id": "eci-e32033b21b810217",
@@ -2080,7 +2234,8 @@
         "access": "Open weights",
         "score": 135.95,
         "low": 132.46,
-        "high": 138.04
+        "high": 138.04,
+        "country": "China"
       },
       {
         "id": "eci-973c6eb0e0af7b3d",
@@ -2090,7 +2245,8 @@
         "access": "Closed weights",
         "score": 135.83,
         "low": 132.4,
-        "high": 137.38
+        "high": 137.38,
+        "country": "United States of America"
       },
       {
         "id": "eci-08683bbc96ba70cd",
@@ -2100,7 +2256,8 @@
         "access": "Open weights",
         "score": 135.43,
         "low": 127.36,
-        "high": 138.05
+        "high": 138.05,
+        "country": "China"
       },
       {
         "id": "eci-07972d0694ef91cd",
@@ -2110,7 +2267,8 @@
         "access": "Closed weights",
         "score": 135.37,
         "low": 130.11,
-        "high": 137.99
+        "high": 137.99,
+        "country": "United States of America"
       },
       {
         "id": "eci-5e586978f0322cd7",
@@ -2120,7 +2278,8 @@
         "access": "Closed weights",
         "score": 135.06,
         "low": 131.28,
-        "high": 136.85
+        "high": 136.85,
+        "country": "United States of America"
       },
       {
         "id": "eci-758431785b770f34",
@@ -2130,7 +2289,8 @@
         "access": "Closed weights",
         "score": 135.02,
         "low": 131.5,
-        "high": 136.71
+        "high": 136.71,
+        "country": "United States of America"
       },
       {
         "id": "eci-d6bbfa6dd181a9fd",
@@ -2140,7 +2300,8 @@
         "access": "Closed weights",
         "score": 134.79,
         "low": 131.47,
-        "high": 138.65
+        "high": 138.65,
+        "country": "United States of America"
       },
       {
         "id": "eci-331b0eded1193c4f",
@@ -2150,7 +2311,8 @@
         "access": "Closed weights",
         "score": 134.71,
         "low": 124.35,
-        "high": 136.59
+        "high": 136.59,
+        "country": "United States of America"
       },
       {
         "id": "eci-6399058e427b9fdb",
@@ -2160,7 +2322,8 @@
         "access": "Closed weights",
         "score": 134.69,
         "low": 131.46,
-        "high": 136.36
+        "high": 136.36,
+        "country": "United States of America"
       },
       {
         "id": "eci-a81641cc350f288c",
@@ -2170,7 +2333,8 @@
         "access": "Closed weights",
         "score": 134.08,
         "low": 130.69,
-        "high": 135.57
+        "high": 135.57,
+        "country": "France"
       },
       {
         "id": "eci-34b0b5ba4f5f8428",
@@ -2180,7 +2344,8 @@
         "access": "Closed weights",
         "score": 133.93,
         "low": 130.4,
-        "high": 136.41
+        "high": 136.41,
+        "country": "United States of America"
       },
       {
         "id": "eci-f7869767be09bb48",
@@ -2190,7 +2355,8 @@
         "access": "Closed weights",
         "score": 133.55,
         "low": 128.63,
-        "high": 137.61
+        "high": 137.61,
+        "country": "United States of America"
       },
       {
         "id": "eci-ec57e2350b07a0f8",
@@ -2200,7 +2366,8 @@
         "access": "Open weights",
         "score": 133.19,
         "low": 129.42,
-        "high": 134.52
+        "high": 134.52,
+        "country": "France"
       },
       {
         "id": "eci-77b7de2e585e927c",
@@ -2210,7 +2377,8 @@
         "access": "Closed weights",
         "score": 132.54,
         "low": 128.45,
-        "high": 135.82
+        "high": 135.82,
+        "country": "China"
       },
       {
         "id": "eci-4973eaa8e3ba92b1",
@@ -2220,7 +2388,8 @@
         "access": "Open weights",
         "score": 132.35,
         "low": 128.05,
-        "high": 135.89
+        "high": 135.89,
+        "country": "China"
       },
       {
         "id": "eci-3ec769983e05c017",
@@ -2230,7 +2399,8 @@
         "access": "Open weights",
         "score": 132.2,
         "low": 128.31,
-        "high": 134.35
+        "high": 134.35,
+        "country": "United States of America"
       },
       {
         "id": "eci-d39a70767b530992",
@@ -2240,7 +2410,8 @@
         "access": "Open weights",
         "score": 131.74,
         "low": 127.19,
-        "high": 133.73
+        "high": 133.73,
+        "country": "France"
       },
       {
         "id": "eci-3e803ec45306fa77",
@@ -2250,7 +2421,8 @@
         "access": "Closed weights",
         "score": 131.73,
         "low": 128.35,
-        "high": 133.24
+        "high": 133.24,
+        "country": "United States of America"
       },
       {
         "id": "eci-71ad15f77cb927e7",
@@ -2260,7 +2432,8 @@
         "access": "Open weights",
         "score": 131.41,
         "low": 126.27,
-        "high": 133.53
+        "high": 133.53,
+        "country": "France"
       },
       {
         "id": "eci-bf47fc8162cff777",
@@ -2270,7 +2443,8 @@
         "access": "Closed weights",
         "score": 130.48,
         "low": 126.47,
-        "high": 132.12
+        "high": 132.12,
+        "country": "United States of America"
       },
       {
         "id": "eci-1cec437ecaa9e7f3",
@@ -2280,7 +2454,8 @@
         "access": "Open weights",
         "score": 130.42,
         "low": 125.5,
-        "high": 132.1
+        "high": 132.1,
+        "country": "United States of America"
       },
       {
         "id": "eci-563fecda77be9306",
@@ -2290,7 +2465,8 @@
         "access": "Open weights",
         "score": 130.04,
         "low": 124.64,
-        "high": 132.17
+        "high": 132.17,
+        "country": "United States of America"
       },
       {
         "id": "eci-80b515d484dfc642",
@@ -2300,7 +2476,8 @@
         "access": "Closed weights",
         "score": 130.0,
         "low": null,
-        "high": null
+        "high": null,
+        "country": "United States of America"
       },
       {
         "id": "eci-64bba10c932518b2",
@@ -2310,7 +2487,8 @@
         "access": "Open weights",
         "score": 129.64,
         "low": 124.84,
-        "high": 131.45
+        "high": 131.45,
+        "country": "United States of America"
       },
       {
         "id": "eci-9d68db3d0b40a21b",
@@ -2320,7 +2498,8 @@
         "access": "Closed weights",
         "score": 129.62,
         "low": 124.04,
-        "high": 132.0
+        "high": 132.0,
+        "country": "United States of America"
       },
       {
         "id": "eci-575da255007bd21d",
@@ -2330,7 +2509,8 @@
         "access": "Closed weights",
         "score": 129.36,
         "low": 124.03,
-        "high": 131.09
+        "high": 131.09,
+        "country": "United States of America"
       },
       {
         "id": "eci-ef968264b3653fc6",
@@ -2340,7 +2520,8 @@
         "access": "Open weights",
         "score": 129.0,
         "low": 123.98,
-        "high": 130.7
+        "high": 130.7,
+        "country": "China"
       },
       {
         "id": "eci-90d68f050e989758",
@@ -2350,7 +2531,8 @@
         "access": "Closed weights",
         "score": 128.97,
         "low": 124.43,
-        "high": 131.59
+        "high": 131.59,
+        "country": "United States of America"
       },
       {
         "id": "eci-af53a6c94c4fb6e1",
@@ -2360,7 +2542,8 @@
         "access": "Closed weights",
         "score": 128.81,
         "low": 124.92,
-        "high": 130.93
+        "high": 130.93,
+        "country": "United States of America"
       },
       {
         "id": "eci-4342c29a8d74018b",
@@ -2370,7 +2553,8 @@
         "access": "Closed weights",
         "score": 128.77,
         "low": 124.39,
-        "high": 130.6
+        "high": 130.6,
+        "country": "United States of America"
       },
       {
         "id": "eci-d11d79df11a495c7",
@@ -2380,7 +2564,8 @@
         "access": "Open weights",
         "score": 128.75,
         "low": 124.39,
-        "high": 130.57
+        "high": 130.57,
+        "country": "United States of America"
       },
       {
         "id": "eci-5ae14ecd7c1956c8",
@@ -2390,7 +2575,8 @@
         "access": "Open weights",
         "score": 128.52,
         "low": 123.16,
-        "high": 130.09
+        "high": 130.09,
+        "country": "China"
       },
       {
         "id": "eci-3111275532134560",
@@ -2400,7 +2586,8 @@
         "access": "Open weights",
         "score": 128.52,
         "low": 124.19,
-        "high": 130.55
+        "high": 130.55,
+        "country": "France"
       },
       {
         "id": "eci-ed537354e0d3186f",
@@ -2410,7 +2597,8 @@
         "access": "Open weights",
         "score": 127.54,
         "low": 123.07,
-        "high": 129.64
+        "high": 129.64,
+        "country": "France"
       },
       {
         "id": "eci-247df6a9b3f5c768",
@@ -2420,7 +2608,8 @@
         "access": "Open weights",
         "score": 127.48,
         "low": 122.92,
-        "high": 129.28
+        "high": 129.28,
+        "country": "France"
       },
       {
         "id": "eci-baf2fc4d8a416cb5",
@@ -2430,7 +2619,8 @@
         "access": "Open weights",
         "score": 127.32,
         "low": 122.68,
-        "high": 129.67
+        "high": 129.67,
+        "country": "United States of America"
       },
       {
         "id": "eci-71939200cbec1432",
@@ -2440,7 +2630,8 @@
         "access": "Closed weights",
         "score": 127.25,
         "low": 122.46,
-        "high": 128.93
+        "high": 128.93,
+        "country": "United States of America"
       },
       {
         "id": "eci-62b10cda26959338",
@@ -2450,7 +2641,8 @@
         "access": "Closed weights",
         "score": 127.15,
         "low": 121.02,
-        "high": 129.64
+        "high": 129.64,
+        "country": "United States of America"
       },
       {
         "id": "eci-14fe4e81e47796cd",
@@ -2460,7 +2652,8 @@
         "access": "Open weights",
         "score": 127.07,
         "low": 122.41,
-        "high": 129.01
+        "high": 129.01,
+        "country": "France"
       },
       {
         "id": "eci-84f682a9ff8f0a66",
@@ -2470,7 +2663,8 @@
         "access": "Closed weights",
         "score": 126.91,
         "low": 121.74,
-        "high": 130.11
+        "high": 130.11,
+        "country": "United States of America"
       },
       {
         "id": "eci-743ff0bb4499a890",
@@ -2480,7 +2674,8 @@
         "access": "Closed weights",
         "score": 126.9,
         "low": 122.52,
-        "high": 129.03
+        "high": 129.03,
+        "country": "United States of America"
       },
       {
         "id": "eci-0ced3491fe96b781",
@@ -2490,7 +2685,8 @@
         "access": "Closed weights",
         "score": 126.56,
         "low": 121.2,
-        "high": 128.53
+        "high": 128.53,
+        "country": "United States of America"
       },
       {
         "id": "eci-f318cf0a8b23175d",
@@ -2500,7 +2696,8 @@
         "access": "Closed weights",
         "score": 126.45,
         "low": 121.78,
-        "high": 128.95
+        "high": 128.95,
+        "country": "United States of America"
       },
       {
         "id": "eci-1c7c63fd7bc3b67b",
@@ -2510,7 +2707,8 @@
         "access": "Open weights",
         "score": 125.91,
         "low": 121.1,
-        "high": 128.39
+        "high": 128.39,
+        "country": "United States of America"
       },
       {
         "id": "eci-2037ab2d7119eee5",
@@ -2520,7 +2718,8 @@
         "access": "Closed weights",
         "score": 125.88,
         "low": 120.22,
-        "high": 130.04
+        "high": 130.04,
+        "country": "United States of America"
       },
       {
         "id": "eci-640d4c041bf97bc3",
@@ -2530,7 +2729,8 @@
         "access": "Open weights",
         "score": 125.5,
         "low": 120.49,
-        "high": 127.47
+        "high": 127.47,
+        "country": "United States of America"
       },
       {
         "id": "eci-2b19a0b588ecbd87",
@@ -2540,7 +2740,8 @@
         "access": "Open weights",
         "score": 125.27,
         "low": 119.75,
-        "high": 126.9
+        "high": 126.9,
+        "country": "China"
       },
       {
         "id": "eci-6124dbe437746ae0",
@@ -2550,7 +2751,8 @@
         "access": "Open weights",
         "score": 124.77,
         "low": 118.57,
-        "high": 127.57
+        "high": 127.57,
+        "country": "China"
       },
       {
         "id": "eci-dc9560f03f757378",
@@ -2560,7 +2762,8 @@
         "access": "Closed weights",
         "score": 123.78,
         "low": 107.53,
-        "high": 126.62
+        "high": 126.62,
+        "country": "United States of America"
       },
       {
         "id": "eci-0c9d81f80b1d8e4e",
@@ -2570,7 +2773,8 @@
         "access": "Open weights",
         "score": 123.46,
         "low": 116.21,
-        "high": 128.73
+        "high": 128.73,
+        "country": "United States of America"
       },
       {
         "id": "eci-b5e936131bd11217",
@@ -2580,7 +2784,8 @@
         "access": "Closed weights",
         "score": 123.1,
         "low": 117.72,
-        "high": 126.7
+        "high": 126.7,
+        "country": "United States of America"
       },
       {
         "id": "eci-8c00fe4a42bfde35",
@@ -2590,7 +2795,8 @@
         "access": "Open weights",
         "score": 122.91,
         "low": 117.38,
-        "high": 125.73
+        "high": 125.73,
+        "country": "United States of America"
       },
       {
         "id": "eci-e51f15be5a01fe40",
@@ -2600,7 +2806,8 @@
         "access": "Closed weights",
         "score": 122.57,
         "low": 116.81,
-        "high": 124.7
+        "high": 124.7,
+        "country": "United States of America"
       },
       {
         "id": "eci-573b5fccf7d6f1e8",
@@ -2610,7 +2817,8 @@
         "access": "Open weights",
         "score": 122.05,
         "low": 115.94,
-        "high": 124.18
+        "high": 124.18,
+        "country": "United States of America"
       },
       {
         "id": "eci-f79c7c98dbdc5a9a",
@@ -2620,7 +2828,8 @@
         "access": "Open weights",
         "score": 122.0,
         "low": 115.86,
-        "high": 124.39
+        "high": 124.39,
+        "country": "France"
       },
       {
         "id": "eci-d1b3bb26237a52d5",
@@ -2630,7 +2839,8 @@
         "access": "Closed weights",
         "score": 121.99,
         "low": 114.74,
-        "high": 124.93
+        "high": 124.93,
+        "country": "France"
       },
       {
         "id": "eci-97606524c9a0b918",
@@ -2640,7 +2850,8 @@
         "access": "Open weights",
         "score": 121.8,
         "low": 114.95,
-        "high": 124.24
+        "high": 124.24,
+        "country": "United States of America"
       },
       {
         "id": "eci-144179838c9797f2",
@@ -2650,7 +2861,8 @@
         "access": "Open weights",
         "score": 121.19,
         "low": 115.17,
-        "high": 123.87
+        "high": 123.87,
+        "country": "United States of America"
       },
       {
         "id": "eci-caccf59751b5a2b0",
@@ -2660,7 +2872,8 @@
         "access": "Closed weights",
         "score": 120.68,
         "low": 113.89,
-        "high": 123.5
+        "high": 123.5,
+        "country": "United States of America"
       },
       {
         "id": "eci-63a6b3d8282b7310",
@@ -2670,7 +2883,8 @@
         "access": "Closed weights",
         "score": 120.21,
         "low": 113.43,
-        "high": 122.93
+        "high": 122.93,
+        "country": "United States of America"
       },
       {
         "id": "eci-9dc70fc15725f637",
@@ -2680,7 +2894,8 @@
         "access": "Closed weights",
         "score": 120.09,
         "low": 114.21,
-        "high": 123.8
+        "high": 123.8,
+        "country": "United States of America"
       },
       {
         "id": "eci-0cb7d49d01ffac62",
@@ -2690,7 +2905,8 @@
         "access": "Open weights",
         "score": 119.8,
         "low": 112.44,
-        "high": 122.31
+        "high": 122.31,
+        "country": "United States of America"
       },
       {
         "id": "eci-c933eda95cb870a1",
@@ -2700,7 +2916,8 @@
         "access": "Open weights",
         "score": 119.43,
         "low": 110.31,
-        "high": 125.07
+        "high": 125.07,
+        "country": "China"
       },
       {
         "id": "eci-505064d9efe3613d",
@@ -2710,7 +2927,8 @@
         "access": "Open weights",
         "score": 119.25,
         "low": 110.28,
-        "high": 125.06
+        "high": 125.06,
+        "country": "Canada"
       },
       {
         "id": "eci-177bbe15eaf7dea8",
@@ -2720,7 +2938,8 @@
         "access": "Closed weights",
         "score": 119.22,
         "low": 113.07,
-        "high": 121.92
+        "high": 121.92,
+        "country": "United States of America"
       },
       {
         "id": "eci-bbc2e4a9da389edb",
@@ -2730,7 +2949,8 @@
         "access": "Open weights",
         "score": 118.65,
         "low": 111.96,
-        "high": 121.85
+        "high": 121.85,
+        "country": "France"
       },
       {
         "id": "eci-39efac89f56a745e",
@@ -2740,7 +2960,8 @@
         "access": "Closed weights",
         "score": 118.5,
         "low": 108.73,
-        "high": 121.55
+        "high": 121.55,
+        "country": "United States of America"
       },
       {
         "id": "eci-9d7101d42cd98502",
@@ -2750,7 +2971,8 @@
         "access": "Open weights",
         "score": 118.45,
         "low": 111.07,
-        "high": 121.28
+        "high": 121.28,
+        "country": "China"
       },
       {
         "id": "eci-1f26e2996c013d0f",
@@ -2760,7 +2982,8 @@
         "access": "Open weights",
         "score": 118.4,
         "low": 111.79,
-        "high": 121.15
+        "high": 121.15,
+        "country": "France"
       },
       {
         "id": "eci-ee621a8b8aa7baa0",
@@ -2770,7 +2993,8 @@
         "access": "Closed weights",
         "score": 118.3,
         "low": 111.75,
-        "high": 121.5
+        "high": 121.5,
+        "country": "United States of America"
       },
       {
         "id": "eci-13171917da828fe5",
@@ -2780,7 +3004,8 @@
         "access": "Closed weights",
         "score": 118.06,
         "low": 107.01,
-        "high": 121.85
+        "high": 121.85,
+        "country": "France"
       },
       {
         "id": "eci-419b5a79160e8b0f",
@@ -2790,7 +3015,8 @@
         "access": "Open weights",
         "score": 117.31,
         "low": 108.1,
-        "high": 120.22
+        "high": 120.22,
+        "country": "China"
       },
       {
         "id": "eci-a7ee06797b994a25",
@@ -2800,7 +3026,8 @@
         "access": "Open weights",
         "score": 117.27,
         "low": 109.44,
-        "high": 120.54
+        "high": 120.54,
+        "country": "United States of America"
       },
       {
         "id": "eci-bc077715ff1b36c3",
@@ -2810,7 +3037,8 @@
         "access": "Open weights",
         "score": 117.02,
         "low": 110.39,
-        "high": 120.14
+        "high": 120.14,
+        "country": "United Kingdom"
       },
       {
         "id": "eci-9d0fe7153f940917",
@@ -2820,7 +3048,8 @@
         "access": "Closed weights",
         "score": 116.97,
         "low": 110.31,
-        "high": 119.74
+        "high": 119.74,
+        "country": "United States of America"
       },
       {
         "id": "eci-9811036ef60ac2e8",
@@ -2830,7 +3059,8 @@
         "access": "Open weights",
         "score": 116.51,
         "low": 105.95,
-        "high": 121.71
+        "high": 121.71,
+        "country": "United States of America"
       },
       {
         "id": "eci-93a4a97cb00244a7",
@@ -2840,7 +3070,8 @@
         "access": "Open weights",
         "score": 116.36,
         "low": 108.36,
-        "high": 119.1
+        "high": 119.1,
+        "country": "United States of America"
       },
       {
         "id": "eci-9d7bfeeb7aa5e284",
@@ -2850,7 +3081,8 @@
         "access": "Other",
         "score": 116.3,
         "low": 106.61,
-        "high": 122.34
+        "high": 122.34,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-46f6b2a9b113f9a6",
@@ -2860,7 +3092,8 @@
         "access": "Open weights",
         "score": 115.97,
         "low": 97.45,
-        "high": 123.39
+        "high": 123.39,
+        "country": "United States of America"
       },
       {
         "id": "eci-3acb97256e1b025f",
@@ -2870,7 +3103,8 @@
         "access": "Closed weights",
         "score": 115.62,
         "low": 107.2,
-        "high": 119.14
+        "high": 119.14,
+        "country": "United States of America"
       },
       {
         "id": "eci-bd9e5e4e26753c49",
@@ -2880,7 +3114,8 @@
         "access": "Other",
         "score": 114.9,
         "low": 105.47,
-        "high": 127.71
+        "high": 127.71,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-2fcb99af608f1fb2",
@@ -2890,7 +3125,8 @@
         "access": "Open weights",
         "score": 113.65,
         "low": 106.09,
-        "high": 117.31
+        "high": 117.31,
+        "country": "United States of America"
       },
       {
         "id": "eci-1f62478a719e5aaf",
@@ -2900,7 +3136,8 @@
         "access": "Closed weights",
         "score": 113.21,
         "low": 105.97,
-        "high": 117.89
+        "high": 117.89,
+        "country": "United States of America"
       },
       {
         "id": "eci-4f3305160b282324",
@@ -2910,7 +3147,8 @@
         "access": "Open weights",
         "score": 113.0,
         "low": 101.97,
-        "high": 118.44
+        "high": 118.44,
+        "country": "China"
       },
       {
         "id": "eci-3d811093c1bcf63d",
@@ -2920,7 +3158,8 @@
         "access": "Open weights",
         "score": 112.88,
         "low": 105.14,
-        "high": 117.16
+        "high": 117.16,
+        "country": "China"
       },
       {
         "id": "eci-44d382e718d4669d",
@@ -2930,7 +3169,8 @@
         "access": "Open weights",
         "score": 112.05,
         "low": 103.93,
-        "high": 116.19
+        "high": 116.19,
+        "country": "France"
       },
       {
         "id": "eci-e9879f2b69e6b7a5",
@@ -2940,7 +3180,8 @@
         "access": "Open weights",
         "score": 111.97,
         "low": 104.16,
-        "high": 118.52
+        "high": 118.52,
+        "country": "United Arab Emirates"
       },
       {
         "id": "eci-6618094e80322597",
@@ -2950,7 +3191,8 @@
         "access": "Other",
         "score": 111.92,
         "low": 103.27,
-        "high": 117.01
+        "high": 117.01,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-f86a51caf6d91698",
@@ -2960,7 +3202,8 @@
         "access": "Open weights",
         "score": 111.82,
         "low": 103.19,
-        "high": 116.2
+        "high": 116.2,
+        "country": "United States of America"
       },
       {
         "id": "eci-749e7c831ff00b0f",
@@ -2970,7 +3213,8 @@
         "access": "Open weights",
         "score": 110.55,
         "low": 93.83,
-        "high": 117.03
+        "high": 117.03,
+        "country": "China"
       },
       {
         "id": "eci-ecb654236fd17378",
@@ -2980,7 +3224,8 @@
         "access": "Open weights",
         "score": 109.98,
         "low": 102.15,
-        "high": 114.27
+        "high": 114.27,
+        "country": "United States of America"
       },
       {
         "id": "eci-b65628f3ce4ac7b1",
@@ -2990,7 +3235,8 @@
         "access": "Open weights",
         "score": 109.36,
         "low": 101.39,
-        "high": 115.43
+        "high": 115.43,
+        "country": "United Arab Emirates"
       },
       {
         "id": "eci-7902e4a44b04effd",
@@ -3000,7 +3246,8 @@
         "access": "Open weights",
         "score": 108.81,
         "low": 98.65,
-        "high": 112.44
+        "high": 112.44,
+        "country": "France"
       },
       {
         "id": "eci-7603f5344a4b9ae2",
@@ -3010,7 +3257,8 @@
         "access": "Other",
         "score": 108.68,
         "low": 99.7,
-        "high": 113.87
+        "high": 113.87,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-10b20bd715f214bf",
@@ -3020,7 +3268,8 @@
         "access": "Other",
         "score": 108.08,
         "low": 99.26,
-        "high": 115.99
+        "high": 115.99,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-5b3f58064285f70c",
@@ -3030,7 +3279,8 @@
         "access": "Open weights",
         "score": 107.73,
         "low": 88.55,
-        "high": 113.35
+        "high": 113.35,
+        "country": "United States of America"
       },
       {
         "id": "eci-7a3a9ec3ed42fb89",
@@ -3040,7 +3290,8 @@
         "access": "Other",
         "score": 107.52,
         "low": 94.3,
-        "high": 115.58
+        "high": 115.58,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-f79f2cde4ff1930d",
@@ -3050,7 +3301,8 @@
         "access": "Closed weights",
         "score": 107.49,
         "low": 99.12,
-        "high": 112.96
+        "high": 112.96,
+        "country": "United States of America"
       },
       {
         "id": "eci-760168daa189ab7b",
@@ -3060,7 +3312,8 @@
         "access": "Other",
         "score": 107.39,
         "low": 98.62,
-        "high": 114.57
+        "high": 114.57,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-38f9752e97108ecb",
@@ -3070,7 +3323,8 @@
         "access": "Open weights",
         "score": 107.18,
         "low": 99.0,
-        "high": 112.24
+        "high": 112.24,
+        "country": "United States of America"
       },
       {
         "id": "eci-fb1c30106909d04c",
@@ -3080,7 +3334,8 @@
         "access": "Open weights",
         "score": 106.59,
         "low": 95.55,
-        "high": 112.2
+        "high": 112.2,
+        "country": "China"
       },
       {
         "id": "eci-58b0326930f156bc",
@@ -3090,7 +3345,8 @@
         "access": "Open weights",
         "score": 105.93,
         "low": 96.7,
-        "high": 111.03
+        "high": 111.03,
+        "country": "United States of America"
       },
       {
         "id": "eci-b1ee736f5aa8a741",
@@ -3100,7 +3356,8 @@
         "access": "Other",
         "score": 105.92,
         "low": 97.66,
-        "high": 113.71
+        "high": 113.71,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-90c5926bf154f019",
@@ -3110,7 +3367,8 @@
         "access": "Closed weights",
         "score": 104.94,
         "low": 95.48,
-        "high": 110.32
+        "high": 110.32,
+        "country": "United States of America"
       },
       {
         "id": "eci-1656134874aa21ba",
@@ -3120,7 +3378,8 @@
         "access": "Open weights",
         "score": 104.74,
         "low": 92.95,
-        "high": 111.43
+        "high": 111.43,
+        "country": "United States of America"
       },
       {
         "id": "eci-2b30b1fab5d2c26c",
@@ -3130,7 +3389,8 @@
         "access": "Open weights",
         "score": 104.51,
         "low": 95.54,
-        "high": 110.28
+        "high": 110.28,
+        "country": "China"
       },
       {
         "id": "eci-ba014c89f47a81f2",
@@ -3140,7 +3400,8 @@
         "access": "Open weights",
         "score": 104.18,
         "low": 94.62,
-        "high": 109.74
+        "high": 109.74,
+        "country": "United Arab Emirates"
       },
       {
         "id": "eci-a7cd092f018246f7",
@@ -3150,7 +3411,8 @@
         "access": "Open weights",
         "score": 102.91,
         "low": 91.79,
-        "high": 110.02
+        "high": 110.02,
+        "country": "China"
       },
       {
         "id": "eci-9f0112cacadbf0ce",
@@ -3160,7 +3422,8 @@
         "access": "Open weights",
         "score": 102.71,
         "low": 88.02,
-        "high": 110.25
+        "high": 110.25,
+        "country": "China"
       },
       {
         "id": "eci-0274c1a973d37372",
@@ -3170,7 +3433,8 @@
         "access": "Other",
         "score": 102.58,
         "low": 91.92,
-        "high": 109.22
+        "high": 109.22,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-4292da9d5bb8aff6",
@@ -3180,7 +3444,8 @@
         "access": "Open weights",
         "score": 102.43,
         "low": 91.24,
-        "high": 109.91
+        "high": 109.91,
+        "country": "United States of America"
       },
       {
         "id": "eci-827eea01dd2cf63f",
@@ -3190,7 +3455,8 @@
         "access": "Other",
         "score": 100.55,
         "low": 90.42,
-        "high": 106.13
+        "high": 106.13,
+        "country": "United States of America"
       },
       {
         "id": "eci-861189aefa28c880",
@@ -3200,7 +3466,8 @@
         "access": "Open weights",
         "score": 100.34,
         "low": 90.51,
-        "high": 106.09
+        "high": 106.09,
+        "country": "United States of America"
       },
       {
         "id": "eci-ca4b3ebe6a8d46b6",
@@ -3210,7 +3477,8 @@
         "access": "Open weights",
         "score": 100.26,
         "low": 89.93,
-        "high": 106.41
+        "high": 106.41,
+        "country": "United States of America"
       },
       {
         "id": "eci-7393ec90f90a576f",
@@ -3220,7 +3488,8 @@
         "access": "Open weights",
         "score": 98.72,
         "low": 88.42,
-        "high": 105.23
+        "high": 105.23,
+        "country": "United States of America"
       },
       {
         "id": "eci-d7498cc53a99b044",
@@ -3230,7 +3499,8 @@
         "access": "Other",
         "score": 98.6,
         "low": 83.28,
-        "high": 105.31
+        "high": 105.31,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-d35276ef6d3d52ee",
@@ -3240,7 +3510,8 @@
         "access": "Open weights",
         "score": 96.32,
         "low": 85.32,
-        "high": 103.57
+        "high": 103.57,
+        "country": "United States of America"
       },
       {
         "id": "eci-8e2aa17b027dafde",
@@ -3250,7 +3521,8 @@
         "access": "Open weights",
         "score": 95.95,
         "low": 85.1,
-        "high": 104.4
+        "high": 104.4,
+        "country": "China"
       },
       {
         "id": "eci-b8f80535022f7435",
@@ -3260,7 +3532,8 @@
         "access": "Open weights",
         "score": 95.94,
         "low": 83.94,
-        "high": 102.96
+        "high": 102.96,
+        "country": "China"
       },
       {
         "id": "eci-75ec34af30b3b527",
@@ -3270,7 +3543,8 @@
         "access": "Open weights",
         "score": 94.7,
         "low": 83.52,
-        "high": 101.96
+        "high": 101.96,
+        "country": "United Arab Emirates"
       },
       {
         "id": "eci-bb051df20f0935ee",
@@ -3280,7 +3554,8 @@
         "access": "Other",
         "score": 94.46,
         "low": 81.41,
-        "high": 102.8
+        "high": 102.8,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-4fdefbc7eab890f5",
@@ -3290,7 +3565,8 @@
         "access": "Other",
         "score": 94.26,
         "low": 80.79,
-        "high": 102.31
+        "high": 102.31,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-68c7ec9e25fd52d0",
@@ -3300,7 +3576,8 @@
         "access": "Open weights",
         "score": 94.19,
         "low": 81.83,
-        "high": 101.65
+        "high": 101.65,
+        "country": "United States of America"
       },
       {
         "id": "eci-0010a3a7460bc4dc",
@@ -3310,7 +3587,8 @@
         "access": "Open weights",
         "score": 93.8,
         "low": 82.78,
-        "high": 100.32
+        "high": 100.32,
+        "country": "United States of America"
       },
       {
         "id": "eci-595559ed5a63f61f",
@@ -3320,7 +3598,8 @@
         "access": "Open weights",
         "score": 93.15,
         "low": 77.74,
-        "high": 101.69
+        "high": 101.69,
+        "country": "United States of America"
       },
       {
         "id": "eci-e5ac7fab22af9746",
@@ -3330,7 +3609,8 @@
         "access": "Open weights",
         "score": 92.98,
         "low": 82.08,
-        "high": 100.15
+        "high": 100.15,
+        "country": "United States of America"
       },
       {
         "id": "eci-df316c8dc10c9ded",
@@ -3340,7 +3620,8 @@
         "access": "Other",
         "score": 92.51,
         "low": 70.92,
-        "high": 100.95
+        "high": 100.95,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-25e2b262703e066b",
@@ -3350,7 +3631,8 @@
         "access": "Other",
         "score": 91.21,
         "low": 79.11,
-        "high": 99.45
+        "high": 99.45,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-d2badc884007f87e",
@@ -3360,7 +3642,8 @@
         "access": "Open weights",
         "score": 91.08,
         "low": 68.51,
-        "high": 100.38
+        "high": 100.38,
+        "country": "United States of America"
       },
       {
         "id": "eci-ebcc2fda5ab45d16",
@@ -3370,7 +3653,8 @@
         "access": "Open weights",
         "score": 90.01,
         "low": 77.3,
-        "high": 98.98
+        "high": 98.98,
+        "country": "China"
       },
       {
         "id": "eci-5065688298781eba",
@@ -3380,7 +3664,8 @@
         "access": "Other",
         "score": 89.96,
         "low": 76.67,
-        "high": 98.05
+        "high": 98.05,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-ab0e32e9f03caaa4",
@@ -3390,7 +3675,8 @@
         "access": "Open weights",
         "score": 89.2,
         "low": 75.7,
-        "high": 97.11
+        "high": 97.11,
+        "country": "United States of America"
       },
       {
         "id": "eci-64cb0e9fa7bc274f",
@@ -3400,7 +3686,8 @@
         "access": "Open weights",
         "score": 89.15,
         "low": 75.47,
-        "high": 97.29
+        "high": 97.29,
+        "country": "China"
       },
       {
         "id": "eci-1a6659c7e5bef263",
@@ -3410,7 +3697,8 @@
         "access": "Open weights",
         "score": 88.28,
         "low": 73.61,
-        "high": 97.17
+        "high": 97.17,
+        "country": "United States of America"
       },
       {
         "id": "eci-484e76a5e3bd5876",
@@ -3420,7 +3708,8 @@
         "access": "Other",
         "score": 87.66,
         "low": 62.09,
-        "high": 99.7
+        "high": 99.7,
+        "country": "Not listed by Epoch"
       },
       {
         "id": "eci-01fc9fa0f3066840",
@@ -3430,7 +3719,8 @@
         "access": "Open weights",
         "score": 82.68,
         "low": 67.57,
-        "high": 91.55
+        "high": 91.55,
+        "country": "United States of America"
       },
       {
         "id": "eci-18efb43a3c74e6b9",
@@ -3440,7 +3730,8 @@
         "access": "Open weights",
         "score": 62.73,
         "low": 46.12,
-        "high": 76.59
+        "high": 76.59,
+        "country": "China"
       },
       {
         "id": "eci-db9ae694e33701d4",
@@ -3450,7 +3741,8 @@
         "access": "Other",
         "score": 54.83,
         "low": 31.39,
-        "high": 72.75
+        "high": 72.75,
+        "country": "Not listed by Epoch"
       }
     ]
   }
