@@ -163,4 +163,100 @@ class NoteTests(unittest.TestCase):
             self.assertNotEqual(event['id'],previous['id'])
             self.assertTrue(all('Reviewed operating guidance' in call.args[1] for call in model.call_args_list))
 
+class EvidenceRuleTests(unittest.TestCase):
+    """The runner tells the model the validator rules and snaps quotes to source bytes."""
+    def setUp(self):
+        self.source={'id':'test-source','url':'https://example.org/ai-report','layers':['models'],'publisher':'Research Lab','published':'2026-03-05'}
+        self.run={'model_calls':0}
+        self.accept={'verdicts':[{'index':0,'supported':True,'reason':'Direct support'}]}
+    def note(self,**over):
+        c={'title':'A model release','summary':'The lab released 3 open models for research.','layer':'models','kind':'Company announcement','evidence':'The lab released 3 open models for research.'}
+        c.update(over);return c
+    def test_publication_year_is_allowed_outside_the_excerpt(self):
+        c=self.note(summary='In 2026 the lab released 3 open models for research.')
+        with tempfile.TemporaryDirectory() as tmp,patch.object(research,'LOCAL',Path(tmp)),patch.object(research,'ollama',side_effect=[{'notes':[c]},self.accept]):
+            self.assertIsNotNone(research.extract_note({},self.source,c['evidence'],[],self.run,[]))
+    def test_other_years_outside_the_excerpt_are_still_quarantined(self):
+        c=self.note(summary='In 2025 the lab released 3 open models for research.');quarantine=[]
+        with patch.object(research,'ollama',return_value={'notes':[c]}):
+            self.assertIsNone(research.extract_note({},self.source,c['evidence'],[],self.run,quarantine))
+        self.assertIn('unsupported number',quarantine[0]['reason'])
+    def test_typographic_drift_is_snapped_to_the_documents_own_bytes(self):
+        document='Waymo’s fleet — “rider‑only” — grew to 2,500 vehicles in 2025.'
+        c=self.note(summary='Waymo says its rider-only fleet grew to 2,500 vehicles in 2025.',evidence='Waymo\'s fleet - "rider-only" - grew to 2,500 vehicles in 2025.',layer='models')
+        with tempfile.TemporaryDirectory() as tmp,patch.object(research,'LOCAL',Path(tmp)),patch.object(research,'ollama',side_effect=[{'notes':[c]},self.accept]):
+            event=research.extract_note({},self.source,document,[],self.run,[])
+            proof=research.load(Path(tmp)/'evidence'/f'{event["id"]}.json')
+        self.assertEqual(proof['evidence'],document)
+        self.assertEqual(event['evidence_sha256'],research.digest(document))
+    def test_both_passes_receive_the_rules_and_the_reviewer_sees_focused_context(self):
+        filler=('Unrelated paragraph about something else entirely.\n'*80)
+        document=filler+'The lab released 3 open models for research.\n'+filler
+        c=self.note()
+        with tempfile.TemporaryDirectory() as tmp,patch.object(research,'LOCAL',Path(tmp)),patch.object(research,'ollama',side_effect=[{'notes':[c]},self.accept]) as model:
+            research.extract_note({'_instructions':'Guide'},self.source,document,[],self.run,[])
+        extraction,review=model.call_args_list
+        packet=json.loads(extraction.args[2])
+        self.assertEqual(packet['evidence_rules'],research.EVIDENCE_RULES);self.assertEqual(packet['source_publication_year'],'2026')
+        self.assertIn(research.SCREENING_RULES,review.args[1])
+        shown=json.loads(review.args[2])['untrusted_document']
+        self.assertIn('The lab released 3 open models for research.',shown);self.assertLess(len(shown),len(document)//2)
+    def test_note_evidence_longer_than_the_cap_is_quarantined(self):
+        long_quote='The lab released 3 open models for research. '*30
+        c=self.note(evidence=long_quote);quarantine=[]
+        with patch.object(research,'ollama',return_value={'notes':[c]}):
+            self.assertIsNone(research.extract_note({},self.source,long_quote,[],self.run,quarantine))
+        self.assertIn('length',quarantine[0]['reason'])
+
+class ContextBudgetTests(unittest.TestCase):
+    config={'ollama_url':'http://127.0.0.1:11434','model':'m','model_timeout_seconds':1}
+    def test_default_context_covers_measured_prompts(self):
+        self.assertEqual(research.GENERATION['num_ctx'],32768)
+        self.assertGreater(research.prompt_budget(research.GENERATION),80000)
+    def test_oversized_prompt_is_refused_before_any_network_call(self):
+        with patch.object(research,'loaded_context',return_value=None),patch.object(research,'build_opener') as opener:
+            with self.assertRaisesRegex(ValueError,'context budget'):research.ollama(self.config,'x'*200000,'y',{})
+            opener.assert_not_called()
+    def test_smaller_loaded_context_fails_closed(self):
+        with patch.object(research,'loaded_context',return_value=16384),patch.object(research,'build_opener') as opener:
+            with self.assertRaisesRegex(ValueError,'loaded with a 16384'):research.ollama(self.config,'s','p',{})
+            opener.assert_not_called()
+    def test_unapproved_settings_rejected(self):
+        for settings in [dict(research.GENERATION,num_ctx=8192),dict(research.GENERATION,temperature=0.2),dict(research.GENERATION,think=True)]:
+            with self.subTest(settings=settings),patch.object(research,'loaded_context',return_value=None):
+                with self.assertRaisesRegex(ValueError,'Unapproved'):research.ollama(dict(self.config,_generation_settings=settings),'s','p',{})
+    def test_document_window_shrinks_to_fit_the_prompt(self):
+        self.assertEqual(research.document_budget({'_instructions':'i'*40000,'_coverage':'c'*6000},6000),24000)
+        smaller=research.document_budget({'_instructions':'i'*40000,'_coverage':'c'*6000,'_generation_settings':dict(research.GENERATION,num_ctx=16384)},6000)
+        self.assertEqual(smaller,4000)
+    def test_loaded_context_reads_api_ps(self):
+        class Response:
+            def __init__(self,body):self.body=body
+            def read(self,n=None):return self.body
+            def __enter__(self):return self
+            def __exit__(self,*a):return False
+        body=json.dumps({'models':[{'model':'m','context_length':65536}]}).encode()
+        opener=type('Opener',(),{'open':lambda self,req,timeout=None:Response(body)})()
+        research._LOADED.clear()
+        with patch.object(research,'build_opener',return_value=opener):
+            self.assertEqual(research.loaded_context(self.config),65536)
+        research._LOADED.clear()
+
+class DatelineTests(unittest.TestCase):
+    def test_printed_dates_are_read_never_guessed(self):
+        self.assertEqual(research.dateline('9 October 2024 The Royal Swedish Academy of Sciences has decided'),'2024-10-09')
+        self.assertEqual(research.dateline('Published February 2, 2026 · Waymo raised a round.'),'2026-02-02')
+        self.assertEqual(research.dateline('Updated 2026-09-01 by the team'),'2026-09-01')
+        self.assertIsNone(research.dateline('No date anywhere in this text, only the year 2026.'))
+        self.assertIsNone(research.dateline('February 30, 2026 is not a date'))
+        self.assertIsNone(research.dateline('January 1, 2999 is in the future'))
+        self.assertIsNone(research.dateline(('x'*700)+' January 5, 2026 buried too deep'))
+
+class ChildCoverageTests(unittest.TestCase):
+    def test_discovered_page_inherits_parent_coverage_context(self):
+        parent={'id':'claude-current-api-pricing'}
+        child={'id':'discovered-0123456789abcdef','parent_source':'claude-current-api-pricing'}
+        self.assertEqual(research.coverage_context(ROOT,child),research.coverage_context(ROOT,parent))
+        self.assertNotEqual(research.coverage_context(ROOT,child),'{}')
+
 if __name__=='__main__':unittest.main()

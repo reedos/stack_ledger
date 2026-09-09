@@ -52,6 +52,8 @@ Configuration lives in [`research/runtime.json`](research/runtime.json):
 - Scheduler: OpenClaw, **01:00 America/Los_Angeles daily, researching through 07:00**, following Pacific daylight-saving changes.
 - Hardware: Ryzen 9 9950X3D, RTX 5090, 64 GB DDR5 (owner-provided configuration).
 - At most 24 documents, one discovered link per approved source page, bounded context, bounded generation and network timeouts. Unchanged successfully screened documents reuse their recorded content hash.
+- Generation requests a 32,768-token context. The runner refuses a prompt that would not fit, shrinks the document window to fit first, and fails closed if `/api/ps` shows the model already loaded with a smaller context by another process. Measured prompts reached 16k–20k tokens under the earlier 16,384 setting and survived only because the keep-alive had loaded the model larger.
+- `python scripts/replay_quarantine.py` re-runs retained quarantines through the current deterministic evidence checks without any model call, to measure validator changes before a live session.
 
 The machine must be awake, with Ollama and the OpenClaw gateway running, and GitHub credentials available to the account running OpenClaw. This project does not change your other OpenClaw jobs or deliver messages to chat channels. After a missed or interrupted schedule, use the manual command below; do not assume a missed run will be replayed.
 

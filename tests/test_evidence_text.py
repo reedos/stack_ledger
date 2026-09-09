@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, coverage
+from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, coverage, fold, locate, locate_in_windows, focus_text
 from research import numeric_support
 from document_formats import as_html, CollectionGap
 
@@ -18,6 +18,40 @@ class EvidenceTextTests(unittest.TestCase):
     def test_never_accept_partial_numbers_or_scale(self):
         for value,text in [(12,'112'),(12,'12.5'),(2,'1.2.3'),(100,'H100'),(123,'123,45'),(45,'123,45'),(5,'0.5'),(2000,'2 thousand'),(1,'1,234')]:
             with self.subTest(text=text):self.assertFalse(numeric_support(value,text))
+
+    def test_glued_unit_letters_count_as_the_number_without_scaling(self):
+        # Last session quarantined "$2B ARR in 2023" against value 2 in a USD billion metric.
+        for value,text in [(2,'$2B ARR in 2023'),(20,'$20B+ in 2025'),(500,'a 500MW campus'),(65,'65k wafers'),(1.5,'1.5GW of capacity'),(2048,'2,048 I/O terminals')]:
+            with self.subTest(text=text):self.assertTrue(numeric_support(value,text))
+        for value,text in [(2000000000,'$2B'),(2000,'2k'),(100,'H100'),(200,'GB200'),(12,'12.5'),(45,'123,45')]:
+            with self.subTest(text=text):self.assertFalse(numeric_support(value,text))
+
+    def test_typographic_variants_locate_the_documents_own_text(self):
+        doc='Intro.\nWaymo’s fleet — “rider‑only” — grew to 2,500 vehicles.\nTail.'
+        quote='Waymo\'s fleet - "rider-only" - grew to 2,500 vehicles.'
+        found=locate(doc,quote)
+        self.assertEqual(found,'Waymo’s fleet — “rider‑only” — grew to 2,500 vehicles.')
+        self.assertIn(found,doc)
+        windows=select_windows(doc,'',18000)
+        self.assertEqual(locate_in_windows(windows,quote),found)
+        self.assertTrue(contains_evidence(windows,quote))
+        self.assertEqual(fold('“A” – B…'),'"A" - B...')
+
+    def test_near_match_snaps_to_source_but_stitched_passages_do_not(self):
+        para='The company reported 550 employees on site as of June 23, 2026, and said hiring would continue through the year.'
+        other='Separately, the operator said 1,200 construction workers were on site at peak in 2025.'
+        doc=('Filler sentence about something else here.\n'*40)+para+'\n'+('Other filler text follows in the document.\n'*40)+other
+        self.assertEqual(locate(doc,para.replace(' on site','')),para)
+        self.assertIsNone(locate(doc,para[:60]+' '+other[-50:]))
+        self.assertIsNone(locate(doc,'Completely different text that never appeared in the document at all.'))
+        self.assertIsNone(locate(doc,''))
+
+    def test_focus_text_surrounds_the_located_evidence(self):
+        doc=('a'*3000)+'\nKey sentence with 42 units.\n'+('b'*3000)
+        windows=select_windows(doc,'',18000)
+        focused=focus_text(windows,'Key sentence with 42 units.',margin=100)
+        self.assertIn('Key sentence with 42 units.',focused)
+        self.assertLess(len(focused),400)
 
     def test_relevant_evidence_after_old_cutoff_is_visible(self):
         text=('General introduction.\n'*1100)+'\nGeothermal commissioning reached 120 MW after grid connection.\n'+('Other material.\n'*1500)
