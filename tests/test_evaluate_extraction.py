@@ -9,6 +9,7 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import research
 import evaluate_extraction as ee
+from evidence_text import numeric_tokens
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -42,16 +43,16 @@ def canned_ollama(config, system, prompt, schema):
     """A fake model driven purely by schema shape, so it works regardless of call order."""
     keys = set(schema.get('properties', {}))
     payload = json.loads(prompt)
-    if keys == {'observations'}:
+    if 'observations' in keys:
         return {'observations': [{'metric': 'ai-adoption', 'year': 2026, 'period': '2026', 'value': 90,
                                    'upper': None, 'status': 'observation', 'precision': 'eq', 'note': '',
                                    'evidence': 'In 2026, 90 percent of surveyed organizations reported AI use.'}]}
-    if keys == {'notes'}:
+    if 'notes' in keys:
         return {'notes': [{'title': 'ExampleCorp expands data center capacity',
                             'summary': 'ExampleCorp announced plans to expand its data center footprint with new AI infrastructure investment.',
                             'layer': payload['allowed_layers'][0], 'kind': 'Company announcement',
                             'evidence': 'ExampleCorp announced plans to expand its data center footprint with new AI infrastructure investment.'}]}
-    if keys == {'verdicts'}:
+    if 'verdicts' in keys:
         return {'verdicts': [{'index': c['index'], 'numbers_in_evidence': True, 'scope_matches': True,
                                'basis_correct': True, 'attribution_correct': True, 'defect': 'none',
                                'reason': 'Directly supported'} for c in payload['candidates']]}
@@ -214,6 +215,59 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
                 research.extract_observations(self.config, self.source, self.document, self.related, data,
                                                self.metrics, self.sources, run, [], {})
 
+    def test_empty_reason_recorded_in_collection_histogram_and_entry(self):
+        run = {'model_calls': 0, 'accepted': 0}
+        data = copy.deepcopy(self.data)
+        collection = {}
+        with patch.object(research, 'ollama', return_value={'observations': [], 'empty_reason': 'no supported number for these metrics'}):
+            accepted = research.extract_observations(self.config, self.source, self.document, self.related, data,
+                                                       self.metrics, self.sources, run, [], collection)
+        self.assertEqual(accepted, [])
+        self.assertEqual(collection['empty_reasons'], {'no supported number for these metrics': 1})
+        self.assertEqual(collection['document_windows'][-1]['empty_reason'], 'no supported number for these metrics')
+
+    def test_invalid_empty_reason_is_rejected(self):
+        run = {'model_calls': 0, 'accepted': 0}
+        data = copy.deepcopy(self.data)
+        with patch.object(research, 'ollama', return_value={'observations': [], 'empty_reason': 'x' * 201}):
+            with self.assertRaisesRegex(RuntimeError, 'Model extraction failed'):
+                research.extract_observations(self.config, self.source, self.document, self.related, data,
+                                               self.metrics, self.sources, run, [], {})
+
+    def test_evidence_over_cap_but_shrinkable_is_accepted_and_marked(self):
+        run = {'model_calls': 0, 'accepted': 0}
+        quarantine = []
+        data = copy.deepcopy(self.data)
+        long_doc = 'In 2026, 90 percent of surveyed organizations reported AI use. ' * 40
+        candidate = dict(self.candidate, evidence=long_doc)
+        verdict = {'index': 0, 'numbers_in_evidence': True, 'scope_matches': True, 'basis_correct': True,
+                   'attribution_correct': True, 'defect': 'none', 'reason': 'Directly supported'}
+        with tempfile.TemporaryDirectory() as tmp, patch.object(research, 'LOCAL', Path(tmp)), \
+             patch.object(research, 'ollama', side_effect=[{'observations': [candidate]}, {'verdicts': [verdict]}]):
+            accepted = research.extract_observations(self.config, self.source, long_doc, self.related, data,
+                                                       self.metrics, self.sources, run, quarantine, {})
+            proof = json.loads((Path(tmp) / 'evidence' / f'{accepted[0]["id"]}.json').read_text(encoding='utf-8'))
+        self.assertEqual(len(accepted), 1)
+        self.assertEqual(quarantine, [])
+        self.assertLessEqual(len(proof['evidence']), research.METRIC_EVIDENCE_MAX)
+        self.assertIn(proof['evidence'], long_doc)
+        self.assertTrue(proof['evidence_shrunk'])
+        self.assertIn('90', numeric_tokens(proof['evidence']))
+
+    def test_evidence_over_cap_and_unshrinkable_is_quarantined(self):
+        run = {'model_calls': 0, 'accepted': 0}
+        quarantine = []
+        data = copy.deepcopy(self.data)
+        long_doc = 'x ' * 900 + '90' + ' y' * 900  # no sentence breaks anywhere: unshrinkable
+        candidate = dict(self.candidate, evidence=long_doc)
+        with patch.object(research, 'ollama', return_value={'observations': [candidate]}):
+            accepted = research.extract_observations(self.config, self.source, long_doc, self.related, data,
+                                                       self.metrics, self.sources, run, quarantine, {})
+        self.assertEqual(accepted, [])
+        self.assertEqual(len(quarantine), 1)
+        self.assertIn('too long even after shrinking', quarantine[0]['reason'])
+        self.assertFalse(quarantine[0]['evidence_shrunk'])
+
 
 class HarnessRunTests(unittest.TestCase):
     def setUp(self):
@@ -263,6 +317,15 @@ class HarnessRunTests(unittest.TestCase):
         self.assertEqual(metric_entry['match_type'], 'exact')
         self.assertEqual(len(metric_entry['metric_candidates']), 1)
         self.assertEqual(metric_entry['metric_candidates'][0]['outcome'], 'accepted')
+        # The note lane now runs for every document (mirrors main()), including
+        # stanford-2026, which has a related metric but no excerpt permission -- its note
+        # would stay private even if accepted. canned_ollama's evidence text is written for
+        # doc2 (the unrelated source), so on doc1 it correctly fails to locate; that still
+        # proves the note lane ran (a model call happened) where the old gate skipped it.
+        self.assertFalse(metric_entry['publishable'])
+        self.assertIsNotNone(metric_entry['note_candidate'])
+        self.assertEqual(metric_entry['note_candidate']['outcome'], 'quarantined')
+        self.assertEqual(metric_entry['note_candidate']['validator_reason'], 'Note evidence not found')
         note_entry = by_source[self.unrelated_source['id']]
         self.assertIsNotNone(note_entry['note_candidate'])
         self.assertEqual(note_entry['note_candidate']['outcome'], 'accepted')
@@ -284,6 +347,7 @@ class HarnessRunTests(unittest.TestCase):
         self.assertEqual(summary['documents'], 2)
         self.assertEqual(summary['metric_candidates_accepted'], 1)
         self.assertEqual(summary['notes_accepted'], 1)
+        self.assertEqual(summary['notes_quarantined'], 1)
         self.assertEqual(summary['documents_with_zero_candidates'], 0)
 
     def test_fetch_is_forbidden_during_the_run_and_restored_after(self):

@@ -14,6 +14,16 @@ from validate import validate, observation_valid, event_valid
 
 ROOT=Path(__file__).resolve().parents[1]
 
+def empty_model(config,system,prompt,schema):
+    """A schema-aware fake model returning an empty, well-formed response for either lane.
+
+    Both extract_note and extract_observations now run for the same document (2026-09-09),
+    so a single return_value dict can no longer serve both -- each schema forbids the
+    other's key (additionalProperties: False). Real Ollama structured output enforces this
+    too; this fixture just mirrors it instead of relying on one shared dict shape.
+    """
+    return {'notes':[]} if schema==research.NOTE_SCHEMA else {'observations':[]}
+
 class IntegrityTests(unittest.TestCase):
     def setUp(self):
         self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
@@ -115,7 +125,7 @@ class RunnerTests(unittest.TestCase):
             path=Path(tmp);self.fixture(path)
             original=(path/'site/data/ledger.json').read_bytes()
             document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
-            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[]}),patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model),patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
                 self.assertEqual(research.main(),0)
             proposal=research.load(path/'.local/proposed-ledger.json')
             self.assertEqual(proposal['runs'][-1]['accepted'],0)
@@ -132,6 +142,33 @@ class RunnerTests(unittest.TestCase):
             proposal=research.load(path/'.local/proposed-ledger.json')
             self.assertEqual(proposal['runtime']['last_success'],before)
             self.assertEqual(proposal['runs'][-1]['status'],'failed')
+
+class NoteLaneCoverageTests(unittest.TestCase):
+    """The note lane now runs for every read document; private notes are capped per run."""
+    def test_note_lane_reaches_non_publishable_related_sources_and_the_cap_limits_the_queue(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            config=research.load(path/'research/runtime.json');config['max_private_notes_per_run']=1
+            research.save(path/'research/runtime.json',config)
+            document=research.ReadableHTML();document.feed('<p>Filler context. In 2026, the lab reported new AI infrastructure progress and 42 new facilities.</p>')
+            note={'title':'A research development','summary':'The lab reported 42 new facilities in 2026.','layer':'energy','kind':'Research finding','evidence':'In 2026, the lab reported new AI infrastructure progress and 42 new facilities.'}
+            def fake_model(cfg,system,prompt,schema):
+                if schema==research.NOTE_SCHEMA:return {'notes':[note]}
+                if schema==research.VERDICT_SCHEMA:return {'verdicts':[{'index':0,'supported':True,'reason':'Direct support'}]}
+                return {'observations':[]}
+            # All three: no parent_source, excerpts disabled in policy, but each has a linked
+            # metric -- the old gate ("publishable or not related") skipped every one of them.
+            sources=['iea-2026','iea-2025','doe-demand']
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document), \
+                 patch.object(research,'ollama',side_effect=fake_model),patch.object(sys,'argv',['research.py','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            queued=list((path/'.local/review-candidates').glob('*.json'))
+            self.assertEqual(len(queued),1,'the per-run cap must stop after the first private note')
+            saved=research.load(queued[0])
+            self.assertEqual(saved['publication'],'private')
+            self.assertIn(saved['source'],sources)
+            public=research.load(path/'.local/proposed-ledger.json')
+            self.assertEqual(public['runs'][-1]['accepted'],0,'private notes never become public events')
 
 class NoteTests(unittest.TestCase):
     def setUp(self):
@@ -201,12 +238,55 @@ class EvidenceRuleTests(unittest.TestCase):
         self.assertIn(research.SCREENING_RULES,review.args[1])
         shown=json.loads(review.args[2])['untrusted_document']
         self.assertIn('The lab released 3 open models for research.',shown);self.assertLess(len(shown),len(document)//2)
-    def test_note_evidence_longer_than_the_cap_is_quarantined(self):
+    def test_note_evidence_longer_than_the_cap_but_shrinkable_is_accepted(self):
+        # A repeated short sentence: shrink_to_numbers can isolate one sentence under the cap.
         long_quote='The lab released 3 open models for research. '*30
+        c=self.note(evidence=long_quote);quarantine=[]
+        with tempfile.TemporaryDirectory() as tmp,patch.object(research,'LOCAL',Path(tmp)),patch.object(research,'ollama',side_effect=[{'notes':[c]},self.accept]):
+            event=research.extract_note({},self.source,long_quote,[],self.run,quarantine)
+            proof=research.load(Path(tmp)/'evidence'/f'{event["id"]}.json')
+        self.assertIsNotNone(event);self.assertEqual(quarantine,[])
+        self.assertLessEqual(len(proof['evidence']),research.NOTE_EVIDENCE_MAX)
+        self.assertIn(proof['evidence'],long_quote)
+        self.assertTrue(proof['evidence_shrunk'])
+
+    def test_note_evidence_longer_than_the_cap_and_unshrinkable_is_quarantined(self):
+        # No sentence break anywhere, so the only span is the whole (over-cap) passage.
+        long_quote='x '*500+'3'+' y'*500
         c=self.note(evidence=long_quote);quarantine=[]
         with patch.object(research,'ollama',return_value={'notes':[c]}):
             self.assertIsNone(research.extract_note({},self.source,long_quote,[],self.run,quarantine))
-        self.assertIn('length',quarantine[0]['reason'])
+        self.assertIn('too long even after shrinking',quarantine[0]['reason'])
+        self.assertFalse(quarantine[0]['evidence_shrunk'])
+
+class EmptyReasonTests(unittest.TestCase):
+    def setUp(self):
+        self.source={'id':'test-source','url':'https://example.org/ai-report','layers':['models'],'publisher':'Research Lab','published':None}
+        self.run={'model_calls':0}
+    def test_empty_reason_recorded_in_collection_histogram_and_entry(self):
+        collection={}
+        config={'_document_windows':collection.setdefault('document_windows',[])}
+        with patch.object(research,'ollama',return_value={'notes':[],'empty_reason':'document outside scope'}):
+            result=research.extract_note(config,self.source,'Some unrelated document text for context here.',[],self.run,[],collection)
+        self.assertIsNone(result)
+        self.assertEqual(collection['empty_reasons'],{'document outside scope':1})
+        self.assertEqual(collection['document_windows'][-1]['empty_reason'],'document outside scope')
+    def test_empty_reason_ignored_without_a_notes_list(self):
+        with patch.object(research,'ollama',return_value={'notes':[],'empty_reason':'other'}):
+            self.assertIsNone(research.extract_note({},self.source,'Some document text for context here.',[],self.run,[]))
+    def test_empty_reason_not_recorded_when_notes_is_not_empty(self):
+        collection={}
+        config={'_document_windows':collection.setdefault('document_windows',[])}
+        c={'title':'A model release','summary':'The lab released an open model for research.','layer':'models','kind':'Company announcement','evidence':'The lab released an open model for research.'}
+        with patch.object(research,'ollama',side_effect=[{'notes':[c],'empty_reason':'other'},{'verdicts':[{'index':0,'supported':True,'reason':'Direct support'}]}]):
+            with tempfile.TemporaryDirectory() as tmp,patch.object(research,'LOCAL',Path(tmp)):
+                research.extract_note(config,self.source,c['evidence'],[],self.run,[],collection)
+        self.assertNotIn('empty_reasons',collection)
+        self.assertNotIn('empty_reason',collection['document_windows'][-1])
+    def test_invalid_empty_reason_is_rejected(self):
+        with patch.object(research,'ollama',return_value={'notes':[],'empty_reason':'x'*201}):
+            with self.assertRaises(ValueError):
+                research.extract_note({},self.source,'Some document text for context here.',[],self.run,[])
 
 class ContextBudgetTests(unittest.TestCase):
     config={'ollama_url':'http://127.0.0.1:11434','model':'m','model_timeout_seconds':1}
@@ -226,9 +306,12 @@ class ContextBudgetTests(unittest.TestCase):
             with self.subTest(settings=settings),patch.object(research,'loaded_context',return_value=None):
                 with self.assertRaisesRegex(ValueError,'Unapproved'):research.ollama(dict(self.config,_generation_settings=settings),'s','p',{})
     def test_document_window_shrinks_to_fit_the_prompt(self):
-        self.assertEqual(research.document_budget({'_instructions':'i'*40000,'_coverage':'c'*6000},6000),24000)
+        self.assertEqual(research.document_budget({'_instructions':'i'*2000,'_coverage':'c'*1000},1000),60000)
+        self.assertEqual(research.document_budget({'_instructions':'i'*40000,'_coverage':'c'*6000},6000),46641)
         smaller=research.document_budget({'_instructions':'i'*40000,'_coverage':'c'*6000,'_generation_settings':dict(research.GENERATION,num_ctx=16384)},6000)
         self.assertEqual(smaller,4000)
+    def test_document_window_chars_is_owner_tunable(self):
+        self.assertEqual(research.document_budget({'_instructions':'i'*2000,'_coverage':'c'*1000,'document_window_chars':30000},1000),30000)
     def test_loaded_context_reads_api_ps(self):
         class Response:
             def __init__(self,body):self.body=body
@@ -293,7 +376,7 @@ class PublicationCadenceTests(unittest.TestCase):
                 def fake_build():
                     (path/'docs/data').mkdir(parents=True,exist_ok=True);(path/'docs/data/ledger.json').write_bytes((path/'site/data/ledger.json').read_bytes())
                 with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research,'preflight'),patch.object(research,'build',side_effect=fake_build), \
-                     patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[],'notes':[]}), \
+                     patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model), \
                      patch.object(research,'publish') as publish,patch.object(sys,'argv',['research.py','--publish','--session-id',sid,'--max-documents','3',*extra]),patch('sys.stdout',new=io.StringIO()):
                     research.main()
                 self.assertEqual(publish.call_count,expected_calls)
@@ -369,7 +452,7 @@ class InstructionModeTests(unittest.TestCase):
             with self.subTest(mode=mode),tempfile.TemporaryDirectory() as tmp:
                 path=Path(tmp);RunnerTests().fixture(path)
                 document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
-                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[],'notes':[]}) as model,patch.object(sys,'argv',['research.py','--max-documents','3','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
+                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model) as model,patch.object(sys,'argv',['research.py','--max-documents','3','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
                     research.main()
                 self.assertTrue(model.call_args_list and all(marker in call.args[1] for call in model.call_args_list))
 
@@ -379,5 +462,40 @@ class ChildCoverageTests(unittest.TestCase):
         child={'id':'discovered-0123456789abcdef','parent_source':'claude-current-api-pricing'}
         self.assertEqual(research.coverage_context(ROOT,child),research.coverage_context(ROOT,parent))
         self.assertNotEqual(research.coverage_context(ROOT,child),'{}')
+
+class BriefDefaultTests(unittest.TestCase):
+    def test_runtime_defaults_to_brief_instructions(self):
+        # 2026-09-09 eval: brief matched full on the replay sample at roughly half the latency.
+        config=json.loads((ROOT/'research/runtime.json').read_text(encoding='utf-8'))
+        self.assertEqual(config['instructions'],'brief')
+
+class RunSummaryTests(unittest.TestCase):
+    def test_counts_documents_calls_accepted_and_quarantine_reasons(self):
+        receipt={'receipt':{'documents_fetched':5,'model_calls':7,'accepted':2,'quarantined':3},
+                  'quarantine':[{'source':'a','reason':'Note evidence not found'},
+                                {'source':'b','reason':'Note evidence not found'},
+                                {'source':'c','reason':'wrong_basis: Plan stated as release'}],
+                  'collection':{'private_notes':4,'empty_reasons':{'partial exposure':2,'other':1}}}
+        summary=research.run_summary(receipt)
+        self.assertEqual(summary['documents'],5)
+        self.assertEqual(summary['model_calls'],7)
+        self.assertEqual(summary['accepted'],2)
+        self.assertEqual(summary['quarantined'],3)
+        self.assertEqual(summary['quarantined_by_reason'],{'Note evidence not found':2,'wrong_basis':1})
+        self.assertEqual(summary['private_notes'],4)
+        self.assertEqual(summary['empty_reasons'],{'partial exposure':2,'other':1})
+    def test_accepts_a_session_batch_receipt_shape_too(self):
+        receipt={'monitoring':{'documents_fetched':1,'model_calls':2,'accepted':0,'quarantined':0},
+                  'collection':{'private_notes':1}}
+        summary=research.run_summary(receipt)
+        self.assertEqual(summary['documents'],1);self.assertEqual(summary['private_notes'],1)
+    def test_missing_pieces_read_as_zero_or_empty(self):
+        self.assertEqual(research.run_summary({}),
+                          {'documents':0,'model_calls':0,'accepted':0,'quarantined':0,
+                           'quarantined_by_reason':{},'private_notes':0,'empty_reasons':{}})
+    def test_never_includes_source_text_or_local_paths(self):
+        receipt={'receipt':{'documents_fetched':1},'quarantine':[{'source':'a','candidate':{'evidence':'secret excerpt text'},'reason':'other'}],'collection':{}}
+        summary=research.run_summary(receipt)
+        self.assertNotIn('secret excerpt text',json.dumps(summary))
 
 if __name__=='__main__':unittest.main()

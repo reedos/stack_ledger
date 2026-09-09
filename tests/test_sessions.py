@@ -43,7 +43,7 @@ class SessionTests(unittest.TestCase):
             document=research.ReadableHTML();document.feed('<p>Public evidence about energy infrastructure.</p>')
             at=research.now()
             with patch.object(research,'ROOT',root),patch.object(research,'LOCAL',root/'.local'), \
-                 patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[]}), \
+                 patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=test_research.empty_model), \
                  patch.object(research,'now',return_value=at),patch('sys.stdout',new=io.StringIO()):
                 for sid in ['a'*32,'b'*32]:
                     with patch.object(sys,'argv',['research.py','--session-id',sid,'--sources','iea-2026']):
@@ -124,7 +124,7 @@ class SessionTests(unittest.TestCase):
             document=research.ReadableHTML();document.feed('<p>Public evidence about energy infrastructure.</p>')
             with patch.object(research,'ROOT',root),patch.object(research,'LOCAL',root/'.local'), \
                  patch.object(research,'preflight'),patch.object(research.Fetcher,'fetch',return_value=document), \
-                 patch.object(research,'ollama',return_value={'observations':[]}), \
+                 patch.object(research,'ollama',side_effect=test_research.empty_model), \
                  patch.object(research,'build',side_effect=RuntimeError('build failed')),patch.object(research,'publish') as publish, \
                  patch.object(sys,'argv',['research.py','--publish','--session-id',sid,'--sources','iea-2026']), \
                  patch('sys.stderr',new=io.StringIO()),patch('sys.stdout',new=io.StringIO()):
@@ -274,7 +274,7 @@ class SessionTests(unittest.TestCase):
             document=research.ReadableHTML();document.feed('<p>Public evidence about energy infrastructure.</p>')
             with patch.object(research,'ROOT',root),patch.object(research,'LOCAL',root/'.local'), \
                  patch.object(research.Fetcher,'fetch',return_value=document), \
-                 patch.object(research,'ollama',return_value={'observations':[]}) as model, \
+                 patch.object(research,'ollama',side_effect=test_research.empty_model) as model, \
                  patch.object(sys,'argv',['research.py','--session-id',sid,'--sources','iea-2026']),patch('sys.stdout',new=io.StringIO()):
                 with patch.object(research,'now',return_value=first):research.main()
                 calls=model.call_count
