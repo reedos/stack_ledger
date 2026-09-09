@@ -35,11 +35,13 @@ EPOCH_AGGREGATE={'estimated_cowos_supply_wafers_quarterly', 'estimated_logic_sup
 EPOCH_SITE={'estimated_site_it_mw', 'estimated_site_h100_equivalents', 'estimated_site_capital_cost_usd_bn'}
 EPOCH_DESIGNER={'estimated_cumulative_ai_chips', 'estimated_cumulative_ai_compute_h100e'}   # per-designer, company attributed
 # BLS QCEW county and national private employment by industry (public domain); measured, never estimated.
-PUBLIC_TYPES |= EPOCH_AGGREGATE | EPOCH_SITE | {'county_industry_employment'}
-TYPES |= EPOCH_SITE | EPOCH_DESIGNER | {'county_industry_employment'}
+# Census QWI hires and average monthly earnings by county and 4-digit industry (public domain); measured.
+LABOR_MARKET={'county_industry_employment','county_industry_hires','county_industry_avg_monthly_earnings'}
+PUBLIC_TYPES |= EPOCH_AGGREGATE | EPOCH_SITE | LABOR_MARKET
+TYPES |= EPOCH_SITE | EPOCH_DESIGNER | LABOR_MARKET
 TYPES |= EPOCH_AGGREGATE | {'estimated_cowos_consumption_wafers_quarterly'}
 FUTURE_ONLY |= {'annual_revenue_forecast'}
-HISTORICAL_ONLY = {'county_industry_employment', 'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
+HISTORICAL_ONLY = {'county_industry_employment', 'county_industry_hires', 'county_industry_avg_monthly_earnings', 'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
                    'permanent_jobs_reported', 'annual_revenue_usd',
                    'interconnection_mw_energized', 'accelerator_units_installed',
                    'supervised_driver_miles', 'unsupervised_or_rider_only_miles',

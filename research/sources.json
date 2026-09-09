@@ -5986,6 +5986,18 @@
         "energy"
       ],
       "license": "Public domain (U.S. government work)"
+    },
+    {
+      "id": "census-qwi-api",
+      "publisher": "U.S. Census Bureau",
+      "title": "Quarterly Workforce Indicators (LEHD) · Census Data API",
+      "url": "https://www.census.gov/data/developers/data-sets/qwi.html",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "Public domain (U.S. government work)"
     }
   ],
   "discovery_keywords": [
@@ -6135,7 +6147,8 @@
         "feed-aws-d0c96b",
         "feed-constellation-3252f6",
         "feed-recursion-4114ef",
-        "bls-qcew-open-data"
+        "bls-qcew-open-data",
+        "census-qwi-api"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -12170,6 +12183,17 @@
       "excerpts": false
     },
     "bls-qcew-open-data": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "census-qwi-api": {
       "rank": 1,
       "region_book": "united-states",
       "company_id": null,

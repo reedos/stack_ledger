@@ -13386,6 +13386,3450 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Series begins 2024 Q1 in this catalog; earlier QCEW quarters exist and can be imported on review. Missing quarters are suppressed or unpublished, not zero."
+    },
+    {
+      "id": "qwi-01071-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Jackson County, AL · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Jackson County, AL",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "01071",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-01071-2382-hires",
+      "layer": "infrastructure",
+      "title": "Jackson County, AL · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Jackson County, AL",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "01071",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-01071-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Jackson County, AL · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Jackson County, AL",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "01071",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-01071-5182-hires",
+      "layer": "infrastructure",
+      "title": "Jackson County, AL · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Jackson County, AL",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "01071",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13033-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Burke County, GA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Burke County, GA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13033",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13033-2382-hires",
+      "layer": "infrastructure",
+      "title": "Burke County, GA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Burke County, GA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13033",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13033-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Burke County, GA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Burke County, GA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13033",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13033-5182-hires",
+      "layer": "infrastructure",
+      "title": "Burke County, GA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Burke County, GA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13033",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13035-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Butts County, GA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Butts County, GA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13035",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13035-2382-hires",
+      "layer": "infrastructure",
+      "title": "Butts County, GA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Butts County, GA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13035",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13035-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Butts County, GA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Butts County, GA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13035",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13035-5182-hires",
+      "layer": "infrastructure",
+      "title": "Butts County, GA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Butts County, GA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13035",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13097-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Douglas County, GA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Douglas County, GA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13097-2382-hires",
+      "layer": "infrastructure",
+      "title": "Douglas County, GA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Douglas County, GA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13097-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Douglas County, GA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Douglas County, GA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-13097-5182-hires",
+      "layer": "infrastructure",
+      "title": "Douglas County, GA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Douglas County, GA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "13097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22015-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Bossier Parish, LA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Bossier Parish, LA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22015-2382-hires",
+      "layer": "infrastructure",
+      "title": "Bossier Parish, LA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Bossier Parish, LA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22015-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Bossier Parish, LA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Bossier Parish, LA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22015-5182-hires",
+      "layer": "infrastructure",
+      "title": "Bossier Parish, LA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Bossier Parish, LA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22017-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Caddo Parish, LA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Caddo Parish, LA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22017-2382-hires",
+      "layer": "infrastructure",
+      "title": "Caddo Parish, LA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Caddo Parish, LA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22017-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Caddo Parish, LA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Caddo Parish, LA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22017-5182-hires",
+      "layer": "infrastructure",
+      "title": "Caddo Parish, LA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Caddo Parish, LA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22083-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Richland Parish, LA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Richland Parish, LA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22083-2382-hires",
+      "layer": "infrastructure",
+      "title": "Richland Parish, LA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Richland Parish, LA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22083-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Richland Parish, LA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Richland Parish, LA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-22083-5182-hires",
+      "layer": "infrastructure",
+      "title": "Richland Parish, LA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Richland Parish, LA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "22083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28049-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Hinds County, MS · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Hinds County, MS",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28049",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28049-2382-hires",
+      "layer": "infrastructure",
+      "title": "Hinds County, MS · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Hinds County, MS",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28049",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28049-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Hinds County, MS · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Hinds County, MS",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28049",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28049-5182-hires",
+      "layer": "infrastructure",
+      "title": "Hinds County, MS · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Hinds County, MS",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28049",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28089-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Madison County, MS · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Madison County, MS",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28089",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28089-2382-hires",
+      "layer": "infrastructure",
+      "title": "Madison County, MS · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Madison County, MS",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28089",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28089-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Madison County, MS · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Madison County, MS",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28089",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28089-5182-hires",
+      "layer": "infrastructure",
+      "title": "Madison County, MS · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Madison County, MS",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28089",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28149-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Warren County, MS · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Warren County, MS",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28149",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28149-2382-hires",
+      "layer": "infrastructure",
+      "title": "Warren County, MS · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Warren County, MS",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28149",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28149-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Warren County, MS · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Warren County, MS",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28149",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-28149-5182-hires",
+      "layer": "infrastructure",
+      "title": "Warren County, MS · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Warren County, MS",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "28149",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-31153-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Sarpy County, NE · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Sarpy County, NE",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "31153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-31153-2382-hires",
+      "layer": "infrastructure",
+      "title": "Sarpy County, NE · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Sarpy County, NE",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "31153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-31153-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Sarpy County, NE · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Sarpy County, NE",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "31153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-31153-5182-hires",
+      "layer": "infrastructure",
+      "title": "Sarpy County, NE · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Sarpy County, NE",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "31153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32003-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Clark County, NV · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Clark County, NV",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32003",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32003-2382-hires",
+      "layer": "infrastructure",
+      "title": "Clark County, NV · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Clark County, NV",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32003",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32003-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Clark County, NV · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Clark County, NV",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32003",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32003-5182-hires",
+      "layer": "infrastructure",
+      "title": "Clark County, NV · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Clark County, NV",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32003",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32029-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Storey County, NV · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Storey County, NV",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32029",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32029-2382-hires",
+      "layer": "infrastructure",
+      "title": "Storey County, NV · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Storey County, NV",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32029",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32029-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Storey County, NV · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Storey County, NV",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32029",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-32029-5182-hires",
+      "layer": "infrastructure",
+      "title": "Storey County, NV · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Storey County, NV",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "32029",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-36067-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Onondaga County, NY · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Onondaga County, NY",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "36067",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-36067-2382-hires",
+      "layer": "infrastructure",
+      "title": "Onondaga County, NY · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Onondaga County, NY",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "36067",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-36067-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Onondaga County, NY · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Onondaga County, NY",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "36067",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-36067-5182-hires",
+      "layer": "infrastructure",
+      "title": "Onondaga County, NY · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Onondaga County, NY",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "36067",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-37153-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Richmond County, NC · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Richmond County, NC",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "37153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-37153-2382-hires",
+      "layer": "infrastructure",
+      "title": "Richmond County, NC · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Richmond County, NC",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "37153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-37153-5182-hires",
+      "layer": "infrastructure",
+      "title": "Richmond County, NC · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Richmond County, NC",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "37153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-40097-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Mayes County, OK · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Mayes County, OK",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "40097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-40097-2382-hires",
+      "layer": "infrastructure",
+      "title": "Mayes County, OK · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Mayes County, OK",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "40097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-40097-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Mayes County, OK · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Mayes County, OK",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "40097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-40097-5182-hires",
+      "layer": "infrastructure",
+      "title": "Mayes County, OK · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Mayes County, OK",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "40097",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42017-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Bucks County, PA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Bucks County, PA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42017-2382-hires",
+      "layer": "infrastructure",
+      "title": "Bucks County, PA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Bucks County, PA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42017-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Bucks County, PA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Bucks County, PA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42017-5182-hires",
+      "layer": "infrastructure",
+      "title": "Bucks County, PA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Bucks County, PA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42017",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42043-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Dauphin County, PA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Dauphin County, PA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42043",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42043-2382-hires",
+      "layer": "infrastructure",
+      "title": "Dauphin County, PA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Dauphin County, PA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42043",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42043-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Dauphin County, PA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Dauphin County, PA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42043",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42043-5182-hires",
+      "layer": "infrastructure",
+      "title": "Dauphin County, PA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Dauphin County, PA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42043",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42079-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Luzerne County, PA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Luzerne County, PA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42079",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42079-2382-hires",
+      "layer": "infrastructure",
+      "title": "Luzerne County, PA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Luzerne County, PA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42079",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42079-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Luzerne County, PA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Luzerne County, PA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42079",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-42079-5182-hires",
+      "layer": "infrastructure",
+      "title": "Luzerne County, PA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Luzerne County, PA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "42079",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45015-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Berkeley County, SC · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Berkeley County, SC",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45015-2382-hires",
+      "layer": "infrastructure",
+      "title": "Berkeley County, SC · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Berkeley County, SC",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45015-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Berkeley County, SC · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Berkeley County, SC",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45015-5182-hires",
+      "layer": "infrastructure",
+      "title": "Berkeley County, SC · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Berkeley County, SC",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45015",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45083-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Spartanburg County, SC · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Spartanburg County, SC",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45083-2382-hires",
+      "layer": "infrastructure",
+      "title": "Spartanburg County, SC · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Spartanburg County, SC",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45083-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Spartanburg County, SC · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Spartanburg County, SC",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-45083-5182-hires",
+      "layer": "infrastructure",
+      "title": "Spartanburg County, SC · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Spartanburg County, SC",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "45083",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-47125-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Montgomery County, TN · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Montgomery County, TN",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "47125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-47125-2382-hires",
+      "layer": "infrastructure",
+      "title": "Montgomery County, TN · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Montgomery County, TN",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "47125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-47125-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Montgomery County, TN · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Montgomery County, TN",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "47125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-47125-5182-hires",
+      "layer": "infrastructure",
+      "title": "Montgomery County, TN · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Montgomery County, TN",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "47125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48125-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Dickens County, TX · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Dickens County, TX",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48125-2382-hires",
+      "layer": "infrastructure",
+      "title": "Dickens County, TX · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Dickens County, TX",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48125-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Dickens County, TX · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Dickens County, TX",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48125-5182-hires",
+      "layer": "infrastructure",
+      "title": "Dickens County, TX · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Dickens County, TX",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48125",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48185-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Grimes County, TX · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Grimes County, TX",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48185",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48185-2382-hires",
+      "layer": "infrastructure",
+      "title": "Grimes County, TX · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Grimes County, TX",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48185",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48415-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Scurry County, TX · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Scurry County, TX",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48415",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48415-2382-hires",
+      "layer": "infrastructure",
+      "title": "Scurry County, TX · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Scurry County, TX",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48415",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48417-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Shackelford County, TX · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Shackelford County, TX",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48417",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-48417-2382-hires",
+      "layer": "infrastructure",
+      "title": "Shackelford County, TX · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Shackelford County, TX",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "48417",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-49001-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Beaver County, UT · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Beaver County, UT",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "49001",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-49001-2382-hires",
+      "layer": "infrastructure",
+      "title": "Beaver County, UT · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Beaver County, UT",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "49001",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51041-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Chesterfield County, VA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Chesterfield County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51041",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51041-2382-hires",
+      "layer": "infrastructure",
+      "title": "Chesterfield County, VA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Chesterfield County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51041",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51041-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Chesterfield County, VA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Chesterfield County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51041",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51041-5182-hires",
+      "layer": "infrastructure",
+      "title": "Chesterfield County, VA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Chesterfield County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51041",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51087-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Henrico County, VA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Henrico County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51087",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51087-2382-hires",
+      "layer": "infrastructure",
+      "title": "Henrico County, VA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Henrico County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51087",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51087-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Henrico County, VA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Henrico County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51087",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51087-5182-hires",
+      "layer": "infrastructure",
+      "title": "Henrico County, VA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Henrico County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51087",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51107-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Loudoun County, VA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Loudoun County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51107",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51107-2382-hires",
+      "layer": "infrastructure",
+      "title": "Loudoun County, VA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Loudoun County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51107",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51107-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Loudoun County, VA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Loudoun County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51107",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51107-5182-hires",
+      "layer": "infrastructure",
+      "title": "Loudoun County, VA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Loudoun County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51107",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51153-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Prince William County, VA · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Prince William County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51153-2382-hires",
+      "layer": "infrastructure",
+      "title": "Prince William County, VA · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Prince William County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51153-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Prince William County, VA · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Prince William County, VA",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-51153-5182-hires",
+      "layer": "infrastructure",
+      "title": "Prince William County, VA · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Prince William County, VA",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "51153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-54053-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Mason County, WV · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Mason County, WV",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "54053",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-54053-2382-hires",
+      "layer": "infrastructure",
+      "title": "Mason County, WV · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Mason County, WV",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "54053",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-54053-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Mason County, WV · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Mason County, WV",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "54053",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-54053-5182-hires",
+      "layer": "infrastructure",
+      "title": "Mason County, WV · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Mason County, WV",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "54053",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-56023-2382-earnings",
+      "layer": "infrastructure",
+      "title": "Lincoln County, WY · average monthly earnings, building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Lincoln County, WY",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "56023",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-56023-2382-hires",
+      "layer": "infrastructure",
+      "title": "Lincoln County, WY · hires (all workers), building equipment contractors (electrical, plumbing, hvac) (NAICS 2382)",
+      "unit": "hires in quarter",
+      "geography": "Lincoln County, WY",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "56023",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-56023-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Lincoln County, WY · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Lincoln County, WY",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "56023",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "qwi-56023-5182-hires",
+      "layer": "infrastructure",
+      "title": "Lincoln County, WY · hires (all workers), data processing, hosting and related services (NAICS 5182)",
+      "unit": "hires in quarter",
+      "geography": "Lincoln County, WY",
+      "scope": "Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 500000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_hires",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "56023",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
     }
   ],
   "targets": [

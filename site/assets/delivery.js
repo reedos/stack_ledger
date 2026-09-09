@@ -31,20 +31,24 @@ function extendWithDelivery() {
 }
 
 function localLabor(p) {
- // County employment from BLS QCEW for projects placed in a reviewed county; measured jobs beside the project's promises.
+ // County labor market for projects placed in a reviewed county: QCEW employment beside QWI hires and earnings.
  const loc=p.map_location||(p.map_locations||[]).map(e=>e.location||e).find(l=>l.source==='census-map-counties');
  if(!loc||loc.source!=='census-map-counties'||!loc.source_key)return '';
  const fips=String(loc.source_key).padStart(5,'0');
- const series=data.metrics.filter(m=>m.geography_code===fips&&m.measurement_type==='county_industry_employment');
+ const kinds={county_industry_employment:'employment',county_industry_hires:'hires',county_industry_avg_monthly_earnings:'earnings'};
+ const series=data.metrics.filter(m=>m.geography_code===fips&&kinds[m.measurement_type]);
  if(!series.length)return '';
- const rows=series.map(m=>{
-  const obs=data.observations.filter(o=>o.metric===m.id&&!o.superseded_by).sort((a,b)=>a.year-b.year||a.period.localeCompare(b.period));
-  if(!obs.length)return '';
-  const latest=obs.at(-1),[y,q]=latest.period.split('-Q'),prior=obs.find(o=>o.period===`${Number(y)-1}-Q${q}`);
-  const delta=prior?latest.value-prior.value:null;
-  const naics=m.id.split('-').at(-1),label=naics==='518210'?'Data processing & hosting':naics==='23821'?'Electrical contractors':m.title;
-  return `<div><dt>${esc(label)} <small>NAICS ${esc(naics)}</small></dt><dd><strong>${number(latest.value)}</strong> jobs · ${esc(latest.period.replace('-',' '))}${delta===null?'':` · <span class="${delta>=0?'up':'down'}">${delta>=0?'+':''}${number(delta)} vs a year earlier</span>`}<p class="chart-footnote">${sourceLink(latest.source)} · county private employment, third month of quarter</p></dd></div>`;
+ const groupOf=m=>{const code=m.id.split('-')[2];return code.startsWith('518')?['Data processing & hosting','NAICS 518210 / 5182']:code.startsWith('238')?['Electrical & building equipment contractors','NAICS 23821 / 2382']:[m.title,''];};
+ const latestOf=m=>{const obs=data.observations.filter(o=>o.metric===m.id&&!o.superseded_by).sort((a,b)=>a.year-b.year||a.period.localeCompare(b.period));if(!obs.length)return null;const latest=obs.at(-1),[y,q]=latest.period.split('-Q'),prior=obs.find(o=>o.period===`${Number(y)-1}-Q${q}`);return {latest,delta:prior?latest.value-prior.value:null};};
+ const groups=new Map();
+ for(const m of series){const [label,codes]=groupOf(m);if(!groups.has(label))groups.set(label,{codes,parts:{}});const v=latestOf(m);if(v)groups.get(label).parts[kinds[m.measurement_type]]={...v,source:m.source_ids[0]};}
+ const rows=[...groups].map(([label,g])=>{
+  const e=g.parts.employment,h=g.parts.hires,w=g.parts.earnings;if(!e&&!h&&!w)return '';
+  const line=[e?`<strong>${number(e.latest.value)}</strong> jobs · ${esc(e.latest.period.replace('-',' '))}${e.delta===null?'':` · <span class="${e.delta>=0?'up':'down'}">${e.delta>=0?'+':''}${number(e.delta)} vs a year earlier</span>`}`:'',
+              h?`${number(h.latest.value)} hires in ${esc(h.latest.period.replace('-',' '))}`:'',w?`$${number(w.latest.value)} average monthly earnings (${esc(w.latest.period.replace('-',' '))})`:''].filter(Boolean).join(' · ');
+  const sources=[...new Set([e,h,w].filter(Boolean).map(x=>x.source))].map(sourceLink).join(' · ');
+  return `<div><dt>${esc(label)} <small>${esc(g.codes)}</small></dt><dd>${line}<p class="chart-footnote">${sources} · county private employment (QCEW, third month of quarter), stable hires and earnings (QWI)</p></dd></div>`;
  }).join('');
  if(!rows)return '';
- return `<details class="delivery-history local-labor"><summary>Local labor market · ${esc(loc.label||fips)}</summary><dl class="basis-rows">${rows}</dl><p class="chart-footnote">Measured county employment from unemployment-insurance records, not attributable to this project alone. Suppressed quarters are omitted, not zero.</p></details>`;
+ return `<details class="delivery-history local-labor"><summary>Local labor market · ${esc(loc.label||fips)}</summary><dl class="basis-rows">${rows}</dl><p class="chart-footnote">Measured county figures from unemployment-insurance records, not attributable to this project alone. Suppressed quarters are omitted, not zero.</p></details>`;
 }

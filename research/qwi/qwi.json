@@ -1,0 +1,594 @@
+{
+  "dataset": "Census QWI via Census Data API",
+  "source_id": "census-qwi-api",
+  "retrieved_at": "2026-09-09T15:42:27Z",
+  "industries": {
+    "5182": [
+      "Data processing, hosting and related services",
+      "infrastructure"
+    ],
+    "2382": [
+      "Building equipment contractors (electrical, plumbing, HVAC)",
+      "infrastructure"
+    ]
+  },
+  "counties": {
+    "32003": "Clark County, NV",
+    "49001": "Beaver County, UT",
+    "42043": "Dauphin County, PA",
+    "22083": "Richland Parish, LA",
+    "48185": "Grimes County, TX",
+    "48417": "Shackelford County, TX",
+    "26161": "Washtenaw County, MI",
+    "26159": "Van Buren County, MI",
+    "56023": "Lincoln County, WY",
+    "22017": "Caddo Parish, LA",
+    "22015": "Bossier Parish, LA",
+    "36067": "Onondaga County, NY",
+    "45015": "Berkeley County, SC",
+    "13097": "Douglas County, GA",
+    "01071": "Jackson County, AL",
+    "51107": "Loudoun County, VA",
+    "40097": "Mayes County, OK",
+    "47125": "Montgomery County, TN",
+    "51153": "Prince William County, VA",
+    "32029": "Storey County, NV",
+    "51041": "Chesterfield County, VA",
+    "13033": "Burke County, GA",
+    "48415": "Scurry County, TX",
+    "45083": "Spartanburg County, SC",
+    "31153": "Sarpy County, NE",
+    "51087": "Henrico County, VA",
+    "54053": "Mason County, WV",
+    "42079": "Luzerne County, PA",
+    "42017": "Bucks County, PA",
+    "37153": "Richmond County, NC",
+    "13035": "Butts County, GA",
+    "28089": "Madison County, MS",
+    "28149": "Warren County, MS",
+    "28049": "Hinds County, MS",
+    "48125": "Dickens County, TX"
+  },
+  "calls": [
+    {
+      "county": "01071",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "01071",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "13033",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "13033",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "13035",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "13035",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "13097",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "13097",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "22015",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "22015",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "22017",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "22017",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "22083",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "22083",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "26159",
+      "naics": "5182",
+      "status": "unparseable"
+    },
+    {
+      "county": "26159",
+      "naics": "2382",
+      "status": "unparseable"
+    },
+    {
+      "county": "26161",
+      "naics": "5182",
+      "status": "unparseable"
+    },
+    {
+      "county": "26161",
+      "naics": "2382",
+      "status": "unparseable"
+    },
+    {
+      "county": "28049",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "28049",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "28089",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "28089",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "28149",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "28149",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "31153",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "31153",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "32003",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "32003",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "32029",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "32029",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "36067",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "36067",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "37153",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 2
+    },
+    {
+      "county": "37153",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "40097",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "40097",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "42017",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "42017",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "42043",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "42043",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "42079",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "42079",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "45015",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "45015",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "45083",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "45083",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "47125",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "47125",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "48125",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "48125",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "48185",
+      "naics": "5182",
+      "status": "unparseable"
+    },
+    {
+      "county": "48185",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "48415",
+      "naics": "5182",
+      "status": "unparseable"
+    },
+    {
+      "county": "48415",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "48417",
+      "naics": "5182",
+      "status": "unparseable"
+    },
+    {
+      "county": "48417",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 6
+    },
+    {
+      "county": "49001",
+      "naics": "5182",
+      "status": "unparseable"
+    },
+    {
+      "county": "49001",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51041",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51041",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51087",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51087",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51107",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51107",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51153",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "51153",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "54053",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "54053",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "56023",
+      "naics": "5182",
+      "status": "ok",
+      "rows": 8
+    },
+    {
+      "county": "56023",
+      "naics": "2382",
+      "status": "ok",
+      "rows": 8
+    }
+  ],
+  "metrics": [
+    "qwi-01071-2382-earnings",
+    "qwi-01071-2382-hires",
+    "qwi-01071-5182-earnings",
+    "qwi-01071-5182-hires",
+    "qwi-13033-2382-earnings",
+    "qwi-13033-2382-hires",
+    "qwi-13033-5182-earnings",
+    "qwi-13033-5182-hires",
+    "qwi-13035-2382-earnings",
+    "qwi-13035-2382-hires",
+    "qwi-13035-5182-earnings",
+    "qwi-13035-5182-hires",
+    "qwi-13097-2382-earnings",
+    "qwi-13097-2382-hires",
+    "qwi-13097-5182-earnings",
+    "qwi-13097-5182-hires",
+    "qwi-22015-2382-earnings",
+    "qwi-22015-2382-hires",
+    "qwi-22015-5182-earnings",
+    "qwi-22015-5182-hires",
+    "qwi-22017-2382-earnings",
+    "qwi-22017-2382-hires",
+    "qwi-22017-5182-earnings",
+    "qwi-22017-5182-hires",
+    "qwi-22083-2382-earnings",
+    "qwi-22083-2382-hires",
+    "qwi-22083-5182-earnings",
+    "qwi-22083-5182-hires",
+    "qwi-28049-2382-earnings",
+    "qwi-28049-2382-hires",
+    "qwi-28049-5182-earnings",
+    "qwi-28049-5182-hires",
+    "qwi-28089-2382-earnings",
+    "qwi-28089-2382-hires",
+    "qwi-28089-5182-earnings",
+    "qwi-28089-5182-hires",
+    "qwi-28149-2382-earnings",
+    "qwi-28149-2382-hires",
+    "qwi-28149-5182-earnings",
+    "qwi-28149-5182-hires",
+    "qwi-31153-2382-earnings",
+    "qwi-31153-2382-hires",
+    "qwi-31153-5182-earnings",
+    "qwi-31153-5182-hires",
+    "qwi-32003-2382-earnings",
+    "qwi-32003-2382-hires",
+    "qwi-32003-5182-earnings",
+    "qwi-32003-5182-hires",
+    "qwi-32029-2382-earnings",
+    "qwi-32029-2382-hires",
+    "qwi-32029-5182-earnings",
+    "qwi-32029-5182-hires",
+    "qwi-36067-2382-earnings",
+    "qwi-36067-2382-hires",
+    "qwi-36067-5182-earnings",
+    "qwi-36067-5182-hires",
+    "qwi-37153-2382-earnings",
+    "qwi-37153-2382-hires",
+    "qwi-37153-5182-hires",
+    "qwi-40097-2382-earnings",
+    "qwi-40097-2382-hires",
+    "qwi-40097-5182-earnings",
+    "qwi-40097-5182-hires",
+    "qwi-42017-2382-earnings",
+    "qwi-42017-2382-hires",
+    "qwi-42017-5182-earnings",
+    "qwi-42017-5182-hires",
+    "qwi-42043-2382-earnings",
+    "qwi-42043-2382-hires",
+    "qwi-42043-5182-earnings",
+    "qwi-42043-5182-hires",
+    "qwi-42079-2382-earnings",
+    "qwi-42079-2382-hires",
+    "qwi-42079-5182-earnings",
+    "qwi-42079-5182-hires",
+    "qwi-45015-2382-earnings",
+    "qwi-45015-2382-hires",
+    "qwi-45015-5182-earnings",
+    "qwi-45015-5182-hires",
+    "qwi-45083-2382-earnings",
+    "qwi-45083-2382-hires",
+    "qwi-45083-5182-earnings",
+    "qwi-45083-5182-hires",
+    "qwi-47125-2382-earnings",
+    "qwi-47125-2382-hires",
+    "qwi-47125-5182-earnings",
+    "qwi-47125-5182-hires",
+    "qwi-48125-2382-earnings",
+    "qwi-48125-2382-hires",
+    "qwi-48125-5182-earnings",
+    "qwi-48125-5182-hires",
+    "qwi-48185-2382-earnings",
+    "qwi-48185-2382-hires",
+    "qwi-48415-2382-earnings",
+    "qwi-48415-2382-hires",
+    "qwi-48417-2382-earnings",
+    "qwi-48417-2382-hires",
+    "qwi-49001-2382-earnings",
+    "qwi-49001-2382-hires",
+    "qwi-51041-2382-earnings",
+    "qwi-51041-2382-hires",
+    "qwi-51041-5182-earnings",
+    "qwi-51041-5182-hires",
+    "qwi-51087-2382-earnings",
+    "qwi-51087-2382-hires",
+    "qwi-51087-5182-earnings",
+    "qwi-51087-5182-hires",
+    "qwi-51107-2382-earnings",
+    "qwi-51107-2382-hires",
+    "qwi-51107-5182-earnings",
+    "qwi-51107-5182-hires",
+    "qwi-51153-2382-earnings",
+    "qwi-51153-2382-hires",
+    "qwi-51153-5182-earnings",
+    "qwi-51153-5182-hires",
+    "qwi-54053-2382-earnings",
+    "qwi-54053-2382-hires",
+    "qwi-54053-5182-earnings",
+    "qwi-54053-5182-hires",
+    "qwi-56023-2382-earnings",
+    "qwi-56023-2382-hires",
+    "qwi-56023-5182-earnings",
+    "qwi-56023-5182-hires"
+  ],
+  "records": 868,
+  "license": "Public domain (U.S. government work)",
+  "key": "owner-registered, not recorded"
+}
