@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:21:42Z",
+  "reviewed_at": "2026-09-09T11:23:31Z",
   "projects": [
     {
       "id": "gemini",
@@ -3390,7 +3390,10 @@
       "category": "Cloud data-center locality",
       "stage": "operating",
       "ai_relationship": "Cloud infrastructure can support AI and other services. AI-only allocation is not disclosed.",
-      "observations": [],
+      "observations": [
+        "epoch-google-the-dalles-oregon-it-mw-2026-09-09",
+        "epoch-google-the-dalles-oregon-h100e-2026-09-09"
+      ],
       "horizon": "Follow the dated source milestone; subsequent delivery needs new evidence.",
       "grid": "Site-specific power draw, grid allocation and operating utilization are not quantified in this record.",
       "next_evidence": "Seek a dated operating update, scoped capacity, actual utilization and verified local employment.",
@@ -6055,7 +6058,10 @@
       "category": "AI data center",
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). AI-only allocation and the delivery stage are not established by this record.",
-      "observations": [],
+      "observations": [
+        "epoch-google-lincoln-it-mw-2026-09-09",
+        "epoch-google-lincoln-h100e-2026-09-09"
+      ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 141 MW · about 197,575 H100 equivalents · capital cost about 5.3 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
       "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
