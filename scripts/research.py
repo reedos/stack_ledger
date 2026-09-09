@@ -29,7 +29,7 @@ from build import build
 from source_policy import collection_for, due, discoverable, append_excerpt, validate_excerpts
 from atomic_json import save
 from document_formats import as_html, SUPPORTED, CollectionGap, format_gap
-from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, locate_in_windows, focus_text, fold, coverage as text_coverage, implementation_hash, shrink_to_numbers
+from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, locate_in_windows, focus_text, fold, coverage as text_coverage, implementation_hash, shrink_to_numbers, value_support
 from model_rules import EVIDENCE_RULES, SCREENING_RULES, NOTE_EVIDENCE_MAX, METRIC_EVIDENCE_MAX, CHECKLIST, DEFECTS, EMPTY_REASONS
 from collection_health import Health, CoolingDown, QueryRejected, error_details
 
@@ -137,6 +137,24 @@ def dateline(text,limit=600):
         except ValueError:continue
         if value<=datetime.now(timezone.utc).date():return value.isoformat()
     return None
+
+_MONTH_NAMES=MONTHS.split('|')
+def access_period_label(metric,existing,today):
+    """The period to record when a metric accepts year==retrieved year with no year token.
+
+    A `period_basis` of 'snapshot' requires the canonical YYYY-MM-DD format (validate.py).
+    Otherwise, match the wording and month-abbreviation style of that metric's own existing
+    access-dated records ("List pricing accessed Sep 7, 2026") rather than inventing a
+    format; with no precedent, fall back to "Accessed <Month D, YYYY>".
+    """
+    if metric.get('period_basis')=='snapshot':return today.strftime('%Y-%m-%d')
+    precedent=next((o['period'] for o in existing if 'accessed' in o.get('period','').lower()),None)
+    prefix,month_word=('Accessed ','September')
+    if precedent:
+        m=re.search(r'(?i)(.*\baccessed\s+)(\w+)',precedent)
+        if m:prefix,month_word=m.group(1),m.group(2)
+    month=_MONTH_NAMES[today.month-1] if len(month_word)>3 else _MONTH_NAMES[today.month-1][:3]
+    return f'{prefix}{month} {today.day}, {today.year}'
 
 def allowed_url(url,host):
     u=urlparse(url)
@@ -380,17 +398,32 @@ def numeric_support(value,evidence):
     tokens=numeric_tokens(evidence)
     return any(float(t.replace(',',''))==value for t in tokens)
 
-def candidate_record(c,source,document,metrics,all_sources):
+def candidate_record(c,source,document,metrics,all_sources,existing=()):
     fields={'metric','year','period','value','upper','status','precision','note','evidence'}
     require(isinstance(c,dict) and set(c)==fields,'Malformed candidate')
     evidence=c['evidence']
     require(isinstance(evidence,str) and 20<=len(evidence)<=METRIC_EVIDENCE_MAX,'Invalid evidence length')
     require(fold(evidence) in fold(document),'Evidence not found in fetched document')
-    require(numeric_support(c['value'],evidence),'Value not supported by exact numeric token')
-    if c['upper'] is not None:require(numeric_support(c['upper'],evidence),'Upper bound not supported')
-    require(str(c['year']) in document or (source['published'] or '').startswith(str(c['year'])),'Year not found in source')
-    identity=json.dumps([c[k] for k in ['metric','year','period','value','upper','status','precision']],separators=(',',':'))
-    record={k:v for k,v in c.items() if k!='evidence'}
+    metric=metrics.get(c['metric']) or {}
+    support=value_support(c['value'],evidence,metric.get('unit'))
+    require(support is not None,'Value not supported by exact numeric token')
+    fragments=[support['note']] if support['note'] else []
+    if support['token_multiplier'] is not None:c['token_multiplier']=support['token_multiplier']
+    if support['scaled_from_token'] is not None:c['scaled_from_token']=support['scaled_from_token']
+    if c['upper'] is not None:
+        upper_support=value_support(c['upper'],evidence,metric.get('unit'))
+        require(upper_support is not None,'Upper bound not supported')
+        if upper_support['note']:fragments.append(upper_support['note'])
+    metric_existing=[o for o in existing if o['metric']==c['metric']]
+    period=c['period']
+    if not (str(c['year']) in document or (source['published'] or '').startswith(str(c['year']))):
+        access_style=metric.get('period_basis')=='snapshot' or any('accessed' in o.get('period','').lower() for o in metric_existing)
+        require((access_style or not source['published']) and c['year']==datetime.now(timezone.utc).year,'Year not found in source')
+        period=access_period_label(metric,metric_existing,datetime.now(timezone.utc).date())
+    record={k:v for k,v in c.items() if k not in ('evidence','token_multiplier','scaled_from_token')}
+    record['period']=period
+    if fragments:record['note']=(record['note']+' ' if record['note'] else '')+'; '.join(fragments)
+    identity=json.dumps([record[k] for k in ['metric','year','period','value','upper','status','precision']],separators=(',',':'))
     record.update(id='auto-'+digest(identity)[:20],source=source['id'],retrieved_at=now(),method='automated',document_sha256=digest(document),evidence_sha256=digest(evidence))
     observation_valid(record,metrics,all_sources)
     return record
@@ -455,7 +488,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
                 require(reduced is not None,'evidence too long even after shrinking')
                 located=reduced;shrunk=True
             candidate['evidence']=located  # the document's own bytes
-            record=candidate_record(candidate,source,content,metrics,sources)
+            record=candidate_record(candidate,source,content,metrics,sources,existing)
             conflict=duplicate_or_conflict(record,data['observations'],metrics)
             if conflict=='duplicate':continue
             require(conflict!='conflict','Conflicting metric/year requires reviewed correction')
@@ -477,7 +510,9 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             if verdict['supported'] and not duplicate_or_conflict(record,data['observations'],metrics):
                 if record['source'] not in {s['id'] for s in data['sources']}:data['sources'].append(source)
                 data['observations'].append(record);run['accepted']+=1
-                save(LOCAL/'evidence'/f'{record["id"]}.json',{'record':record,'evidence':candidate['evidence'],'review':verdict,'evidence_shrunk':shrunk})
+                proof={'record':record,'evidence':candidate['evidence'],'review':verdict,'evidence_shrunk':shrunk}
+                proof.update({k:candidate[k] for k in ('token_multiplier','scaled_from_token') if k in candidate})
+                save(LOCAL/'evidence'/f'{record["id"]}.json',proof)
                 accepted.append(record)
             else:quarantine.append({'source':source['id'],'candidate':candidate,'reason':(f"{verdict['defect']}: {verdict['reason']}" if not verdict['supported'] else 'Conflicting proposal'),'evidence_shrunk':shrunk})
     return accepted
