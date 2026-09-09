@@ -10,7 +10,7 @@ def summary(folder):
     totals=dict(documents=0,accepted=0,quarantined=0,source_failures=0,discovery_proposals=0,
                 discovery_errors=0,model_calls=0,pushed_batches=0,unpublished_batches=0,
                 finding_pushes=0,monitoring_only_pushes=0,search_calls=0,search_errors=0,
-                discovery_screened=0,cache_hits=0,model_documents=0,cooldown_skips=0,idle_checks=0)
+                discovery_screened=0,cache_hits=0,model_documents=0,cooldown_skips=0,idle_checks=0,private_notes=0)
     hashes=set();complete_inventory=True
     for path in (folder/'batches').glob('*.json'):
         item=json.loads(path.read_text(encoding='utf-8'));run=item.get('monitoring',{});private=item.get('discovery') or {}
@@ -30,7 +30,7 @@ def summary(folder):
         totals['search_errors']+=sum(e.get('stage')=='search' for e in private.get('errors',[]))
         totals['discovery_screened']+=private.get('documents_screened',0)
         stats=item.get('collection',{})
-        for key in ['cache_hits','model_documents','cooldown_skips']:totals[key]+=stats.get(key,0)
+        for key in ['cache_hits','model_documents','cooldown_skips','private_notes']:totals[key]+=stats.get(key,0)
         totals['cooldown_skips']+=private.get('cooldown_skips',0)
         totals['idle_checks']+=item.get('status')=='nothing_due'
         docs=stats.get('documents',[])
@@ -53,7 +53,7 @@ def message(report,totals):
         f"Fetches (includes repeats): {totals['documents']} | Unique document versions: {totals.get('unique_document_versions') if totals.get('unique_document_versions') is not None else 'not recorded'} | Model calls: {totals['model_calls']}",
         (f"Monitoring model documents: {totals['model_documents']} | Cached reviews reused: {totals['cache_hits']} | Cooldown skips: {totals['cooldown_skips']}" if totals.get('collection_detail_available') else 'Older receipts lack unique-document/cache detail.'),
         f"Monitoring records accepted: {totals['accepted']} | Quarantined: {totals['quarantined']}",
-        f"New discovery proposals: {totals['discovery_proposals']} (private review inbox)",
+        f"New discovery proposals: {totals['discovery_proposals']} (private review inbox) | Private notes from sources without excerpt permission: {totals.get('private_notes',0)}",
         f"Source failures: {totals['source_failures']} | Discovery errors: {totals['discovery_errors']}",
         f"Discovery searches: {totals.get('search_calls',0)} ({totals.get('search_errors',0)} failed) | Documents screened: {totals.get('discovery_screened',0)}",
         (f"Publication: {totals['pushed_batches']} batches pushed; {totals['unpublished_batches']} pending/unconfirmed. Receipts-only batches deferred to the session commit: {totals.get('deferred_batches',0)}."

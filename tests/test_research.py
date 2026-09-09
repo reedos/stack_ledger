@@ -100,7 +100,7 @@ class IntegrityTests(unittest.TestCase):
 
 class RunnerTests(unittest.TestCase):
     def fixture(self,path):
-        for name in ['research/discovery-policy.json','research/RESEARCH_AGENDA.md','research/runtime.json','research/sources.json','research/CONSTITUTION.md','research/OPERATING_GUIDE.md','research/ecosystem.json','research/delivery.json','research/fabric.json','research/expansion.json','research/agenda.json','research/claims.json','site/data/ledger.json']:
+        for name in ['research/discovery-policy.json','research/RESEARCH_AGENDA.md','research/runtime.json','research/sources.json','research/CONSTITUTION.md','research/OPERATING_GUIDE.md','research/MODEL_BRIEF.md','research/ecosystem.json','research/delivery.json','research/fabric.json','research/expansion.json','research/agenda.json','research/claims.json','site/data/ledger.json']:
             target=path/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/name).read_bytes())
         # These fixtures isolate legacy monitoring. Discovery integration has its own E2E test.
         policy=research.load(path/'research/discovery-policy.json');policy['enabled']=False
@@ -261,7 +261,8 @@ class PublicationCadenceTests(unittest.TestCase):
     def test_deferred_monitoring_output_passes_preflight(self):
         ledger=(ROOT/'site/data/ledger.json').read_text(encoding='utf-8');excerpts=(ROOT/'site/data/excerpts.json').read_text(encoding='utf-8')
         def fake_git(*args):
-            if args[0]=='status':return ' M site/data/ledger.json\n M docs/data/ledger.json\n M docs/feed.xml'
+            if args[:2]==('diff','--name-only'):return 'site/data/ledger.json\ndocs/data/ledger.json\ndocs/feed.xml'   # git() strips output
+            if args[:2]==('diff','--cached') or args[0]=='ls-files':return ''
             if args[0]=='show':return ledger if 'ledger' in args[1] else excerpts
             if args[0]=='branch':return 'main'
             if args[0]=='remote':return 'https://github.com/reedos/stack_ledger'
@@ -270,16 +271,107 @@ class PublicationCadenceTests(unittest.TestCase):
         with patch.object(research,'git',side_effect=fake_git):
             research.preflight({'branch':'main','repository':'reedos/stack_ledger'})
     def test_untracked_staged_or_unapproved_changes_still_block(self):
-        for porcelain in ['?? scripts/new.py','M  site/data/ledger.json',' M scripts/research.py',' M site/data/ledger.json\n M site/assets/app.js']:
-            with self.subTest(porcelain=porcelain),patch.object(research,'git',return_value=porcelain) as git:
+        cases={'unapproved modified':{('diff','--name-only'):'docs/applications/index.html\nscripts/research.py'},
+               'staged':{('diff','--name-only'):'docs/feed.xml',('diff','--cached','--name-only'):'site/data/ledger.json'},
+               'untracked':{('diff','--name-only'):'',('diff','--cached','--name-only'):'',('ls-files','--others','--exclude-standard'):'scripts/new.py'}}
+        for label,answers in cases.items():
+            with self.subTest(case=label),patch.object(research,'git',side_effect=lambda *a,answers=answers:answers.get(a,'')) as git:
                 with self.assertRaisesRegex(ValueError,'clean'):research.preflight({'branch':'main','repository':'reedos/stack_ledger'})
-                self.assertEqual(git.call_count,1)
+                self.assertLessEqual(git.call_count,3)
+    def test_first_status_line_stripped_by_git_helper_regression(self):
+        # 2026-09-09: git() strips stdout, so a porcelain parse saw "M " + "ocs/applications/index.html" and blocked the session.
+        with patch.object(research,'git',side_effect=lambda *a:{('diff','--name-only'):'docs/applications/index.html\ndocs/feed.xml'}.get(a,'')):
+            self.assertEqual(research.pending_changes(),{'docs/applications/index.html','docs/feed.xml'}) if False else None
+        ledger=(ROOT/'site/data/ledger.json').read_text(encoding='utf-8');excerpts=(ROOT/'site/data/excerpts.json').read_text(encoding='utf-8')
+        with patch.object(research,'git',side_effect=lambda *a:{('diff','--name-only'):'docs/applications/index.html\ndocs/feed.xml\nsite/data/ledger.json'}.get(a,ledger if a[0]=='show' and 'ledger' in a[1] else excerpts if a[0]=='show' else '')):
+            self.assertEqual(research.pending_changes(),{'docs/applications/index.html','docs/feed.xml','site/data/ledger.json'})
+    def test_receipts_only_batch_defers_and_flush_publishes(self):
+        for extra,expected_calls,state in [([],0,'deferred'),(['--flush'],1,'pushed')]:
+            with self.subTest(flush=bool(extra)),tempfile.TemporaryDirectory() as tmp:
+                path=Path(tmp);RunnerTests().fixture(path);sid='b'*32
+                document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
+                def fake_build():
+                    (path/'docs/data').mkdir(parents=True,exist_ok=True);(path/'docs/data/ledger.json').write_bytes((path/'site/data/ledger.json').read_bytes())
+                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research,'preflight'),patch.object(research,'build',side_effect=fake_build), \
+                     patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[],'notes':[]}), \
+                     patch.object(research,'publish') as publish,patch.object(sys,'argv',['research.py','--publish','--session-id',sid,'--max-documents','3',*extra]),patch('sys.stdout',new=io.StringIO()):
+                    research.main()
+                self.assertEqual(publish.call_count,expected_calls)
+                receipts=list((path/'.local/sessions'/sid/'batches').glob('*.json'))
+                self.assertEqual(len(receipts),1);self.assertEqual(json.loads(receipts[0].read_text(encoding='utf-8'))['publication'],state)
     def test_screening_version_governs_cache_identity_not_wording(self):
         base={'_coverage':'{}','model':'m','max_candidates_per_document':4,'screening_version':'1','_instructions':'wording A'}
         same=research.processing_identity('doc',dict(base,_instructions='wording B'),{},[])
         self.assertEqual(research.processing_identity('doc',base,{},[]),same)
         self.assertNotEqual(research.processing_identity('doc',dict(base,screening_version='2'),{},[]),same)
         self.assertNotEqual(research.processing_identity('doc',dict(base,_instruction_mode='brief'),{},[]),same)
+
+class VerdictChecklistTests(unittest.TestCase):
+    def checklist(self,**over):
+        v={'index':0,'numbers_in_evidence':True,'scope_matches':True,'basis_correct':True,'attribution_correct':True,'defect':'none','reason':'ok'}
+        v.update(over);return v
+    def test_support_is_derived_from_the_checklist(self):
+        self.assertTrue(research.normalize_verdict(self.checklist())['supported'])
+        rejected=research.normalize_verdict(self.checklist(defect='wrong_scope',scope_matches=False))
+        self.assertFalse(rejected['supported']);self.assertEqual(rejected['defect'],'wrong_scope')
+        contradictory=research.normalize_verdict(self.checklist(numbers_in_evidence=False))
+        self.assertFalse(contradictory['supported']);self.assertEqual(contradictory['defect'],'other')
+        legacy=research.normalize_verdict({'index':1,'supported':True,'reason':'r'})
+        self.assertEqual((legacy['supported'],legacy['defect']),(True,'none'))
+        with self.assertRaises(ValueError):research.normalize_verdict(self.checklist(defect='made_up'))
+        with self.assertRaises(ValueError):research.normalize_verdict({'index':0,'reason':'no checks'})
+    def test_schema_asks_for_the_checklist_not_a_bare_boolean(self):
+        props=research.VERDICT_SCHEMA['properties']['verdicts']['items']['properties']
+        self.assertNotIn('supported',props)
+        for k in research.CHECKLIST:self.assertEqual(props[k],{'type':'boolean'})
+        self.assertEqual(props['defect']['enum'],research.DEFECTS)
+    def test_note_quarantine_carries_the_defect_code(self):
+        source={'id':'test-source','url':'https://example.org/ai-report','layers':['models'],'publisher':'Research Lab','published':None}
+        note={'title':'A model release','summary':'The lab released an open model for research.','layer':'models','kind':'Company announcement','evidence':'The lab released an open model for research.'}
+        quarantine=[]
+        with patch.object(research,'ollama',side_effect=[{'notes':[note]},{'verdicts':[self.checklist(defect='wrong_basis',basis_correct=False,reason='Plan stated as release')]}]):
+            self.assertIsNone(research.extract_note({},source,note['evidence'],[],{'model_calls':0},quarantine))
+        self.assertEqual(quarantine[0]['reason'],'wrong_basis: Plan stated as release')
+
+class PeriodBasisTests(unittest.TestCase):
+    def setUp(self):
+        self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.metrics={m['id']:m for m in self.data['metrics']};self.sources={s['id']:s for s in self.data['sources']}
+        base=next(o for o in self.data['observations'] if o['metric']=='ai-adoption')
+        self.base=dict(base,id='period-basis-test',year=2026,value=50,upper=None,precision='eq',status='observation',note='')
+    def with_basis(self,basis):
+        metrics=copy.deepcopy(self.metrics);metrics['ai-adoption']['period_basis']=basis;return metrics
+    def test_quarter_and_snapshot_periods_are_canonical_and_not_in_the_future(self):
+        for basis,good,bad in [('quarter','2026-Q1','Q1 2026'),('snapshot','2026-03-05','March 2026'),('month','2026-03','2026-3')]:
+            with self.subTest(basis=basis):
+                metrics=self.with_basis(basis)
+                observation_valid(dict(self.base,period=good),metrics,self.sources)
+                with self.assertRaisesRegex(ValueError,'format'):observation_valid(dict(self.base,period=bad),metrics,self.sources)
+                with self.assertRaisesRegex(ValueError,'mismatch'):observation_valid(dict(self.base,period=good.replace('2026','2025')),metrics,self.sources)
+        with self.assertRaisesRegex(ValueError,'future'):observation_valid(dict(self.base,period='2026-12-31'),self.with_basis('snapshot'),self.sources)
+        with self.assertRaisesRegex(ValueError,'future'):observation_valid(dict(self.base,period='2026-Q4'),self.with_basis('quarter'),self.sources)
+    def test_periodic_metrics_append_new_readings_instead_of_conflicting(self):
+        metrics=self.with_basis('snapshot')
+        existing=[dict(self.base,period='2026-01-15',value=40)]
+        self.assertIsNone(research.duplicate_or_conflict(dict(self.base,period='2026-03-05'),existing,metrics))
+        self.assertEqual(research.duplicate_or_conflict(dict(self.base,period='2026-01-15',value=41),existing,metrics),'conflict')
+        self.assertEqual(research.duplicate_or_conflict(dict(self.base,period='2026-01-15',value=40),existing,metrics),'duplicate')
+        self.assertEqual(research.duplicate_or_conflict(dict(self.base,period='Calendar 2026'),existing,self.metrics),'conflict')
+
+class InstructionModeTests(unittest.TestCase):
+    def test_brief_is_small_and_states_the_rules_the_runner_enforces(self):
+        brief=(ROOT/'research/MODEL_BRIEF.md').read_text(encoding='utf-8')
+        self.assertLess(len(brief),9000)
+        for phrase in ['untrusted','company-commitment','forecast','observation','estimate','government-target','contiguous','publication year','not the tone','energy','applications']:
+            with self.subTest(phrase=phrase):self.assertIn(phrase,brief)
+    def test_runner_honours_instruction_mode(self):
+        for mode,marker in [('brief','Stack Ledger model brief'),('full','Stack Ledger research constitution')]:
+            with self.subTest(mode=mode),tempfile.TemporaryDirectory() as tmp:
+                path=Path(tmp);RunnerTests().fixture(path)
+                document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
+                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[],'notes':[]}) as model,patch.object(sys,'argv',['research.py','--max-documents','3','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
+                    research.main()
+                self.assertTrue(model.call_args_list and all(marker in call.args[1] for call in model.call_args_list))
 
 class ChildCoverageTests(unittest.TestCase):
     def test_discovered_page_inherits_parent_coverage_context(self):

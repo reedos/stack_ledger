@@ -5655,6 +5655,52 @@
         "infrastructure"
       ],
       "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "epoch-data-centers-dataset",
+      "publisher": "Epoch AI",
+      "title": "AI Data Centers dataset",
+      "url": "https://epoch.ai/data/data_centers/data_centers.zip",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "epoch-gpu-clusters-dataset",
+      "publisher": "Epoch AI",
+      "title": "GPU Clusters dataset",
+      "url": "https://epoch.ai/data/gpu_clusters.csv",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "chips"
+      ],
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "epoch-chip-components-dataset",
+      "publisher": "Epoch AI",
+      "title": "AI Chip Components dataset",
+      "url": "https://epoch.ai/data/ai_chip_components.zip",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "epoch-companies-dataset",
+      "publisher": "Epoch AI",
+      "title": "AI Companies dataset",
+      "url": "https://epoch.ai/data/ai_companies.zip",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "CC BY 4.0"
     }
   ],
   "discovery_keywords": [
@@ -11168,6 +11214,50 @@
       "claim_type": "other",
       "cadence": "manual",
       "weekday": 1,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "epoch-data-centers-dataset": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "epoch-gpu-clusters-dataset": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "epoch-chip-components-dataset": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "epoch-companies-dataset": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false

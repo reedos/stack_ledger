@@ -28,6 +28,11 @@ FUTURE_ONLY = {'training_seats_committed','training_funding_committed','nuclear_
                'permanent_jobs_promised', 'accelerator_units_contracted',
                'compute_mw_contracted'}
 TYPES |= {'annual_revenue_reported', 'annual_revenue_forecast', 'construction_workers_cumulative', 'on_site_full_time_employees'}
+# Epoch AI quarterly estimate series imported by scripts/import_epoch.py (CC BY 4.0); estimates, never observations.
+# Supply aggregates are industry-wide and carry no company; the consumption series is attributed to a designer.
+EPOCH_AGGREGATE={'estimated_cowos_supply_wafers_quarterly', 'estimated_logic_supply_wafers_quarterly', 'estimated_hbm_supply_usd_quarterly'}
+PUBLIC_TYPES |= EPOCH_AGGREGATE
+TYPES |= EPOCH_AGGREGATE | {'estimated_cowos_consumption_wafers_quarterly'}
 FUTURE_ONLY |= {'annual_revenue_forecast'}
 HISTORICAL_ONLY = {'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
                    'permanent_jobs_reported', 'annual_revenue_usd',
