@@ -185,6 +185,7 @@ def review(root,value,reviewer):
     return {'status':value['decision'],'published':False}
 
 def apply_publish(root,rid,proposal_hash,review_hash,reviewer,confirmed=False):
+    """Human publication: the reviewer is the local authorized account and confirms explicitly."""
     require(confirmed is True and reviewer,'Explicit human publication action required')
     p=package(root,rid)
     with locked(root):
@@ -193,6 +194,16 @@ def apply_publish(root,rid,proposal_hash,review_hash,reviewer,confirmed=False):
         require(decision and decision['status']=='approved' and decision['proposal_hash']==digest(p),'Recorded approval required')
         from findings_review import reviewer as current_reviewer
         require(current_reviewer(root)==reviewer,'Unauthorized local reviewer')
+        return publish_package(root,rid,p,decision,reviewer)
+
+def publish_package(root,rid,p,decision,reviewer):
+    """Shared publication body: preview, project the change, validate, build, commit, push, verify.
+
+    Called after either a human approval (apply_publish) or a recorded policy approval
+    (publication_policy.auto_apply). The approval event must already exist and match.
+    """
+    require(decision and decision['status']=='approved' and decision['proposal_hash']==digest(p),'Recorded approval required')
+    if True:
         import research
         require(root.resolve()==research.ROOT.resolve(),'Repository mismatch')
         require(not (root/'.local/research-session.lock').exists(),'Research session active; retry after it finishes')

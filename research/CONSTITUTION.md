@@ -31,6 +31,8 @@ Extract candidate observations using the local Ollama model. Require verbatim ev
 A successful run may find no new evidence. Publish an honest run record with the number of documents fetched, records accepted, and partial failures. Do not fabricate a daily news item. A failed model call cannot mark the whole run successful. A failed run must not advance last_success. The website exposes last attempt and last successful research separately.
 
 ## Change control
+Owner decision, September 9, 2026: human review is for headline content and for replacing figures already on the site. Additions from credible authorities may be applied to the site without per-item review under the reviewed rules in `publication-policy.json`: new entries only, from a policy-listed maintainer tool, evidence traced to registered rank-1 or rank-2 sources, a passing isolated preview, and every application recorded as a catalog_change event carrying the policy label and its commit. Replacing or superseding an existing figure, homepage and editorial selections, metric definitions, targets, source policy, and company or product objects always need a human decision.
+
 The automation is append-only for research observations, verified source-linked research notes, and run receipts. It may refresh the public run summary and deterministic site artifacts. Code, site design, source policy, metrics, targets, and this constitution require human-reviewed changes. Proposed corrections are quarantined for review; preserve the original record and record the replacement relationship. Do not remove inconvenient history.
 
 ## Financial and workforce evidence

@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-09T10:40:00Z",
+  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site. Additions from credible authorities are applied to the site automatically under the rules below, each one recorded as a catalog_change event with its commit.",
+  "auto_apply": {
+    "enabled": true,
+    "reviewer_label": "publication-policy",
+    "authors": ["Epoch import (maintainer tool)"],
+    "targets": ["project", "source", "note", "observation"],
+    "new_entries_only": true,
+    "project_stages": ["status-unverified"],
+    "max_source_rank": 2,
+    "require_passing_preview": true,
+    "max_changes_per_package": 12
+  },
+  "always_human": [
+    "homepage.json, editorial selections and any headline card",
+    "replacing, correcting or superseding a figure already on the site",
+    "metric definitions, targets and chart configuration",
+    "source policy, excerpt permission and discovery permissions",
+    "company and product objects",
+    "stage changes on accepted projects and any object that already exists"
+  ]
+}
