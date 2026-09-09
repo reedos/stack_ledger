@@ -32,7 +32,7 @@
     form.onsubmit=async event=>{
       event.preventDefault();save.disabled=true;
       try{
-        const r=await fetch('review',{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':location.pathname.split('/')[1]},body:JSON.stringify({id:f.id,decision:select.value,rationale:reason.value,proposal_hash:f.proposal_hash,review_hash:f.review_hash,confirmed:confirm.checked})});
+        const r=await fetch('review',{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':sessionKey()},body:JSON.stringify({id:f.id,decision:select.value,rationale:reason.value,proposal_hash:f.proposal_hash,review_hash:f.review_hash,confirmed:confirm.checked})});
         const data=await r.json();if(!r.ok)throw new Error(data.error||'Review could not be recorded');
         await refresh();el('review-message').textContent=`Saved ${data.status} as ${data.reviewer}. Nothing published. `+el('review-message').textContent;
       }catch(e){message.textContent=e.message;save.disabled=!owner;}
@@ -65,7 +65,7 @@
     el('more-findings').hidden=selected.length<=limit;
   }
   async function catalogPost(route,body){
-    const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':location.pathname.split('/')[1]},body:JSON.stringify(body)});
+    const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':sessionKey()},body:JSON.stringify(body)});
     let data={};try{data=await r.json();}catch(e){}
     // A panel server started before catalog review existed answers "Unknown action" or 404; say so instead of failing quietly.
     if(r.status===404||(r.status===400&&data.error==='Unknown action'))throw new Error('This panel server predates catalog review. Close this tab, reopen Research-Control.cmd and use the newly opened tab; the queue and your decisions are unaffected.');

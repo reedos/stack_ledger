@@ -9,7 +9,7 @@
   for(const [v,t] of [['all','All decisions'],['pending_review','Pending review'],['approved','Accepted previews'],['endorsed','Endorsed directions'],['rejected','Declined'],['deferred','Deferred'],['changes_requested','Changes requested']]){const o=node('option',t);o.value=v;filter.append(o);}
   const tools=node('div');tools.className='visual-toolbar';tools.append(refresh,assess,filter);box.append(tools,status,list,digest);el('review-panel').prepend(box);
   let rows=[],owner=null,limit=10;
-  async function post(route,value){const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':location.pathname.split('/')[1]},body:JSON.stringify(value)});const d=await r.json();if(!r.ok)throw Error(d.error||'Visual review failed');return d;}
+  async function post(route,value){const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':sessionKey()},body:JSON.stringify(value)});const d=await r.json();if(!r.ok)throw Error(d.error||'Visual review failed');return d;}
   function link(text,path){const a=node('a',text);a.href=path;a.target='_blank';a.rel='noopener noreferrer';return a;}
   function buildVisualCard(p){
       const card=node('article');card.className='finding-card visual-proposal';

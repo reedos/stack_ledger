@@ -340,3 +340,20 @@ class ReviewerAttributionTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class SessionKeyTests(unittest.TestCase):
+    """The page derives its session key from the LAST path segment so the phone's /<mount>/<token>/ URL works."""
+    def test_node_session_key_unit_tests(self):
+        import shutil
+        node = shutil.which('node')
+        if not node:
+            self.skipTest('node is not installed')
+        result = subprocess.run([node, '--test', 'tests/control_key.cjs'], cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_no_panel_script_reads_the_first_path_segment_as_the_key(self):
+        for name in ['control.js', 'reviews.js', 'visuals.js', 'activity.js']:
+            path = ROOT/'tools/research-control'/name
+            if path.exists():
+                self.assertNotIn("location.pathname.split('/')[1]", path.read_text(encoding='utf-8'), name)

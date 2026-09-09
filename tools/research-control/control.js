@@ -1,6 +1,11 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const key=location.pathname.split('/')[1];
+// The session token is the last path segment of the page URL: '/<token>/' on loopback and
+// '/<mount>/<token>/' when the panel is reached through the Tailscale Serve mount.
+function sessionKeyFromPath(pathname){const parts=String(pathname||'').split('/').filter(Boolean);return parts.length?parts[parts.length-1]:'';}
+const sessionKey=()=>sessionKeyFromPath(location.pathname);
+const key=sessionKey();
+if(typeof module!=='undefined')module.exports={sessionKeyFromPath};
 const PANELS=['decisions-panel','session-panel','activity-panel'];
 const TABS={'decisions-tab':'decisions-panel','session-tab':'session-panel','activity-tab':'activity-panel'};
 function showPanel(id){

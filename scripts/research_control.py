@@ -253,7 +253,7 @@ def server(root=ROOT,*,config=None,asset_root=None):
             path=self.normalized_path();ident=self.valid()
             expected_origin='https://'+config['hostname'] if (ident and ident['channel']=='tailnet') else f'http://127.0.0.1:{self.server.server_port}'
             if not ident or self.headers.get_all('Origin')!=[expected_origin] or self.headers.get_all('X-Session-Key')!=[token]:
-                self.send(403,{'error':'Local control request required'});return
+                self.send(403,{'error':'Control request refused: origin or session key mismatch. Reload the panel from its root URL and try again.'});return
             try:
                 size=int(self.headers.get('Content-Length','0'))
                 if not 0<size<=4096 or self.headers.get('Content-Type')!='application/json':raise ValueError('Invalid request')
