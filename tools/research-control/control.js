@@ -1,15 +1,60 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const key=location.pathname.split('/')[1];
-// An already-running Python server may serve new HTML without the new review route.
-// reviews.js replaces these fallbacks once it loads successfully.
-function reviewFallback(review){
-  $('session-panel').hidden=review;$('review-panel').hidden=!review;
-  $('session-tab').setAttribute('aria-pressed',String(!review));$('review-tab').setAttribute('aria-pressed',String(review));
-  if(review)$('review-message').textContent='Review controls could not load. Reopen Research-Control.cmd and use the newly opened tab to load the current panel server. Opening the panel does not start or stop research.';
+const PANELS=['decisions-panel','session-panel','activity-panel'];
+const TABS={'decisions-tab':'decisions-panel','session-tab':'session-panel','activity-tab':'activity-panel'};
+function showPanel(id){
+  for(const p of PANELS)$(p).hidden=(p!==id);
+  for(const [tab,panel] of Object.entries(TABS))$(tab).setAttribute('aria-pressed',String(panel===id));
 }
-$('session-tab').onclick=()=>reviewFallback(false);
-$('review-tab').onclick=()=>reviewFallback(true);
+function watchStale(el,loadingText,staleText,ms){
+  el.textContent=loadingText;
+  setTimeout(()=>{if(el.textContent===loadingText)el.textContent=staleText;},ms||4000);
+}
+// Fallback bindings: reviews.js/visuals.js/activity.js overwrite these once they load successfully.
+// If a script 404s on a stale already-running server, these keep the panel usable and explain why.
+$('decisions-tab').onclick=()=>showPanel('decisions-panel');
+$('session-tab').onclick=()=>showPanel('session-panel');
+$('activity-tab').onclick=()=>{showPanel('activity-panel');watchStale($('activity-message'),'Loading…','Activity could not load. Reopen Research-Control.cmd and use the newly opened tab. Opening the panel does not start or stop research.');};
+if(!$('decisions-panel').hidden)watchStale($('review-message'),'Loading…','Decisions could not load. Reopen Research-Control.cmd and use the newly opened tab. Opening the panel does not start or stop research.');
+
+// Shared "needs your decision" feed: reviews.js contributes findings+catalog groups, visuals.js contributes
+// visual proposals. Each group is an array of {rank,created_at,el}; higher rank and newer sort first.
+window.__pending={};
+function node(tag,text,className){const n=document.createElement(tag);if(text!==undefined&&text!==null)n.textContent=text;if(className)n.className=className;return n;}
+window.renderDecisionFeed=function(){
+  const box=$('decision-feed');if(!box)return;
+  const groups=window.__pending||{};
+  const items=[].concat(groups.catalog||[],groups.findings||[],groups.visuals||[]);
+  items.sort((a,b)=>(b.rank-a.rank)||String(b.created_at||'').localeCompare(String(a.created_at||'')));
+  box.replaceChildren();
+  if(!items.length){box.append(node('p','Nothing needs a decision right now.','empty-inbox'));return;}
+  for(const it of items)box.append(it.el);
+};
+
+// Full-screen preview overlay on phones (<720px); desktop keeps the inline 60vh frame.
+window.isPhoneWidth=()=>window.matchMedia('(max-width:719px)').matches;
+window.openPreview=function(src,title){
+  const overlay=$('preview-overlay'),body=$('preview-overlay-body');
+  body.replaceChildren();
+  const f=document.createElement('iframe');f.src=src;f.title=title||'Site preview';f.loading='lazy';f.className='preview-frame';
+  body.append(f);overlay.hidden=false;
+};
+$('preview-overlay-close').onclick=()=>{$('preview-overlay').hidden=true;$('preview-overlay-body').replaceChildren();};
+
+// GPU charts default closed on phones; the toggle button (CSS-shown only under 720px) flips them open.
+$('gpu-toggle').onclick=()=>{
+  const shown=$('gpu-charts').classList.toggle('shown');
+  $('gpu-toggle').textContent=shown?'Hide GPU charts':'Show GPU charts';
+};
+// Live batch output starts open on desktop, closed on phones; stays in sync if the window is resized
+// across the breakpoint, unless the operator has already toggled it by hand.
+let logUserToggled=false;
+$('log-details').querySelector('summary').addEventListener('click',()=>{logUserToggled=true;});
+function syncLogDetails(){if(!logUserToggled)$('log-details').open=window.matchMedia('(min-width:720px)').matches;}
+syncLogDetails();
+window.addEventListener('resize',syncLogDetails);
+
 async function send(action,value){
   const r=await fetch(action,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':key},body:JSON.stringify(value)});
   const data=await r.json();if(!r.ok)throw new Error(data.error||'Request failed');return data;
@@ -38,7 +83,7 @@ async function poll(){
     if(d.notification)$('schedule-notice').textContent+=` Telegram completion summary: ${d.notification.status}.`;
     if(d.visual_assessment)$('schedule-notice').textContent+=` Visual recommendations: ${d.visual_assessment.state}${d.visual_assessment.state==='assessing'?' (private review, graphics unchanged)':''}.`;
   }catch(e){$('connection').textContent='Connection unavailable';}
-  setTimeout(poll,2000);
+  setTimeout(poll,document.hidden?10000:2000);
 }
 poll();
 
@@ -46,23 +91,23 @@ function gpuPlot(id,samples,field,end,max,unit){
   const svg=$(id),ns='http://www.w3.org/2000/svg',begin=end-600000;
   const points=samples.filter(s=>s.timestamp_ms>=begin&&s.timestamp_ms<=end);
   svg.replaceChildren();
-  function node(tag,attrs,text){const n=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);if(text)n.textContent=text;svg.append(n);return n;}
+  function el(tag,attrs,text){const n=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);if(text)n.textContent=text;svg.append(n);return n;}
   const y=v=>92-76*v/max,x=t=>38+470*(t-begin)/600000;
   for(const v of [0,max/2,max]){
-    node('path',{d:`M38 ${y(v)}H508`,class:'gpu-grid'});
-    node('text',{x:30,y:y(v)+4,'text-anchor':'end'},`${v}${unit}`);
+    el('path',{d:`M38 ${y(v)}H508`,class:'gpu-grid'});
+    el('text',{x:30,y:y(v)+4,'text-anchor':'end'},`${v}${unit}`);
   }
-  node('text',{x:38,y:118},'10 min ago');node('text',{x:508,y:118,'text-anchor':'end'},'Now');
+  el('text',{x:38,y:118},'10 min ago');el('text',{x:508,y:118,'text-anchor':'end'},'Now');
   let path='',previous=null;
   for(const s of points){
     const value=s[field];
     if(!Number.isFinite(value)){previous=null;continue;}
     path+=`${previous&&s.timestamp_ms-previous.timestamp_ms<=6000?'L':'M'}${x(s.timestamp_ms).toFixed(1)} ${y(value).toFixed(1)} `;
     // Individual points remain visible even before a line can be drawn.
-    node('circle',{cx:x(s.timestamp_ms),cy:y(value),r:1.8,class:'gpu-point'});
+    el('circle',{cx:x(s.timestamp_ms),cy:y(value),r:1.8,class:'gpu-point'});
     previous=s;
   }
-  node('path',{d:path,class:'gpu-line'});
+  el('path',{d:path,class:'gpu-line'});
 }
 async function pollGpu(){
   try{
@@ -79,6 +124,6 @@ async function pollGpu(){
       gpuPlot('gpu-temperature-chart',samples,'temperature',end,Math.ceil(peak/20)*20,'°');
     }
   }catch(e){$('gpu-status').textContent='Telemetry unavailable';$('gpu-usage').textContent='Unavailable';$('gpu-temperature').textContent='Unavailable';}
-  setTimeout(pollGpu,2000);
+  setTimeout(pollGpu,document.hidden?10000:2000);
 }
 pollGpu();
