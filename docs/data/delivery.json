@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:36:14Z",
+  "reviewed_at": "2026-09-09T11:37:32Z",
   "projects": [
     {
       "id": "gemini",
@@ -5715,7 +5715,9 @@
       "stage": "partly-operating",
       "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
       "observations": [
-        "galaxy-helios-reviewed-capacity-20260909"
+        "galaxy-helios-reviewed-capacity-20260909",
+        "epoch-galaxy-helios-it-mw-2026-09-09",
+        "epoch-galaxy-helios-h100e-2026-09-09"
       ],
       "horizon": "Phase II deliveries expected to begin in the first half of 2027.",
       "grid": "Keep delivered critical IT load, gross power, contracted capacity and approved future power separate.",
@@ -5915,7 +5917,10 @@
       "category": "AI data center",
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: OpenAI. AI-only allocation and the delivery stage are not established by this record.",
-      "observations": [],
+      "observations": [
+        "epoch-coreweave-denton-tx-it-mw-2026-09-09",
+        "epoch-coreweave-denton-tx-h100e-2026-09-09"
+      ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 262 MW · about 252,653 H100 equivalents · capital cost about 9.9 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
       "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
