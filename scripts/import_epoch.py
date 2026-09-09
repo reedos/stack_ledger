@@ -63,6 +63,8 @@ PROMOTED={
         {'metric':'epoch-nvidia-ai-chips-cumulative','file':'cumulative_timelines_by_designer.csv','column':'Number of units','end_date':'End date','filter':{'Chip manufacturer':'Nvidia'},'unit':'accelerators (cumulative)','title':'Nvidia AI accelerators shipped, cumulative (Epoch estimate)','measurement_type':'estimated_cumulative_ai_chips','scope':'Epoch AI median estimate of cumulative Nvidia data-center AI accelerators shipped since Q1 2022, all chip types. 5th to 95th percentile in each note. An estimate built from disclosed revenue and supply chains, not a shipment count disclosed by Nvidia.','max':1_000_000_000,'company':'nvidia'},
         {'metric':'epoch-amd-ai-chips-cumulative','file':'cumulative_timelines_by_designer.csv','column':'Number of units','end_date':'End date','filter':{'Chip manufacturer':'AMD'},'unit':'accelerators (cumulative)','title':'AMD AI accelerators shipped, cumulative (Epoch estimate)','measurement_type':'estimated_cumulative_ai_chips','scope':'Epoch AI median estimate of cumulative AMD data-center AI accelerators shipped since Q1 2024. 5th to 95th percentile in each note. An estimate, not an AMD disclosure.','max':1_000_000_000,'company':'amd'},
         {'metric':'epoch-nvidia-ai-compute-cumulative','file':'cumulative_timelines_by_designer.csv','column':'Compute estimate in H100e','end_date':'End date','filter':{'Chip manufacturer':'Nvidia'},'unit':'H100 equivalents (cumulative)','title':'Nvidia AI compute shipped, cumulative (Epoch estimate)','measurement_type':'estimated_cumulative_ai_compute_h100e','scope':'Epoch AI median estimate of cumulative Nvidia AI accelerator compute shipped, in H100 equivalents using the Epoch conversion. 5th to 95th percentile in each note.','max':1_000_000_000,'company':'nvidia'},
+        {'metric':'epoch-nvidia-ai-chips-cumulative-yearly','file':'cumulative_timelines_by_designer.csv','column':'Number of units','end_date':'End date','yearly_latest':True,'filter':{'Chip manufacturer':'Nvidia'},'unit':'accelerators (cumulative)','title':'Nvidia AI accelerators shipped, cumulative (Epoch estimate, year-end or latest quarter)','measurement_type':'estimated_cumulative_ai_chips','scope':'Epoch AI median estimate of cumulative Nvidia data-center AI accelerators shipped since Q1 2022, one point per year: the latest complete quarter of that year. The current year is cumulative through its latest complete quarter. 5th to 95th percentile in each note. Estimate, not an Nvidia disclosure.','max':1_000_000_000,'company':'nvidia'},
+        {'metric':'epoch-amd-ai-chips-cumulative-yearly','file':'cumulative_timelines_by_designer.csv','column':'Number of units','end_date':'End date','yearly_latest':True,'filter':{'Chip manufacturer':'AMD'},'unit':'accelerators (cumulative)','title':'AMD AI accelerators shipped, cumulative (Epoch estimate, year-end or latest quarter)','measurement_type':'estimated_cumulative_ai_chips','scope':'Epoch AI median estimate of cumulative AMD data-center AI accelerators shipped since Q1 2024, one point per year: the latest complete quarter of that year. 5th to 95th percentile in each note. Estimate, not an AMD disclosure.','max':1_000_000_000,'company':'amd'},
     ],
 }
 
@@ -228,7 +230,7 @@ def quarter_period(label):
 def metric_definition(spec,source_id,vintage,start_year=2024):
     return {'id':spec['metric'],'layer':'chips','title':spec['title'],'unit':spec['unit'],'geography':'Global','scope':spec['scope'],'direction':'context','min':0,'max':spec['max'],
             'note':f"Epoch AI estimates, {LICENSE}. Median plotted; 5th to 95th percentile in each record note. Dataset vintage {vintage}; a new vintage replaces the series through reviewed import, never by appending competing values.",
-            'source_ids':[source_id],'company':spec.get('company'),'measurement_type':spec['measurement_type'],'project':None,'allowed_statuses':['estimate'],'period_basis':'quarter',
+            'source_ids':[source_id],'company':spec.get('company'),'measurement_type':spec['measurement_type'],'project':None,'allowed_statuses':['estimate'],**({} if spec.get('yearly_latest') else {'period_basis':'quarter'}),
             'series_start_year':start_year,'chart_default_start':start_year,'chart_default_end':2027,'definition_stable':True,
             'pre_period_note':f'Epoch series begins Q1 {start_year}. Earlier quarters are not estimated. Missing quarters are not zero.'}
 
@@ -255,8 +257,21 @@ def promote(name,record,catalog,ledger,registry):
             else:period,year=quarter_period(row['Quarter'])
             med=number(row.get(f"{spec['column']} (median)"));lo=number(row.get(f"{spec['column']} (5th percentile)"));hi=number(row.get(f"{spec['column']} (95th percentile)"))
             if med is None:continue
-            records.append({'id':f"{spec['metric']}-{period.lower()}",'metric':spec['metric'],'year':year,'period':period,'value':round(med,2),'upper':None,'status':'estimate','source':source_id,'precision':'approx','retrieved_at':record['retrieved_at'],'method':'curated',
+            record_id=f"{spec['metric']}-{year}" if spec.get('yearly_latest') else f"{spec['metric']}-{period.lower()}"
+            if spec.get('yearly_latest'):
+                # Periods the editorial parser understands: a complete year as "Year-end YYYY", a partial year by its quarter-end date.
+                end=row[spec['end_date']];period=f'Year-end {year}' if period.endswith('Q4') else f"{datetime(int(end[:4]),int(end[5:7]),int(end[8:10])).strftime('%B')} {int(end[8:10])}, {year}"
+            records.append({'_end':row.get(spec.get('end_date',''),period) if spec.get('end_date') else period,'id':record_id,'metric':spec['metric'],'year':year,'period':period,'value':round(med,2),'upper':None,'status':'estimate','source':source_id,'precision':'approx','retrieved_at':record['retrieved_at'],'method':'curated',
                             'note':f"Epoch AI median estimate; 5th to 95th percentile {lo:,.0f} to {hi:,.0f}. Dataset vintage {record['vintage']}, sha256 {record['sha256'][:12]}. {LICENSE}."[:300]})
+    # Yearly variants keep one record per metric and year: the latest complete quarter.
+    latest={}
+    for r in records:
+        spec=next(x for x in spec_list if x['metric']==r['metric'])
+        if spec.get('yearly_latest'):
+            k=(r['metric'],r['year'])
+            if k not in latest or r['_end']>latest[k]['_end']:latest[k]=r   # latest complete quarter by end date, not by label
+    records=[r for r in records if not next(x for x in spec_list if x['metric']==r['metric']).get('yearly_latest')]+list(latest.values())
+    for r in records:r.pop('_end',None)
     # Replace this source's records for promoted metrics wholesale: a new vintage supersedes the whole series.
     keep=[o for o in ledger['observations'] if not (o['source']==source_id and o['metric'] in {s['metric'] for s in spec_list})]
     ledger['observations']=keep+records

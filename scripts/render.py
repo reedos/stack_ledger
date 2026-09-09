@@ -24,13 +24,21 @@ def company_snapshot(data, company, base):
     mids = {mid, metric.get('chart_companion_metric') if metric else None}
     records = sorted((o for o in data['observations'] if o['metric'] in mids and not o.get('superseded_by')), key=lambda o: (o['year'], o['period']))
     rows = ''.join(f'<tr><td>{e(o["period"])}</td><td>{e(number(o))}</td><td>{STATUSES[o["status"]]}</td><td><a href="{link_url(sources[o["source"]]["url"])}">{e(sources[o["source"]]["publisher"])}</a></td></tr>' for o in records)
+    output = ''
+    if company.get('output_metric') and company['output_metric'] in metrics:
+        om = metrics[company['output_metric']]
+        latest = max((o for o in data['observations'] if o['metric'] == om['id'] and not o.get('superseded_by') and o['status'] in ('observation', 'estimate')), key=lambda o: (o['year'], o['period']), default=None)
+        if latest:
+            output = (f'<section class="company-output"><div class="eyebrow muted">OUTPUT</div><div class="layer-value">{e(number(latest))} <small>{e(om["unit"])}</small></div>'
+                      f'<p class="layer-label">{e(om["title"])} · {e(latest["period"])} · {STATUSES[latest["status"]]} · <a href="{link_url(sources[latest["source"]]["url"])}">{e(sources[latest["source"]]["publisher"])} ↗</a></p>'
+                      f'<p class="chart-footnote">{e(om["scope"])}</p></section>')
     financials = (f'<h2>Revenue history &amp; outlook</h2><p>{e(metric["scope"])} · {e(metric["unit"])}</p><div class="table-scroll"><table><thead><tr><th>Period</th><th>Revenue</th><th>Classification</th><th>Source</th></tr></thead><tbody>{rows}</tbody></table></div>' if records else '<h2>Revenue coverage</h2><p>No reviewed revenue series yet. Missing data does not mean zero revenue. Funding and valuation are not substitutes.</p>')
-    return (f'<section class="page-hero" data-company="{e(company["id"])}"><a class="section-link" href="{base}companies/">← All companies</a><div class="eyebrow">THE BUILDERS / COMPANY RESEARCH</div><h1>{e(company["name"])}</h1><p>{e(company["role"])}</p></section><section class="panel">{financials}</section>')
+    return (f'<section class="page-hero" data-company="{e(company["id"])}"><a class="section-link" href="{base}companies/">← All companies</a><div class="eyebrow">THE BUILDERS / COMPANY RESEARCH</div><h1>{e(company["name"])}</h1><p>{e(company["role"])}</p></section><section class="panel">{output}{financials}</section>')
 HOME_DESCRIPTION = ('Track energy, chips, infrastructure, models and applications worldwide, '
                     'with deeper U.S. coverage and a horizon of 2030 and beyond.')
 LABELS = {
     'energy': ('Generate', 'Global data-center electricity demand (all workloads)', 'TWh / year'),
-    'chips': ('Compute', 'TSMC CoWoS packaging capacity (Epoch estimate)', 'thousand wafers / month'),
+    'chips': ('Compute', 'Nvidia AI accelerators shipped, cumulative since 2022 (Epoch estimate)', 'accelerators'),
     'infrastructure': ('Connect', 'Stargate Abilene: estimated operating IT power', 'MW IT'),
     'models': ('Learn', 'GPT-5.3-Codex API input list price', 'USD / million input tokens'),
     'applications': ('Apply', 'Waymo One: reported paid weekly service', 'paid trips / week'),

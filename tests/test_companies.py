@@ -23,6 +23,13 @@ class CompanyProfiles(unittest.TestCase):
             self.assertIn(f'data-company="{cid}"', html)
             self.assertIn(f'https://reedos.github.io/stack_ledger/companies/{cid}/', html)
 
+    def test_company_output_metric_renders_as_headline_when_configured(self):
+        import copy
+        c=copy.deepcopy(next(x for x in self.eco['companies'] if x['id']=='nvidia'));c['output_metric']='epoch-nvidia-ai-chips-cumulative-yearly'
+        html=company_snapshot(self.data,c,'../../')
+        self.assertIn('company-output',html);self.assertIn('accelerators (cumulative)',html);self.assertIn('Estimate',html);self.assertIn('Epoch AI',html)
+        plain=company_snapshot(self.data,next(x for x in self.eco['companies'] if x['id']=='nvidia'),'../../');self.assertNotIn('company-output',plain)
+
     def test_no_script_snapshot_contains_revenue_and_forecast(self):
         c = next(c for c in self.eco['companies'] if c['id'] == 'asml')
         html = company_snapshot(self.data, c, '../../')
