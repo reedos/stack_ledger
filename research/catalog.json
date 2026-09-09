@@ -7462,6 +7462,246 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "capital-cash-aws",
+      "layer": "infrastructure",
+      "title": "Amazon · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Amazon figures are gross of sales and incentives.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-aws-2022",
+        "capital-aws-2025"
+      ],
+      "company": "aws",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-alphabet",
+      "layer": "infrastructure",
+      "title": "Alphabet · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Company-wide cash investment as reported.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-alphabet-2023",
+        "capital-alphabet-2025"
+      ],
+      "company": "alphabet",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-meta",
+      "layer": "infrastructure",
+      "title": "Meta · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Meta historical cash PP&E is net of disposal proceeds where reported; retained on the later comparative basis.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-meta-2023",
+        "capital-meta-2025"
+      ],
+      "company": "meta",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-microsoft",
+      "layer": "infrastructure",
+      "title": "Microsoft · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Company-wide cash investment as reported.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-microsoft-2023",
+        "capital-microsoft-2025"
+      ],
+      "company": "microsoft",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-oracle",
+      "layer": "infrastructure",
+      "title": "Oracle · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Oracle uses reported GAAP capex, before financing/prepayment adjustments.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-oracle-2022",
+        "capital-oracle-2024",
+        "capital-oracle-2026"
+      ],
+      "company": "oracle",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-aws",
+      "layer": "infrastructure",
+      "title": "Amazon · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 cash capex guidance reported by AP from the July earnings call; includes businesses beyond AWS. Primary transcript remains a follow-up.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-ap-outlook"
+      ],
+      "company": "aws",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-alphabet",
+      "layer": "infrastructure",
+      "title": "Alphabet · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 guidance reported by AP from July earnings. Primary transcript remains a follow-up.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-ap-outlook"
+      ],
+      "company": "alphabet",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-meta",
+      "layer": "infrastructure",
+      "title": "Meta · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 guidance includes finance-lease principal payments, unlike the historical cash PP&E series.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-meta-outlook"
+      ],
+      "company": "meta",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-microsoft",
+      "layer": "infrastructure",
+      "title": "Microsoft · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 guidance after lease reclassification; finance leases included, operating leases excluded. Investment expectations unchanged apart from accounting impact.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-msft-outlook"
+      ],
+      "company": "microsoft",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
     }
   ],
   "targets": [

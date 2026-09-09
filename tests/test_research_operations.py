@@ -29,7 +29,7 @@ class OperationsTests(unittest.TestCase):
         for _ in range(len(registry['sources'])):
             batch=research.source_queue(registry,day,attempted=attempted)[:8]
             for s in batch:attempted[s['id']]='2026-09-08T12:00:00Z';seen.add(s['id'])
-        self.assertEqual(seen,{s['id'] for s in registry['sources'] if s['layers']})
+        self.assertEqual(seen,{s['id'] for s in registry['sources'] if s['layers'] and registry.get('collection',{}).get(s['id'],{}).get('cadence')!='manual'})
 
     def test_context_includes_new_open_model_coverage(self):
         value=research.coverage_context(ROOT,{'id':'open-hf-hub'})

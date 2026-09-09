@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T05:45:26Z",
+  "reviewed_at": "2026-09-09T05:58:24Z",
   "projects": [
     {
       "id": "gemini",
@@ -25,7 +25,16 @@
           "summary": "Developer announced full commercial operation.",
           "source": "gemini-operating"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 36.21413,
+        "longitude": -115.014398,
+        "precision": "county",
+        "label": "Clark County, NV",
+        "source": "census-map-counties",
+        "source_key": "32003",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "chpe",
@@ -71,7 +80,16 @@
           "summary": "Mechanical completion reported for blocks 1 and 2; commissioning progressing.",
           "source": "fervo-q2-2026"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 38.357535,
+        "longitude": -113.238948,
+        "precision": "county",
+        "label": "Beaver County, UT",
+        "source": "census-map-counties",
+        "source_key": "49001",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "cape-two",
@@ -103,7 +121,16 @@
       "company_ids": [
         "fervo",
         "alphabet"
-      ]
+      ],
+      "map_location": {
+        "latitude": 38.357535,
+        "longitude": -113.238948,
+        "precision": "county",
+        "label": "Beaver County, UT",
+        "source": "census-map-counties",
+        "source_key": "49001",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "crane",
@@ -131,7 +158,16 @@
           "summary": "Regulatory milestones reported; restart expected in 2027.",
           "source": "crane-q2-2026"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 40.412565,
+        "longitude": -76.792634,
+        "precision": "county",
+        "label": "Dauphin County, PA",
+        "source": "census-map-counties",
+        "source_key": "42043",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "fairwater-one",
@@ -168,7 +204,16 @@
       "measures": [
         "fairwater-one-it-endstate-baseline"
       ],
-      "primary_user": "Microsoft AI workloads"
+      "primary_user": "Microsoft AI workloads",
+      "map_location": {
+        "latitude": 42.708832,
+        "longitude": -87.884894,
+        "precision": "place",
+        "label": "Mount Pleasant village, WI",
+        "source": "census-map-places",
+        "source_key": "5554875",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "fairwater-two",
@@ -189,7 +234,16 @@
           "summary": "Microsoft reports ongoing construction and a 2028 completion schedule.",
           "source": "fairwater-operating"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 42.708832,
+        "longitude": -87.884894,
+        "precision": "place",
+        "label": "Mount Pleasant village, WI",
+        "source": "census-map-places",
+        "source_key": "5554875",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "rainier",
@@ -255,7 +309,16 @@
       "measures": [
         "abilene-it-endstate-baseline"
       ],
-      "primary_user": "OpenAI"
+      "primary_user": "OpenAI",
+      "map_location": {
+        "latitude": 32.454514,
+        "longitude": -99.738147,
+        "precision": "place",
+        "label": "Abilene city, TX",
+        "source": "census-map-places",
+        "source_key": "4801000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "hyperion",
@@ -285,7 +348,16 @@
         "hyperion-local-contracts-baseline",
         "hyperion-construction-jobs-baseline",
         "hyperion-permanent-jobs-baseline"
-      ]
+      ],
+      "map_location": {
+        "latitude": 32.413158,
+        "longitude": -91.748353,
+        "precision": "county",
+        "label": "Richland Parish, LA",
+        "source": "census-map-counties",
+        "source_key": "22083",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "colossus-one",
@@ -318,7 +390,16 @@
           "summary": "Epoch identifies an operating facility; its IT-power estimate combines imagery and infrastructure disclosures.",
           "source": "epoch-colossus-1"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 35.109164,
+        "longitude": -89.968511,
+        "precision": "place",
+        "label": "Memphis city, TN",
+        "source": "census-map-places",
+        "source_key": "4748000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "colossus-two",
@@ -359,7 +440,16 @@
           "summary": "Epoch identifies an operating facility; its IT-power estimate combines imagery and infrastructure disclosures.",
           "source": "epoch-colossus-2"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 35.109164,
+        "longitude": -89.968511,
+        "precision": "place",
+        "label": "Memphis city, TN",
+        "source": "census-map-places",
+        "source_key": "4748000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "colossus-grid",
@@ -391,7 +481,16 @@
           "summary": "Company reports a permanent Southaven plant under construction and a timetable to remove temporary turbines. This is separate from MLGW energized grid service.",
           "source": "spacexai-power-july"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 35.109164,
+        "longitude": -89.968511,
+        "precision": "place",
+        "label": "Memphis city, TN",
+        "source": "census-map-places",
+        "source_key": "4748000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "terafab",
@@ -417,7 +516,16 @@
           "summary": "SpaceX announced the site and initial capital requirement. The Austin research fab is a separate precursor, not evidence of Terafab output.",
           "source": "spacex-terafab-2026"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 30.543231,
+        "longitude": -95.988082,
+        "precision": "county",
+        "label": "Grimes County, TX",
+        "source": "census-map-counties",
+        "source_key": "48185",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "tesla-cortex-1",
@@ -442,7 +550,16 @@
           "summary": "Tesla lists the cluster in Production. Cortex 2 supports vehicle and humanoid autonomy development.",
           "source": "tesla-q2-2026"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 30.298622,
+        "longitude": -97.754134,
+        "precision": "place",
+        "label": "Austin city, TX",
+        "source": "census-map-places",
+        "source_key": "4805000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "tesla-cortex-2",
@@ -467,7 +584,16 @@
           "summary": "Tesla lists the cluster in Production. Cortex 2 supports vehicle and humanoid autonomy development.",
           "source": "tesla-q2-2026"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 30.298622,
+        "longitude": -97.754134,
+        "precision": "place",
+        "label": "Austin city, TX",
+        "source": "census-map-places",
+        "source_key": "4805000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "tsmc-arizona-phase1",
@@ -490,7 +616,16 @@
           "summary": "TSMC reports N4 high-volume production since Q4 2024. Wafer fabrication does not establish finished domestic accelerator packaging.",
           "source": "tsmc-arizona"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 33.572154,
+        "longitude": -112.090132,
+        "precision": "place",
+        "label": "Phoenix city, AZ",
+        "source": "census-map-places",
+        "source_key": "0455000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "tsmc-arizona-phase2",
@@ -513,7 +648,16 @@
           "summary": "Fab structure completed in 2025; N3 volume production targeted for H2 2027.",
           "source": "tsmc-arizona"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 33.572154,
+        "longitude": -112.090132,
+        "precision": "place",
+        "label": "Phoenix city, AZ",
+        "source": "census-map-places",
+        "source_key": "0455000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "tsmc-arizona-phase3",
@@ -536,7 +680,16 @@
           "summary": "Third-fab groundbreaking in April 2025; intended processes N2 and A16.",
           "source": "tsmc-arizona"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 33.572154,
+        "longitude": -112.090132,
+        "precision": "place",
+        "label": "Phoenix city, AZ",
+        "source": "census-map-places",
+        "source_key": "0455000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "tsmc-arizona-packaging",
@@ -559,7 +712,16 @@
           "summary": "Initial construction reported in early 2026. U.S. CoWoS production throughput is not verified here.",
           "source": "tsmc-arizona"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 33.572154,
+        "longitude": -112.090132,
+        "precision": "place",
+        "label": "Phoenix city, AZ",
+        "source": "census-map-places",
+        "source_key": "0455000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "hynix-west-lafayette",
@@ -590,7 +752,16 @@
           "summary": "Groundbreaking held August 27. Updated plan puts mass production in H2 2029, later than the older end-2028 overview. Wafers fabricated in Korea will be packaged and tested in Indiana.",
           "source": "hynix-indiana-2026"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 40.443707,
+        "longitude": -86.923616,
+        "precision": "place",
+        "label": "West Lafayette city, IN",
+        "source": "census-map-places",
+        "source_key": "1882862",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "amkor-arizona",
@@ -624,7 +795,16 @@
       "company_ids": [
         "amkor",
         "nvidia"
-      ]
+      ],
+      "map_location": {
+        "latitude": 33.786186,
+        "longitude": -112.308042,
+        "precision": "place",
+        "label": "Peoria city, AZ",
+        "source": "census-map-places",
+        "source_key": "0454050",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "intel-arizona",
@@ -647,7 +827,16 @@
           "summary": "Intel identifies Fab 52 as manufacturing these products; product ramp and HVM milestones retain their dates.",
           "source": "intel-fab52-18a"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 33.282765,
+        "longitude": -111.851819,
+        "precision": "place",
+        "label": "Chandler city, AZ",
+        "source": "census-map-places",
+        "source_key": "0412000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "intel-ohio",
@@ -670,7 +859,16 @@
           "summary": "Intel revised Mod 1 construction completion to 2030 and operations to 2030–2031; Mod 2 follows. This is a dated company schedule, not a newly confirmed September 2026 completion forecast.",
           "source": "intel-ohio-delay"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 40.09,
+        "longitude": -82.776349,
+        "precision": "place",
+        "label": "New Albany city, OH",
+        "source": "census-map-places",
+        "source_key": "3953970",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "samsung-taylor",
@@ -693,7 +891,16 @@
           "summary": "Samsung describes Taylor under construction and a future production ramp. Equipment installation and first wafers are not HVM.",
           "source": "samsung-taylor-schedule"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 30.57203,
+        "longitude": -97.43038,
+        "precision": "place",
+        "label": "Taylor city, TX",
+        "source": "census-map-places",
+        "source_key": "4871948",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "new-carlisle",
@@ -720,7 +927,16 @@
           "summary": "Indiana campus supports Anthropic training on AWS Trainium. Project Rainier is a wider deployment; its chip total is not assigned wholesale to this site.",
           "source": "epoch-anthropic-amazon-new-carlisle"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 41.706572,
+        "longitude": -86.507154,
+        "precision": "place",
+        "label": "New Carlisle town, IN",
+        "source": "census-map-places",
+        "source_key": "1852704",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "stargate-new-mexico",
@@ -745,7 +961,16 @@
           "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
           "source": "epoch-openai-stargate-new-mexico"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 31.87136,
+        "longitude": -106.673424,
+        "precision": "place",
+        "label": "Santa Teresa CDP, NM",
+        "source": "census-map-places",
+        "source_key": "3570700",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "stargate-wisconsin",
@@ -770,7 +995,16 @@
           "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
           "source": "epoch-openai-stargate-wisconsin"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 43.384921,
+        "longitude": -87.884134,
+        "precision": "place",
+        "label": "Port Washington city, WI",
+        "source": "census-map-places",
+        "source_key": "5564450",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "stargate-shackelford",
@@ -795,7 +1029,16 @@
           "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
           "source": "epoch-openai-stargate-shackelford"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 32.74382,
+        "longitude": -99.347005,
+        "precision": "county",
+        "label": "Shackelford County, TX",
+        "source": "census-map-counties",
+        "source_key": "48417",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "stargate-milam",
@@ -820,7 +1063,16 @@
           "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
           "source": "epoch-openai-stargate-milam"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 31.004604,
+        "longitude": -96.991485,
+        "precision": "place",
+        "label": "Burlington CDP, TX",
+        "source": "census-map-places",
+        "source_key": "4811440",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "stargate-michigan",
@@ -843,7 +1095,16 @@
           "summary": "OpenAI and partners marked construction on June 1. Company campus capacity and Epoch modeled IT load use different boundaries; operating IT MW remains unverified.",
           "source": "openai-stargate-michigan"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 42.252217,
+        "longitude": -83.843423,
+        "precision": "county",
+        "label": "Washtenaw County, MI",
+        "source": "census-map-counties",
+        "source_key": "26161",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "stargate-ohio",
@@ -866,7 +1127,16 @@
           "summary": "OpenAI reported SoftBank groundbreaking in September 2025 and targeted operation the following year. This review has no later commissioning record.",
           "source": "openai-stargate-sites"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 41.170976,
+        "longitude": -80.866271,
+        "precision": "place",
+        "label": "Lordstown village, OH",
+        "source": "census-map-places",
+        "source_key": "3944912",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "waymo-one",
@@ -1016,7 +1286,16 @@
           "summary": "Agility identifies commercial deployments including GXO. The separate tote milestone measures completed handling tasks, not a robot fleet count.",
           "source": "agility-commercial-2026"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 34.171303,
+        "longitude": -83.918746,
+        "precision": "place",
+        "label": "Flowery Branch city, GA",
+        "source": "census-map-places",
+        "source_key": "1330340",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "southaven-permanent-power",
@@ -1041,7 +1320,16 @@
           "summary": "SpaceXAI reports an agreed removal schedule for temporary mobile turbines and construction of a permitted permanent plant. The April lawsuit remains a filed allegation, not a final court finding.",
           "source": "spacexai-power-july"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 34.951005,
+        "longitude": -89.977669,
+        "precision": "place",
+        "label": "Southaven city, MS",
+        "source": "census-map-places",
+        "source_key": "2869280",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "colossus-stateline",
@@ -1064,7 +1352,16 @@
           "summary": "MDEQ lists the Stateline Road physical site and Project Tulane construction general-permit coverage dated August 18, 2026. Stormwater coverage is not an air permit or evidence of commissioned compute.",
           "source": "southaven-stateline-permit"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 34.951005,
+        "longitude": -89.977669,
+        "precision": "place",
+        "label": "Southaven city, MS",
+        "source": "census-map-places",
+        "source_key": "2869280",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "tsmc-arizona-program",
@@ -1090,7 +1387,16 @@
           "summary": "Program overview combines operating N4 production with later fabs and packaging plans. Individual phases are tracked separately; campus commitments cannot be assigned to the operating first fab.",
           "source": "tsmc-arizona"
         }
-      ]
+      ],
+      "map_location": {
+        "latitude": 33.572154,
+        "longitude": -112.090132,
+        "precision": "place",
+        "label": "Phoenix city, AZ",
+        "source": "census-map-places",
+        "source_key": "0455000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "palisades-restart",
@@ -1114,7 +1420,16 @@
       ],
       "company_ids": [
         "holtec"
-      ]
+      ],
+      "map_location": {
+        "latitude": 42.28215,
+        "longitude": -86.306076,
+        "precision": "county",
+        "label": "Van Buren County, MI",
+        "source": "census-map-counties",
+        "source_key": "26159",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "hermes-two",
@@ -1140,7 +1455,16 @@
         "kairos",
         "tva",
         "alphabet"
-      ]
+      ],
+      "map_location": {
+        "latitude": 35.966483,
+        "longitude": -84.290549,
+        "precision": "place",
+        "label": "Oak Ridge city, TN",
+        "source": "census-map-places",
+        "source_key": "4755120",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "natrium-kemmerer",
@@ -1164,7 +1488,16 @@
       ],
       "company_ids": [
         "terrapower"
-      ]
+      ],
+      "map_location": {
+        "latitude": 42.229993,
+        "longitude": -110.682961,
+        "precision": "county",
+        "label": "Lincoln County, WY",
+        "source": "census-map-counties",
+        "source_key": "56023",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "ormat-nevada-google-portfolio",
@@ -1242,7 +1575,16 @@
       "measures": [
         "temple-construction-peak-2026",
         "temple-operating-roles-2026"
-      ]
+      ],
+      "map_location": {
+        "latitude": 31.104936,
+        "longitude": -97.388512,
+        "precision": "place",
+        "label": "Temple city, TX",
+        "source": "census-map-places",
+        "source_key": "4872176",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "aws-northwest-louisiana",
@@ -1293,7 +1635,16 @@
         "alphabet",
         "xcel-energy",
         "form-energy"
-      ]
+      ],
+      "map_location": {
+        "latitude": 44.198124,
+        "longitude": -92.628119,
+        "precision": "place",
+        "label": "Pine Island city, MN",
+        "source": "census-map-places",
+        "source_key": "2751136",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "meta-tulsa",
@@ -1317,7 +1668,16 @@
       ],
       "company_ids": [
         "meta"
-      ]
+      ],
+      "map_location": {
+        "latitude": 36.127949,
+        "longitude": -95.902316,
+        "precision": "place",
+        "label": "Tulsa city, OK",
+        "source": "census-map-places",
+        "source_key": "4075000",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "meta-sturgeon",
@@ -1368,7 +1728,16 @@
       ],
       "measures": [
         "micron-ny-local-awards-2026"
-      ]
+      ],
+      "map_location": {
+        "latitude": 43.006516,
+        "longitude": -76.196134,
+        "precision": "county",
+        "label": "Onondaga County, NY",
+        "source": "census-map-counties",
+        "source_key": "36067",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "micron-idaho-one",
@@ -1392,7 +1761,16 @@
       ],
       "company_ids": [
         "micron"
-      ]
+      ],
+      "map_location": {
+        "latitude": 43.59805,
+        "longitude": -116.231596,
+        "precision": "place",
+        "label": "Boise City city, ID",
+        "source": "census-map-places",
+        "source_key": "1608830",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "micron-idaho-two",
@@ -1416,7 +1794,16 @@
       ],
       "company_ids": [
         "micron"
-      ]
+      ],
+      "map_location": {
+        "latitude": 43.59805,
+        "longitude": -116.231596,
+        "precision": "place",
+        "label": "Boise City city, ID",
+        "source": "census-map-places",
+        "source_key": "1608830",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "hynix-yongin-y1",
@@ -1488,7 +1875,16 @@
       ],
       "company_ids": [
         "sk-hynix"
-      ]
+      ],
+      "map_location": {
+        "latitude": 36.63722,
+        "longitude": 127.48972,
+        "precision": "place",
+        "label": "Cheongju-si, KR",
+        "source": "geonames-map",
+        "source_key": "1845604",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "micron-singapore-hbm",
@@ -1512,7 +1908,16 @@
       ],
       "company_ids": [
         "micron"
-      ]
+      ],
+      "map_location": {
+        "latitude": 1.28967,
+        "longitude": 103.85007,
+        "precision": "place",
+        "label": "Singapore, SG",
+        "source": "geonames-map",
+        "source_key": "1880252",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "nebius-lappeenranta",
@@ -1536,7 +1941,16 @@
       ],
       "company_ids": [
         "nebius"
-      ]
+      ],
+      "map_location": {
+        "latitude": 61.05871,
+        "longitude": 28.18871,
+        "precision": "place",
+        "label": "Lappeenranta, FI",
+        "source": "geonames-map",
+        "source_key": "648900",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "nebius-mantsala",
@@ -1584,7 +1998,16 @@
       ],
       "company_ids": [
         "nebius"
-      ]
+      ],
+      "map_location": {
+        "latitude": 50.63391,
+        "longitude": 3.05512,
+        "precision": "place",
+        "label": "Lille, FR",
+        "source": "geonames-map",
+        "source_key": "2998324",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "coreweave-lancaster",
@@ -1608,7 +2031,16 @@
       ],
       "company_ids": [
         "coreweave"
-      ]
+      ],
+      "map_location": {
+        "latitude": 40.042061,
+        "longitude": -76.30099,
+        "precision": "place",
+        "label": "Lancaster city, PA",
+        "source": "census-map-places",
+        "source_key": "4241216",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "ase-kaohsiung-park-three",
@@ -1632,7 +2064,16 @@
       ],
       "company_ids": [
         "ase"
-      ]
+      ],
+      "map_location": {
+        "latitude": 22.61626,
+        "longitude": 120.31333,
+        "precision": "place",
+        "label": "Kaohsiung, TW",
+        "source": "geonames-map",
+        "source_key": "1673820",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     },
     {
       "id": "ase-wus-nanzih",
@@ -1656,7 +2097,16 @@
       ],
       "company_ids": [
         "ase"
-      ]
+      ],
+      "map_location": {
+        "latitude": 22.61626,
+        "longitude": 120.31333,
+        "precision": "place",
+        "label": "Kaohsiung, TW",
+        "source": "geonames-map",
+        "source_key": "1673820",
+        "reviewed_at": "2026-09-09T05:58:24Z"
+      }
     }
   ],
   "context_metrics": [

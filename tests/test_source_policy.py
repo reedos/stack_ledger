@@ -32,6 +32,22 @@ class SourcePolicyTests(unittest.TestCase):
         monday=date(2026,9,7);tuesday=date(2026,9,8)
         self.assertTrue(due(self.policy,monday));self.assertFalse(due(self.policy,tuesday))
         self.assertNotIn(self.source['id'],[s['id'] for s in source_queue(self.registry,tuesday)])
+    def test_manual_archives_never_enter_monitoring(self):
+        manual={sid for sid,p in self.registry['collection'].items() if p['cadence']=='manual'}
+        self.assertIn('epoch-eci-dataset',manual)
+        for weekday in range(7):
+            day=date(2026,9,7+weekday)
+            for attempted in [None,{},dict.fromkeys(manual,'2020-01-01T00:00:00Z')]:
+                self.assertFalse(manual & {s['id'] for s in source_queue(self.registry,day,attempted=attempted)})
+            for sid in manual:self.assertFalse(due(self.registry['collection'][sid],day))
+        with self.assertRaisesRegex(ValueError,'maintainer import'):
+            source_queue(self.registry,date(2026,9,8),['epoch-eci-dataset'])
+        # Featured priority cannot override a manual restriction either.
+        self.registry['collection']['iea-2026']['cadence']='manual'
+        self.assertNotIn('iea-2026',{s['id'] for s in source_queue(self.registry,date(2026,9,8),attempted={})})
+    def test_manual_sources_cannot_enable_extraction(self):
+        self.registry['collection']['epoch-eci-dataset']['excerpts']=True
+        with self.assertRaisesRegex(ValueError,'Manual sources'):validate_registry(self.registry,self.companies)
     def test_excerpt_identity_and_quote_budget(self):
         d={'version':1,'excerpts':[]}
         append_excerpt(d,self.source,self.policy,'Optical connections connect the reference design.','Architecture description, not installed capacity.','2026-09-07T00:00:00Z','observation')

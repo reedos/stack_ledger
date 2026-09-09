@@ -88,6 +88,7 @@ function organizeResearch(){
  paginateResearch(document.getElementById('research-results'),':scope > .signal-row',8,'Research notes');
  paginateResearch(document.getElementById('record-results'),':scope > .record-row',12,'Observations');
  paginateResearch(document.querySelector('.run-table tbody'),':scope > tr',8,'Research runs');
+ paginateResearch(document.getElementById('eci-table'),':scope > tr',12,'Model scores');
  if(page==='methodology'){
   const first=main.querySelector('.source-card');if(first){const sources=document.createElement('div');first.before(sources);main.querySelectorAll('.source-card').forEach(el=>sources.append(el));paginateResearch(sources,':scope > .source-card',12,'Sources',{search:true});}
  }
@@ -98,7 +99,7 @@ function organizeResearch(){
  // Preserve every source and topic; prioritize measured evidence over repeated introductions.
  if(['energy','chips','infrastructure','models','applications'].includes(page)){
   const metric=main.querySelector('.detail-layout');if(metric){metric.id='tracked-indicators';main.querySelector('#layer-diagram').after(metric);}
-  const priority={models:['frontier-models','open-model-ecosystem','premium-model-plans'],applications:['alphafold-medicine']}[page]||[];
+  const priority={models:['model-capabilities','frontier-models','open-model-ecosystem','premium-model-plans'],applications:['alphafold-medicine']}[page]||[];
   let anchor=metric||main.querySelector('#layer-diagram');for(const id of priority){const section=document.getElementById(id);if(section&&section.parentElement===main){anchor.after(section);anchor=section;}}
   const repeated=main.querySelector('#ai-factories,#useful-systems,#productive-intelligence');
   if(repeated)disclosureAround([repeated],'Context: how this layer connects to useful work');

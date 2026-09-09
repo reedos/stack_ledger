@@ -7464,6 +7464,246 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "capital-cash-aws",
+      "layer": "infrastructure",
+      "title": "Amazon · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Amazon figures are gross of sales and incentives.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-aws-2022",
+        "capital-aws-2025"
+      ],
+      "company": "aws",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-alphabet",
+      "layer": "infrastructure",
+      "title": "Alphabet · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Company-wide cash investment as reported.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-alphabet-2023",
+        "capital-alphabet-2025"
+      ],
+      "company": "alphabet",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-meta",
+      "layer": "infrastructure",
+      "title": "Meta · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Meta historical cash PP&E is net of disposal proceeds where reported; retained on the later comparative basis.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-meta-2023",
+        "capital-meta-2025"
+      ],
+      "company": "meta",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-microsoft",
+      "layer": "infrastructure",
+      "title": "Microsoft · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Company-wide cash investment as reported.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-microsoft-2023",
+        "capital-microsoft-2025"
+      ],
+      "company": "microsoft",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-cash-oracle",
+      "layer": "infrastructure",
+      "title": "Oracle · annual cash capital spending",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Annual cash-flow statement PP&E purchases/additions; excludes noncash lease additions and finance-lease principal repayments. Oracle uses reported GAAP capex, before financing/prepayment adjustments.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-oracle-2022",
+        "capital-oracle-2024",
+        "capital-oracle-2026"
+      ],
+      "company": "oracle",
+      "measurement_type": "capex_recognized_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-aws",
+      "layer": "infrastructure",
+      "title": "Amazon · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 cash capex guidance reported by AP from the July earnings call; includes businesses beyond AWS. Primary transcript remains a follow-up.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-ap-outlook"
+      ],
+      "company": "aws",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-alphabet",
+      "layer": "infrastructure",
+      "title": "Alphabet · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 guidance reported by AP from July earnings. Primary transcript remains a follow-up.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-ap-outlook"
+      ],
+      "company": "alphabet",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-meta",
+      "layer": "infrastructure",
+      "title": "Meta · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 guidance includes finance-lease principal payments, unlike the historical cash PP&E series.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-meta-outlook"
+      ],
+      "company": "meta",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+    },
+    {
+      "id": "capital-guidance-microsoft",
+      "layer": "infrastructure",
+      "title": "Microsoft · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "CY2026 guidance after lease reclassification; finance leases included, operating leases excluded. Investment expectations unchanged apart from accounting impact.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "source_ids": [
+        "capital-msft-outlook"
+      ],
+      "company": "microsoft",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
     }
   ],
   "sources": [
@@ -12158,6 +12398,222 @@
         "applications"
       ],
       "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "capital-aws-2022",
+      "publisher": "Amazon",
+      "title": "Amazon 2022 financial statements · capital spending",
+      "url": "https://ir.aboutamazon.com/news-release/news-release-details/2023/Amazon-com-Announces-Fourth-Quarter-Results/default.aspx",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-aws-2025",
+      "publisher": "Amazon",
+      "title": "Amazon 2025 financial statements · capital spending",
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-alphabet-2023",
+      "publisher": "Alphabet",
+      "title": "Alphabet 2023 financial statements · capital spending",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204424000022/goog-20231231.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-alphabet-2025",
+      "publisher": "Alphabet",
+      "title": "Alphabet 2025 financial statements · capital spending",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-meta-2023",
+      "publisher": "Meta",
+      "title": "Meta 2023 financial statements · capital spending",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/meta-20231231.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-meta-2025",
+      "publisher": "Meta",
+      "title": "Meta 2025 financial statements · capital spending",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-microsoft-2023",
+      "publisher": "Microsoft",
+      "title": "Microsoft 2023 financial statements · capital spending",
+      "url": "https://www.microsoft.com/investor/reports/ar23/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-microsoft-2025",
+      "publisher": "Microsoft",
+      "title": "Microsoft 2025 financial statements · capital spending",
+      "url": "https://www.microsoft.com/investor/reports/ar25/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-oracle-2022",
+      "publisher": "Oracle",
+      "title": "Oracle 2022 financial statements · capital spending",
+      "url": "https://investor.oracle.com/investor-news/news-details/2022/Oracle-Announces-Fiscal-2022-Fourth-Quarter-and-Fiscal-Full-Year-Financial-Results/default.aspx",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-oracle-2024",
+      "publisher": "Oracle",
+      "title": "Oracle 2024 financial statements · capital spending",
+      "url": "https://investor.oracle.com/investor-news/news-details/2024/Oracle-Announces-Fiscal-2024-Fourth-Quarter-and-Fiscal-Full-Year-Financial-Results/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-oracle-2026",
+      "publisher": "Oracle",
+      "title": "Oracle 2026 financial statements · capital spending",
+      "url": "https://investor.oracle.com/investor-news/news-details/2026/Oracle-Announces-Record-Q4-and-FY-2026-Results-Driven-by-Cloud-Infrastructure--Cloud-Applications/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-meta-outlook",
+      "publisher": "Meta",
+      "title": "Second-quarter 2026 results · capital expenditure guidance",
+      "url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Second-Quarter-2026-Results/default.aspx",
+      "published": "2026-07-29",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-msft-outlook",
+      "publisher": "Microsoft",
+      "title": "FY2026 fourth-quarter call · lease accounting and CY2026 capex",
+      "url": "https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q4",
+      "published": "2026-07-29",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "capital-ap-outlook",
+      "publisher": "Associated Press",
+      "title": "Amazon raises 2026 spending; Alphabet comparison from July earnings",
+      "url": "https://apnews.com/article/b4ce02b4666a35b8975823c5c22072ee",
+      "published": "2026-07-30",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "epoch-eci-dataset",
+      "publisher": "Epoch AI",
+      "title": "AI Benchmarking Hub · Epoch Capabilities Index dataset",
+      "url": "https://epoch.ai/data/benchmark_data.zip",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Epoch AI data: Creative Commons Attribution; credit Epoch AI and original dataset authors."
+    },
+    {
+      "id": "epoch-eci-method",
+      "publisher": "Epoch AI",
+      "title": "Epoch Capabilities Index · methodology and limitations",
+      "url": "https://epoch.ai/eci",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "census-map-places",
+      "publisher": "U.S. Census Bureau",
+      "title": "2025 Gazetteer · place internal points",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_place_national.zip",
+      "published": null,
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure",
+        "applications"
+      ],
+      "license": "U.S. government geographic data."
+    },
+    {
+      "id": "census-map-counties",
+      "publisher": "U.S. Census Bureau",
+      "title": "2025 Gazetteer · county internal points",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2025_Gazetteer/2025_Gaz_counties_national.zip",
+      "published": null,
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure",
+        "applications"
+      ],
+      "license": "U.S. government geographic data."
+    },
+    {
+      "id": "geonames-map",
+      "publisher": "GeoNames",
+      "title": "Populated places · cities with more than 5,000 inhabitants",
+      "url": "https://download.geonames.org/export/dump/cities5000.zip",
+      "published": null,
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "GeoNames geographical data · CC BY 4.0."
     }
   ],
   "observations": [
@@ -20902,6 +21358,426 @@
       "method": "curated",
       "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
       "document_sha256": "c89fdfe777e326ec041ad68a6e25ca5c2c31f2b68b5348d0fafa3bcd7140339f"
+    },
+    {
+      "id": "capital-cash-aws-2021-reviewed",
+      "metric": "capital-cash-aws",
+      "year": 2021,
+      "period": "FY2021 ended December 31",
+      "value": 61.053,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-aws-2022",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2021. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-aws-2022-reviewed",
+      "metric": "capital-cash-aws",
+      "year": 2022,
+      "period": "FY2022 ended December 31",
+      "value": 63.645,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-aws-2022",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2022. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-aws-2023-reviewed",
+      "metric": "capital-cash-aws",
+      "year": 2023,
+      "period": "FY2023 ended December 31",
+      "value": 52.729,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-aws-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2023. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-aws-2024-reviewed",
+      "metric": "capital-cash-aws",
+      "year": 2024,
+      "period": "FY2024 ended December 31",
+      "value": 82.999,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-aws-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2024. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-aws-2025-reviewed",
+      "metric": "capital-cash-aws",
+      "year": 2025,
+      "period": "FY2025 ended December 31",
+      "value": 131.819,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-aws-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2025. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-alphabet-2021-reviewed",
+      "metric": "capital-cash-alphabet",
+      "year": 2021,
+      "period": "FY2021 ended December 31",
+      "value": 24.64,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-alphabet-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2021. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-alphabet-2022-reviewed",
+      "metric": "capital-cash-alphabet",
+      "year": 2022,
+      "period": "FY2022 ended December 31",
+      "value": 31.485,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-alphabet-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2022. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-alphabet-2023-reviewed",
+      "metric": "capital-cash-alphabet",
+      "year": 2023,
+      "period": "FY2023 ended December 31",
+      "value": 32.251,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-alphabet-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2023. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-alphabet-2024-reviewed",
+      "metric": "capital-cash-alphabet",
+      "year": 2024,
+      "period": "FY2024 ended December 31",
+      "value": 52.535,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-alphabet-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2024. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-alphabet-2025-reviewed",
+      "metric": "capital-cash-alphabet",
+      "year": 2025,
+      "period": "FY2025 ended December 31",
+      "value": 91.447,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-alphabet-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2025. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-meta-2021-reviewed",
+      "metric": "capital-cash-meta",
+      "year": 2021,
+      "period": "FY2021 ended December 31",
+      "value": 18.567,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-meta-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2021. Net PP&E cash purchases; comparative presentation retained."
+    },
+    {
+      "id": "capital-cash-meta-2022-reviewed",
+      "metric": "capital-cash-meta",
+      "year": 2022,
+      "period": "FY2022 ended December 31",
+      "value": 31.186,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-meta-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2022. Net PP&E cash purchases; comparative presentation retained."
+    },
+    {
+      "id": "capital-cash-meta-2023-reviewed",
+      "metric": "capital-cash-meta",
+      "year": 2023,
+      "period": "FY2023 ended December 31",
+      "value": 27.045,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-meta-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2023. Net PP&E cash purchases; comparative presentation retained."
+    },
+    {
+      "id": "capital-cash-meta-2024-reviewed",
+      "metric": "capital-cash-meta",
+      "year": 2024,
+      "period": "FY2024 ended December 31",
+      "value": 37.256,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-meta-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2024. Net PP&E cash purchases; comparative presentation retained."
+    },
+    {
+      "id": "capital-cash-meta-2025-reviewed",
+      "metric": "capital-cash-meta",
+      "year": 2025,
+      "period": "FY2025 ended December 31",
+      "value": 69.691,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-meta-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended December 31, 2025. Net PP&E cash purchases; comparative presentation retained."
+    },
+    {
+      "id": "capital-cash-microsoft-2021-reviewed",
+      "metric": "capital-cash-microsoft",
+      "year": 2021,
+      "period": "FY2021 ended June 30",
+      "value": 20.622,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-microsoft-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended June 30, 2021. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-microsoft-2022-reviewed",
+      "metric": "capital-cash-microsoft",
+      "year": 2022,
+      "period": "FY2022 ended June 30",
+      "value": 23.886,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-microsoft-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended June 30, 2022. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-microsoft-2023-reviewed",
+      "metric": "capital-cash-microsoft",
+      "year": 2023,
+      "period": "FY2023 ended June 30",
+      "value": 28.107,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-microsoft-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended June 30, 2023. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-microsoft-2024-reviewed",
+      "metric": "capital-cash-microsoft",
+      "year": 2024,
+      "period": "FY2024 ended June 30",
+      "value": 44.477,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-microsoft-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended June 30, 2024. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-microsoft-2025-reviewed",
+      "metric": "capital-cash-microsoft",
+      "year": 2025,
+      "period": "FY2025 ended June 30",
+      "value": 64.551,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-microsoft-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended June 30, 2025. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-oracle-2021-reviewed",
+      "metric": "capital-cash-oracle",
+      "year": 2021,
+      "period": "FY2021 ended May 31",
+      "value": 2.135,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-oracle-2022",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended May 31, 2021. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-oracle-2022-reviewed",
+      "metric": "capital-cash-oracle",
+      "year": 2022,
+      "period": "FY2022 ended May 31",
+      "value": 4.511,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-oracle-2022",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended May 31, 2022. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-oracle-2023-reviewed",
+      "metric": "capital-cash-oracle",
+      "year": 2023,
+      "period": "FY2023 ended May 31",
+      "value": 8.695,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-oracle-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended May 31, 2023. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-oracle-2024-reviewed",
+      "metric": "capital-cash-oracle",
+      "year": 2024,
+      "period": "FY2024 ended May 31",
+      "value": 6.866,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-oracle-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended May 31, 2024. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-oracle-2025-reviewed",
+      "metric": "capital-cash-oracle",
+      "year": 2025,
+      "period": "FY2025 ended May 31",
+      "value": 21.215,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-oracle-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended May 31, 2025. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-cash-oracle-2026-reviewed",
+      "metric": "capital-cash-oracle",
+      "year": 2026,
+      "period": "FY2026 ended May 31",
+      "value": 55.663,
+      "upper": null,
+      "status": "observation",
+      "source": "capital-oracle-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "Fiscal year ended May 31, 2026. Reported cash expenditure; converted from USD millions to billions."
+    },
+    {
+      "id": "capital-guidance-aws-2026-reviewed",
+      "metric": "capital-guidance-aws",
+      "year": 2026,
+      "period": "CY2026 guidance",
+      "value": 220,
+      "upper": null,
+      "status": "forecast",
+      "source": "capital-ap-outlook",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "CY2026 cash capex guidance reported by AP from the July earnings call; includes businesses beyond AWS. Primary transcript remains a follow-up."
+    },
+    {
+      "id": "capital-guidance-alphabet-2026-reviewed",
+      "metric": "capital-guidance-alphabet",
+      "year": 2026,
+      "period": "CY2026 guidance",
+      "value": 195,
+      "upper": 205,
+      "status": "forecast",
+      "source": "capital-ap-outlook",
+      "precision": "range",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "CY2026 guidance reported by AP from July earnings. Primary transcript remains a follow-up."
+    },
+    {
+      "id": "capital-guidance-meta-2026-reviewed",
+      "metric": "capital-guidance-meta",
+      "year": 2026,
+      "period": "CY2026 guidance",
+      "value": 130,
+      "upper": 145,
+      "status": "forecast",
+      "source": "capital-meta-outlook",
+      "precision": "range",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "CY2026 guidance includes finance-lease principal payments, unlike the historical cash PP&E series."
+    },
+    {
+      "id": "capital-guidance-microsoft-2026-reviewed",
+      "metric": "capital-guidance-microsoft",
+      "year": 2026,
+      "period": "CY2026 guidance",
+      "value": 175,
+      "upper": null,
+      "status": "forecast",
+      "source": "capital-msft-outlook",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T05:58:24Z",
+      "method": "curated",
+      "note": "CY2026 guidance after lease reclassification; finance leases included, operating leases excluded. Investment expectations unchanged apart from accounting impact."
     }
   ],
   "events": [

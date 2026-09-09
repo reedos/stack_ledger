@@ -62,6 +62,9 @@ def build():
     pages += [(l['id'], l['id']+'/', l['name']+' — Stack Ledger', l['tagline'], l['description']) for l in data['layers']]
     companies = json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
     profiles = {f'companies/{c["id"]}/': c for c in companies}
+    from render_explorers import capital, capabilities, project_map, previews
+    expansion = json.loads((ROOT/'research/expansion.json').read_text(encoding='utf-8'))
+    delivery = json.loads((ROOT/'research/delivery.json').read_text(encoding='utf-8'))
     pages += [('company', path, c['name']+' — Revenue & research — Stack Ledger', c['name'], c['role']) for path,c in profiles.items()]
     for page,path,title,heading,description in pages:
         rendered=template
@@ -70,6 +73,11 @@ def build():
         if page == 'company': content = company_snapshot(data, profiles[path], base)
         from layer_diagrams import DIAGRAMS, render_layer_diagram
         if page in DIAGRAMS: content += render_layer_diagram(page, data['sources'], next(l['color'] for l in data['layers'] if l['id']==page))
+        if page == 'home':
+            content = content.replace('<div id="home-details">',capital(data,expansion,base)+previews(delivery,data,expansion,base)+'<div id="home-details">')
+        if page == 'models': content += capabilities(data,expansion,base)
+        if page == 'infrastructure': content += capital(data,expansion,base)
+        if page == 'projects': content += project_map(delivery,data,base)
         if page == 'claims':
             from render_claims import render_claims
             content = render_claims(json.loads((ROOT/'research/claims.json').read_text(encoding='utf-8')), data['sources'], base)

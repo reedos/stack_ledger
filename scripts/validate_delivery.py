@@ -22,7 +22,10 @@ def validate_delivery(d,ledger):
             cursor=parents.get(cursor)
     for p in d['projects']:
         required={'id','name','layer','owner','location','category','stage','ai_relationship','observations','horizon','grid','next_evidence','milestones'}
-        require(required<=p.keys() and p.keys()<=required|{'primary_user','measures','company_ids','parent_project'},'Unexpected project fields')
+        require(required<=p.keys() and p.keys()<=required|{'primary_user','measures','company_ids','parent_project','map_location'},'Unexpected project fields')
+        if 'map_location' in p:
+            from validate_explorers import validate_location
+            validate_location(p['map_location'],sources,p['layer'],reviewed)
         if 'company_ids' in p:
             require(isinstance(p['company_ids'],list) and len(p['company_ids'])==len(set(p['company_ids'])),'Invalid project company links')
             for cid in p['company_ids']:require(re.fullmatch('[a-z0-9-]+',cid),'Invalid company ID')

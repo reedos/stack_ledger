@@ -58,13 +58,15 @@ def source_queue(registry, day, selected=None, attempted=None):
     approved={s['id']:s for s in registry['sources']}
     if selected:
         require(set(selected)<=approved.keys(),'Focused research requires approved source IDs')
+        require(all(collection_for(registry,approved[i]).get('cadence')!='manual' for i in selected),'Manual dataset sources require maintainer import; unavailable to unattended research')
         return [approved[i] for i in dict.fromkeys(selected)]
-    rest=[s for s in registry['sources'] if s['id'] not in order and s['layers']]
+    approved={sid:s for sid,s in approved.items() if collection_for(registry,s).get('cadence')!='manual'}
+    rest=[s for s in approved.values() if s['id'] not in order and s['layers']]
     daily=[s for s in rest if collection_for(registry,s).get('cadence')!='weekly']
     weekly=[s for s in rest if collection_for(registry,s).get('cadence')=='weekly' and (due(collection_for(registry,s),day) or (attempted is not None and (s['id'] not in attempted or (day-datetime.fromisoformat(attempted[s['id']].replace('Z','+00:00')).date()).days>=7)))]
     offset=(day.toordinal()*7)%len(daily) if daily else 0
     weekly_offset=((day.toordinal()//7)*7)%len(weekly) if weekly else 0
-    queue=[approved[i] for i in order]+weekly[weekly_offset:]+weekly[:weekly_offset]+daily[offset:]+daily[:offset]
+    queue=[approved[i] for i in order if i in approved]+weekly[weekly_offset:]+weekly[:weekly_offset]+daily[offset:]+daily[:offset]
     if attempted is not None:
         # Never-attempted and oldest-attempted sources first across repeated sessions.
         queue.sort(key=lambda s:attempted.get(s['id'],''))

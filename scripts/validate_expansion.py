@@ -39,7 +39,8 @@ HISTORICAL_ONLY = {'annual_revenue_reported', 'site_it_mw_operating', 'capex_rec
 
 
 def validate_expansion(x, ledger, ecosystem, delivery):
-    require(set(x) == {'version', 'reviewed_at', 'products', 'jobs_projects', 'featured', 'gaps'}, 'Unexpected expansion shape')
+    required={'version', 'reviewed_at', 'products', 'jobs_projects', 'featured', 'gaps'}
+    require(required<=x.keys() and x.keys()<=required|{'capital','capabilities'}, 'Unexpected expansion shape')
     require(x['version'] == 1, 'Unsupported expansion version'); timestamp(x['reviewed_at'])
     companies = {c['id'] for c in ecosystem['companies']}
     projects = {p['id']: p for p in delivery['projects']}
@@ -85,6 +86,8 @@ def validate_expansion(x, ledger, ecosystem, delivery):
         require(len(ids) == len(set(ids)), 'Duplicate featured project')
         require(all(id in projects and projects[id]['layer'] == layer for id in ids), 'Featured project layer mismatch')
     for gap in x['gaps']: text(gap, 600)
+    from validate_explorers import validate_explorers
+    validate_explorers(x,ledger,ecosystem)
     return True
 
 

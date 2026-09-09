@@ -105,3 +105,13 @@ Keep PDF/workbook/insufficient-static-text gaps visible under private collection
 ## Catalog feedback loop
 
 Use [CATALOG_FEEDBACK_LOOP.md](CATALOG_FEEDBACK_LOOP.md) for evidence-linked catalog drafts, local previews, human approval and explicit publication. New notes and discovery findings can now propose complete company/product/project changes privately. Project counts derive from approved catalogs after build; neither note acceptance nor discovery triage changes those catalogs by itself.
+
+## Map, capital and capabilities follow-up
+
+Use the full accepted catalogs behind these explorers, not visible map markers or a filtered/paginated table. A location gap is a follow-up opportunity, not a missing project or zero capacity. Propose location/stage corrections through the existing private catalog queue with the project disclosure, precise locality, coordinate source/identifier and explicit place/county/facility precision. Never geocode an ambiguous project by guessing. Human review and application remain separate.
+
+Monitor registered capex metrics against their exact fiscal, cash/lease and company-wide scope. Preserve reported actuals versus guidance, ranges, source vintage and accounting changes. Revised same-year guidance requires reviewed supersession; do not append a competing value as an extra year's spending. Seek primary transcripts for the AP-attributed Amazon/Alphabet outlooks and later published forecasts, including beyond 2030 if available. Spending alone cannot establish operational AI capacity or jobs.
+
+Epoch ECI updates require a complete same-vintage dataset and uncertainty download, retained hash, attribution and explicit maintainer review. Muse may record a private discovery lead about new benchmark evidence; it cannot replace `expansion.capabilities`, recompute ECI, mix vintages or self-approve a snapshot. There is no automated ECI snapshot importer in this release.
+
+Reviewed archive sources use collection cadence `manual`: they remain valid citations but are excluded from all unattended monitoring queues, including first-attempt/overdue selection. Focused runs reject these IDs before fetching. The HTML/text collector does not parse ZIP archives; a maintainer must obtain and review their structured contents offline. Manual policy grants no excerpt/discovery permission and cannot be changed by a model. Do not repeatedly retry an unsupported archive to keep a session busy.

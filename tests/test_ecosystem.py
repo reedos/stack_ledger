@@ -27,7 +27,7 @@ class EcosystemTests(unittest.TestCase):
             self.assertEqual(len(queue),len({s['id'] for s in queue}))
             self.assertEqual(queue[0]['id'],'iea-2026')
             reached.update(s['id'] for s in queue[:12])
-        self.assertEqual(reached,{s['id'] for s in registry['sources'] if s['layers']})
+        self.assertEqual(reached,{s['id'] for s in registry['sources'] if s['layers'] and registry.get('collection',{}).get(s['id'],{}).get('cadence')!='manual'})
 
     def test_focused_research_cannot_introduce_unapproved_source(self):
         registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))

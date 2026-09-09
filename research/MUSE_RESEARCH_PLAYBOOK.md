@@ -123,3 +123,11 @@ Use existing session `research-progress.md/json`, monitoring/discovery receipts,
 Do not substitute document fetches, elapsed hours, model calls or GPU utilization for useful evidence. A successful push does not mean new findings or verified deployment. Unknown historical receipt fields stay unknown. Refreshing a source does not refresh an observation's date or an editorial review.
 
 After each session, inspect publication/collection failures and the pending handoff. After prompt/model changes, review calibration results before recommending a long publishing run. As a suggested weekly human routine, inspect a spread of accepted, rejected and empty findings and update the reviewed examples. This creates no extra scheduled task or Telegram messages. Existing session duration, idle waiting, stop/overlap behavior, notification scope and runtime/footer presentation remain unchanged.
+
+## Explorer follow-ups
+
+- **Projects:** Start from all accepted `delivery.projects`, including unmapped records. A locality pin does not verify facility boundaries, construction progress or energized capacity. Propose exact evidence-linked catalog changes in the existing private queue; preserve distributed programs without a fabricated point.
+- **Capital:** New issuer disclosures should resolve fiscal dates, cash versus noncash leases, net proceeds, actual versus guidance and whether amounts are company-wide. An accounting reclassification is not necessarily reduced investment. Preserve earlier guidance as a dated superseded record after review. Do not create a global total from unlike fiscal periods.
+- **Capabilities:** New Epoch rows or a refitted ECI vintage are a private follow-up lead. A maintainer must review the entire dataset/uncertainty snapshot and its provenance before replacement. No benchmark score establishes dependable business outcomes by itself.
+
+The `manual` source cadence prevents unsupported archive fetches in ordinary runs. Existing extraction/review rules still apply to monitored capex disclosures; daily models cannot edit source policy, geography, chart configuration or capability snapshots. Accepted monitoring observations feed maintained renderers; accepted project catalog changes feed map/list counts. A pending proposal is not displayed evidence.

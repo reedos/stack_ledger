@@ -9,7 +9,7 @@ def collection_for(registry, source):
     return registry.get('collection', {}).get(source.get('parent_source', source['id']), {})
 
 def due(policy, day):
-    return policy.get('cadence') != 'weekly' or day.weekday() == policy.get('weekday', 0)
+    return policy.get('cadence') != 'manual' and (policy.get('cadence') != 'weekly' or day.weekday() == policy.get('weekday', 0))
 
 def discoverable(source, url, policy):
     u = urlparse(url)
@@ -34,9 +34,10 @@ def validate_registry(registry, companies):
         require(set(p)=={'rank','region_book','company_id','claim_type','cadence','weekday','path_prefixes','topics','excerpts'}, 'Unexpected collection policy')
         require(type(p['rank']) is int and 1<=p['rank']<=6, 'Invalid source rank')
         require(p['region_book'] in REGIONS and (p['company_id'] is None or p['company_id'] in companies), 'Invalid source identity')
-        require(p['claim_type'] in CLAIMS and p['cadence'] in {'daily','weekly'}, 'Invalid collection class')
+        require(p['claim_type'] in CLAIMS and p['cadence'] in {'daily','weekly','manual'}, 'Invalid collection class')
         require(type(p['weekday']) is int and 0<=p['weekday']<=6 and type(p['excerpts']) is bool, 'Invalid collection schedule')
-        require(p['rank']!=3 or p['cadence']=='weekly', 'Technical publishing requires weekly cadence')
+        require(p['rank']!=3 or p['cadence'] in {'weekly','manual'}, 'Technical publishing requires weekly or manual cadence')
+        require(p['cadence']!='manual' or (not p['path_prefixes'] and not p['excerpts']), 'Manual sources cannot enable unattended discovery or excerpts')
         for prefix in p['path_prefixes']:
             require(prefix.startswith('/') and prefix!='/' and '*' not in prefix and '..' not in prefix, 'Wildcard discovery forbidden')
         require(not p['path_prefixes'] or p['topics'], 'Discovery needs reviewed topics')
