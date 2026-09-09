@@ -131,7 +131,8 @@
         "feed-constellation-3252f6",
         "feed-recursion-4114ef",
         "bls-qcew-open-data",
-        "census-qwi-api"
+        "census-qwi-api",
+        "census-btos-data"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -359,7 +360,8 @@
         "capital-apollo-2026-outlook",
         "audit-meta-singapore",
         "epoch-chip-sales-dataset",
-        "nvidia-hopper-whitepaper"
+        "nvidia-hopper-whitepaper",
+        "epoch-notable-models-dataset"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -6192,6 +6194,28 @@
       "rank": 2,
       "region_book": "global",
       "company_id": "nvidia",
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "epoch-notable-models-dataset": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "census-btos-data": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
       "claim_type": "other",
       "cadence": "manual",
       "weekday": 0,

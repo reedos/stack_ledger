@@ -72,9 +72,10 @@ def inbox(root,identity=None):
                     'source':item['source']['id'],'reason':item.get('status','')+': '+item.get('reason','')})
         except (OSError,ValueError,KeyError,TypeError):invalid+=1
     errors=[];packages=catalog_inbox(root,errors);invalid+=len(errors)
+    importer_events=list(reversed([e for e in history if e.get('kind')=='importer_apply'][-30:]))
     return {'findings':rows,'reviewer':reviewer(root,identity),'invalid_files':invalid,
             'unreadable_events':report.get('unreadable_events',0),
-            'catalog_packages':packages,'handoffs':handoffs,
+            'catalog_packages':packages,'handoffs':handoffs,'importer_events':importer_events,
             'publication':'Discovery triage and catalog approval are distinct. Preview, approve, then explicitly apply and publish catalog packages.'}
 
 

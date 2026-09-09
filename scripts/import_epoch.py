@@ -36,7 +36,7 @@ from urllib.request import Request, build_opener, ProxyHandler
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import research
 from research import load, save, now, require, digest, UA, allowed_url
-from validate import observation_valid, validate
+from validate import observation_valid
 
 ROOT=Path(__file__).resolve().parents[1]
 SNAPSHOTS=ROOT/'research/epoch'
@@ -49,6 +49,10 @@ DATASETS={
     'chip-components':{'url':'https://epoch.ai/data/ai_chip_components.zip','page':'https://epoch.ai/data/ai-chip-components','source_id':'epoch-chip-components-dataset','title':'AI Chip Components dataset','layers':['chips']},
     'chip-sales':{'url':'https://epoch.ai/data/ai_chip_sales.zip','page':'https://epoch.ai/data/ai-chip-sales','source_id':'epoch-chip-sales-dataset','title':'AI Chip Sales dataset','layers':['chips']},
     'companies':{'url':'https://epoch.ai/data/ai_companies.zip','page':'https://epoch.ai/data/ai-companies','source_id':'epoch-companies-dataset','title':'AI Companies dataset','layers':['models','applications']},
+    'notable-models':{'url':'https://epoch.ai/data/notable_ai_models.csv','page':'https://epoch.ai/data/notable-ai-models','source_id':'epoch-notable-models-dataset','title':'Notable AI Models dataset','layers':['models']},
+    # Already registered under this exact title/url (research/sources.json); a mechanical vintage
+    # refresh of the reviewed research/expansion.json 'capabilities' snapshot, not a catalog metric.
+    'eci':{'url':'https://epoch.ai/data/benchmark_data.zip','page':'https://epoch.ai/benchmarks','source_id':'epoch-eci-dataset','title':'AI Benchmarking Hub · Epoch Capabilities Index dataset','layers':['models']},
 }
 
 # Promoted series: Epoch-computed quarterly medians only; nothing is summed or converted here.
@@ -227,6 +231,14 @@ def quarter_period(label):
     return f'{m[2]}-Q{m[1]}',int(m[2])
 
 
+def yearly_period_label(year,current_year,end_date):
+    """'Year-end YYYY' for a fully-elapsed year; 'Month D, YYYY' (the latest data point's own
+    date) for the current partial year. Same convention for every Epoch yearly series."""
+    if year<current_year:return f'Year-end {year}'
+    dt=datetime.strptime(end_date,'%Y-%m-%d')
+    return f"{dt.strftime('%B')} {dt.day}, {year}"
+
+
 def metric_definition(spec,source_id,vintage,start_year=2024):
     return {'id':spec['metric'],'layer':'chips','title':spec['title'],'unit':spec['unit'],'geography':'Global','scope':spec['scope'],'direction':'context','min':0,'max':spec['max'],
             'note':f"Epoch AI estimates, {LICENSE}. Median plotted; 5th to 95th percentile in each record note. Dataset vintage {vintage}; a new vintage replaces the series through reviewed import, never by appending competing values.",
@@ -281,14 +293,102 @@ def promote(name,record,catalog,ledger,registry):
     return added_metrics,records
 
 
-def register_source(name,registry,ledger):
-    d=DATASETS[name]
-    if d['source_id'] in {s['id'] for s in registry['sources']}:return False
-    source={'id':d['source_id'],'publisher':'Epoch AI','title':d['title'],'url':d['url'],'published':None,'layers':d['layers'],'license':LICENSE}
-    registry['sources'].append(source);ledger['sources'].append(dict(source))
-    registry['collection'][d['source_id']]={'rank':1,'region_book':'global','company_id':None,'claim_type':'other','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}
-    if d['source_id'] not in registry['region_books']['global']['sources']:registry['region_books']['global']['sources'].append(d['source_id'])
-    return True
+# Yearly series promoted from Epoch's raw Notable AI Models CSV (one row per model, not
+# pre-aggregated like the chip-components/chip-sales percentile files above).
+NOTABLE_MODELS_SPECS=[
+    {'id':'epoch-notable-models-released-yearly','title':'Notable AI models released per year (Epoch dataset)','unit':'models','measurement_type':'notable_models_released','max':2000,
+     'scope':'Count of models Epoch AI classifies as notable, by calendar year of release. Epoch\'s notability criteria and coverage are reviewed but not exhaustive; recent years can still gain models as Epoch backfills.'},
+    {'id':'epoch-notable-models-max-compute-yearly','title':'Largest training compute among notable models released in the year (Epoch dataset)','unit':'FLOP (training compute)','measurement_type':'max_training_compute_flop','max':1e28,
+     'scope':'The highest disclosed or Epoch-estimated training compute (FLOP) among notable models released in the calendar year. Not every notable model discloses training compute; only rows with a value count.'},
+    {'id':'epoch-notable-models-over-1e25-yearly','title':'Notable AI models at or above 1e25 FLOP training compute, released in the year (Epoch dataset)','unit':'models','measurement_type':'models_over_1e25_flop','max':2000,
+     'scope':'Count of notable models released in the calendar year whose disclosed or Epoch-estimated training compute is at or above 1e25 FLOP, a scale roughly matching GPT-4-class frontier training runs.'},
+]
+NOTABLE_MODELS_START_YEAR=2019
+
+
+def notable_models_metric_definition(spec,source_id,vintage):
+    return {'id':spec['id'],'layer':'models','title':spec['title'],'unit':spec['unit'],'geography':'Global','scope':spec['scope'],'direction':'context','min':0,'max':spec['max'],
+            'note':f"Epoch AI Notable AI Models dataset, {LICENSE}. Dataset vintage {vintage}; a new vintage replaces the series through reviewed import, never by appending competing values. Notability criteria and backfill are Epoch's; earlier years can still revise.",
+            'source_ids':[source_id],'company':None,'measurement_type':spec['measurement_type'],'project':None,'allowed_statuses':['estimate'],
+            'series_start_year':NOTABLE_MODELS_START_YEAR,'chart_default_start':NOTABLE_MODELS_START_YEAR,'chart_default_end':2026,'definition_stable':True,
+            'pre_period_note':"Epoch's notable-models tracking begins 2019 in this catalog. Earlier years are not estimated. Missing years are not zero."}
+
+
+def promote_notable_models(record):
+    """Yearly notable-model counts and training-compute extremes from Epoch's raw per-model
+    CSV. A new vintage supersedes the whole series wholesale (records reuse a stable
+    metric-year id; the caller upserts by id), since Epoch backfills and revises past years."""
+    source_id=DATASETS['notable-models']['source_id']
+    rows=record['tables']['notable_ai_models.csv']
+    current_year=int(record['retrieved_at'][:4])
+    by_year={}
+    for row in rows:
+        d=(row.get('Publication date') or '').strip()
+        if not re.fullmatch(r'20\d\d-\d\d-\d\d',d):continue
+        year=int(d[:4])
+        if year<NOTABLE_MODELS_START_YEAR:continue
+        entry=by_year.setdefault(year,{'count':0,'max_flop':None,'over':0,'latest':d})
+        entry['count']+=1;entry['latest']=max(entry['latest'],d)
+        flop=number(row.get('Training compute (FLOP)'))
+        if flop is not None:
+            entry['max_flop']=flop if entry['max_flop'] is None else max(entry['max_flop'],flop)
+            if flop>=1e25:entry['over']+=1
+    metrics=[notable_models_metric_definition(spec,source_id,record['vintage']) for spec in NOTABLE_MODELS_SPECS]
+    records=[]
+    for year,entry in sorted(by_year.items()):
+        period=yearly_period_label(year,current_year,entry['latest'])
+        note=f"Epoch AI Notable AI Models dataset, dataset vintage {record['vintage']}, sha256 {record['sha256'][:12]}. {LICENSE}. Notability criteria and backfill are Epoch's; counts for recent years can still rise."[:300]
+        base={'year':year,'period':period,'upper':None,'status':'estimate','source':source_id,'precision':'approx','retrieved_at':record['retrieved_at'],'method':'curated','note':note}
+        records.append(dict(base,id=f'epoch-notable-models-released-yearly-{year}',metric='epoch-notable-models-released-yearly',value=entry['count']))
+        records.append(dict(base,id=f'epoch-notable-models-over-1e25-yearly-{year}',metric='epoch-notable-models-over-1e25-yearly',value=entry['over']))
+        if entry['max_flop'] is not None:
+            records.append(dict(base,id=f'epoch-notable-models-max-compute-yearly-{year}',metric='epoch-notable-models-max-compute-yearly',value=float(f"{entry['max_flop']:.6g}")))
+    all_metrics={m['id']:m for m in metrics}
+    for o in records:observation_valid(o,all_metrics,{source_id:{'id':source_id}})
+    return metrics,records
+
+
+def capabilities_rows(record):
+    """Epoch Capabilities Index rows from the AI Benchmarking Hub archive, reshaped to the
+    reviewed research/expansion.json 'capabilities.rows' shape (validate_explorers.py)."""
+    rows=record['tables'].get('epoch_capabilities_index/eci_scores.csv',[])
+    out=[]
+    for r in rows:
+        released=(r.get('date') or '').strip()
+        if not re.fullmatch(r'20\d\d-\d\d-\d\d',released):continue
+        score=number(r.get('eci'))
+        if score is None:continue
+        name=(r.get('Model') or '').strip()
+        if not name:continue
+        low=number(r.get('eci_ci_low'));high=number(r.get('eci_ci_high'))
+        rid='eci-'+hashlib.sha256(f"{r.get('Model','')}|{r.get('Organization','')}|{released}".encode('utf-8')).hexdigest()[:16]
+        access=r.get('Accessibility group') if r.get('Accessibility group') in {'Open weights','Closed weights'} else 'Other'
+        out.append({'id':rid,'name':name[:200],'released':released,'organization':(r.get('Organization') or 'Unknown')[:200],
+                    'country':(r.get('Country (of organization)') or 'Unknown')[:200],'access':access,
+                    'score':round(score,2),'low':round(low,2) if low is not None else None,'high':round(high,2) if high is not None else None})
+    return out
+
+
+def update_capabilities(root,record):
+    """Refresh research/expansion.json's Epoch Capabilities Index snapshot from this vintage's
+    archive onto the importer's vintage discipline (hash + retrieved_at), a mechanical
+    extension since the archive already holds the same 264-row, identically-shaped table this
+    block was hand-populated from. Not a catalog metric: no ledger change. Returns a small
+    report dict, or None (leaving the existing snapshot untouched) if the refreshed block does
+    not validate or the archive carries no rows this run."""
+    rows=capabilities_rows(record)
+    expansion=load(root/'research/expansion.json')
+    if not rows or 'capabilities' not in expansion:return None
+    updated=json.loads(json.dumps(expansion))
+    updated['capabilities']=dict(updated['capabilities'],retrieved_at=record['retrieved_at'],document_sha256=record['sha256'],rows=rows)
+    updated['reviewed_at']=record['retrieved_at']
+    ledger=load(root/'site/data/ledger.json');ecosystem=load(root/'research/ecosystem.json');delivery=load(root/'research/delivery.json')
+    from validate_expansion import validate_expansion as validate_expansion_doc
+    try:validate_expansion_doc(updated,ledger,ecosystem,delivery)
+    except Exception:return None
+    save(root/'research/expansion.json',updated)
+    save(root/'site/data/expansion.json',updated)
+    return {'rows_before':len(expansion['capabilities']['rows']),'rows_after':len(rows)}
 
 
 def export_leads(name,record):
@@ -397,14 +497,38 @@ SITE_SERIES=[
 ]
 
 
+def site_as_of_dates(tables,today):
+    """Epoch site name -> the latest per-row status-table date at or before `today` (an actual
+    reading, never a future/projected row), from the data-centers archive's own per-site
+    timeline table. {} if this vintage did not carry that table."""
+    by_site={}
+    for row in tables.get('data_center_timelines.csv',[]):
+        d=row.get('Date','');site=row.get('Data center','')
+        if not d or not site or d>today:continue
+        if site not in by_site or d>by_site[site]:by_site[site]=d
+    return by_site
+
+
 def site_records(row,project,record,companies):
     """Per-site estimate metrics and snapshot records for one Epoch row, attached to a project.
+
+    The period is Epoch's own per-site status-table reading date when the archive carries one
+    (e.g. "2026-07-28" for a site whose "current" figures were last confirmed then, even if the
+    dataset itself was pulled weeks later) -- never the dataset pull date, which is only a
+    vintage/refresh timestamp, not a measurement date. The record id follows the same date, so
+    a later pull that confirms an unchanged reading upserts the same record instead of minting
+    a duplicate. When no per-site reading date is available this vintage, the period falls back
+    to the pull date (still a valid snapshot date) and the note says the reading date is not
+    stated, rather than overclaiming freshness.
 
     Returns (metrics, observations, updated_project). IT power and compute join the project's
     headline records; capital cost reaches the card's money section through the metric's
     project link. Nothing already attached to the project is touched.
     """
-    source_id=DATASETS['data-centers']['source_id'];vintage=record['vintage'];day=record['retrieved_at'][:10];year=int(day[:4])
+    source_id=DATASETS['data-centers']['source_id'];vintage=record['vintage'];pulled=record['retrieved_at'][:10]
+    as_of=site_as_of_dates(record.get('tables',{}),pulled).get(row['Name'])
+    day=as_of or pulled;year=int(day[:4])
+    vintage_note=f"dataset vintage {vintage}" if as_of else f"dataset vintage {vintage} (reading date not stated)"
     owner=owner_label(row.get('Owner'));links=company_links(row.get('Owner'),companies=companies)
     geography=', '.join(x for x in [row.get('Address','').strip(),row.get('Country','').strip()] if x) or row.get('Country','') or 'Location not stated'
     metrics=[];observations=[]
@@ -413,11 +537,11 @@ def site_records(row,project,record,companies):
         if value is None or value<=0:continue
         mid=f"epoch-{project['id']}-{key}"
         metrics.append({'id':mid,'layer':'infrastructure','title':f"{project['name']} · {label}",'unit':unit,'geography':geography[:700],'scope':scope,'direction':'context','min':0,'max':maximum,
-            'note':f"Epoch AI Data Centers dataset, {LICENSE}. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+            'note':f"Epoch AI Data Centers dataset, {LICENSE}. Snapshot series: each import records the current estimate on its per-site reading date (the dataset's own status-table date when stated, else the pull date); a new reading adds a dated point and never rewrites earlier ones.",
             'source_ids':[source_id],'company':links[0] if links else None,'measurement_type':mtype,'project':project['id'],'allowed_statuses':['estimate'],'period_basis':'snapshot',
             'series_start_year':2024,'chart_default_start':2024,'chart_default_end':2027,'definition_stable':True,'pre_period_note':'Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero.'})
         observations.append({'id':f"{mid}-{day}",'metric':mid,'year':year,'period':day,'value':round(value,digits) if digits else round(value),'upper':None,'status':'estimate','source':source_id,'precision':'approx','retrieved_at':record['retrieved_at'],'method':'curated',
-            'note':f"Epoch AI estimate for {row['Name']} (owner {owner}), dataset vintage {vintage}, sha256 {record['sha256'][:12]}. {LICENSE}."[:300]})
+            'note':f"Epoch AI estimate for {row['Name']} (owner {owner}), {vintage_note}, sha256 {record['sha256'][:12]}. {LICENSE}."[:300]})
     updated=copy.deepcopy(project)
     headline=[o['id'] for o in observations if not o['metric'].endswith('-capex')]
     updated['observations']=list(project.get('observations',[]))+[i for i in headline if i not in project.get('observations',[])]
@@ -465,6 +589,97 @@ def enqueue_capacity(root,result,record,per_package=2):
     return packages
 
 
+# Per-site metrics predating the automated site_records() fan-out: hand-curated free-text
+# periods (no site_records() note to recover the Epoch site name from), reviewed once here.
+HAND_CURATED_SITE_NAMES={'epoch-colossus-1':'Colossus 1','epoch-colossus-2':'Colossus 2','epoch-openai-stargate-abilene':'OpenAI Stargate Abilene',
+                          'epoch-microsoft-fairwater-wisconsin':'Microsoft Fairwater Wisconsin','epoch-anthropic-amazon-new-carlisle':'Anthropic-Amazon New Carlisle'}
+
+
+def epoch_site_name(observation):
+    """The Epoch data-centers row name behind a published per-site 'estimate' observation, or
+    None if this observation is not a per-site Epoch reading at all."""
+    if observation['source']=='epoch-data-centers-dataset':
+        m=re.search(r'for (.+?) \(owner',observation.get('note') or '')
+        return m.group(1) if m else None
+    return HAND_CURATED_SITE_NAMES.get(observation['source'])
+
+
+def period_correction(observation,metric,as_of_date,vintage):
+    """(new_id, after_fields) for a corrected replacement of this observation's period, or
+    None if no correction is due (no reading date available, or it already matches)."""
+    reason="Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."[:500]
+    if metric.get('period_basis')=='snapshot':
+        if not as_of_date or as_of_date==observation['period']:return None
+        new_id=f"{observation['metric']}-{as_of_date}"
+        return new_id,{'period':as_of_date,'year':int(as_of_date[:4]),'correction_reason':reason}
+    if not as_of_date:return None
+    dt=datetime.strptime(as_of_date,'%Y-%m-%d');new_period=f"{dt.strftime('%b')} {dt.day}, {dt.year} snapshot"
+    if new_period==observation['period']:return None
+    note=f"Epoch AI estimate, dataset vintage {vintage}. Period corrected to Epoch's own per-site status-table reading date; the prior period reflected the dataset pull/publish date instead."[:300]
+    return f"{observation['id']}-asof-{as_of_date}",{'period':new_period,'year':dt.year,'note':note,'correction_reason':reason}
+
+
+def enqueue_period_corrections(root,record,per_package=10):
+    """Catalog packages correcting every published per-site Epoch 'estimate' observation whose
+    period is really the dataset pull/publish date, now that this vintage's per-site status
+    table gives the true as-of reading date. Never edits a published record directly: the old
+    observation is only ever appended a 'superseded_by' link, and the corrected reading lands
+    as a brand new observation with 'correction_of' pointing back, exactly the append-only
+    correction chain validate.py already enforces -- so every replacement is a human-reviewed
+    catalog_change package, never an in-place edit.
+    """
+    from catalog_review import enqueue
+    ledger=load(root/'site/data/ledger.json');metrics={m['id']:m for m in ledger['metrics']}
+    delivery=load(root/'research/delivery.json');projects={p['id']:p for p in delivery['projects']}
+    as_of=site_as_of_dates(record.get('tables',{}),record['retrieved_at'][:10])
+    evidence_dir=root/'.local/catalog-evidence';evidence_dir.mkdir(parents=True,exist_ok=True)
+    evidence_by_name={};changes_by_name={};swaps_by_name={};total=0
+    for o in ledger['observations']:
+        if o['status']!='estimate' or o.get('superseded_by') or 'correction_of' in o:continue
+        name=epoch_site_name(o)
+        if not name:continue
+        metric=metrics.get(o['metric'])
+        if not metric:continue
+        fix=period_correction(o,metric,as_of.get(name),record['vintage'])
+        if fix is None:continue
+        new_id,after_fields=fix
+        if name not in evidence_by_name:
+            body=json.dumps({'dataset':record['title'],'vintage':record['vintage'],'dataset_sha256':record['sha256'],'site':name,'as_of':as_of.get(name)},ensure_ascii=False,indent=1)
+            sha=hashlib.sha256(body.encode('utf-8')).hexdigest();(evidence_dir/(sha+'.txt')).write_bytes(body.encode('utf-8'))
+            evidence_by_name[name]={'id':'epoch-dc-asof-'+slug(name),'url':record['page'],'published_at':None,'retrieved_at':record['retrieved_at'],'sha256':sha,
+                'summary':f"Epoch AI Data Centers per-site status table for {name} (vintage {record['vintage']}, dataset sha256 {record['sha256'][:12]}): as-of reading date {as_of.get(name) or 'not stated'}."[:2000]}
+        eid=evidence_by_name[name]['id'];total+=1
+        new_observation=dict({k:v for k,v in o.items() if k!='superseded_by'},id=new_id,correction_of=o['id'],**after_fields)
+        changes_by_name.setdefault(name,[]).extend([
+            {'target':'observation','id':o['id'],'after':dict(o,superseded_by=new_id),'evidence':[eid]},
+            {'target':'observation','id':new_id,'after':new_observation,'evidence':[eid]}])
+        pid=metric.get('project')
+        if pid and pid in projects:swaps_by_name.setdefault(name,{}).setdefault(pid,{})[o['id']]=new_id
+    # A project that lists a superseded id among its headline observations/measures must be
+    # repointed to the replacement in the same package, or validate_delivery would reject it.
+    for name,by_pid in swaps_by_name.items():
+        eid=evidence_by_name[name]['id']
+        for pid,swap in by_pid.items():
+            updated=copy.deepcopy(projects[pid])
+            updated['observations']=[swap.get(i,i) for i in updated.get('observations',[])]
+            if 'measures' in updated:updated['measures']=[swap.get(i,i) for i in updated['measures']]
+            changes_by_name[name].append({'target':'project','id':pid,'after':updated,'evidence':[eid]})
+    packages=[];batch_names=[];batch_size=0
+    def flush():
+        if not batch_names:return
+        changes=[c for n in batch_names for c in changes_by_name[n]]
+        evidence=[evidence_by_name[n] for n in batch_names]
+        title=f"Epoch per-site records: correct period to the status-table reading date ({len(batch_names)} sites)"[:200]
+        packages.append(enqueue(root,title,changes,evidence,author='Epoch import (maintainer tool)'))
+    for name in sorted(changes_by_name):
+        n=len(changes_by_name[name])
+        if batch_names and (len(batch_names)>=per_package or batch_size+n>100):
+            flush();batch_names=[];batch_size=0
+        batch_names.append(name);batch_size+=n
+    flush()
+    return packages,total
+
+
 def confirm_matches(result,accept_suggested=False,rejects=(),path=None):
     """Record reviewed aliases: Epoch name -> project id, or null for a reviewed non-match."""
     path=path or SNAPSHOTS/'aliases.json'
@@ -483,6 +698,7 @@ def main(argv=None):
     p.add_argument('--offline',action='store_true',help='Use the retained snapshot instead of downloading')
     p.add_argument('--enqueue-additions',action='store_true',help='Draft proposed data-center additions as catalog packages for the review panel')
     p.add_argument('--enqueue-capacity',action='store_true',help='Attach Epoch power, compute and capital-cost estimate records to matched and imported projects as catalog packages')
+    p.add_argument('--enqueue-period-corrections',action='store_true',help='Queue catalog packages correcting published per-site records whose period should be the status-table reading date, not the dataset pull date')
     p.add_argument('--min-mw',type=float,default=100,help='Only enqueue Epoch sites at or above this estimated current power')
     p.add_argument('--confirm-suggested-matches',action='store_true',help='Record every suggested site match as a reviewed alias')
     p.add_argument('--reject',action='append',default=[],metavar='EPOCH_NAME',help='Record an Epoch site name as a reviewed non-match')
@@ -510,31 +726,56 @@ def main(argv=None):
         if a.enqueue_additions:
             packages=enqueue_additions(ROOT,result,records['data-centers'],a.min_mw)
             print(f"{len(packages)} catalog packages queued for the review panel: "+'; '.join(f"{q['id']} ({len(q['changes'])})" for q in packages),flush=True)
+        if a.enqueue_period_corrections:
+            packages,total=enqueue_period_corrections(ROOT,records['data-centers'])
+            print(f"{total} published per-site records affected; {len(packages)} correction packages queued for the review panel: "+'; '.join(f"{q['id']} ({len(q['changes'])})" for q in packages),flush=True)
     if 'companies' in records:
         report.append(revenue_crosscheck(records['companies'],ledger,load(ROOT/'research/ecosystem.json')))
     if report:
         path=SNAPSHOTS/f"RECONCILIATION-{now()[:10]}.md";SNAPSHOTS.mkdir(exist_ok=True);path.write_text('\n'.join(report),encoding='utf-8');print(f'report: {path}',flush=True)
     if a.apply:
+        from importer_common import apply_changes
+        collection_entry=lambda source_id:{'rank':1,'region_book':'global','company_id':None,'claim_type':'other','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}
+        # One apply_changes() call per dataset (not one combined transaction): each dataset's
+        # registration/metrics/observations are independent, so a validation failure on one
+        # dataset never blocks or rolls back another that already landed cleanly. Registry,
+        # catalog and ledger are reloaded between datasets so each call sees the last one's result.
         for name in names:
-            if register_source(name,registry,ledger):print(f"registered source {DATASETS[name]['source_id']}",flush=True)
+            d=DATASETS[name]
+            source=None
+            if d['source_id'] not in {s['id'] for s in registry['sources']}:
+                source={'id':d['source_id'],'publisher':'Epoch AI','title':d['title'],'url':d['url'],'published':None,'layers':d['layers'],'license':LICENSE}
+            if name=='eci':
+                result=update_capabilities(ROOT,records[name])
+                print(f"eci: capabilities snapshot {result['rows_before']} -> {result['rows_after']} rows" if result else 'eci: capabilities snapshot left as-is (not a mechanical extension this run)',flush=True)
+                if source:
+                    apply_changes(ROOT,importer_id=f'epoch-{name}',new_sources=[source],collection_entries={d['source_id']:collection_entry(d['source_id'])},region_book='global',snapshot=records[name])
+                    registry=load(ROOT/'research/sources.json')
+                continue
+            new_metrics=[];replace_ids=[];new_obs=[];added=[]
             if name in PROMOTED:
-                added,recs=promote(name,records[name],catalog,ledger,registry)
-                print(f'{name}: metrics added {added}; {len(recs)} quarterly estimate records for vintage {records[name]["vintage"]}',flush=True)
-        from source_policy import validate_registry
-        validate_registry(registry,{c['id'] for c in load(ROOT/'research/ecosystem.json')['companies']})
-        ledger['metrics']=catalog['metrics']
-        # validate() reads the reviewed catalog and registry from disk, so write them first and
-        # restore the originals if the combined result does not validate.
-        originals={p:p.read_bytes() for p in [ROOT/'research/catalog.json',ROOT/'research/sources.json',ROOT/'site/data/source-books.json']}
-        save(ROOT/'research/catalog.json',catalog);save(ROOT/'research/sources.json',registry)
-        save(ROOT/'site/data/source-books.json',{k:registry[k] for k in ['region_books','collection']})  # public mirror of the reviewed registry
-        try:validate(ledger)
-        except Exception:
-            for p,b in originals.items():p.write_bytes(b)
-            raise
-        save(ROOT/'site/data/ledger.json',ledger)
-        from build import build
-        build()
+                # promote() mutates a catalog/ledger it owns; hand it disposable copies seeded
+                # from the current on-disk state so its wholesale-replace logic (a new vintage
+                # supersedes the whole series) still works, then feed the result to apply_changes.
+                work_catalog={'metrics':list(catalog['metrics'])};work_ledger={'observations':list(ledger['observations'])}
+                before_ids={m['id'] for m in work_catalog['metrics']}
+                added,recs=promote(name,records[name],work_catalog,work_ledger,registry)
+                spec_ids={s['metric'] for s in PROMOTED[name]}
+                new_metrics=[m for m in work_catalog['metrics'] if m['id'] in spec_ids];replace_ids=[mid for mid in spec_ids if mid in before_ids];new_obs=recs
+            elif name=='notable-models':
+                new_metrics,new_obs=promote_notable_models(records[name])
+                known={m['id'] for m in catalog['metrics']}
+                replace_ids=[m['id'] for m in new_metrics if m['id'] in known];added=[m['id'] for m in new_metrics if m['id'] not in known]
+            if not source and not new_metrics and not new_obs:
+                print(f'{name}: no changes',flush=True);continue
+            apply_changes(ROOT,importer_id=f'epoch-{name}',new_sources=[source] if source else (),
+                          collection_entries={d['source_id']:collection_entry(d['source_id'])} if source else {},region_book='global' if source else None,
+                          new_metrics=new_metrics,replace_metric_ids=replace_ids,new_observations=new_obs,snapshot=records[name])
+            if name in PROMOTED or name=='notable-models':
+                print(f'{name}: metrics added {added}; {len(new_obs)} estimate records for vintage {records[name]["vintage"]}',flush=True)
+            elif source:
+                print(f"registered source {d['source_id']}",flush=True)
+            registry=load(ROOT/'research/sources.json');ledger=load(ROOT/'site/data/ledger.json');catalog=load(ROOT/'research/catalog.json')
         print('catalog, registry and ledger updated; site rebuilt',flush=True)
     return 0
 

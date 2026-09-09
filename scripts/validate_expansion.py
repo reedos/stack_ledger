@@ -41,6 +41,15 @@ PUBLIC_TYPES |= EPOCH_AGGREGATE | EPOCH_SITE | LABOR_MARKET
 TYPES |= EPOCH_SITE | EPOCH_DESIGNER | LABOR_MARKET
 TYPES |= EPOCH_AGGREGATE | {'estimated_cowos_consumption_wafers_quarterly'}
 FUTURE_ONLY |= {'annual_revenue_forecast'}
+# Epoch AI Notable AI Models yearly series (scripts/import_epoch.py, CC BY 4.0): industry-wide
+# counts and extremes, no company attribution.
+EPOCH_MODELS={'notable_models_released','max_training_compute_flop','models_over_1e25_flop'}
+PUBLIC_TYPES |= EPOCH_MODELS
+TYPES |= EPOCH_MODELS
+# Census Business Trends and Outlook Survey AI-use share (scripts/import_btos.py, public domain):
+# a national or sector survey estimate, no company.
+PUBLIC_TYPES |= {'business_ai_use_share'}
+TYPES |= {'business_ai_use_share'}
 HISTORICAL_ONLY = {'county_industry_employment', 'county_industry_hires', 'county_industry_avg_monthly_earnings', 'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
                    'permanent_jobs_reported', 'annual_revenue_usd',
                    'interconnection_mw_energized', 'accelerator_units_installed',

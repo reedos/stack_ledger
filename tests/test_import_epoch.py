@@ -110,5 +110,74 @@ class EpochImportTests(unittest.TestCase):
         self.assertEqual(ie.vintage_of('@misc{x,\n  year = {2026},\n  month = {07},\n}','2026-09-09T00:00:00Z'),'2026-07')
         self.assertEqual(ie.vintage_of('no citation','2026-09-09T00:00:00Z'),'2026-09')
 
+    def test_promote_notable_models_yearly_counts_and_extremes(self):
+        rows=[
+            {'Model':'Old Model','Organization':'Acme','Publication date':'2023-05-01','Training compute (FLOP)':'2.0e24'},
+            {'Model':'Frontier A','Organization':'Acme','Publication date':'2026-01-15','Training compute (FLOP)':'3.0e25'},
+            {'Model':'Frontier B','Organization':'Beta Labs','Publication date':'2026-04-02','Training compute (FLOP)':'5.0e25'},
+            {'Model':'No Compute Disclosed','Organization':'Beta Labs','Publication date':'2026-06-20','Training compute (FLOP)':''},
+        ]
+        record={'vintage':'2026-09','sha256':'d'*64,'retrieved_at':'2026-09-09T09:00:00Z','tables':{'notable_ai_models.csv':rows}}
+        metrics,records=ie.promote_notable_models(record)
+        self.assertEqual({m['id'] for m in metrics},{'epoch-notable-models-released-yearly','epoch-notable-models-max-compute-yearly','epoch-notable-models-over-1e25-yearly'})
+        self.assertTrue(all(m['company'] is None and m['measurement_type'] in {'notable_models_released','max_training_compute_flop','models_over_1e25_flop'} for m in metrics))
+        released_2023=next(r for r in records if r['id']=='epoch-notable-models-released-yearly-2023')
+        self.assertEqual((released_2023['value'],released_2023['period'],released_2023['status']),(1,'Year-end 2023','estimate'))
+        released_2026=next(r for r in records if r['id']=='epoch-notable-models-released-yearly-2026')
+        self.assertEqual((released_2026['value'],released_2026['period']),(3,'June 20, 2026'))   # partial year: latest model's own date
+        over_2026=next(r for r in records if r['id']=='epoch-notable-models-over-1e25-yearly-2026')
+        self.assertEqual(over_2026['value'],2)   # Frontier A and B, not the undisclosed-compute model
+        over_2023=next(r for r in records if r['id']=='epoch-notable-models-over-1e25-yearly-2023')
+        self.assertEqual(over_2023['value'],0)   # a real, counted zero -- not a missing/suppressed record
+        maxflop_2026=next(r for r in records if r['id']=='epoch-notable-models-max-compute-yearly-2026')
+        self.assertEqual(maxflop_2026['value'],5e25)
+        sources={ie.DATASETS['notable-models']['source_id']:{'id':ie.DATASETS['notable-models']['source_id']}}
+        allm={m['id']:m for m in metrics}
+        for r in records:observation_valid(r,allm,sources)
+
+    def test_site_records_uses_the_status_table_reading_date_when_available(self):
+        import validate_delivery as vd
+        delivery=json.loads((ROOT/'research/delivery.json').read_text(encoding='utf-8'));ledger=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        companies=json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
+        record={'title':'AI Data Centers dataset','vintage':'2026-09','sha256':'e'*64,'retrieved_at':'2026-09-09T09:00:00Z','page':'https://epoch.ai/data/ai-data-centers',
+                'tables':{'data_center_timelines.csv':[
+                    {'Data center':'Amazon Reading-Date Site','Date':'2026-07-28','IT power (MW)':'228'},
+                    {'Data center':'Amazon Reading-Date Site','Date':'2026-11-01','IT power (MW)':'900'},   # future/projected: excluded
+                ]}}
+        row={'Name':'Amazon Reading-Date Site','Owner':'Amazon #confident','Users':'','Country':'United States','Address':'1 Test Road, Testville, Mississippi','Current power (MW)':'228','Current H100 equivalents':'171299.4','Current total capital cost (2025 USD billions)':'8.6'}
+        project=ie.draft_project(row,record,companies)
+        metrics,observations,updated=ie.site_records(row,project,record,companies)
+        mw=next(o for o in observations if o['metric'].endswith('-it-mw'))
+        self.assertEqual((mw['value'],mw['period'],mw['year']),(228,'2026-07-28',2026))
+        self.assertIn(f"{mw['metric']}-2026-07-28",{o['id'] for o in observations})
+        self.assertNotIn('reading date not stated',mw['note'])
+        sources={s['id']:s for s in ledger['sources']};allm={m['id']:m for m in ledger['metrics']};allm.update({m['id']:m for m in metrics})
+        for o in observations:observation_valid(o,allm,sources)
+        ledger2=dict(ledger,metrics=list(allm.values()),observations=ledger['observations']+observations)
+        delivery['projects'].append(updated)
+        self.assertTrue(vd.validate_delivery(delivery,ledger2))
+
+    def test_site_records_falls_back_to_pull_date_without_a_reading_date(self):
+        record={'title':'AI Data Centers dataset','vintage':'2026-09','sha256':'f'*64,'retrieved_at':'2026-09-09T09:00:00Z','page':'https://epoch.ai/data/ai-data-centers'}
+        row={'Name':'Amazon No-Timeline Site','Owner':'Amazon #confident','Country':'United States','Current power (MW)':'50'}
+        companies=json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
+        project=ie.draft_project(row,record,companies)
+        metrics,observations,updated=ie.site_records(row,project,record,companies)
+        mw=next(o for o in observations if o['metric'].endswith('-it-mw'))
+        self.assertEqual((mw['value'],mw['period']),(50,'2026-09-09'))
+        self.assertIn('reading date not stated',mw['note'])
+
+    def test_capabilities_rows_reshape_the_eci_scores_table(self):
+        rows=[{'Model':'GPT-Test','Organization':'OpenAI','date':'2026-08-01','eci':'150.25','eci_ci_low':'145.1','eci_ci_high':'155.4','Accessibility group':'Closed weights','Country (of organization)':'United States of America'},
+              {'Model':'Open-Test','Organization':'Meta','date':'2026-08-05','eci':'120','eci_ci_low':'','eci_ci_high':'','Accessibility group':'Open weights','Country (of organization)':'United States of America'}]
+        record={'vintage':'2026-09','sha256':'a1'*32,'retrieved_at':'2026-09-09T09:00:00Z','tables':{'epoch_capabilities_index/eci_scores.csv':rows}}
+        out=ie.capabilities_rows(record)
+        self.assertEqual(len(out),2)
+        self.assertTrue(all(__import__('re').fullmatch('eci-[a-f0-9]{16}',r['id']) for r in out))
+        closed=next(r for r in out if r['name']=='GPT-Test')
+        self.assertEqual((closed['access'],closed['score'],closed['low'],closed['high']),('Closed weights',150.25,145.1,155.4))
+        opened=next(r for r in out if r['name']=='Open-Test')
+        self.assertEqual((opened['access'],opened['low'],opened['high']),('Open weights',None,None))
+
 
 if __name__=='__main__':unittest.main()
