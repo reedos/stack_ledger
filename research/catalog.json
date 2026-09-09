@@ -7832,6 +7832,167 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Forecast begins in 2026. No 2030 value is supplied."
+    },
+    {
+      "id": "meta-prometheus-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Prometheus planned cluster capacity",
+      "unit": "GW",
+      "geography": "New Albany, OH",
+      "scope": "Meta February 2026 cluster design; completion not verified. Distinct from existing New Albany buildings and later over-1-GW wording.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-prometheus-bag"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "meta-lebanon-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Lebanon planned campus capacity",
+      "unit": "GW",
+      "geography": "Lebanon, IN",
+      "scope": "Issuer-designed campus capacity for AI and core products; electrical versus IT-load basis not clarified.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-meta-lebanon-groundbreaking"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "meta-el-paso-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "El Paso planned compute capacity",
+      "unit": "GW",
+      "geography": "El Paso, TX",
+      "scope": "Issuer-described compute capacity; initial delivery expected in 2028, not current energized capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-meta-el-paso-venture"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "crusoe-microsoft-abilene-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Microsoft Abilene planned critical IT load",
+      "unit": "MW",
+      "geography": "Abilene, TX",
+      "scope": "Derived sum of two planned buildings at 336 MW critical IT load each. Separate from the 900 MW power plant and the 2.1 GW combined-site figure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-crusoe-microsoft-abilene"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "nscale-narvik-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Narvik campus capacity in deployment agreement",
+      "unit": "MW",
+      "geography": "Narvik, NO",
+      "scope": "Campus rating cited with a future Microsoft deployment agreement; not a reviewed operational quantity.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-narvik-microsoft"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "stargate-uae-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Stargate UAE announced cluster capacity",
+      "unit": "GW",
+      "geography": "Abu Dhabi, AE",
+      "scope": "One cluster within a wider campus. Initial 200 MW targeted for 2026 is a phase within this total.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-stargate-uae"
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "galaxy-helios-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Helios phase I delivered critical IT load",
+      "unit": "MW",
+      "geography": "Dickens County, TX",
+      "scope": "Company-reported phase I critical IT load delivered to CoreWeave; not all approved or contracted campus power.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-helios-delivery"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "observation"
+      ]
     }
   ],
   "targets": [

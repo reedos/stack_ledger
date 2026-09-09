@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T06:30:40Z",
+  "reviewed_at": "2026-09-09T07:22:33.276817Z",
   "projects": [
     {
       "id": "gemini",
@@ -743,14 +743,14 @@
       "next_evidence": "Cleanroom, qualification, stacks shipped and actual hires.",
       "milestones": [
         {
-          "date": null,
-          "summary": "Undated overview still describes end-2028 operations. The August 2026 release distinguishes cleanroom readiness from later HBM mass production.",
-          "source": "hynix-indiana-plan"
-        },
-        {
           "date": "2026-08-28",
           "summary": "Groundbreaking held August 27. Updated plan puts mass production in H2 2029, later than the older end-2028 overview. Wafers fabricated in Korea will be packaged and tested in Indiana.",
           "source": "hynix-indiana-2026"
+        },
+        {
+          "date": null,
+          "summary": "Undated overview still describes end-2028 operations. The August 2026 release distinguishes cleanroom readiness from later HBM mass production.",
+          "source": "hynix-indiana-plan"
         }
       ],
       "map_location": {
@@ -1008,7 +1008,7 @@
     },
     {
       "id": "stargate-shackelford",
-      "name": "Stargate · Shackelford",
+      "name": "Stargate · Shackelford / Vantage Frontier",
       "layer": "infrastructure",
       "owner": "Oracle / Vantage",
       "primary_user": "OpenAI",
@@ -1028,6 +1028,11 @@
           "date": "2026-09-03",
           "summary": "Epoch tracks construction and forecasts end-state IT power. No reviewed operating IT-MW figure is available here.",
           "source": "epoch-openai-stargate-shackelford"
+        },
+        {
+          "date": null,
+          "source": "audit-vantage-frontier",
+          "summary": "Vantage identifies the Frontier campus in Shackelford County. This is an alias of the tracked project, not an additional campus."
         }
       ],
       "map_location": {
@@ -1183,6 +1188,488 @@
           "summary": "Alphabet reports fully autonomous service across named U.S. cities. Older paid-trip and vehicle disclosures keep their own dates.",
           "source": "waymo-q1-2026"
         }
+      ],
+      "map_locations": [
+        {
+          "id": "atlanta",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 33.762909,
+            "longitude": -84.422675,
+            "precision": "place",
+            "label": "Atlanta, GA",
+            "source": "census-map-places",
+            "source_key": "1304000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "austin",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 30.298622,
+            "longitude": -97.754134,
+            "precision": "place",
+            "label": "Austin, TX",
+            "source": "census-map-places",
+            "source_key": "4805000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "dallas",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 32.793333,
+            "longitude": -96.766513,
+            "precision": "place",
+            "label": "Dallas, TX",
+            "source": "census-map-places",
+            "source_key": "4819000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "denver",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 39.76185,
+            "longitude": -104.881105,
+            "precision": "place",
+            "label": "Denver, CO",
+            "source": "census-map-places",
+            "source_key": "0820000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "houston",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 29.785743,
+            "longitude": -95.388806,
+            "precision": "place",
+            "label": "Houston, TX",
+            "source": "census-map-places",
+            "source_key": "4835000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "los-angeles",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 34.019394,
+            "longitude": -118.410825,
+            "precision": "place",
+            "label": "Los Angeles, CA",
+            "source": "census-map-places",
+            "source_key": "0644000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "miami",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 25.775163,
+            "longitude": -80.208615,
+            "precision": "place",
+            "label": "Miami, FL",
+            "source": "census-map-places",
+            "source_key": "1245000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "nashville",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 36.1718,
+            "longitude": -86.785002,
+            "precision": "place",
+            "label": "Nashville, TN",
+            "source": "census-map-places",
+            "source_key": "4752006",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "orlando",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 28.472818,
+            "longitude": -81.320242,
+            "precision": "place",
+            "label": "Orlando, FL",
+            "source": "census-map-places",
+            "source_key": "1253000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "phoenix",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 33.572154,
+            "longitude": -112.090132,
+            "precision": "place",
+            "label": "Phoenix, AZ",
+            "source": "census-map-places",
+            "source_key": "0455000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "san-antonio",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 29.462809,
+            "longitude": -98.524635,
+            "precision": "place",
+            "label": "San Antonio, TX",
+            "source": "census-map-places",
+            "source_key": "4865000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "san-diego",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 32.830391,
+            "longitude": -117.120923,
+            "precision": "place",
+            "label": "San Diego, CA",
+            "source": "census-map-places",
+            "source_key": "0666000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "san-francisco",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 37.727239,
+            "longitude": -123.032229,
+            "precision": "place",
+            "label": "San Francisco, CA",
+            "source": "census-map-places",
+            "source_key": "0667000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "tampa",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Serving Riders In. City point represents a limited service area, not its boundary; availability and booking channels vary by market.",
+          "stage": "operating",
+          "location": {
+            "latitude": 27.970086,
+            "longitude": -82.479673,
+            "precision": "place",
+            "label": "Tampa, FL",
+            "source": "census-map-places",
+            "source_key": "1271000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "baltimore",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 39.300032,
+            "longitude": -76.610476,
+            "precision": "place",
+            "label": "Baltimore, MD",
+            "source": "census-map-places",
+            "source_key": "2404000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "boston",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 42.338551,
+            "longitude": -71.018253,
+            "precision": "place",
+            "label": "Boston, MA",
+            "source": "census-map-places",
+            "source_key": "2507000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "charlotte",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 35.209045,
+            "longitude": -80.83099,
+            "precision": "place",
+            "label": "Charlotte, NC",
+            "source": "census-map-places",
+            "source_key": "3712000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "chicago",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 41.837045,
+            "longitude": -87.684939,
+            "precision": "place",
+            "label": "Chicago, IL",
+            "source": "census-map-places",
+            "source_key": "1714000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "detroit",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 42.383037,
+            "longitude": -83.102237,
+            "precision": "place",
+            "label": "Detroit, MI",
+            "source": "census-map-places",
+            "source_key": "2622000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "las-vegas",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 36.233499,
+            "longitude": -115.264037,
+            "precision": "place",
+            "label": "Las Vegas, NV",
+            "source": "census-map-places",
+            "source_key": "3240000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "london",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 51.50853,
+            "longitude": -0.12574,
+            "precision": "place",
+            "label": "London, GB",
+            "source": "geonames-map",
+            "source_key": "2643743",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "minneapolis",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 44.963324,
+            "longitude": -93.26832,
+            "precision": "place",
+            "label": "Minneapolis, MN",
+            "source": "census-map-places",
+            "source_key": "2743000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "new-orleans",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 30.05342,
+            "longitude": -89.934502,
+            "precision": "place",
+            "label": "New Orleans, LA",
+            "source": "census-map-places",
+            "source_key": "2255000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "new-york",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 40.662712,
+            "longitude": -73.938677,
+            "precision": "place",
+            "label": "New York, NY",
+            "source": "census-map-places",
+            "source_key": "3651000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "philadelphia",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 40.009376,
+            "longitude": -75.133346,
+            "precision": "place",
+            "label": "Philadelphia, PA",
+            "source": "census-map-places",
+            "source_key": "4260000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "pittsburgh",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 40.439936,
+            "longitude": -79.975676,
+            "precision": "place",
+            "label": "Pittsburgh, PA",
+            "source": "census-map-places",
+            "source_key": "4261000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "portland",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 45.536951,
+            "longitude": -122.649971,
+            "precision": "place",
+            "label": "Portland, OR",
+            "source": "census-map-places",
+            "source_key": "4159000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "sacramento",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 38.567694,
+            "longitude": -121.468161,
+            "precision": "place",
+            "label": "Sacramento, CA",
+            "source": "census-map-places",
+            "source_key": "0664000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "seattle",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 47.619335,
+            "longitude": -122.351538,
+            "precision": "place",
+            "label": "Seattle, WA",
+            "source": "census-map-places",
+            "source_key": "5363000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "st-louis",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 38.635699,
+            "longitude": -90.244582,
+            "precision": "place",
+            "label": "St. Louis, MO",
+            "source": "census-map-places",
+            "source_key": "2965000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "tokyo",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 35.6895,
+            "longitude": 139.69171,
+            "precision": "place",
+            "label": "Tokyo, JP",
+            "source": "geonames-map",
+            "source_key": "1850147",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "washington",
+          "source": "map-waymo-service",
+          "note": "Waymo lists this market under Up Next. This is a future rider-service market, not evidence that public rides are available; testing may already occur.",
+          "stage": "announced",
+          "location": {
+            "latitude": 38.904243,
+            "longitude": -77.016524,
+            "precision": "place",
+            "label": "Washington, DC",
+            "source": "census-map-places",
+            "source_key": "1150000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
       ]
     },
     {
@@ -1237,6 +1724,113 @@
           "date": "2026-09-03",
           "summary": "Tesla reports one million cumulative unsupervised Robotaxi miles at the Cybercab event. The aggregate is not allocated by city, passenger occupancy or testing share. This is a company-reported exposure milestone, not independent evidence of comparative safety.",
           "source": "tesla-cybercab-speech-2026"
+        }
+      ],
+      "map_locations": [
+        {
+          "id": "austin",
+          "source": "map-tesla-service",
+          "note": "Tesla lists limited-area Robotaxi service here. The support page describes a Model Y/Cybercab fleet but does not allocate vehicle types, fleet size or supervision arrangements by city. This point does not represent citywide coverage.",
+          "stage": "operating",
+          "location": {
+            "latitude": 30.298622,
+            "longitude": -97.754134,
+            "precision": "place",
+            "label": "Austin, TX",
+            "source": "census-map-places",
+            "source_key": "4805000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "dallas",
+          "source": "map-tesla-service",
+          "note": "Tesla lists limited-area Robotaxi service here. The support page describes a Model Y/Cybercab fleet but does not allocate vehicle types, fleet size or supervision arrangements by city. This point does not represent citywide coverage.",
+          "stage": "operating",
+          "location": {
+            "latitude": 32.793333,
+            "longitude": -96.766513,
+            "precision": "place",
+            "label": "Dallas, TX",
+            "source": "census-map-places",
+            "source_key": "4819000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "houston",
+          "source": "map-tesla-service",
+          "note": "Tesla lists limited-area Robotaxi service here. The support page describes a Model Y/Cybercab fleet but does not allocate vehicle types, fleet size or supervision arrangements by city. This point does not represent citywide coverage.",
+          "stage": "operating",
+          "location": {
+            "latitude": 29.785743,
+            "longitude": -95.388806,
+            "precision": "place",
+            "label": "Houston, TX",
+            "source": "census-map-places",
+            "source_key": "4835000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "miami",
+          "source": "map-tesla-service",
+          "note": "Tesla lists limited-area Robotaxi service here. The support page describes a Model Y/Cybercab fleet but does not allocate vehicle types, fleet size or supervision arrangements by city. This point does not represent citywide coverage.",
+          "stage": "operating",
+          "location": {
+            "latitude": 25.775163,
+            "longitude": -80.208615,
+            "precision": "place",
+            "label": "Miami, FL",
+            "source": "census-map-places",
+            "source_key": "1245000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "orlando",
+          "source": "map-tesla-service",
+          "note": "Tesla lists limited-area Robotaxi service here. The support page describes a Model Y/Cybercab fleet but does not allocate vehicle types, fleet size or supervision arrangements by city. This point does not represent citywide coverage.",
+          "stage": "operating",
+          "location": {
+            "latitude": 28.472818,
+            "longitude": -81.320242,
+            "precision": "place",
+            "label": "Orlando, FL",
+            "source": "census-map-places",
+            "source_key": "1253000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "tampa",
+          "source": "map-tesla-service",
+          "note": "Tesla lists limited-area Robotaxi service here. The support page describes a Model Y/Cybercab fleet but does not allocate vehicle types, fleet size or supervision arrangements by city. This point does not represent citywide coverage.",
+          "stage": "operating",
+          "location": {
+            "latitude": 27.970086,
+            "longitude": -82.479673,
+            "precision": "place",
+            "label": "Tampa, FL",
+            "source": "census-map-places",
+            "source_key": "1271000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "san-francisco",
+          "source": "tesla-q2-2026",
+          "note": "July 22 disclosure: San Francisco Bay Area service has a safety driver. Retained as a dated supervised-service location, not evidence of current unsupervised availability.",
+          "stage": "pilot",
+          "location": {
+            "latitude": 37.727239,
+            "longitude": -123.032229,
+            "precision": "place",
+            "label": "San Francisco, CA",
+            "source": "census-map-places",
+            "source_key": "0667000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
         }
       ]
     },
@@ -1609,6 +2203,38 @@
       "company_ids": [
         "aws",
         "stack-infrastructure"
+      ],
+      "map_locations": [
+        {
+          "id": "caddo",
+          "source": "astra-aws-louisiana-20260818",
+          "stage": "announced",
+          "note": "The announced three-campus program spans Caddo and Bossier Parishes. This parish point is not an individual campus; program investment and jobs must not be assigned to each marker.",
+          "location": {
+            "latitude": 32.580106,
+            "longitude": -93.88497,
+            "precision": "county",
+            "label": "Caddo Parish, LA",
+            "source": "census-map-counties",
+            "source_key": "22017",
+            "reviewed_at": "2026-09-09T07:13:32.706195Z"
+          }
+        },
+        {
+          "id": "bossier",
+          "source": "astra-aws-louisiana-20260818",
+          "stage": "announced",
+          "note": "The announced three-campus program spans Caddo and Bossier Parishes. This parish point is not an individual campus; program investment and jobs must not be assigned to each marker.",
+          "location": {
+            "latitude": 32.698481,
+            "longitude": -93.626561,
+            "precision": "county",
+            "label": "Bossier Parish, LA",
+            "source": "census-map-counties",
+            "source_key": "22015",
+            "reviewed_at": "2026-09-09T07:13:32.706195Z"
+          }
+        }
       ]
     },
     {
@@ -1974,7 +2600,16 @@
       ],
       "company_ids": [
         "nebius"
-      ]
+      ],
+      "map_location": {
+        "latitude": 60.63333,
+        "longitude": 25.31667,
+        "precision": "place",
+        "label": "Mäntsälä, FI",
+        "source": "geonames-map",
+        "source_key": "646723",
+        "reviewed_at": "2026-09-09T07:08:45.433794Z"
+      }
     },
     {
       "id": "nebius-lille",
@@ -3609,6 +4244,1514 @@
       "company_ids": [
         "waymo"
       ]
+    },
+    {
+      "id": "meta-singapore",
+      "name": "Meta · Singapore",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Singapore, SG",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-singapore"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 1.28967,
+        "longitude": 103.85007,
+        "precision": "place",
+        "label": "Singapore, SG",
+        "source": "geonames-map",
+        "source_key": "1880252",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-odense",
+      "name": "Meta · Odense",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Odense, DK",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-odense"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 55.39594,
+        "longitude": 10.38831,
+        "precision": "place",
+        "label": "Odense, DK",
+        "source": "geonames-map",
+        "source_key": "2615876",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-clonee",
+      "name": "Meta · Clonee",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Clonee, IE",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-clonee"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ]
+    },
+    {
+      "id": "meta-lule",
+      "name": "Meta · Luleå",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Luleå, SE",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-lule"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 65.58415,
+        "longitude": 22.15465,
+        "precision": "place",
+        "label": "Luleå, SE",
+        "source": "geonames-map",
+        "source_key": "604490",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-huntsville",
+      "name": "Meta · Huntsville",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Huntsville, AL",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-huntsville"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 34.69772,
+        "longitude": -86.67667,
+        "precision": "place",
+        "label": "Huntsville, AL",
+        "source": "census-map-places",
+        "source_key": "0137000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-montgomery",
+      "name": "Meta · Montgomery",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Montgomery, AL",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-montgomery"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 32.348503,
+        "longitude": -86.267307,
+        "precision": "place",
+        "label": "Montgomery, AL",
+        "source": "census-map-places",
+        "source_key": "0151000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-mesa",
+      "name": "Meta · Mesa",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Mesa, AZ",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-mesa"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 33.399355,
+        "longitude": -111.715968,
+        "precision": "place",
+        "label": "Mesa, AZ",
+        "source": "census-map-places",
+        "source_key": "0446000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-stanton-springs",
+      "name": "Meta · Stanton Springs",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Social Circle, GA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-stanton-springs"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 33.646139,
+        "longitude": -83.712782,
+        "precision": "place",
+        "label": "Social Circle, GA · Stanton Springs area",
+        "source": "census-map-places",
+        "source_key": "1371660",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-kuna",
+      "name": "Meta · Kuna",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Kuna, ID",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-kuna"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 43.52484,
+        "longitude": -116.403639,
+        "precision": "place",
+        "label": "Kuna, ID",
+        "source": "census-map-places",
+        "source_key": "1644290",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-dekalb",
+      "name": "Meta · DeKalb",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "DeKalb, IL",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-dekalb"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 41.928186,
+        "longitude": -88.747585,
+        "precision": "place",
+        "label": "DeKalb, IL",
+        "source": "census-map-places",
+        "source_key": "1719161",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-jeffersonville",
+      "name": "Meta · Jeffersonville",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Jeffersonville, IN",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-jeffersonville"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 38.337498,
+        "longitude": -85.701172,
+        "precision": "place",
+        "label": "Jeffersonville, IN",
+        "source": "census-map-places",
+        "source_key": "1838358",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-lebanon",
+      "name": "Meta · Lebanon",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Lebanon, IN",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "construction",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [
+        "meta-lebanon-reviewed-capacity-20260909"
+      ],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-02-11",
+          "source": "audit-meta-lebanon-groundbreaking",
+          "summary": "Meta reports groundbreaking for a campus designed for 1 GW, with over $10 billion planned investment, more than 4,000 peak construction jobs and approximately 300 operating positions. These are plans, not realized totals."
+        },
+        {
+          "date": null,
+          "summary": "Meta continues to list Lebanon in its data-center fleet directory.",
+          "source": "audit-meta-lebanon"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 40.036378,
+        "longitude": -86.46107,
+        "precision": "place",
+        "label": "Lebanon, IN",
+        "source": "census-map-places",
+        "source_key": "1842624",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-altoona",
+      "name": "Meta · Altoona",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Altoona, IA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-altoona"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 41.650639,
+        "longitude": -93.480018,
+        "precision": "place",
+        "label": "Altoona, IA",
+        "source": "census-map-places",
+        "source_key": "1901630",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-rosemount",
+      "name": "Meta · Rosemount",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Rosemount, MN",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-rosemount"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 44.745814,
+        "longitude": -93.068864,
+        "precision": "place",
+        "label": "Rosemount, MN",
+        "source": "census-map-places",
+        "source_key": "2755726",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-kansas-city",
+      "name": "Meta · Kansas City",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Kansas City, MO",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-kansas-city"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 39.125155,
+        "longitude": -94.550313,
+        "precision": "place",
+        "label": "Kansas City, MO",
+        "source": "census-map-places",
+        "source_key": "2938000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-sarpy",
+      "name": "Meta · Sarpy",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Sarpy County, NE",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-sarpy"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 41.115064,
+        "longitude": -96.109125,
+        "precision": "county",
+        "label": "Sarpy County, NE",
+        "source": "census-map-counties",
+        "source_key": "31153",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-los-lunas",
+      "name": "Meta · Los Lunas",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Los Lunas, NM",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-los-lunas"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 34.80087,
+        "longitude": -106.788691,
+        "precision": "place",
+        "label": "Los Lunas, NM",
+        "source": "census-map-places",
+        "source_key": "3543370",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-forest-city",
+      "name": "Meta · Forest City",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Forest City, NC",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-forest-city"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 35.334708,
+        "longitude": -81.870751,
+        "precision": "place",
+        "label": "Forest City, NC",
+        "source": "census-map-places",
+        "source_key": "3724080",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-bowling-green",
+      "name": "Meta · Bowling Green",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Bowling Green, OH",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-bowling-green"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 41.377677,
+        "longitude": -83.649584,
+        "precision": "place",
+        "label": "Bowling Green, OH",
+        "source": "census-map-places",
+        "source_key": "3907972",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-prometheus",
+      "name": "Meta Prometheus · New Albany",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "New Albany, OH",
+      "category": "AI supercluster",
+      "stage": "construction",
+      "ai_relationship": "A planned 1 GW AI cluster connecting GPUs across multiple buildings. Existing New Albany operations do not establish that the full Prometheus cluster is energized.",
+      "observations": [
+        "meta-prometheus-reviewed-capacity-20260909"
+      ],
+      "horizon": "Full 1 GW completion / energized capacity not verified in this review.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-02-09",
+          "source": "audit-prometheus-bag",
+          "summary": "Meta describes a 1 GW cluster under development and Ethernet backend aggregation across buildings. This is design capacity, not a verified energized quantity."
+        },
+        {
+          "date": null,
+          "summary": "New Albany information sheet identifies Prometheus and describes future capacity of over 1 GW. Existing campus operations and full cluster completion remain distinct.",
+          "source": "audit-meta-new-albany"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 40.09,
+        "longitude": -82.776349,
+        "precision": "place",
+        "label": "New Albany, OH",
+        "source": "census-map-places",
+        "source_key": "3953970",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-prineville",
+      "name": "Meta · Prineville",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Prineville, OR",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-prineville"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 44.29854,
+        "longitude": -120.860718,
+        "precision": "place",
+        "label": "Prineville, OR",
+        "source": "census-map-places",
+        "source_key": "4159850",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-aiken",
+      "name": "Meta · Aiken",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Aiken, SC",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-aiken"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 33.531594,
+        "longitude": -81.725073,
+        "precision": "place",
+        "label": "Aiken, SC",
+        "source": "census-map-places",
+        "source_key": "4500550",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-gallatin",
+      "name": "Meta · Gallatin",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Gallatin, TN",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-gallatin"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 36.381524,
+        "longitude": -86.467021,
+        "precision": "place",
+        "label": "Gallatin, TN",
+        "source": "census-map-places",
+        "source_key": "4728540",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-el-paso",
+      "name": "Meta · El Paso",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "El Paso, TX",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "construction",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [
+        "meta-el-paso-reviewed-capacity-20260909"
+      ],
+      "horizon": "Capacity expected to begin coming online in 2028; target, not an operating milestone.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-07-28",
+          "source": "audit-meta-el-paso-venture",
+          "summary": "Meta describes the El Paso campus as under construction with 1 GW planned compute capacity. The strategic venture expects initial capacity online in 2028."
+        },
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-el-paso"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 31.84778,
+        "longitude": -106.431106,
+        "precision": "place",
+        "label": "El Paso, TX",
+        "source": "census-map-places",
+        "source_key": "4824000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-fort-worth",
+      "name": "Meta · Fort Worth",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Fort Worth, TX",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-fort-worth"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 32.781954,
+        "longitude": -97.348573,
+        "precision": "place",
+        "label": "Fort Worth, TX",
+        "source": "census-map-places",
+        "source_key": "4827000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-eagle-mountain",
+      "name": "Meta · Eagle Mountain",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Eagle Mountain, UT",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-eagle-mountain"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 40.314272,
+        "longitude": -112.011983,
+        "precision": "place",
+        "label": "Eagle Mountain, UT",
+        "source": "census-map-places",
+        "source_key": "4920810",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-henrico",
+      "name": "Meta · Henrico",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Henrico County, VA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-henrico"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 37.43752,
+        "longitude": -77.300333,
+        "precision": "county",
+        "label": "Henrico County, VA",
+        "source": "census-map-counties",
+        "source_key": "51087",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-beaver-dam",
+      "name": "Meta · Beaver Dam",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Beaver Dam, WI",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-beaver-dam"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 43.475368,
+        "longitude": -88.827871,
+        "precision": "place",
+        "label": "Beaver Dam, WI",
+        "source": "census-map-places",
+        "source_key": "5505900",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "meta-cheyenne",
+      "name": "Meta · Cheyenne",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Cheyenne, WY",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Operator identifies this data-center locality. Current campus-wide delivery stage requires a dated milestone; presence in a directory is not proof of full operation.",
+          "source": "audit-meta-cheyenne"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "map_location": {
+        "latitude": 41.128275,
+        "longitude": -104.799155,
+        "precision": "place",
+        "label": "Cheyenne, WY",
+        "source": "census-map-places",
+        "source_key": "5613900",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "crusoe-microsoft-abilene",
+      "name": "Crusoe / Microsoft · Abilene expansion",
+      "layer": "infrastructure",
+      "owner": "Crusoe / Microsoft",
+      "location": "Abilene, TX",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "construction",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [
+        "crusoe-microsoft-abilene-reviewed-capacity-20260909"
+      ],
+      "horizon": "First building targeted for energization in mid-2027.",
+      "grid": "Plans include 900 MW of on-site generation. Do not add the source’s 2.1 GW combined-site figure to either campus.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-03-27",
+          "summary": "Site preparation is underway for a separate Microsoft campus adjacent to the original Stargate campus. Two buildings are designed for 336 MW critical IT load each; the 900 MW site / power-plant rating is a different basis.",
+          "source": "audit-crusoe-microsoft-abilene"
+        }
+      ],
+      "company_ids": [
+        "crusoe",
+        "microsoft"
+      ],
+      "map_location": {
+        "latitude": 32.454514,
+        "longitude": -99.738147,
+        "precision": "place",
+        "label": "Abilene, TX",
+        "source": "census-map-places",
+        "source_key": "4801000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "nscale-monarch",
+      "name": "Monarch Compute Campus",
+      "layer": "infrastructure",
+      "owner": "Nscale",
+      "location": "Mason County, WV",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Initial 2 GW power target: first half of 2028; approximately 8 GW expansion planned for 2031.",
+      "grid": "These are announced microgrid power quantities, not interchangeable with commissioned critical IT load.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-03-16",
+          "summary": "Nscale announces an acquisition agreement covering Monarch and a proposed on-site microgrid; this does not establish energized AI capacity.",
+          "source": "audit-monarch"
+        }
+      ],
+      "company_ids": [],
+      "map_location": {
+        "latitude": 38.770914,
+        "longitude": -82.029007,
+        "precision": "county",
+        "label": "Mason County, WV",
+        "source": "census-map-counties",
+        "source_key": "54053",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "fairwater-atlanta",
+      "name": "Fairwater · Atlanta region",
+      "layer": "infrastructure",
+      "owner": "Microsoft",
+      "location": "Atlanta, GA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-11-12",
+          "summary": "Microsoft identifies an Atlanta-area Fairwater site and describes its AI WAN architecture. This locality entry does not assert full campus operation or a commissioned MW quantity.",
+          "source": "audit-fairwater-atlanta"
+        }
+      ],
+      "company_ids": [
+        "microsoft"
+      ],
+      "map_location": {
+        "latitude": 33.762909,
+        "longitude": -84.422675,
+        "precision": "place",
+        "label": "Atlanta, GA",
+        "source": "census-map-places",
+        "source_key": "1304000",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "nscale-narvik",
+      "name": "Nscale Narvik · earlier Stargate Norway announcement",
+      "layer": "infrastructure",
+      "owner": "Nscale",
+      "location": "Narvik, NO",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [
+        "nscale-narvik-reviewed-capacity-20260909"
+      ],
+      "horizon": "Additional GPU deployment planned for 2027; current commissioned quantity needs confirmation.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-04-14",
+          "summary": "Nscale names Microsoft in its expanded Narvik agreement, with over 30,000 Rubin GPUs planned for 2027 at a 230 MW campus. Do not assume the earlier OpenAI offtake ambition is a current delivered allocation.",
+          "source": "audit-narvik-microsoft"
+        }
+      ],
+      "company_ids": [
+        "microsoft"
+      ],
+      "map_location": {
+        "latitude": 68.43838,
+        "longitude": 17.4272,
+        "precision": "place",
+        "label": "Narvik, NO",
+        "source": "geonames-map",
+        "source_key": "3144987",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "stargate-uae",
+      "name": "Stargate UAE · Abu Dhabi",
+      "layer": "infrastructure",
+      "owner": "G42 and Stargate partners",
+      "location": "Abu Dhabi, AE",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [
+        "stargate-uae-reviewed-capacity-20260909"
+      ],
+      "horizon": "Initial 200 MW targeted for 2026 in the May 2025 announcement; obtain a current construction / commissioning update.",
+      "grid": "Distinguish the 1 GW Stargate cluster from the larger UAE–U.S. campus; do not add overlapping program capacities.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-05-22",
+          "summary": "The announcement proposes a 1 GW cluster with an initial 200 MW targeted for 2026. Target date passing does not establish operation.",
+          "source": "audit-stargate-uae"
+        }
+      ],
+      "company_ids": [
+        "openai",
+        "oracle",
+        "nvidia",
+        "cisco",
+        "softbank"
+      ],
+      "map_location": {
+        "latitude": 24.45118,
+        "longitude": 54.39696,
+        "precision": "place",
+        "label": "Abu Dhabi, AE",
+        "source": "geonames-map",
+        "source_key": "292968",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-luzerne-county",
+      "name": "AWS · Luzerne County",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Luzerne County, PA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-06-09",
+          "summary": "Amazon identifies this county in its Pennsylvania campus plan. The statewide $20 billion and 1,250 expected jobs are not allocations to each campus.",
+          "source": "audit-aws-pennsylvania"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 41.173078,
+        "longitude": -75.976053,
+        "precision": "county",
+        "label": "Luzerne County, PA",
+        "source": "census-map-counties",
+        "source_key": "42079",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-bucks-county",
+      "name": "AWS · Bucks County",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Bucks County, PA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-06-09",
+          "summary": "Amazon identifies this county in its Pennsylvania campus plan. The statewide $20 billion and 1,250 expected jobs are not allocations to each campus.",
+          "source": "audit-aws-pennsylvania"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 40.336887,
+        "longitude": -75.10706,
+        "precision": "county",
+        "label": "Bucks County, PA",
+        "source": "census-map-counties",
+        "source_key": "42017",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-richmond-county",
+      "name": "AWS · Richmond County",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Richmond County, NC",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-06-04",
+          "summary": "Amazon announces a $10 billion campus investment plan with at least 500 expected high-skilled positions. Announced investment and positions are not realized spending or hires.",
+          "source": "audit-aws-richmond"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 35.004636,
+        "longitude": -79.755695,
+        "precision": "county",
+        "label": "Richmond County, NC",
+        "source": "census-map-counties",
+        "source_key": "37153",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-georgia-butts-county",
+      "name": "AWS · Butts County, Georgia",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Butts County, GA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-01-07",
+          "summary": "Amazon identifies this county in a shared Georgia investment plan. Do not allocate or repeat statewide investment and job totals as county totals.",
+          "source": "audit-aws-georgia"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 33.290355,
+        "longitude": -83.958221,
+        "precision": "county",
+        "label": "Butts County, GA",
+        "source": "census-map-counties",
+        "source_key": "13035",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-georgia-douglas-county",
+      "name": "AWS · Douglas County, Georgia",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Douglas County, GA",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-01-07",
+          "summary": "Amazon identifies this county in a shared Georgia investment plan. Do not allocate or repeat statewide investment and job totals as county totals.",
+          "source": "audit-aws-georgia"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 33.701242,
+        "longitude": -84.767314,
+        "precision": "county",
+        "label": "Douglas County, GA",
+        "source": "census-map-counties",
+        "source_key": "13097",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-mississippi-madison-county",
+      "name": "AWS · Madison County, Mississippi",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Madison County, MS",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "status-unverified",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-04-09",
+          "summary": "Amazon identifies this county within its Mississippi expansion. Statewide planned investment and employment cannot be counted at every locality. Current energized capacity needs confirmation.",
+          "source": "audit-aws-mississippi"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 32.63437,
+        "longitude": -90.03416,
+        "precision": "county",
+        "label": "Madison County, MS",
+        "source": "census-map-counties",
+        "source_key": "28089",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-mississippi-warren-county",
+      "name": "AWS · Warren County, Mississippi",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Warren County, MS",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-04-09",
+          "summary": "Amazon identifies this county within its Mississippi expansion. Statewide planned investment and employment cannot be counted at every locality. Current energized capacity needs confirmation.",
+          "source": "audit-aws-mississippi"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 32.356095,
+        "longitude": -90.852384,
+        "precision": "county",
+        "label": "Warren County, MS",
+        "source": "census-map-counties",
+        "source_key": "28149",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "aws-mississippi-hinds-county",
+      "name": "AWS · Hinds County, Mississippi",
+      "layer": "infrastructure",
+      "owner": "Amazon Web Services",
+      "location": "Hinds County, MS",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "construction",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-04-09",
+          "summary": "Amazon identifies this county within its Mississippi expansion. Statewide planned investment and employment cannot be counted at every locality. Current energized capacity needs confirmation.",
+          "source": "audit-aws-mississippi"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ],
+      "map_location": {
+        "latitude": 32.267788,
+        "longitude": -90.466016,
+        "precision": "county",
+        "label": "Hinds County, MS",
+        "source": "census-map-counties",
+        "source_key": "28049",
+        "reviewed_at": "2026-09-09T07:20:37.148380Z"
+      }
+    },
+    {
+      "id": "galaxy-helios",
+      "name": "Galaxy Helios · CoreWeave",
+      "layer": "infrastructure",
+      "owner": "Galaxy / CoreWeave",
+      "location": "Dickens County, TX",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "partly-operating",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [
+        "galaxy-helios-reviewed-capacity-20260909"
+      ],
+      "horizon": "Phase II deliveries expected to begin in the first half of 2027.",
+      "grid": "Keep delivered critical IT load, gross power, contracted capacity and approved future power separate.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-07-06",
+          "summary": "Galaxy reports delivery of 133 MW critical IT load in phase I; phase II remains under construction. Approved campus power of 1.63 GW is not all operating IT load.",
+          "source": "audit-helios-delivery"
+        }
+      ],
+      "company_ids": [
+        "coreweave"
+      ],
+      "map_location": {
+        "latitude": 33.615362,
+        "longitude": -100.787618,
+        "precision": "county",
+        "label": "Dickens County, TX",
+        "source": "census-map-counties",
+        "source_key": "48125",
+        "reviewed_at": "2026-09-09T07:22:33.276817Z"
+      }
+    },
+    {
+      "id": "google-visakhapatnam",
+      "name": "Google AI hub · Visakhapatnam",
+      "layer": "infrastructure",
+      "owner": "Google / AdaniConneX / Nxtra",
+      "location": "Visakhapatnam, IN",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "construction",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2026-04-28",
+          "summary": "Google reports groundbreaking for its gigawatt-scale AI hub with AdaniConneX and Nxtra. A design-scale description does not establish commissioned capacity.",
+          "source": "audit-google-vizag"
+        }
+      ],
+      "company_ids": [
+        "alphabet"
+      ],
+      "map_location": {
+        "latitude": 17.68009,
+        "longitude": 83.20161,
+        "precision": "place",
+        "label": "Visakhapatnam, IN",
+        "source": "geonames-map",
+        "source_key": "1253102",
+        "reviewed_at": "2026-09-09T07:22:33.276817Z"
+      }
+    },
+    {
+      "id": "nextdc-s7",
+      "name": "NEXTDC S7 · Eastern Creek, Sydney",
+      "layer": "infrastructure",
+      "owner": "NEXTDC",
+      "location": "Sydney, AU",
+      "category": "Hyperscale data-center campus / locality",
+      "stage": "announced",
+      "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
+      "observations": [],
+      "horizon": "Seek a dated delivery update; no completion date inferred.",
+      "grid": "Operating power and grid connection are not quantified in this record.",
+      "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
+      "milestones": [
+        {
+          "date": "2025-12-05",
+          "summary": "NEXTDC announces an OpenAI memorandum covering a planned AI campus at S7 in Eastern Creek. An MoU is not a completed facility or confirmed operational deployment.",
+          "source": "audit-nextdc-s7"
+        }
+      ],
+      "company_ids": [
+        "openai"
+      ],
+      "map_location": {
+        "latitude": -33.86785,
+        "longitude": 151.20732,
+        "precision": "place",
+        "label": "Sydney, Australia · Eastern Creek project orientation",
+        "source": "geonames-map",
+        "source_key": "2147714",
+        "reviewed_at": "2026-09-09T07:22:33.276817Z"
+      }
     }
   ],
   "context_metrics": [
@@ -3621,6 +5764,7 @@
   "gaps": [
     "Match each region’s dependable supply, transmission capability and commissioning dates to its load forecast.",
     "Verify operational MW and actual electricity output instead of treating spending, signed contracts or queued projects as delivered supply.",
-    "Preserve phased schedules and unknown capacity; do not sum generation, storage, transmission and data-center ratings."
+    "Preserve phased schedules and unknown capacity; do not sum generation, storage, transmission and data-center ratings.",
+    "Hyperscale coverage is incomplete. Reconcile operator directories, campus aliases, new announcements and permitting records worldwide; directory-listed locations with unverified stages are neither operating nor construction evidence."
   ]
 }

@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from validate_explorers import validate_explorers,validate_location
-from render_explorers import capital,capabilities,project_map,capital_totals,capital_projections,default_models
+from render_explorers import capital,capabilities,project_map,capital_totals,capital_projections,default_models,map_records,map_symbol
 
 class ExplorerTests(unittest.TestCase):
     def setUp(self):
@@ -33,6 +33,43 @@ class ExplorerTests(unittest.TestCase):
         self.assertNotIn('id="eci-developer"',html)
     def test_real_data_resolves(self):
         self.assertTrue(validate_explorers(self.x,self.l,self.e))
+    def test_locality_markers_keep_programs_and_offices_separate(self):
+        from validate_delivery import validate_delivery
+        from validate_ecosystem import validate_ecosystem
+        self.assertTrue(validate_delivery(self.d,self.l));self.assertTrue(validate_ecosystem(self.e,self.l))
+        rows=map_records(self.d,self.e)
+        waymo=[p for p in rows if p['id']=='waymo-one']
+        self.assertEqual(len([p for p in waymo if p['stage']=='operating']),14)
+        self.assertEqual(len([p for p in waymo if p['stage']=='announced']),18)
+        self.assertEqual(len([p for p in self.d['projects'] if p['id']=='waymo-one']),1)
+        self.assertTrue(any(p.get('office_kind') for p in rows))
+        bad=copy.deepcopy(self.d);p=next(p for p in bad['projects'] if p.get('map_locations'));p['map_locations'][0]['source']='unknown'
+        with self.assertRaisesRegex(ValueError,'locality evidence'):validate_delivery(bad,self.l)
+        bad=copy.deepcopy(self.e);c=next(c for c in bad['companies'] if c.get('map_offices'));c['map_offices'][0]['kind']='operating'
+        with self.assertRaisesRegex(ValueError,'office kind'):validate_ecosystem(bad,self.l)
+    def test_shared_marker_preserves_colors_and_planned_status(self):
+        html=map_symbol([{'layer':'energy','stage':'operating'},{'layer':'models','stage':'announced'}],{'energy':'#123456','models':'#abcdef'},2)
+        self.assertIn('#123456',html);self.assertIn('#abcdef',html)
+        self.assertIn('phase-planned',html);self.assertNotIn('fill="#edf0e4"',html)
+    def test_reviewed_operator_directory_is_reconciled_without_duplicate_aliases(self):
+        fixture=json.loads((ROOT/'tests/fixtures/hyperscale_coverage_20260909.json').read_text(encoding='utf-8'))
+        projects={p['id']:p for p in self.d['projects']}
+        self.assertEqual(len(fixture['localities']),33)
+        for row in fixture['localities']:
+            self.assertIn(row['project'],projects)
+            self.assertEqual(projects[row['project']]['layer'],'infrastructure')
+        self.assertEqual(len({row['project'] for row in fixture['localities']}),33)
+        self.assertIn('Frontier',projects['stargate-shackelford']['name'])
+        self.assertFalse(any(p['id']=='vantage-frontier' for p in self.d['projects']))
+    def test_planned_gigawatts_and_delivered_it_load_keep_their_basis(self):
+        projects={p['id']:p for p in self.d['projects']};obs={o['id']:o for o in self.l['observations']}
+        for pid in ['meta-prometheus','meta-lebanon','meta-el-paso']:
+            p=projects[pid];self.assertNotEqual(p['stage'],'operating')
+            o=obs[p['observations'][0]];self.assertEqual(o['value'],1);self.assertEqual(o['status'],'company-commitment')
+        p=projects['galaxy-helios'];o=obs[p['observations'][0]]
+        self.assertEqual(p['stage'],'partly-operating');self.assertEqual(o['value'],133);self.assertEqual(o['status'],'observation')
+        html=map_symbol([{'layer':'infrastructure','stage':'status-unverified'}],{'infrastructure':'#abcdef'},2)
+        self.assertIn('phase-unverified',html);self.assertNotIn('phase-delivery',html);self.assertNotIn('phase-operating',html)
     def test_capital_does_not_accept_forecast_as_actual(self):
         row=self.x['capital']['companies'][0]
         row['history_metric']=row['guidance_metric']

@@ -7834,6 +7834,167 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Forecast begins in 2026. No 2030 value is supplied."
+    },
+    {
+      "id": "meta-prometheus-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Prometheus planned cluster capacity",
+      "unit": "GW",
+      "geography": "New Albany, OH",
+      "scope": "Meta February 2026 cluster design; completion not verified. Distinct from existing New Albany buildings and later over-1-GW wording.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-prometheus-bag"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "meta-lebanon-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Lebanon planned campus capacity",
+      "unit": "GW",
+      "geography": "Lebanon, IN",
+      "scope": "Issuer-designed campus capacity for AI and core products; electrical versus IT-load basis not clarified.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-meta-lebanon-groundbreaking"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "meta-el-paso-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "El Paso planned compute capacity",
+      "unit": "GW",
+      "geography": "El Paso, TX",
+      "scope": "Issuer-described compute capacity; initial delivery expected in 2028, not current energized capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-meta-el-paso-venture"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "crusoe-microsoft-abilene-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Microsoft Abilene planned critical IT load",
+      "unit": "MW",
+      "geography": "Abilene, TX",
+      "scope": "Derived sum of two planned buildings at 336 MW critical IT load each. Separate from the 900 MW power plant and the 2.1 GW combined-site figure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-crusoe-microsoft-abilene"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "nscale-narvik-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Narvik campus capacity in deployment agreement",
+      "unit": "MW",
+      "geography": "Narvik, NO",
+      "scope": "Campus rating cited with a future Microsoft deployment agreement; not a reviewed operational quantity.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-narvik-microsoft"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "stargate-uae-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Stargate UAE announced cluster capacity",
+      "unit": "GW",
+      "geography": "Abu Dhabi, AE",
+      "scope": "One cluster within a wider campus. Initial 200 MW targeted for 2026 is a phase within this total.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-stargate-uae"
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "company-commitment"
+      ]
+    },
+    {
+      "id": "galaxy-helios-reviewed-capacity",
+      "layer": "infrastructure",
+      "title": "Helios phase I delivered critical IT load",
+      "unit": "MW",
+      "geography": "Dickens County, TX",
+      "scope": "Company-reported phase I critical IT load delivered to CoreWeave; not all approved or contracted campus power.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
+      "source_ids": [
+        "audit-helios-delivery"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "No comparable earlier series has been reviewed. Missing history is not zero.",
+      "allowed_statuses": [
+        "observation"
+      ]
     }
   ],
   "sources": [
@@ -12876,6 +13037,644 @@
       "publisher": "Apollo",
       "title": "2026 Credit Outlook · exhibit 8, September 2025 consensus vintage",
       "url": "https://www.apollo.com/content/dam/apolloaem/documents/insights/outlook/apollo-global-2026-credit-outlook.pdf",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-waymo-service",
+      "publisher": "Waymo",
+      "title": "Service cities: Serving Riders In and Up Next",
+      "url": "https://waymo.com/rides/",
+      "published": null,
+      "layers": [
+        "applications"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-tesla-service",
+      "publisher": "Tesla",
+      "title": "Robotaxi support: current limited-area availability",
+      "url": "https://www.tesla.com/support/robotaxi",
+      "published": null,
+      "layers": [
+        "applications"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-openai",
+      "publisher": "OpenAI",
+      "title": "Learning Lab launch at San Francisco headquarters",
+      "url": "https://edunewsletter.openai.com/p/learning-lab-launch",
+      "published": "2026-09-02",
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-anthropic",
+      "publisher": "Anthropic",
+      "title": "Voluntary commitments and corporate governance",
+      "url": "https://www.anthropic.com/transparency/voluntary-commitments",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-cohere",
+      "publisher": "Cohere",
+      "title": "Cohere partnership announcement and co-headquarters",
+      "url": "https://cohere.com/blog/cohere-aston-martin-formula-one-generative-ai-partner",
+      "published": "2026-03-04",
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-mistral",
+      "publisher": "Mistral AI",
+      "title": "Legal notice and registered office",
+      "url": "https://mistral.ai/fr/legal/",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-ai2",
+      "publisher": "Ai2",
+      "title": "Contact and institutional address",
+      "url": "https://allenai.org/contact",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-nvidia",
+      "publisher": "NVIDIA",
+      "title": "Corporate contact location",
+      "url": "https://www.nvidia.com/en-us/contact/",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-deepmind",
+      "publisher": "Google DeepMind",
+      "title": "Careers: research office locations",
+      "url": "https://deepmind.google/careers/",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-spacexai",
+      "publisher": "SpaceXAI",
+      "title": "Corporate office location disclosure",
+      "url": "https://x.ai/company",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-microsoft",
+      "publisher": "Microsoft",
+      "title": "Corporate office location disclosure",
+      "url": "https://www.microsoft.com/en-us/investor/contact-information",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-meta",
+      "publisher": "Meta",
+      "title": "Corporate office location disclosure",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "map-office-aws",
+      "publisher": "Amazon",
+      "title": "Corporate office location disclosure",
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-singapore",
+      "publisher": "Meta",
+      "title": "Singapore data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/singapore-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-odense",
+      "publisher": "Meta",
+      "title": "Odense data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/odense-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-clonee",
+      "publisher": "Meta",
+      "title": "Clonee data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/clonee-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-lule",
+      "publisher": "Meta",
+      "title": "Luleå data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/lulea-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-huntsville",
+      "publisher": "Meta",
+      "title": "Huntsville data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/huntsville-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-montgomery",
+      "publisher": "Meta",
+      "title": "Montgomery data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/montgomery-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-mesa",
+      "publisher": "Meta",
+      "title": "Mesa data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/mesa-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-stanton-springs",
+      "publisher": "Meta",
+      "title": "Stanton Springs data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/stanton-springs-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-kuna",
+      "publisher": "Meta",
+      "title": "Kuna data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/kuna-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-dekalb",
+      "publisher": "Meta",
+      "title": "DeKalb data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/dekalb-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-jeffersonville",
+      "publisher": "Meta",
+      "title": "Jeffersonville data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/jeffersonville-data-center/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-lebanon",
+      "publisher": "Meta",
+      "title": "Lebanon data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/meta-lebanon-data-center-info-sheet/%20",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-altoona",
+      "publisher": "Meta",
+      "title": "Altoona data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/altoona-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-rosemount",
+      "publisher": "Meta",
+      "title": "Rosemount data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/rosemount-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-kansas-city",
+      "publisher": "Meta",
+      "title": "Kansas City data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/kansas-city-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-sarpy",
+      "publisher": "Meta",
+      "title": "Sarpy data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/sarpy-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-los-lunas",
+      "publisher": "Meta",
+      "title": "Los Lunas data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/los-lunas/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-forest-city",
+      "publisher": "Meta",
+      "title": "Forest City data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/forest-city-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-bowling-green",
+      "publisher": "Meta",
+      "title": "Bowling Green data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/bowling-green-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-new-albany",
+      "publisher": "Meta",
+      "title": "New Albany data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/new-albany-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-prineville",
+      "publisher": "Meta",
+      "title": "Prineville data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/prineville-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-aiken",
+      "publisher": "Meta",
+      "title": "Aiken data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/aiken-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-gallatin",
+      "publisher": "Meta",
+      "title": "Gallatin data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/gallatin-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-el-paso",
+      "publisher": "Meta",
+      "title": "El Paso data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/el-paso-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-fort-worth",
+      "publisher": "Meta",
+      "title": "Fort Worth data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/fort-worth-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-eagle-mountain",
+      "publisher": "Meta",
+      "title": "Eagle Mountain data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/eagle-mountain-data-center-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-henrico",
+      "publisher": "Meta",
+      "title": "Henrico data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/henrico-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-beaver-dam",
+      "publisher": "Meta",
+      "title": "Beaver Dam data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/beaver-dam-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-cheyenne",
+      "publisher": "Meta",
+      "title": "Cheyenne data-center information sheet",
+      "url": "https://datacenters.atmeta.com/asset/cheyenne-data-center-info-sheet/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-prometheus-bag",
+      "publisher": "Meta",
+      "title": "Building Prometheus: backend aggregation",
+      "url": "https://engineering.fb.com/2026/02/09/data-center-engineering/building-prometheus-how-backend-aggregation-enables-gigawatt-scale-ai-clusters/",
+      "published": "2026-02-09",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-lebanon-groundbreaking",
+      "publisher": "Meta",
+      "title": "Lebanon gigawatt campus groundbreaking",
+      "url": "https://about.fb.com/news/2026/02/metas-new-data-center-lebanon-indiana-marks-milestone-ai-investment/",
+      "published": "2026-02-11",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-meta-el-paso-venture",
+      "publisher": "Meta",
+      "title": "El Paso strategic venture and planned capacity",
+      "url": "https://about.fb.com/news/2026/07/meta-announces-new-venture-with-blackrock-to-develop-data-center-in-el-paso/",
+      "published": "2026-07-28",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-crusoe-microsoft-abilene",
+      "publisher": "Crusoe",
+      "title": "Dedicated Microsoft AI factory in Abilene",
+      "url": "https://www.crusoe.ai/resources/newsroom/crusoe-announces-new-900-mw-ai-factory-campus-in-abilene-texas-to-support-microsoft-ai-infrastructure",
+      "published": "2026-03-27",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-monarch",
+      "publisher": "Nscale",
+      "title": "Monarch Compute Campus acquisition agreement",
+      "url": "https://www.nscale.tech/press-releases/nscale-acquires-american-intelligence-power-corporation",
+      "published": "2026-03-16",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-fairwater-atlanta",
+      "publisher": "Microsoft",
+      "title": "Azure AI superfactory: Atlanta Fairwater",
+      "url": "https://blogs.microsoft.com/blog/2025/11/12/infinite-scale-the-architecture-behind-the-azure-ai-superfactory/",
+      "published": "2025-11-12",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-narvik-microsoft",
+      "publisher": "Nscale",
+      "title": "Expanded Microsoft agreement for Narvik",
+      "url": "https://www.nscale.com/press-releases/nscale-microsoft-norway",
+      "published": "2026-04-14",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-stargate-uae",
+      "publisher": "OpenAI",
+      "title": "Introducing Stargate UAE",
+      "url": "https://openai.com/index/introducing-stargate-uae/",
+      "published": "2025-05-22",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-aws-pennsylvania",
+      "publisher": "Amazon",
+      "title": "Pennsylvania campus investment plan",
+      "url": "https://www.aboutamazon.com/news/aws/amazon-pennsylvania-investment-cloud-infrastructure-ai-innovation",
+      "published": "2025-06-09",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-aws-richmond",
+      "publisher": "Amazon",
+      "title": "North Carolina AI and cloud campus",
+      "url": "https://www.aboutamazon.com/news/aws/aws-investment-north-carolina-ai-cloud-infrastructure",
+      "published": "2025-06-04",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-aws-georgia",
+      "publisher": "Amazon",
+      "title": "Georgia AI and cloud infrastructure investment",
+      "url": "https://www.aboutamazon.com/news/aws/aws-investment-georgia-ai-cloud-infrastructure",
+      "published": "2025-01-07",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-aws-mississippi",
+      "publisher": "Amazon",
+      "title": "Mississippi data-center investment expansion",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-25-billion-mississippi-data-centers",
+      "published": "2026-04-09",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-helios-delivery",
+      "publisher": "Galaxy",
+      "title": "Helios phase I delivered to CoreWeave",
+      "url": "https://www.galaxy.com/newsroom/galaxy-completes-phase-i-of-its-helios-data-center-campus",
+      "published": "2026-07-06",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-google-vizag",
+      "publisher": "Google",
+      "title": "Visakhapatnam AI hub groundbreaking",
+      "url": "https://www.googlecloudpresscorner.com/2026-04-28-Google-Breaks-Ground-on-India-AI-Hub,-Launching-a-National-Industrial-Ecosystem-Alongside-Indias-Digital-Infrastructure-Milestone",
+      "published": "2026-04-28",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-nextdc-s7",
+      "publisher": "NEXTDC",
+      "title": "S7 Sydney OpenAI infrastructure memorandum",
+      "url": "https://www.nextdc.com/news/building-the-next-generation-of-sovereign-ai-infrastructure-in-australia",
+      "published": "2025-12-05",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution."
+    },
+    {
+      "id": "audit-vantage-frontier",
+      "publisher": "Vantage Data Centers",
+      "title": "Shackelford County Frontier campus",
+      "url": "https://vantage-dc.com/data-center-locations/north-america/shackelford-county-tx",
       "published": null,
       "layers": [
         "infrastructure"
@@ -22325,6 +23124,109 @@
       "retrieved_at": "2026-09-09T06:30:40Z",
       "note": "Older analyst consensus as reproduced by Apollo, exhibit 8 (page 6). Forecasts are not later actuals; current 2026 guidance is substantially higher.",
       "method": "curated"
+    },
+    {
+      "id": "meta-prometheus-reviewed-capacity-20260909",
+      "metric": "meta-prometheus-reviewed-capacity",
+      "year": 2026,
+      "period": "Design capacity disclosed in 2026",
+      "value": 1,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "audit-prometheus-bag",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T07:22:33.276817Z",
+      "method": "curated",
+      "note": "Maintainer-reviewed source; not an unattended model result.",
+      "document_sha256": "1edaa0ffba98af634acdd20edbe9f3156215883b0220e3c069f3f638c943ff7a"
+    },
+    {
+      "id": "meta-lebanon-reviewed-capacity-20260909",
+      "metric": "meta-lebanon-reviewed-capacity",
+      "year": 2026,
+      "period": "Design capacity disclosed in 2026",
+      "value": 1,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "audit-meta-lebanon-groundbreaking",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T07:22:33.276817Z",
+      "method": "curated",
+      "note": "Maintainer-reviewed source; not an unattended model result.",
+      "document_sha256": "222971aecad96b21f2c1cd54ecede73ee44b82704d35d71576941a83a942314d"
+    },
+    {
+      "id": "meta-el-paso-reviewed-capacity-20260909",
+      "metric": "meta-el-paso-reviewed-capacity",
+      "year": 2026,
+      "period": "Design capacity disclosed in 2026",
+      "value": 1,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "audit-meta-el-paso-venture",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T07:22:33.276817Z",
+      "method": "curated",
+      "note": "Maintainer-reviewed source; not an unattended model result.",
+      "document_sha256": "57305ad90188291e09f8c52671d62fc50c99e98dfb4dc27d030754da1754c3d4"
+    },
+    {
+      "id": "crusoe-microsoft-abilene-reviewed-capacity-20260909",
+      "metric": "crusoe-microsoft-abilene-reviewed-capacity",
+      "year": 2026,
+      "period": "Design capacity disclosed in 2026",
+      "value": 672,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "audit-crusoe-microsoft-abilene",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T07:22:33.276817Z",
+      "method": "curated",
+      "note": "Maintainer-reviewed source; not an unattended model result.",
+      "document_sha256": "172ca1bed84ef42833c4a4952d393b396d5c4227a370e7efe8642308c26bb3e2"
+    },
+    {
+      "id": "nscale-narvik-reviewed-capacity-20260909",
+      "metric": "nscale-narvik-reviewed-capacity",
+      "year": 2026,
+      "period": "Design capacity disclosed in 2026",
+      "value": 230,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "audit-narvik-microsoft",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T07:22:33.276817Z",
+      "method": "curated",
+      "note": "Maintainer-reviewed source; not an unattended model result.",
+      "document_sha256": "b53b61d24a7a2cd9d407fc35bd776cb6f247a3e6ff776dc0d70a37639fa16c02"
+    },
+    {
+      "id": "stargate-uae-reviewed-capacity-20260909",
+      "metric": "stargate-uae-reviewed-capacity",
+      "year": 2025,
+      "period": "Cluster announcement · May 2025",
+      "value": 1,
+      "upper": null,
+      "status": "company-commitment",
+      "source": "audit-stargate-uae",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T07:22:33.276817Z",
+      "method": "curated",
+      "note": "Maintainer-reviewed source; not an unattended model result."
+    },
+    {
+      "id": "galaxy-helios-reviewed-capacity-20260909",
+      "metric": "galaxy-helios-reviewed-capacity",
+      "year": 2026,
+      "period": "Phase I delivery · July 2026",
+      "value": 133,
+      "upper": null,
+      "status": "observation",
+      "source": "audit-helios-delivery",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T07:22:33.276817Z",
+      "method": "curated",
+      "note": "Maintainer-reviewed source; not an unattended model result."
     }
   ],
   "events": [

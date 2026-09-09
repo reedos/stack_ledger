@@ -134,3 +134,22 @@ The `manual` source cadence prevents unsupported archive fetches in ordinary run
 
 
 The expanded map is still a sample, not a census. Seek underrepresented suppliers, regions, training sites and application deployments; company headquarters alone do not justify a project marker. Avoid counting regional portfolio roll-ups as extra facilities alongside their named components. Propose only sourced locality/stage changes through existing review. ECI country metadata must remain attached to the same dataset vintage, with unknowns explicit. Chart filters never constrain research coverage. Prioritize newer full-cohort capex forecasts beyond 2026, but never update a single member of the fixed September 2025 forecast vintage or silently join it to current guidance.
+
+
+### Geographic follow-up and service markets
+
+Research may establish a useful locality before a street address is available. Propose a city/county with primary location evidence and a separate delivery stage; approximate coordinates do not mean a project is unconfirmed. For distributed programs and robotaxi services, propose city-level availability, testing, supervision and future-launch changes without multiplying project totals or allocating fleet/miles across cities. Preserve source publication dates and review dates separately. Check Waymo's Serving Riders In versus Up Next lists and Tesla's limited-area availability; the July 2026 Bay Area safety-driver disclosure requires a newer city-specific follow-up.
+
+The maintainer's reviewed `map_locations` and company `map_offices` fields are rendering metadata, not new model publication permissions. Use the existing private catalog findings queue to supply location evidence and recommended changes for review. Headquarters/registered offices belong only in the separate office overlay, never as fabricated training or construction projects. Pursue missing developer geographies, including China and open-model organizations, and missing facility localities. A longer run or more pins is not proof of comprehensive coverage.
+
+### Hyperscale coverage reconciliation
+
+The September 9 audit found Prometheus missing even though Meta's engineering and location pages identify it. Search-driven discovery had not reconciled operator inventories against accepted objects. Treat this as a coverage failure: monitoring existing IDs cannot discover every omitted campus.
+
+Use the existing discovery and catalog review flow to compare operator directories, new campus announcements, investor disclosures and local permits with **all** accepted projects, including unmapped and `status-unverified` entries. The infrastructure discovery rotation now includes directory reconciliation and overlooked gigawatt campuses. These are private research questions, not automatic import or approval rules. See [the coverage audit](HYPERSCALE_COVERAGE_AUDIT-2026-09-09.md) for the initial operator matrix and unresolved work.
+
+Resolve aliases before proposing additions: Prometheus / New Albany, Hyperion / Richland Parish, Frontier / Shackelford and Lighthouse / Port Washington can otherwise be missed or duplicated. A renamed tenant or campus is a revision question, not necessarily a new location. Separate the original Stargate Abilene campus from Crusoe's adjacent Microsoft development, and retain the dated change in customer evidence at Narvik.
+
+For every reviewed directory entry, report an accepted project match, a private proposed addition, a duplicate/overlap, or a specific unresolved evidence gap. Do not silently discard entries without capacity or exact coordinates. City/county orientation is useful; a cloud region or availability zone is not an individual facility. `status-unverified` means the location is evidenced but the delivery stage is unresolved; never recast it as construction, delay or operation. Propose dated stage corrections as priority follow-ups.
+
+Give missing large campuses priority, but do not use a 1 GW threshold to exclude smaller projects or new operators. Expand across hyperscalers, neoclouds, sovereign AI and regional developers worldwide. Preserve distinctions among critical IT load, facility power, generation, requested/approved grid service and contracted capacity. An MoU, target year, approved megawatts or directory listing cannot establish delivered AI capacity. Report coverage against a named, dated inventory; never claim worldwide completeness from the number of records collected.

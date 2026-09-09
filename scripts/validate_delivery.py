@@ -6,7 +6,7 @@ from pathlib import Path
 from validate import require,text,timestamp
 ROOT=Path(__file__).resolve().parents[1]
 STAGES={'operating','partly-operating','commissioning','construction','permitting',
-        'announced','site-selected','equipment-move-in','production-ramp','pilot','delayed'}
+        'announced','site-selected','equipment-move-in','production-ramp','pilot','delayed','status-unverified'}
 
 def validate_delivery(d,ledger):
     require(set(d)=={'version','reviewed_at','projects','context_metrics','assessment','gaps'},'Unexpected delivery shape')
@@ -22,7 +22,17 @@ def validate_delivery(d,ledger):
             cursor=parents.get(cursor)
     for p in d['projects']:
         required={'id','name','layer','owner','location','category','stage','ai_relationship','observations','horizon','grid','next_evidence','milestones'}
-        require(required<=p.keys() and p.keys()<=required|{'primary_user','measures','company_ids','parent_project','map_location'},'Unexpected project fields')
+        require(required<=p.keys() and p.keys()<=required|{'primary_user','measures','company_ids','parent_project','map_location','map_locations'},'Unexpected project fields')
+        if 'map_locations' in p:
+            from validate_explorers import validate_location
+            require('map_location' not in p and isinstance(p['map_locations'],list) and p['map_locations'],'Ambiguous project locations')
+            location_ids=set()
+            for entry in p['map_locations']:
+                require(set(entry)=={'id','source','note','stage','location'},'Unexpected mapped locality fields')
+                require(re.fullmatch('[a-z0-9-]+',entry['id']) and entry['id'] not in location_ids,'Duplicate locality ID');location_ids.add(entry['id'])
+                require(entry['source'] in sources and p['layer'] in sources[entry['source']]['layers'],'Missing locality evidence')
+                require(entry['stage'] in STAGES,'Invalid locality stage');text(entry['note'],600)
+                validate_location(entry['location'],sources,p['layer'],reviewed)
         if 'map_location' in p:
             from validate_explorers import validate_location
             validate_location(p['map_location'],sources,p['layer'],reviewed)

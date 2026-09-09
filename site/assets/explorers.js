@@ -8,7 +8,7 @@ function mapProjectEvidence(p){
 }
 function projectMapFilter(p){
  const owner=document.getElementById('map-company')?.value||'all',coverage=document.getElementById('map-coverage')?.value||'all';
- return (owner==='all'||p.owner===owner)&&(coverage==='all'||(coverage==='mapped'?!!p.map_location:!p.map_location));
+ return (owner==='all'||p.owner===owner)&&(coverage==='all'||(coverage==='mapped'?hasMapLocation(p):!hasMapLocation(p)));
 }
 function enhanceExplorers(){
  for(const section of explorerSnapshots){
@@ -21,61 +21,84 @@ function enhanceExplorers(){
  if(document.getElementById('project-map'))setupProjectMap();
  if(document.getElementById('model-capabilities'))setupCapabilities();
 }
+function hasMapLocation(p){return !!p.map_location||!!p.map_locations?.length;}
+function mapProjectRecords(ps){return ps.flatMap(p=>p.map_locations?p.map_locations.map(g=>({...p,map_location:g.location,stage:g.stage,map_note:g.note,map_source:g.source,multi_location:true})):p.map_location?[p]:[]);}
+function mapPhase(stage){return stage==='status-unverified'?'unverified':stage==='office'?'office':stage==='operating'?'operating':['announced','permitting','site-selected'].includes(stage)?'planned':stage==='pilot'?'pilot':stage==='delayed'?'delayed':'delivery';}
+function mapSymbol(records,r){
+ const total=records.length,segments=new Map();for(const p of records){const key=p.layer+'|'+mapPhase(p.stage);segments.set(key,(segments.get(key)||0)+1);}
+ let html=`<circle class="map-hit" r="${r*1.35}" fill="transparent"/><circle class="map-core" r="${r}" fill="#101d18"/>`,angle=-Math.PI/2;
+ for(const [key,count] of segments){
+  const [layer,phase]=key.split('|'),color=layerOf(layer).color,span=count/total*Math.PI*2,gap=segments.size>1?.045:0;
+  const a=angle+gap,b=angle+span-gap;angle+=span;
+  const cls=`map-segment phase-${phase}`,attrs=`class="${cls}" stroke="${color}" stroke-width="${Math.max(r*.22,r/4)}" fill="none"`;
+  if(segments.size===1)html+=`<circle r="${r*.88}" ${attrs}/>`;
+  else html+=`<path d="M${Math.cos(a)*r*.88} ${Math.sin(a)*r*.88} A${r*.88} ${r*.88} 0 ${span>Math.PI?1:0} 1 ${Math.cos(b)*r*.88} ${Math.sin(b)*r*.88}" ${attrs}/>`;
+  if(total===1){
+   if(phase==='office')html+=`<path class="map-office-glyph" d="M0 ${-r*.52}L${r*.52} 0 0 ${r*.52} ${-r*.52} 0Z" fill="${color}"/>`;
+   else html+=`<circle class="map-stage-fill phase-${phase}" r="${r*.60}" fill="${color}"/>`;
+  }
+ }
+ if(total>1)html+=`<text text-anchor="middle" dy=".35em" style="font-size:${r*.9}px">${total}</text>`;
+ html+=`<circle class="map-focus-ring" r="${r*1.28}" fill="none"/>`;return html;
+}
 function setupProjectMap(){
- const host=document.getElementById('project-map'),svg=host.querySelector('svg'),points=svg.querySelector('.map-points'),selection=host.querySelector('#map-selection');
- const owners=host.querySelector('#map-company');
- [...new Set(delivery.projects.map(p=>p.owner))].sort().forEach(owner=>{const option=document.createElement('option');option.value=owner;option.textContent=owner;owners.append(option);});
+ const host=document.getElementById('project-map'),svg=host.querySelector('svg'),points=svg.querySelector('.map-points'),selection=host.querySelector('#map-selection'),owners=host.querySelector('#map-company');
+ const offices=ecosystem.companies.flatMap(c=>(c.map_offices||[]).map(o=>({id:c.id,name:o.name,owner:c.name,layer:'models',stage:'office',office_kind:o.kind,map_location:o.location,map_note:o.note,map_source:o.source})));
+ [...new Set([...delivery.projects.map(p=>p.owner),...offices.map(p=>p.owner)])].sort().forEach(owner=>{const option=document.createElement('option');option.value=owner;option.textContent=owner;owners.append(option);});
  let view=[155,108,200,95],groups=[],displayGroups=[],selected=null;
  const ns='http://www.w3.org/2000/svg';
  function setView(v){
   const width=Math.max(12,Math.min(1080,v[2])),height=width*(svg.clientHeight/Math.max(1,svg.clientWidth));
-  view=[Math.max(0,Math.min(1080-width,v[0])),Math.max(0,Math.min(540-height,v[1])),width,height];
-  svg.setAttribute('viewBox',view.join(' '));draw();
+  view=[Math.max(0,Math.min(1080-width,v[0])),Math.max(0,Math.min(540-height,v[1])),width,height];svg.setAttribute('viewBox',view.join(' '));draw();
  }
  function inspect(key){
   const group=displayGroups.find(g=>g.key===key);if(!group)return;selected=key;
-  selection.innerHTML=`<h3>${esc(group.location.label)}</h3><p>${group.cluster?'Nearby locations grouped at this zoom. Zoom in to separate them; the marker center is not a facility location.':`Approximate ${esc(group.location.precision)} location · ${sourceLink(group.location.source)}. These records may share a locality without sharing a facility.`}</p>`+group.projects.map(p=>`<div class="map-project"><a href="#project-${esc(p.id)}"><strong>${esc(p.name)} ↗</strong></a><p>${esc(layerOf(p.layer).name)} · ${esc(stageNames[p.stage])}</p><p>${esc(p.owner)}</p><p class="chart-footnote">${esc(p.map_location.label)} · ${esc(p.map_location.precision)} point · ${sourceLink(p.map_location.source)}</p><p>${esc(p.milestones.at(-1).summary)}</p><p class="chart-footnote">${sourceLink(p.milestones.at(-1).source)} · ${dateLabel(p.milestones.at(-1).date)}</p>${mapProjectEvidence(p)}</div>`).join('');
+  points.querySelectorAll('.map-marker').forEach(n=>n.classList.toggle('is-selected',n.dataset.location===key));
+  const projectCount=new Set(group.projects.filter(p=>!p.office_kind).map(p=>p.id)).size,officeCount=group.projects.filter(p=>p.office_kind).length;
+  selection.innerHTML=`<h3>${esc(group.location.label)}</h3><p>${projectCount} project/program records · ${officeCount} developer office locations</p><p class="chart-footnote">${group.cluster?'Nearby locations grouped at this zoom; the marker center is not a facility. Zoom in to separate them.':`Approximate ${esc(group.location.precision)} location · ${sourceLink(group.location.source)}.`}</p>`+group.projects.map(p=>{
+   const stage=p.office_kind?p.office_kind.replaceAll('-',' '):stageNames[p.stage];
+   const title=p.office_kind?companyLink(p.id):`<a href="#project-${esc(p.id)}">${esc(p.name)} ↗</a>`;
+   return `<div class="map-project" style="--map-accent:${layerOf(p.layer).color}"><strong>${title}</strong><p><span class="map-stage-label">${esc(stage)}</span> · ${esc(layerOf(p.layer).name)}</p><p>${esc(p.owner)}</p><p class="chart-footnote">${esc(p.map_location.label)} · ${esc(p.map_location.precision)} point · ${sourceLink(p.map_location.source)}</p><p>${esc(p.map_note||p.milestones.at(-1).summary)}</p><p class="chart-footnote">${sourceLink(p.map_source||p.milestones.at(-1).source)}</p>${p.office_kind?'':mapProjectEvidence(p)}</div>`;
+  }).join('');
  }
  function draw(){
-  points.replaceChildren();
-  const radius=view[2]/100;
-  // Cluster overlapping geographic points at the current zoom; never move canonical locations.
+  points.replaceChildren();const unit=view[2]/Math.max(1,svg.clientWidth),markerScale=svg.clientWidth<600?.7:1,radius=n=>Math.min(22,7*Math.sqrt(n))*unit*markerScale;
   const clusters=[];
   for(const group of groups){
-   const near=clusters.find(c=>Math.hypot((c.location.longitude-group.location.longitude)*3,(c.location.latitude-group.location.latitude)*3)<radius*2.6);
+   const near=clusters.find(c=>Math.hypot((c.location.longitude-group.location.longitude)*3,(c.location.latitude-group.location.latitude)*3)<radius(c.projects.length)+radius(group.projects.length)+3*unit);
    if(!near){clusters.push({...group,projects:[...group.projects],members:[group.key]});continue;}
    const n=near.members.length;near.members.push(group.key);near.projects.push(...group.projects);near.cluster=true;
    near.location={latitude:(near.location.latitude*n+group.location.latitude)/(n+1),longitude:(near.location.longitude*n+group.location.longitude)/(n+1),label:`${n+1} nearby locations`};near.key=near.members.join('|');
   }
   displayGroups=clusters;
   for(const group of displayGroups){
-   const g=group.location,node=document.createElementNS(ns,'g'),circle=document.createElementNS(ns,'circle');
-   node.classList.add('map-marker');node.dataset.location=group.key;node.setAttribute('transform',`translate(${(g.longitude+180)*3} ${(90-g.latitude)*3})`);
-   node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',`${g.label}: ${group.projects.length} project records`);
-   circle.setAttribute('r',radius);circle.setAttribute('fill',new Set(group.projects.map(p=>p.layer)).size>1?'#edf0e4':layerOf(group.projects[0].layer).color);circle.setAttribute('stroke','#0d1512');circle.setAttribute('stroke-width',radius*.2);node.append(circle);
-   if(group.projects.length>1){const text=document.createElementNS(ns,'text');text.textContent=group.projects.length;text.setAttribute('text-anchor','middle');text.setAttribute('dy','.35em');text.style.fontSize=`${radius*1.1}px`;node.append(text);}
-   node.addEventListener('click',()=>inspect(group.key));node.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();inspect(group.key);}});points.append(node);
+   const g=group.location,node=document.createElementNS(ns,'g'),r=radius(group.projects.length);node.classList.add('map-marker');node.classList.toggle('is-selected',group.key===selected);node.dataset.location=group.key;
+   node.setAttribute('transform',`translate(${(g.longitude+180)*3} ${(90-g.latitude)*3})`);node.setAttribute('role','button');node.setAttribute('tabindex','0');
+   node.setAttribute('aria-label',`${g.label}: ${group.projects.length} mapped records; ${[...new Set(group.projects.map(p=>layerOf(p.layer).name))].join(', ')}`);
+   node.innerHTML=mapSymbol(group.projects,r);node.addEventListener('click',()=>inspect(group.key));node.addEventListener('keydown',event=>{if(['Enter',' '].includes(event.key)){event.preventDefault();inspect(group.key);}});points.append(node);
   }
  }
  updateProjectMap=ps=>{
-  const grouped=new Map();
-  for(const p of ps){const g=p.map_location;if(!g)continue;const key=`${g.latitude},${g.longitude}`;if(!grouped.has(key))grouped.set(key,{key,location:g,projects:[]});grouped.get(key).projects.push(p);}
-  groups=[...grouped.values()];const mapped=ps.filter(p=>p.map_location).length;
-  host.querySelector('#map-count').textContent=`${mapped} mapped of ${ps.length} matching records · ${ps.length-mapped} not mapped · ${groups.length} shared locations. Use World to see international locations.`;
-  draw();if(selected&&groups.some(g=>g.key===selected))inspect(selected);else{selected=null;selection.textContent=ps.length?'Select a marker to inspect projects. Place/county points are approximate; sizes do not represent capacity or jobs.':'No projects match these filters.';}
+  const layer=new URLSearchParams(location.search).get('layer')||'all',stage=document.getElementById('project-stage').value,q=document.getElementById('project-search').value.toLowerCase();
+  const officeRows=host.querySelector('#map-offices').checked&&['all','models'].includes(layer)&&stage==='all'&&host.querySelector('#map-coverage').value!=='unmapped'?offices.filter(p=>(owners.value==='all'||p.owner===owners.value)&&`${p.name} ${p.owner} ${p.map_location.label}`.toLowerCase().includes(q)):[];
+  const projectRows=mapProjectRecords(ps).filter(p=>(stage==='all'||p.stage===stage)&&`${p.name} ${p.owner} ${p.category} ${p.grid} ${p.multi_location?'':p.location} ${p.map_location.label} ${p.map_note||''}`.toLowerCase().includes(q)),grouped=new Map();
+  for(const p of [...projectRows,...officeRows]){const g=p.map_location,key=`${g.latitude},${g.longitude}`;if(!grouped.has(key))grouped.set(key,{key,location:g,projects:[]});grouped.get(key).projects.push(p);}
+  groups=[...grouped.values()];const mapped=new Set(projectRows.map(p=>p.id)).size;
+  host.querySelector('#map-count').textContent=`${mapped} mapped of ${ps.length} matching project records · ${projectRows.length} project locality markers · ${officeRows.length} developer office locations (separate) · ${groups.length} distinct localities. Use World to see international locations.`;
+  draw();if(selected&&displayGroups.some(g=>g.key===selected))inspect(selected);else{selected=null;selection.innerHTML='<p>Select a marker for its projects, delivery stages and location evidence. City/county points provide orientation; they are not facility boundaries or service-area outlines.</p>';}
  };
  document.addEventListener('stack:projects',event=>updateProjectMap(event.detail));
- for(const id of ['map-company','map-coverage'])host.querySelector('#'+id).addEventListener('change',()=>document.getElementById('project-search').dispatchEvent(new Event('input',{bubbles:true})));
- host.querySelector('#map-us').addEventListener('click',()=>setView([155,100,205,100]));
- host.querySelector('#map-world').addEventListener('click',()=>setView([0,0,1080,540]));
+ for(const id of ['map-company','map-coverage','map-offices'])host.querySelector('#'+id).addEventListener('change',()=>document.getElementById('project-search').dispatchEvent(new Event('input',{bubbles:true})));
+ host.querySelector('#map-us').addEventListener('click',()=>setView([155,100,205,100]));host.querySelector('#map-world').addEventListener('click',()=>setView([0,0,1080,540]));
  const zoom=factor=>{const width=view[2]*factor;setView([view[0]+(view[2]-width)/2,view[1]+(view[3]-view[3]*factor)/2,width,view[3]*factor]);};
  host.querySelector('#map-zoom-in').addEventListener('click',()=>zoom(.65));host.querySelector('#map-zoom-out').addEventListener('click',()=>zoom(1/.65));
- svg.dataset.interactive='true';svg.setAttribute('tabindex','0');svg.setAttribute('role','group');svg.setAttribute('aria-label','Project map. Arrow keys pan. Use the zoom buttons or drag to explore.');
+ svg.dataset.interactive='true';svg.setAttribute('tabindex','0');svg.setAttribute('role','group');svg.setAttribute('aria-label','Project map. Arrow keys pan. Use zoom buttons or drag to explore.');
  let drag=null;
  svg.addEventListener('pointerdown',event=>{if(event.target.closest('.map-marker'))return;drag={x:event.clientX,y:event.clientY,view:[...view]};svg.setPointerCapture(event.pointerId);});
  svg.addEventListener('pointermove',event=>{if(!drag)return;setView([drag.view[0]-(event.clientX-drag.x)*drag.view[2]/svg.clientWidth,drag.view[1]-(event.clientY-drag.y)*drag.view[3]/svg.clientHeight,drag.view[2],drag.view[3]]);});
  for(const name of ['pointerup','pointercancel','lostpointercapture'])svg.addEventListener(name,()=>{drag=null;});
  svg.addEventListener('keydown',event=>{if(event.target!==svg)return;const moves={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};if(moves[event.key]){event.preventDefault();const [dx,dy]=moves[event.key];setView([view[0]+dx*view[2]*.15,view[1]+dy*view[3]*.15,view[2],view[3]]);}});
+ let resizeWidth=svg.clientWidth;new ResizeObserver(()=>{if(svg.clientWidth!==resizeWidth){resizeWidth=svg.clientWidth;setView(view);}}).observe(svg);
  setView(view);document.getElementById('project-search').dispatchEvent(new Event('input',{bubbles:true}));
 }
 function setupCapabilities(){

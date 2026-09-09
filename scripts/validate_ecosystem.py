@@ -14,7 +14,18 @@ def validate_ecosystem(e,ledger):
     ids=set()
     for c in e['companies']:
         required={'id','name','layers','role','revenue_metric','revenue_kind','source'}
-        require(required<=c.keys() and c.keys()<=required|{'role_sources','ir_url','filings_jurisdiction','blog_urls','official_lang','region_book','revenue_chart_metric'},'Unexpected company shape')
+        require(required<=c.keys() and c.keys()<=required|{'role_sources','ir_url','filings_jurisdiction','blog_urls','official_lang','region_book','revenue_chart_metric','map_offices'},'Unexpected company shape')
+        if 'map_offices' in c:
+            from validate_explorers import validate_location
+            require('models' in c['layers'] and isinstance(c['map_offices'],list) and c['map_offices'],'Invalid model developer offices')
+            office_ids=set();source_rows={s['id']:s for s in ledger['sources']}
+            for office in c['map_offices']:
+                require(set(office)=={'id','kind','name','source','note','location'},'Unexpected office fields')
+                require(re.fullmatch('[a-z0-9-]+',office['id']) and office['id'] not in office_ids,'Duplicate office ID');office_ids.add(office['id'])
+                require(office['kind'] in {'headquarters','co-headquarters','office','registered-office'},'Invalid office kind')
+                require(office['source'] in source_rows and 'models' in source_rows[office['source']]['layers'],'Missing office evidence')
+                text(office['name'],200);text(office['note'],600)
+                validate_location(office['location'],source_rows,'models',timestamp(e['reviewed_at']))
         require(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', c['id']) is not None, 'Unsafe company route')
         if c.get('revenue_chart_metric'):
             require(c['revenue_chart_metric'] in metrics and metrics[c['revenue_chart_metric']].get('company') == c['id'], 'Company chart ownership mismatch')

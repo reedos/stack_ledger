@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T05:45:26Z",
+  "reviewed_at": "2026-09-09T07:22:33.276817Z",
   "companies": [
     {
       "id": "nextera",
@@ -74,6 +74,24 @@
         "builder-role-nvidia",
         "physical-omniverse",
         "physical-cosmos-three"
+      ],
+      "map_offices": [
+        {
+          "id": "santa-clara",
+          "kind": "office",
+          "name": "NVIDIA corporate office",
+          "source": "map-office-nvidia",
+          "note": "Corporate contact location. NVIDIA also develops Nemotron and other models; this office marker does not locate model training. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 37.364621,
+            "longitude": -121.967973,
+            "precision": "place",
+            "label": "Santa Clara, CA, U.S.",
+            "source": "census-map-places",
+            "source_key": "0669084",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
       ]
     },
     {
@@ -245,6 +263,24 @@
       "role_sources": [
         "company-microsoft",
         "builder-role-microsoft"
+      ],
+      "map_offices": [
+        {
+          "id": "redmond",
+          "kind": "office",
+          "name": "Microsoft · corporate office",
+          "source": "map-office-microsoft",
+          "note": "Microsoft identifies its corporate investor-relations office in Redmond. Office context, not a model-training site.",
+          "location": {
+            "latitude": 47.677924,
+            "longitude": -122.115336,
+            "precision": "place",
+            "label": "Redmond, WA, U.S.",
+            "source": "census-map-places",
+            "source_key": "5357535",
+            "reviewed_at": "2026-09-09T07:13:32.706195Z"
+          }
+        }
       ]
     },
     {
@@ -267,6 +303,24 @@
       "role_sources": [
         "company-aws",
         "builder-role-aws"
+      ],
+      "map_offices": [
+        {
+          "id": "seattle",
+          "kind": "headquarters",
+          "name": "Amazon Web Services · corporate headquarters",
+          "source": "map-office-aws",
+          "note": "Amazon identifies Seattle as its principal executive office in its 2025 Form 10-K. This is parent-company headquarters context for AWS/Nova, not a dedicated Nova lab.",
+          "location": {
+            "latitude": 47.619335,
+            "longitude": -122.351538,
+            "precision": "place",
+            "label": "Seattle, WA, U.S.",
+            "source": "census-map-places",
+            "source_key": "5363000",
+            "reviewed_at": "2026-09-09T07:13:32.706195Z"
+          }
+        }
       ]
     },
     {
@@ -286,7 +340,25 @@
       "filings_jurisdiction": "SEC",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "map_offices": [
+        {
+          "id": "london",
+          "kind": "office",
+          "name": "Google DeepMind London office",
+          "source": "map-office-deepmind",
+          "note": "Google DeepMind lists London among its research locations; not Alphabet corporate headquarters. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 51.50853,
+            "longitude": -0.12574,
+            "precision": "place",
+            "label": "London, GB",
+            "source": "geonames-map",
+            "source_key": "2643743",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
+      ]
     },
     {
       "id": "meta",
@@ -309,6 +381,24 @@
         "company-meta",
         "builder-role-meta",
         "hyperion-plan-2026"
+      ],
+      "map_offices": [
+        {
+          "id": "menlo-park",
+          "kind": "headquarters",
+          "name": "Meta · corporate headquarters",
+          "source": "map-office-meta",
+          "note": "Meta identifies Menlo Park as its principal executive office in its 2025 Form 10-K. Training infrastructure is tracked separately.",
+          "location": {
+            "latitude": 37.479731,
+            "longitude": -122.148055,
+            "precision": "place",
+            "label": "Menlo Park, CA, U.S.",
+            "source": "census-map-places",
+            "source_key": "0646870",
+            "reviewed_at": "2026-09-09T07:13:32.706195Z"
+          }
+        }
       ]
     },
     {
@@ -326,7 +416,25 @@
       "filings_jurisdiction": "no_public_filings",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "map_offices": [
+        {
+          "id": "san-francisco",
+          "kind": "headquarters",
+          "name": "OpenAI headquarters",
+          "source": "map-office-openai",
+          "note": "OpenAI identifies its San Francisco headquarters in its September 2 education newsletter. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 37.727239,
+            "longitude": -123.032229,
+            "precision": "place",
+            "label": "San Francisco, CA, U.S.",
+            "source": "census-map-places",
+            "source_key": "0667000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
+      ]
     },
     {
       "id": "anthropic",
@@ -343,7 +451,25 @@
       "filings_jurisdiction": "no_public_filings",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "map_offices": [
+        {
+          "id": "san-francisco",
+          "kind": "headquarters",
+          "name": "Anthropic headquarters",
+          "source": "map-office-anthropic",
+          "note": "Anthropic identifies San Francisco as its headquarters in its transparency disclosure. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 37.727239,
+            "longitude": -123.032229,
+            "precision": "place",
+            "label": "San Francisco, CA, U.S.",
+            "source": "census-map-places",
+            "source_key": "0667000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
+      ]
     },
     {
       "id": "salesforce",
@@ -911,7 +1037,25 @@
       "filings_jurisdiction": "unverified",
       "blog_urls": [],
       "official_lang": "unverified",
-      "region_book": "unknown"
+      "region_book": "unknown",
+      "map_offices": [
+        {
+          "id": "palo-alto",
+          "kind": "office",
+          "name": "xAI / SpaceXAI · corporate office",
+          "source": "map-office-spacexai",
+          "note": "SpaceXAI lists Palo Alto among its offices. This does not locate Grok training or establish SpaceX corporate headquarters.",
+          "location": {
+            "latitude": 37.39652,
+            "longitude": -122.143088,
+            "precision": "place",
+            "label": "Palo Alto, CA, U.S.",
+            "source": "census-map-places",
+            "source_key": "0655282",
+            "reviewed_at": "2026-09-09T07:13:32.706195Z"
+          }
+        }
+      ]
     },
     {
       "id": "waymo",
@@ -1562,7 +1706,25 @@
       "filings_jurisdiction": "unverified",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "unknown"
+      "region_book": "unknown",
+      "map_offices": [
+        {
+          "id": "paris",
+          "kind": "registered-office",
+          "name": "Mistral AI registered office",
+          "source": "map-office-mistral",
+          "note": "Registered office disclosed in the legal notice; this is not a verified research-campus footprint. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 48.85341,
+            "longitude": 2.3488,
+            "precision": "place",
+            "label": "Paris, FR",
+            "source": "geonames-map",
+            "source_key": "2988507",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
+      ]
     },
     {
       "id": "cohere",
@@ -1581,7 +1743,41 @@
       "filings_jurisdiction": "unverified",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "unknown"
+      "region_book": "unknown",
+      "map_offices": [
+        {
+          "id": "toronto",
+          "kind": "co-headquarters",
+          "name": "Cohere co-headquarters",
+          "source": "map-office-cohere",
+          "note": "Cohere identifies Toronto and San Francisco as co-headquarters. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 43.70643,
+            "longitude": -79.39864,
+            "precision": "place",
+            "label": "Toronto, Canada",
+            "source": "geonames-map",
+            "source_key": "6167865",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        },
+        {
+          "id": "san-francisco",
+          "kind": "co-headquarters",
+          "name": "Cohere co-headquarters",
+          "source": "map-office-cohere",
+          "note": "Cohere identifies Toronto and San Francisco as co-headquarters. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 37.727239,
+            "longitude": -123.032229,
+            "precision": "place",
+            "label": "San Francisco, CA, U.S.",
+            "source": "census-map-places",
+            "source_key": "0667000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
+      ]
     },
     {
       "id": "ibm",
@@ -1811,7 +2007,25 @@
       "filings_jurisdiction": "unverified",
       "blog_urls": [],
       "official_lang": "en",
-      "region_book": "united-states"
+      "region_book": "united-states",
+      "map_offices": [
+        {
+          "id": "seattle",
+          "kind": "office",
+          "name": "Ai2 institutional office",
+          "source": "map-office-ai2",
+          "note": "Institutional contact address in Seattle; linked OLMo training takes place elsewhere. City-level orientation only; excluded from project and capacity totals.",
+          "location": {
+            "latitude": 47.619335,
+            "longitude": -122.351538,
+            "precision": "place",
+            "label": "Seattle, WA",
+            "source": "census-map-places",
+            "source_key": "5363000",
+            "reviewed_at": "2026-09-09T07:08:45.433794Z"
+          }
+        }
+      ]
     },
     {
       "id": "holtec",
