@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:39:01Z",
+  "reviewed_at": "2026-09-09T11:40:25Z",
   "projects": [
     {
       "id": "gemini",
@@ -4719,7 +4719,10 @@
       "category": "Hyperscale data-center campus / locality",
       "stage": "status-unverified",
       "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
-      "observations": [],
+      "observations": [
+        "epoch-meta-rosemount-it-mw-2026-09-09",
+        "epoch-meta-rosemount-h100e-2026-09-09"
+      ],
       "horizon": "Seek a dated delivery update; no completion date inferred.",
       "grid": "Operating power and grid connection are not quantified in this record.",
       "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
@@ -4924,7 +4927,9 @@
       "stage": "construction",
       "ai_relationship": "A planned 1 GW AI cluster connecting GPUs across multiple buildings. Existing New Albany operations do not establish that the full Prometheus cluster is energized.",
       "observations": [
-        "meta-prometheus-reviewed-capacity-20260909"
+        "meta-prometheus-reviewed-capacity-20260909",
+        "epoch-meta-prometheus-it-mw-2026-09-09",
+        "epoch-meta-prometheus-h100e-2026-09-09"
       ],
       "horizon": "Full 1 GW completion / energized capacity not verified in this review.",
       "grid": "Operating power and grid connection are not quantified in this record.",
