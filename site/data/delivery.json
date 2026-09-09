@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T22:02:42Z",
+  "reviewed_at": "2026-09-09T23:26:14Z",
   "projects": [
     {
       "id": "gemini",
@@ -372,7 +372,7 @@
       "stage": "operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
       "observations": [
-        "colossus-one-it-epoch-baseline"
+        "colossus-one-it-epoch-baseline-asof-2026-06-15"
       ],
       "measures": [
         "colossus-one-access-baseline",
@@ -414,14 +414,14 @@
       "stage": "operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
       "observations": [
-        "colossus-two-it-epoch-baseline"
+        "colossus-two-it-epoch-baseline-asof-2026-06-15"
       ],
       "measures": [
         "colossus-two-it-endstate-baseline",
         "colossus2-disclosed-cluster1-baseline",
         "colossus2-disclosed-cluster2-baseline",
-        "colossus2-b200-installed-baseline",
-        "colossus2-b300-installed-baseline"
+        "colossus2-b200-installed-baseline-asof-2026-06-15",
+        "colossus2-b300-installed-baseline-asof-2026-06-15"
       ],
       "horizon": "Operating building per September 3 dataset; the larger Q1 2027 end-state remains a forecast, not commissioned capacity.",
       "grid": "The building is in Memphis. Its Southaven, Mississippi gas-generation path is a separate facility and permit record; it is not the Colossus 1 grid connection.",
@@ -915,7 +915,7 @@
       "stage": "partly-operating",
       "ai_relationship": "Named AI supply-chain project; capacity and outcomes retain their disclosed scope.",
       "observations": [
-        "new-carlisle-it-operating-baseline"
+        "new-carlisle-it-operating-baseline-asof-2026-06-03"
       ],
       "measures": [
         "new-carlisle-it-endstate-baseline"
@@ -5633,8 +5633,8 @@
       "stage": "status-unverified",
       "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
       "observations": [
-        "epoch-aws-mississippi-madison-county-it-mw-2026-09-09",
-        "epoch-aws-mississippi-madison-county-h100e-2026-09-09"
+        "epoch-aws-mississippi-madison-county-it-mw-2026-06-04",
+        "epoch-aws-mississippi-madison-county-h100e-2026-06-04"
       ],
       "horizon": "Seek a dated delivery update; no completion date inferred.",
       "grid": "Operating power and grid connection are not quantified in this record.",
@@ -5736,8 +5736,8 @@
       "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
       "observations": [
         "galaxy-helios-reviewed-capacity-20260909",
-        "epoch-galaxy-helios-it-mw-2026-09-09",
-        "epoch-galaxy-helios-h100e-2026-09-09"
+        "epoch-galaxy-helios-it-mw-2026-06-30",
+        "epoch-galaxy-helios-h100e-2026-06-30"
       ],
       "horizon": "Phase II deliveries expected to begin in the first half of 2027.",
       "grid": "Keep delivered critical IT load, gross power, contracted capacity and approved future power separate.",
@@ -5938,8 +5938,8 @@
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: OpenAI. AI-only allocation and the delivery stage are not established by this record.",
       "observations": [
-        "epoch-coreweave-denton-tx-it-mw-2026-09-09",
-        "epoch-coreweave-denton-tx-h100e-2026-09-09"
+        "epoch-coreweave-denton-tx-it-mw-2026-09-01",
+        "epoch-coreweave-denton-tx-h100e-2026-09-01"
       ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 262 MW · about 252,653 H100 equivalents · capital cost about 9.9 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
@@ -5966,8 +5966,8 @@
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: Alibaba. AI-only allocation and the delivery stage are not established by this record.",
       "observations": [
-        "epoch-alibaba-zhangbei-it-mw-2026-09-09",
-        "epoch-alibaba-zhangbei-h100e-2026-09-09"
+        "epoch-alibaba-zhangbei-it-mw-2026-01-03",
+        "epoch-alibaba-zhangbei-h100e-2026-01-03"
       ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 169 MW · about 31,885 H100 equivalents · capital cost about 6.4 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
@@ -6178,8 +6178,8 @@
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). AI-only allocation and the delivery stage are not established by this record.",
       "observations": [
-        "epoch-aws-new-albany-it-mw-2026-09-09",
-        "epoch-aws-new-albany-h100e-2026-09-09"
+        "epoch-aws-new-albany-it-mw-2026-05-18",
+        "epoch-aws-new-albany-h100e-2026-05-18"
       ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 213 MW · about 201,112 H100 equivalents · capital cost about 8.1 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
@@ -6205,8 +6205,8 @@
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: Anthropic. AI-only allocation and the delivery stage are not established by this record.",
       "observations": [
-        "epoch-amazon-ridgeland-it-mw-2026-09-09",
-        "epoch-amazon-ridgeland-h100e-2026-09-09"
+        "epoch-amazon-ridgeland-it-mw-2026-05-15",
+        "epoch-amazon-ridgeland-h100e-2026-05-15"
       ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 228 MW · about 171,299 H100 equivalents · capital cost about 8.6 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
@@ -6233,8 +6233,8 @@
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: Anthropic. AI-only allocation and the delivery stage are not established by this record.",
       "observations": [
-        "epoch-aws-berwick-it-mw-2026-09-09",
-        "epoch-aws-berwick-h100e-2026-09-09"
+        "epoch-aws-berwick-it-mw-2026-08-01",
+        "epoch-aws-berwick-h100e-2026-08-01"
       ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 108 MW · about 81,354 H100 equivalents · capital cost about 4.1 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",

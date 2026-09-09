@@ -24960,7 +24960,8 @@
       "retrieved_at": "2026-09-07T09:20:17Z",
       "method": "curated",
       "note": "",
-      "document_sha256": "cd38956b17f89706c0bccee84f3e613b9352042b2d798f9d534da5c9488467c6"
+      "document_sha256": "cd38956b17f89706c0bccee84f3e613b9352042b2d798f9d534da5c9488467c6",
+      "superseded_by": "colossus-one-it-epoch-baseline-asof-2026-06-15"
     },
     {
       "id": "colossus-one-access-baseline",
@@ -25005,7 +25006,8 @@
       "retrieved_at": "2026-09-07T09:20:17Z",
       "method": "curated",
       "note": "",
-      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c"
+      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c",
+      "superseded_by": "colossus-two-it-epoch-baseline-asof-2026-06-15"
     },
     {
       "id": "colossus-two-it-endstate-baseline",
@@ -25286,7 +25288,8 @@
       "retrieved_at": "2026-09-07T09:20:17Z",
       "method": "curated",
       "note": "",
-      "document_sha256": "07fdf0fcfd90bf5aa3578dbdafa66dc955d6ad458e133c1d0a06eab7bda7c406"
+      "document_sha256": "07fdf0fcfd90bf5aa3578dbdafa66dc955d6ad458e133c1d0a06eab7bda7c406",
+      "superseded_by": "new-carlisle-it-operating-baseline-asof-2026-06-03"
     },
     {
       "id": "new-carlisle-it-endstate-baseline",
@@ -25703,7 +25706,8 @@
       "retrieved_at": "2026-09-07T09:23:36Z",
       "method": "curated",
       "note": "",
-      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c"
+      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c",
+      "superseded_by": "colossus2-b200-installed-baseline-asof-2026-06-15"
     },
     {
       "id": "colossus2-b300-installed-baseline",
@@ -25718,7 +25722,8 @@
       "retrieved_at": "2026-09-07T09:23:36Z",
       "method": "curated",
       "note": "",
-      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c"
+      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c",
+      "superseded_by": "colossus2-b300-installed-baseline-asof-2026-06-15"
     },
     {
       "id": "tsmc-arizona-program-capital-baseline",
@@ -33780,7 +33785,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-berwick-it-mw-2026-08-01"
     },
     {
       "id": "epoch-aws-berwick-h100e-2026-09-09",
@@ -33794,7 +33800,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-berwick-h100e-2026-08-01"
     },
     {
       "id": "epoch-aws-berwick-capex-2026-09-09",
@@ -33808,7 +33815,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-berwick-capex-2026-08-01"
     },
     {
       "id": "epoch-aws-new-albany-it-mw-2026-09-09",
@@ -33822,7 +33830,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-new-albany-it-mw-2026-05-18"
     },
     {
       "id": "epoch-aws-new-albany-h100e-2026-09-09",
@@ -33836,7 +33845,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-new-albany-h100e-2026-05-18"
     },
     {
       "id": "epoch-aws-new-albany-capex-2026-09-09",
@@ -33850,7 +33860,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-new-albany-capex-2026-05-18"
     },
     {
       "id": "epoch-google-papillion-nebraska-it-mw-2026-09-09",
@@ -35145,7 +35156,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-coreweave-denton-tx-it-mw-2026-09-01"
     },
     {
       "id": "epoch-coreweave-denton-tx-h100e-2026-09-09",
@@ -35159,7 +35171,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-coreweave-denton-tx-h100e-2026-09-01"
     },
     {
       "id": "epoch-coreweave-denton-tx-capex-2026-09-09",
@@ -35173,7 +35186,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-coreweave-denton-tx-capex-2026-09-01"
     },
     {
       "id": "epoch-galaxy-helios-it-mw-2026-09-09",
@@ -35187,7 +35201,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-galaxy-helios-it-mw-2026-06-30"
     },
     {
       "id": "epoch-galaxy-helios-h100e-2026-09-09",
@@ -35201,7 +35216,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-galaxy-helios-h100e-2026-06-30"
     },
     {
       "id": "epoch-galaxy-helios-capex-2026-09-09",
@@ -35215,7 +35231,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-galaxy-helios-capex-2026-06-30"
     },
     {
       "id": "epoch-alibaba-zhangbei-it-mw-2026-09-09",
@@ -35229,7 +35246,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-alibaba-zhangbei-it-mw-2026-01-03"
     },
     {
       "id": "epoch-alibaba-zhangbei-h100e-2026-09-09",
@@ -35243,7 +35261,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-alibaba-zhangbei-h100e-2026-01-03"
     },
     {
       "id": "epoch-alibaba-zhangbei-capex-2026-09-09",
@@ -35257,7 +35276,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-alibaba-zhangbei-capex-2026-01-03"
     },
     {
       "id": "epoch-meta-prometheus-it-mw-2026-09-09",
@@ -35532,7 +35552,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-mississippi-madison-county-it-mw-2026-06-04"
     },
     {
       "id": "epoch-aws-mississippi-madison-county-h100e-2026-09-09",
@@ -35546,7 +35567,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-mississippi-madison-county-h100e-2026-06-04"
     },
     {
       "id": "epoch-aws-mississippi-madison-county-capex-2026-09-09",
@@ -35560,7 +35582,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-aws-mississippi-madison-county-capex-2026-06-04"
     },
     {
       "id": "epoch-amazon-ridgeland-it-mw-2026-09-09",
@@ -35574,7 +35597,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-amazon-ridgeland-it-mw-2026-05-15"
     },
     {
       "id": "epoch-amazon-ridgeland-h100e-2026-09-09",
@@ -35588,7 +35612,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-amazon-ridgeland-h100e-2026-05-15"
     },
     {
       "id": "epoch-amazon-ridgeland-capex-2026-09-09",
@@ -35602,7 +35627,8 @@
       "precision": "approx",
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "superseded_by": "epoch-amazon-ridgeland-capex-2026-05-15"
     },
     {
       "id": "epoch-nvidia-ai-chips-cumulative-2022-q1",
@@ -56200,6 +56226,427 @@
       "method": "curated",
       "note": "Epoch AI estimate for Meta Gallatin (owner Meta), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
       "correction_of": "epoch-meta-gallatin-capex-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-berwick-it-mw-2026-08-01",
+      "metric": "epoch-aws-berwick-it-mw",
+      "year": 2026,
+      "period": "2026-08-01",
+      "value": 108.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-berwick-it-mw-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-berwick-h100e-2026-08-01",
+      "metric": "epoch-aws-berwick-h100e",
+      "year": 2026,
+      "period": "2026-08-01",
+      "value": 81354,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-berwick-h100e-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-berwick-capex-2026-08-01",
+      "metric": "epoch-aws-berwick-capex",
+      "year": 2026,
+      "period": "2026-08-01",
+      "value": 4.09,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for AWS Berwick (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-berwick-capex-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-new-albany-it-mw-2026-05-18",
+      "metric": "epoch-aws-new-albany-it-mw",
+      "year": 2026,
+      "period": "2026-05-18",
+      "value": 213.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-new-albany-it-mw-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-new-albany-h100e-2026-05-18",
+      "metric": "epoch-aws-new-albany-h100e",
+      "year": 2026,
+      "period": "2026-05-18",
+      "value": 201112,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-new-albany-h100e-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-new-albany-capex-2026-05-18",
+      "metric": "epoch-aws-new-albany-capex",
+      "year": 2026,
+      "period": "2026-05-18",
+      "value": 8.07,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for AWS New Albany (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-new-albany-capex-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-alibaba-zhangbei-it-mw-2026-01-03",
+      "metric": "epoch-alibaba-zhangbei-it-mw",
+      "year": 2026,
+      "period": "2026-01-03",
+      "value": 169.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-alibaba-zhangbei-it-mw-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-alibaba-zhangbei-h100e-2026-01-03",
+      "metric": "epoch-alibaba-zhangbei-h100e",
+      "year": 2026,
+      "period": "2026-01-03",
+      "value": 31885,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-alibaba-zhangbei-h100e-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-alibaba-zhangbei-capex-2026-01-03",
+      "metric": "epoch-alibaba-zhangbei-capex",
+      "year": 2026,
+      "period": "2026-01-03",
+      "value": 6.4,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Alibaba Zhangbei (owner Alibaba), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-alibaba-zhangbei-capex-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-mississippi-madison-county-it-mw-2026-06-04",
+      "metric": "epoch-aws-mississippi-madison-county-it-mw",
+      "year": 2026,
+      "period": "2026-06-04",
+      "value": 284.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-mississippi-madison-county-it-mw-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-mississippi-madison-county-h100e-2026-06-04",
+      "metric": "epoch-aws-mississippi-madison-county-h100e",
+      "year": 2026,
+      "period": "2026-06-04",
+      "value": 214348,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-mississippi-madison-county-h100e-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-aws-mississippi-madison-county-capex-2026-06-04",
+      "metric": "epoch-aws-mississippi-madison-county-capex",
+      "year": 2026,
+      "period": "2026-06-04",
+      "value": 10.76,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Amazon Madison Mega Site (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-aws-mississippi-madison-county-capex-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-amazon-ridgeland-it-mw-2026-05-15",
+      "metric": "epoch-amazon-ridgeland-it-mw",
+      "year": 2026,
+      "period": "2026-05-15",
+      "value": 228.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-amazon-ridgeland-it-mw-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-amazon-ridgeland-h100e-2026-05-15",
+      "metric": "epoch-amazon-ridgeland-h100e",
+      "year": 2026,
+      "period": "2026-05-15",
+      "value": 171299,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-amazon-ridgeland-h100e-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-amazon-ridgeland-capex-2026-05-15",
+      "metric": "epoch-amazon-ridgeland-capex",
+      "year": 2026,
+      "period": "2026-05-15",
+      "value": 8.64,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Amazon Ridgeland (owner Amazon), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-amazon-ridgeland-capex-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "new-carlisle-it-operating-baseline-asof-2026-06-03",
+      "metric": "new-carlisle-it-operating",
+      "year": 2026,
+      "period": "Jun 3, 2026 snapshot",
+      "value": 910,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-anthropic-amazon-new-carlisle",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T09:20:17Z",
+      "method": "curated",
+      "note": "Epoch AI estimate, dataset vintage 2026-09. Period corrected to Epoch's own per-site status-table reading date; the prior period reflected the dataset pull/publish date instead.",
+      "document_sha256": "07fdf0fcfd90bf5aa3578dbdafa66dc955d6ad458e133c1d0a06eab7bda7c406",
+      "correction_of": "new-carlisle-it-operating-baseline",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "colossus-one-it-epoch-baseline-asof-2026-06-15",
+      "metric": "colossus-one-it-epoch",
+      "year": 2026,
+      "period": "Jun 15, 2026 snapshot",
+      "value": 340,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-colossus-1",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T09:20:17Z",
+      "method": "curated",
+      "note": "Epoch AI estimate, dataset vintage 2026-09. Period corrected to Epoch's own per-site status-table reading date; the prior period reflected the dataset pull/publish date instead.",
+      "document_sha256": "cd38956b17f89706c0bccee84f3e613b9352042b2d798f9d534da5c9488467c6",
+      "correction_of": "colossus-one-it-epoch-baseline",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "colossus-two-it-epoch-baseline-asof-2026-06-15",
+      "metric": "colossus-two-it-epoch",
+      "year": 2026,
+      "period": "Jun 15, 2026 snapshot",
+      "value": 946,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-colossus-2",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T09:20:17Z",
+      "method": "curated",
+      "note": "Epoch AI estimate, dataset vintage 2026-09. Period corrected to Epoch's own per-site status-table reading date; the prior period reflected the dataset pull/publish date instead.",
+      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c",
+      "correction_of": "colossus-two-it-epoch-baseline",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "colossus2-b200-installed-baseline-asof-2026-06-15",
+      "metric": "colossus2-b200-installed",
+      "year": 2026,
+      "period": "Jun 15, 2026 snapshot",
+      "value": 110000,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-colossus-2",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T09:23:36Z",
+      "method": "curated",
+      "note": "Epoch AI estimate, dataset vintage 2026-09. Period corrected to Epoch's own per-site status-table reading date; the prior period reflected the dataset pull/publish date instead.",
+      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c",
+      "correction_of": "colossus2-b200-installed-baseline",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "colossus2-b300-installed-baseline-asof-2026-06-15",
+      "metric": "colossus2-b300-installed",
+      "year": 2026,
+      "period": "Jun 15, 2026 snapshot",
+      "value": 330000,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-colossus-2",
+      "precision": "eq",
+      "retrieved_at": "2026-09-07T09:23:36Z",
+      "method": "curated",
+      "note": "Epoch AI estimate, dataset vintage 2026-09. Period corrected to Epoch's own per-site status-table reading date; the prior period reflected the dataset pull/publish date instead.",
+      "document_sha256": "6cc8b1b098ac5d5a58acf928ddbd643f180f4df95f5e7b76807bbac81bb3019c",
+      "correction_of": "colossus2-b300-installed-baseline",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-coreweave-denton-tx-it-mw-2026-09-01",
+      "metric": "epoch-coreweave-denton-tx-it-mw",
+      "year": 2026,
+      "period": "2026-09-01",
+      "value": 262.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-coreweave-denton-tx-it-mw-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-coreweave-denton-tx-h100e-2026-09-01",
+      "metric": "epoch-coreweave-denton-tx-h100e",
+      "year": 2026,
+      "period": "2026-09-01",
+      "value": 252653,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-coreweave-denton-tx-h100e-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-coreweave-denton-tx-capex-2026-09-01",
+      "metric": "epoch-coreweave-denton-tx-capex",
+      "year": 2026,
+      "period": "2026-09-01",
+      "value": 9.93,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for CoreWeave Denton TX (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-coreweave-denton-tx-capex-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-galaxy-helios-it-mw-2026-06-30",
+      "metric": "epoch-galaxy-helios-it-mw",
+      "year": 2026,
+      "period": "2026-06-30",
+      "value": 132.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-galaxy-helios-it-mw-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-galaxy-helios-h100e-2026-06-30",
+      "metric": "epoch-galaxy-helios-h100e",
+      "year": 2026,
+      "period": "2026-06-30",
+      "value": 159552,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-galaxy-helios-h100e-2026-09-09",
+      "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
+    },
+    {
+      "id": "epoch-galaxy-helios-capex-2026-06-30",
+      "metric": "epoch-galaxy-helios-capex",
+      "year": 2026,
+      "period": "2026-06-30",
+      "value": 5.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Coreweave Helios (owner CoreWeave), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0.",
+      "correction_of": "epoch-galaxy-helios-capex-2026-09-09",
       "correction_reason": "Period corrected from the dataset pull/publish date to Epoch's own per-site status-table reading date; the value is unchanged."
     }
   ],
