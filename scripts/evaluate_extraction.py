@@ -345,7 +345,11 @@ def build_holdout_entry(entry, expected):
     for i, c in enumerate(raw):
         row = dispositions[i]
         if row is None:
-            stopped, validator_reason, reviewer_defect = 'duplicate_of_existing', None, None
+            # entry['metric_candidates'] never gets populated when the document's own extraction
+            # errored (research.py raises before reaching that assignment), so a missing row there
+            # means "disposition unknown", not "silently deduped", whenever entry['error'] is set.
+            stopped = 'error' if entry.get('error') else 'duplicate_of_existing'
+            validator_reason, reviewer_defect = None, None
         elif row['outcome'] == 'accepted':
             stopped, validator_reason, reviewer_defect = 'accepted', None, None
         elif row['validator_result'] == 'failed':
