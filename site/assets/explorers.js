@@ -91,9 +91,14 @@ function setupCapabilities(){
  const xp=value=>48+(day(value)-Number(svg.dataset.start))/Math.max(1,Number(svg.dataset.end)-Number(svg.dataset.start))*550;
  const yp=value=>260-(value-Number(svg.dataset.floor))/Math.max(1,Number(svg.dataset.ceiling)-Number(svg.dataset.floor))*220;
  const tableRows=[...host.querySelectorAll('#eci-table tr')];
- function inspect(id){
-  const r=shown.find(r=>r.id===id);if(!r)return;select.value=id;
+ function clearInspection(){
+  select.value='';selection.hidden=true;selection.replaceChildren();
   svg.querySelector('.eci-uncertainty')?.remove();
+  svg.querySelectorAll('.eci-point.is-selected').forEach(p=>p.classList.remove('is-selected'));
+ }
+ function inspect(id){
+  clearInspection();const r=shown.find(r=>r.id===id);if(!r)return;select.value=id;selection.hidden=false;
+  svg.querySelectorAll('.eci-point').forEach(p=>p.classList.toggle('is-selected',p.dataset.model===id));
   if(r.low!==null){const line=document.createElementNS('http://www.w3.org/2000/svg','path');line.classList.add('eci-uncertainty');const x=xp(r.released),a=yp(r.low),b=yp(r.high);line.setAttribute('d',`M${x} ${a}V${b}M${x-5} ${a}H${x+5}M${x-5} ${b}H${x+5}`);svg.append(line);}
   selection.innerHTML=`<strong>${esc(r.name)} · ECI ${number(r.score)}</strong><p>${esc(r.organization)} · ${esc(r.country)} (organization) · Released ${esc(r.released)} · ${esc(r.access)}</p><p>${r.low===null?'Calibration anchor; Epoch supplies no uncertainty interval.':`90% confidence interval: ${number(r.low)}–${number(r.high)}. The white whisker marks this model’s interval.`}</p><p class="chart-footnote">Snapshot retrieved ${dateLabel(c.retrieved_at)}; release dates are not evaluation dates. Country attribution follows Epoch, not training location.</p>`;
  }
@@ -110,16 +115,27 @@ function setupCapabilities(){
    const button=document.createElement('button');button.type='button';button.dataset.group=name;button.style.setProperty('--series',colors[key].get(name));button.setAttribute('aria-pressed',String(!hiddenGroups.has(name)));button.title=`Toggle ${name}. Shift-click to show only this group.`;const swatch=document.createElement('i');button.append(swatch,document.createTextNode(`${name} · ${count}`));
    button.addEventListener('click',event=>{if(event.shiftKey)hiddenGroups=new Set([...groupCounts.keys()].filter(g=>g!==name));else if(hiddenGroups.has(name))hiddenGroups.delete(name);else hiddenGroups.add(name);update();[...legend.children].find(b=>b.dataset.group===name)?.focus({preventScroll:true});});legend.append(button);
   }
-  const previous=select.value;select.replaceChildren();for(const r of [...shown].sort((a,b)=>b.score-a.score)){const opt=document.createElement('option');opt.value=r.id;opt.textContent=`${r.name} · ${number(r.score)}`;select.append(opt);}select.disabled=!shown.length;
+  const previous=select.value;const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='No model selected';select.replaceChildren(placeholder);for(const r of [...shown].sort((a,b)=>b.score-a.score)){const opt=document.createElement('option');opt.value=r.id;opt.textContent=`${r.name} · ${number(r.score)}`;select.append(opt);}select.disabled=!shown.length;
   const tbody=host.querySelector('#eci-table');tbody.replaceChildren(...tableRows.filter(row=>visible.has(row.dataset.model)));
   host.querySelector('#eci-filter-summary').textContent=`${shown.length} of ${all.length} models shown. ${small.checked?'All developer sizes eligible.':'Developers with 4+ models; smaller and unlisted developers hidden.'} Legend counts reflect matching models before group/frontier filtering. Click to toggle; Shift-click to isolate.`;
-  if(shown.length)inspect(shown.some(r=>r.id===previous)?previous:select.value);else{selection.textContent='No models match these filters. Use Show all groups, change the search, or include smaller developers.';svg.querySelector('.eci-uncertainty')?.remove();}
+  if(shown.some(r=>r.id===previous))inspect(previous);else clearInspection();
+  if(!shown.length){selection.hidden=false;selection.textContent='No models match these filters. Use Show all groups, change the search, or include smaller developers.';}
  }
- svg.querySelectorAll('.eci-point').forEach(p=>{p.dataset.interactive='true';p.addEventListener('click',()=>inspect(p.dataset.model));});
+ svg.querySelectorAll('.eci-point').forEach(p=>{p.dataset.interactive='true';});
+ // Keep small marks readable while accepting clicks near their centers.
+ svg.addEventListener('click',event=>{
+  let closest=null,distance=event.pointerType==='touch'?18:10;
+  svg.querySelectorAll('.eci-point').forEach(p=>{
+   if(p.style.display==='none')return;
+   const box=p.getBoundingClientRect(),d=Math.hypot(event.clientX-box.x-box.width/2,event.clientY-box.y-box.height/2);
+   if(d<distance){distance=d;closest=p.dataset.model;}
+  });
+  if(closest)inspect(closest);
+ });
  for(const el of [small,access,frontierOnly])el.addEventListener('change',update);
  search.addEventListener('input',update);colorBy.addEventListener('change',()=>{hiddenGroups.clear();update();});
  host.querySelector('#eci-show-all').addEventListener('click',()=>{hiddenGroups.clear();update();});
  host.querySelector('#eci-hide-all').addEventListener('click',()=>{hiddenGroups=new Set(candidates().map(r=>r[colorBy.value]));update();});
- host.querySelector('#eci-reset').addEventListener('click',()=>{hiddenGroups.clear();colorBy.value='organization';small.checked=false;search.value='';access.value='all';frontierOnly.checked=false;update();});
+ host.querySelector('#eci-reset').addEventListener('click',()=>{clearInspection();hiddenGroups.clear();colorBy.value='organization';small.checked=false;search.value='';access.value='all';frontierOnly.checked=false;update();});
  select.addEventListener('change',()=>inspect(select.value));update();
 }
