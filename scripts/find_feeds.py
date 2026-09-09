@@ -140,9 +140,10 @@ def register(payload):
     existing={s['url'] for s in registry['sources']};added=[];hosts_done={urlparse(s['url']).hostname for s in registry['sources'] if s.get('index')}
     for r in payload['candidates']:
         if not r.get('eligible') or r['feed_url'] in existing or r['host'] in hosts_done:continue  # one feed per host
+        if re.match(r'^(support|docs|status|help|community)\.',r['host']):continue   # help desks and manuals are not newsrooms
         c=companies[r['company_id']]
         # Engineering, research and product publishing is collected narrowly: rank 3, weekly.
-        technical=bool(re.search(r'research|blog|developer|engineering|docs',r['host']+urlparse(r['feed_url']).path,re.I))
+        technical=bool(re.search(r'research|blog|developer|engineering|docs|resources',r['host']+urlparse(r['feed_url']).path+(r.get('top_prefix') or ''),re.I))
         sid='feed-'+re.sub(r'[^a-z0-9]+','-',c['id'].lower()).strip('-')+'-'+digest(r['feed_url'])[:6]
         source={'id':sid,'publisher':c['name'],'title':f"{c['name']} official feed · {r['host']}",'url':r['feed_url'],'published':None,'layers':c['layers'],'license':'Original source rights apply','index':True}
         policy={'rank':3 if technical else 4,'region_book':c.get('region_book','unknown') if c.get('region_book') in registry['region_books'] else 'unknown','company_id':c['id'],'claim_type':'other','cadence':'weekly' if technical else 'daily','weekday':hash(sid)%7 if technical else 0,'path_prefixes':[r['top_prefix']],'topics':TOPICS,'excerpts':False}
