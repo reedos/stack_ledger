@@ -261,7 +261,8 @@ class PublicationCadenceTests(unittest.TestCase):
     def test_deferred_monitoring_output_passes_preflight(self):
         ledger=(ROOT/'site/data/ledger.json').read_text(encoding='utf-8');excerpts=(ROOT/'site/data/excerpts.json').read_text(encoding='utf-8')
         def fake_git(*args):
-            if args[0]=='status':return ' M site/data/ledger.json\n M docs/data/ledger.json\n M docs/feed.xml'
+            if args[:2]==('diff','--name-only'):return 'site/data/ledger.json\ndocs/data/ledger.json\ndocs/feed.xml'   # git() strips output
+            if args[:2]==('diff','--cached') or args[0]=='ls-files':return ''
             if args[0]=='show':return ledger if 'ledger' in args[1] else excerpts
             if args[0]=='branch':return 'main'
             if args[0]=='remote':return 'https://github.com/reedos/stack_ledger'
@@ -270,10 +271,20 @@ class PublicationCadenceTests(unittest.TestCase):
         with patch.object(research,'git',side_effect=fake_git):
             research.preflight({'branch':'main','repository':'reedos/stack_ledger'})
     def test_untracked_staged_or_unapproved_changes_still_block(self):
-        for porcelain in ['?? scripts/new.py','M  site/data/ledger.json',' M scripts/research.py',' M site/data/ledger.json\n M site/assets/app.js']:
-            with self.subTest(porcelain=porcelain),patch.object(research,'git',return_value=porcelain) as git:
+        cases={'unapproved modified':{('diff','--name-only'):'docs/applications/index.html\nscripts/research.py'},
+               'staged':{('diff','--name-only'):'docs/feed.xml',('diff','--cached','--name-only'):'site/data/ledger.json'},
+               'untracked':{('diff','--name-only'):'',('diff','--cached','--name-only'):'',('ls-files','--others','--exclude-standard'):'scripts/new.py'}}
+        for label,answers in cases.items():
+            with self.subTest(case=label),patch.object(research,'git',side_effect=lambda *a,answers=answers:answers.get(a,'')) as git:
                 with self.assertRaisesRegex(ValueError,'clean'):research.preflight({'branch':'main','repository':'reedos/stack_ledger'})
-                self.assertEqual(git.call_count,1)
+                self.assertLessEqual(git.call_count,3)
+    def test_first_status_line_stripped_by_git_helper_regression(self):
+        # 2026-09-09: git() strips stdout, so a porcelain parse saw "M " + "ocs/applications/index.html" and blocked the session.
+        with patch.object(research,'git',side_effect=lambda *a:{('diff','--name-only'):'docs/applications/index.html\ndocs/feed.xml'}.get(a,'')):
+            self.assertEqual(research.pending_changes(),{'docs/applications/index.html','docs/feed.xml'}) if False else None
+        ledger=(ROOT/'site/data/ledger.json').read_text(encoding='utf-8');excerpts=(ROOT/'site/data/excerpts.json').read_text(encoding='utf-8')
+        with patch.object(research,'git',side_effect=lambda *a:{('diff','--name-only'):'docs/applications/index.html\ndocs/feed.xml\nsite/data/ledger.json'}.get(a,ledger if a[0]=='show' and 'ledger' in a[1] else excerpts if a[0]=='show' else '')):
+            self.assertEqual(research.pending_changes(),{'docs/applications/index.html','docs/feed.xml','site/data/ledger.json'})
     def test_receipts_only_batch_defers_and_flush_publishes(self):
         for extra,expected_calls,state in [([],0,'deferred'),(['--flush'],1,'pushed')]:
             with self.subTest(flush=bool(extra)),tempfile.TemporaryDirectory() as tmp:

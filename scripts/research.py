@@ -394,12 +394,18 @@ def git(*args):
     return result.stdout.strip()
 
 def pending_changes():
-    """Unstaged edits to publishable files only: deferred monitoring output waiting for the session commit."""
+    """Unstaged edits to publishable files only: deferred monitoring output waiting for the session commit.
+
+    Three plain path listings instead of porcelain status: git() strips its output, which ate the
+    leading space of the first " M path" line and blocked a session on 2026-09-09.
+    """
     changed=set()
-    for line in git('status','--porcelain').splitlines():
-        code,path=line[:2],line[3:].strip().strip('"')
-        require(code==' M' and path in ALLOWED_CHANGES,f'Working tree must be clean apart from deferred monitoring output; unapproved change: {path}')
+    for path in git('diff','--name-only').splitlines():
+        path=path.strip().strip('"')
+        require(path in ALLOWED_CHANGES,f'Working tree must be clean apart from deferred monitoring output; unapproved change: {path}')
         changed.add(path)
+    require(not git('diff','--cached','--name-only'),'Working tree must be clean apart from deferred monitoring output; staged changes present')
+    require(not git('ls-files','--others','--exclude-standard'),'Working tree must be clean apart from deferred monitoring output; untracked files present')
     if changed:
         validate(load(ROOT/'site/data/ledger.json'))
         validate_monitoring_delta(json.loads(git('show','HEAD:site/data/ledger.json')),load(ROOT/'site/data/ledger.json'),json.loads(git('show','HEAD:site/data/excerpts.json')),load(ROOT/'site/data/excerpts.json'))
