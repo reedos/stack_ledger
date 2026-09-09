@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:26:07Z",
+  "reviewed_at": "2026-09-09T11:27:25Z",
   "projects": [
     {
       "id": "gemini",
@@ -5322,7 +5322,10 @@
       "category": "Hyperscale data-center campus / locality",
       "stage": "status-unverified",
       "ai_relationship": "Hyperscale infrastructure for AI and other digital services; AI-only allocation is undisclosed.",
-      "observations": [],
+      "observations": [
+        "epoch-fairwater-atlanta-it-mw-2026-09-09",
+        "epoch-fairwater-atlanta-h100e-2026-09-09"
+      ],
       "horizon": "Seek a dated delivery update; no completion date inferred.",
       "grid": "Operating power and grid connection are not quantified in this record.",
       "next_evidence": "Verify current delivery stage, energized IT load, campus boundaries and actual local jobs from dated operator or permitting evidence.",
@@ -6196,7 +6199,10 @@
       "category": "AI data center",
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: OpenAI, Microsoft. AI-only allocation and the delivery stage are not established by this record.",
-      "observations": [],
+      "observations": [
+        "epoch-microsoft-fairwater-wisconsin-it-mw-2026-09-09",
+        "epoch-microsoft-fairwater-wisconsin-h100e-2026-09-09"
+      ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 369 MW · about 445,680 H100 equivalents · capital cost about 14.0 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
       "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
