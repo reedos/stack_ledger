@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:14:40Z",
+  "reviewed_at": "2026-09-09T10:46:57Z",
   "projects": [
     {
       "id": "gemini",
@@ -6227,6 +6227,30 @@
       "company_ids": [
         "microsoft",
         "openai"
+      ]
+    },
+    {
+      "id": "meta-qts-hillsboro-2",
+      "name": "Meta-QTS Hillsboro 2",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "4755 NE Huffman St, Hillsboro, OR 97124, United States",
+      "category": "AI data center",
+      "stage": "status-unverified",
+      "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: Meta. AI-only allocation and the delivery stage are not established by this record.",
+      "observations": [],
+      "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
+      "grid": "Epoch estimates current power about 180 MW · about 123,839 H100 equivalents · capital cost about 6.8 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
+      "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Epoch AI Data Centers dataset (vintage 2026-09) lists this site: owner Meta, users Meta, United States; current power about 180 MW · about 123,839 H100 equivalents · capital cost about 6.8 billion 2025 USD. Directory presence is not proof of operation.",
+          "source": "epoch-data-centers-dataset"
+        }
+      ],
+      "company_ids": [
+        "meta"
       ]
     }
   ],
