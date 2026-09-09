@@ -352,3 +352,38 @@ class ImporterGitRollbackTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class PushTests(unittest.TestCase):
+    """Importer commits must reach origin before the research preflight compares HEAD with origin."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); base = Path(self.temp.name)
+        self.remote = base/'origin.git'; self.root = base/'work'; self.root.mkdir()
+        git(base, 'init', '-q', '--bare', str(self.remote))
+        git(self.root, 'init', '-q'); git(self.root, 'config', 'user.email', 't@example.com'); git(self.root, 'config', 'user.name', 'T')
+        (self.root/'research').mkdir(); (self.root/'research/runtime.json').write_text(json.dumps({'branch': 'main'}), encoding='utf-8')
+        git(self.root, 'checkout', '-q', '-b', 'main'); git(self.root, 'add', '-A'); git(self.root, 'commit', '-q', '-m', 'init')
+        git(self.root, 'remote', 'add', 'origin', str(self.remote)); git(self.root, 'push', '-q', 'origin', 'main')
+
+    def test_push_origin_pushes_local_commits_and_commits_ahead_tracks_them(self):
+        (self.root/'research/new.json').write_text('{}', encoding='utf-8'); git(self.root, 'add', '-A'); git(self.root, 'commit', '-q', '-m', 'nightly(import:x): one')
+        self.assertEqual(nightly.commits_ahead(self.root), 1)
+        result = nightly.push_origin(self.root)
+        self.assertTrue(result['pushed']); self.assertEqual(result['branch'], 'main')
+        self.assertEqual(nightly.commits_ahead(self.root), 0)
+        self.assertEqual(git(self.root, 'rev-parse', 'origin/main').stdout.strip(), git(self.root, 'rev-parse', 'HEAD').stdout.strip())
+
+    def test_importers_stage_pushes_only_when_something_was_committed(self):
+        calls = []
+        config = {'importers': [{'id': 'a', 'command': ['scripts/x.py'], 'cadence': 'daily', 'timeout_seconds': 30}]}
+        with patch.object(nightly, 'validate_importers', return_value=config), patch.object(nightly, 'push_origin', side_effect=lambda r: calls.append(r) or {'pushed': True, 'attempts': 1, 'branch': 'main'}):
+            with patch.object(nightly, 'run_importer', return_value={'id': 'a', 'status': 'ok', 'committed': False}):
+                receipt = nightly.stage_importers(self.root, 600)
+            self.assertIsNone(receipt['push']); self.assertEqual(calls, [])
+            with patch.object(nightly, 'run_importer', return_value={'id': 'a', 'status': 'ok', 'committed': True, 'commit': 'abc'}):
+                receipt = nightly.stage_importers(self.root, 600)
+            self.assertEqual(len(calls), 1); self.assertTrue(receipt['push']['pushed']); self.assertEqual(receipt['status'], 'ok')
+        with patch.object(nightly, 'validate_importers', return_value=config), patch.object(nightly, 'push_origin', return_value={'pushed': False, 'attempts': 2, 'branch': 'main', 'error': 'offline'}):
+            with patch.object(nightly, 'run_importer', return_value={'id': 'a', 'status': 'ok', 'committed': True, 'commit': 'abc'}):
+                receipt = nightly.stage_importers(self.root, 600)
+        self.assertEqual(receipt['status'], 'partial')

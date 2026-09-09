@@ -121,6 +121,31 @@ def restore_importer_paths(root):
     subprocess.run(['git', 'clean', '-fd', 'research', 'site', 'docs'], cwd=root, capture_output=True, text=True, timeout=60)
 
 
+def branch_name(root):
+    try: return read_json(root/'research/runtime.json').get('branch', 'main')
+    except Exception: return 'main'
+
+
+def push_origin(root):
+    """Push local commits so the research preflight (HEAD must equal origin) and GitHub Pages see them; one retry."""
+    branch = branch_name(root); error = ''
+    for attempt in (1, 2):
+        result = subprocess.run(['git', 'push', 'origin', f'HEAD:{branch}'], cwd=root, capture_output=True, text=True, timeout=180)
+        if result.returncode == 0: return {'pushed': True, 'attempts': attempt, 'branch': branch}
+        error = (result.stderr or result.stdout)[-400:]
+        if attempt == 1: time.sleep(5)
+    return {'pushed': False, 'attempts': 2, 'branch': branch, 'error': error}
+
+
+def commits_ahead(root):
+    """Local commits not on origin/<branch>, after a fetch; None when the remote cannot be reached."""
+    branch = branch_name(root)
+    fetch = subprocess.run(['git', 'fetch', 'origin', branch], cwd=root, capture_output=True, text=True, timeout=120)
+    if fetch.returncode != 0: return None
+    count = subprocess.run(['git', 'rev-list', '--count', f'origin/{branch}..HEAD'], cwd=root, capture_output=True, text=True, timeout=30)
+    return int(count.stdout.strip()) if count.returncode == 0 and count.stdout.strip().isdigit() else None
+
+
 def run_importer(root, imp):
     command = [sys.executable, str(root/imp['command'][0]), *imp['command'][1:]]
     try:
@@ -164,7 +189,9 @@ def stage_importers(root, soft_budget_seconds):
         results.append(run_importer(root, imp))
     statuses = {r['status'] for r in results}
     status = 'ok' if not due or statuses == {'ok'} else ('skipped' if statuses <= {'skipped'} else ('partial' if 'ok' in statuses else 'failed'))
-    return {'status': status, 'due': [i['id'] for i in due], 'results': results}
+    push = push_origin(root) if any(r.get('committed') for r in results) else None
+    if push and not push['pushed'] and status == 'ok': status = 'partial'   # commits are local until the next push succeeds
+    return {'status': status, 'due': [i['id'] for i in due], 'results': results, 'push': push}
 
 
 def research_ignore_gpu_busy(root):
@@ -394,9 +421,13 @@ def stage_digest(root, date):
     markdown = render_digest_markdown(body)
     digest_dir = root/'.local/digest'; digest_dir.mkdir(parents=True, exist_ok=True)
     (digest_dir/(date+'.md')).write_text(markdown, encoding='utf-8')
+    ahead = commits_ahead(root); push = push_origin(root) if ahead else None
+    body['unpushed_commits'] = ahead; body['final_push'] = push
+    save(root/'.local/digest'/(date+'.json'), body)
     from research_notify import send_text
     notice = send_text(root, markdown[:3500], tag='nightly-digest')
-    return {'status': 'ok', 'applied_count': len(applied), 'needs_decision': body['needs_decision'], 'notification': notice.get('status')}
+    return {'status': 'ok' if not push or push['pushed'] else 'partial', 'applied_count': len(applied), 'needs_decision': body['needs_decision'],
+            'notification': notice.get('status'), 'unpushed_commits': ahead, 'final_push': push}
 
 
 # ------------------------------------------------------------- the runner
