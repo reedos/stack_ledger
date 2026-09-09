@@ -73,3 +73,10 @@ Each notification is attempted once and saved in a private receipt; ambiguous fa
 ## Validation
 
 `python -m unittest discover -s tests` covers allocation, six-hour virtual-time retry behavior, DST/late starts, source filtering, command validation, exclusive locking, scoped stop, private cache continuity, discovery-only publication isolation, HTTP request guards and existing evidence/runtime contracts. `node tests/research_control.cjs` checks desktop/mobile controls using an intercepted start request; it does not run inference. Use the existing `PLAYWRIGHT_MODULE` setting. Repository validation, editorial evaluation and build remain required for publishing code changes. No six-hour live-model trial is implied by the offline simulation.
+
+## Collection efficiency
+
+See OPERATING_GUIDE.md for persistent robots/page/provider cooldowns. Healthy duration remains unchanged; when no sources are eligible, the controller reports `waiting for eligible sources` and waits five minutes without generating public run updates. Completion summaries distinguish new-findings pushes from monitoring-only pushes, cached reviews from model documents, and repeated fetches from unique content versions when recorded. A provider outage is clearly flagged even if the overall session completed.
+
+
+Each completed session also retains `research-progress.md` and `research-progress.json` beside its summary. These group recorded discovery attempts by question and link existing proposals; existing human editorial question decisions remain separate. Older runs without per-attempt question metadata cannot be assigned invented progress. The live discovery digest exposes partial text coverage, empty/rejected outcomes and unsupported-document pointers. These diagnostics remain local and do not change public runtime presentation.

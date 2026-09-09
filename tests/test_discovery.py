@@ -21,10 +21,14 @@ class DiscoveryTests(unittest.TestCase):
         self.temp=tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
+        local=patch.object(r,'LOCAL',self.root/'.local');local.start();self.addCleanup(local.stop)
         test_research.RunnerTests().fixture(self.root)
         for name in ['scripts/research.py','research/editorial-policy.json']:
             target=self.root/name;target.parent.mkdir(parents=True,exist_ok=True)
             target.write_bytes((ROOT/name).read_bytes())
+        registry=r.load(self.root/'research/sources.json')
+        for source in registry['sources']:source.pop('index',None)
+        r.save(self.root/'research/sources.json',registry)
         self.p=r.load(ROOT/'research/discovery-policy.json')
         r.save(self.root/'research/discovery-policy.json',self.p)
         self.config=r.load(self.root/'research/runtime.json')
@@ -32,7 +36,7 @@ class DiscoveryTests(unittest.TestCase):
         self.url='https://new-builder.example/news/commissioning'
         self.body='Aster Grid reports commissioning a 120 MW geothermal plant. The operator says the grid connection is operating and reports no employment figure. '
         self.document=r.ReadableHTML();self.document.feed('<p>'+self.body*3+'</p>')
-        self.finding={'kind':'project','subject':'Aster Grid plant','claim':'Aster Grid reports commissioning a 120 MW geothermal plant.',
+        self.finding={'layer':'energy','kind':'project','subject':'Aster Grid plant','claim':'Aster Grid reports commissioning a 120 MW geothermal plant.',
                       'evidence':'Aster Grid reports commissioning a 120 MW geothermal plant.','basis':'actual',
                       'why_track':'Investigate whether this adds dependable power.','next_question':'Which permit and operator records corroborate operation?'}
         self.verdict={'verdicts':[{'index':0,'supported':True,'reason':'Attributed claim has direct support.'}]}
@@ -51,7 +55,7 @@ class DiscoveryTests(unittest.TestCase):
 
     def model(self,*args):
         schema=args[3]
-        if schema==d.SCHEMA:return {'findings':[self.finding]}
+        if schema==d.SCHEMA:return {'findings':[self.finding],'reason':'Specific attributed candidate in fixture.'}
         if schema==r.VERDICT_SCHEMA:return self.verdict
         return {'observations':[]}
 
@@ -122,21 +126,51 @@ class DiscoveryTests(unittest.TestCase):
         r.save(self.root/'.local/discovery-leads/old.json',{'source':src['id'],'urls':[self.url,self.url,self.url+'/report.pdf']})
         self.document.links=['https://original.example/research/permit','https://extra.example/report']
         self.fetcher.fetch_json.return_value={'articles':[]}
-        with patch.object(r,'ollama',return_value={'findings':[]}):receipt=self.run_slice()
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):receipt=self.run_slice()
         self.assertEqual(receipt['imported_leads'],1)
         leads=list(d.state(self.root)['leads'].values())
-        self.assertEqual(len(leads),2)
-        child=next(v for v in leads if v['depth']==1)
+        self.assertEqual(len(leads),3)
+        child=next(v for v in leads if v['depth']==1 and 'original.example' in v['url'])
         self.assertEqual(child['url'],'https://original.example/research/permit')
-        with patch.object(r,'ollama',return_value={'findings':[]}):receipt=self.run_slice(rid='next')
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):receipt=self.run_slice(rid='next')
         self.assertEqual(receipt['imported_leads'],0)
-        self.assertEqual(len(d.state(self.root)['leads']),2)
+        self.assertEqual(len(d.state(self.root)['leads']),3)
 
     def test_unknown_backlog_ancestry_is_not_fetched(self):
         r.save(self.root/'.local/discovery-leads/unknown.json',{'source':'invented','urls':[self.url]})
         self.fetcher.fetch_json.return_value={'articles':[]}
         self.assertEqual(self.run_slice()['documents_fetched'],0)
         self.fetcher.fetch.assert_not_called()
+
+    def test_provider_rate_limit_persists_across_topics_while_backlog_continues(self):
+        from urllib.error import HTTPError
+        from email.message import Message
+        import collection_health
+        self.seed()
+        self.fetcher.fetch_json.side_effect=HTTPError('https://api.gdeltproject.org',429,'limited',Message(),None)
+        with patch.object(collection_health.time,'time',return_value=1000),patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
+            first=self.run_slice(rid='rate-limited')
+            second=self.run_slice(rid='cooling')
+        self.assertEqual(first['search_provider']['http_status'],429)
+        self.assertGreaterEqual(first['documents_fetched'],1)
+        self.assertEqual(second['search_skipped'],'provider_cooldown')
+        self.assertEqual(self.fetcher.fetch_json.call_count,1)
+        self.fetcher.fetch_json.side_effect=None
+        self.fetcher.fetch_json.return_value={'articles':[]}
+        with patch.object(collection_health.time,'time',return_value=20000),patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
+            third=self.run_slice(rid='provider-recovered')
+        self.assertEqual(third['search_provider']['status'],'available')
+        self.assertEqual(self.fetcher.fetch_json.call_count,2)
+
+    def test_rejected_query_does_not_mark_entire_provider_unavailable(self):
+        import collection_health
+        self.fetcher.fetch_json.side_effect=collection_health.QueryRejected('Search provider rejected query syntax')
+        with patch.object(collection_health.time,'time',return_value=1000),patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
+            first=self.run_slice(rid='bad-query')
+        self.assertEqual(first['search_provider']['status'],'available')
+        self.assertEqual(first['primary_index_leads'],0)
+        with patch.object(collection_health.time,'time',return_value=1061),patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):self.run_slice(rid='different-topic')
+        self.assertEqual(self.fetcher.fetch_json.call_count,2)
 
     def test_source_failure_is_not_no_findings_and_has_backoff(self):
         self.fetcher.fetch.side_effect=OSError('remote secret text')
@@ -151,7 +185,7 @@ class DiscoveryTests(unittest.TestCase):
     def test_search_failure_still_investigates_backlog(self):
         self.seed()
         self.fetcher.fetch_json.side_effect=OSError('provider unavailable')
-        with patch.object(r,'ollama',return_value={'findings':[]}):result=self.run_slice()
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):result=self.run_slice()
         self.assertEqual(result['status'],'partial')
         self.assertEqual(result['documents_screened'],1)
         self.assertEqual(result['proposals_queued'],0)
@@ -183,11 +217,38 @@ class DiscoveryTests(unittest.TestCase):
                        {'evidence':'This quotation does not appear in the actual source document.'}, {'basis':'approved'}]:
             finding=dict(self.finding,**change)
             lead={'context':d.topic(self.p,0)}
-            with self.subTest(change=change),patch.object(r,'ollama',return_value={'findings':[finding]}),self.assertRaises(ValueError):
+            with self.subTest(change=change),patch.object(r,'ollama',return_value={'findings':[finding],'reason':'Specific candidate in fixture.'}),self.assertRaises(ValueError):
                 d.screen(self.root,self.config,self.p,lead,self.body,{'model_calls':0},time.monotonic()+10)
 
+    def test_primary_indexes_are_available_when_search_is_healthy(self):
+        registry=r.load(self.root/'research/sources.json')
+        source=next(v for v in registry['sources'] if 'energy' in v['layers'])
+        source['index']=True;r.save(self.root/'research/sources.json',registry)
+        self.fetcher.fetch_json.return_value={'articles':[]}
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):result=self.run_slice()
+        self.assertEqual(result['primary_index_leads'],1)
+        self.fetcher.fetch.assert_called_once_with(source['url'])
+
+    def test_actual_proposal_layer_and_operator_filter(self):
+        lead={'url':self.url,'lineage':{},'context':d.topic(self.p,1)}
+        self.assertEqual(lead['context']['layer'],'chips')
+        with patch.object(r,'ollama',side_effect=self.model):
+            result=d.screen(self.root,self.config,self.p,lead,self.body,{'model_calls':0},time.monotonic()+30)
+        rid,_=d.enqueue(self.root,lead,result,r.digest(self.body),'fixture',r.now())
+        self.assertEqual(r.load(er.queue(self.root)/(rid+'.json'))['layer'],'energy')
+        filtered=dict(self.config,_session_layers=['chips'])
+        with patch.object(r,'ollama',side_effect=self.model),self.assertRaises(ValueError):
+            d.screen(self.root,filtered,self.p,lead,self.body,{'model_calls':0},time.monotonic()+30)
+
+    def test_unsupported_documents_retained_as_gaps_not_fetched(self):
+        s=d.state(self.root)
+        self.assertFalse(d.add_lead(s,self.url+'/report.pdf',d.topic(self.p,0),{'type':'retained'},self.p,r.now()))
+        self.assertEqual(len(s['collection_gaps']),1)
+        self.assertEqual(len(s['leads']),0)
+        self.assertTrue(d.add_lead(s,self.url+'/feed.xml',d.topic(self.p,0),{'type':'retained'},self.p,r.now()))
+
     def test_empty_and_rejected_findings_are_legitimate(self):
-        with patch.object(r,'ollama',return_value={'findings':[]}):result=self.run_slice()
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):result=self.run_slice()
         self.assertEqual(result['attempts'][0]['outcome'],'no_findings')
         self.assertEqual(result['status'],'completed')
         self.assertEqual(result['proposals_queued'],0)
@@ -212,7 +273,7 @@ class DiscoveryTests(unittest.TestCase):
         with self.assertRaises(ValueError):er.apply(self.root,rid)
 
     def test_single_unit_batches_alternate_search_and_follow_up(self):
-        with patch.object(r,'ollama',return_value={'findings':[]}):
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
             first=self.run_slice(1,'one');second=self.run_slice(1,'two')
         self.assertEqual((first['search_calls'],first['documents_fetched']),(1,0))
         self.assertEqual((second['search_calls'],second['documents_fetched']),(0,1))

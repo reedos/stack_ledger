@@ -156,7 +156,11 @@ def main(argv=None):
                         time.sleep(5)
                 cycles+=1;idle_samples=0
                 report['batches']=cycles
-                if child.returncode:
+                if child.returncode==2:
+                    report['consecutive_failures']=0
+                    report['idle_checks']=report.get('idle_checks',0)+1
+                    pause(300,'waiting for eligible sources')
+                elif child.returncode:
                     report['failed_batches']+=1
                     report['consecutive_failures']+=1
                     checkpoint('batch failed',last_exit_code=child.returncode)

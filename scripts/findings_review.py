@@ -26,7 +26,8 @@ def inbox(root):
         try:
             item=load(path);rid=item['id'];finding=item['finding']
             if not RID.fullmatch(rid) or path.stem!=rid or item['kind']!='coverage_expansion':raise ValueError()
-            if set(finding)!=FIELDS or finding['kind'] not in KINDS or finding['basis'] not in BASES:raise ValueError()
+            if set(finding) not in (FIELDS,FIELDS-{'layer'}) or finding['kind'] not in KINDS or finding['basis'] not in BASES:raise ValueError()
+            if finding.get('layer',item['layer'])!=item['layer']:raise ValueError()
             if any(not isinstance(v,str) or len(v)>2200 for v in finding.values()):raise ValueError()
             event=latest.get(rid)
             proof=None;sha=item.get('document_sha256','')
