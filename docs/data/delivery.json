@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:32:25Z",
+  "reviewed_at": "2026-09-09T11:33:38Z",
   "projects": [
     {
       "id": "gemini",
@@ -5955,7 +5955,10 @@
       "category": "AI data center",
       "stage": "status-unverified",
       "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: ByteDance. AI-only allocation and the delivery stage are not established by this record.",
-      "observations": [],
+      "observations": [
+        "epoch-vnet-bayin-ulanqab-it-mw-2026-09-09",
+        "epoch-vnet-bayin-ulanqab-h100e-2026-09-09"
+      ],
       "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
       "grid": "Epoch estimates current power about 221 MW · about 122,789 H100 equivalents · capital cost about 8.4 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
       "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
