@@ -16830,6 +16830,675 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
+    },
+    {
+      "id": "terafab-capacity",
+      "layer": "chips",
+      "title": "Tesla + SpaceX Terafab · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Grimes County, Texas, U.S.",
+      "scope": "Mixed logic, memory and packaging campus; node not yet disclosed at this early stage.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Mixed logic, memory and packaging campus; node not yet disclosed at this early stage.",
+      "source_ids": [
+        "spacex-terafab-2026"
+      ],
+      "company": "spacex",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "terafab",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-arizona-phase1-capacity",
+      "layer": "chips",
+      "title": "TSMC Arizona Fab 21 phase 1 · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "N4 logic fab (Fab 21 phase 1).",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "N4 logic fab (Fab 21 phase 1).",
+      "source_ids": [
+        "company-tsmc",
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "tsmc-arizona-phase1",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-arizona-phase2-capacity",
+      "layer": "chips",
+      "title": "TSMC Arizona Fab 21 phase 2 · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "N3/N2 logic fab (Fab 21 phase 2).",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "N3/N2 logic fab (Fab 21 phase 2).",
+      "source_ids": [
+        "company-tsmc",
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "tsmc-arizona-phase2",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-arizona-phase3-capacity",
+      "layer": "chips",
+      "title": "TSMC Arizona Fab 21 phase 3 · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "N2/A16 logic fab (Fab 21 phase 3).",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "N2/A16 logic fab (Fab 21 phase 3).",
+      "source_ids": [
+        "company-tsmc",
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "tsmc-arizona-phase3",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-arizona-packaging-capacity",
+      "layer": "chips",
+      "title": "TSMC Arizona advanced packaging · CoWoS-class capacity",
+      "unit": "advanced-packaging wafer starts / month (CoWoS-class substrate)",
+      "geography": "Phoenix, Arizona, U.S.",
+      "scope": "Advanced packaging (CoWoS-class) for the Arizona campus.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Advanced packaging (CoWoS-class) for the Arizona campus.",
+      "source_ids": [
+        "company-tsmc",
+        "tsmc-arizona"
+      ],
+      "company": "tsmc",
+      "measurement_type": "cowos_or_advanced_packaging_wspm",
+      "project": "tsmc-arizona-packaging",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "intel-arizona-capacity",
+      "layer": "chips",
+      "title": "Intel Arizona Fab 52 (18A) · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Chandler, Arizona, U.S.",
+      "scope": "18A logic fab (Fab 52).",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "18A logic fab (Fab 52).",
+      "source_ids": [
+        "company-intel",
+        "feed-intel-5205c9",
+        "intel-fab52-18a"
+      ],
+      "company": "intel",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "intel-arizona",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "intel-ohio-capacity",
+      "layer": "chips",
+      "title": "Intel Ohio One · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "New Albany, Ohio, U.S.",
+      "scope": "Ohio One campus; node and phase timing not yet disclosed.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Ohio One campus; node and phase timing not yet disclosed.",
+      "source_ids": [
+        "company-intel",
+        "feed-intel-5205c9",
+        "intel-ohio-delay"
+      ],
+      "company": "intel",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "intel-ohio",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "samsung-taylor-capacity",
+      "layer": "chips",
+      "title": "Samsung Taylor foundry · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Taylor, Texas, U.S.",
+      "scope": "Leading-edge logic foundry; node not yet disclosed at this site.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Leading-edge logic foundry; node not yet disclosed at this site.",
+      "source_ids": [
+        "company-samsung",
+        "samsung-taylor-schedule"
+      ],
+      "company": "samsung",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "samsung-taylor",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-hsinchu-fab12-capacity",
+      "layer": "chips",
+      "title": "TSMC Fab 12 (Hsinchu) · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Hsinchu, Taiwan",
+      "scope": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "source_ids": [
+        "company-tsmc",
+        "map-tsmc-fabs"
+      ],
+      "company": "tsmc",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "tsmc-hsinchu-fab12",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-tainan-fab18-capacity",
+      "layer": "chips",
+      "title": "TSMC Fab 18 (Tainan) · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Tainan, Taiwan",
+      "scope": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "source_ids": [
+        "company-tsmc",
+        "map-tsmc-fabs"
+      ],
+      "company": "tsmc",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "tsmc-tainan-fab18",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-taichung-fab15-capacity",
+      "layer": "chips",
+      "title": "TSMC Fab 15 (Taichung) · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Taichung, Taiwan",
+      "scope": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "source_ids": [
+        "company-tsmc",
+        "map-tsmc-fabs"
+      ],
+      "company": "tsmc",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "tsmc-taichung-fab15",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "tsmc-nanjing-fab16-capacity",
+      "layer": "chips",
+      "title": "TSMC Fab 16 (Nanjing) · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Nanjing, China",
+      "scope": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Semiconductor fabrication locality; node mix not itemized in this review.",
+      "source_ids": [
+        "company-tsmc"
+      ],
+      "company": "tsmc",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "tsmc-nanjing-fab16",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "amkor-arizona-capacity",
+      "layer": "chips",
+      "title": "Amkor Arizona advanced packaging · CoWoS-class capacity",
+      "unit": "advanced-packaging wafer starts / month (CoWoS-class substrate)",
+      "geography": "Peoria, Arizona, U.S.",
+      "scope": "Advanced packaging and test (OSAT); package types not itemized in this review.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Advanced packaging and test (OSAT); package types not itemized in this review.",
+      "source_ids": [
+        "amkor-arizona-2025",
+        "feed-amkor-6ff800",
+        "astra-amkor-land-20260519"
+      ],
+      "company": "amkor",
+      "measurement_type": "cowos_or_advanced_packaging_wspm",
+      "project": "amkor-arizona",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "ase-kaohsiung-park-three-capacity",
+      "layer": "chips",
+      "title": "ASE Nanzih Park III · advanced packaging capacity",
+      "unit": "advanced-packaging wafer starts / month (CoWoS-class substrate)",
+      "geography": "Kaohsiung, Taiwan",
+      "scope": "Packaging and test capacity expansion (OSAT).",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Packaging and test capacity expansion (OSAT).",
+      "source_ids": [
+        "astra-ase-kaohsiung-20260311"
+      ],
+      "company": "ase",
+      "measurement_type": "cowos_or_advanced_packaging_wspm",
+      "project": "ase-kaohsiung-park-three",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "ase-wus-nanzih-capacity",
+      "layer": "chips",
+      "title": "ASE / WUS Nanzih collaboration · advanced packaging capacity",
+      "unit": "advanced-packaging wafer starts / month (CoWoS-class substrate)",
+      "geography": "Kaohsiung, Taiwan",
+      "scope": "Packaging collaboration with WUS (OSAT).",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Packaging collaboration with WUS (OSAT).",
+      "source_ids": [
+        "astra-ase-wus-20260508"
+      ],
+      "company": "ase",
+      "measurement_type": "cowos_or_advanced_packaging_wspm",
+      "project": "ase-wus-nanzih",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "hynix-west-lafayette-capacity",
+      "layer": "chips",
+      "title": "SK hynix West Lafayette · HBM stack capacity",
+      "unit": "HBM stacks / month",
+      "geography": "West Lafayette, Indiana, U.S.",
+      "scope": "HBM stacking and test.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "HBM stacking and test.",
+      "source_ids": [
+        "company-sk-hynix",
+        "feed-sk-hynix-94639e",
+        "hynix-indiana-2026",
+        "hynix-indiana-plan"
+      ],
+      "company": "sk-hynix",
+      "measurement_type": "hbm_stack_capacity",
+      "project": "hynix-west-lafayette",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "micron-singapore-hbm-capacity",
+      "layer": "chips",
+      "title": "Micron Singapore · HBM packaging capacity",
+      "unit": "HBM stacks / month",
+      "geography": "Singapore",
+      "scope": "HBM advanced packaging expansion.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "HBM advanced packaging expansion.",
+      "source_ids": [
+        "company-micron",
+        "astra-micron-singapore-20250108"
+      ],
+      "company": "micron",
+      "measurement_type": "hbm_stack_capacity",
+      "project": "micron-singapore-hbm",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "micron-new-york-first-fab-capacity",
+      "layer": "chips",
+      "title": "Micron Clay first fab · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Clay, New York, U.S.",
+      "scope": "DRAM fabrication; node not yet disclosed.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "DRAM fabrication; node not yet disclosed.",
+      "source_ids": [
+        "company-micron",
+        "astra-micron-ny-20260709"
+      ],
+      "company": "micron",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "micron-new-york-first-fab",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "micron-idaho-one-capacity",
+      "layer": "chips",
+      "title": "Micron Idaho first fab · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Boise, Idaho, U.S.",
+      "scope": "DRAM fabrication; node not yet disclosed.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "DRAM fabrication; node not yet disclosed.",
+      "source_ids": [
+        "company-micron"
+      ],
+      "company": "micron",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "micron-idaho-one",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "micron-idaho-two-capacity",
+      "layer": "chips",
+      "title": "Micron Idaho second fab · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Boise, Idaho, U.S.",
+      "scope": "DRAM fabrication; node not yet disclosed.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "DRAM fabrication; node not yet disclosed.",
+      "source_ids": [
+        "company-micron"
+      ],
+      "company": "micron",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "micron-idaho-two",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "hynix-yongin-y1-capacity",
+      "layer": "chips",
+      "title": "SK hynix Yongin Y1 · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Yongin, South Korea",
+      "scope": "DRAM fabrication.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "DRAM fabrication.",
+      "source_ids": [
+        "company-sk-hynix",
+        "feed-sk-hynix-94639e",
+        "astra-hynix-fabs-20260807"
+      ],
+      "company": "sk-hynix",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "hynix-yongin-y1",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "hynix-yongin-y2-capacity",
+      "layer": "chips",
+      "title": "SK hynix Yongin Y2 · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Yongin, South Korea",
+      "scope": "HBM and DRAM fabrication.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "HBM and DRAM fabrication.",
+      "source_ids": [
+        "company-sk-hynix",
+        "feed-sk-hynix-94639e",
+        "astra-hynix-fabs-20260807"
+      ],
+      "company": "sk-hynix",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "hynix-yongin-y2",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "hynix-cheongju-m17-capacity",
+      "layer": "chips",
+      "title": "SK hynix Cheongju M17 · wafer starts capacity",
+      "unit": "wafer starts / month by node (300 mm equivalent)",
+      "geography": "Cheongju, South Korea",
+      "scope": "NAND fabrication.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "NAND fabrication.",
+      "source_ids": [
+        "company-sk-hynix",
+        "feed-sk-hynix-94639e",
+        "astra-hynix-fabs-20260807"
+      ],
+      "company": "sk-hynix",
+      "measurement_type": "wafer_starts_per_month",
+      "project": "hynix-cheongju-m17",
+      "allowed_statuses": [
+        "observation",
+        "estimate",
+        "company-commitment"
+      ],
+      "series_start_year": 2020,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     }
   ],
   "targets": [

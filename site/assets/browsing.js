@@ -49,11 +49,13 @@ function compactCompanies(){
 function compactProjects(){
  document.querySelectorAll('#project-results .delivery-card:not([data-compact])').forEach(card=>{
   card.dataset.compact='true';
-  const quantities=card.querySelector('.delivery-quantities');
-  const extra=document.createElement('div');extra.className='delivery-quantities';
-  [...quantities.children].slice(1).forEach(el=>extra.append(el));
+  const quantities=card.querySelector('.delivery-quantities');   // chips-layer cards render .chip-capacity instead; nothing to fold there.
   const nodes=[...card.children].filter(el=>el.matches('.delivery-facts,.project-measures,.power-basis-note'));
-  if(extra.children.length){quantities.after(extra);nodes.unshift(extra);}
+  if(quantities){
+   const extra=document.createElement('div');extra.className='delivery-quantities';
+   [...quantities.children].slice(1).forEach(el=>extra.append(el));
+   if(extra.children.length){quantities.after(extra);nodes.unshift(extra);}
+  }
   disclosureAround(nodes,'Additional quantities, power & project scope');
  });
 }

@@ -5998,6 +5998,17 @@
         "energy"
       ],
       "license": "Public domain (U.S. government work)"
+    },
+    {
+      "id": "nvidia-hopper-whitepaper",
+      "publisher": "NVIDIA",
+      "title": "NVIDIA H100 Tensor Core GPU Architecture whitepaper",
+      "url": "https://resources.nvidia.com/en-us-tensor-core/gtc22-whitepaper-hopper",
+      "published": "2022-03-22",
+      "layers": [
+        "chips"
+      ],
+      "license": "NVIDIA publication; cited for the GH100 die area"
     }
   ],
   "discovery_keywords": [
@@ -6375,7 +6386,8 @@
         "map-waymo-mesa",
         "capital-apollo-2026-outlook",
         "audit-meta-singapore",
-        "epoch-chip-sales-dataset"
+        "epoch-chip-sales-dataset",
+        "nvidia-hopper-whitepaper"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -12198,6 +12210,17 @@
       "region_book": "united-states",
       "company_id": null,
       "claim_type": "labor",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "nvidia-hopper-whitepaper": {
+      "rank": 2,
+      "region_book": "global",
+      "company_id": "nvidia",
+      "claim_type": "other",
       "cadence": "manual",
       "weekday": 0,
       "path_prefixes": [],
