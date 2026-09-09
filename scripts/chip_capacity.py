@@ -18,7 +18,6 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import research
 from research import load, save, require
-from validate import validate
 
 ROOT=Path(__file__).resolve().parents[1]
 CONFIG_PATH=ROOT/'research/chip-capacity.json'
@@ -70,30 +69,21 @@ def run(apply=False):
     source_missing=WHITEPAPER_SOURCE_ID not in {s['id'] for s in registry['sources']}
     print(f"configured projects {len(config['projects'])} · metrics {len(metrics)} ({len(new_metrics)} new, {len(changed_metrics)} changed) · whitepaper source {'missing' if source_missing else 'registered'} · mirror {'stale' if not mirror_current else 'current'}",flush=True)
     if not apply:return {'metrics':new_metrics,'changed':changed_metrics}
-    ledger=load(ROOT/'site/data/ledger.json')
-    if source_missing:
-        registry['sources'].append(dict(WHITEPAPER_SOURCE));ledger['sources'].append(dict(WHITEPAPER_SOURCE))
-        registry['collection'][WHITEPAPER_SOURCE_ID]={'rank':2,'region_book':'global','company_id':'nvidia','claim_type':'other','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}
-        registry['region_books']['global']['sources'].append(WHITEPAPER_SOURCE_ID)
-    for m in changed_metrics:catalog['metrics'][index[m['id']]]=m
-    catalog['metrics']+=new_metrics
-    ledger['metrics']=catalog['metrics']
-    from source_policy import validate_registry
-    validate_registry(registry,{c['id'] for c in ecosystem['companies']})
-    originals={p:p.read_bytes() for p in [ROOT/'research/catalog.json',ROOT/'research/sources.json',ROOT/'site/data/source-books.json'] if p.exists()}
+    from importer_common import apply_changes
+    collection_entries={WHITEPAPER_SOURCE_ID:{'rank':2,'region_book':'global','company_id':'nvidia','claim_type':'other','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}}
+    # The reviewed-config mirror is specific to this tool, not part of the shared apply lane:
+    # protect it with its own rollback around the same validate-with-restore call.
     mirror_existed=MIRROR_PATH.exists();mirror_original=MIRROR_PATH.read_bytes() if mirror_existed else None
-    save(ROOT/'research/catalog.json',catalog);save(ROOT/'research/sources.json',registry)
-    save(ROOT/'site/data/source-books.json',{k:registry[k] for k in ['region_books','collection']})
     save(MIRROR_PATH,config)
-    try:validate(ledger)
+    try:
+        apply_changes(ROOT,importer_id='chip-capacity',new_sources=[WHITEPAPER_SOURCE] if source_missing else (),
+                      collection_entries=collection_entries,region_book='global',
+                      new_metrics=changed_metrics+new_metrics,replace_metric_ids=[m['id'] for m in changed_metrics])
     except Exception:
-        for p,b in originals.items():p.write_bytes(b)
         if mirror_existed:MIRROR_PATH.write_bytes(mirror_original)
         else:MIRROR_PATH.unlink(missing_ok=True)
         raise
-    save(ROOT/'site/data/ledger.json',ledger)
-    from build import build
-    build();print('chip capacity metrics registered; site rebuilt',flush=True)
+    print('chip capacity metrics registered; site rebuilt',flush=True)
     return {'metrics':new_metrics,'changed':changed_metrics}
 
 

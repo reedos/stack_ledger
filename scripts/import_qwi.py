@@ -24,7 +24,6 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import research
 from research import load, save, now, require, UA
-from validate import observation_valid, validate
 import api_access
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -100,31 +99,20 @@ def run(apply=False,today=None):
             m,o=records_for(rows,fips,naics,label,retrieved,sha);all_metrics.update(m);all_obs+=o
             calls.append({'county':fips,'naics':naics,'status':'ok','rows':len(rows)})
     SNAPSHOTS.mkdir(exist_ok=True)
-    save(SNAPSHOTS/'qwi.json',{'dataset':'Census QWI via Census Data API','source_id':SOURCE_ID,'retrieved_at':retrieved,'industries':INDUSTRIES,'counties':counties,'calls':calls,'metrics':sorted(all_metrics),'records':len(all_obs),'license':'Public domain (U.S. government work)','key':'owner-registered, not recorded'})
+    snapshot={'dataset':'Census QWI via Census Data API','source_id':SOURCE_ID,'retrieved_at':retrieved,'industries':INDUSTRIES,'counties':counties,'calls':calls,'metrics':sorted(all_metrics),'records':len(all_obs),'license':'Public domain (U.S. government work)','key':'owner-registered, not recorded'}
+    save(SNAPSHOTS/'qwi.json',snapshot)
     existing={o['id'] for o in ledger['observations']};new_obs=[o for o in all_obs if o['id'] not in existing]
     with_records={o['metric'] for o in all_obs};known={m['id'] for m in catalog['metrics']}
     new_metrics=[m for mid,m in sorted(all_metrics.items()) if mid not in known and mid in with_records]
     ok=sum(1 for c in calls if c['status']=='ok')
     print(f"counties {len(counties)} · api calls ok {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · latest period {max((o['period'] for o in all_obs),default=None)}",flush=True)
     if not apply:return {'metrics':new_metrics,'records':new_obs}
-    if SOURCE_ID not in {s['id'] for s in registry['sources']}:
-        registry['sources'].append(dict(SOURCE));ledger['sources'].append(dict(SOURCE))
-        registry['collection'][SOURCE_ID]={'rank':1,'region_book':'united-states','company_id':None,'claim_type':'labor','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}
-        registry['region_books']['united-states']['sources'].append(SOURCE_ID)
-    catalog['metrics']+=new_metrics;ledger['metrics']=catalog['metrics'];ledger['observations']+=new_obs
-    metrics={m['id']:m for m in ledger['metrics']};sources={s['id']:s for s in ledger['sources']}
-    for o in new_obs:observation_valid(o,metrics,sources)
-    from source_policy import validate_registry
-    validate_registry(registry,{c['id'] for c in load(ROOT/'research/ecosystem.json')['companies']})
-    originals={p:p.read_bytes() for p in [ROOT/'research/catalog.json',ROOT/'research/sources.json',ROOT/'site/data/source-books.json']}
-    save(ROOT/'research/catalog.json',catalog);save(ROOT/'research/sources.json',registry);save(ROOT/'site/data/source-books.json',{k:registry[k] for k in ['region_books','collection']})
-    try:validate(ledger)
-    except Exception:
-        for p,b in originals.items():p.write_bytes(b)
-        raise
-    save(ROOT/'site/data/ledger.json',ledger)
-    from build import build
-    build();print('catalog, registry and ledger updated; site rebuilt',flush=True)
+    from importer_common import apply_changes
+    collection_entries={SOURCE_ID:{'rank':1,'region_book':'united-states','company_id':None,'claim_type':'labor','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}}
+    apply_changes(ROOT,importer_id='qwi',new_sources=[SOURCE] if SOURCE_ID not in {s['id'] for s in registry['sources']} else (),
+                  collection_entries=collection_entries,region_book='united-states',
+                  new_metrics=new_metrics,new_observations=new_obs,snapshot=snapshot)
+    print('catalog, registry and ledger updated; site rebuilt',flush=True)
     return {'metrics':new_metrics,'records':new_obs}
 
 

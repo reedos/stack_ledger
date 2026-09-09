@@ -6009,6 +6009,28 @@
         "chips"
       ],
       "license": "NVIDIA publication; cited for the GH100 die area"
+    },
+    {
+      "id": "epoch-notable-models-dataset",
+      "publisher": "Epoch AI",
+      "title": "Notable AI Models dataset",
+      "url": "https://epoch.ai/data/notable_ai_models.csv",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "CC BY 4.0"
+    },
+    {
+      "id": "census-btos-data",
+      "publisher": "U.S. Census Bureau",
+      "title": "Business Trends and Outlook Survey · AI use supplement",
+      "url": "https://www.census.gov/hfp/btos/data",
+      "published": null,
+      "layers": [
+        "applications"
+      ],
+      "license": "Public domain (U.S. government work)"
     }
   ],
   "discovery_keywords": [
@@ -6159,7 +6181,8 @@
         "feed-constellation-3252f6",
         "feed-recursion-4114ef",
         "bls-qcew-open-data",
-        "census-qwi-api"
+        "census-qwi-api",
+        "census-btos-data"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -6387,7 +6410,8 @@
         "capital-apollo-2026-outlook",
         "audit-meta-singapore",
         "epoch-chip-sales-dataset",
-        "nvidia-hopper-whitepaper"
+        "nvidia-hopper-whitepaper",
+        "epoch-notable-models-dataset"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -12220,6 +12244,28 @@
       "rank": 2,
       "region_book": "global",
       "company_id": "nvidia",
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "epoch-notable-models-dataset": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "census-btos-data": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
       "claim_type": "other",
       "cadence": "manual",
       "weekday": 0,

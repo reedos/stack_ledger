@@ -17445,6 +17445,168 @@
       "chart_default_end": 2030,
       "definition_stable": true,
       "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
+    },
+    {
+      "id": "epoch-notable-models-released-yearly",
+      "layer": "models",
+      "title": "Notable AI models released per year (Epoch dataset)",
+      "unit": "models",
+      "geography": "Global",
+      "scope": "Count of models Epoch AI classifies as notable, by calendar year of release. Epoch's notability criteria and coverage are reviewed but not exhaustive; recent years can still gain models as Epoch backfills.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "Epoch AI Notable AI Models dataset, CC BY 4.0. Dataset vintage 2026-09; a new vintage replaces the series through reviewed import, never by appending competing values. Notability criteria and backfill are Epoch's; earlier years can still revise.",
+      "source_ids": [
+        "epoch-notable-models-dataset"
+      ],
+      "company": null,
+      "measurement_type": "notable_models_released",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Epoch's notable-models tracking begins 2019 in this catalog. Earlier years are not estimated. Missing years are not zero."
+    },
+    {
+      "id": "epoch-notable-models-max-compute-yearly",
+      "layer": "models",
+      "title": "Largest training compute among notable models released in the year (Epoch dataset)",
+      "unit": "FLOP (training compute)",
+      "geography": "Global",
+      "scope": "The highest disclosed or Epoch-estimated training compute (FLOP) among notable models released in the calendar year. Not every notable model discloses training compute; only rows with a value count.",
+      "direction": "context",
+      "min": 0,
+      "max": 1e+28,
+      "note": "Epoch AI Notable AI Models dataset, CC BY 4.0. Dataset vintage 2026-09; a new vintage replaces the series through reviewed import, never by appending competing values. Notability criteria and backfill are Epoch's; earlier years can still revise.",
+      "source_ids": [
+        "epoch-notable-models-dataset"
+      ],
+      "company": null,
+      "measurement_type": "max_training_compute_flop",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Epoch's notable-models tracking begins 2019 in this catalog. Earlier years are not estimated. Missing years are not zero."
+    },
+    {
+      "id": "epoch-notable-models-over-1e25-yearly",
+      "layer": "models",
+      "title": "Notable AI models at or above 1e25 FLOP training compute, released in the year (Epoch dataset)",
+      "unit": "models",
+      "geography": "Global",
+      "scope": "Count of notable models released in the calendar year whose disclosed or Epoch-estimated training compute is at or above 1e25 FLOP, a scale roughly matching GPT-4-class frontier training runs.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "Epoch AI Notable AI Models dataset, CC BY 4.0. Dataset vintage 2026-09; a new vintage replaces the series through reviewed import, never by appending competing values. Notability criteria and backfill are Epoch's; earlier years can still revise.",
+      "source_ids": [
+        "epoch-notable-models-dataset"
+      ],
+      "company": null,
+      "measurement_type": "models_over_1e25_flop",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Epoch's notable-models tracking begins 2019 in this catalog. Earlier years are not estimated. Missing years are not zero."
+    },
+    {
+      "id": "btos-ai-use-share",
+      "layer": "applications",
+      "title": "Share of U.S. businesses currently using AI (Census BTOS)",
+      "unit": "% of businesses",
+      "geography": "United States",
+      "scope": "U.S. Census Bureau Business Trends and Outlook Survey: share of businesses reporting AI use in any business function in the prior two weeks, United States. A biweekly panel survey estimate, not a census; sampling error applies and is not separately disclosed in the machine-readable file.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Census BTOS AI-use supplement, public domain. Biweekly series; each import appends newly published reference periods and never rewrites earlier ones.",
+      "source_ids": [
+        "census-btos-data"
+      ],
+      "company": null,
+      "measurement_type": "business_ai_use_share",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "geography_code": null,
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "BTOS AI-use tracking begins with the survey supplement in this catalog (late 2025). Earlier periods are not estimated. Missing biweekly periods are not zero."
+    },
+    {
+      "id": "btos-ai-use-share-naics-51",
+      "layer": "applications",
+      "title": "Share of U.S. businesses currently using AI · Information (NAICS 51, Census BTOS)",
+      "unit": "% of businesses",
+      "geography": "United States, information (NAICS 51)",
+      "scope": "U.S. Census Bureau Business Trends and Outlook Survey: share of businesses reporting AI use in any business function in the prior two weeks, United States, information (NAICS 51). A biweekly panel survey estimate, not a census; sampling error applies and is not separately disclosed in the machine-readable file.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Census BTOS AI-use supplement, public domain. Biweekly series; each import appends newly published reference periods and never rewrites earlier ones.",
+      "source_ids": [
+        "census-btos-data"
+      ],
+      "company": null,
+      "measurement_type": "business_ai_use_share",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "geography_code": "51",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "BTOS AI-use tracking begins with the survey supplement in this catalog (late 2025). Earlier periods are not estimated. Missing biweekly periods are not zero."
+    },
+    {
+      "id": "btos-ai-use-share-naics-54",
+      "layer": "applications",
+      "title": "Share of U.S. businesses currently using AI · Professional, scientific and technical services (NAICS 54, Census BTOS)",
+      "unit": "% of businesses",
+      "geography": "United States, professional, scientific and technical services (NAICS 54)",
+      "scope": "U.S. Census Bureau Business Trends and Outlook Survey: share of businesses reporting AI use in any business function in the prior two weeks, United States, professional, scientific and technical services (NAICS 54). A biweekly panel survey estimate, not a census; sampling error applies and is not separately disclosed in the machine-readable file.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Census BTOS AI-use supplement, public domain. Biweekly series; each import appends newly published reference periods and never rewrites earlier ones.",
+      "source_ids": [
+        "census-btos-data"
+      ],
+      "company": null,
+      "measurement_type": "business_ai_use_share",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "geography_code": "54",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "BTOS AI-use tracking begins with the survey supplement in this catalog (late 2025). Earlier periods are not estimated. Missing biweekly periods are not zero."
     }
   ],
   "targets": [
