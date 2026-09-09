@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T10:49:41Z",
+  "reviewed_at": "2026-09-09T10:50:57Z",
   "projects": [
     {
       "id": "gemini",
@@ -6033,6 +6033,28 @@
       "company_ids": [
         "alphabet"
       ]
+    },
+    {
+      "id": "huawei-horinger",
+      "name": "Huawei Horinger",
+      "layer": "infrastructure",
+      "owner": "Huawei",
+      "location": "Huawei, Horinger, China, China",
+      "category": "AI data center",
+      "stage": "status-unverified",
+      "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). AI-only allocation and the delivery stage are not established by this record.",
+      "observations": [],
+      "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
+      "grid": "Epoch estimates current power about 241.8 MW · about 117,231 H100 equivalents · capital cost about 9.2 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
+      "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Epoch AI Data Centers dataset (vintage 2026-09) lists this site: owner Huawei, China; current power about 241.8 MW · about 117,231 H100 equivalents · capital cost about 9.2 billion 2025 USD. Directory presence is not proof of operation.",
+          "source": "epoch-data-centers-dataset"
+        }
+      ],
+      "company_ids": []
     }
   ],
   "context_metrics": [
