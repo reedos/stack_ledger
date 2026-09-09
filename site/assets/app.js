@@ -68,6 +68,8 @@ const vintageLabel = d => d ? dateLabel(d) : 'date unlisted';
 const scheduleSentence = r => {
  const w = r.research_window;
  if (w && w.start) return `daily, ${w.start}${w.end ? `–${w.end}` : ''} Pacific`;
+ const span = typeof w === 'string' ? /^(\d{1,2}:\d{2})-(\d{1,2}:\d{2})/.exec(w) : null;   // "02:00-07:00 America/Los_Angeles"
+ if (span) return `daily, ${span[1]}–${span[2]} Pacific`;
  const cron = /^\s*(\d{1,2})\s+(\d{1,2})\s+\*\s+\*\s+\*\s*$/.exec(r.schedule || '');
  if (cron) return `daily at ${cron[2].padStart(2,'0')}:${cron[1].padStart(2,'0')} Pacific`;
  return r.schedule || 'on a configured schedule';

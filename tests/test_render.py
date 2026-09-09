@@ -58,8 +58,9 @@ class StaticPresentationTests(unittest.TestCase):
         # They drifted once (audit: docs-schedule-mismatch); pin the hour so they can't again.
         runtime_config = json.loads((ROOT / 'research/runtime.json').read_text(encoding='utf-8'))
         window = runtime_config.get('research_window')
-        if window and window.get('start'):
-            expected_hour = window['start'].split(':')[0].zfill(2)
+        start = window.get('start') if isinstance(window, dict) else (window or '')   # dict {start,end} or "HH:MM-HH:MM tz"
+        if start and re.match(r'\d{1,2}:\d{2}', start):
+            expected_hour = start.split(':')[0].zfill(2)
         else:
             minute, hour = runtime_config['schedule'].split()[:2]
             expected_hour = hour.zfill(2)
