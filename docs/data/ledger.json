@@ -31718,6 +31718,33 @@
       "coverage_layers": [
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260909T003550Z-944882a330f64ab39ab49d62609d2c5d",
+      "started_at": "2026-09-09T00:35:50Z",
+      "finished_at": "2026-09-09T00:35:59Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "spacex-prospectus-2026",
+          "reason": "Unsupported source content type"
+        },
+        {
+          "source": "chatgpt-agent-product",
+          "reason": "HTTPError"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -31727,7 +31754,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-09T00:35:13Z",
+    "last_attempt": "2026-09-09T00:35:59Z",
     "last_success": "2026-09-09T00:19:21Z",
     "status": "partial"
   }
