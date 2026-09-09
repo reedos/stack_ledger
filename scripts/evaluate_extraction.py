@@ -106,22 +106,34 @@ def match_document(doc, top_sources, registry):
     return None, None
 
 
-def select_documents(documents, registry, metrics_by_id, seed, target, exclude_hosts, only_related):
+def expected_observations(observations, source_id, related_ids):
+    """Non-superseded observations this exact source contributed to a metric the document could report.
+
+    The holdout leave-one-out set: what removing them and re-running extraction should recall.
+    """
+    return [o for o in observations if not o.get('superseded_by') and o['source'] == source_id and o['metric'] in related_ids]
+
+
+def select_documents(documents, registry, metrics_by_id, seed, target, exclude_hosts, only_related, observations=None, holdout=False):
     """Deterministic shuffle-and-filter over the corpus. Returns (selected, stats).
 
     selected is a list of (document, source, match_type). stats records why documents
-    that were considered were not selected, for the report's corpus section.
+    that were considered were not selected, for the report's corpus section. In holdout
+    mode the whole eligible corpus is scanned (no early stop) and split into documents
+    whose matched source has at least one expected record and those with none; the
+    sample is filled from the former first, and leftover latter candidates are counted
+    as skipped rather than discarded outright (they still fill remaining slots).
     """
     top_sources = registry['sources']
     exclude = {h.lower() for h in exclude_hosts}
     eligible = sorted((d for d in documents if len(d.get('text', '')) >= 1500), key=lambda d: d['sha256'])
     Random(seed).shuffle(eligible)
-    selected = []
+    qualifying, other = [], []
     per_host = Counter()
     stats = Counter()
     unmatched_hosts = set()
     for doc in eligible:
-        if len(selected) >= target:
+        if not holdout and len(qualifying) >= target:
             break
         host = hostname(doc['url'])
         if host in exclude:
@@ -135,17 +147,29 @@ def select_documents(documents, registry, metrics_by_id, seed, target, exclude_h
             stats['unmatched_host'] += 1
             unmatched_hosts.add(host)
             continue
-        if only_related:
-            related = [m for m in metrics_by_id.values() if source.get('parent_source', source['id']) in m['source_ids']]
-            if not related:
-                stats['no_related_metrics'] += 1
-                continue
+        related = [m for m in metrics_by_id.values() if source.get('parent_source', source['id']) in m['source_ids']]
+        if only_related and not related:
+            stats['no_related_metrics'] += 1
+            continue
         per_host[host] += 1
-        selected.append((doc, source, match))
+        entry = (doc, source, match)
+        if holdout and not expected_observations(observations or (), source['id'], {m['id'] for m in related}):
+            other.append(entry)
+        else:
+            qualifying.append(entry)
+    if holdout:
+        selected = (qualifying + other)[:target]
+        stats['holdout_qualifying_available'] = len(qualifying)
+        stats['holdout_no_expected_skipped'] = max(0, len(other) - max(0, target - len(qualifying)))
+    else:
+        selected = qualifying[:target]
     corpus = {'total_saved_documents': len(documents), 'eligible_after_length_filter': len(eligible),
               'unmatched_hosts_skipped': stats['unmatched_host'], 'unmatched_host_names': sorted(unmatched_hosts),
               'excluded_host_skipped': stats['excluded_host'], 'per_host_cap_skipped': stats['per_host_cap'],
               'only_related_skipped': stats['no_related_metrics']}
+    if holdout:
+        corpus['holdout_qualifying_available'] = stats['holdout_qualifying_available']
+        corpus['holdout_no_expected_skipped'] = stats['holdout_no_expected_skipped']
     return selected, corpus
 
 
@@ -190,15 +214,16 @@ def read_proof(record_id):
     return json.loads((research.LOCAL / 'evidence' / f'{record_id}.json').read_text(encoding='utf-8'))
 
 
-def note_row(doc_index, note_result, quarantine):
+def note_row(doc_index, note_result, quarantine, private=False):
     candidate_id = f'd{doc_index}-n0'
+    privacy = 'private' if private else 'public'
     if note_result:
         proof = read_proof(note_result['id'])
         return {'id': candidate_id, 'kind': 'note', 'outcome': 'accepted', 'title': note_result['title'],
                 'summary': note_result['summary'], 'layer': note_result['layer'], 'note_kind': note_result['kind'],
                 'evidence_quote': proof['evidence'][:400], 'validator_result': 'passed', 'validator_reason': None,
                 'reviewer_verdict': 'supported', 'reviewer_defect': proof['review']['defect'],
-                'reviewer_reason': proof['review']['reason'], 'grade': None}
+                'reviewer_reason': proof['review']['reason'], 'grade': None, 'privacy': privacy}
     if quarantine:
         q = quarantine[0]
         c = q['candidate'] if isinstance(q['candidate'], dict) else {}
@@ -210,7 +235,7 @@ def note_row(doc_index, note_result, quarantine):
                 'validator_reason': q['reason'] if stage == 'validator' else None,
                 'reviewer_verdict': 'unsupported' if stage == 'reviewer' else None,
                 'reviewer_defect': q['reason'].split(': ', 1)[0] if stage == 'reviewer' else None,
-                'reviewer_reason': q['reason'] if stage == 'reviewer' else None, 'grade': None}
+                'reviewer_reason': q['reason'] if stage == 'reviewer' else None, 'grade': None, 'privacy': privacy}
     return None
 
 
@@ -221,6 +246,7 @@ def metric_rows(doc_index, accepted, quarantine):
         proof = read_proof(record['id'])
         rows.append({'id': f'd{doc_index}-m{n}', 'kind': 'observation', 'outcome': 'accepted',
                      'metric': record['metric'], 'value': record['value'], 'period': record['period'],
+                     'year': record.get('year'), 'upper': record.get('upper'),
                      'status': record['status'], 'precision': record['precision'], 'note': record.get('note', ''),
                      'evidence_quote': proof['evidence'][:400], 'validator_result': 'passed', 'validator_reason': None,
                      'reviewer_verdict': 'supported', 'reviewer_defect': proof['review']['defect'],
@@ -232,6 +258,7 @@ def metric_rows(doc_index, accepted, quarantine):
         evidence = c.get('evidence')
         rows.append({'id': f'd{doc_index}-m{n}', 'kind': 'observation', 'outcome': 'quarantined',
                      'metric': c.get('metric'), 'value': c.get('value'), 'period': c.get('period'),
+                     'year': c.get('year'), 'upper': c.get('upper'),
                      'status': c.get('status'), 'precision': c.get('precision'), 'note': c.get('note', ''),
                      'evidence_quote': evidence[:400] if isinstance(evidence, str) else '',
                      'validator_result': 'failed' if stage == 'validator' else 'passed',
@@ -243,13 +270,135 @@ def metric_rows(doc_index, accepted, quarantine):
     return rows
 
 
-def process_document(index, doc, source, match_type, ledger_base, registry, base_config, instructions, mode, calls):
+def raw_metric_candidates(entry):
+    """The model's own metric_extraction response for this document, unmutated (see make_recorder)."""
+    for call in entry.get('model_calls', []):
+        if call.get('kind') == 'metric_extraction' and call.get('ok') and isinstance(call.get('response'), dict):
+            return call['response'].get('observations') or []
+    return []
+
+
+def candidate_fingerprint(c):
+    """The same identity extract_observations/candidate_record use, minus evidence (which gets mutated in place)."""
+    return tuple(c.get(k) for k in ('metric', 'year', 'period', 'value', 'upper', 'status', 'precision'))
+
+
+def candidate_dispositions(entry):
+    """Where each raw candidate (in model order) stopped, or None if silently dropped as a duplicate.
+
+    entry['metric_candidates'] carries every candidate the harness actually dispositioned
+    (accepted or quarantined); a raw candidate missing from it exactly duplicated a still-
+    present ledger record and was dropped before validation, per extract_observations.
+    """
+    pool = list(enumerate(entry.get('metric_candidates') or []))
+    used = set()
+    dispositions = []
+    for c in raw_metric_candidates(entry):
+        fp = candidate_fingerprint(c)
+        hit = next(((j, r) for j, r in pool if j not in used and candidate_fingerprint(r) == fp), None)
+        if hit:
+            used.add(hit[0])
+            dispositions.append(hit[1])
+        else:
+            dispositions.append(None)
+    return dispositions
+
+
+def value_close(candidate_value, expected):
+    """Within 0.5% of the expected value, or inside its upper bound for a range."""
+    try:
+        value = float(candidate_value)
+    except (TypeError, ValueError):
+        return False
+    target = expected['value']
+    if abs(value - target) <= abs(target) * 0.005:
+        return True
+    upper = expected.get('upper')
+    return upper is not None and target <= value <= upper
+
+
+def candidate_matches_expected(candidate, expected):
+    return (candidate.get('metric') == expected['metric']
+            and (candidate.get('year') == expected.get('year') or candidate.get('period') == expected.get('period'))
+            and value_close(candidate.get('value'), expected))
+
+
+def match_to_expected(raw_candidates, expected):
+    """Greedy one-to-one match, in candidate order. Returns (matches, missed_ids) where matches
+    is a {candidate_index: expected_id} map; each expected record can be claimed once."""
+    remaining = list(expected)
+    matches = {}
+    for i, c in enumerate(raw_candidates):
+        hit = next((e for e in remaining if candidate_matches_expected(c, e)), None)
+        if hit:
+            remaining.remove(hit)
+            matches[i] = hit['id']
+    return matches, [e['id'] for e in remaining]
+
+
+def build_holdout_entry(entry, expected):
+    expected_view = [{'id': o['id'], 'metric': o['metric'], 'value': o['value'], 'period': o['period']} for o in expected]
+    raw = raw_metric_candidates(entry)
+    dispositions = candidate_dispositions(entry)
+    matches, missed_ids = match_to_expected(raw, expected)
+    candidates = []
+    for i, c in enumerate(raw):
+        row = dispositions[i]
+        if row is None:
+            stopped, validator_reason, reviewer_defect = 'duplicate_of_existing', None, None
+        elif row['outcome'] == 'accepted':
+            stopped, validator_reason, reviewer_defect = 'accepted', None, None
+        elif row['validator_result'] == 'failed':
+            stopped, validator_reason, reviewer_defect = 'quarantined_validator', row['validator_reason'], None
+        else:
+            stopped, validator_reason, reviewer_defect = 'quarantined_reviewer', None, row['reviewer_defect']
+        candidates.append({'candidate_index': i, 'metric': c.get('metric'), 'year': c.get('year'), 'period': c.get('period'),
+                            'value': c.get('value'), 'upper': c.get('upper'), 'matched_expected_id': matches.get(i),
+                            'stopped': stopped, 'validator_reason': validator_reason, 'reviewer_defect': reviewer_defect})
+    false_proposals = [c for c in candidates if c['matched_expected_id'] is None]
+    validator_false_rejects = [c for c in candidates if c['matched_expected_id'] and c['stopped'] == 'quarantined_validator']
+    reviewer_false_rejects = [c for c in candidates if c['matched_expected_id'] and c['stopped'] == 'quarantined_reviewer']
+    missed = [e for e in expected_view if e['id'] in set(missed_ids)]
+    return {'expected': expected_view, 'candidates': candidates, 'matched': len(matches), 'missed': missed,
+            'false_proposals': false_proposals, 'validator_false_rejects': validator_false_rejects,
+            'reviewer_false_rejects': reviewer_false_rejects}
+
+
+def holdout_summarize(entries):
+    holdouts = [e['holdout'] for e in entries if e.get('holdout')]
+    expected_total = sum(len(h['expected']) for h in holdouts)
+    proposed_total = sum(len(h['candidates']) for h in holdouts)
+    matched_total = sum(h['matched'] for h in holdouts)
+    validator_fr = [c for h in holdouts for c in h['validator_false_rejects']]
+    reviewer_fr = [c for h in holdouts for c in h['reviewer_false_rejects']]
+    return {
+        'documents_with_expected_records': sum(1 for h in holdouts if h['expected']),
+        'documents_with_zero_expected_records': sum(1 for h in holdouts if not h['expected']),
+        'expected_total': expected_total,
+        'proposed_total': proposed_total,
+        'matched_total': matched_total,
+        'recall': round(matched_total / expected_total, 4) if expected_total else None,
+        'precision': round(matched_total / proposed_total, 4) if proposed_total else None,
+        'validator_false_rejects': len(validator_fr),
+        'validator_false_reject_reasons': dict(Counter(c['validator_reason'] for c in validator_fr)),
+        'reviewer_false_rejects': len(reviewer_fr),
+        'reviewer_false_reject_defects': dict(Counter(c['reviewer_defect'] for c in reviewer_fr)),
+    }
+
+
+def process_document(index, doc, source, match_type, ledger_base, registry, base_config, instructions, mode, calls, holdout=False):
     data = copy.deepcopy(ledger_base)
     metrics = {m['id']: m for m in data['metrics']}
     sources = {s['id']: s for s in data['sources']}
     policy = collection_for(registry, source)
     related = [m for m in metrics.values() if source.get('parent_source', source['id']) in m['source_ids']]
     publishable = bool(source.get('parent_source') or policy.get('excerpts'))
+    expected = []
+    if holdout:
+        expected = expected_observations(data['observations'], source['id'], {m['id'] for m in related})
+        if expected:
+            drop = {o['id'] for o in expected}
+            data['observations'] = [o for o in data['observations'] if o['id'] not in drop]
     config = dict(base_config, _instructions=instructions, _instruction_mode=mode,
                   _coverage=research.coverage_context(research.ROOT, source))
     run = {'model_calls': 0, 'accepted': 0}
@@ -271,23 +420,25 @@ def process_document(index, doc, source, match_type, ledger_base, registry, base
         entry['already_noted_before_call'] = any(
             e['source'] == source['id'] and e.get('document_sha256') == research.digest(doc['text'])
             for e in data['events'])
+        # Every selected document runs the note lane now, not just publishable or metric-less ones;
+        # a note from a source with no excerpt permission is still measured, just marked private below.
         note_quarantine = []
-        note_result = None
-        if publishable or not related:
-            config['_document_windows'] = collection.setdefault('document_windows', [])
-            note_result = research.extract_note(config, source, doc['text'], data['events'], run, note_quarantine)
+        config['_document_windows'] = collection.setdefault('document_windows', [])
+        note_result = research.extract_note(config, source, doc['text'], data['events'], run, note_quarantine)
         metric_quarantine = []
         accepted_records = []
         if related:
             accepted_records = research.extract_observations(
                 config, source, doc['text'], related, data, metrics, sources, run, metric_quarantine, collection)
-        entry['note_candidate'] = note_row(index, note_result, note_quarantine)
+        entry['note_candidate'] = note_row(index, note_result, note_quarantine, private=not publishable)
         entry['metric_candidates'] = metric_rows(index, accepted_records, metric_quarantine)
     except Exception as error:
         entry['error'] = f'{type(error).__name__}: {error}'
     entry['windows'] = collection.get('document_windows', [])
     entry['model_calls'] = list(calls)
     entry['run'] = dict(run)
+    if holdout:
+        entry['holdout'] = build_holdout_entry(entry, expected)
     return entry
 
 
@@ -323,15 +474,30 @@ def summarize(entries):
         'metric_candidates_duplicate_of_existing': duplicate_of_existing,
         'notes_proposed': proposed_notes,
         'notes_accepted': len(accepted_notes),
+        'notes_accepted_private': sum(1 for r in accepted_notes if r.get('privacy') == 'private'),
         'notes_quarantined': len(quarantined_notes),
         'documents_with_zero_candidates': sum(1 for e in entries if not e.get('metric_candidates') and not e.get('note_candidate') and not e.get('error')),
     }
 
 
+def render_holdout_section(entries, holdout_summary):
+    lines = ['## Holdout (leave-one-out recall)', '', '| metric | value |', '|---|---|']
+    for key, value in holdout_summary.items():
+        lines.append(f'| {key} | {value} |')
+    lines += ['', '| doc | source | expected | matched | missed | false proposals |', '|---|---|---|---|---|---|']
+    for e in entries:
+        h = e.get('holdout')
+        if not h:
+            continue
+        missed = ', '.join(f"{m['metric']}={m['value']}({m['period']})" for m in h['missed']) or '(none)'
+        lines.append(f"| d{e['index']} | {e['matched_source_id']} | {len(h['expected'])} | {h['matched']} | {missed} | {len(h['false_proposals'])} |")
+    return '\n'.join(lines)
+
+
 def render_report(meta, entries, summary):
     lines = [f"# Extraction evaluation \u2014 {meta['started_at']}", '',
              f"Model: `{meta['model']}` \u00b7 Instructions: **{meta['instruction_mode']}** \u00b7 "
-             f"Screening version: `{meta['screening_version']}` \u00b7 Seed: {meta['seed']}",
+             f"Screening version: `{meta['screening_version']}` \u00b7 Seed: {meta['seed']} \u00b7 Holdout: {meta.get('holdout', False)}",
              f"Documents requested: {meta['requested_documents']} \u00b7 Documents selected: {len(entries)}",
              f"Corpus: {json.dumps(meta['corpus'])}", '', '## Summary', '', '| metric | value |', '|---|---|']
     for key, value in summary.items():
@@ -358,7 +524,8 @@ def render_report(meta, entries, summary):
                     metric = r.get('note_kind') or ''
                     status = r.get('layer') or ''
                     precision = ''
-                    claim = f"{r.get('title', '')} \u2014 {r.get('summary', '')}"
+                    prefix = '[private] ' if r.get('privacy') == 'private' else ''
+                    claim = f"{prefix}{r.get('title', '')} \u2014 {r.get('summary', '')}"
                     value = period = ''
                 else:
                     metric = r.get('metric') or ''
@@ -383,6 +550,8 @@ def render_report(meta, entries, summary):
             lines.append('')
             lines.append('(no candidates)')
         lines.append('')
+    if summary.get('holdout'):
+        lines += ['', render_holdout_section(entries, summary['holdout'])]
     return '\n'.join(lines)
 
 
@@ -417,7 +586,8 @@ def run(args):
     mode = args.instructions or base_config.get('instructions', 'full')
     metrics_by_id = {m['id']: m for m in ledger['metrics']}
     selected, corpus = select_documents(documents, registry, metrics_by_id, args.seed, args.documents,
-                                         args.exclude_hosts, args.only_related)
+                                         args.exclude_hosts, args.only_related,
+                                         observations=ledger['observations'], holdout=args.holdout)
 
     out = Path(args.out) if args.out else ROOT / '.local/evaluations' / f'extraction-{now_stamp()}'
     out.mkdir(parents=True, exist_ok=True)
@@ -440,7 +610,7 @@ def run(args):
         research.LOCAL = out / 'local'
         for index, (doc, source, match_type) in enumerate(selected):
             entries.append(process_document(index, doc, source, match_type, ledger, registry, base_config,
-                                             instructions, mode, calls))
+                                             instructions, mode, calls, holdout=args.holdout))
     finally:
         research.ollama = original_ollama
         research.Fetcher.fetch = original_fetch
@@ -449,9 +619,11 @@ def run(args):
 
     finished_at = research.now()
     summary = summarize(entries)
+    if args.holdout:
+        summary['holdout'] = holdout_summarize(entries)
     meta = {'model': base_config['model'], 'screening_version': base_config.get('screening_version'),
             'instruction_mode': mode, 'seed': args.seed, 'requested_documents': args.documents,
-            'exclude_hosts': sorted(args.exclude_hosts), 'only_related': args.only_related,
+            'exclude_hosts': sorted(args.exclude_hosts), 'only_related': args.only_related, 'holdout': args.holdout,
             'started_at': started_at, 'finished_at': finished_at, 'corpus': corpus,
             'metric_units': {m['id']: m.get('unit') for m in ledger['metrics']}}
     results = {'config': {'model': base_config['model'], 'ollama_url': base_config.get('ollama_url'),
@@ -460,7 +632,7 @@ def run(args):
                            'max_candidates_per_document': base_config.get('max_candidates_per_document')},
                'model': base_config['model'], 'screening_version': base_config.get('screening_version'),
                'instruction_mode': mode, 'seed': args.seed, 'requested_documents': args.documents,
-               'exclude_hosts': sorted(args.exclude_hosts), 'only_related': args.only_related,
+               'exclude_hosts': sorted(args.exclude_hosts), 'only_related': args.only_related, 'holdout': args.holdout,
                'started_at': started_at, 'finished_at': finished_at, 'corpus': corpus,
                'documents': entries, 'summary': summary}
     (out / 'results.json').write_text(json.dumps(results, indent=2, ensure_ascii=False, default=str), encoding='utf-8')
@@ -544,6 +716,8 @@ def parse_args(argv=None):
     parser.add_argument('--instructions', choices=['full', 'brief'], default=None)
     parser.add_argument('--exclude-hosts', nargs='*', default=['stockanalysis.com'])
     parser.add_argument('--only-related', action='store_true')
+    parser.add_argument('--holdout', action='store_true',
+                         help='Leave-one-out recall mode: remove each selected source\'s own related observations before extraction and score recall against them')
     parser.add_argument('--out', type=str, default=None)
     parser.add_argument('--grade', type=str, default=None, help='Score a filled grades JSON against a previous run; writes scored.md alongside it')
     return parser.parse_args(argv)

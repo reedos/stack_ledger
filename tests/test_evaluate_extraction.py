@@ -155,6 +155,68 @@ class SelectDocumentsTests(unittest.TestCase):
         self.assertEqual([d['sha256'] for d, _, _ in selected], ['h2'])
         self.assertEqual(stats['only_related_skipped'], 1)
 
+    def test_holdout_prefers_documents_whose_source_has_an_expected_record(self):
+        # s0 and s2 both map to metric m1, but only s0 has a surviving observation from itself;
+        # s2's only m1 observation is superseded, so it counts the same as having none.
+        registry = {'sources': [{'id': f's{i}', 'url': f'https://host{i}.example/a', 'layers': ['energy'], 'publisher': 'x'} for i in range(4)],
+                    'collection': {}}
+        metrics_by_id = {'m1': {'id': 'm1', 'source_ids': ['s0', 's2']}}
+        documents = [{'url': f'https://host{i}.example/a', 'sha256': f'h{i}', 'text': 't' * 2000, 'retrieved_at': 'now'} for i in range(4)]
+        observations = [{'id': 'o1', 'source': 's0', 'metric': 'm1', 'year': 2025, 'period': '2025', 'value': 1, 'upper': None},
+                         {'id': 'o2', 'source': 's2', 'metric': 'm1', 'year': 2024, 'period': '2024', 'value': 2, 'upper': None,
+                          'superseded_by': 'o3'}]
+        selected, stats = ee.select_documents(documents, registry, metrics_by_id, seed=1, target=1, exclude_hosts=[],
+                                               only_related=False, observations=observations, holdout=True)
+        self.assertEqual([s['id'] for _, s, _ in selected], ['s0'])
+        self.assertEqual(stats['holdout_qualifying_available'], 1)
+        self.assertEqual(stats['holdout_no_expected_skipped'], 3)  # s1, s2, s3 all considered and left out
+
+        # A larger target pulls s0 first, then fills the rest (2 of 3) from the no-expected-record pool.
+        selected, stats = ee.select_documents(documents, registry, metrics_by_id, seed=1, target=3, exclude_hosts=[],
+                                               only_related=False, observations=observations, holdout=True)
+        self.assertEqual(len(selected), 3)
+        self.assertEqual(selected[0][1]['id'], 's0')
+        self.assertEqual(stats['holdout_no_expected_skipped'], 1)  # 1 of the 3 no-expected candidates wasn't needed
+
+
+class HoldoutMatchingTests(unittest.TestCase):
+    def expected(self, **over):
+        base = {'id': 'e1', 'metric': 'ai-adoption', 'year': 2025, 'period': '2025', 'value': 88, 'upper': None}
+        base.update(over)
+        return base
+
+    def test_value_within_half_percent_matches(self):
+        e = self.expected()
+        self.assertTrue(ee.value_close(88, e))
+        self.assertTrue(ee.value_close(88.43, e))    # +0.49%, inside tolerance
+        self.assertFalse(ee.value_close(88.45, e))   # +0.51%, outside tolerance
+
+    def test_value_inside_expected_upper_bound_matches_as_a_range(self):
+        e = self.expected(value=80, upper=100)
+        self.assertTrue(ee.value_close(95, e))    # inside [80, 100], far outside 0.5% of 80
+        self.assertFalse(ee.value_close(105, e))  # above the upper bound
+
+    def test_year_or_period_match_either_is_sufficient(self):
+        e = self.expected()
+        self.assertTrue(ee.candidate_matches_expected({'metric': 'ai-adoption', 'year': 2025, 'period': 'FY2025', 'value': 88}, e))
+        self.assertTrue(ee.candidate_matches_expected({'metric': 'ai-adoption', 'year': 1999, 'period': '2025', 'value': 88}, e))
+        self.assertFalse(ee.candidate_matches_expected({'metric': 'ai-adoption', 'year': 1999, 'period': 'FY2025', 'value': 88}, e))
+
+    def test_metric_mismatch_never_matches(self):
+        e = self.expected()
+        self.assertFalse(ee.candidate_matches_expected({'metric': 'other-metric', 'year': 2025, 'period': '2025', 'value': 88}, e))
+
+    def test_match_to_expected_is_one_to_one_and_reports_false_proposals(self):
+        expected = [self.expected(id='e1'), self.expected(id='e2', year=2026, period='2026')]
+        candidates = [
+            {'metric': 'ai-adoption', 'year': 2025, 'period': '2025', 'value': 88},  # matches e1
+            {'metric': 'ai-adoption', 'year': 2025, 'period': '2025', 'value': 88},  # e1 already claimed: false proposal
+            {'metric': 'ai-adoption', 'year': 2030, 'period': '2030', 'value': 50},  # matches nothing: false proposal
+        ]
+        matches, missed = ee.match_to_expected(candidates, expected)
+        self.assertEqual(matches, {0: 'e1'})
+        self.assertEqual(missed, ['e2'])
+
 
 class ExtractObservationsRefactorTests(unittest.TestCase):
     """extract_observations must behave exactly like the inline block it replaced."""
@@ -301,6 +363,109 @@ class HarnessRunTests(unittest.TestCase):
         self.assertIs(research.Fetcher.fetch, original_fetch)
         with self.assertRaises(AssertionError):
             ee._forbidden_fetch()
+
+
+class HoldoutRunTests(unittest.TestCase):
+    """End-to-end --holdout run against real fixture prompts/policy/ledger, with a fake research.ollama."""
+    def setUp(self):
+        self._fixture_dir = tempfile.TemporaryDirectory()
+        self._corpus_dir = tempfile.TemporaryDirectory()
+        self._out_dir = tempfile.TemporaryDirectory()
+        self.path = Path(self._fixture_dir.name)
+        copy_fixture_root(self.path)
+        registry = json.loads((self.path / 'research/sources.json').read_text(encoding='utf-8'))
+        ledger = json.loads((self.path / 'site/data/ledger.json').read_text(encoding='utf-8'))
+        ledger['runs'] = []
+        ledger['runtime'].update(last_attempt=None, last_success=None, status='awaiting-first-run')
+        (self.path / 'site/data/ledger.json').write_text(json.dumps(ledger), encoding='utf-8')
+        # stanford-2026 curates two non-superseded observations of its own: infra-2026
+        # (us-data-centers) and apps-2025 (ai-adoption, value 88). Holdout removes both;
+        # the fake model re-proposes apps-2025 (with evidence engineered to fail a
+        # validator, so it is a genuine validator false-reject) plus one new, unrelated
+        # ai-adoption fact that cannot match either removed record.
+        self.related_source = next(s for s in registry['sources'] if s['id'] == 'stanford-2026')
+        self.corpus = Path(self._corpus_dir.name)
+        # No literal "2025" anywhere in the document: candidate_record's year check can only be
+        # satisfied by a source-publication-year fallback (stanford-2026 has none), so this
+        # candidate is a genuine validator false-reject rather than a validator-correct rejection.
+        self.matched_evidence = ('A recent multi-year survey found that eighty-eight, or 88, '
+                                  'percent of surveyed organizations reported AI use.')
+        self.new_evidence = ('Looking further ahead, the survey projects that 95 percent of '
+                              'organizations will report AI use by 2027.')
+        doc = 'Filler context sentence. ' * 120 + self.matched_evidence + ' ' + self.new_evidence
+        write_document(self.corpus / 'evidence', self.related_source['url'], doc)
+        self.out = Path(self._out_dir.name) / 'run1'
+        self.ledger_before = (self.path / 'site/data/ledger.json').read_bytes()
+
+    def tearDown(self):
+        self._fixture_dir.cleanup()
+        self._corpus_dir.cleanup()
+        self._out_dir.cleanup()
+
+    def fake_ollama(self, config, system, prompt, schema):
+        keys = set(schema.get('properties', {}))
+        if keys == {'observations'}:
+            return {'observations': [
+                {'metric': 'ai-adoption', 'year': 2025, 'period': '2025', 'value': 88, 'upper': None,
+                 'status': 'observation', 'precision': 'eq', 'note': '', 'evidence': self.matched_evidence},
+                {'metric': 'ai-adoption', 'year': 2027, 'period': '2027', 'value': 95, 'upper': None,
+                 'status': 'observation', 'precision': 'eq', 'note': '', 'evidence': self.new_evidence},
+            ]}
+        return canned_ollama(config, system, prompt, schema)
+
+    def test_holdout_removes_expected_records_and_scores_recall(self):
+        args = ee.parse_args(['--holdout', '--documents', '1', '--seed', '1', '--out', str(self.out), '--exclude-hosts'])
+        with patch.object(research, 'ROOT', self.path), patch.object(research, 'LOCAL', self.path / '.local'), \
+             patch.object(ee, 'PRODUCTION_LOCAL', self.corpus), patch.object(research, 'ollama', side_effect=self.fake_ollama):
+            code = ee.run(args)
+        self.assertEqual(code, 0)
+        # The worktree's own site/data/ledger.json (what research.ROOT points at) must never be written.
+        self.assertEqual((self.path / 'site/data/ledger.json').read_bytes(), self.ledger_before,
+                          'the production ledger file must never be modified by a holdout run')
+
+        results = json.loads((self.out / 'results.json').read_text(encoding='utf-8'))
+        self.assertTrue(results['holdout'])
+        self.assertEqual(len(results['documents']), 1)
+        holdout = results['documents'][0]['holdout']
+
+        # Two of stanford-2026's own non-superseded observations are removed: us-data-centers
+        # (infra-2026) and ai-adoption (apps-2025). Only apps-2025 gets re-proposed.
+        self.assertEqual(holdout['expected'], [{'id': 'infra-2026', 'metric': 'us-data-centers', 'value': 5427, 'period': '2026 report'},
+                                                {'id': 'apps-2025', 'metric': 'ai-adoption', 'value': 88, 'period': '2025'}])
+        self.assertEqual(holdout['matched'], 1)
+        self.assertEqual(holdout['missed'], [{'id': 'infra-2026', 'metric': 'us-data-centers', 'value': 5427, 'period': '2026 report'}])
+        self.assertEqual(len(holdout['false_proposals']), 1)
+        self.assertEqual(holdout['false_proposals'][0]['year'], 2027)
+        self.assertEqual(len(holdout['validator_false_rejects']), 1)
+        self.assertEqual(holdout['validator_false_rejects'][0]['year'], 2025)
+        self.assertEqual(holdout['validator_false_rejects'][0]['validator_reason'], 'Year not found in source')
+        self.assertEqual(holdout['reviewer_false_rejects'], [])
+
+        summary = results['summary']['holdout']
+        self.assertEqual(summary['expected_total'], 2)
+        self.assertEqual(summary['proposed_total'], 2)
+        self.assertEqual(summary['matched_total'], 1)
+        self.assertEqual(summary['recall'], 0.5)
+        self.assertEqual(summary['precision'], 0.5)
+        self.assertEqual(summary['validator_false_rejects'], 1)
+        self.assertEqual(summary['reviewer_false_rejects'], 0)
+
+        report = (self.out / 'report.md').read_text(encoding='utf-8')
+        self.assertIn('## Holdout (leave-one-out recall)', report)
+        self.assertIn('| d0 | stanford-2026 | 2 | 1 |', report)
+
+    def test_non_holdout_run_has_no_holdout_section(self):
+        args = ee.parse_args(['--documents', '1', '--seed', '1', '--out', str(self.out), '--exclude-hosts'])
+        with patch.object(research, 'ROOT', self.path), patch.object(research, 'LOCAL', self.path / '.local'), \
+             patch.object(ee, 'PRODUCTION_LOCAL', self.corpus), patch.object(research, 'ollama', side_effect=self.fake_ollama):
+            code = ee.run(args)
+        self.assertEqual(code, 0)
+        results = json.loads((self.out / 'results.json').read_text(encoding='utf-8'))
+        self.assertFalse(results['holdout'])
+        self.assertNotIn('holdout', results['documents'][0])
+        self.assertNotIn('holdout', results['summary'])
+        report = (self.out / 'report.md').read_text(encoding='utf-8')
+        self.assertNotIn('## Holdout', report)
 
 
 class LockRefusalTests(unittest.TestCase):
