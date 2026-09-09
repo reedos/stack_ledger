@@ -66,26 +66,42 @@
     if(!r.ok)throw new Error(data.error||'Catalog action failed');
     return data;
   }
+  function placeOf(c){const id=encodeURIComponent(c.id);switch(c.target){
+    case 'project':return ['projects/#project-'+id,'Projects page, card "'+(c.after.name||c.id)+'" (stage '+(c.after.stage||'?')+')'];
+    case 'company':return ['companies/'+id+'/','Company page '+(c.after.name||c.id)];
+    case 'product':return [((c.after.layers||['models'])[0])+'/','Layer page '+((c.after.layers||['models'])[0])+', product '+(c.after.name||c.id)];
+    case 'note':return ['ledger/#'+id,'Ledger, research note "'+(c.after.title||c.id)+'"'];
+    case 'observation':return ['ledger/#'+id,'Ledger, record '+c.id];
+    case 'metric':return ['ledger/','Ledger, metric '+(c.after.title||c.id)];
+    case 'source':return ['methodology/#sources','Methodology, source library: '+(c.after.title||c.id)];
+    default:return ['',''];}}
   function drawCatalog(data){
    let box=el('catalog-packages');if(!box){box=node('section');box.id='catalog-packages';el('review-panel').append(box);}box.replaceChildren(node('h2','Catalog updates'),node('p','Review exact changes, validate their preview, then approve and publish. Research and model screening never count as approval.'));
    for(const p of data.catalog_packages||[]){
     const card=node('article',null,'finding-card');card.append(node('h3',p.title),node('p',`${p.author} · ${p.status} · ${p.changes.length} object changes`));
-    for(const change of p.changes){const detail=node('details');detail.append(node('summary',`${change.target}: ${change.id} — ${change.before?'update':'new entry'}`),node('h4','Before'),node('pre',JSON.stringify(change.before,null,2)),node('h4','After'),node('pre',JSON.stringify(change.after,null,2)));card.append(detail);}
+    for(const change of p.changes){
+      const detail=node('details');detail.append(node('summary',`${change.target}: ${change.id} — ${change.before?'update':'new entry'}`));
+      // Readable summary of the proposed object first; raw JSON stays available below it.
+      const dl=node('dl',null,'change-summary');const a=change.after||{};
+      const fields={project:['name','owner','location','category','stage','ai_relationship','grid','horizon','next_evidence','company_ids'],company:['name','layers','role','region_book','revenue_kind'],product:['name','layers','description','status','gap'],source:['publisher','title','url','published','layers','license'],note:['title','summary','layer','kind','date'],observation:['metric','year','period','value','upper','status','precision','note'],metric:['title','unit','geography','scope','allowed_statuses','period_basis']}[change.target]||Object.keys(a);
+      for(const k of fields){if(a[k]===undefined||a[k]===null||a[k]==='')continue;const v=Array.isArray(a[k])?a[k].join(', '):(typeof a[k]==='object'?JSON.stringify(a[k]):String(a[k]));const dt=node('dt',k.replaceAll('_',' '));const dd=node('dd',v);if(change.before&&JSON.stringify(change.before[k])!==JSON.stringify(a[k]))dd.className='changed';dl.append(dt,dd);}
+      if(change.target==='project'&&Array.isArray(a.milestones))for(const m of a.milestones){dl.append(node('dt','milestone'+(m.date?' '+m.date:'')),node('dd',m.summary+' [source '+m.source+']'));}
+      detail.append(dl);
+      // Inline site preview at the exact place this object appears, loaded only on request.
+      const [path,label]=placeOf(change);
+      if(path){const frameButton=node('button',p.validation?.passed?'Show in site preview':'Validate preview first, then show in site preview','secondary');frameButton.disabled=!p.validation?.passed;const slot=node('div',null,'preview-slot');
+        frameButton.onclick=()=>{if(slot.firstChild){slot.replaceChildren();frameButton.textContent='Show in site preview';return;}const f=document.createElement('iframe');f.className='preview-frame';f.title='Site preview: '+label;f.loading='lazy';f.src='preview/'+p.id+'/'+path;slot.append(f);frameButton.textContent='Hide site preview';};
+        detail.append(frameButton,slot);}
+      const raw=node('details');raw.append(node('summary','Raw JSON (before / after)'),node('h4','Before'),node('pre',JSON.stringify(change.before,null,2)),node('h4','After'),node('pre',JSON.stringify(change.after,null,2)));detail.append(raw);
+      card.append(detail);
+    }
     for(const evidence of p.evidence){const detail=node('details');detail.append(node('summary','Evidence: '+evidence.id),node('p',evidence.summary),node('p',`Published: ${evidence.published_at||'unknown'} · Retrieved: ${evidence.retrieved_at}`));try{const u=new URL(evidence.url);if(u.protocol==='https:'&&!u.username&&!u.password){const a=node('a','Read source ↗');a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';detail.append(a);}}catch(e){}card.append(detail);}
     const msg=node('p',p.validation?(p.validation.passed?'Preview validation passed.':'Preview validation failed; inspect the checks below.'):'Preview has not been validated.','hint');msg.setAttribute('role','status');card.append(msg);
     if(p.validation?.passed){
       const a=node('a','Open site preview ↗');a.href='preview/'+p.id+'/';a.target='_blank';a.rel='noopener';card.append(a);
       // Where each changed object appears in the previewed site, so the reviewer is not left on the homepage.
       const where=node('details');where.append(node('summary','Where to look in the preview'));const list=node('ul');
-      const place=c=>{const id=encodeURIComponent(c.id);switch(c.target){
-        case 'project':return ['projects/#project-'+id,'Projects page, card "'+(c.after.name||c.id)+'" (stage '+(c.after.stage||'?')+')'];
-        case 'company':return ['companies/'+id+'/','Company page '+(c.after.name||c.id)];
-        case 'product':return [((c.after.layers||['models'])[0])+'/','Layer page '+((c.after.layers||['models'])[0])+', product '+(c.after.name||c.id)];
-        case 'note':return ['ledger/#'+id,'Ledger, research note "'+(c.after.title||c.id)+'"'];
-        case 'observation':return ['ledger/#'+id,'Ledger, record '+c.id];
-        case 'metric':return ['ledger/','Ledger, metric '+(c.after.title||c.id)];
-        case 'source':return ['methodology/#sources','Methodology, source library: '+(c.after.title||c.id)];
-        default:return ['','' ];}};
+      const place=placeOf;
       for(const c of p.changes){const [path,label]=place(c);const li=node('li');if(path){const l=node('a',label+' ↗');l.href='preview/'+p.id+'/'+path;l.target='_blank';l.rel='noopener';li.append(l);}else li.textContent=c.target+': '+c.id;list.append(li);}
       where.append(list);card.append(where);
     }

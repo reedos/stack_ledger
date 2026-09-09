@@ -138,8 +138,10 @@ def server(root=ROOT):
             raw=body if isinstance(body,bytes) else body.encode('utf-8') if isinstance(body,str) else json.dumps(body).encode('utf-8')
             self.send_response(code);self.send_header('Content-Type',kind+'; charset=utf-8')
             self.send_header('Content-Length',str(len(raw)));self.send_header('Cache-Control','no-store')
-            self.send_header('X-Content-Type-Options','nosniff');self.send_header('X-Frame-Options','DENY')
-            self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'"+(" 'unsafe-inline'" if preview else '')+"; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+            # Site previews may be framed by the panel itself (same origin, same session token) so a
+            # reviewer sees the proposed change in place; everything else refuses framing.
+            self.send_header('X-Content-Type-Options','nosniff');self.send_header('X-Frame-Options','SAMEORIGIN' if preview else 'DENY')
+            self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'"+(" 'unsafe-inline'" if preview else '')+"; frame-ancestors "+("'self'" if preview else "'none'")+"; base-uri 'none'; form-action 'self'")
             self.end_headers();self.wfile.write(raw)
         def valid(self):return self.headers.get('Host')==f'127.0.0.1:{self.server.server_port}' and self.path.startswith('/'+token+'/')
         def do_GET(self):
