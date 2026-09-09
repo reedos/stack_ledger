@@ -132,6 +132,29 @@ def validate_event_corrections(events):
             require(ancestor['id'] not in seen,'Cyclic note correction');seen.add(ancestor['id'])
             ancestor=by_id.get(ancestor.get('correction_of'))
 
+def validate_importers(root=ROOT):
+    p = json.loads((root/'research/importers.json').read_text(encoding='utf-8'))
+    required = {'version', 'reviewed_at', 'importers'}
+    require(required <= set(p) <= required | {'research_ignore_gpu_busy'} and p['version'] == 1, 'Unexpected importers shape')
+    timestamp(p['reviewed_at'])
+    if 'research_ignore_gpu_busy' in p: require(type(p['research_ignore_gpu_busy']) is bool, 'Invalid research_ignore_gpu_busy flag')
+    require(isinstance(p['importers'], list) and p['importers'], 'No importers configured')
+    ids = set()
+    for imp in p['importers']:
+        fields = {'id', 'command', 'cadence', 'timeout_seconds'}
+        require(fields <= set(imp) <= fields | {'weekday'}, 'Unexpected importer fields')
+        text(imp['id'], 60)
+        require(imp['id'] not in ids, 'Duplicate importer id'); ids.add(imp['id'])
+        require(isinstance(imp['command'], list) and imp['command'] and all(isinstance(x, str) and x for x in imp['command']), 'Invalid importer command')
+        script = (root/imp['command'][0]).resolve()
+        require(script.is_file() and script.suffix == '.py' and script.parent == (root/'scripts').resolve(), 'Importer command must start with a known scripts/ path')
+        require(imp['cadence'] in {'daily', 'weekly'}, 'Invalid importer cadence')
+        if imp['cadence'] == 'weekly': require(type(imp.get('weekday')) is int and 0 <= imp['weekday'] <= 6, 'Weekly importer needs weekday 0-6')
+        else: require('weekday' not in imp, 'Daily importer must not set weekday')
+        require(type(imp['timeout_seconds']) is int and 30 <= imp['timeout_seconds'] <= 3600, 'Importer timeout out of bounds')
+    return p
+
+
 def validate(data):
     require(set(data)=={'version','seed_date','layers','metrics','sources','observations','events','targets','runs','runtime'},'Unexpected ledger shape')
     require(data['version']==1,'Unsupported ledger version')
@@ -226,6 +249,7 @@ if __name__=='__main__':
     discovery_agenda(ROOT)
     data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
     validate(data)
+    validate_importers(ROOT)
     from editorial import read, validate_config
     validate_config(read(ROOT/'research/homepage.json'),data,read(ROOT/'research/editorial-policy.json'))
     from visual_review import policy as visual_policy

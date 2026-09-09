@@ -87,6 +87,15 @@ def deliver(root,text,receipt_path):
     return receipt
 
 
+def send_text(root,text,tag='note'):
+    """Reuse the exact operator-authorized Telegram route for text outside a session receipt, e.g. the nightly digest.
+
+    No source text, credentials or new routing: same config file, same deliver(), a fresh receipt path.
+    """
+    receipt_path=root/'.local/notifications'/(tag+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')+'.json')
+    return deliver(root,text,receipt_path)
+
+
 def notify_session(root,report,folder):
     try:
         totals=summary(folder)
