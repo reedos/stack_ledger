@@ -87,8 +87,43 @@
    box.append(filters);
    const visible=all.filter(p=>shown.includes(p.status));
    box.append(node('p',`${visible.length} of ${all.length} packages shown.`,'hint'));
+   // Bulk actions: one decision for many packages, executed one package at a time so previews and
+   // publications never overlap. Decisions are safe at any moment; preview and apply queue behind a running job.
+   const selected=new Set();
+   const bulk=node('div',null,'bulk-bar');bulk.hidden=!visible.some(p=>p.status!=='applied');
+   const selectAll=node('label',null,'toggle-chip'),selectAllBox=node('input');selectAllBox.type='checkbox';selectAll.append(selectAllBox,node('span','Select all shown'));
+   const decision=node('select');for(const [v,label] of [['approved','Approve'],['deferred','Defer'],['rejected','Reject']]){const o=node('option',label);o.value=v;decision.append(o);}
+   const reason=node('textarea');reason.placeholder='One reason, recorded on every selected package';reason.rows=2;reason.maxLength=1200;
+   const confirmLabel=node('label',null,'toggle'),confirm=node('input');confirm.type='checkbox';confirmLabel.append(confirm,node('span','I reviewed the exact changes and supporting sources of every selected package.'));
+   const progress=node('p',null,'hint');progress.setAttribute('role','status');
+   const bValidate=node('button','Validate selected previews','secondary'),bRecord=node('button','Record decision for selected'),bApply=node('button','Apply selected approved packages','secondary');
+   for(const b of [bValidate,bRecord,bApply])b.disabled=!owner;
+   const count=()=>{progress.textContent=`${selected.size} selected.`;};
+   async function latest(id){const r=await fetch('findings');const d=await r.json();return (d.catalog_packages||[]).find(q=>q.id===id);}
+   async function runBulk(kind){
+     if(!selected.size){progress.textContent='Select at least one package.';return;}
+     for(const b of [bValidate,bRecord,bApply])b.disabled=true;
+     const ids=[...selected];let done=0;
+     try{
+       for(const id of ids){
+         let q=await latest(id);if(!q){throw new Error(`${id} is no longer in the queue`);}
+         progress.textContent=`${kind} ${done+1}/${ids.length}: ${q.title}`;
+         if(kind==='validate'||(kind==='record'&&decision.value==='approved'&&!q.validation?.passed)){await catalogPost('catalog-preview',{id});q=await latest(id);if(!q.validation?.passed)throw new Error(`Preview failed for ${q.title}; left for individual review`);}
+         if(kind==='record'){if(!reason.value.trim()||!confirm.checked)throw new Error('A reason and the confirmation are required.');await catalogPost('catalog-review',{id,decision:decision.value,rationale:reason.value,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:confirm.checked});}
+         if(kind==='apply'){if(q.status!=='approved')throw new Error(`${q.title} is ${q.status}, not approved`);if(!confirm.checked)throw new Error('Tick the confirmation to apply.');await catalogPost('catalog-publish',{id,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:true});}
+         done++;
+       }
+       progress.textContent=`${kind}: ${done}/${ids.length} completed.`;await refresh();el('review-message').textContent=`Bulk ${kind}: ${done} package${done===1?'':'s'}. `+el('review-message').textContent;
+     }catch(e){progress.textContent=`Stopped after ${done}/${ids.length}: ${e.message}`;for(const b of [bValidate,bRecord,bApply])b.disabled=!owner;}
+   }
+   bValidate.onclick=()=>runBulk('validate');bRecord.onclick=()=>runBulk('record');bApply.onclick=()=>runBulk('apply');
+   const row=node('div',null,'bulk-actions');row.append(bValidate,bRecord,bApply);
+   bulk.append(node('h3','Bulk actions for selected packages'),selectAll,decision,reason,confirmLabel,row,progress);box.append(bulk);
+   const boxes=[];
+   selectAllBox.onchange=()=>{for(const b of boxes){b.checked=selectAllBox.checked;if(b.checked)selected.add(b.value);else selected.delete(b.value);}count();};
    for(const p of visible){
     const card=node('article',null,'finding-card');card.append(node('h3',p.title),node('p',`${p.author} · ${p.status} · ${p.changes.length} object changes`));
+    if(p.status!=='applied'){const sel=node('label',null,'toggle-chip select-chip'),sb=node('input');sb.type='checkbox';sb.value=p.id;sb.setAttribute('aria-label','Select '+p.title);sb.onchange=()=>{if(sb.checked)selected.add(p.id);else selected.delete(p.id);count();};boxes.push(sb);sel.append(sb,node('span','Select'));card.append(sel);}
     if(p.last_review&&p.status!=='applied')card.append(node('p',`Last decision: ${p.last_review.status.replaceAll('_',' ')} · ${new Date(p.last_review.at).toLocaleString()} · ${p.last_review.reviewer||''}${p.last_review.rationale?' — '+p.last_review.rationale:''}`,'hint'));
     for(const change of p.changes){
       const detail=node('details');detail.append(node('summary',`${change.target}: ${change.id} — ${change.before?'update':'new entry'}`));
