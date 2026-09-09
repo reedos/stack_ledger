@@ -498,4 +498,94 @@ class RunSummaryTests(unittest.TestCase):
         summary=research.run_summary(receipt)
         self.assertNotIn('secret excerpt text',json.dumps(summary))
 
+class NumericTokenSupportTests(unittest.TestCase):
+    """candidate_record end to end: suffix-multiplier and unit-scaled table values (deliverable 1)."""
+    def setUp(self):
+        self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.metrics={m['id']:m for m in self.data['metrics']}
+        self.sources={s['id']:s for s in self.data['sources']}
+    def test_glued_k_suffix_is_accepted_with_a_traceable_note(self):
+        c={'metric':'epoch-nvidia-ai-chips-cumulative','year':2024,'period':'2024-Q4','value':110000,'upper':None,'status':'estimate','precision':'eq','note':'','evidence':'B200 Nvidia shipments reached 110k units by year-end 2024.'}
+        record=research.candidate_record(c,self.sources['epoch-chip-sales-dataset'],c['evidence'],self.metrics,self.sources)
+        self.assertEqual(record['value'],110000)
+        self.assertIn('110k',record['note'])
+    def test_table_value_in_millions_supports_a_usd_billion_metric_value(self):
+        c={'metric':'revenue-amphenol','year':2026,'period':'2026','value':23.0947,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Net sales for the year were 23,094.7 as reported in 2026.'}
+        record=research.candidate_record(c,self.sources['company-amphenol'],c['evidence'],self.metrics,self.sources)
+        self.assertEqual(record['value'],23.0947)
+        self.assertIn('23,094.7',record['note'])
+        self.assertIn('USD million',record['note'])
+    def test_unsuffixed_times_1000_still_fails_without_a_scale_unit(self):
+        # accelerators (cumulative) names no scale word, so a bare x1000 table value cannot support it.
+        c={'metric':'epoch-nvidia-ai-chips-cumulative','year':2024,'period':'2024-Q4','value':110,'upper':None,'status':'estimate','precision':'eq','note':'','evidence':'Cumulative shipments reached 110,000 units by 2024.'}
+        with self.assertRaisesRegex(ValueError,'numeric token'):
+            research.candidate_record(c,self.sources['epoch-chip-sales-dataset'],c['evidence'],self.metrics,self.sources)
+    def test_number_words_are_still_rejected_through_candidate_record(self):
+        c={'metric':'digit-gxo-totes','year':2026,'period':'2026','value':2000,'upper':None,'status':'estimate','precision':'eq','note':'','evidence':'Cumulative totes handled reached 2 thousand in 2026.'}
+        with self.assertRaisesRegex(ValueError,'numeric token'):
+            research.candidate_record(c,self.sources['agility-gxo-totes'],c['evidence'],self.metrics,self.sources)
+
+
+class AccessDatedYearTests(unittest.TestCase):
+    """A metric whose own history is access-dated, or whose source has no published date,
+    can accept year == retrieval year without a year token in the evidence (deliverable 2)."""
+    def setUp(self):
+        self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.metrics={m['id']:m for m in self.data['metrics']}
+        self.sources={s['id']:s for s in self.data['sources']}
+        self.this_year=datetime.now(timezone.utc).year
+    def test_access_dated_metric_accepts_the_retrieval_year_and_matches_its_own_period_style(self):
+        existing=[o for o in self.data['observations'] if o['metric']=='codex-input-price']
+        c={'metric':'codex-input-price','year':self.this_year,'period':'','value':1.75,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Input pricing is listed at $1.75 per million tokens.'}
+        record=research.candidate_record(c,self.sources['codex53-pricing'],c['evidence'],self.metrics,self.sources,existing)
+        self.assertTrue(record['period'].lower().startswith('list pricing accessed'))
+        self.assertIn(str(self.this_year),record['period'])
+    def test_wrong_year_is_still_rejected_even_when_access_dated(self):
+        existing=[o for o in self.data['observations'] if o['metric']=='codex-input-price']
+        c={'metric':'codex-input-price','year':self.this_year-1,'period':'','value':1.75,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Input pricing is listed at $1.75 per million tokens.'}
+        with self.assertRaisesRegex(ValueError,'Year not found'):
+            research.candidate_record(c,self.sources['codex53-pricing'],c['evidence'],self.metrics,self.sources,existing)
+    def test_ordinary_metric_with_a_published_source_still_requires_a_year_token(self):
+        # revenue-amphenol has no access-style history and its source has a real publication date.
+        c={'metric':'revenue-amphenol','year':2024,'period':'2024','value':1,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Net sales reported at $1 billion for the period.'}
+        with self.assertRaisesRegex(ValueError,'Year not found'):
+            research.candidate_record(c,self.sources['company-amphenol'],c['evidence'],self.metrics,self.sources,[])
+    def test_snapshot_basis_metric_gets_an_iso_period_not_free_text(self):
+        # epoch-chip-sales-dataset has no published date, so this exercises the period_basis
+        # branch specifically rather than the "source has no published date" fallback alone.
+        metrics=copy.deepcopy(self.metrics);metrics['epoch-nvidia-ai-chips-cumulative']['period_basis']='snapshot'
+        c={'metric':'epoch-nvidia-ai-chips-cumulative','year':self.this_year,'period':'','value':500,'upper':None,'status':'estimate','precision':'eq','note':'','evidence':'Cumulative shipments snapshot stood at 500 units.'}
+        record=research.candidate_record(c,self.sources['epoch-chip-sales-dataset'],c['evidence'],metrics,self.sources,[])
+        self.assertRegex(record['period'],r'20\d\d-\d\d-\d\d')
+
+
+class CandidateCapTests(unittest.TestCase):
+    """runtime.json's max_candidates_per_document (raised from 4 to 8) still bounds the model
+    response, and the schema's maxItems tracks it (deliverable 3)."""
+    def setUp(self):
+        self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.metrics={m['id']:m for m in self.data['metrics']}
+        self.sources={s['id']:s for s in self.data['sources']}
+    def test_runtime_default_is_eight(self):
+        config=json.loads((ROOT/'research/runtime.json').read_text(encoding='utf-8'))
+        self.assertEqual(config['max_candidates_per_document'],8)
+    def test_schema_max_items_tracks_the_config(self):
+        schema=research.extraction_schema(['ai-adoption'],8)
+        self.assertEqual(schema['properties']['observations']['maxItems'],8)
+    def test_eight_candidates_pass_the_cap_but_a_ninth_is_refused(self):
+        related=[self.metrics['ai-adoption']];source=self.sources['stanford-2026']
+        document='Filler document text without any of the proposed evidence quotes.'
+        config={'_instructions':'i','_coverage':'c','max_candidates_per_document':8}
+        def candidates(n):
+            return {'observations':[{'metric':'ai-adoption','year':2026,'period':'2026','value':1,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'not located in the exposed document text'} for _ in range(n)]}
+        run={'model_calls':0};quarantine=[];data=copy.deepcopy(self.data)
+        with patch.object(research,'ollama',return_value=candidates(8)):
+            research.extract_observations(config,source,document,related,data,self.metrics,dict(self.sources),run,quarantine,{})
+        self.assertEqual(len(quarantine),8)
+        run2={'model_calls':0};quarantine2=[];data2=copy.deepcopy(self.data)
+        with patch.object(research,'ollama',return_value=candidates(9)):
+            with self.assertRaisesRegex(RuntimeError,'Model extraction failed'):
+                research.extract_observations(config,source,document,related,data2,self.metrics,dict(self.sources),run2,quarantine2,{})
+
+
 if __name__=='__main__':unittest.main()

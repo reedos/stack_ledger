@@ -1,17 +1,79 @@
 """Bounded, traceable model context and exact numeric tokens (no inference)."""
 import difflib
 import hashlib
+import math
 import re
 import unicodedata
 
+# A full stop may terminate a number. Do not match inside identifiers such as H100,
+# malformed grouped numbers, decimals or dotted versions/IP addresses.
+_NUMERAL = r'-?\d+(?:,\d{3})*(?:\.\d+)?(?!\d|[.,]\d)'
+
 
 def numeric_tokens(text):
-    # A full stop may terminate a number. Do not match inside identifiers such as
-    # H100, malformed grouped numbers, decimals or dotted versions/IP addresses.
     # A unit or scale letter glued after the number ($2B, 500MW, 65k) is allowed:
-    # the token is the number itself, and no scaling is ever inferred from the letter.
-    pattern = r'(?<![\w.,])-?\d+(?:,\d{3})*(?:\.\d+)?(?!\d|[.,]\d)'
-    return re.findall(pattern, text)
+    # the token is the number itself here, and no scaling is inferred from the letter.
+    # value_support() below separately accepts a *deterministic* scale reading of such
+    # a token for candidate-value support; this raw extractor never does.
+    return re.findall(r'(?<![\w.,])' + _NUMERAL, text)
+
+
+# Deliverable 1(b): a numeral glued to a short scale suffix, case-insensitive, directly
+# attached or separated by one space, and not itself followed by another letter (so
+# "110kg" and spelled-out words like "thousand" never match; see the exclusion below).
+_SCALE_SUFFIX = {'k': 1_000, 'm': 1_000_000, 'bn': 1_000_000_000, 'b': 1_000_000_000, 't': 1_000_000_000_000}
+_SUFFIXED = re.compile(r'(?<![\w.,])(' + _NUMERAL + r') ?(bn|[kmbt])(?![a-zA-Z])', re.IGNORECASE)
+# Deliverable 1(c): only for a metric whose unit names a scale.
+_SCALE_WORDS = ('million', 'billion', 'trillion', 'thousand')
+_SCALE_LADDER = ['thousand', 'million', 'billion', 'trillion']
+
+
+def _relabel_scale(unit, steps):
+    """`unit` with its scale word shifted `steps` rungs up/down the thousand..trillion ladder."""
+    for word in _SCALE_LADDER:
+        if word in unit.lower():
+            i = _SCALE_LADDER.index(word) + steps
+            return re.sub(word, _SCALE_LADDER[i], unit, flags=re.IGNORECASE) if 0 <= i < len(_SCALE_LADDER) else unit
+    return unit
+
+
+def value_support(value, evidence, unit=None):
+    """How `evidence`'s own bytes support a candidate `value`, or None if they do not.
+
+    Tried in order, each anchored to a numeric token actually present in `evidence`:
+    (a) an exact numeric token, as always; (b) a token glued to a k/m/bn/b/t scale
+    suffix whose deterministic multiplier reproduces value (110k supports 110000, 1.5M
+    supports 1500000); (c) only when `unit` names a scale ("million", "billion",
+    "trillion" or "thousand"), a plain comma-grouped token equal to value scaled by a
+    factor of 1e3 or 1e6 in either direction (5,131 supports 5.131 for a "USD billion"
+    metric). A numeral immediately followed by a spelled-out scale word ("2 thousand")
+    is never treated as a table figure by (c) -- number words stay rejected.
+    Returns None, or {'token_multiplier': float|None, 'scaled_from_token': str|None,
+    'note': str|None} -- all None when an exact token already supports the value.
+    """
+    if any(float(t.replace(',', '')) == value for t in numeric_tokens(evidence)):
+        return {'token_multiplier': None, 'scaled_from_token': None, 'note': None}
+    for m in _SUFFIXED.finditer(evidence):
+        suffix = m.group(2).lower(); multiplier = _SCALE_SUFFIX[suffix]
+        try: number = float(m.group(1).replace(',', ''))
+        except ValueError: continue
+        if math.isclose(number * multiplier, value, rel_tol=1e-9, abs_tol=1e-6):
+            return {'token_multiplier': multiplier, 'scaled_from_token': None,
+                    'note': f'from table value {m.group(1)}{suffix} (×{multiplier:,.0f})'}
+    if unit and any(w in unit.lower() for w in _SCALE_WORDS):
+        for m in re.finditer(r'(?<![\w.,])' + _NUMERAL, evidence):
+            if re.match(r'\s?(?:thousand|million|billion|trillion)\b', evidence[m.end():m.end() + 11], re.IGNORECASE):
+                continue  # "2 thousand" is a number word, never a table conversion
+            try: tv = float(m.group(0).replace(',', ''))
+            except ValueError: continue
+            for factor, steps in ((1000, -1), (1_000_000, -2)):
+                if math.isclose(tv, value * factor, rel_tol=1e-9, abs_tol=1e-6):
+                    return {'token_multiplier': None, 'scaled_from_token': m.group(0),
+                            'note': f'from table value {m.group(0)} ({_relabel_scale(unit, steps)})'}
+                if math.isclose(tv, value / factor, rel_tol=1e-9, abs_tol=1e-6):
+                    return {'token_multiplier': None, 'scaled_from_token': m.group(0),
+                            'note': f'from table value {m.group(0)} ({_relabel_scale(unit, -steps)})'}
+    return None
 
 
 # Typographic variants the model routinely "cleans up" when copying evidence.

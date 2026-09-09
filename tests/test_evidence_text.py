@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, coverage, fold, locate, locate_in_windows, focus_text, shrink_to_numbers
+from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, coverage, fold, locate, locate_in_windows, focus_text, shrink_to_numbers, value_support
 from research import numeric_support
 from document_formats import as_html, CollectionGap
 
@@ -114,6 +114,51 @@ class ShrinkToNumbersTests(unittest.TestCase):
 
     def test_refuses_when_the_located_text_is_not_from_the_document(self):
         self.assertIsNone(shrink_to_numbers('Actual document text.','Fabricated text.',[1],5))
+
+
+class ValueSupportTests(unittest.TestCase):
+    def test_exact_token_still_supports_with_no_conversion_metadata(self):
+        support=value_support(2500,'grew to 2,500 vehicles')
+        self.assertEqual(support,{'token_multiplier':None,'scaled_from_token':None,'note':None})
+
+    def test_glued_scale_suffix_reproduces_the_value(self):
+        for value,text in [(110000,'B200 Nvidia 110k 278k accelerators'),(330000,'B300 shipments reached 330k units'),
+                            (1500000,'1.5M users signed up'),(2000000000,'$2B ARR in 2023'),(20000000000,'$20B+ in 2025'),
+                            (110000,'B200 Nvidia 110 k accelerators')]:
+            with self.subTest(text=text):
+                support=value_support(value,text)
+                self.assertIsNotNone(support)
+                self.assertIsNotNone(support['token_multiplier'])
+                self.assertIn('table value',support['note'])
+
+    def test_suffix_is_case_insensitive_but_not_followed_by_another_letter(self):
+        self.assertIsNotNone(value_support(110000,'110K accelerators'))
+        self.assertIsNone(value_support(110000,'110kg of material'))
+        self.assertIsNone(value_support(110000,'110  k accelerators'))  # two spaces, not one
+
+    def test_unsuffixed_scale_only_applies_when_the_metric_unit_names_one(self):
+        # "5,131" is 1000x the candidate value only when the metric's own unit says so.
+        self.assertIsNone(value_support(5.131,'Revenue $ 1,572 $ 747 $ 5,131 …'))
+        support=value_support(5.131,'Revenue $ 1,572 $ 747 $ 5,131 …',unit='USD billion')
+        self.assertEqual(support['scaled_from_token'],'5,131')
+        self.assertIn('USD million',support['note'])
+        support=value_support(23.0947,'Net sales … 23,094.7',unit='USD billion')
+        self.assertEqual(support['scaled_from_token'],'23,094.7')
+        self.assertIn('USD million',support['note'])
+        # the reverse direction: a metric expressed in millions, table figure in billions
+        support=value_support(5131,'Total assets of $5.131 billion were reported',unit='USD million')
+        self.assertIsNone(support)  # "billion" here is a spelled-out word glued nowhere; no table token
+        support=value_support(5131,'Total assets reported at $5.131',unit='USD million')
+        self.assertEqual(support['scaled_from_token'],'5.131')
+
+    def test_number_words_never_scale_even_with_a_scale_unit(self):
+        self.assertIsNone(value_support(2000,'grew to 2 thousand units',unit='USD thousand'))
+        self.assertIsNone(value_support(1000000,'over one million rides per week'))
+        self.assertFalse(numeric_support(2000,'2 thousand'))  # the reviewed regression stays exact
+
+    def test_un_suffixed_times_1000_still_fails_without_scale_context(self):
+        self.assertIsNone(value_support(5,'the total reached 5000 units',unit='accelerators'))
+        self.assertIsNone(value_support(5,'the total reached 5000 units'))
 
 
 if __name__=='__main__':unittest.main()
