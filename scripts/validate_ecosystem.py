@@ -14,7 +14,7 @@ def validate_ecosystem(e,ledger):
     ids=set()
     for c in e['companies']:
         required={'id','name','layers','role','revenue_metric','revenue_kind','source'}
-        require(required<=c.keys() and c.keys()<=required|{'role_sources','ir_url','filings_jurisdiction','blog_urls','official_lang','region_book','revenue_chart_metric','map_offices'},'Unexpected company shape')
+        require(required<=c.keys() and c.keys()<=required|{'role_sources','ir_url','filings_jurisdiction','blog_urls','official_lang','region_book','revenue_chart_metric','map_offices','output_metric'},'Unexpected company shape')
         if 'map_offices' in c:
             from validate_explorers import validate_location
             require('models' in c['layers'] and isinstance(c['map_offices'],list) and c['map_offices'],'Invalid model developer offices')
@@ -27,6 +27,9 @@ def validate_ecosystem(e,ledger):
                 text(office['name'],200);text(office['note'],600)
                 validate_location(office['location'],source_rows,'models',timestamp(e['reviewed_at']))
         require(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', c['id']) is not None, 'Unsafe company route')
+        if c.get('output_metric'):
+            # A company's headline output (accelerators shipped, wafers, HBM) must be a metric attributed to that company.
+            require(c['output_metric'] in metrics and metrics[c['output_metric']].get('company') == c['id'], 'Company output metric ownership mismatch')
         if c.get('revenue_chart_metric'):
             require(c['revenue_chart_metric'] in metrics and metrics[c['revenue_chart_metric']].get('company') == c['id'], 'Company chart ownership mismatch')
         require(c['id'] not in ids,'Duplicate company ID');ids.add(c['id'])
