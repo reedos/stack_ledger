@@ -77,8 +77,19 @@
     default:return ['',''];}}
   function drawCatalog(data){
    let box=el('catalog-packages');if(!box){box=node('section');box.id='catalog-packages';el('review-panel').append(box);}box.replaceChildren(node('h2','Catalog updates'),node('p','Review exact changes, validate their preview, then approve and publish. Research and model screening never count as approval.'));
-   for(const p of data.catalog_packages||[]){
+   // Status toggles: default to what needs a decision; approved (retractable), rejected (reconsiderable) and applied are opt-in.
+   const STATUSES=[['pending_review','Needs review'],['deferred','Deferred'],['approved','Approved, not yet applied'],['rejected','Rejected'],['applied','Applied']];
+   let shown;try{shown=JSON.parse(localStorage.getItem('catalog-status-filter')||'null');}catch(e){shown=null;}
+   if(!Array.isArray(shown))shown=['pending_review','deferred'];
+   const all=data.catalog_packages||[];const counts={};for(const p of all)counts[p.status]=(counts[p.status]||0)+1;
+   const filters=node('div',null,'catalog-filters');filters.setAttribute('role','group');filters.setAttribute('aria-label','Show catalog packages by status');
+   for(const [value,label] of STATUSES){const l=node('label',null,'toggle-chip'),c=node('input');c.type='checkbox';c.checked=shown.includes(value);c.onchange=()=>{shown=c.checked?[...new Set([...shown,value])]:shown.filter(v=>v!==value);try{localStorage.setItem('catalog-status-filter',JSON.stringify(shown));}catch(e){}drawCatalog(data);};l.append(c,node('span',`${label} (${counts[value]||0})`));filters.append(l);}
+   box.append(filters);
+   const visible=all.filter(p=>shown.includes(p.status));
+   box.append(node('p',`${visible.length} of ${all.length} packages shown.`,'hint'));
+   for(const p of visible){
     const card=node('article',null,'finding-card');card.append(node('h3',p.title),node('p',`${p.author} · ${p.status} · ${p.changes.length} object changes`));
+    if(p.last_review&&p.status!=='applied')card.append(node('p',`Last decision: ${p.last_review.status.replaceAll('_',' ')} · ${new Date(p.last_review.at).toLocaleString()} · ${p.last_review.reviewer||''}${p.last_review.rationale?' — '+p.last_review.rationale:''}`,'hint'));
     for(const change of p.changes){
       const detail=node('details');detail.append(node('summary',`${change.target}: ${change.id} — ${change.before?'update':'new entry'}`));
       // Readable summary of the proposed object first; raw JSON stays available below it.
@@ -106,10 +117,10 @@
       where.append(list);card.append(where);
     }
     if(p.validation){const d=node('details');d.append(node('summary','Validation results'),node('pre',JSON.stringify(p.validation.checks,null,2)));card.append(d);}
-    if(p.status==='applied'||p.status==='rejected'){
+    if(p.status==='applied'){
       // Finished packages: the objects are live (or declined); validating would only report that they changed since proposal.
       const when=p.last_review?.at?new Date(p.last_review.at).toLocaleString():'';
-      card.append(node('p',(p.status==='applied'?'Applied':'Rejected')+(when?' '+when:'')+(p.last_review?.reviewer?' by '+p.last_review.reviewer:'')+(p.status==='applied'?'. These objects are live in the catalog; no further action.':'. No further action; a new package is needed to revisit.'),'hint'));
+      card.append(node('p','Applied'+(when?' '+when:'')+(p.last_review?.reviewer?' by '+p.last_review.reviewer:'')+'. These objects are live in the catalog; no further action from here.','hint'));
       box.append(card);continue;
     }
     const preview=node('button','Validate preview');preview.disabled=!owner;preview.onclick=async()=>{preview.disabled=true;msg.textContent='Building and testing isolated preview…';try{await catalogPost('catalog-preview',{id:p.id});await refresh();}catch(e){msg.textContent=e.message;preview.disabled=false;}};card.append(preview);
@@ -117,7 +128,7 @@
     if(p.status==='approved'){const label=node('label',null,'toggle'),confirm=node('input');confirm.type='checkbox';label.append(confirm,node('span','Apply this approved package, commit, push and verify the live site.'));const button=node('button','Apply and publish');button.disabled=!owner;button.onclick=async()=>{if(!confirm.checked){msg.textContent='Confirm publication first.';return;}button.disabled=true;msg.textContent='Applying approved changes; validation and deployment may take a few minutes…';try{const result=await catalogPost('catalog-publish',{id:p.id,proposal_hash:p.proposal_hash,review_hash:p.review_hash,confirmed:true});await refresh();el('review-message').textContent='Catalog publication: '+result.status;}catch(e){msg.textContent=e.message;button.disabled=false;}};card.append(label,button);}
     box.append(card);
    }
-   if(!(data.catalog_packages||[]).length)box.append(node('p','No catalog packages prepared yet. Findings need complete evidence-backed object changes before approval.'));
+   if(!all.length)box.append(node('p','No catalog packages prepared yet. Findings need complete evidence-backed object changes before approval.'));else if(!visible.length)box.append(node('p','Nothing matches the selected statuses. Turn on a status above to see decided packages.','hint'));
    const handoffs=node('details');handoffs.append(node('summary',`${(data.handoffs||[]).length} research-note follow-ups`));for(const h of data.handoffs||[]){handoffs.append(node('h4',h.title),node('p',h.summary),node('p',h.reason));}box.append(handoffs);
   }
   el('refresh-findings').onclick=refresh;
