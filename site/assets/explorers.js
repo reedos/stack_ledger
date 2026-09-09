@@ -30,7 +30,7 @@ function mapSymbol(records,r){
  for(const [key,count] of segments){
   const [layer,phase]=key.split('|'),color=layerOf(layer).color,span=count/total*Math.PI*2,gap=segments.size>1?.045:0;
   const a=angle+gap,b=angle+span-gap;angle+=span;
-  const cls=`map-segment phase-${phase}`,attrs=`class="${cls}" stroke="${color}" stroke-width="${Math.max(r*.22,r/4)}" fill="none"`;
+  const cls=`map-segment phase-${phase}`,attrs=`class="${cls}" stroke="${color}" stroke-width="${r*.18}" fill="none"`;
   if(segments.size===1)html+=`<circle r="${r*.88}" ${attrs}/>`;
   else html+=`<path d="M${Math.cos(a)*r*.88} ${Math.sin(a)*r*.88} A${r*.88} ${r*.88} 0 ${span>Math.PI?1:0} 1 ${Math.cos(b)*r*.88} ${Math.sin(b)*r*.88}" ${attrs}/>`;
   if(total===1){
@@ -43,16 +43,23 @@ function mapSymbol(records,r){
 }
 function setupProjectMap(){
  const host=document.getElementById('project-map'),svg=host.querySelector('svg'),points=svg.querySelector('.map-points'),selection=host.querySelector('#map-selection'),owners=host.querySelector('#map-company');
+ // Move the original controls so map and list keep one state and one event path.
+ const layerFilters=document.querySelector('[aria-label="Filter projects by layer"]'),projectTools=document.getElementById('project-search').closest('.directory-tools');
+ layerFilters.classList.add('map-layer-filters','capital-legend');host.querySelector('.map-overview .capital-legend').replaceWith(layerFilters);
+ layerFilters.querySelector('[data-project-layer="all"]').textContent='All layers';
+ host.querySelector('.explorer-controls').prepend(projectTools);
+ layerFilters.querySelectorAll('[data-project-layer]').forEach(button=>{const layer=layerOf(button.dataset.projectLayer);if(layer)button.style.setProperty('--layer-color',layer.color);});
  const offices=ecosystem.companies.flatMap(c=>(c.map_offices||[]).map(o=>({id:c.id,name:o.name,owner:c.name,layer:'models',stage:'office',office_kind:o.kind,map_location:o.location,map_note:o.note,map_source:o.source})));
  [...new Set([...delivery.projects.map(p=>p.owner),...offices.map(p=>p.owner)])].sort().forEach(owner=>{const option=document.createElement('option');option.value=owner;option.textContent=owner;owners.append(option);});
- let view=[155,108,200,95],groups=[],displayGroups=[],selected=null;
+ let view=[155,112,205,98],groups=[],displayGroups=[],selected=null;
  const ns='http://www.w3.org/2000/svg';
  function setView(v){
   const width=Math.max(12,Math.min(1080,v[2])),height=width*(svg.clientHeight/Math.max(1,svg.clientWidth));
-  view=[Math.max(0,Math.min(1080-width,v[0])),Math.max(0,Math.min(540-height,v[1])),width,height];svg.setAttribute('viewBox',view.join(' '));draw();
+  const centeredY=v[1]+(v[3]-height)/2;
+  view=[Math.max(0,Math.min(1080-width,v[0])),Math.max(0,Math.min(540-height,centeredY)),width,height];svg.setAttribute('viewBox',view.join(' '));draw();
  }
  function inspect(key){
-  const group=displayGroups.find(g=>g.key===key);if(!group)return;selected=key;
+  const group=displayGroups.find(g=>g.key===key);if(!group)return;selected=key;selection.classList.add('has-selection');
   points.querySelectorAll('.map-marker').forEach(n=>n.classList.toggle('is-selected',n.dataset.location===key));
   const projectCount=new Set(group.projects.filter(p=>!p.office_kind).map(p=>p.id)).size,officeCount=group.projects.filter(p=>p.office_kind).length;
   selection.innerHTML=`<h3>${esc(group.location.label)}</h3><p>${projectCount} project/program records · ${officeCount} developer office locations</p><p class="chart-footnote">${group.cluster?'Nearby locations grouped at this zoom; the marker center is not a facility. Zoom in to separate them.':`Approximate ${esc(group.location.precision)} location · ${sourceLink(group.location.source)}.`}</p>`+group.projects.map(p=>{
@@ -85,11 +92,11 @@ function setupProjectMap(){
   for(const p of [...projectRows,...officeRows]){const g=p.map_location,key=`${g.latitude},${g.longitude}`;if(!grouped.has(key))grouped.set(key,{key,location:g,projects:[]});grouped.get(key).projects.push(p);}
   groups=[...grouped.values()];const mapped=new Set(projectRows.map(p=>p.id)).size;
   host.querySelector('#map-count').textContent=`${mapped} mapped of ${ps.length} matching project records · ${projectRows.length} project locality markers · ${officeRows.length} developer office locations (separate) · ${groups.length} distinct localities. Use World to see international locations.`;
-  draw();if(selected&&displayGroups.some(g=>g.key===selected))inspect(selected);else{selected=null;selection.innerHTML='<p>Select a marker for its projects, delivery stages and location evidence. City/county points provide orientation; they are not facility boundaries or service-area outlines.</p>';}
+  draw();if(selected&&displayGroups.some(g=>g.key===selected))inspect(selected);else{selected=null;selection.classList.remove('has-selection');selection.innerHTML='<p>Select a marker for its projects, delivery stages and location evidence. City/county points provide orientation; they are not facility boundaries or service-area outlines.</p>';}
  };
  document.addEventListener('stack:projects',event=>updateProjectMap(event.detail));
  for(const id of ['map-company','map-coverage','map-offices'])host.querySelector('#'+id).addEventListener('change',()=>document.getElementById('project-search').dispatchEvent(new Event('input',{bubbles:true})));
- host.querySelector('#map-us').addEventListener('click',()=>setView([155,100,205,100]));host.querySelector('#map-world').addEventListener('click',()=>setView([0,0,1080,540]));
+ host.querySelector('#map-us').addEventListener('click',()=>setView([155,112,205,98]));host.querySelector('#map-world').addEventListener('click',()=>setView([0,0,1080,540]));
  const zoom=factor=>{const width=view[2]*factor;setView([view[0]+(view[2]-width)/2,view[1]+(view[3]-view[3]*factor)/2,width,view[3]*factor]);};
  host.querySelector('#map-zoom-in').addEventListener('click',()=>zoom(.65));host.querySelector('#map-zoom-out').addEventListener('click',()=>zoom(1/.65));
  svg.dataset.interactive='true';svg.setAttribute('tabindex','0');svg.setAttribute('role','group');svg.setAttribute('aria-label','Project map. Arrow keys pan. Use zoom buttons or drag to explore.');

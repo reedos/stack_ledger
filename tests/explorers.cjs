@@ -20,6 +20,11 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#capital-buildout').count(),1);assert.equal(await page.locator('#buildout-explorers a.explorer-preview').count(),2);
   await page.locator('#capital-buildout').screenshot({path:path.join(evidence,'capital-desktop.png')});
   await page.goto(origin+'projects/');await page.locator('body[data-enhanced="true"]').waitFor();
+  assert.equal(await page.locator('#project-map [data-project-layer]').count(),6);
+  assert.equal(await page.locator('#project-map .map-overview [data-project-layer]').count(),6);
+  assert.equal(await page.locator('#project-map .explorer-controls [data-project-layer]').count(),0);
+  assert.equal(await page.locator('#project-map #project-stage').count(),1);
+  assert.equal(await page.locator('#project-map #project-search').count(),1);
   assert.match(await page.locator('#map-count').innerText(),new RegExp(`${delivery.projects.filter(p=>p.map_location||p.map_locations?.length).length} mapped`));
   const before=await page.locator('#map-canvas svg').getAttribute('viewBox');await page.locator('#map-zoom-in').click();assert.notEqual(await page.locator('#map-canvas svg').getAttribute('viewBox'),before);
   await page.locator('#map-us').click();await page.locator('.map-marker').first().click();assert.match(await page.locator('#map-selection').innerText(),/Approximate county|Nearby locations/);
@@ -98,7 +103,7 @@ const server=http.createServer((req,res)=>{
   }
   const context=await browser.newContext({javaScriptEnabled:false}),staticPage=await context.newPage();
   for(const [route,id] of [['','#capital-buildout'],['projects/','#project-map'],['models/','#model-capabilities']]){
-   await staticPage.goto(origin+route);assert.equal(await staticPage.locator(id+' svg').count(),1);assert.equal(await staticPage.locator(id+' details').count(),1);
+   await staticPage.goto(origin+route);assert.equal(await staticPage.locator(id+' svg').count(),1);assert.equal(await staticPage.locator(id+' > .explorer-evidence').count(),1);
   }
   await context.close();assert.deepEqual(errors,[]);
   console.log('Explorer acceptance passed: static fallbacks, capital sources, map/list filters and zoom, ECI filters/frontier/intervals, 320px and 390px layouts.');
