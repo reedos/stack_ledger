@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T10:39:27Z",
+  "reviewed_at": "2026-09-09T10:44:23Z",
   "projects": [
     {
       "id": "gemini",
@@ -5842,6 +5842,31 @@
         }
       ],
       "company_ids": []
+    },
+    {
+      "id": "coreweave-denton-tx",
+      "name": "CoreWeave Denton TX",
+      "layer": "infrastructure",
+      "owner": "CoreWeave",
+      "location": "8171 Jim Christal Rd, Denton, TX 76207, United States",
+      "category": "AI data center",
+      "stage": "status-unverified",
+      "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: OpenAI. AI-only allocation and the delivery stage are not established by this record.",
+      "observations": [],
+      "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
+      "grid": "Epoch estimates current power about 262 MW · about 252,653 H100 equivalents · capital cost about 9.9 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
+      "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Epoch AI Data Centers dataset (vintage 2026-09) lists this site: owner CoreWeave, users OpenAI, United States; current power about 262 MW · about 252,653 H100 equivalents · capital cost about 9.9 billion 2025 USD. Directory presence is not proof of operation.",
+          "source": "epoch-data-centers-dataset"
+        }
+      ],
+      "company_ids": [
+        "coreweave",
+        "openai"
+      ]
     }
   ],
   "context_metrics": [
