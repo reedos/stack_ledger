@@ -102,13 +102,22 @@ class ConfigTests(unittest.TestCase):
 class InstallCommandTests(unittest.TestCase):
     """Command construction only; --install-* is never run with --yes here."""
 
-    def test_startup_command_construction(self):
+    def test_startup_launcher_uses_the_base_interpreter_and_the_startup_folder(self):
         root = Path('C:/live/stack_ledger')
-        cmd = control.startup_command(root, root/'.local/research-control.json')
-        self.assertEqual(cmd[:4], ['schtasks', '/Create', '/TN', 'Stack Ledger research control'])
-        self.assertIn('/TR', cmd)
-        tr = cmd[cmd.index('/TR')+1]
-        self.assertIn('research_control.py', tr); self.assertIn('--config', tr)
+        path, body = control.startup_launcher(root, root/'.local/research-control.json')
+        self.assertEqual(path.name, 'Stack Ledger research control.vbs')
+        self.assertTrue(str(path).replace('\\', '/').endswith('Microsoft/Windows/Start Menu/Programs/Startup/Stack Ledger research control.vbs'))
+        self.assertIn('research_control.py', body); self.assertIn('--config', body); self.assertIn(control.base_python(), body)
+        self.assertNotIn('.venv', control.base_python())
+        self.assertTrue(body.rstrip().endswith(', 0, False'))   # hidden window, no wait
+
+    def test_install_startup_without_run_writes_nothing(self):
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        with patch.dict(control.os.environ, {'APPDATA': temp.name}):
+            path, body = control.install_startup(Path(temp.name), Path(temp.name)/'cfg.json', False)
+            self.assertFalse(path.exists())
+            path, body = control.install_startup(Path(temp.name), Path(temp.name)/'cfg.json', True)
+            self.assertTrue(path.exists()); self.assertEqual(path.read_bytes().decode('utf-8'), body)
 
     def test_tailnet_serve_command_construction(self):
         cmd = control.tailnet_serve_command(TAILNET)
@@ -128,7 +137,7 @@ class InstallCommandTests(unittest.TestCase):
         result = subprocess.run([sys.executable, str(ROOT/'scripts/research_control.py'), '--install-startup',
             '--research-root', temp.name], cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=15)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('schtasks', result.stdout); self.assertIn('/Create', result.stdout)
+        self.assertIn('Would write', result.stdout); self.assertIn('research_control.py', result.stdout)
         self.assertFalse((Path(temp.name)/'.local').exists())
 
     def test_cli_install_tailnet_without_config_errors_and_does_not_run(self):

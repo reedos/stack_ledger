@@ -313,10 +313,28 @@ def activity(root):
     return {'policy_events':automated[-100:],'digests':digests,'unreadable_events':report.get('unreadable_events',0)}
 
 
-def startup_command(root,config_path):
-    """schtasks command that runs the panel hidden at logon with the given config; never executed here."""
-    target=f'"{sys.executable}" "{root/"scripts/research_control.py"}" --config "{config_path}"'
-    return ['schtasks','/Create','/TN','Stack Ledger research control','/SC','ONLOGON','/RL','LIMITED','/F','/TR',target]
+def base_python():
+    """The interpreter behind any active virtualenv; a logon launcher must not depend on a project venv."""
+    exe=Path(sys.base_prefix)/('python.exe' if os.name=='nt' else 'bin/python3')
+    return str(exe) if exe.exists() else sys.executable
+
+
+def startup_launcher(root,config_path):
+    """(path, body) of a VBScript in the user's Startup folder that starts the panel hidden at logon.
+
+    A Startup-folder launcher needs no elevation (a schtasks ONLOGON task does) and matches how the
+    OpenClaw gateway starts on this machine. Nothing is written unless install_startup(..., run=True)."""
+    folder=Path(os.environ.get('APPDATA') or (Path.home()/'AppData/Roaming'))/'Microsoft/Windows/Start Menu/Programs/Startup'
+    body=(f'CreateObject("WScript.Shell").Run """{base_python()}"" ""{root/"scripts/research_control.py"}"" '
+          f'--config ""{config_path}""", 0, False\r\n')
+    return folder/'Stack Ledger research control.vbs',body
+
+
+def install_startup(root,config_path,run):
+    path,body=startup_launcher(root,config_path)
+    if run:
+        path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(body.encode('utf-8'))   # bytes: keep the CRLF VBScript expects
+    return path,body
 
 
 def tailnet_serve_command(config):
@@ -339,15 +357,15 @@ def main():
     parser.add_argument('--ephemeral',action='store_true',help='Do not replace the saved panel URL (for isolated UI tests)')
     parser.add_argument('--research-root',type=Path,default=None,help='Live checkout for status/locks/launches; panel assets still come from this checkout')
     parser.add_argument('--config',type=Path,default=None,help='Path to research-control.json (default: <research-root>/.local/research-control.json)')
-    parser.add_argument('--install-startup',action='store_true',help='Print (with --yes, create) a logon Task Scheduler entry')
+    parser.add_argument('--install-startup',action='store_true',help='Print (with --yes, write) a Startup-folder launcher that starts the panel hidden at logon')
     parser.add_argument('--install-tailnet',action='store_true',help='Print (with --yes, run) the tailscale serve --set-path command')
     parser.add_argument('--yes',action='store_true',help='Actually run --install-startup/--install-tailnet instead of only printing the command')
     args=parser.parse_args()
     live_root=(args.research_root.resolve() if args.research_root else ROOT)
     config_path=args.config if args.config else live_root/'.local/research-control.json'
     if args.install_startup:
-        cmd=startup_command(live_root,config_path);print(' '.join(cmd),flush=True)
-        if args.yes:subprocess.run(cmd,check=True)
+        path,body=install_startup(live_root,config_path,args.yes)
+        print(f'{"Wrote" if args.yes else "Would write"} {path}\n{body.strip()}',flush=True)
         return
     if args.install_tailnet:
         cfg=tailnet_config(config_path)
