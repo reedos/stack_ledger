@@ -9392,6 +9392,168 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-microsoft-goodyear-it-mw",
+      "layer": "infrastructure",
+      "title": "Microsoft Goodyear · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "14250 W Broadway Rd, Goodyear, AZ 85338, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "microsoft",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "microsoft-goodyear",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-microsoft-goodyear-h100e",
+      "layer": "infrastructure",
+      "title": "Microsoft Goodyear · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "14250 W Broadway Rd, Goodyear, AZ 85338, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "microsoft",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "microsoft-goodyear",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-microsoft-goodyear-capex",
+      "layer": "infrastructure",
+      "title": "Microsoft Goodyear · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "14250 W Broadway Rd, Goodyear, AZ 85338, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "microsoft",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "microsoft-goodyear",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-microsoft-project-osmium-it-mw",
+      "layer": "infrastructure",
+      "title": "Microsoft Project Osmium · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "5855 SW Kerry St, Cumming, IA 50061, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "microsoft",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "microsoft-project-osmium",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-microsoft-project-osmium-h100e",
+      "layer": "infrastructure",
+      "title": "Microsoft Project Osmium · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "5855 SW Kerry St, Cumming, IA 50061, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "microsoft",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "microsoft-project-osmium",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-microsoft-project-osmium-capex",
+      "layer": "infrastructure",
+      "title": "Microsoft Project Osmium · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "5855 SW Kerry St, Cumming, IA 50061, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "microsoft",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "microsoft-project-osmium",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
     }
   ],
   "targets": [
