@@ -468,7 +468,7 @@ class HoldoutRunTests(unittest.TestCase):
 
     def fake_ollama(self, config, system, prompt, schema):
         keys = set(schema.get('properties', {}))
-        if keys == {'observations'}:
+        if 'observations' in keys:
             return {'observations': [
                 {'metric': 'ai-adoption', 'year': 2025, 'period': '2025', 'value': 88, 'upper': None,
                  'status': 'observation', 'precision': 'eq', 'note': '', 'evidence': self.matched_evidence},
