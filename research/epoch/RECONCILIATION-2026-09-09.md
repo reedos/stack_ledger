@@ -2,7 +2,7 @@
 
 Epoch AI Data Centers vintage 2026-09 (sha256 758d27879586…), GPU Clusters vintage 2026-09. CC BY 4.0. Epoch figures are estimates from satellite, permit and filing analysis; they are compared here, not adopted. Suggested matches and proposed additions require human review before any catalog change.
 
-Matched 43 · proposed additions 43 · accepted infrastructure projects without an Epoch row 63 · large unmatched GPU clusters 0
+Matched 59 · proposed additions 27 · accepted infrastructure projects without an Epoch row 66 · large unmatched GPU clusters 0
 
 ## Matched sites (Epoch estimate vs ledger)
 
@@ -12,16 +12,28 @@ Matched 43 · proposed additions 43 · accepted infrastructure projects without 
 | Anthropic-Amazon New Carlisle | suggested | new-carlisle | 910.0 | 685912 | 34.5 | 910 MW IT (Sep 3, 2026 snapshot, estimate) |
 | Microsoft Fairwater Atlanta | suggested | fairwater-atlanta | 636.0 | 768769 | 24.1 | no MW record |
 | Meta Prometheus | suggested | meta-prometheus | 562.0 | 679568 | 21.3 | no MW record |
-| Google New Albany | suggested | google-new-albany-ohio | 453.0 | 550783 | 17.2 | no MW record |
 | OpenAI Stargate Abilene | suggested | abilene | 421.0 | 509348 | 15.9 | 421 MW IT (Sep 3, 2026 snapshot, estimate) |
+| Microsoft Fairwater Wisconsin | suggested | microsoft-fairwater-wisconsin | 369.0 | 445680 | 14.0 | no MW record |
+| Google Pryor (North) | suggested | google-pryor-north | 368.0 | 636685 | 13.9 | no MW record |
 | Colossus 1 | suggested | colossus-one | 340.0 | 275796 | 12.9 | 340 MW IT (Sep 3, 2026 snapshot, estimate) |
 | Google Columbus | suggested | google-columbus-ohio | 303.0 | 331986 | 11.5 | no MW record |
 | Amazon Madison Mega Site | suggested | aws-mississippi-madison-county | 284.0 | 214348 | 10.8 | no MW record |
+| CoreWeave Denton TX | suggested | coreweave-denton-tx | 262.0 | 252653 | 9.9 | no MW record |
+| Huawei Horinger | suggested | huawei-horinger | 241.8 | 117231 | 9.2 | no MW record |
+| DayOne Nusajaya | suggested | dayone-nusajaya | 240.0 | 281670 | 9.1 | no MW record |
+| QTS Richmond 1 | suggested | qts-richmond-1 | 238.0 | 242547 | 9.0 | no MW record |
+| Google Bristow | suggested | google-bristow | 238.0 | 209861 | 9.0 | no MW record |
 | Google Council Bluffs (East) | suggested | google-council-bluffs-iowa | 237.0 | 255685 | 9.0 | no MW record |
 | Google Omaha | suggested | google-omaha-nebraska | 237.0 | 198585 | 9.0 | no MW record |
 | Google Papillion | suggested | google-papillion-nebraska | 237.0 | 100556 | 9.0 | no MW record |
+| Amazon Ridgeland | suggested | amazon-ridgeland | 228.0 | 171299 | 8.6 | no MW record |
+| VNET Bayin Ulanqab | suggested | vnet-bayin-ulanqab | 221.0 | 122789 | 8.4 | no MW record |
+| Microsoft Goodyear | suggested | microsoft-goodyear | 202.0 | 205154 | 7.7 | no MW record |
+| Microsoft Project Osmium | suggested | microsoft-project-osmium | 190.0 | 155634 | 7.2 | no MW record |
+| QTS Richmond 2 | suggested | qts-richmond-2 | 180.0 | 182921 | 6.8 | no MW record |
 | Meta Rosemount | suggested | meta-rosemount | 178.0 | 215675 | 6.7 | no MW record |
 | Meta Jeffersonville | suggested | meta-jeffersonville | 178.0 | 203133 | 6.7 | no MW record |
+| Alibaba Zhangbei | suggested | alibaba-zhangbei | 169.0 | 31885 | 6.4 | no MW record |
 | Google Storey County | suggested | google-storey-county-nevada | 161.0 | 133906 | 6.1 | no MW record |
 | Google The Dalles | suggested | google-the-dalles-oregon | 154.0 | 175341 | 5.8 | no MW record |
 | Meta Montgomery | suggested | meta-montgomery | 153.0 | 174517 | 5.8 | no MW record |
@@ -29,10 +41,14 @@ Matched 43 · proposed additions 43 · accepted infrastructure projects without 
 | Meta Temple | suggested | meta-temple | 152.0 | 173248 | 5.8 | no MW record |
 | Meta Cheyenne | suggested | meta-cheyenne | 152.0 | 172815 | 5.8 | no MW record |
 | Meta Huntsville | suggested | meta-huntsville | 146.0 | 166761 | 5.5 | no MW record |
+| QTS Richmond 3 | suggested | qts-richmond-3 | 144.0 | 174836 | 5.5 | no MW record |
 | Meta Aiken | suggested | meta-aiken | 142.0 | 161698 | 5.4 | no MW record |
+| Google Lincoln | suggested | google-lincoln | 141.0 | 197575 | 5.3 | no MW record |
 | Google Lancaster | suggested | google-lancaster-ohio | 137.0 | 130369 | 5.2 | no MW record |
 | Meta Eagle Mountain | suggested | meta-eagle-mountain | 133.0 | 151354 | 5.0 | no MW record |
 | Coreweave Helios | suggested | galaxy-helios | 132.0 | 159552 | 5.0 | 133 MW (Phase I delivery · July 2026, observation) |
+| AWS Berwick | suggested | aws-berwick | 108.0 | 81354 | 4.1 | no MW record |
+| Google Kansas City East | suggested | google-kansas-city-east | 105.0 | 202628 | 4.0 | no MW record |
 | Google Midlothian | suggested | google-midlothian-texas | 103.0 | 143507 | 3.9 | no MW record |
 | Google Waltham Cross | suggested | google-waltham-cross-united-kingdom | 88.0 | 123800 | 3.3 | no MW record |
 | Meta Gallatin | suggested | meta-gallatin | 87.0 | 99545 | 3.3 | no MW record |
@@ -56,26 +72,10 @@ Matched 43 · proposed additions 43 · accepted infrastructure projects without 
 
 | Epoch site | Owner | Users | Country | Current MW | H100e | Sources |
 |---|---|---|---|---|---|---|
-| Microsoft Fairwater Wisconsin | Microsoft #confident | OpenAI #likely, Microsoft #likely | United States | 369.0 | 445680 | 5 |
-| Google Pryor (North) | Google #confident | Google DeepMind #speculative | United States | 368.0 | 636685 | 3 |
-| CoreWeave Denton TX | CoreWeave #confident | OpenAI #likely | United States | 262.0 | 252653 | 4 |
-| Huawei Horinger | Huawei #confident |  | China | 241.8 | 117231 | 4 |
-| DayOne Nusajaya |  |  | Malaysia | 240.0 | 281670 | 6 |
-| QTS Richmond 1 |  |  | United States | 238.0 | 242547 | 2 |
-| Google Bristow | Google | Google DeepMind | United States | 238.0 | 209861 | 1 |
-| Amazon Ridgeland | Amazon #confident | Anthropic #speculative | United States | 228.0 | 171299 | 4 |
-| VNET Bayin Ulanqab | VNET #confident | ByteDance #speculative | China | 221.0 | 122789 | 7 |
+| Google New Albany | Google #confident | Google DeepMind #speculative | United States | 453.0 | 550783 | 2 |
 | AWS New Albany | Amazon #confident |  | United States | 213.0 | 201112 | 4 |
-| Microsoft Goodyear | Microsoft #confident | OpenAI #likely, Microsoft #confident | United States | 202.0 | 205154 | 3 |
-| Microsoft Project Osmium | Microsoft #confident | OpenAI #speculative | United States | 190.0 | 155634 | 4 |
 | Google Mesa | Google #confident |  | United States | 183.0 | 289540 | 2 |
-| QTS Richmond 2 |  |  | United States | 180.0 | 182921 | 2 |
 | Meta-QTS Hillsboro 2 | Meta #likely | Meta #likely | United States | 180.0 | 123839 | 2 |
-| Alibaba Zhangbei | Alibaba #confident | Alibaba #likely | China | 169.0 | 31885 | 7 |
-| QTS Richmond 3 |  |  | United States | 144.0 | 174836 | 2 |
-| Google Lincoln | Google #confident |  | United States | 141.0 | 197575 | 3 |
-| AWS Berwick | Amazon #confident | Anthropic #speculative | United States | 108.0 | 81354 | 4 |
-| Google Kansas City East | Google #confident |  | United States | 105.0 | 202628 | 2 |
 | STACK Infrastructure NVA02 |  |  | United States | 85.0 | 61142 | 3 |
 | CoreWeave Chester VA | CoreWeave #confident | OpenAI #speculative | United States | 82.0 | 88428 | 3 |
 | Google Arcola | Google #confident |  | United States | 77.0 | 108135 | 1 |
@@ -125,6 +125,7 @@ Matched 43 · proposed additions 43 · accepted infrastructure projects without 
 - google-mayes-county-oklahoma · Google · Mayes County, Oklahoma · Google · operating
 - google-mesa-arizona · Google · Mesa, Arizona · Google · operating
 - google-montgomery-county-tennessee · Google · Montgomery County, Tennessee · Google · operating
+- google-new-albany-ohio · Google · New Albany, Ohio · Google · operating
 - google-prince-william-county-virginia · Google · Prince William County, Virginia · Google · operating
 - google-red-oak-texas · Google · Red Oak, Texas · Google · operating
 - google-chesterfield-county-virginia · Google · Chesterfield County, Virginia · Google · announced
@@ -165,6 +166,8 @@ Matched 43 · proposed additions 43 · accepted infrastructure projects without 
 - aws-mississippi-hinds-county · AWS · Hinds County, Mississippi · Amazon Web Services · construction
 - google-visakhapatnam · Google AI hub · Visakhapatnam · Google / AdaniConneX / Nxtra · construction
 - nextdc-s7 · NEXTDC S7 · Eastern Creek, Sydney · NEXTDC · announced
+- google-mesa · Google Mesa · Google · status-unverified
+- aws-new-albany · AWS New Albany · Amazon · status-unverified
 
 ## Large GPU clusters (≥100 MW or ≥100k H100e) matching nothing
 
