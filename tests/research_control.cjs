@@ -63,6 +63,31 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
   assert.equal(reviewRequest.confirmed,true);assert.equal(reviewRequest.proposal_hash,finding.proposal_hash);
   assert.equal(await page.locator('.finding-card').count(),0);
   await page.locator('#review-status').selectOption('investigate');assert.equal(await page.locator('.finding-card').count(),1);
+  // Catalog workflow stays local here: every mutation and build is intercepted.
+  let catalogStatus='pending_review',previewed=false,decisionBody,publishBody;
+  const catalog={id:'catalog-'+'c'.repeat(24),title:'Fixture catalog package',author:'fixture researcher',proposal_hash:'c'.repeat(64),review_hash:'d'.repeat(64),
+    changes:[{target:'project',id:'fixture-project',before:null,after:{id:'fixture-project',name:'<img src=x onerror=alert(1)>',next_evidence:'x'.repeat(400)}}],
+    evidence:[{id:'fixture-source',url:'javascript:alert(1)',published_at:null,retrieved_at:'2026-09-08T00:00:00Z',summary:'Fixture evidence.'}]};
+  await page.unroute('**/findings');
+  await page.route('**/findings',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({findings:[],reviewer:'reedos',invalid_files:0,catalog_packages:[{...catalog,status:catalogStatus,validation:previewed?{passed:true,checks:[]}:null}]})}));
+  await page.route('**/catalog-preview',route=>{previewed=true;return route.fulfill({contentType:'application/json',body:'{"passed":true}'});});
+  await page.route('**/catalog-review',route=>{decisionBody=route.request().postDataJSON();catalogStatus='approved';return route.fulfill({contentType:'application/json',body:'{"status":"approved","published":false}'});});
+  await page.route('**/catalog-publish',route=>{publishBody=route.request().postDataJSON();catalogStatus='applied';return route.fulfill({contentType:'application/json',body:'{"status":"deployed"}'});});
+  await page.locator('#refresh-findings').click();
+  const catalogCard=page.locator('#catalog-packages article');await catalogCard.waitFor();
+  assert.equal(await catalogCard.locator('img,a[href^="javascript:"]').count(),0);
+  await catalogCard.getByRole('button',{name:'Validate preview',exact:true}).click();
+  await catalogCard.getByRole('link',{name:'Open site preview'}).waitFor();
+  await catalogCard.getByRole('button',{name:'Record catalog decision'}).click();assert.equal(decisionBody,undefined);
+  await catalogCard.locator('textarea').fill('Synthetic evidence review only.');await catalogCard.locator('form input[type=checkbox]').check();
+  await catalogCard.getByRole('button',{name:'Record catalog decision'}).click();
+  await catalogCard.getByRole('button',{name:'Apply and publish'}).waitFor();assert.equal(decisionBody.confirmed,true);assert.equal(publishBody,undefined);
+  await catalogCard.getByRole('button',{name:'Apply and publish'}).click();assert.equal(publishBody,undefined);
+  await catalogCard.locator(':scope > label input[type=checkbox]').check();await catalogCard.getByRole('button',{name:'Apply and publish'}).click();
+  await page.waitForFunction(()=>document.querySelector('#review-message').textContent.includes('deployed'));
+  assert.equal(publishBody.proposal_hash,catalog.proposal_hash);assert.equal(publishBody.confirmed,true);
+  await catalogCard.locator('details').first().locator('summary').click();
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.locator('#session-tab').click();
   await page.waitForFunction(()=>document.querySelector('#gpu-temperature').textContent==='56 °C');
   assert.equal(await page.locator('#gpu-usage').innerText(),'64%');

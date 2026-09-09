@@ -43,6 +43,7 @@ def validate_expansion(x, ledger, ecosystem, delivery):
     require(x['version'] == 1, 'Unsupported expansion version'); timestamp(x['reviewed_at'])
     companies = {c['id'] for c in ecosystem['companies']}
     projects = {p['id']: p for p in delivery['projects']}
+    for p in projects.values():require(set(p.get('company_ids',[]))<=companies,'Unknown project company link')
     sources = {s['id']: s for s in ledger['sources']}
     metrics = {m['id']: m for m in ledger['metrics']}
     observations = {o['id']: o for o in ledger['observations']}
@@ -65,16 +66,19 @@ def validate_expansion(x, ledger, ecosystem, delivery):
             require(m['layer'] == projects[m['project']]['layer'], 'Metric/project layer mismatch')
     seen = set()
     for p in x['products']:
-        require(set(p) == {'id', 'name', 'company', 'stage', 'source', 'summary', 'observations', 'gap'}, 'Unexpected product fields')
+        fields={'id', 'name', 'company', 'stage', 'source', 'summary', 'observations', 'gap'}
+        require(fields<=p.keys() and p.keys()<=fields|{'layers'}, 'Unexpected product fields')
+        layers=p.get('layers',['models'])
+        require(isinstance(layers,list) and layers and len(layers)==len(set(layers)) and set(layers)<={l['id'] for l in ledger['layers']},'Invalid product layers')
         require(p['id'] not in seen, 'Duplicate product'); seen.add(p['id'])
         require(p['company'] in companies and p['source'] in sources, 'Unknown product attribution')
-        require(p['stage'] in {'Paid product', 'Research preview', 'Documented product', 'Local runtime'}, 'Invalid product stage')
+        require(p['stage'] in {'Paid product', 'Research preview', 'Documented product', 'Local runtime','Announced','Sampling','Production','Roadmap','Discontinued'}, 'Invalid product stage')
         for k in ['id', 'name', 'summary', 'gap']: text(p[k], 600)
         for id in p['observations']:
             require(id in observations and not observations[id].get('superseded_by'), 'Missing or superseded product observation')
             o = observations[id]; m = metrics[o['metric']]
             require(m.get('company') == p['company'], 'Product figure belongs to another company')
-            require(m['layer'] == 'models' and o['source'] == p['source'], 'Product metric/source mismatch')
+            require(m['layer'] in layers and o['source'] == p['source'], 'Product metric/source mismatch')
     require(len(x['jobs_projects']) == len(set(x['jobs_projects'])) and set(x['jobs_projects']) <= projects.keys(), 'Unknown or duplicate jobs project')
     require(set(x['featured']) == {l['id'] for l in ledger['layers']}, 'Missing featured layer')
     for layer, ids in x['featured'].items():

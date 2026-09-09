@@ -314,9 +314,10 @@ class HomepageContracts(unittest.TestCase):
         import render
         data=ed.read(ROOT/'site/data/ledger.json');before=render.runtime(data)
         data['runtime'].update(status='failed',display_model='fixture model',last_attempt='2026-09-07T23:00:00Z')
-        data['runs'][-1]['accepted']=777
+        data['runtime']['latest_session']['accepted']=777
         after=render.runtime(data)
-        self.assertNotEqual(before,after);self.assertIn('fixture model',after);self.assertIn('777 accepted records',after)
+        self.assertNotEqual(before,after);self.assertIn('fixture model',after);self.assertIn('777 accepted monitoring records',after)
+        self.assertNotIn('Latest monitoring batch:',after)
 
     def test_preserve_incumbents_and_no_synthetic_history(self):
         d=ed.read(ROOT/'site/data/ledger.json');c=ed.read(ROOT/'research/homepage.json');p=ed.read(ROOT/'research/editorial-policy.json')

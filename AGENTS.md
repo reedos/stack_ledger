@@ -10,6 +10,10 @@ Daily researchers may only propose structured records through scripts/research.p
 
 Private discovery may investigate new public hosts under the reviewed research/discovery-policy.json, inside the existing runner's lock and budgets. This is collection permission, not public source registration. Discovery writes only private evidence, progress and coverage-expansion proposals in the existing review queue. Read research/DISCOVERY.md when maintaining it. Never treat a model screen, search result or historical readiness audit as approval. Named companies/products in the agenda are examples, not limits on exploration.
 
+The catalog feedback loop may draft structured company, product and project changes only in that private queue. Read research/CATALOG_FEEDBACK_LOOP.md. Explicit human review and application are separate from research; proposed IDs, source additions and stage changes do not widen daily publication permissions. Project counts and linked pages derive from accepted catalogs after validation and build.
+
+Read research/MUSE_RESEARCH_PLAYBOOK.md when maintaining researcher prompts, calibration or quality oversight. Its compact decision routine is embedded in OPERATING_GUIDE.md and supplied to extraction, screening and catalog drafting. Worked examples and proposed evaluation labels are not public evidence. The 20-case calibration design and desired digest are documented procedures, not already implemented automation; the existing opt-in replay still covers two discovery cases. Do not start inference to verify documentation.
+
 Use Python 3.11+ standard library. Build: python scripts/build.py. Validate: python scripts/validate.py. Tests: python -m unittest discover -s tests. Preview: python -m http.server 4173 --directory docs --bind 127.0.0.1.
 
 The site is deployed by GitHub Pages from main:/docs. Generated docs must match site and the build script. All public prose and chart labels must distinguish observations, estimates, projections, and commitments. No synthetic history or decorative data.

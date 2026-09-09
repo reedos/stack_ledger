@@ -42,8 +42,27 @@ def inbox(root):
                 proposal_hash=digest(json.dumps(item,sort_keys=True)),review_hash=digest(json.dumps(event,sort_keys=True))))
         except (OSError,ValueError,KeyError,TypeError):invalid+=1
     rows.sort(key=lambda row:row['created_at'],reverse=True)
+    from catalog_review import inbox as catalog_inbox
+    handoffs=[]
+    for path in queue(root).glob('note-*.json'):
+        try:
+            item=load(path)
+            if not isinstance(item,dict):raise ValueError('Invalid note handoff')
+            if item.get('review_required') and item.get('note'):
+                handoffs.append({'id':path.stem,'title':item['note']['title'],'summary':item['note']['summary'],'source':item['source'],'reason':item.get('reason','')})
+        except (OSError,ValueError,KeyError,TypeError):invalid+=1
+    for path in queue(root).glob('draft-*.json'):
+        try:
+            item=load(path)
+            if not isinstance(item,dict):raise ValueError('Invalid catalog draft')
+            if item.get('status') not in {'packaged'}:
+                handoffs.append({'id':path.stem,'title':item['note']['title'],'summary':item['note']['summary'],
+                    'source':item['source']['id'],'reason':item.get('status','')+': '+item.get('reason','')})
+        except (OSError,ValueError,KeyError,TypeError):invalid+=1
+    errors=[];packages=catalog_inbox(root,errors);invalid+=len(errors)
     return {'findings':rows,'reviewer':reviewer(root),'invalid_files':invalid,
-            'publication':'Triage only. Publishing new coverage requires a separate reviewed source/catalog change.'}
+            'catalog_packages':packages,'handoffs':handoffs,
+            'publication':'Discovery triage and catalog approval are distinct. Preview, approve, then explicitly apply and publish catalog packages.'}
 
 
 def review(root,value):

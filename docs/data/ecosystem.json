@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T20:42:00.396713+00:00",
+  "reviewed_at": "2026-09-09T05:45:26Z",
   "companies": [
     {
       "id": "nextera",
@@ -1812,6 +1812,281 @@
       "blog_urls": [],
       "official_lang": "en",
       "region_book": "united-states"
+    },
+    {
+      "id": "holtec",
+      "name": "Holtec International",
+      "layers": [
+        "energy"
+      ],
+      "role": "Nuclear technology, manufacturing and plant services; operator pursuing the Palisades restart and developer of SMR-300.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-palisades-20260830",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "kairos",
+      "name": "Kairos Power",
+      "layers": [
+        "energy"
+      ],
+      "role": "Develops fluoride-salt-cooled nuclear reactors through successive demonstration projects, including Hermes and the power-producing Hermes 2.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-hermes2-20260417",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "terrapower",
+      "name": "TerraPower",
+      "layers": [
+        "energy"
+      ],
+      "role": "Develops the Natrium sodium fast-reactor and storage technology; Kemmerer Unit 1 is its first commercial-scale project.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-natrium-permit-20260304",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "ormat",
+      "name": "Ormat Technologies",
+      "layers": [
+        "energy"
+      ],
+      "role": "Develops, owns and operates geothermal generation and supplies geothermal equipment; also develops energy storage.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-ormat-google-20260217",
+      "ir_url": "https://investor.ormat.com/",
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "stack-infrastructure",
+      "name": "STACK Infrastructure",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Develops and owns data-center campuses; Amazon identifies STACK as developer and owner of its three planned northwest Louisiana campuses.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-aws-louisiana-20260818",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "xcel-energy",
+      "name": "Xcel Energy",
+      "layers": [
+        "energy"
+      ],
+      "role": "Utility supplying the planned Pine Island Google campus under a proposed clean-energy contracting structure.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-google-pineisland-20260224",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "form-energy",
+      "name": "Form Energy",
+      "layers": [
+        "energy"
+      ],
+      "role": "Develops iron-air energy storage; Google identifies its batteries in the planned Minnesota energy package.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-google-pineisland-20260224",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "microchip",
+      "name": "Microchip Technology",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Provides PCIe/CXL connectivity, Ethernet PHYs, storage controllers and other embedded semiconductors.",
+      "revenue_metric": "revenue-microchip",
+      "revenue_kind": "annual",
+      "source": "astra-finance-microchip-2026",
+      "ir_url": "https://ir.microchip.com/sec-filings/all-sec-filings/content/0000827054-26-000016/mchp-20260331.htm",
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states",
+      "role_sources": [
+        "astra-microchip-retimers-20260602",
+        "astra-finance-microchip-2026"
+      ]
+    },
+    {
+      "id": "samtec",
+      "name": "Samtec",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "role": "Builds connectors, high-speed copper cables and socket systems connecting silicon, boards and optical engines.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-samtec-cpx-20260324",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "seagate",
+      "name": "Seagate Technology",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Makes mass-capacity hard drives used to retain large datasets in cloud and enterprise systems.",
+      "revenue_metric": "revenue-seagate",
+      "revenue_kind": "annual",
+      "source": "astra-finance-seagate-2026",
+      "ir_url": "https://investors.seagate.com/news/news-details/2026/Seagate-Technology-Reports-Fiscal-Fourth-Quarter-and-Fiscal-Year-2026-Financial-Results/default.aspx",
+      "filings_jurisdiction": "unknown",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "unknown",
+      "role_sources": [
+        "astra-seagate-mozaic4-20260303",
+        "astra-finance-seagate-2026"
+      ]
+    },
+    {
+      "id": "rambus",
+      "name": "Rambus",
+      "layers": [
+        "chips"
+      ],
+      "role": "Develops memory-interface and security IP and chips, including HBM controller IP used in accelerator design.",
+      "revenue_metric": "revenue-rambus",
+      "revenue_kind": "annual",
+      "source": "astra-finance-rambus-2025",
+      "ir_url": "https://www.rambus.com/fourth-quarter-and-fiscal-year-2025-financial-results/",
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states",
+      "role_sources": [
+        "astra-rambus-hbm4e-20260304",
+        "astra-finance-rambus-2025"
+      ]
+    },
+    {
+      "id": "tokyo-electron",
+      "name": "Tokyo Electron",
+      "layers": [
+        "chips"
+      ],
+      "role": "Supplies semiconductor manufacturing and test equipment, including device probers for advanced packaging.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-tel-prexa-20260416",
+      "ir_url": null,
+      "filings_jurisdiction": "japan",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "japan"
+    },
+    {
+      "id": "hitachi-energy",
+      "name": "Hitachi Energy",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "role": "Provides transformers, grid integration and power conversion linking electricity networks with data centers.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-hitachi-800v-20251013",
+      "ir_url": null,
+      "filings_jurisdiction": "europe",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "europe"
+    },
+    {
+      "id": "ddn",
+      "name": "DDN",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Builds parallel storage and data-management systems that feed AI training and inference workloads.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-ddn-rubin-20260105",
+      "ir_url": null,
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states"
+    },
+    {
+      "id": "netapp",
+      "name": "NetApp",
+      "layers": [
+        "infrastructure"
+      ],
+      "role": "Provides enterprise storage and data-management software used to govern and serve AI datasets.",
+      "revenue_metric": "revenue-netapp",
+      "revenue_kind": "annual",
+      "source": "astra-finance-netapp-2026",
+      "ir_url": "https://investors.netapp.com/news/news-details/2026/NetApp-Reports-Fourth-Quarter-and-Fiscal-Year-2026-Results/default.aspx",
+      "filings_jurisdiction": "United States",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "united-states",
+      "role_sources": [
+        "astra-netapp-afx",
+        "astra-finance-netapp-2026"
+      ]
+    },
+    {
+      "id": "ase",
+      "name": "ASE Technology / Advanced Semiconductor Engineering",
+      "layers": [
+        "chips"
+      ],
+      "role": "Provides outsourced semiconductor assembly and test, including fan-out and chiplet packaging; ASE, SPIL and USI form related parts of the holding group.",
+      "revenue_metric": null,
+      "revenue_kind": "unavailable",
+      "source": "astra-ase-panel-20260827",
+      "ir_url": null,
+      "filings_jurisdiction": "taiwan",
+      "blog_urls": [],
+      "official_lang": "en",
+      "region_book": "taiwan"
     }
   ],
   "capacity_metrics": [

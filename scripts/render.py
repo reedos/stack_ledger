@@ -153,7 +153,6 @@ def runtime(data):
         except (ImportError, KeyError):
             pass
         return instant.strftime('%Y-%m-%d %H:%M %Z')
-    last = data['runs'][-1] if data['runs'] else None
     session=r.get('latest_session')
     session_receipt='<li>Latest research session: no published session summary yet.</li>'
     if session:
@@ -165,11 +164,9 @@ def runtime(data):
                          f'{session["accepted"]:,} accepted monitoring records, {session["quarantined"]:,} quarantined proposals; '
                          f'{session["source_failures"]:,} source failures and {session["discovery_errors"]:,} discovery errors. '
                          f'Elapsed time includes waits and publication checks.{incomplete}</li>')
-    receipt = (f'<li>Latest monitoring batch: {last["documents_fetched"]} documents, {last["accepted"]} accepted records, '
-               f'{last["quarantined"]} quarantined proposals; {len(last["source_failures"])} source failures. Counts are for this batch only; a research session can include many batches.</li>' if last else '')
     return (f'<strong>Research runtime:</strong> {e(r["display_model"])} · {e(r["engine"])} · {e(r["hardware"])}<br>'
             f'<strong>Last run:</strong> {e(stamp(r["last_attempt"]))} · <strong>Status:</strong> {e(r["status"])} · '
             f'<strong>Last successful research:</strong> {e(stamp(r["last_success"]))}'
             '<details><summary>Runtime details &amp; provenance</summary><ul>'
             f'<li>Exact model: {e(r["model"])}</li><li>Schedule: {e(r["schedule"])}. Hardware configuration is owner-reported.</li>'
-            f'<li>Initial curated dataset: {e(data["seed_date"])}. Automated records are labeled individually.</li>{session_receipt}{receipt}</ul></details>')
+            f'<li>Initial curated dataset: {e(data["seed_date"])}. Automated records are labeled individually.</li>{session_receipt}</ul></details>')

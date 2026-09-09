@@ -45,7 +45,8 @@ class SessionReceiptTests(unittest.TestCase):
             data['runtime']['latest_session']=record
             html=render.runtime(data)
             self.assertIn('1 of 2 batch receipts',html)
-            self.assertIn('Latest monitoring batch:',html)
+            self.assertNotIn('Latest monitoring batch:',html)
+            self.assertIn('Latest research session:',html)
             self.assertIn('3 accepted monitoring records',html)
 
     def test_private_and_discovery_only_do_not_publish(self):

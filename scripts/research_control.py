@@ -133,16 +133,29 @@ def server(root=ROOT):
     token=secrets.token_urlsafe(32);controller=Controller(root);gpu=GpuSampler()
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
-        def send(self,code,body,kind='application/json'):
-            raw=body.encode('utf-8') if isinstance(body,str) else json.dumps(body).encode('utf-8')
+        def send(self,code,body,kind='application/json',preview=False):
+            raw=body if isinstance(body,bytes) else body.encode('utf-8') if isinstance(body,str) else json.dumps(body).encode('utf-8')
             self.send_response(code);self.send_header('Content-Type',kind+'; charset=utf-8')
             self.send_header('Content-Length',str(len(raw)));self.send_header('Cache-Control','no-store')
             self.send_header('X-Content-Type-Options','nosniff');self.send_header('X-Frame-Options','DENY')
-            self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+            self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'"+(" 'unsafe-inline'" if preview else '')+"; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
             self.end_headers();self.wfile.write(raw)
         def valid(self):return self.headers.get('Host')==f'127.0.0.1:{self.server.server_port}' and self.path.startswith('/'+token+'/')
         def do_GET(self):
             if not self.valid():self.send(403,{'error':'Local session URL required'});return
+            prefix='/'+token+'/preview/'
+            if self.path.startswith(prefix):
+                from urllib.parse import unquote,urlsplit
+                import mimetypes
+                import catalog_review
+                parts=unquote(urlsplit(self.path).path[len(prefix):]).split('/',1)
+                if not catalog_review.RID.fullmatch(parts[0]):self.send(404,{});return
+                folder=(root/'.local/catalog-previews'/parts[0]/'docs').resolve()
+                target=(folder/(parts[1] if len(parts)>1 else '')).resolve()
+                if target!=folder and folder not in target.parents:self.send(403,{});return
+                if target.is_dir():target=target/'index.html'
+                if not target.is_file():self.send(404,{});return
+                self.send(200,target.read_bytes(),mimetypes.guess_type(str(target))[0] or 'application/octet-stream',preview=True);return
             route=self.path.split('/')[-1]
             if route=='status':self.send(200,controller.status());return
             if route=='gpu':self.send(200,gpu.snapshot());return
@@ -168,11 +181,24 @@ def server(root=ROOT):
                 elif route=='review':
                     from findings_review import review
                     result=review(root,value)
+                elif route in {'catalog-preview','catalog-review','catalog-publish'}:
+                    from findings_review import reviewer
+                    import catalog_review
+                    owner=reviewer(root)
+                    if not owner:raise ValueError('This local account cannot review catalog changes')
+                    if route=='catalog-preview':
+                        if set(value)!={'id'}:raise ValueError('Invalid preview request')
+                        result=catalog_review.preview(root,value['id'])
+                    elif route=='catalog-review':result=catalog_review.review(root,value,owner)
+                    else:
+                        if set(value)!={'id','proposal_hash','review_hash','confirmed'}:raise ValueError('Invalid publication request')
+                        result=catalog_review.apply_publish(root,value['id'],value['proposal_hash'],value['review_hash'],owner,value['confirmed'])
                 else:raise ValueError('Unknown action')
                 self.send(200,result)
             except FileExistsError:self.send(409,{'error':'Another review is being saved; reload and try again'})
             except FileNotFoundError:self.send(409,{'error':'Finding is no longer available; reload the inbox'})
             except (ValueError,TypeError) as e:self.send(400,{'error':str(e)})
+            except (OSError,subprocess.SubprocessError):self.send(503,{'error':'Catalog operation failed; saved evidence and publication receipts are retained. Check the local repository and retry.'})
     http=ThreadingHTTPServer(('127.0.0.1',0),Handler)
     return http,f'http://127.0.0.1:{http.server_port}/{token}/'
 

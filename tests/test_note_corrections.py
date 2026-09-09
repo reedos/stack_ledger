@@ -38,7 +38,8 @@ class NoteCorrectionTests(unittest.TestCase):
         new=dict(old,id='new',correction_of='old')
         for rows in [[new],[old,new],self.data['events']+[dict(self.corrections[0],id='fork')]]:
             with self.assertRaises(ValueError):validate_event_corrections(rows)
-        rows=copy.deepcopy(self.data['events']);rows[-1]['source']='lumentum-cpo'
+        rows=copy.deepcopy(self.data['events'])
+        next(e for e in rows if e.get('correction_of'))['source']='lumentum-cpo'
         with self.assertRaises(ValueError):validate_event_corrections(rows)
 
     def test_automated_and_incomplete_corrections_rejected(self):

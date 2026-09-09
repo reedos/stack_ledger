@@ -14,9 +14,19 @@ def validate_delivery(d,ledger):
     sources={s['id']:s for s in ledger['sources']};obs={o['id']:o for o in ledger['observations']};metrics={m['id']:m for m in ledger['metrics']}
     require(set(d['context_metrics'])<=metrics.keys(),'Unknown delivery context metric')
     ids=set()
+    parents={p['id']:p.get('parent_project') for p in d['projects']}
+    for child in parents:
+        seen=set();cursor=child
+        while cursor is not None:
+            require(cursor not in seen,'Cyclic project phases');seen.add(cursor)
+            cursor=parents.get(cursor)
     for p in d['projects']:
         required={'id','name','layer','owner','location','category','stage','ai_relationship','observations','horizon','grid','next_evidence','milestones'}
-        require(required<=p.keys() and p.keys()<=required|{'primary_user','measures'},'Unexpected project fields')
+        require(required<=p.keys() and p.keys()<=required|{'primary_user','measures','company_ids','parent_project'},'Unexpected project fields')
+        if 'company_ids' in p:
+            require(isinstance(p['company_ids'],list) and len(p['company_ids'])==len(set(p['company_ids'])),'Invalid project company links')
+            for cid in p['company_ids']:require(re.fullmatch('[a-z0-9-]+',cid),'Invalid company ID')
+        if p.get('parent_project'):require(p['parent_project']!=p['id'] and any(v['id']==p['parent_project'] for v in d['projects']),'Invalid parent project')
         require(re.fullmatch('[a-z0-9-]+',p['id']) and p['id'] not in ids,'Invalid or duplicate project ID');ids.add(p['id'])
         require(p['layer'] in {'energy','chips','infrastructure','models','applications'} and p['stage'] in STAGES,'Invalid delivery stage/layer')
         if 'primary_user' in p:text(p['primary_user'],600)

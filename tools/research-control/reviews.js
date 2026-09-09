@@ -18,7 +18,7 @@
       const data=await r.json();if(!r.ok)throw new Error(data.error||'Could not load findings');
       findings=data.findings;owner=data.reviewer;limit=10;
       el('review-identity').textContent=owner?`Reviewing as ${owner} · Decisions are recorded locally with evidence hashes.`:'Read-only: this local account is not an authorized reviewer.';
-      draw();if(data.invalid_files)el('review-message').textContent+=` ${data.invalid_files} unreadable records need maintenance.`;
+      draw();drawCatalog(data);if(data.invalid_files)el('review-message').textContent+=` ${data.invalid_files} unreadable records need maintenance.`;
     }catch(e){el('review-message').textContent=e.message;}
   }
   function draw(){
@@ -57,6 +57,24 @@
       el('findings-list').append(card);
     }
     el('more-findings').hidden=selected.length<=limit;
+  }
+  async function catalogPost(route,body){const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':location.pathname.split('/')[1]},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw new Error(data.error||'Catalog action failed');return data;}
+  function drawCatalog(data){
+   let box=el('catalog-packages');if(!box){box=node('section');box.id='catalog-packages';el('review-panel').append(box);}box.replaceChildren(node('h2','Catalog updates'),node('p','Review exact changes, validate their preview, then approve and publish. Research and model screening never count as approval.'));
+   for(const p of data.catalog_packages||[]){
+    const card=node('article',null,'finding-card');card.append(node('h3',p.title),node('p',`${p.author} · ${p.status} · ${p.changes.length} object changes`));
+    for(const change of p.changes){const detail=node('details');detail.append(node('summary',`${change.target}: ${change.id} — ${change.before?'update':'new entry'}`),node('h4','Before'),node('pre',JSON.stringify(change.before,null,2)),node('h4','After'),node('pre',JSON.stringify(change.after,null,2)));card.append(detail);}
+    for(const evidence of p.evidence){const detail=node('details');detail.append(node('summary','Evidence: '+evidence.id),node('p',evidence.summary),node('p',`Published: ${evidence.published_at||'unknown'} · Retrieved: ${evidence.retrieved_at}`));try{const u=new URL(evidence.url);if(u.protocol==='https:'&&!u.username&&!u.password){const a=node('a','Read source ↗');a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';detail.append(a);}}catch(e){}card.append(detail);}
+    const msg=node('p',p.validation?(p.validation.passed?'Preview validation passed.':'Preview validation failed; inspect the checks below.'):'Preview has not been validated.','hint');msg.setAttribute('role','status');card.append(msg);
+    if(p.validation?.passed){const a=node('a','Open site preview ↗');a.href='preview/'+p.id+'/';a.target='_blank';a.rel='noopener';card.append(a);}
+    if(p.validation){const d=node('details');d.append(node('summary','Validation results'),node('pre',JSON.stringify(p.validation.checks,null,2)));card.append(d);}
+    const preview=node('button','Validate preview');preview.disabled=!owner;preview.onclick=async()=>{preview.disabled=true;msg.textContent='Building and testing isolated preview…';try{await catalogPost('catalog-preview',{id:p.id});await refresh();}catch(e){msg.textContent=e.message;preview.disabled=false;}};card.append(preview);
+    const form=node('form',null,'finding-review'),decision=node('select');for(const [v,label] of [['approved','Approve this package'],['deferred','Defer'],['rejected','Reject']]){const o=node('option',label);o.value=v;decision.append(o);}const reason=node('textarea');reason.placeholder='Reason for this decision';reason.required=true;reason.maxLength=1200;const label=node('label',null,'toggle'),confirm=node('input');confirm.type='checkbox';confirm.required=true;label.append(confirm,node('span','I reviewed the exact changes and supporting sources.'));const submit=node('button','Record catalog decision');submit.disabled=!owner;form.append(decision,reason,label,submit);form.onsubmit=async event=>{event.preventDefault();submit.disabled=true;try{await catalogPost('catalog-review',{id:p.id,decision:decision.value,rationale:reason.value,proposal_hash:p.proposal_hash,review_hash:p.review_hash,confirmed:confirm.checked});await refresh();}catch(e){msg.textContent=e.message;submit.disabled=false;}};card.append(form);
+    if(p.status==='approved'){const label=node('label',null,'toggle'),confirm=node('input');confirm.type='checkbox';label.append(confirm,node('span','Apply this approved package, commit, push and verify the live site.'));const button=node('button','Apply and publish');button.disabled=!owner;button.onclick=async()=>{if(!confirm.checked){msg.textContent='Confirm publication first.';return;}button.disabled=true;msg.textContent='Applying approved changes; validation and deployment may take a few minutes…';try{const result=await catalogPost('catalog-publish',{id:p.id,proposal_hash:p.proposal_hash,review_hash:p.review_hash,confirmed:true});await refresh();el('review-message').textContent='Catalog publication: '+result.status;}catch(e){msg.textContent=e.message;button.disabled=false;}};card.append(label,button);}
+    box.append(card);
+   }
+   if(!(data.catalog_packages||[]).length)box.append(node('p','No catalog packages prepared yet. Findings need complete evidence-backed object changes before approval.'));
+   const handoffs=node('details');handoffs.append(node('summary',`${(data.handoffs||[]).length} research-note follow-ups`));for(const h of data.handoffs||[]){handoffs.append(node('h4',h.title),node('p',h.summary),node('p',h.reason));}box.append(handoffs);
   }
   el('refresh-findings').onclick=refresh;
   for(const id of ['review-layer','review-status'])el(id).onchange=()=>{limit=10;draw();};

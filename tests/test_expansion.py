@@ -35,9 +35,15 @@ class ExpansionTests(unittest.TestCase):
             validate_delivery(self.d, self.l)
 
     def test_unknown_hires_are_not_seeded_as_zero(self):
-        ms = {m['id'] for m in self.l['metrics'] if m.get('measurement_type') == 'permanent_jobs_reported'}
-        self.assertTrue(ms)
-        self.assertFalse(any(o['metric'] in ms for o in self.l['observations']))
+        # A missing value is allowed even after other projects acquire reported
+        # jobs. Do not freeze the entire catalog into having no actuals forever.
+        template=next(m for m in self.l['metrics'] if m.get('measurement_type')=='permanent_jobs_reported')
+        missing=dict(template,id='fixture-undisclosed-operating-jobs')
+        self.l['metrics'].append(missing)
+        before=json.dumps(self.l['observations'],sort_keys=True)
+        validate_expansion(self.x,self.l,self.e,self.d)
+        self.assertEqual(json.dumps(self.l['observations'],sort_keys=True),before)
+        self.assertFalse(any(o['metric']==missing['id'] for o in self.l['observations']))
 
     def test_supervised_driving_stays_in_separate_metric_and_project(self):
         supervised = next(m for m in self.l['metrics'] if m['id'] == 'tesla-supervised-europe-miles')

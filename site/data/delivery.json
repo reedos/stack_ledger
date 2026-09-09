@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T09:34:15Z",
+  "reviewed_at": "2026-09-09T05:45:26Z",
   "projects": [
     {
       "id": "gemini",
@@ -81,19 +81,28 @@
       "location": "Beaver County, Utah",
       "category": "Geothermal generation",
       "stage": "construction",
-      "ai_relationship": "Broader firm-power development; AI-specific delivery not established.",
+      "ai_relationship": "Fervo links Cape Station expansion beyond Phase I to Google offtake for a potential Utah data center; exact alignment with this phase still needs reconciliation.",
       "observations": [
         "cape-phase-two-baseline"
       ],
       "horizon": "Company delivery target: 2028",
       "grid": "Second-phase development and drilling progressing. Future output is not current grid supply.",
-      "next_evidence": "Verify block-level commissioning dates and actual generation.",
+      "next_evidence": "Reconcile phase and GeoCluster boundaries before changing the capacity total; verify approvals, option exercise, commissioning and metered output. Check ratepayer treatment in regulatory records.",
       "milestones": [
         {
           "date": "2026-08-12",
           "summary": "Second phase progressing toward its stated 2028 delivery date.",
           "source": "fervo-q2-2026"
+        },
+        {
+          "date": "2026-09-01",
+          "source": "astra-fervo-google-20260901",
+          "summary": "Fervo announces 396 MW of Google offtake for a Cape Station GeoCluster targeting 2028, plus an approximately 600 MW expansion option by June 2030. The release does not reconcile these amounts with the existing Phase II capacity record."
         }
+      ],
+      "company_ids": [
+        "fervo",
+        "alphabet"
       ]
     },
     {
@@ -599,13 +608,22 @@
       ],
       "horizon": "First production target early 2028",
       "grid": "Utility arrangements not quantified.",
-      "next_evidence": "Qualified production, packaging WPM and actual permanent hires.",
+      "next_evidence": "Verify qualified production and packaging throughput against the early-2028 target; track local hires and any separate later-phase investment without adding overlapping campus totals.",
       "milestones": [
         {
           "date": "2025-10-06",
           "summary": "Groundbreaking and two-phase expansion announced. First-facility construction targets mid-2027; production early 2028.",
           "source": "amkor-arizona-2025"
+        },
+        {
+          "date": "2026-05-19",
+          "source": "astra-amkor-land-20260519",
+          "summary": "Amkor reports securing 67 acres next to its 104-acre Arizona campus for potential future expansion. Land area is not cleanroom area or operating output."
         }
+      ],
+      "company_ids": [
+        "amkor",
+        "nvidia"
       ]
     },
     {
@@ -1072,6 +1090,572 @@
           "summary": "Program overview combines operating N4 production with later fabs and packaging plans. Individual phases are tracked separately; campus commitments cannot be assigned to the operating first fab.",
           "source": "tsmc-arizona"
         }
+      ]
+    },
+    {
+      "id": "palisades-restart",
+      "name": "Palisades nuclear restart",
+      "layer": "energy",
+      "owner": "Holtec International",
+      "location": "Covert Township, Michigan, U.S.",
+      "category": "Nuclear restart",
+      "stage": "commissioning",
+      "ai_relationship": "Restores firm grid generation; this disclosure does not establish an AI-exclusive supply contract.",
+      "observations": [],
+      "horizon": "Restart remains subject to completion of startup work.",
+      "grid": "Long-term offtake agreements with Wolverine Power Cooperative and Hoosier Energy.",
+      "next_evidence": "Verify NRC startup milestones, grid synchronization and commercial generation.",
+      "milestones": [
+        {
+          "date": "2026-08-30",
+          "summary": "Holtec reports fuel loading began August 30, followed by required testing and startup activities. The planned output is 805 MW.",
+          "source": "astra-palisades-20260830"
+        }
+      ],
+      "company_ids": [
+        "holtec"
+      ]
+    },
+    {
+      "id": "hermes-two",
+      "name": "Hermes 2 demonstration plant",
+      "layer": "energy",
+      "owner": "Kairos Power",
+      "location": "Oak Ridge, Tennessee, U.S.",
+      "category": "Advanced nuclear demonstration",
+      "stage": "construction",
+      "ai_relationship": "Part of the Google reactor agreement, serving the TVA grid that supplies Google facilities.",
+      "observations": [],
+      "horizon": "Future generation; operating date requires a current confirmed schedule.",
+      "grid": "Planned TVA grid supply.",
+      "next_evidence": "Track nuclear construction, licensing and first electric output.",
+      "milestones": [
+        {
+          "date": "2026-04-17",
+          "summary": "Kairos reports groundbreaking for its power-producing demonstration plant, intended to supply up to 50 MWe to TVA.",
+          "source": "astra-hermes2-20260417"
+        }
+      ],
+      "company_ids": [
+        "kairos",
+        "tva",
+        "alphabet"
+      ]
+    },
+    {
+      "id": "natrium-kemmerer",
+      "name": "Natrium / Kemmerer Unit 1",
+      "layer": "energy",
+      "owner": "US SFR Owner / TerraPower",
+      "location": "Lincoln County, Wyoming, U.S.",
+      "category": "Advanced nuclear project",
+      "stage": "permitting",
+      "ai_relationship": "Potential firm grid supply for electrification; no AI-exclusive delivery is inferred.",
+      "observations": [],
+      "horizon": "Construction and operating schedules require subsequent evidence.",
+      "grid": "Grid-delivery arrangements not quantified in this disclosure.",
+      "next_evidence": "Verify permit issuance, nuclear construction progress, fuel supply and the operating-license path.",
+      "milestones": [
+        {
+          "date": "2026-03-04",
+          "summary": "TerraPower reports the NRC voted to grant its construction permit. This milestone does not establish commercial operation.",
+          "source": "astra-natrium-permit-20260304"
+        }
+      ],
+      "company_ids": [
+        "terrapower"
+      ]
+    },
+    {
+      "id": "ormat-nevada-google-portfolio",
+      "name": "Ormat / Google Nevada geothermal portfolio",
+      "layer": "energy",
+      "owner": "Ormat Technologies",
+      "location": "Nevada, U.S.",
+      "category": "Multi-project geothermal portfolio",
+      "stage": "announced",
+      "ai_relationship": "NV Energy supply arrangement is intended to support Google data-center operations.",
+      "observations": [],
+      "horizon": "2028–2030 planned project commissioning; not current capacity.",
+      "grid": "Clean Transition Tariff; approval remained pending in this announcement.",
+      "next_evidence": "Confirm PUCN approval and identify individual sites before adding their capacity to this overlapping portfolio.",
+      "milestones": [
+        {
+          "date": "2026-02-17",
+          "summary": "The portfolio PPA covers up to 150 MW of proposed new geothermal capacity, with projects expected online during 2028–2030.",
+          "source": "astra-ormat-google-20260217"
+        }
+      ],
+      "company_ids": [
+        "ormat",
+        "alphabet"
+      ]
+    },
+    {
+      "id": "fervo-project-red",
+      "name": "Project Red geothermal pilot",
+      "layer": "energy",
+      "owner": "Fervo Energy",
+      "location": "Nevada, U.S.",
+      "category": "Enhanced geothermal pilot",
+      "stage": "operating",
+      "ai_relationship": "The supplied grid serves Google data centers.",
+      "observations": [],
+      "horizon": "Operating milestone disclosed in 2023; refresh generation history.",
+      "grid": "Grid supply, not an isolated dedicated electrical connection.",
+      "next_evidence": "Collect annual delivered MWh and operating availability.",
+      "milestones": [
+        {
+          "date": "2023-11-28",
+          "summary": "Google reports the enhanced-geothermal pilot began delivering electricity to the Nevada grid.",
+          "source": "astra-fervo-red-20231128"
+        }
+      ],
+      "company_ids": [
+        "fervo",
+        "alphabet"
+      ]
+    },
+    {
+      "id": "meta-temple",
+      "name": "Meta Temple data center",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Temple, Texas, U.S.",
+      "category": "AI-optimized data center",
+      "stage": "operating",
+      "ai_relationship": "AI-optimized serving infrastructure.",
+      "observations": [],
+      "horizon": "Operating announcement July 2026.",
+      "grid": "Meta identifies Oncor as its energy-infrastructure partner. Annual renewable matching is not hourly carbon-free supply.",
+      "next_evidence": "Verify metered energy, commissioned IT MW and recurring operating employment.",
+      "milestones": [
+        {
+          "date": "2026-07-22",
+          "summary": "Meta reports the facility is serving traffic. Construction supported 1,200 skilled workers at peak; almost 100 operational roles are currently supported.",
+          "source": "astra-meta-temple-20260722"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ],
+      "measures": [
+        "temple-construction-peak-2026",
+        "temple-operating-roles-2026"
+      ]
+    },
+    {
+      "id": "aws-northwest-louisiana",
+      "name": "AWS / STACK northwest Louisiana program",
+      "layer": "infrastructure",
+      "owner": "STACK Infrastructure; Amazon as user",
+      "location": "Caddo and Bossier Parishes, Louisiana, U.S.",
+      "category": "Three-campus program",
+      "stage": "announced",
+      "ai_relationship": "Cloud and AI infrastructure; aggregate program is not one operating site.",
+      "observations": [],
+      "horizon": "Planned buildout; no common operational date established.",
+      "grid": "Amazon commits to paying SWEPCO grid-upgrade costs and up to $400 million for water infrastructure.",
+      "next_evidence": "Track each campus, permits, energization and realized payments; never add program totals to later site totals.",
+      "milestones": [
+        {
+          "date": "2026-08-18",
+          "summary": "Amazon raises the planned investment to $18 billion for three campuses. Forecasts include up to 750 direct full-time roles and up to 2,250 construction jobs.",
+          "source": "astra-aws-louisiana-20260818"
+        }
+      ],
+      "company_ids": [
+        "aws",
+        "stack-infrastructure"
+      ]
+    },
+    {
+      "id": "google-pine-island",
+      "name": "Google Pine Island data center",
+      "layer": "infrastructure",
+      "owner": "Google",
+      "location": "Pine Island, Minnesota, U.S.",
+      "category": "Data center",
+      "stage": "announced",
+      "ai_relationship": "Cloud/AI growth paired with an energy-supply agreement.",
+      "observations": [],
+      "horizon": "Future buildout; no accepted operating capacity.",
+      "grid": "Clean Energy Accelerator Charge is intended to cover incremental service costs.",
+      "next_evidence": "Verify regulatory approvals, separate resource sites, storage duration and actual in-service dates.",
+      "milestones": [
+        {
+          "date": "2026-02-24",
+          "summary": "Google announces a future campus and an Xcel agreement including 1,400 MW of wind, 200 MW of solar and 300 MW of iron-air storage. These are planned grid resources.",
+          "source": "astra-google-pineisland-20260224"
+        }
+      ],
+      "company_ids": [
+        "alphabet",
+        "xcel-energy",
+        "form-energy"
+      ]
+    },
+    {
+      "id": "meta-tulsa",
+      "name": "Meta Tulsa data center",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Tulsa, Oklahoma, U.S.",
+      "category": "AI data center",
+      "stage": "announced",
+      "ai_relationship": "Planned AI infrastructure.",
+      "observations": [],
+      "horizon": "Completion not established by the announcement.",
+      "grid": "PSO utility relationship; future renewable matching does not prove hourly supply.",
+      "next_evidence": "Verify construction milestones, commissioning and actual training placements.",
+      "milestones": [
+        {
+          "date": "2026-04-21",
+          "summary": "Meta announces the campus, with over 1,000 peak construction workers and approximately 100 operational roles expected.",
+          "source": "astra-meta-tulsa-20260421"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ]
+    },
+    {
+      "id": "meta-sturgeon",
+      "name": "Meta Sturgeon County data centre",
+      "layer": "infrastructure",
+      "owner": "Meta",
+      "location": "Sturgeon County, Alberta, Canada",
+      "category": "AI data center",
+      "stage": "announced",
+      "ai_relationship": "Planned AI infrastructure with grid and generation development.",
+      "observations": [],
+      "horizon": "Future campus; no operating date verified.",
+      "grid": "Meta commits to funding generation and grid infrastructure; confirm Alberta regulatory records.",
+      "next_evidence": "Verify permits, construction, energized capacity and Canadian-dollar spending.",
+      "milestones": [
+        {
+          "date": "2026-07-08",
+          "summary": "Meta announces a 1 GW campus, over CA$13 billion planned investment, approximately 3,000 peak construction workers and over 300 future operational jobs.",
+          "source": "astra-meta-sturgeon-20260708"
+        }
+      ],
+      "company_ids": [
+        "meta"
+      ]
+    },
+    {
+      "id": "micron-new-york-first-fab",
+      "name": "Micron Clay first fab",
+      "layer": "chips",
+      "owner": "Micron",
+      "location": "Clay, New York, U.S.",
+      "category": "DRAM fabrication",
+      "stage": "construction",
+      "ai_relationship": "Domestic memory fabrication supports AI supply chains.",
+      "observations": [],
+      "horizon": "The wider U.S. investment outlook extends through 2035; this is not this fab’s budget.",
+      "grid": "Site-specific energized capacity not established.",
+      "next_evidence": "Track equipment installation, first wafers and site-specific output; separate the four-fab program.",
+      "milestones": [
+        {
+          "date": "2026-07-09",
+          "summary": "Micron reports first concrete and transition to vertical construction. Approximately $675 million had been directed to New York contractors and suppliers as awarded value.",
+          "source": "astra-micron-ny-20260709"
+        }
+      ],
+      "company_ids": [
+        "micron"
+      ],
+      "measures": [
+        "micron-ny-local-awards-2026"
+      ]
+    },
+    {
+      "id": "micron-idaho-one",
+      "name": "Micron Idaho first fab",
+      "layer": "chips",
+      "owner": "Micron",
+      "location": "Boise, Idaho, U.S.",
+      "category": "DRAM fabrication",
+      "stage": "construction",
+      "ai_relationship": "Domestic advanced memory supply.",
+      "observations": [],
+      "horizon": "Mid-2027 first-wafer target.",
+      "grid": "Energized power not quantified here.",
+      "next_evidence": "Verify equipment move-in, qualification and wafer output.",
+      "milestones": [
+        {
+          "date": "2026-07-09",
+          "summary": "Micron expects first wafer output in mid-2027.",
+          "source": "astra-micron-ny-20260709"
+        }
+      ],
+      "company_ids": [
+        "micron"
+      ]
+    },
+    {
+      "id": "micron-idaho-two",
+      "name": "Micron Idaho second fab",
+      "layer": "chips",
+      "owner": "Micron",
+      "location": "Boise, Idaho, U.S.",
+      "category": "DRAM fabrication",
+      "stage": "announced",
+      "ai_relationship": "Additional planned domestic memory supply.",
+      "observations": [],
+      "horizon": "Late-2028 first-wafer target.",
+      "grid": "Power and water readiness need site evidence.",
+      "next_evidence": "Verify construction stage and maintain distinction from the first fab.",
+      "milestones": [
+        {
+          "date": "2026-07-09",
+          "summary": "Micron expects first wafer output in late 2028. This disclosure does not quantify completed construction.",
+          "source": "astra-micron-ny-20260709"
+        }
+      ],
+      "company_ids": [
+        "micron"
+      ]
+    },
+    {
+      "id": "hynix-yongin-y1",
+      "name": "SK hynix Yongin Y1",
+      "layer": "chips",
+      "owner": "SK hynix",
+      "location": "Yongin, South Korea",
+      "category": "DRAM fabrication",
+      "stage": "construction",
+      "ai_relationship": "HBM and advanced DRAM manufacturing base.",
+      "observations": [],
+      "horizon": "February 2027 first-cleanroom target.",
+      "grid": "Cluster utility works are distinct from commissioned fab capacity.",
+      "next_evidence": "Track equipment qualification and disclosed wafer output.",
+      "milestones": [
+        {
+          "date": "2026-08-07",
+          "summary": "SK hynix reports Y1 construction is progressing toward a February 2027 initial cleanroom opening.",
+          "source": "astra-hynix-fabs-20260807"
+        }
+      ],
+      "company_ids": [
+        "sk-hynix"
+      ]
+    },
+    {
+      "id": "hynix-yongin-y2",
+      "name": "SK hynix Yongin Y2",
+      "layer": "chips",
+      "owner": "SK hynix",
+      "location": "Yongin, South Korea",
+      "category": "HBM / DRAM fabrication",
+      "stage": "announced",
+      "ai_relationship": "Planned memory capacity for AI systems.",
+      "observations": [],
+      "horizon": "June 2029 cleanroom; investment extends through October 2031.",
+      "grid": "Shares cluster utility infrastructure.",
+      "next_evidence": "Verify construction and equipment qualification; cluster completion target is 2033.",
+      "milestones": [
+        {
+          "date": "2026-08-07",
+          "summary": "SK hynix approves Y2 investment, targeting July 2027 groundbreaking and June 2029 initial cleanroom opening.",
+          "source": "astra-hynix-fabs-20260807"
+        }
+      ],
+      "company_ids": [
+        "sk-hynix"
+      ]
+    },
+    {
+      "id": "hynix-cheongju-m17",
+      "name": "SK hynix Cheongju M17",
+      "layer": "chips",
+      "owner": "SK hynix",
+      "location": "Cheongju, South Korea",
+      "category": "NAND fabrication",
+      "stage": "announced",
+      "ai_relationship": "NAND storage supply; not an HBM wafer-capacity metric.",
+      "observations": [],
+      "horizon": "December 2028 first-cleanroom target.",
+      "grid": "Existing campus infrastructure is available; operating readiness remains to be established.",
+      "next_evidence": "Track construction, first wafers and NAND output.",
+      "milestones": [
+        {
+          "date": "2026-08-07",
+          "summary": "SK hynix plans a NAND fab, targeting February 2027 groundbreaking and December 2028 initial cleanroom opening.",
+          "source": "astra-hynix-fabs-20260807"
+        }
+      ],
+      "company_ids": [
+        "sk-hynix"
+      ]
+    },
+    {
+      "id": "micron-singapore-hbm",
+      "name": "Micron Singapore HBM packaging expansion",
+      "layer": "chips",
+      "owner": "Micron",
+      "location": "Singapore",
+      "category": "HBM advanced packaging",
+      "stage": "construction",
+      "ai_relationship": "HBM assembly and packaging, separate from DRAM fabrication.",
+      "observations": [],
+      "horizon": "2025-vintage targets: 2026 operations and 2027 capacity contribution; not automatically achieved.",
+      "grid": "Facility utility commissioning not verified.",
+      "next_evidence": "Obtain a current operating update and packaging-throughput disclosure.",
+      "milestones": [
+        {
+          "date": "2025-01-08",
+          "summary": "Micron reports groundbreaking for an HBM packaging facility; the announcement planned operations in 2026 and meaningful capacity expansion in 2027.",
+          "source": "astra-micron-singapore-20250108"
+        }
+      ],
+      "company_ids": [
+        "micron"
+      ]
+    },
+    {
+      "id": "nebius-lappeenranta",
+      "name": "Nebius Lappeenranta AI factory",
+      "layer": "infrastructure",
+      "owner": "Nebius",
+      "location": "Lappeenranta, Finland",
+      "category": "AI data center",
+      "stage": "construction",
+      "ai_relationship": "Dedicated AI training and inference infrastructure.",
+      "observations": [],
+      "horizon": "First capacity target 2027; full buildout separate.",
+      "grid": "Reported MW basis needs confirmation before treating it as IT load.",
+      "next_evidence": "Track permits, first energized halls and delivered IT capacity.",
+      "milestones": [
+        {
+          "date": "2026-03-31",
+          "summary": "Nebius announces construction of up to 310 MW, with first customer capacity expected in 2027.",
+          "source": "astra-nebius-finland-20260331"
+        }
+      ],
+      "company_ids": [
+        "nebius"
+      ]
+    },
+    {
+      "id": "nebius-mantsala",
+      "name": "Nebius Mäntsälä data center",
+      "layer": "infrastructure",
+      "owner": "Nebius",
+      "location": "Mäntsälä, Finland",
+      "category": "AI data center expansion",
+      "stage": "operating",
+      "ai_relationship": "Operating AI-cloud infrastructure.",
+      "observations": [],
+      "horizon": "Completed expansion reported March 2026.",
+      "grid": "Confirm whether the disclosed MW denotes facility or critical IT capacity.",
+      "next_evidence": "Obtain operating capacity definition and heat-recovery measurements.",
+      "milestones": [
+        {
+          "date": "2026-03-31",
+          "summary": "Nebius reports its expansion to up to 75 MW was completed earlier in 2026.",
+          "source": "astra-nebius-finland-20260331"
+        }
+      ],
+      "company_ids": [
+        "nebius"
+      ]
+    },
+    {
+      "id": "nebius-lille",
+      "name": "Nebius Lille-area AI factory",
+      "layer": "infrastructure",
+      "owner": "Nebius",
+      "location": "Near Lille, France",
+      "category": "AI data center",
+      "stage": "construction",
+      "ai_relationship": "Planned AI-cloud capacity.",
+      "observations": [],
+      "horizon": "Full-deployment date not established.",
+      "grid": "Power basis and energized amount remain unknown.",
+      "next_evidence": "Verify exact site, stage and phased commissioning.",
+      "milestones": [
+        {
+          "date": "2026-03-31",
+          "summary": "Nebius states it is building a factory with 240 MW capacity when fully deployed.",
+          "source": "astra-nebius-finland-20260331"
+        }
+      ],
+      "company_ids": [
+        "nebius"
+      ]
+    },
+    {
+      "id": "coreweave-lancaster",
+      "name": "CoreWeave Lancaster campus",
+      "layer": "infrastructure",
+      "owner": "Chirisa Technology Parks / Machine Investment Group; CoreWeave as tenant",
+      "location": "Lancaster, Pennsylvania, U.S.",
+      "category": "AI data center",
+      "stage": "announced",
+      "ai_relationship": "AI-cloud tenant infrastructure.",
+      "observations": [],
+      "horizon": "2025 announcement; current commissioning evidence still required.",
+      "grid": "Electrical-capacity basis and energization unverified.",
+      "next_evidence": "Verify current construction status and distinguish planned 70 launch roles from actual hires.",
+      "milestones": [
+        {
+          "date": "2025-07-15",
+          "summary": "CoreWeave announced up to $6 billion to equip an initial 100 MW facility, potentially expanding to 300 MW. The source forecasts about 600 build-phase jobs.",
+          "source": "astra-coreweave-lancaster-20250715"
+        }
+      ],
+      "company_ids": [
+        "coreweave"
+      ]
+    },
+    {
+      "id": "ase-kaohsiung-park-three",
+      "name": "ASE Nanzih Park III expansion",
+      "layer": "chips",
+      "owner": "ASE",
+      "location": "Kaohsiung, Taiwan",
+      "category": "Packaging and test",
+      "stage": "construction",
+      "ai_relationship": "Advanced packaging and test for AI and other semiconductor markets.",
+      "observations": [],
+      "horizon": "Q2 2028 completion target.",
+      "grid": "Site-specific commissioned utility capacity not established.",
+      "next_evidence": "Verify buildings, equipment qualification and actual operating employment.",
+      "milestones": [
+        {
+          "date": "2026-03-11",
+          "summary": "ASE reports groundbreaking for two buildings and plans NT$17.8 billion of investment. Completion is targeted for Q2 2028, with approximately 1,470 future jobs.",
+          "source": "astra-ase-kaohsiung-20260311"
+        }
+      ],
+      "company_ids": [
+        "ase"
+      ]
+    },
+    {
+      "id": "ase-wus-nanzih",
+      "name": "ASE / WUS Nanzih manufacturing collaboration",
+      "layer": "chips",
+      "owner": "ASE and WUS",
+      "location": "Kaohsiung, Taiwan",
+      "category": "Packaging collaboration",
+      "stage": "announced",
+      "ai_relationship": "FOCoS and flip-chip packaging for AI, cloud and other applications.",
+      "observations": [],
+      "horizon": "September 2029 completion target.",
+      "grid": "Substation is planned, not verified energized service.",
+      "next_evidence": "Verify parcel and phase boundaries against neighboring ASE investments before aggregating capital or jobs.",
+      "milestones": [
+        {
+          "date": "2026-05-08",
+          "summary": "The collaboration plans a facility exceeding 113,000 square meters, a 161 kV substation and over 2,000 employment opportunities.",
+          "source": "astra-ase-wus-20260508"
+        }
+      ],
+      "company_ids": [
+        "ase"
       ]
     }
   ],

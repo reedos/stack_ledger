@@ -7244,6 +7244,226 @@
       "series_start_year": 2026,
       "chart_default_start": 2026,
       "pre_period_note": "March 5, 2026 disclosure only; no earlier counts inferred."
+    },
+    {
+      "id": "temple-construction-peak",
+      "layer": "infrastructure",
+      "title": "Temple · reported construction peak",
+      "unit": "jobs",
+      "geography": "Temple, Texas, U.S.",
+      "scope": "Company-reported peak during construction, disclosed July 2026; not annual jobs, current employment or net job creation.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Company-reported peak during construction, disclosed July 2026; not annual jobs, current employment or net job creation.",
+      "source_ids": [
+        "astra-meta-temple-20260722"
+      ],
+      "company": "meta",
+      "measurement_type": "construction_workers_peak",
+      "project": "meta-temple",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Begins with this dated disclosure. No earlier values are inferred; current records and commitments remain distinct."
+    },
+    {
+      "id": "temple-operating-roles",
+      "layer": "infrastructure",
+      "title": "Temple · supported operational roles",
+      "unit": "jobs",
+      "geography": "Temple, Texas, U.S.",
+      "scope": "Company reports almost 100 supported operational roles; not necessarily Meta payroll employees and not a national net employment measure.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Company reports almost 100 supported operational roles; not necessarily Meta payroll employees and not a national net employment measure.",
+      "source_ids": [
+        "astra-meta-temple-20260722"
+      ],
+      "company": "meta",
+      "measurement_type": "permanent_jobs_reported",
+      "project": "meta-temple",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Begins with this dated disclosure. No earlier values are inferred; current records and commitments remain distinct."
+    },
+    {
+      "id": "micron-ny-local-awards",
+      "layer": "chips",
+      "title": "Micron Clay · New York contracts awarded",
+      "unit": "USD million",
+      "geography": "Clay, New York, U.S.",
+      "scope": "Approximate cumulative value awarded to New York contractors and suppliers at first concrete; not cash paid, total investment or annual economic output.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Approximate cumulative value awarded to New York contractors and suppliers at first concrete; not cash paid, total investment or annual economic output.",
+      "source_ids": [
+        "astra-micron-ny-20260709"
+      ],
+      "company": "micron",
+      "measurement_type": "local_procurement_usd",
+      "project": "micron-new-york-first-fab",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Begins with this dated disclosure. No earlier values are inferred; current records and commitments remain distinct."
+    },
+    {
+      "id": "revenue-seagate",
+      "layer": "infrastructure",
+      "title": "Seagate Technology · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred. FY2025 ended June 27, 2025; FY2026 ended July 3, 2026.",
+      "source_ids": [
+        "astra-finance-seagate-2022",
+        "astra-finance-seagate-2023",
+        "astra-finance-seagate-2025",
+        "astra-finance-seagate-2026"
+      ],
+      "company": "seagate",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "revenue-netapp-forecast",
+      "layer": "infrastructure",
+      "title": "NetApp · full-year revenue guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-netapp-2027-outlook"
+      ],
+      "company": "netapp",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "revenue-netapp",
+      "layer": "infrastructure",
+      "title": "NetApp · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-netapp-2024",
+        "astra-finance-netapp-2026"
+      ],
+      "company": "netapp",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap.",
+      "chart_companion_metric": "revenue-netapp-forecast",
+      "chart_comparison_title": "NetApp · revenue history and outlook",
+      "chart_comparison_note": "Reported fiscal-year revenue and September 2, 2026 company guidance. No forecast is extended past FY2027.",
+      "chart_comparison_label": "Company guidance",
+      "chart_comparison_legend": "Company guidance · September 2026"
+    },
+    {
+      "id": "revenue-rambus",
+      "layer": "chips",
+      "title": "Rambus · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-rambus-2022",
+        "astra-finance-rambus-2023",
+        "astra-finance-rambus-2025"
+      ],
+      "company": "rambus",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "revenue-microchip",
+      "layer": "chips",
+      "title": "Microchip Technology · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-microchip-2024",
+        "astra-finance-microchip-2026"
+      ],
+      "company": "microchip",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
     }
   ],
   "sources": [
@@ -11196,6 +11416,748 @@
         "infrastructure"
       ],
       "license": "Source material retains its original rights; facts paraphrased with attribution."
+    },
+    {
+      "id": "astra-marvell-optics-20260312",
+      "publisher": "Marvell",
+      "title": "1.6T optical DSP portfolio expansion",
+      "url": "https://www.marvell.com/company/newsroom/marvell-1-6t-optical-dsp-ai-data-center-connectivity.html",
+      "published": "2026-03-12",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-marvell-memory-20260804",
+      "publisher": "Marvell",
+      "title": "AI memory infrastructure portfolio",
+      "url": "https://www.marvell.com/company/newsroom/marvell-ai-memory-infrastructure-agentic-ai-inference.html",
+      "published": "2026-08-04",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-marvell-t100-20260601",
+      "publisher": "Marvell",
+      "title": "Teralynx T100 announcement",
+      "url": "https://www.marvell.com/company/newsroom/marvell-announces-102-4-tbps-ai-cloud-data-center-switch.html",
+      "published": "2026-06-01",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-marvell-coherent-20260305",
+      "publisher": "Marvell",
+      "title": "Electra, Libra and COLORZ roadmap",
+      "url": "https://www.marvell.com/company/newsroom/marvell-1-6t-zr-zr-plus-pluggable-2nm-coherent-dsp-ai-interconnects.html",
+      "published": "2026-03-05",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-astera-q2-20260804",
+      "publisher": "Astera Labs",
+      "title": "Second quarter 2026 results",
+      "url": "https://ir.asteralabs.com/news-releases/news-release-details/astera-labs-reports-second-quarter-2026-financial-results",
+      "published": "2026-08-04",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-broadcom-th6-20260312",
+      "publisher": "Broadcom",
+      "title": "Tomahawk 6 production-volume announcement",
+      "url": "https://www.broadcom.com/company/news/product-releases/64031",
+      "published": "2026-03-12",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-lumentum-ofc-20260317",
+      "publisher": "Lumentum",
+      "title": "OFC 2026 optical technology demonstrations",
+      "url": "https://investor.lumentum.com/financial-news-releases/news-details/2026/Lumentum-Demonstrates-Industry-Leading-Technologies-and-Products-for-Scale-Out-Scale-Up-and-Scale-Across-AI-Infrastructure-at-OFC-2026/default.aspx",
+      "published": "2026-03-17",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-credo-span",
+      "publisher": "Credo",
+      "title": "800G SPAN active electrical cable",
+      "url": "https://credosemi.com/products/zeroflapaec/800g-span-osfp-to-osfp-rhs/",
+      "published": null,
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-palisades-20260830",
+      "publisher": "Holtec International",
+      "title": "Palisades begins fuel loading",
+      "url": "https://holtecinternational.com/hh-47-17/",
+      "published": "2026-08-30",
+      "layers": [
+        "energy"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-hermes2-20260417",
+      "publisher": "Kairos Power",
+      "title": "Hermes 2 demonstration plant groundbreaking",
+      "url": "https://www.kairospower.com/updates/kairos-power-breaks-ground-on-hermes-2-demonstration-plant",
+      "published": "2026-04-17",
+      "layers": [
+        "energy"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-natrium-permit-20260304",
+      "publisher": "TerraPower",
+      "title": "NRC construction-permit vote for Natrium",
+      "url": "https://www.terrapower.com/NRC-Approves-Natrium-Reactor-Construction-Permit",
+      "published": "2026-03-04",
+      "layers": [
+        "energy"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-ormat-google-20260217",
+      "publisher": "Ormat Technologies",
+      "title": "Nevada geothermal portfolio agreement",
+      "url": "https://investor.ormat.com/news-events/news/news-details/2026/Ormat-Technologies-Announces-the-Signing-of-Geothermal-Portfolio-PPA-of-Up-to-150-MW-to-Support-Googles-Data-Center-Operations-Through-NV-Energy/default.aspx",
+      "published": "2026-02-17",
+      "layers": [
+        "energy"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-fervo-red-20231128",
+      "publisher": "Google",
+      "title": "Fervo geothermal pilot begins grid supply",
+      "url": "https://blog.google/company-news/outreach-and-initiatives/sustainability/google-fervo-geothermal-energy-partnership/",
+      "published": "2023-11-28",
+      "layers": [
+        "energy"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-meta-temple-20260722",
+      "publisher": "Meta",
+      "title": "Temple data center serving traffic",
+      "url": "https://datacenters.atmeta.com/2026/07/temple-we-are-online/",
+      "published": "2026-07-22",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-aws-louisiana-20260818",
+      "publisher": "Amazon",
+      "title": "Northwest Louisiana investment expansion",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-data-center-louisiana-new-jobs",
+      "published": "2026-08-18",
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-google-pineisland-20260224",
+      "publisher": "Google",
+      "title": "Pine Island data-center and energy agreement",
+      "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/global-network/data-center-pine-island/",
+      "published": "2026-02-24",
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-meta-tulsa-20260421",
+      "publisher": "Meta",
+      "title": "Tulsa AI data center announcement",
+      "url": "https://datacenters.atmeta.com/2026/04/hello-tulsa/",
+      "published": "2026-04-21",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-meta-sturgeon-20260708",
+      "publisher": "Meta",
+      "title": "Sturgeon County data-center announcement",
+      "url": "https://datacenters.atmeta.com/2026/07/hello-sturgeon-county/",
+      "published": "2026-07-08",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-micron-ny-20260709",
+      "publisher": "Micron",
+      "title": "New York first-concrete milestone",
+      "url": "https://investors.micron.com/news/press-release/2026/Micron-Accelerates-U-S--Investments-Pours-First-Concrete-at-New-York-Fab/default.aspx",
+      "published": "2026-07-09",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-hynix-fabs-20260807",
+      "publisher": "SK hynix",
+      "title": "Yongin Y2 and Cheongju M17 investment",
+      "url": "https://news.skhynix.com/en/fab-facility-investment-2026/",
+      "published": "2026-08-07",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-micron-singapore-20250108",
+      "publisher": "Micron",
+      "title": "Singapore HBM packaging groundbreaking",
+      "url": "https://investors.micron.com/news/press-release/2025/Micron-Breaks-Ground-on-New-HBM-Advanced-Packaging-Facility-in-Singapore-01-08-2025/default.aspx",
+      "published": "2025-01-08",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-nebius-finland-20260331",
+      "publisher": "Nebius",
+      "title": "Finland AI factory expansion",
+      "url": "https://nebius.com/newsroom/nebius-to-construct-310-mw-ai-factory-in-finland",
+      "published": "2026-03-31",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-coreweave-lancaster-20250715",
+      "publisher": "CoreWeave",
+      "title": "Lancaster infrastructure commitment",
+      "url": "https://investors.coreweave.com/news/news-details/2025/CoreWeave-Announces-Multi-Billion-Dollar-Commitment-to-AI-Infrastructure-in-Pennsylvania/default.aspx",
+      "published": "2025-07-15",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-microchip-retimers-20260602",
+      "publisher": "Microchip",
+      "title": "PCIe 6 and CXL retimer introduction",
+      "url": "https://www.microchip.com/en-us/about/news-releases/products/xpressconnect-pcie-6-cxl-3-1-retimers",
+      "published": "2026-06-02",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-samtec-cpx-20260324",
+      "publisher": "Samtec",
+      "title": "Co-packaged interconnect demonstrations",
+      "url": "https://blog.samtec.com/post/innovations-in-co-packaged-interconnects-for-224-gbps-pam4-and-beyond/",
+      "published": "2026-03-24",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-seagate-mozaic4-20260303",
+      "publisher": "Seagate",
+      "title": "Mozaic 4+ volume shipment disclosure",
+      "url": "https://www.seagate.com/stories/articles/seagate-delivers-industrys-highest-capacity-hard-drives-with-next-generation-mozaic-4/",
+      "published": "2026-03-03",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-rambus-hbm4e-20260304",
+      "publisher": "Rambus",
+      "title": "HBM4E controller IP announcement",
+      "url": "https://www.rambus.com/rambus-sets-new-benchmark-for-ai-memory-performance-with-industry-leading-hbm4e-controller-ip/",
+      "published": "2026-03-04",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-tel-prexa-20260416",
+      "publisher": "Tokyo Electron",
+      "title": "Prexa SDP device prober launch",
+      "url": "https://www.tel.com/news/product/2026/20260416_001.html",
+      "published": "2026-04-16",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-hitachi-800v-20251013",
+      "publisher": "Hitachi Energy",
+      "title": "800 VDC collaboration",
+      "url": "https://www.hitachienergy.com/uk-ie/en/news-and-events/press-releases/2025/10/nvidia-800-vdc-collaboration",
+      "published": "2025-10-13",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-ddn-rubin-20260105",
+      "publisher": "DDN",
+      "title": "Rubin data and offload integration",
+      "url": "https://www.ddn.com/press-releases/ddn-powers-integrated-compute-data-and-offload-at-scale-for-nvidia-rubin-platform/",
+      "published": "2026-01-05",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-netapp-afx",
+      "publisher": "NetApp",
+      "title": "AFX product documentation",
+      "url": "https://www.netapp.com/afx/",
+      "published": null,
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-nvidia-rubin-20260531",
+      "publisher": "NVIDIA",
+      "title": "Vera Rubin production disclosure",
+      "url": "https://nvidianews.nvidia.com/news/vera-rubin-full-production-agentic-ai-factory",
+      "published": "2026-05-31",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-amd-q2-20260804",
+      "publisher": "AMD",
+      "title": "Second quarter 2026 financial-results exhibit",
+      "url": "https://ir.amd.com/financial-information/sec-filings/content/0000002488-26-000121/q22026991.htm",
+      "published": "2026-08-04",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-cisco-g300-20260210",
+      "publisher": "Cisco",
+      "title": "Silicon One G300 announcement",
+      "url": "https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2026/m02/cisco-announces-new-silicon-one-g300.html",
+      "published": "2026-02-10",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-seagate-2026",
+      "publisher": "Seagate",
+      "title": "Annual financial results / reporting table",
+      "url": "https://investors.seagate.com/news/news-details/2026/Seagate-Technology-Reports-Fiscal-Fourth-Quarter-and-Fiscal-Year-2026-Financial-Results/default.aspx",
+      "published": "2026-07-28",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-seagate-2025",
+      "publisher": "Seagate",
+      "title": "Annual financial results / reporting table",
+      "url": "https://investors.seagate.com/news/news-details/2025/Seagate-Technology-Reports-Fiscal-Fourth-Quarter-and-Fiscal-Year-2025-Financial-Results/",
+      "published": "2025-07-29",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-seagate-2023",
+      "publisher": "Seagate",
+      "title": "Annual financial results / reporting table",
+      "url": "https://investors.seagate.com/news/news-details/2023/Seagate-Technology-Reports-Fiscal-Fourth-Quarter-and-Fiscal-Year-2023-Financial-Results/default.aspx",
+      "published": "2023-07-26",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-seagate-2022",
+      "publisher": "Seagate",
+      "title": "Annual financial results / reporting table",
+      "url": "https://investors.seagate.com/news/news-details/2022/Seagate-Technology-Reports-Fourth-Quarter-and-Fiscal-Year-2022-Financial-Results/default.aspx",
+      "published": "2022-07-21",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-netapp-2026",
+      "publisher": "NetApp",
+      "title": "Annual financial results / reporting table",
+      "url": "https://investors.netapp.com/news/news-details/2026/NetApp-Reports-Fourth-Quarter-and-Fiscal-Year-2026-Results/default.aspx",
+      "published": "2026-05-28",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-netapp-2024",
+      "publisher": "NetApp",
+      "title": "Annual financial results / reporting table",
+      "url": "https://investors.netapp.com/static-files/dc93c640-c045-422b-92d6-f71d0a18c2f5",
+      "published": null,
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-netapp-2027-outlook",
+      "publisher": "NetApp",
+      "title": "Annual financial results / reporting table",
+      "url": "https://investors.netapp.com/news/news-details/2026/NetApp-Reports-First-Quarter-of-Fiscal-Year-2027-Results/default.aspx",
+      "published": "2026-09-02",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-rambus-2025",
+      "publisher": "Rambus",
+      "title": "Annual financial results / reporting table",
+      "url": "https://www.rambus.com/fourth-quarter-and-fiscal-year-2025-financial-results/",
+      "published": "2026-02-02",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-rambus-2023",
+      "publisher": "Rambus",
+      "title": "Annual financial results / reporting table",
+      "url": "https://www.rambus.com/fourth-quarter-fiscal-year-2023-financial-results/",
+      "published": "2024-02-05",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-rambus-2022",
+      "publisher": "Rambus",
+      "title": "Annual financial results / reporting table",
+      "url": "https://www.rambus.com/fourth-quarter-fiscal-year-2022-financial-results/",
+      "published": "2023-02-06",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-microchip-2026",
+      "publisher": "Microchip",
+      "title": "Annual financial results / reporting table",
+      "url": "https://ir.microchip.com/sec-filings/all-sec-filings/content/0000827054-26-000016/mchp-20260331.htm",
+      "published": "2026-05-21",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-finance-microchip-2024",
+      "publisher": "Microchip",
+      "title": "Annual financial results / reporting table",
+      "url": "https://ir.microchip.com/sec-filings/all-sec-filings/content/0000827054-24-000132/0000827054-24-000132.pdf",
+      "published": null,
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-samsung-hbm4e-20260529",
+      "publisher": "Samsung",
+      "title": "HBM4E sample shipments",
+      "url": "https://news.samsung.com/global/samsung-electronics-begins-shipment-of-industry-first-hbm4e-samples",
+      "published": "2026-05-29",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-ase-panel-20260827",
+      "publisher": "ASE",
+      "title": "Panel-level packaging roadmap update",
+      "url": "https://ase.aseglobal.com/blog/technology/panel-level-packaging-and-the-next-phase-of-scaling/",
+      "published": "2026-08-27",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-ase-kaohsiung-20260311",
+      "publisher": "ASE",
+      "title": "Kaohsiung facility groundbreaking",
+      "url": "https://ase.aseglobal.com/press-room/ase-breaks-ground-on-new-high-tech-facility-in-kaohsiung/",
+      "published": "2026-03-11",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-ase-wus-20260508",
+      "publisher": "ASE",
+      "title": "ASE and WUS facility collaboration",
+      "url": "https://ase.aseglobal.com/press-room/ase-and-wus-announce-strategic-expansion/",
+      "published": "2026-05-08",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-ai2-olmo3-20251120",
+      "publisher": "Ai2",
+      "title": "Olmo 3 and December Olmo 3.1 update",
+      "url": "https://allenai.org/blog/olmo3",
+      "published": "2025-11-20",
+      "layers": [
+        "models"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-ai2-molmobot-20260311",
+      "publisher": "Ai2",
+      "title": "MolmoBot simulation-trained manipulation",
+      "url": "https://allenai.org/blog/molmobot-robot-manipulation",
+      "published": "2026-03-11",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-hf-lerobot060-20260707",
+      "publisher": "Hugging Face",
+      "title": "LeRobot 0.6 release",
+      "url": "https://huggingface.co/blog/lerobot-release-v060",
+      "published": "2026-07-07",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-coding-shipping-20260621",
+      "publisher": "Demirer, Musolff and Yang / CEPR",
+      "title": "Writing versus shipping software",
+      "url": "https://cepr.org/voxeu/columns/writing-code-versus-shipping-code-productivity-effects-across-generations-ai-coding",
+      "published": "2026-06-21",
+      "layers": [
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-anthropic-expertise-20260616",
+      "publisher": "Anthropic",
+      "title": "Agentic coding and domain expertise",
+      "url": "https://www.anthropic.com/research/claude-code-expertise",
+      "published": "2026-06-16",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-fervo-google-20260901",
+      "publisher": "Fervo Energy",
+      "title": "Google 396 MW power purchase agreement",
+      "url": "https://ir.fervoenergy.com/news-releases/news-release-details/fervo-energy-and-google-sign-396-mw-ppa",
+      "published": "2026-09-01",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-amkor-land-20260519",
+      "publisher": "Amkor",
+      "title": "Arizona adjacent land acquisition",
+      "url": "https://ir.amkor.com/news-releases/news-release-details/amkor-technology-expands-us-advanced-packaging-footprint",
+      "published": "2026-05-19",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-weathernext-cyclones-20260806",
+      "publisher": "Google DeepMind",
+      "title": "WeatherNext Cyclones research and availability",
+      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+      "published": "2026-08-06",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-isodde-20260210",
+      "publisher": "Isomorphic Labs",
+      "title": "Drug Design Engine technical preview",
+      "url": "https://www.isomorphiclabs.com/articles/the-isomorphic-labs-drug-design-engine-unlocks-a-new-frontier",
+      "published": "2026-02-10",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-primary-care-rct-20260626",
+      "publisher": "Agweyu et al. / Nature Medicine",
+      "title": "LLM-assisted primary-care cluster-randomized trial",
+      "url": "https://www.nature.com/articles/s41591-026-04503-6",
+      "published": "2026-06-26",
+      "layers": [
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-qwen-coder-next-20260228",
+      "publisher": "Qwen authors / arXiv",
+      "title": "Qwen3-Coder-Next technical report",
+      "url": "https://arxiv.org/abs/2603.00729",
+      "published": "2026-02-28",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-mistral-changelog",
+      "publisher": "Mistral",
+      "title": "Official model and product changelog",
+      "url": "https://docs.mistral.ai/resources/changelogs",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-mistral-leanstral15-20260702",
+      "publisher": "Mistral",
+      "title": "Leanstral 1.5 proof engineering",
+      "url": "https://mistral.ai/news/leanstral-1-5/",
+      "published": "2026-07-02",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
+    },
+    {
+      "id": "astra-mistral-robostral",
+      "publisher": "Mistral",
+      "title": "Robostral Navigate research",
+      "url": "https://mistral.ai/news/robostral-navigate/",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Public source; paraphrase and attribute."
     }
   ],
   "observations": [
@@ -19565,6 +20527,381 @@
       "retrieved_at": "2026-09-07T19:00:56.120545Z",
       "method": "curated",
       "document_sha256": "d683adec64419677214220c433b23f3af3bce43c700ef833aba20ef76b0e2234"
+    },
+    {
+      "id": "temple-construction-peak-2026",
+      "metric": "temple-construction-peak",
+      "year": 2026,
+      "period": "2026-07-22 disclosure",
+      "value": 1200,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-meta-temple-20260722",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:35:44Z",
+      "method": "curated",
+      "note": "Company-reported peak during construction, disclosed July 2026; not annual jobs, current employment or net job creation.",
+      "document_sha256": "8ea3285e6f3fea92de94e15ec2dff43ae9dd4a1eb6996316d52cfb7a536bdfa9"
+    },
+    {
+      "id": "temple-operating-roles-2026",
+      "metric": "temple-operating-roles",
+      "year": 2026,
+      "period": "2026-07-22 disclosure",
+      "value": 100,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-meta-temple-20260722",
+      "precision": "lt",
+      "retrieved_at": "2026-09-09T04:35:44Z",
+      "method": "curated",
+      "note": "Company reports almost 100 supported operational roles; not necessarily Meta payroll employees and not a national net employment measure.",
+      "document_sha256": "8ea3285e6f3fea92de94e15ec2dff43ae9dd4a1eb6996316d52cfb7a536bdfa9"
+    },
+    {
+      "id": "micron-ny-local-awards-2026",
+      "metric": "micron-ny-local-awards",
+      "year": 2026,
+      "period": "2026-07-09 disclosure",
+      "value": 675,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-micron-ny-20260709",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T04:35:44Z",
+      "method": "curated",
+      "note": "Approximate cumulative value awarded to New York contractors and suppliers at first concrete; not cash paid, total investment or annual economic output.",
+      "document_sha256": "09e9b31ad3bcccc137f62e7dff30cd245d4bcd33f53cd1d5565320d3f02a9367"
+    },
+    {
+      "id": "revenue-seagate-2021-primary",
+      "metric": "revenue-seagate",
+      "year": 2021,
+      "period": "FY2021",
+      "value": 10.681,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-seagate-2022",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "3dd5516d61e25901d8f02edf29507915fa85bce96e0eccb15f3fbee625ab3ae5"
+    },
+    {
+      "id": "revenue-seagate-2022-primary",
+      "metric": "revenue-seagate",
+      "year": 2022,
+      "period": "FY2022",
+      "value": 11.661,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-seagate-2022",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "3dd5516d61e25901d8f02edf29507915fa85bce96e0eccb15f3fbee625ab3ae5"
+    },
+    {
+      "id": "revenue-seagate-2023-primary",
+      "metric": "revenue-seagate",
+      "year": 2023,
+      "period": "FY2023",
+      "value": 7.384,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-seagate-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "268c1a7a4be6b3cdec5f3081ed2163b1fb5c6dc96db1414f347e69aaf41d1a8c"
+    },
+    {
+      "id": "revenue-seagate-2024-primary",
+      "metric": "revenue-seagate",
+      "year": 2024,
+      "period": "FY2024",
+      "value": 6.551,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-seagate-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "570d0656cf36cd7c380f0f8b9cf29b331559387f9fc7466899a4c96cd869ea3b"
+    },
+    {
+      "id": "revenue-seagate-2025-primary",
+      "metric": "revenue-seagate",
+      "year": 2025,
+      "period": "FY2025",
+      "value": 9.097,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-seagate-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "f80cc2fd87410f3e4fd98f49b5891274d43bee871db34a8defea33ce1f03f66f"
+    },
+    {
+      "id": "revenue-seagate-2026-primary",
+      "metric": "revenue-seagate",
+      "year": 2026,
+      "period": "FY2026",
+      "value": 12.195,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-seagate-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "f80cc2fd87410f3e4fd98f49b5891274d43bee871db34a8defea33ce1f03f66f"
+    },
+    {
+      "id": "revenue-netapp-forecast-2027-september",
+      "metric": "revenue-netapp-forecast",
+      "year": 2027,
+      "period": "FY2027 · September 2, 2026 guidance",
+      "value": 7.975,
+      "upper": 8.225,
+      "status": "forecast",
+      "source": "astra-finance-netapp-2027-outlook",
+      "precision": "range",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-issued revenue guidance, not an observed result or analyst consensus.",
+      "document_sha256": "1cc45fd93fc2df1149b87f565892038b3de6fb7c2ffaf25f93499a6b157e56c4"
+    },
+    {
+      "id": "revenue-netapp-2022-primary",
+      "metric": "revenue-netapp",
+      "year": 2022,
+      "period": "FY2022",
+      "value": 6.318,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-netapp-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "efba5df9e0cfef79c362688b5ccbf509f7fcae0235fc71b54c8f5c7887586344"
+    },
+    {
+      "id": "revenue-netapp-2023-primary",
+      "metric": "revenue-netapp",
+      "year": 2023,
+      "period": "FY2023",
+      "value": 6.362,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-netapp-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "efba5df9e0cfef79c362688b5ccbf509f7fcae0235fc71b54c8f5c7887586344"
+    },
+    {
+      "id": "revenue-netapp-2024-primary",
+      "metric": "revenue-netapp",
+      "year": 2024,
+      "period": "FY2024",
+      "value": 6.268,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-netapp-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "efba5df9e0cfef79c362688b5ccbf509f7fcae0235fc71b54c8f5c7887586344"
+    },
+    {
+      "id": "revenue-netapp-2025-primary",
+      "metric": "revenue-netapp",
+      "year": 2025,
+      "period": "FY2025",
+      "value": 6.572,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-netapp-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "643ab2819a072049e267dc0512aa762fb7d5ea25ba17b220482c5f2b6aaa48ab"
+    },
+    {
+      "id": "revenue-netapp-2026-primary",
+      "metric": "revenue-netapp",
+      "year": 2026,
+      "period": "FY2026",
+      "value": 6.925,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-netapp-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "643ab2819a072049e267dc0512aa762fb7d5ea25ba17b220482c5f2b6aaa48ab"
+    },
+    {
+      "id": "revenue-rambus-2021-primary",
+      "metric": "revenue-rambus",
+      "year": 2021,
+      "period": "FY2021",
+      "value": 0.328304,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-rambus-2022",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "06756f666e0393e2193365e8fe0d5bff1b278c56d06f98faa47ba592e719dfe9"
+    },
+    {
+      "id": "revenue-rambus-2022-primary",
+      "metric": "revenue-rambus",
+      "year": 2022,
+      "period": "FY2022",
+      "value": 0.454793,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-rambus-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "6725f6cfab6d05fa295f4336a20a15b01fd3dea66e946af7225f95846df06dec"
+    },
+    {
+      "id": "revenue-rambus-2023-primary",
+      "metric": "revenue-rambus",
+      "year": 2023,
+      "period": "FY2023",
+      "value": 0.461117,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-rambus-2023",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "6725f6cfab6d05fa295f4336a20a15b01fd3dea66e946af7225f95846df06dec"
+    },
+    {
+      "id": "revenue-rambus-2024-primary",
+      "metric": "revenue-rambus",
+      "year": 2024,
+      "period": "FY2024",
+      "value": 0.556624,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-rambus-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "0252f9928880ad96c65a7d6cf3ba330822285af077b1d5e3a9ef47c1f8872ec4"
+    },
+    {
+      "id": "revenue-rambus-2025-primary",
+      "metric": "revenue-rambus",
+      "year": 2025,
+      "period": "FY2025",
+      "value": 0.70763,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-rambus-2025",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "0252f9928880ad96c65a7d6cf3ba330822285af077b1d5e3a9ef47c1f8872ec4"
+    },
+    {
+      "id": "revenue-microchip-2022-primary",
+      "metric": "revenue-microchip",
+      "year": 2022,
+      "period": "FY2022",
+      "value": 6.8209,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-microchip-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "58aa42dd6ec55b3844e6bb4cfabbf3eaedbbdc7d28f48151111da8b817f15e99"
+    },
+    {
+      "id": "revenue-microchip-2023-primary",
+      "metric": "revenue-microchip",
+      "year": 2023,
+      "period": "FY2023",
+      "value": 8.4387,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-microchip-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "58aa42dd6ec55b3844e6bb4cfabbf3eaedbbdc7d28f48151111da8b817f15e99"
+    },
+    {
+      "id": "revenue-microchip-2024-primary",
+      "metric": "revenue-microchip",
+      "year": 2024,
+      "period": "FY2024",
+      "value": 7.6344,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-microchip-2024",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "58aa42dd6ec55b3844e6bb4cfabbf3eaedbbdc7d28f48151111da8b817f15e99"
+    },
+    {
+      "id": "revenue-microchip-2025-primary",
+      "metric": "revenue-microchip",
+      "year": 2025,
+      "period": "FY2025",
+      "value": 4.4016,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-microchip-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "c89fdfe777e326ec041ad68a6e25ca5c2c31f2b68b5348d0fafa3bcd7140339f"
+    },
+    {
+      "id": "revenue-microchip-2026-primary",
+      "metric": "revenue-microchip",
+      "year": 2026,
+      "period": "FY2026",
+      "value": 4.7131,
+      "upper": null,
+      "status": "observation",
+      "source": "astra-finance-microchip-2026",
+      "precision": "eq",
+      "retrieved_at": "2026-09-09T04:49:12Z",
+      "method": "curated",
+      "note": "Company-wide reported annual revenue. Converted from the source table to USD billion.",
+      "document_sha256": "c89fdfe777e326ec041ad68a6e25ca5c2c31f2b68b5348d0fafa3bcd7140339f"
     }
   ],
   "events": [
@@ -20144,6 +21481,42 @@
       "correction_of": "note-6da38e8f55121f0e70a0",
       "correction_reason": "Anchors relative timing to the source publication date and distinguishes a company announcement from verified job placements.",
       "corrected_at": "2026-09-09T03:51:53Z"
+    },
+    {
+      "id": "astra-coding-shipping-20260621",
+      "title": "Coding activity and shipped software are different outcomes",
+      "summary": "A matched event study of more than 100,000 GitHub developers estimates larger gains in commits than in software releases after AI-tool adoption. The authors identify review and integration as potential bottlenecks. These are observational estimates for the studied tools and users, not a universal productivity multiplier.",
+      "layer": "applications",
+      "source": "astra-coding-shipping-20260621",
+      "date": "2026-06-21",
+      "kind": "Research finding"
+    },
+    {
+      "id": "astra-metr-uplift-20260224",
+      "title": "METR flags limits in updated coding-productivity estimates",
+      "summary": "METR says selection effects and time measurement make its follow-up developer experiment an unreliable measure of current AI productivity. It considers improved speed plausible but the size uncertain. Its early-2025 slowdown finding remains a result for that earlier study, not a current universal effect.",
+      "layer": "applications",
+      "source": "claims-metr-update",
+      "date": "2026-02-24",
+      "kind": "Research finding"
+    },
+    {
+      "id": "astra-anthropic-expertise-20260616",
+      "title": "Agent use extends into analysis and document work",
+      "summary": "Anthropic analyzes roughly 400,000 Claude Code sessions and reports increasing use for analysis, prose and operating software. Its expertise and success measures rely on transcript classifiers and telemetry. The study supports broader-use investigation, but does not directly measure company productivity, worker earnings or net employment.",
+      "layer": "applications",
+      "source": "astra-anthropic-expertise-20260616",
+      "date": "2026-06-16",
+      "kind": "Research finding"
+    },
+    {
+      "id": "astra-primary-care-rct-20260626",
+      "title": "Primary-care trial separates workflow assistance from patient outcomes",
+      "summary": "A cluster-randomized trial enrolled 9,691 patients at 16 Kenyan primary-care facilities during April–July 2025. LLM assistance did not significantly change the primary 14-day treatment-failure outcome. This study does not establish universal benefit, lack of benefit, or safety equivalence; the result applies to the studied workflow and follow-up period.",
+      "layer": "applications",
+      "source": "astra-primary-care-rct-20260626",
+      "date": "2026-06-26",
+      "kind": "Research finding"
     }
   ],
   "targets": [

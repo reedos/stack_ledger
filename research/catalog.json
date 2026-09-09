@@ -7242,6 +7242,226 @@
       "series_start_year": 2026,
       "chart_default_start": 2026,
       "pre_period_note": "March 5, 2026 disclosure only; no earlier counts inferred."
+    },
+    {
+      "id": "temple-construction-peak",
+      "layer": "infrastructure",
+      "title": "Temple · reported construction peak",
+      "unit": "jobs",
+      "geography": "Temple, Texas, U.S.",
+      "scope": "Company-reported peak during construction, disclosed July 2026; not annual jobs, current employment or net job creation.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Company-reported peak during construction, disclosed July 2026; not annual jobs, current employment or net job creation.",
+      "source_ids": [
+        "astra-meta-temple-20260722"
+      ],
+      "company": "meta",
+      "measurement_type": "construction_workers_peak",
+      "project": "meta-temple",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Begins with this dated disclosure. No earlier values are inferred; current records and commitments remain distinct."
+    },
+    {
+      "id": "temple-operating-roles",
+      "layer": "infrastructure",
+      "title": "Temple · supported operational roles",
+      "unit": "jobs",
+      "geography": "Temple, Texas, U.S.",
+      "scope": "Company reports almost 100 supported operational roles; not necessarily Meta payroll employees and not a national net employment measure.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Company reports almost 100 supported operational roles; not necessarily Meta payroll employees and not a national net employment measure.",
+      "source_ids": [
+        "astra-meta-temple-20260722"
+      ],
+      "company": "meta",
+      "measurement_type": "permanent_jobs_reported",
+      "project": "meta-temple",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Begins with this dated disclosure. No earlier values are inferred; current records and commitments remain distinct."
+    },
+    {
+      "id": "micron-ny-local-awards",
+      "layer": "chips",
+      "title": "Micron Clay · New York contracts awarded",
+      "unit": "USD million",
+      "geography": "Clay, New York, U.S.",
+      "scope": "Approximate cumulative value awarded to New York contractors and suppliers at first concrete; not cash paid, total investment or annual economic output.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Approximate cumulative value awarded to New York contractors and suppliers at first concrete; not cash paid, total investment or annual economic output.",
+      "source_ids": [
+        "astra-micron-ny-20260709"
+      ],
+      "company": "micron",
+      "measurement_type": "local_procurement_usd",
+      "project": "micron-new-york-first-fab",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Begins with this dated disclosure. No earlier values are inferred; current records and commitments remain distinct."
+    },
+    {
+      "id": "revenue-seagate",
+      "layer": "infrastructure",
+      "title": "Seagate Technology · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred. FY2025 ended June 27, 2025; FY2026 ended July 3, 2026.",
+      "source_ids": [
+        "astra-finance-seagate-2022",
+        "astra-finance-seagate-2023",
+        "astra-finance-seagate-2025",
+        "astra-finance-seagate-2026"
+      ],
+      "company": "seagate",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "revenue-netapp-forecast",
+      "layer": "infrastructure",
+      "title": "NetApp · full-year revenue guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-netapp-2027-outlook"
+      ],
+      "company": "netapp",
+      "measurement_type": "annual_revenue_forecast",
+      "project": null,
+      "allowed_statuses": [
+        "forecast"
+      ],
+      "series_start_year": 2027,
+      "chart_default_start": 2027,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "revenue-netapp",
+      "layer": "infrastructure",
+      "title": "NetApp · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-netapp-2024",
+        "astra-finance-netapp-2026"
+      ],
+      "company": "netapp",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap.",
+      "chart_companion_metric": "revenue-netapp-forecast",
+      "chart_comparison_title": "NetApp · revenue history and outlook",
+      "chart_comparison_note": "Reported fiscal-year revenue and September 2, 2026 company guidance. No forecast is extended past FY2027.",
+      "chart_comparison_label": "Company guidance",
+      "chart_comparison_legend": "Company guidance · September 2026"
+    },
+    {
+      "id": "revenue-rambus",
+      "layer": "chips",
+      "title": "Rambus · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-rambus-2022",
+        "astra-finance-rambus-2023",
+        "astra-finance-rambus-2025"
+      ],
+      "company": "rambus",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2021,
+      "chart_default_start": 2021,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
+    },
+    {
+      "id": "revenue-microchip",
+      "layer": "chips",
+      "title": "Microchip Technology · annual revenue",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Consolidated annual GAAP revenue across all company businesses; not AI-only sales, product-only sales or licensing billings.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Fiscal-year labels are retained. Acquisitions, reporting scope and fiscal-year lengths can affect comparisons; no missing years or forecasts are inferred.",
+      "source_ids": [
+        "astra-finance-microchip-2024",
+        "astra-finance-microchip-2026"
+      ],
+      "company": "microchip",
+      "measurement_type": "annual_revenue_reported",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Starts at the earliest sourced fiscal year in this reviewed history. Earlier history remains a coverage gap."
     }
   ],
   "targets": [

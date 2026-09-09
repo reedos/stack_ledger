@@ -7,6 +7,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname,'../docs');
 const snapshot=JSON.parse(fs.readFileSync(path.join(root,'data/delivery.json'),'utf8'));
 const companySnapshot=JSON.parse(fs.readFileSync(path.join(root,'data/ecosystem.json'),'utf8'));
+const expansionSnapshot=JSON.parse(fs.readFileSync(path.join(root,'data/expansion.json'),'utf8'));
 const evidence = path.resolve(__dirname,'../.local/browser');
 fs.mkdirSync(evidence,{recursive:true});
 const mime={'.html':'text/html','.css':'text/css','.js':'application/javascript','.svg':'image/svg+xml','.json':'application/json','.xml':'application/xml'};
@@ -41,7 +42,8 @@ const server=http.createServer((req,res)=>{
    const provenance=await staticPage.locator('#runtime').textContent();
    assert.ok(provenance.includes(`${sessionReceipt.documents_fetched.toLocaleString('en-US')} document fetches (includes repeats)`));
    assert.ok(provenance.includes(`${sessionReceipt.accepted.toLocaleString('en-US')} accepted monitoring records`));
-   assert.match(provenance,/Latest research session:.*Latest monitoring batch:/s);
+   assert.match(provenance,/Latest research session:/);
+   assert.doesNotMatch(provenance,/Latest monitoring batch:|Counts are for this batch only/);
   }
   assert.equal(await staticPage.locator('#recent-changes').count(),1);
   const recentConfig=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../research/homepage.json'),'utf8'));
@@ -135,7 +137,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(signedChart.y,signedChart.zero);assert.ok(signedChart.height>0&&signedChart.y+signedChart.height<=227);assert.match(signedChart.text,/-37/);
   assert.equal(await page.locator('.delivery-card').count(),snapshot.projects.length);
   await page.locator('[data-project-layer="energy"]').click();assert.equal(await page.locator('.delivery-card').count(),snapshot.projects.filter(p=>p.layer==='energy').length);
-  await page.selectOption('#project-stage','operating');assert.equal(await page.locator('.delivery-card').count(),2);
+  await page.selectOption('#project-stage','operating');assert.equal(await page.locator('.delivery-card').count(),snapshot.projects.filter(p=>p.layer==='energy'&&p.stage==='operating').length);
   await page.locator('#project-search').fill('Quebec');assert.equal(await page.locator('.delivery-card').count(),1);
   await page.locator('.delivery-history summary').click();assert.match(await page.locator('.delivery-history').innerText(),/1,250|transmission/i);
   await page.locator('#project-search').fill('missing-project');assert.equal(await page.locator('.delivery-card').count(),0);
@@ -183,7 +185,7 @@ const server=http.createServer((req,res)=>{
   for(const id of ['codex-cloud','open-weight-licenses']){await page.evaluate(id=>{location.hash=id;},id);await page.locator('#'+id).waitFor({state:'visible'});}
   assert.match(await page.locator('#codex-cloud').innerText(),/Hosted execution/);
   assert.match(await page.locator('#open-weight-licenses').innerText(),/Apache 2.0/);
-  assert.equal(await page.locator('.agent-card').count(),9);
+  assert.equal(await page.locator('#agent-products .agent-card').count(),expansionSnapshot.products.filter(p=>(p.layers||['models']).includes('models')).length);
   assert.match(await page.locator('#agent-codex').innerText(),/1.75/);
   await page.goto(origin+'applications/');await page.locator('#named-projects').waitFor();
   for(const id of ['medicine-intismeran','science-weather']){await page.evaluate(id=>{location.hash=id;},id);await page.locator('#'+id).waitFor({state:'visible'});}
@@ -194,7 +196,11 @@ const server=http.createServer((req,res)=>{
   await page.goto(origin+'industry/');await page.locator('.industry-verdict').waitFor();
   assert.equal(await page.locator('#construction-economy .chart-wrap').count(),2);
   assert.match(await page.locator('#gc-mortenson').innerText(),/outside-plant fiber/);
-  assert.equal(await page.locator('.jobs-comparison tbody tr').count(),5);
+  const jobsCatalog=JSON.parse(fs.readFileSync(path.join(root,'data/expansion.json'),'utf8'));
+  const jobsLedger=JSON.parse(fs.readFileSync(path.join(root,'data/ledger.json'),'utf8'));
+  const jobKinds=new Set(['construction_workers_peak','contractor_fte','permanent_jobs_promised','permanent_jobs_reported']);
+  const jobProjects=new Set([...jobsCatalog.jobs_projects,...jobsLedger.observations.filter(o=>!o.superseded_by).map(o=>jobsLedger.metrics.find(m=>m.id===o.metric)).filter(m=>m.project&&jobKinds.has(m.measurement_type)).map(m=>m.project)]);
+  assert.equal(await page.locator('.jobs-comparison tbody tr').count(),jobProjects.size);
   assert.match(await page.locator('.jobs-comparison').innerText(),/Terafab[\s\S]*Hyperion/);
   assert.equal(await page.locator('#projects .project-card').count(),snapshot.projects.filter(p=>p.layer==='chips').length);
   assert.equal(await page.locator('.jobs-comparison tbody tr:first-child td:last-child').innerText(),'Not verified');
@@ -309,7 +315,8 @@ const server=http.createServer((req,res)=>{
   await page.evaluate(()=>{data.runtime.status='failed';data.runtime.display_model='Browser fixture model';data.runs.at(-1).accepted=777;runtime();});
   assert.match(await page.locator('#runtime').innerText(),/Browser fixture model.*Status: failed/s);
   await page.locator('#runtime summary').click();
-  assert.match(await page.locator('#runtime details').innerText(),/777 accepted records/);
+  assert.doesNotMatch(await page.locator('#runtime details').innerText(),/Latest monitoring batch:|777 accepted records/);
+  if(sessionReceipt){await page.evaluate(()=>{data.runtime.latest_session.accepted=777;runtime();});await page.locator('#runtime summary').click();assert.match(await page.locator('#runtime details').innerText(),/777 accepted monitoring records/);}
   assert.notEqual(await page.locator('#runtime').innerHTML(),originalRuntime);
   await page.goto(origin);await page.locator('body[data-enhanced="true"]').waitFor();
   await page.locator('#stack').screenshot({path:path.join(evidence,'editorial-cards-mobile.png')});
@@ -387,6 +394,17 @@ const server=http.createServer((req,res)=>{
   const noJSPage=await noJS.newPage();await noJSPage.goto(origin);
   assert.equal(await noJSPage.locator('#main-navigation a[data-nav="claims"]').isVisible(),true);
   await noJS.close();
+  // A newly accepted project-linked record must render without editing a
+  // second observation-ID list. Synthetic data lives only in this browser.
+  const feedback=await page.evaluate(()=>{
+    const p={...delivery.projects[0],id:'browser-fixture-project',name:'Browser fixture project',observations:[],measures:[]};
+    const m={...data.metrics[0],id:'browser-fixture-jobs',project:p.id,measurement_type:'permanent_jobs_reported',title:'Browser fixture operating roles',unit:'jobs'};
+    const o={...data.observations[0],id:'browser-fixture-observation',metric:m.id,value:49,status:'observation'};
+    delivery.projects.push(p);data.metrics.push(m);data.observations.push(o);
+    try{return {project:projectMeasures(p).includes(m.title),jobs:projectJobs().includes(p.name),other:projectMeasures(delivery.projects[0]).includes(m.title)};}
+    finally{delivery.projects.pop();data.metrics.pop();data.observations.pop();}
+  });
+  assert.deepEqual(feedback,{project:true,jobs:true,other:false});
   console.log(`Browser acceptance passed: ${routes.length} routes, 3 viewports, pagination/filter resets, deep links, mobile menu, no-JS navigation, company revenue histories/forecasts, keyboard access and no page errors.`);
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

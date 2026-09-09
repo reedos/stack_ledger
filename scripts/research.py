@@ -80,9 +80,9 @@ def coverage_context(root, source):
         matches=[]
         def visit(item):
             if isinstance(item,dict):
-                refs=item.get('sources',[])+item.get('role_sources',[])
+                refs=item.get('sources',[])+item.get('role_sources',[])+[m.get('source') for m in item.get('milestones',[]) if isinstance(m,dict)]
                 if item.get('source')==source['id'] or source['id'] in refs:
-                    matches.append({k:v for k,v in item.items() if k in {'id','title','name','role','claim','scope','gap','future','body','stage'}})
+                    matches.append({k:v for k,v in item.items() if k in {'id','title','name','role','claim','scope','gap','future','body','stage','next_evidence','horizon','grid','ai_relationship'}})
                 for v in item.values():visit(v)
             elif isinstance(item,list):
                 for v in item:visit(v)
@@ -502,6 +502,10 @@ def main():
                         data['events'].append(note);sources[source['id']]=source;run['accepted']+=1
                         proof=load(LOCAL/'evidence'/f'{note["id"]}.json')
                         save(LOCAL/'review-candidates'/f'{note["id"]}.json',{'source':source['id'],'note':note,'related_metrics':[m['id'] for m in related],'coverage_context':config['_coverage'],'review_required':True,'reason':'Review whether this evidence updates a curated company, project, claim, agenda card or requires a new measure. Do not change those snapshots automatically.'})
+                        from catalog_recommender import draft
+                        remaining=deadline-time.monotonic()
+                        if remaining>1 and not stopped(ROOT,args.session_id):
+                            draft(ROOT,dict(config,model_timeout_seconds=min(config['model_timeout_seconds'],remaining)),source,full_text,note,run,ollama)
                         note_status={'Company announcement':'company-commitment','Forecast update':'forecast','Government target':'government-target'}.get(note['kind'],'observation')
                         append_excerpt(excerpts,source,policy,proof['evidence'],note['summary'],note['retrieved_at'],status=note_status)
                         if not related:
@@ -602,6 +606,8 @@ def main():
                 if not args.publish:raise
                 print(f'Publication blocked; saved evidence retained: {type(error).__name__}: {error}',file=sys.stderr)
                 return 3
+        from catalog_recommender import materialize
+        materialize(ROOT,config['model'])
         print(json.dumps(run,indent=2),flush=True)
         return 1 if run['status']=='failed' else 0
 

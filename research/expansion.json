@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-07T09:34:15Z",
+  "reviewed_at": "2026-09-09T05:45:26Z",
   "products": [
     {
       "id": "claude-code",
@@ -97,6 +97,612 @@
       "summary": "Self-hosted agent runtime connecting models and tools. Runtime availability and this site’s configured use do not imply widespread adoption or completed research.",
       "observations": [],
       "gap": "Primary paid usage, task success under a named evaluation, and reproducible hours-saved methodology."
+    },
+    {
+      "id": "marvell-ara",
+      "name": "Ara 1.6T optical DSP",
+      "company": "marvell",
+      "stage": "Production",
+      "source": "astra-marvell-optics-20260312",
+      "summary": "Marvell reports volume shipments of its 3nm 1.6T DSP for pluggable optical links.",
+      "observations": [],
+      "gap": "Track dated shipments and module qualification.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-ara-t",
+      "name": "Ara T",
+      "company": "marvell",
+      "stage": "Sampling",
+      "source": "astra-marvell-optics-20260312",
+      "summary": "Transmit-retimed optics DSP with eight 200G lanes; sampling from Q1 2026.",
+      "observations": [],
+      "gap": "Verify progression to volume supply.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-ara-x",
+      "name": "Ara X",
+      "company": "marvell",
+      "stage": "Sampling",
+      "source": "astra-marvell-optics-20260312",
+      "summary": "1.6T optical DSP with added link-reliability features; sampling from Q1 2026.",
+      "observations": [],
+      "gap": "Seek production and customer qualification evidence.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-petra",
+      "name": "Petra gearbox",
+      "company": "marvell",
+      "stage": "Sampling",
+      "source": "astra-marvell-optics-20260312",
+      "summary": "Connects eight 100G lanes to four 200G lanes; sampling from Q1 2026.",
+      "observations": [],
+      "gap": "Verify shipping status and supported modules.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-aquila-m",
+      "name": "Aquila M",
+      "company": "marvell",
+      "stage": "Sampling",
+      "source": "astra-marvell-optics-20260312",
+      "summary": "O-band coherent-lite DSP with MACsec; sampling from Q1 2026.",
+      "observations": [],
+      "gap": "Establish deployment and qualified link reach.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-bravera-sc6",
+      "name": "Bravera SC6 PCIe 6.0 SSD controller",
+      "company": "marvell",
+      "stage": "Roadmap",
+      "source": "astra-marvell-memory-20260804",
+      "summary": "PCIe 6.0 SSD controller designed for inference storage and KV-cache movement; Q4 2026 sampling is a target.",
+      "observations": [],
+      "gap": "Confirm samples, qualification and volume shipments separately.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-structera-x",
+      "name": "Structera X CXL memory expansion",
+      "company": "marvell",
+      "stage": "Documented product",
+      "source": "astra-marvell-memory-20260804",
+      "summary": "CXL memory expansion and pooling can increase access to memory independently of compute.",
+      "observations": [],
+      "gap": "Seek deployed capacity and comparable workload measurements.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-photonic-memory",
+      "name": "Photonic Fabric shared-memory architecture",
+      "company": "marvell",
+      "stage": "Announced",
+      "source": "astra-marvell-memory-20260804",
+      "summary": "Memory modules, NICs and chiplets form a proposed optical shared-memory tier across racks. The disclosed architecture supports up to 32 TB over up to 50 meters.",
+      "observations": [],
+      "gap": "Verify availability and independently measured throughput; vendor performance claims are not accepted outcomes.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-teralynx-t100",
+      "name": "Teralynx T100 Ethernet switch",
+      "company": "marvell",
+      "stage": "Announced",
+      "source": "astra-marvell-t100-20260601",
+      "summary": "102.4 Tbps switch design with copper and optical packaging options. The June announcement targeted sampling that quarter.",
+      "observations": [],
+      "gap": "Obtain a dated sampling or production confirmation; distinguish switch bandwidth from delivered cluster performance.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-electra-colorz1600",
+      "name": "Electra / COLORZ 1600",
+      "company": "marvell",
+      "stage": "Roadmap",
+      "source": "astra-marvell-coherent-20260305",
+      "summary": "2nm coherent DSP and 1.6T pluggable module for links between data centers; H2 2026 sampling was planned.",
+      "observations": [],
+      "gap": "Confirm sampling and qualify reach at each data rate.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "marvell-libra-colorz800",
+      "name": "Libra / second-generation COLORZ 800",
+      "company": "marvell",
+      "stage": "Roadmap",
+      "source": "astra-marvell-coherent-20260305",
+      "summary": "800G coherent DSP and MACsec-enabled pluggable refresh; H2 2026 sampling was planned.",
+      "observations": [],
+      "gap": "Keep this generation separate from earlier shipping COLORZ 800 products.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "astera-scorpio-x320",
+      "name": "Scorpio X-Series 320-lane fabric switch",
+      "company": "astera",
+      "stage": "Documented product",
+      "source": "astra-astera-q2-20260804",
+      "summary": "AI fabric switch demonstrated publicly in 2026; the August update expects a Q3 production ramp.",
+      "observations": [],
+      "gap": "Verify the ramp and distinguish shipments from installed customer capacity.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "astera-taurus-32t",
+      "name": "Taurus 3.2T signal conditioners",
+      "company": "astera",
+      "stage": "Announced",
+      "source": "astra-astera-q2-20260804",
+      "summary": "Retimers and redrivers for 224G Ethernet and UALink share an OCP-compatible footprint.",
+      "observations": [],
+      "gap": "Confirm sampling, volume status and board qualification.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "astera-leo",
+      "name": "Leo CXL memory controller",
+      "company": "astera",
+      "stage": "Documented product",
+      "source": "astra-astera-q2-20260804",
+      "summary": "CXL controller demonstrated for memory tiering with AMD Instinct platforms.",
+      "observations": [],
+      "gap": "Seek deployed memory capacity and workload-level benefit.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "broadcom-tomahawk6",
+      "name": "Tomahawk 6 Ethernet switch",
+      "company": "broadcom",
+      "stage": "Production",
+      "source": "astra-broadcom-th6-20260312",
+      "summary": "Broadcom reports volume production of its 102.4 Tbps switch family in March 2026.",
+      "observations": [],
+      "gap": "Seek installed port counts; nominal chip throughput is not network utilization.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "coherent-cpo-demonstrators",
+      "name": "Coherent socketed CPO demonstrators",
+      "company": "coherent",
+      "stage": "Research preview",
+      "source": "coherent-cpo",
+      "summary": "Demonstrations cover silicon photonics with external lasers, VCSEL-based links and 400G-per-lane InP modulation.",
+      "observations": [],
+      "gap": "Confirm qualification, packaging yields and production orders.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "lumentum-400g-eml-prototype",
+      "name": "Lumentum 400G EML / 1.6T DR4 prototype",
+      "company": "lumentum",
+      "stage": "Research preview",
+      "source": "astra-lumentum-ofc-20260317",
+      "summary": "Four 400G differential lasers form a 1.6T DR4 prototype, with a future 3.2T module pathway.",
+      "observations": [],
+      "gap": "Verify qualification and production; the prototype does not establish 3.2T shipments.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "credo-span-800g",
+      "name": "ZeroFlap HiWire SPAN 800G AEC",
+      "company": "credo",
+      "stage": "Documented product",
+      "source": "astra-credo-span",
+      "summary": "Active electrical copper cable for rack-to-rack connectivity, with documented reach up to seven meters.",
+      "observations": [],
+      "gap": "Seek dated shipment evidence and operational link reliability data.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "microchip-xpressconnect-gen6",
+      "name": "XpressConnect PCIe 6 / CXL 3.1 retimers",
+      "company": "microchip",
+      "stage": "Announced",
+      "source": "astra-microchip-retimers-20260602",
+      "summary": "Signal conditioning for high-speed connections between processors, accelerators and peripherals.",
+      "observations": [],
+      "gap": "Verify qualification and production separately from the product announcement.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "samtec-sifly-cpx",
+      "name": "Si-Fly HD CPX co-packaged interconnects",
+      "company": "samtec",
+      "stage": "Research preview",
+      "source": "astra-samtec-cpx-20260324",
+      "summary": "Demonstrated substrate-mounted sockets support copper and optical interconnects near the chip.",
+      "observations": [],
+      "gap": "Obtain qualified production configurations; demonstration link rates do not measure installed throughput.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "seagate-mozaic4",
+      "name": "Mozaic 4+ HAMR storage",
+      "company": "seagate",
+      "stage": "Production",
+      "source": "astra-seagate-mozaic4-20260303",
+      "summary": "Seagate reports volume shipments of drives up to 44 TB to two hyperscale providers. Its up-to-100-TB roadmap is separate and undated.",
+      "observations": [],
+      "gap": "Track broader qualification, shipment volumes and dated roadmap milestones.",
+      "layers": [
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "rambus-hbm4e",
+      "name": "HBM4E memory controller IP",
+      "company": "rambus",
+      "stage": "Announced",
+      "source": "astra-rambus-hbm4e-20260304",
+      "summary": "Licensable controller design supporting up to 16 Gb/s per pin for HBM4/4E interfaces.",
+      "observations": [],
+      "gap": "Confirm licensee silicon and qualified memory; IP specifications are not physical memory supply.",
+      "layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "tel-prexa-sdp",
+      "name": "Prexa SDP device prober",
+      "company": "tokyo-electron",
+      "stage": "Documented product",
+      "source": "astra-tel-prexa-20260416",
+      "summary": "Tests singulated devices with thermal control before 2.5D/3D assembly, helping identify known-good components.",
+      "observations": [],
+      "gap": "Seek installed tools and measured yield effects; tool introduction does not establish fab output.",
+      "layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "hitachi-800vdc",
+      "name": "Hitachi Energy 800 VDC architecture work",
+      "company": "hitachi-energy",
+      "stage": "Announced",
+      "source": "astra-hitachi-800v-20251013",
+      "summary": "Collaboration addresses power delivery from the grid into higher-voltage AI data-center distribution.",
+      "observations": [],
+      "gap": "Seek dated installations, grid-service energization and measured conversion efficiency.",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "ddn-rubin-data",
+      "name": "DDN Rubin data and offload integration",
+      "company": "ddn",
+      "stage": "Announced",
+      "source": "astra-ddn-rubin-20260105",
+      "summary": "Combines data services with NVIDIA compute and BlueField offload for AI factories.",
+      "observations": [],
+      "gap": "Verify shipping configurations and independently comparable workload outcomes.",
+      "layers": [
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "netapp-afx",
+      "name": "AFX disaggregated storage",
+      "company": "netapp",
+      "stage": "Documented product",
+      "source": "astra-netapp-afx",
+      "summary": "ONTAP-based storage separates capacity and performance scaling for enterprise AI workloads.",
+      "observations": [],
+      "gap": "Track dated deployments and workload evidence; maximum system specifications are not installed capacity.",
+      "layers": [
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "nvidia-vera-rubin",
+      "name": "Vera Rubin AI factory platform",
+      "company": "nvidia",
+      "stage": "Production",
+      "source": "astra-nvidia-rubin-20260531",
+      "summary": "NVIDIA reports full production of its integrated compute, networking and rack platform.",
+      "observations": [],
+      "gap": "Track delivered customer systems, energized capacity and comparable application outcomes.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "nvidia-spectrumx-photonics",
+      "name": "Spectrum-X Ethernet Photonics",
+      "company": "nvidia",
+      "stage": "Production",
+      "source": "astra-nvidia-rubin-20260531",
+      "summary": "NVIDIA reports production of Ethernet networking that brings optical interconnects into the switch package.",
+      "observations": [],
+      "gap": "Track installed systems, serviceability, optical yields and measured energy per delivered workload.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "nvidia-bluefield4",
+      "name": "BlueField-4 DPU",
+      "company": "nvidia",
+      "stage": "Documented product",
+      "source": "astra-nvidia-rubin-20260531",
+      "summary": "Infrastructure processor in the Rubin platform provides networking, security and data-service offload.",
+      "observations": [],
+      "gap": "Verify deployed functions and customer configurations; offload capability is not realized utilization.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "amd-helios-mi400",
+      "name": "Helios / Instinct MI400 portfolio",
+      "company": "amd",
+      "stage": "Documented product",
+      "source": "astra-amd-q2-20260804",
+      "summary": "AMD reports the Helios platform launch and MI400-family accelerators for AI systems.",
+      "observations": [],
+      "gap": "Resolve shipping dates by SKU and distinguish customer commitments from installed compute.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "cisco-silicon-one-g300",
+      "name": "Silicon One G300",
+      "company": "cisco",
+      "stage": "Announced",
+      "source": "astra-cisco-g300-20260210",
+      "summary": "102.4 Tbps Ethernet switch silicon introduced with Cisco AI networking systems.",
+      "observations": [],
+      "gap": "Verify production availability and comparable cluster-level performance.",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "samsung-hbm4",
+      "name": "Samsung HBM4",
+      "company": "samsung",
+      "stage": "Production",
+      "source": "samsung-hbm4-shipping",
+      "summary": "Samsung reports mass production and commercial shipments of HBM4 memory.",
+      "observations": [],
+      "gap": "Track qualified output, yields and customer deployments; no volume is inferred from the announcement.",
+      "layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "samsung-hbm4e",
+      "name": "Samsung HBM4E",
+      "company": "samsung",
+      "stage": "Sampling",
+      "source": "astra-samsung-hbm4e-20260529",
+      "summary": "Samsung reports shipping 12-layer HBM4E samples in May 2026.",
+      "observations": [],
+      "gap": "Require a subsequent production disclosure before changing the stage.",
+      "layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "ase-panel-310",
+      "name": "ASE 310 mm panel-level packaging",
+      "company": "ase",
+      "stage": "Roadmap",
+      "source": "astra-ase-panel-20260827",
+      "summary": "FOCoS and FOCoS-Bridge panel processing targets Q1 2027 production in the August update.",
+      "observations": [],
+      "gap": "Verify production start, yield and packages per month; panel geometry alone is not shipped capacity.",
+      "layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "ai2-olmo31",
+      "name": "Olmo 3.1 32B Think / Instruct",
+      "company": "ai2",
+      "stage": "Documented product",
+      "source": "astra-ai2-olmo3-20251120",
+      "summary": "Ai2 documents its December 12 update with 32B reasoning and instruction checkpoints, alongside open training data, code and intermediate artifacts.",
+      "observations": [],
+      "gap": "Check checkpoint-specific licenses and newer releases before making a latest-model claim.",
+      "layers": [
+        "models"
+      ]
+    },
+    {
+      "id": "ai2-molmobot",
+      "name": "MolmoBot research stack",
+      "company": "ai2",
+      "stage": "Research preview",
+      "source": "astra-ai2-molmobot-20260311",
+      "summary": "Robot manipulation policies and a simulation data pipeline support research across specified robot platforms; a March 27 update releases the code and data.",
+      "observations": [],
+      "gap": "Seek independent real-world evaluations, hardware conditions and productive deployment evidence.",
+      "layers": [
+        "models",
+        "applications"
+      ]
+    },
+    {
+      "id": "huggingface-lerobot060",
+      "name": "LeRobot 0.6",
+      "company": "hugging-face",
+      "stage": "Documented product",
+      "source": "astra-hf-lerobot060-20260707",
+      "summary": "Open robot-learning tools integrate policies, simulation evaluations and human-corrected rollouts.",
+      "observations": [],
+      "gap": "Distinguish library availability, each model license and measured deployment outcomes.",
+      "layers": [
+        "models",
+        "applications"
+      ]
+    },
+    {
+      "id": "weathernext-cyclones",
+      "name": "WeatherNext Cyclones",
+      "company": "alphabet",
+      "stage": "Documented product",
+      "source": "astra-weathernext-cyclones-20260806",
+      "summary": "DeepMind describes cyclone forecasting models, released research artifacts and ensemble forecasts for professional weather use. Its retrospective evaluation covers the 2023 and 2024 seasons.",
+      "observations": [],
+      "gap": "Track reproducible lead-time and track-error results against named forecasting systems, plus independent operational verification. Do not translate model skill into lives or losses saved.",
+      "layers": [
+        "models",
+        "applications"
+      ]
+    },
+    {
+      "id": "isomorphic-isodde",
+      "name": "Isomorphic Drug Design Engine (IsoDDE)",
+      "company": "isomorphic",
+      "stage": "Research preview",
+      "source": "astra-isodde-20260210",
+      "summary": "An internal drug-design system combines biomolecular structure, binding-affinity and binding-pocket prediction. Isomorphic reports improvements on specified generalization benchmarks relative to AlphaFold 3 and other methods.",
+      "observations": [],
+      "gap": "Seek independent benchmark replication, access conditions and separately verified clinical milestones; benchmark accuracy does not establish successful medicines.",
+      "layers": [
+        "models",
+        "applications"
+      ]
+    },
+    {
+      "id": "qwen3-coder-next",
+      "name": "Qwen3-Coder-Next",
+      "company": "alibaba",
+      "stage": "Documented product",
+      "source": "astra-qwen-coder-next-20260228",
+      "summary": "An open-weight coding-agent model uses verifiable tasks and executable training environments. The authors release base and instruction-tuned checkpoints.",
+      "observations": [],
+      "gap": "Evaluate quality-adjusted cost, harness configuration and completed tasks; active parameter count alone does not measure serving cost.",
+      "layers": [
+        "models",
+        "applications"
+      ]
+    },
+    {
+      "id": "mistral-medium35",
+      "name": "Mistral Medium 3.5",
+      "company": "mistral",
+      "stage": "Documented product",
+      "source": "astra-mistral-changelog",
+      "summary": "The April 28, 2026 changelog records a multimodal model for agentic and coding work, with adjustable reasoning and open weights under a Modified MIT license.",
+      "observations": [],
+      "gap": "Retain the exact model license, version and evaluation harness; open weights do not imply every license is equivalent.",
+      "layers": [
+        "models"
+      ]
+    },
+    {
+      "id": "mistral-vibe",
+      "name": "Mistral Vibe: Work, Code and Chat",
+      "company": "mistral",
+      "stage": "Documented product",
+      "source": "astra-mistral-changelog",
+      "summary": "The May 28, 2026 changelog records a unified agent interface with productivity workflows, developer tools and chat.",
+      "observations": [],
+      "gap": "Seek paid usage and quality-controlled completed-work measurements; product availability is not measured productivity.",
+      "layers": [
+        "models",
+        "applications"
+      ]
+    },
+    {
+      "id": "mistral-leanstral15",
+      "name": "Leanstral 1.5",
+      "company": "mistral",
+      "stage": "Documented product",
+      "source": "astra-mistral-leanstral15-20260702",
+      "summary": "Apache-2.0 model weights support Lean 4 proof engineering with compiler feedback and formal verification. Reported benchmark results depend on attempt and token budgets.",
+      "observations": [],
+      "gap": "The official changelog schedules the Labs endpoint for retirement on September 30, 2026. Track hosted availability separately from released weights and independently verified proof results.",
+      "layers": [
+        "models",
+        "applications"
+      ]
+    },
+    {
+      "id": "mistral-robostral-navigate",
+      "name": "Robostral Navigate",
+      "company": "mistral",
+      "stage": "Research preview",
+      "source": "astra-mistral-robostral",
+      "summary": "A simulation-trained navigation model interprets camera images and language instructions to guide robots. The release presents held-out navigation benchmarks and demonstrations.",
+      "observations": [],
+      "gap": "Verify access terms, independent real-world reliability and productive deployments; simulated benchmark success is not a fleet productivity measure.",
+      "layers": [
+        "models",
+        "applications"
+      ]
     }
   ],
   "jobs_projects": [

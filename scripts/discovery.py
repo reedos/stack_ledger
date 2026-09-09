@@ -103,6 +103,32 @@ def topic(p, cursor):
     return {'layer':layer,'query':query,'question':t['question'],'region':region or 'global','angle':angle}
 
 
+def research_topic(root,p,cursor):
+    """Reserve one search in four for reviewed catalog follow-ups.
+
+    Read accepted catalogs, never unapproved queue text. Existing provider,
+    collection permissions, cooldowns and work budgets apply unchanged.
+    The other three slots continue every broad topic in order.
+    """
+    from research import load
+    followups=[]
+    for filename,key,kind in [('delivery','projects','project'),('expansion','products','product')]:
+        path=root/f'research/{filename}.json'
+        if not path.exists():continue
+        for item in load(path)[key]:
+            layers=[item['layer']] if kind=='project' else item.get('layers',['models'])
+            layer=next((l for l in layers if l in p['layers']),None)
+            question=item.get('next_evidence') or item.get('gap')
+            name=re.split(r'[·/:→]',item['name'],maxsplit=1)[0]
+            name=' '.join(re.findall(r'[A-Za-z0-9-]+',name))[:100]
+            if layer and question and len(name)>=3:
+                followups.append({'layer':layer,'query':'"'+name+'"',
+                    'question':question[:1200],'region':'global','angle':'catalog-follow-up',
+                    'catalog_object':kind+':'+item['id']})
+    if followups and cursor%4==3:return followups[(cursor//4)%len(followups)]
+    return topic(p,cursor-cursor//4 if followups else cursor)
+
+
 def add_lead(s, url, context, lineage, p, at, depth=0):
     from research import digest
     try:
@@ -277,7 +303,7 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     from session_options import SOURCE_KINDS, stopped
     layers=config.get('_session_layers')
     topics_policy=dict(p,layers={k:v for k,v in p['layers'].items() if not layers or k in layers})
-    context = topic(topics_policy,s['cursor'])
+    context = research_topic(root,topics_policy,s['cursor'])
     kinds=config.get('_source_kinds')
     if kinds:
         cues=list(dict.fromkeys(SOURCE_KINDS[k][2] for k in kinds if SOURCE_KINDS[k][2]))
@@ -356,6 +382,15 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
                     rid,created=enqueue(root,lead,result,body_hash,identity,now())
                     lead['proposal_id']=rid;receipt['proposals_queued']+=int(created)
                     lead['status']='pending_review'
+                    if created and receipt['model_calls']<p['max_model_calls'] and time.monotonic()<deadline:
+                        from catalog_recommender import draft
+                        from research import ollama
+                        source={'id':'proposed-'+body_hash[:16],'publisher':urlparse(lead['url']).hostname,
+                            'title':result['finding']['subject'],'url':lead['url'],'published':published,
+                            'layers':[result['finding']['layer']],'license':'Public source; paraphrase and attribute.'}
+                        bounded=dict(config,model_timeout_seconds=max(1,min(config['model_timeout_seconds'],int(deadline-time.monotonic()))))
+                        draft(root,bounded,source,body,{'id':rid,'title':result['finding']['subject'],
+                            'summary':result['finding']['claim']},receipt,ollama)
                 else:
                     lead['status']='screen_rejected' if result else 'no_findings'
                 lead['processing_identity']=identity
@@ -381,6 +416,8 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
         if lead.get('proposal_id'):receipt['attempts'][-1]['proposal_id']=lead['proposal_id']
         checkpoint()
     receipt['finished_at']=now()
+    from catalog_recommender import materialize
+    materialize(root,config['model'])
     receipt['status']='partial' if receipt['errors'] else ('completed' if receipt['units_used'] else 'nothing_due')
     receipt['budget_exhausted']=receipt['units_used']>=units or time.monotonic()>=deadline or receipt['model_calls']+2>p['max_model_calls']
     receipt['capacity_reached']=len(s['leads'])>=p['max_leads']
