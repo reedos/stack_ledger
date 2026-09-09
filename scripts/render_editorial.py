@@ -28,7 +28,7 @@ def history(data, slot, policy, base):
     sources = {s['id']: s for s in data['sources']}
     f = ed.series_features(m, data['observations'], sources, policy, as_of(data))
     if not f['chart_ready']:
-        return '<p class="headline-note">Comparable history needs further review. Open the layer for separate historical estimates and outlooks.</p>'
+        return '<p class="headline-note">Comparable history under review; the layer page has the separate estimates and outlooks.</p>'
     obs = {o['id']: o for o in data['observations']}
     ids = [i for segment in f['segments'] if segment['chart_ready'] for i in segment['observation_ids']]
     rows = sorted((obs[i] for i in ids), key=lambda o: ed.period_bounds(o)[1])
@@ -69,8 +69,11 @@ def history(data, slot, policy, base):
     qualification = ('Ranges are historical estimates; no annual ramp is inferred.' if any(o['upper'] is not None for o in rows)
                      else 'Reported checkpoints; triangle marks a bound, horizontal mark the disclosed month. Service footprint changes.' if m['id'] == 'waymo-paid-weekly'
                      else 'Historical checkpoints only. No values are interpolated.')
-    return (f'<figure class="headline-history">{"".join(svg)}<figcaption>{e(chart_unit)}. {e(qualification)}</figcaption></figure>'
-            f'<details class="headline-history-data"><summary>History &amp; sources</summary><p>{e(m["unit"])}. {e(m["scope"])}</p>'
+    # The sparkline lives inside the collapsed fold so every layer card keeps the same height on a phone;
+    # the headline figure, period, label and source stay visible, the history opens on demand.
+    return (f'<details class="headline-history-data"><summary>History &amp; sources</summary>'
+            f'<figure class="headline-history">{"".join(svg)}<figcaption>{e(chart_unit)}. {e(qualification)}</figcaption></figure>'
+            f'<p>{e(m["unit"])}. {e(m["scope"])}</p>'
             f'<div class="table-scroll"><table><caption>{e(m["title"])}</caption><thead><tr><th>Period</th><th>Value</th><th>Evidence</th><th>Published</th><th>Source</th></tr></thead><tbody>{table}</tbody></table></div></details>')
 
 

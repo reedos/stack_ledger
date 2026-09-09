@@ -151,8 +151,10 @@ def layer_cards(data, base, config=None, policy=None):
                     source = next(s for s in data['sources'] if s['id']==supporting_record['source'])
                     # Collapsed by default so a supporting series never makes one layer card taller than its neighbours;
                     # the figure stays visible in the summary, the scope, source and history open on demand.
-                    evidence += (f'<details class="headline-support"><summary><span class="support-label">Supporting context</span> {e(metric["title"])}'
-                                 f'<strong>{e(number(supporting_record))} {e(metric["unit"])} · {e(supporting_record["period"])} · {attribution_label(supporting_record, metric, source, COMPANIES.get(metric.get("company")))}</strong></summary>'
+                    # One-line summary so the card stays as short as its neighbours on a phone; title, figure and history open on demand.
+                    short = (COMPANIES.get(metric.get('company')) or {}).get('name') or metric['title'].split(' (')[0]
+                    evidence += (f'<details class="headline-support"><summary><span class="support-label">Supporting context</span> {e(short)} · {e(number(supporting_record))} {e(metric["unit"])}</summary>'
+                                 f'<p class="support-title">{e(metric["title"])} · {e(supporting_record["period"])} · {attribution_label(supporting_record, metric, source, COMPANIES.get(metric.get("company")))}</p>'
                                  f'<p>{e(metric["scope"])}</p><a href="{link_url(source["url"])}">{e(source["publisher"])}</a>'
                                  + history(data,supporting_slot,policy,base)+'</details>')
         marker = f' data-observation="{e(record["id"])}"' if record else ''
