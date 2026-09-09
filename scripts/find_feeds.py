@@ -149,11 +149,20 @@ def register(payload):
         policy={'rank':3 if technical else 4,'region_book':c.get('region_book','unknown') if c.get('region_book') in registry['region_books'] else 'unknown','company_id':c['id'],'claim_type':'other','cadence':'weekly' if technical else 'daily','weekday':hash(sid)%7 if technical else 0,'path_prefixes':[r['top_prefix']],'topics':TOPICS,'excerpts':False}
         hosts_done.add(r['host'])
         registry['sources'].append(source);registry['collection'][sid]=policy;ledger['sources'].append(dict(source))
+        registry['region_books'][policy['region_book']]['sources'].append(sid)
         existing.add(r['feed_url']);added.append(sid)
     validate_registry(registry,set(companies))
     from validate import validate
-    validate(ledger)
-    save(ROOT/'research/sources.json',registry);save(ROOT/'site/data/ledger.json',ledger)
+    # validate() reads the reviewed registry from disk: write it (and its public mirror) first,
+    # then validate the ledger against it, restoring the originals if anything fails.
+    paths=[ROOT/'research/sources.json',ROOT/'site/data/source-books.json']
+    originals={p:p.read_bytes() for p in paths}
+    save(paths[0],registry);save(paths[1],{k:registry[k] for k in ['region_books','collection']})
+    try:validate(ledger)
+    except Exception:
+        for p,b in originals.items():p.write_bytes(b)
+        raise
+    save(ROOT/'site/data/ledger.json',ledger)
     return added
 
 

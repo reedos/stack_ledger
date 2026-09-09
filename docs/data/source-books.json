@@ -124,7 +124,12 @@
         "audit-aws-georgia",
         "audit-aws-mississippi",
         "audit-helios-delivery",
-        "audit-vantage-frontier"
+        "audit-vantage-frontier",
+        "feed-amd-0e2d3d",
+        "feed-intel-5205c9",
+        "feed-aws-d0c96b",
+        "feed-constellation-3252f6",
+        "feed-recursion-4114ef"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -145,7 +150,8 @@
         "finance-quanta-consensus-20260907",
         "finance-foxconn-consensus-20260907",
         "finance-quanta-computer-consensus-20260907",
-        "finance-wiwynn-consensus-20260907"
+        "finance-wiwynn-consensus-20260907",
+        "feed-quanta-fd93ef"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -156,7 +162,9 @@
         "company-sk-hynix",
         "qcells-cartersville",
         "finance-samsung-consensus-20260907",
-        "finance-sk-hynix-consensus-20260907"
+        "finance-sk-hynix-consensus-20260907",
+        "feed-sk-hynix-94639e",
+        "feed-qcells-e75c5c"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -223,7 +231,8 @@
         "coolit-role",
         "finance-celestica-consensus-20260907",
         "map-office-cohere",
-        "audit-nextdc-s7"
+        "audit-nextdc-s7",
+        "feed-celestica-e1fda5"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -435,7 +444,19 @@
         "finance-supermicro-consensus-20260907",
         "finance-dell-consensus-20260907",
         "finance-nvent-consensus-20260907",
-        "finance-johnson-controls-consensus-20260907"
+        "finance-johnson-controls-consensus-20260907",
+        "feed-nextera-52099b",
+        "feed-ge-vernova-b069da",
+        "feed-broadcom-15d1e6",
+        "feed-astera-4207e1",
+        "feed-coherent-67bd90",
+        "feed-applied-opto-62bc91",
+        "feed-fabrinet-50482e",
+        "feed-lightmatter-a0b265",
+        "feed-ayar-fa2fc5",
+        "feed-macom-7663e5",
+        "feed-amkor-6ff800",
+        "feed-fervo-37c88d"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     }
@@ -5540,6 +5561,594 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
+      "excerpts": false
+    },
+    "feed-nextera-52099b": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "nextera",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/stock-information/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-ge-vernova-b069da": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "ge-vernova",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/investors/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-amd-0e2d3d": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "amd",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-events/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-broadcom-15d1e6": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "broadcom",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-intel-5205c9": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "intel",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-events/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-sk-hynix-94639e": {
+      "rank": 4,
+      "region_book": "korea",
+      "company_id": "sk-hynix",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/en/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-aws-d0c96b": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "aws",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-astera-4207e1": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "astera",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 0,
+      "path_prefixes": [
+        "/resources/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-coherent-67bd90": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "coherent",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-applied-opto-62bc91": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "applied-opto",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-fabrinet-50482e": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "fabrinet",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-celestica-e1fda5": {
+      "rank": 4,
+      "region_book": "canada-latam-africa-anz",
+      "company_id": "celestica",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-quanta-fd93ef": {
+      "rank": 4,
+      "region_book": "taiwan",
+      "company_id": "quanta",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-events/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-lightmatter-a0b265": {
+      "rank": 3,
+      "region_book": "unknown",
+      "company_id": "lightmatter",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 2,
+      "path_prefixes": [
+        "/blog/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-ayar-fa2fc5": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "ayar",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-qcells-e75c5c": {
+      "rank": 3,
+      "region_book": "korea",
+      "company_id": "qcells",
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 2,
+      "path_prefixes": [
+        "/blog/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-macom-7663e5": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "macom",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-amkor-6ff800": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "amkor",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-constellation-3252f6": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "constellation",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-fervo-37c88d": {
+      "rank": 4,
+      "region_book": "unknown",
+      "company_id": "fervo",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": false
+    },
+    "feed-recursion-4114ef": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "recursion",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/news-releases/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
       "excerpts": false
     }
   }
