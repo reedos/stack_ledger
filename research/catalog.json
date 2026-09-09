@@ -8069,6 +8069,114 @@
       "chart_default_end": 2026,
       "definition_stable": true,
       "pre_period_note": "Dated first-facility disclosure. No earlier history, annual averages or later campus employment inferred."
+    },
+    {
+      "id": "epoch-cowos-supply-quarterly",
+      "layer": "chips",
+      "title": "CoWoS packaging supply (Epoch estimate)",
+      "unit": "wafers / quarter",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of total CoWoS advanced-packaging wafer supply available to AI accelerators per quarter, all designers. 5th to 95th percentile in each note. An estimate of supply, not shipments or installed accelerators.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-07; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-components-dataset"
+      ],
+      "company": null,
+      "measurement_type": "estimated_cowos_supply_wafers_quarterly",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "quarter",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2024. Earlier quarters are not estimated. Missing quarters are not zero."
+    },
+    {
+      "id": "epoch-logic-supply-quarterly",
+      "layer": "chips",
+      "title": "Advanced logic wafer supply for AI accelerators (Epoch estimate)",
+      "unit": "wafers / quarter",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of advanced logic wafer supply consumed by AI accelerators per quarter. 5th to 95th percentile in each note. Not total foundry output.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-07; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-components-dataset"
+      ],
+      "company": null,
+      "measurement_type": "estimated_logic_supply_wafers_quarterly",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "quarter",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2024. Earlier quarters are not estimated. Missing quarters are not zero."
+    },
+    {
+      "id": "epoch-hbm-supply-quarterly",
+      "layer": "chips",
+      "title": "HBM supply value for AI accelerators (Epoch estimate)",
+      "unit": "USD / quarter",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of high-bandwidth-memory supply value consumed by AI accelerators per quarter, in USD. 5th to 95th percentile in each note. Not memory-maker revenue.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-07; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-components-dataset"
+      ],
+      "company": null,
+      "measurement_type": "estimated_hbm_supply_usd_quarterly",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "quarter",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2024. Earlier quarters are not estimated. Missing quarters are not zero."
+    },
+    {
+      "id": "epoch-nvidia-cowos-wafers-quarterly",
+      "layer": "chips",
+      "title": "Nvidia CoWoS wafer consumption (Epoch estimate)",
+      "unit": "wafers / quarter",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of CoWoS wafers consumed by Nvidia accelerators per quarter. 5th to 95th percentile in each note. Consumption estimate, not TSMC capacity or Nvidia disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-07; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-components-dataset"
+      ],
+      "company": "nvidia",
+      "measurement_type": "estimated_cowos_consumption_wafers_quarterly",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "quarter",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2024. Earlier quarters are not estimated. Missing quarters are not zero."
     }
   ],
   "targets": [
