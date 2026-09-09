@@ -106,10 +106,12 @@ def layer_cards(data, base, config=None, policy=None):
                 supporting_record = selected(data,supporting_slot,policy)
                 if supporting_record:
                     source = next(s for s in data['sources'] if s['id']==supporting_record['source'])
-                    evidence += (f'<aside class="headline-support"><h4>Supporting context: {e(metric["title"])}</h4>'
-                                 f'<p>{e(number(supporting_record))} {e(metric["unit"])} · {e(supporting_record["period"])} · {STATUSES[supporting_record["status"]]}</p>'
+                    # Collapsed by default so a supporting series never makes one layer card taller than its neighbours;
+                    # the figure stays visible in the summary, the scope, source and history open on demand.
+                    evidence += (f'<details class="headline-support"><summary><span class="support-label">Supporting context</span> {e(metric["title"])}'
+                                 f'<strong>{e(number(supporting_record))} {e(metric["unit"])} · {e(supporting_record["period"])} · {STATUSES[supporting_record["status"]]}</strong></summary>'
                                  f'<p>{e(metric["scope"])}</p><a href="{link_url(source["url"])}">{e(source["publisher"])}</a>'
-                                 + history(data,supporting_slot,policy,base)+'</aside>')
+                                 + history(data,supporting_slot,policy,base)+'</details>')
         marker = f' data-observation="{e(record["id"])}"' if record else ''
         cards.append(f'<article class="layer-card" style="--accent:{e(layer["color"])}" data-layer="{e(layer["id"])}"{marker}>'
                      f'<div class="layer-card-top"><span class="layer-verb">{verb}</span><span class="ordinal">LAYER {e(layer["number"])}</span></div>'
