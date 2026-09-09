@@ -274,6 +274,20 @@ class PublicationCadenceTests(unittest.TestCase):
             with self.subTest(porcelain=porcelain),patch.object(research,'git',return_value=porcelain) as git:
                 with self.assertRaisesRegex(ValueError,'clean'):research.preflight({'branch':'main','repository':'reedos/stack_ledger'})
                 self.assertEqual(git.call_count,1)
+    def test_receipts_only_batch_defers_and_flush_publishes(self):
+        for extra,expected_calls,state in [([],0,'deferred'),(['--flush'],1,'pushed')]:
+            with self.subTest(flush=bool(extra)),tempfile.TemporaryDirectory() as tmp:
+                path=Path(tmp);RunnerTests().fixture(path);sid='b'*32
+                document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
+                def fake_build():
+                    (path/'docs/data').mkdir(parents=True,exist_ok=True);(path/'docs/data/ledger.json').write_bytes((path/'site/data/ledger.json').read_bytes())
+                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research,'preflight'),patch.object(research,'build',side_effect=fake_build), \
+                     patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[],'notes':[]}), \
+                     patch.object(research,'publish') as publish,patch.object(sys,'argv',['research.py','--publish','--session-id',sid,'--max-documents','3',*extra]),patch('sys.stdout',new=io.StringIO()):
+                    research.main()
+                self.assertEqual(publish.call_count,expected_calls)
+                receipts=list((path/'.local/sessions'/sid/'batches').glob('*.json'))
+                self.assertEqual(len(receipts),1);self.assertEqual(json.loads(receipts[0].read_text(encoding='utf-8'))['publication'],state)
     def test_screening_version_governs_cache_identity_not_wording(self):
         base={'_coverage':'{}','model':'m','max_candidates_per_document':4,'screening_version':'1','_instructions':'wording A'}
         same=research.processing_identity('doc',dict(base,_instructions='wording B'),{},[])

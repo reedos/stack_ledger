@@ -76,9 +76,11 @@ def discover(fetcher,host,log):
             u=urljoin(root_url,href)
             if urlparse(u).scheme=='https':candidates.append(u)
     except Exception as e:
+        # An unresponsive or blocking host gets no well-known-path probing: each miss costs a timeout.
         log.append({'host':host,'stage':'root','error':type(e).__name__})
+        return []
     if not candidates:
-        for path in WELL_KNOWN[:6]:
+        for path in WELL_KNOWN[:4]:
             u=root_url.rstrip('/')+path
             try:
                 body=probe(fetcher,host,u)
@@ -105,10 +107,13 @@ def run(limit=None,out=None):
     fetcher=Fetcher();results=[];log=[];seen_hosts=set()
     companies=ecosystem['companies'][:limit] if limit else ecosystem['companies']
     existing_urls={s['url'] for s in registry['sources']}
+    target=out or research.LOCAL/'feed-candidates.json'
+    def checkpoint():
+        save(target,{'generated_at':now(),'complete':False,'hosts_probed':len(seen_hosts),'errors':log,'candidates':results})
     for c in companies:
         for host in hosts.get(c['id'],[]):
             if host in seen_hosts:continue
-            seen_hosts.add(host)
+            seen_hosts.add(host);checkpoint()
             for url in discover(fetcher,host,log)[:3]:
                 if url in existing_urls:continue
                 record={'company_id':c['id'],'company':c['name'],'layers':c['layers'],'region_book':c.get('region_book','unknown'),'host':host,'feed_url':url,'checked_at':now()}
@@ -122,9 +127,9 @@ def run(limit=None,out=None):
                 except Exception as e:record.update(status='error',detail=type(e).__name__,eligible=False)
                 results.append(record)
                 print(f"{record['status']:19s} {c['name'][:28]:28s} {url}",flush=True)
-    payload={'generated_at':now(),'hosts_probed':len(seen_hosts),'errors':log,'candidates':results,
+    payload={'generated_at':now(),'complete':True,'hosts_probed':len(seen_hosts),'errors':log,'candidates':results,
              'note':'Eligible means the feed parsed, its entries link to the same host, and a path prefix exists for discovery. Registration is a reviewed change.'}
-    save(out or research.LOCAL/'feed-candidates.json',payload)
+    save(target,payload)
     return payload
 
 
@@ -132,13 +137,16 @@ def register(payload):
     """Add eligible feeds as rank-4 daily index sources; mirror into the ledger; validate."""
     registry=load(ROOT/'research/sources.json');ledger=load(ROOT/'site/data/ledger.json')
     companies={c['id']:c for c in load(ROOT/'research/ecosystem.json')['companies']}
-    existing={s['url'] for s in registry['sources']};added=[]
+    existing={s['url'] for s in registry['sources']};added=[];hosts_done={urlparse(s['url']).hostname for s in registry['sources'] if s.get('index')}
     for r in payload['candidates']:
-        if not r.get('eligible') or r['feed_url'] in existing:continue
+        if not r.get('eligible') or r['feed_url'] in existing or r['host'] in hosts_done:continue  # one feed per host
         c=companies[r['company_id']]
+        # Engineering, research and product publishing is collected narrowly: rank 3, weekly.
+        technical=bool(re.search(r'research|blog|developer|engineering|docs',r['host']+urlparse(r['feed_url']).path,re.I))
         sid='feed-'+re.sub(r'[^a-z0-9]+','-',c['id'].lower()).strip('-')+'-'+digest(r['feed_url'])[:6]
-        source={'id':sid,'publisher':c['name'],'title':f"{c['name']} official feed",'url':r['feed_url'],'published':None,'layers':c['layers'],'license':'Original source rights apply','index':True}
-        policy={'rank':4,'region_book':c.get('region_book','unknown') if c.get('region_book') in registry['region_books'] else 'unknown','company_id':c['id'],'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':[r['top_prefix']],'topics':TOPICS,'excerpts':False}
+        source={'id':sid,'publisher':c['name'],'title':f"{c['name']} official feed · {r['host']}",'url':r['feed_url'],'published':None,'layers':c['layers'],'license':'Original source rights apply','index':True}
+        policy={'rank':3 if technical else 4,'region_book':c.get('region_book','unknown') if c.get('region_book') in registry['region_books'] else 'unknown','company_id':c['id'],'claim_type':'other','cadence':'weekly' if technical else 'daily','weekday':hash(sid)%7 if technical else 0,'path_prefixes':[r['top_prefix']],'topics':TOPICS,'excerpts':False}
+        hosts_done.add(r['host'])
         registry['sources'].append(source);registry['collection'][sid]=policy;ledger['sources'].append(dict(source))
         existing.add(r['feed_url']);added.append(sid)
     validate_registry(registry,set(companies))
