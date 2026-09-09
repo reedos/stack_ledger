@@ -48,6 +48,9 @@ function setupProjectMap(){
  layerFilters.classList.add('map-layer-filters','capital-legend');host.querySelector('.map-overview .capital-legend').replaceWith(layerFilters);
  layerFilters.querySelector('[data-project-layer="all"]').textContent='All layers';
  host.querySelector('.explorer-controls').prepend(projectTools);
+ const searchLabel=projectTools.querySelector('label[for="project-search"]'),searchInput=projectTools.querySelector('#project-search');
+ searchLabel.classList.remove('sr-only');searchLabel.textContent='Search Projects:';searchLabel.append(searchInput);
+ searchInput.placeholder='Wisconsin, grid, geothermal, Meta…';
  layerFilters.querySelectorAll('[data-project-layer]').forEach(button=>{const layer=layerOf(button.dataset.projectLayer);if(layer)button.style.setProperty('--layer-color',layer.color);});
  const offices=ecosystem.companies.flatMap(c=>(c.map_offices||[]).map(o=>({id:c.id,name:o.name,owner:c.name,layer:'models',stage:'office',office_kind:o.kind,map_location:o.location,map_note:o.note,map_source:o.source})));
  [...new Set([...delivery.projects.map(p=>p.owner),...offices.map(p=>p.owner)])].sort().forEach(owner=>{const option=document.createElement('option');option.value=owner;option.textContent=owner;owners.append(option);});

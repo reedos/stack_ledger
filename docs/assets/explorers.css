@@ -87,13 +87,14 @@
 #project-map .directory-tools{display:contents}
 #project-map #project-search{width:100%;min-width:0;max-width:none;min-height:44px;border:1px solid #394d43;border-radius:10px;background:#111c18;padding:10px 12px;font-size:.8rem;color:#edf0e4}
 #project-map #project-search::placeholder{color:#90a697}
-#project-map .explorer-controls label{min-width:0}
+#project-map .explorer-controls label{min-width:0;margin:0;line-height:1.5;gap:8px}
+#project-map .explorer-controls select,#project-map #project-search{height:44px;min-height:44px;margin:0;line-height:1.5;box-sizing:border-box}
 #project-map .explorer-controls .explorer-check{grid-column:1/-1;min-height:24px;justify-self:start;flex-basis:auto}
 @media(max-width:700px){
  #project-map .map-layer-filters{padding:0;gap:7px}
  #project-map .map-layer-filters button{font-size:.69rem;padding:7px 12px;min-height:40px}
  #project-map .explorer-controls{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
- #project-map #project-search{grid-column:1/-1}
+ #project-map label[for=project-search]{grid-column:1/-1}
  #project-map .explorer-controls>label:has(#map-coverage){grid-column:1/-1}
 }
 
