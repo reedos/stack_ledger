@@ -31532,6 +31532,27 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260909T002819Z-1f90540737a1434ba82d6da8cec81388",
+      "started_at": "2026-09-09T00:28:19Z",
+      "finished_at": "2026-09-09T00:29:29Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "spacex-terafab-2026",
+          "reason": "gaierror"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -31541,7 +31562,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-09T00:27:44Z",
+    "last_attempt": "2026-09-09T00:29:29Z",
     "last_success": "2026-09-09T00:19:21Z",
     "status": "partial"
   }
