@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T10:44:23Z",
+  "reviewed_at": "2026-09-09T10:45:39Z",
   "projects": [
     {
       "id": "gemini",
@@ -5866,6 +5866,30 @@
       "company_ids": [
         "coreweave",
         "openai"
+      ]
+    },
+    {
+      "id": "alibaba-zhangbei",
+      "name": "Alibaba Zhangbei",
+      "layer": "infrastructure",
+      "owner": "Alibaba",
+      "location": "Alibaba Zhangbei Yun Calculation Data Center, Zhangbei County, Zhangjiakou, Hebei, China, 076471, China",
+      "category": "AI data center",
+      "stage": "status-unverified",
+      "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: Alibaba. AI-only allocation and the delivery stage are not established by this record.",
+      "observations": [],
+      "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
+      "grid": "Epoch estimates current power about 169 MW · about 31,885 H100 equivalents · capital cost about 6.4 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
+      "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Epoch AI Data Centers dataset (vintage 2026-09) lists this site: owner Alibaba, users Alibaba, China; current power about 169 MW · about 31,885 H100 equivalents · capital cost about 6.4 billion 2025 USD. Directory presence is not proof of operation.",
+          "source": "epoch-data-centers-dataset"
+        }
+      ],
+      "company_ids": [
+        "alibaba"
       ]
     }
   ],
