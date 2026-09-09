@@ -31694,6 +31694,30 @@
         "applications",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260909T003505Z-b6d55cfee9514cd1b73f16cc603f5b22",
+      "started_at": "2026-09-09T00:35:05Z",
+      "finished_at": "2026-09-09T00:35:13Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "openai-stargate-michigan",
+          "reason": "HTTPError"
+        },
+        {
+          "source": "nvent-role",
+          "reason": "Robots policy unavailable; source skipped"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -31703,7 +31727,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 01:00–07:00 Pacific (minimum 6 hours)",
-    "last_attempt": "2026-09-09T00:34:31Z",
+    "last_attempt": "2026-09-09T00:35:13Z",
     "last_success": "2026-09-09T00:19:21Z",
     "status": "partial"
   }
