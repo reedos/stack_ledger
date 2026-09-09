@@ -78,6 +78,9 @@ def build():
         if page == 'models': content += capabilities(data,expansion,base)
         if page == 'infrastructure': content += capital(data,expansion,base)
         if page == 'projects': content += project_map(delivery,data,base)
+        if page == 'industry':
+            from render_industry import industry_opening
+            content += industry_opening(data, base)
         if page == 'claims':
             from render_claims import render_claims
             content = render_claims(json.loads((ROOT/'research/claims.json').read_text(encoding='utf-8')), data['sources'], base)

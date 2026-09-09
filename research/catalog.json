@@ -7993,6 +7993,82 @@
       "allowed_statuses": [
         "observation"
       ]
+    },
+    {
+      "id": "indeed-dc-postings-share",
+      "layer": "infrastructure",
+      "title": "Data-center share of U.S. job postings on Indeed",
+      "unit": "per 1,000 postings",
+      "geography": "United States",
+      "scope": "Indeed U.S. postings containing data-center keywords, per 1,000 total postings. Rounded source figures; mid-2023 baseline has conflicting May/June labels. Share is not posting volume, hires or net jobs.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Indeed U.S. postings containing data-center keywords, per 1,000 total postings. Rounded source figures; mid-2023 baseline has conflicting May/June labels. Share is not posting volume, hires or net jobs.",
+      "source_ids": [
+        "indeed-dc-hiring-2026"
+      ],
+      "measurement_type": "job_postings_share",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2023,
+      "chart_default_start": 2023,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Only mid-2023 and 2026 endpoints are verified. Earlier and intermediate values remain unavailable; missing values are not zero."
+    },
+    {
+      "id": "fairwater-construction-contributors",
+      "layer": "infrastructure",
+      "title": "Fairwater first facility: cumulative construction contributors",
+      "unit": "workers",
+      "geography": "Mount Pleasant, Wisconsin, United States",
+      "scope": "Nearly 10,000 workers contributed over the two years preceding June 23, 2026. Cumulative participation, not simultaneous workforce, annual employment, job-years or net new jobs.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Nearly 10,000 workers contributed over the two years preceding June 23, 2026. Cumulative participation, not simultaneous workforce, annual employment, job-years or net new jobs.",
+      "source_ids": [
+        "fairwater-operating"
+      ],
+      "company": "microsoft",
+      "project": "fairwater-one",
+      "measurement_type": "construction_workers_cumulative",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Dated first-facility disclosure. No earlier history, annual averages or later campus employment inferred."
+    },
+    {
+      "id": "fairwater-onsite-employees",
+      "layer": "infrastructure",
+      "title": "Fairwater first facility: on-site full-time employees",
+      "unit": "employees",
+      "geography": "Mount Pleasant, Wisconsin, United States",
+      "scope": "Nearly 550 full-time employees on site in June 2026 supporting the first facility. Employer breakdown is unspecified; not all necessarily Microsoft payroll, not the second facility, and not national net job creation.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Nearly 550 full-time employees on site in June 2026 supporting the first facility. Employer breakdown is unspecified; not all necessarily Microsoft payroll, not the second facility, and not national net job creation.",
+      "source_ids": [
+        "fairwater-operating"
+      ],
+      "company": "microsoft",
+      "project": "fairwater-one",
+      "measurement_type": "on_site_full_time_employees",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Dated first-facility disclosure. No earlier history, annual averages or later campus employment inferred."
     }
   ],
   "targets": [

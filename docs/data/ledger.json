@@ -7995,6 +7995,82 @@
       "allowed_statuses": [
         "observation"
       ]
+    },
+    {
+      "id": "indeed-dc-postings-share",
+      "layer": "infrastructure",
+      "title": "Data-center share of U.S. job postings on Indeed",
+      "unit": "per 1,000 postings",
+      "geography": "United States",
+      "scope": "Indeed U.S. postings containing data-center keywords, per 1,000 total postings. Rounded source figures; mid-2023 baseline has conflicting May/June labels. Share is not posting volume, hires or net jobs.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Indeed U.S. postings containing data-center keywords, per 1,000 total postings. Rounded source figures; mid-2023 baseline has conflicting May/June labels. Share is not posting volume, hires or net jobs.",
+      "source_ids": [
+        "indeed-dc-hiring-2026"
+      ],
+      "measurement_type": "job_postings_share",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2023,
+      "chart_default_start": 2023,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Only mid-2023 and 2026 endpoints are verified. Earlier and intermediate values remain unavailable; missing values are not zero."
+    },
+    {
+      "id": "fairwater-construction-contributors",
+      "layer": "infrastructure",
+      "title": "Fairwater first facility: cumulative construction contributors",
+      "unit": "workers",
+      "geography": "Mount Pleasant, Wisconsin, United States",
+      "scope": "Nearly 10,000 workers contributed over the two years preceding June 23, 2026. Cumulative participation, not simultaneous workforce, annual employment, job-years or net new jobs.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Nearly 10,000 workers contributed over the two years preceding June 23, 2026. Cumulative participation, not simultaneous workforce, annual employment, job-years or net new jobs.",
+      "source_ids": [
+        "fairwater-operating"
+      ],
+      "company": "microsoft",
+      "project": "fairwater-one",
+      "measurement_type": "construction_workers_cumulative",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Dated first-facility disclosure. No earlier history, annual averages or later campus employment inferred."
+    },
+    {
+      "id": "fairwater-onsite-employees",
+      "layer": "infrastructure",
+      "title": "Fairwater first facility: on-site full-time employees",
+      "unit": "employees",
+      "geography": "Mount Pleasant, Wisconsin, United States",
+      "scope": "Nearly 550 full-time employees on site in June 2026 supporting the first facility. Employer breakdown is unspecified; not all necessarily Microsoft payroll, not the second facility, and not national net job creation.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "Nearly 550 full-time employees on site in June 2026 supporting the first facility. Employer breakdown is unspecified; not all necessarily Microsoft payroll, not the second facility, and not national net job creation.",
+      "source_ids": [
+        "fairwater-operating"
+      ],
+      "company": "microsoft",
+      "project": "fairwater-one",
+      "measurement_type": "on_site_full_time_employees",
+      "allowed_statuses": [
+        "observation"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Dated first-facility disclosure. No earlier history, annual averages or later campus employment inferred."
     }
   ],
   "sources": [
@@ -23227,6 +23303,66 @@
       "retrieved_at": "2026-09-09T07:22:33.276817Z",
       "method": "curated",
       "note": "Maintainer-reviewed source; not an unattended model result."
+    },
+    {
+      "id": "indeed-dc-postings-share-2023",
+      "metric": "indeed-dc-postings-share",
+      "year": 2023,
+      "period": "Mid-2023 (May/June ambiguity in source)",
+      "value": 2,
+      "upper": null,
+      "status": "observation",
+      "source": "indeed-dc-hiring-2026",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T08:06:10Z",
+      "method": "curated",
+      "note": "Rounded share, not a job count. May/June 2023 discrepancy retained as mid-2023; 2026 is the level in the July 14 report, not an annual average. Evidence hash identifies the retained web-source text response; direct HTML fetch was unavailable.",
+      "evidence_sha256": "e3194ead0f96c87ea4897bee605b1e553d2249eed6db950e7ca1b2263a5b49ad"
+    },
+    {
+      "id": "indeed-dc-postings-share-2026",
+      "metric": "indeed-dc-postings-share",
+      "year": 2026,
+      "period": "2026 level reported July 14",
+      "value": 6,
+      "upper": null,
+      "status": "observation",
+      "source": "indeed-dc-hiring-2026",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T08:06:10Z",
+      "method": "curated",
+      "note": "Rounded share, not a job count. May/June 2023 discrepancy retained as mid-2023; 2026 is the level in the July 14 report, not an annual average. Evidence hash identifies the retained web-source text response; direct HTML fetch was unavailable.",
+      "evidence_sha256": "e3194ead0f96c87ea4897bee605b1e553d2249eed6db950e7ca1b2263a5b49ad"
+    },
+    {
+      "id": "fairwater-construction-contributors-2026",
+      "metric": "fairwater-construction-contributors",
+      "year": 2026,
+      "period": "Two-year buildout reported June 23, 2026",
+      "value": 10000,
+      "upper": null,
+      "status": "observation",
+      "source": "fairwater-operating",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T08:13:46Z",
+      "method": "curated",
+      "note": "Microsoft says nearly; retained as an approximate value. Evidence hash identifies the private web-source text response, not raw HTML. Cumulative contributors over two years, not a construction peak.",
+      "evidence_sha256": "10d0e83a6883f0d206c27fdac7d1029376ae984d15e56dbfd00b028674c7b728"
+    },
+    {
+      "id": "fairwater-onsite-employees-2026",
+      "metric": "fairwater-onsite-employees",
+      "year": 2026,
+      "period": "June 23, 2026 on-site workforce",
+      "value": 550,
+      "upper": null,
+      "status": "observation",
+      "source": "fairwater-operating",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T08:13:46Z",
+      "method": "curated",
+      "note": "Microsoft says nearly; retained as an approximate value. Evidence hash identifies the private web-source text response, not raw HTML. Full-time employees on site; employer breakdown unspecified.",
+      "evidence_sha256": "10d0e83a6883f0d206c27fdac7d1029376ae984d15e56dbfd00b028674c7b728"
     }
   ],
   "events": [

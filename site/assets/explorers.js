@@ -16,6 +16,7 @@ function enhanceExplorers(){
   if(section.id==='project-map')document.getElementById('project-count')?.after(section);
   else if(section.id==='model-capabilities')document.getElementById('layer-diagram')?.after(section);
   else if(section.id==='capital-buildout')document.querySelector('#main .detail-layout')?.after(section);
+  else if(section.id==='industry-momentum')document.querySelector('#main .page-hero')?.after(section);
  }
  document.querySelectorAll('[data-enhanced-controls]').forEach(el=>el.hidden=false);
  if(document.getElementById('project-map'))setupProjectMap();

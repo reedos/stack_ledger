@@ -194,6 +194,8 @@ const server=http.createServer((req,res)=>{
   assert.match(await page.locator('#science-weather').innerText(),/operational support/);
   assert.match(await page.locator('#named-projects').innerText(),/supervis|Supervis/);
   await page.goto(origin+'industry/');await page.locator('.industry-verdict').waitFor();
+  await page.locator('#main[data-organized="true"]').waitFor();
+  assert.equal(await page.locator('#main > .page-contents + #industry-momentum').count(),1);
   assert.equal(await page.locator('#construction-economy .chart-wrap').count(),2);
   assert.match(await page.locator('#gc-mortenson').innerText(),/outside-plant fiber/);
   const jobsCatalog=JSON.parse(fs.readFileSync(path.join(root,'data/expansion.json'),'utf8'));

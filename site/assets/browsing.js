@@ -114,7 +114,7 @@ function organizeResearch(){
   });
  }
  if(page==='industry'){
-  let anchor=main.querySelector('.page-hero');
+  let anchor=main.querySelector('#industry-momentum')||main.querySelector('.page-hero');
   for(const title of ['The trades behind the buildout','The people building the AI factories.','Which jobs are in the record?']){
    const h=[...main.querySelectorAll('h2')].find(el=>el.textContent.trim()===title);const section=h?.closest('section');
    if(section&&section.parentElement===main){anchor.after(section);anchor=section;}

@@ -4,7 +4,7 @@ from pathlib import Path
 from validate import require, text, timestamp, STATUSES
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_TYPES={'construction_spending_saar','job_postings_index','crash_involvements_per_million_miles','normalized_usage_index','cumulative_reviews'}
+PUBLIC_TYPES={'construction_spending_saar','job_postings_index','job_postings_share','crash_involvements_per_million_miles','normalized_usage_index','cumulative_reviews'}
 TYPES = PUBLIC_TYPES | {'training_seats_committed','training_funding_committed','nuclear_ppa_committed','smr_mw_committed','harness_list_price','clinical_trial_enrollment','clinical_endpoint_change',
     'site_it_mw_operating', 'site_it_mw_planned_endstate', 'site_facility_mw',
     'site_compute_mw_reported', 'onsite_generation_mw_temporary',
@@ -27,9 +27,9 @@ FUTURE_ONLY = {'training_seats_committed','training_funding_committed','nuclear_
                'site_it_mw_planned_endstate', 'interconnection_mw_requested',
                'permanent_jobs_promised', 'accelerator_units_contracted',
                'compute_mw_contracted'}
-TYPES |= {'annual_revenue_reported', 'annual_revenue_forecast'}
+TYPES |= {'annual_revenue_reported', 'annual_revenue_forecast', 'construction_workers_cumulative', 'on_site_full_time_employees'}
 FUTURE_ONLY |= {'annual_revenue_forecast'}
-HISTORICAL_ONLY = {'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
+HISTORICAL_ONLY = {'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
                    'permanent_jobs_reported', 'annual_revenue_usd',
                    'interconnection_mw_energized', 'accelerator_units_installed',
                    'supervised_driver_miles', 'unsupervised_or_rider_only_miles',
@@ -62,6 +62,9 @@ def validate_expansion(x, ledger, ecosystem, delivery):
             require(m['allowed_statuses'] == ['forecast'], 'Revenue outlook must remain a forecast')
         if m['measurement_type'] in HISTORICAL_ONLY:
             require(set(m['allowed_statuses']) <= {'observation', 'estimate'}, 'Historical measurement allows plans')
+        if m['measurement_type'] == 'job_postings_share':
+            require(m['unit'] == 'per 1,000 postings' and m['min'] == 0 and m['max'] == 1000, 'Posting share needs an explicit per-thousand denominator')
+            require(m['allowed_statuses'] == ['observation'], 'Posting share must remain a reported observation')
         require(m['source_ids'] and set(m['source_ids']) <= sources.keys(), 'Missing approved metric source')
         if m.get('project'):
             require(m['layer'] == projects[m['project']]['layer'], 'Metric/project layer mismatch')
