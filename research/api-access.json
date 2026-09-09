@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-09T12:00:00Z",
+  "owner_decision": "September 9, 2026: named government statistical APIs are used under their own terms with the owner's registered key; robots.txt does not govern these documented API paths. Keys live in .local/api-keys.json. data.bls.gov QCEW open-data files are included as a documented keyless programmatic path, pending owner confirmation.",
+  "hosts": {
+    "api.bls.gov": {
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "terms": "https://www.bls.gov/developers/termsOfService.htm",
+      "paths": [
+        "/publicAPI/v2/timeseries/data/"
+      ],
+      "key_name": "bls",
+      "key_param": "registrationkey",
+      "limits": "500 queries/day, 50 series/query, 20 years/query with a registered key",
+      "registration": "https://data.bls.gov/registrationEngine/"
+    },
+    "api.census.gov": {
+      "publisher": "U.S. Census Bureau",
+      "terms": "https://www.census.gov/data/developers/about/terms-of-service.html",
+      "paths": [
+        "/data/timeseries/qwi/",
+        "/data/"
+      ],
+      "key_name": "census",
+      "key_param": "key",
+      "limits": "500 queries/day without a key, unlimited with one",
+      "registration": "https://api.census.gov/data/key_signup.html"
+    },
+    "data.bls.gov": {
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "terms": "https://www.bls.gov/cew/additional-resources/open-data/",
+      "paths": [
+        "/cew/data/api/"
+      ],
+      "key_name": null,
+      "key_param": null,
+      "limits": "Documented keyless open-data files; one request per second, files cached locally by hash",
+      "registration": null,
+      "note": "QCEW Open Data Access is documented by BLS for programmatic retrieval and carries no key; the host robots.txt is written for crawlers. Listed here as a keyless documented API path for the owner to confirm or strike."
+    }
+  },
+  "importers_only": true,
+  "never_in_prompts": true
+}

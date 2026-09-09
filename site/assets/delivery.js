@@ -42,7 +42,7 @@ function localLabor(p) {
   if(!obs.length)return '';
   const latest=obs.at(-1),[y,q]=latest.period.split('-Q'),prior=obs.find(o=>o.period===`${Number(y)-1}-Q${q}`);
   const delta=prior?latest.value-prior.value:null;
-  const naics=m.id.split('-').at(-1),label=naics==='518210'?'Data processing & hosting':naics==='238210'?'Electrical contractors':m.title;
+  const naics=m.id.split('-').at(-1),label=naics==='518210'?'Data processing & hosting':naics==='23821'?'Electrical contractors':m.title;
   return `<div><dt>${esc(label)} <small>NAICS ${esc(naics)}</small></dt><dd><strong>${number(latest.value)}</strong> jobs · ${esc(latest.period.replace('-',' '))}${delta===null?'':` · <span class="${delta>=0?'up':'down'}">${delta>=0?'+':''}${number(delta)} vs a year earlier</span>`}<p class="chart-footnote">${sourceLink(latest.source)} · county private employment, third month of quarter</p></dd></div>`;
  }).join('');
  if(!rows)return '';

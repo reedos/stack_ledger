@@ -7,7 +7,7 @@ vintage-stamped snapshot, and records quarterly private employment for every cou
 where the catalog places a project, plus the national total:
 
   518210  Data processing, hosting and related services   (the data centers themselves)
-  238210  Electrical contractors                            (who wires them)
+  23821   Electrical contractors and other wiring installation contractors (who wires them)
 
 Suppressed quarters (disclosure code N) are omitted, never recorded as zero. Employment
 is the third-month level of the quarter, the series BLS publishes as the quarterly figure.
@@ -36,12 +36,17 @@ ROOT=Path(__file__).resolve().parents[1]
 SNAPSHOTS=ROOT/'research/qcew'
 SOURCE_ID='bls-qcew-open-data'
 SOURCE={'id':SOURCE_ID,'publisher':'U.S. Bureau of Labor Statistics','title':'Quarterly Census of Employment and Wages · open data files','url':'https://www.bls.gov/cew/additional-resources/open-data/','published':None,'layers':['infrastructure','energy'],'license':'Public domain (U.S. government work)'}
-INDUSTRIES={'518210':('Data processing, hosting and related services','infrastructure'),'238210':('Electrical contractors','infrastructure')}
+INDUSTRIES={'518210':('Data processing, hosting and related services','infrastructure'),'23821':('Electrical contractors and other wiring installation contractors','infrastructure')}
+# QCEW aggregation levels by NAICS depth: (county, national). 6-digit files carry 78/18, 5-digit files 77/17.
+AGGLVL={6:('78','18'),5:('77','17'),4:('76','16')}
 FIRST_YEAR=2024
 MAX_BYTES=20_000_000
 
 
 def fetch(url):
+    """data.bls.gov open-data paths are a listed statistical API (research/api-access.json); everything else goes through robots."""
+    import api_access
+    if api_access.allowed(url):return api_access.fetch(url,UA)
     host=research.Fetcher().check_robots(url);allowed_url(url,host)
     with build_opener(ProxyHandler({})).open(Request(url,headers={'User-Agent':UA}),timeout=60) as response:
         body=response.read(MAX_BYTES+1)
@@ -78,8 +83,9 @@ def select_rows(rows,counties):
     out=[]
     for r in rows:
         if r['own_code']!='5':continue
-        if r['area_fips']=='US000' and r['agglvl_code']=='18':out.append(r)
-        elif r['agglvl_code']=='78' and r['area_fips'] in counties:out.append(r)
+        county,national=AGGLVL.get(len(r['industry_code']),('78','18'))
+        if r['area_fips']=='US000' and r['agglvl_code']==national:out.append(r)
+        elif r['agglvl_code']==county and r['area_fips'] in counties:out.append(r)
     return out
 
 
@@ -127,7 +133,9 @@ def run(apply=False,today=None):
                                 'metrics':sorted(all_metrics),'records':len(all_obs),'license':'Public domain (U.S. government work)'})
     existing_ids={o['id'] for o in ledger['observations']}
     new_obs=[o for o in all_obs if o['id'] not in existing_ids]
-    known={m['id'] for m in catalog['metrics']};new_metrics=[m for mid,m in sorted(all_metrics.items()) if mid not in known]
+    # A county whose every quarter is suppressed gets no metric: an empty series would read as zero.
+    with_records={o['metric'] for o in all_obs}
+    known={m['id'] for m in catalog['metrics']};new_metrics=[m for mid,m in sorted(all_metrics.items()) if mid not in known and mid in with_records]
     print(f"counties {len(counties)} · quarters available {sorted(set((y,q) for _,y,q in available))[-1] if available else None} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · suppressed county-quarters {len(all_supp)}",flush=True)
     if not apply:return {'metrics':new_metrics,'records':new_obs,'suppressed':all_supp}
     if SOURCE_ID not in {s['id'] for s in registry['sources']}:

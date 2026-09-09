@@ -17,7 +17,9 @@ ROWS=[HEADER,
       '"48139","3","518210","78","0","2026","1","","1","5","5","5","1","1","1","900"',        # local government ownership: ignored
       '"32003","5","518210","78","0","2026","1","N","0","0","0","0","0","0","0","0"',          # suppressed: never a zero
       '"48113","5","518210","78","0","2026","1","","900","12000","12100","12250","1","1","1","2500"',  # county not in the catalog: ignored
-      '"48000","5","518210","58","0","2026","1","","3000","90000","90500","91000","1","1","1","2300"']  # state level: ignored
+      '"48000","5","518210","58","0","2026","1","","3000","90000","90500","91000","1","1","1","2300"',  # state level: ignored
+      '"32003","5","23821","77","0","2026","1","","640","10500","10700","10900","1","1","1","1500"',      # 5-digit file: county level 77
+      '"US000","5","23821","17","0","2026","1","","70000","900000","905000","910000","1","1","1","1600"']
 
 
 class QcewImportTests(unittest.TestCase):
@@ -31,14 +33,14 @@ class QcewImportTests(unittest.TestCase):
 
     def test_selection_keeps_private_county_rows_and_national_total_only(self):
         rows=iq.select_rows(iq.parse(self.blob),self.counties)
-        self.assertEqual(sorted((r['area_fips'],r['own_code']) for r in rows),[('32003','5'),('48139','5'),('US000','5')])
+        self.assertEqual(sorted((r['area_fips'],r['industry_code']) for r in rows),[('32003','23821'),('32003','518210'),('48139','518210'),('US000','23821'),('US000','518210')])
 
     def test_records_are_valid_quarterly_observations_and_suppression_is_not_zero(self):
         rows=iq.select_rows(iq.parse(self.blob),self.counties)
         metrics,observations,suppressed=iq.records_for(rows,'2026-09-09T12:00:00Z','f'*64,self.counties)
-        self.assertEqual(sorted(metrics),['qcew-32003-518210','qcew-48139-518210','qcew-us-518210'])
+        self.assertEqual(sorted(metrics),['qcew-32003-23821','qcew-32003-518210','qcew-48139-518210','qcew-us-23821','qcew-us-518210'])
         self.assertEqual(suppressed,[('qcew-32003-518210','2026','1')])
-        self.assertEqual(sorted(o['id'] for o in observations),['qcew-48139-518210-2026q1','qcew-us-518210-2026q1'])
+        self.assertEqual(sorted(o['id'] for o in observations),['qcew-32003-23821-2026q1','qcew-48139-518210-2026q1','qcew-us-23821-2026q1','qcew-us-518210-2026q1'])
         ellis=next(o for o in observations if o['metric']=='qcew-48139-518210')
         self.assertEqual((ellis['value'],ellis['period'],ellis['status'],ellis['precision']),(179,'2026-Q1','observation','eq'));self.assertIn('11 establishments',ellis['note'])
         self.assertEqual(metrics['qcew-48139-518210']['geography_code'],'48139');self.assertIsNone(metrics['qcew-us-518210']['geography_code'])
