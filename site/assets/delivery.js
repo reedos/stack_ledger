@@ -8,7 +8,7 @@ function deliveryCard(p) {
  const quantities=current.filter(o=>!current.some(n=>n.metric===o.metric&&n.status===o.status&&n.year>o.year));
  return `<article class="delivery-card" id="project-${esc(p.id)}" style="--accent:${l.color}"><div class="delivery-card-top"><a class="signal-layer" href="${base}${p.layer}/"><i></i>${l.name}</a><span class="stage ${p.stage==='operating'?'operating':''}">${stageNames[p.stage]}</span></div><h2>${esc(p.name)}</h2><p class="delivery-owner">${esc(p.owner)}<br>${esc(p.location)} · ${esc(p.category)}</p>
  <div class="delivery-quantities">${quantities.length?quantities.map(o=>`<div class="delivery-quantity ${['observation','estimate'].includes(o.status)?'observed':'planned'}"><span>${statusLabel(o.status)}</span><strong>${esc(valueOf(o))} <small>${esc(metricOf(o.metric).unit)}</small></strong><p>${esc(metricOf(o.metric).title)}</p><p class="chart-footnote">${esc(metricOf(o.metric).geography)} ? ${esc(metricOf(o.metric).scope)}</p><span>${esc(o.period)}</span>${sourceLink(o.source)}</div>`).join(''):'<div class="delivery-quantity unknown"><span>CAPACITY DISCLOSURE</span><strong>Not quantified</strong><p>No reviewed operating quantity for this project. Unknown is not zero.</p></div>'}</div>
- <dl class="delivery-facts">${p.primary_user?`<div><dt>Primary user</dt><dd>${esc(p.primary_user)}</dd></div>`:""}<div><dt>Schedule</dt><dd>${esc(p.horizon)}</dd></div><div><dt>Power & grid</dt><dd>${esc(p.grid)}</dd></div><div><dt>AI connection</dt><dd>${esc(p.ai_relationship)}</dd></div></dl>${powerBasisNote(p)}${projectMeasures(p)}<div class="delivery-latest"><span class="eyebrow muted">LATEST EVIDENCE IN THIS REVIEW</span><p>${esc(latest.summary)}</p><p class="chart-footnote">${dateLabel(latest.date)} · ${sourceLink(latest.source)}</p></div>
+ <dl class="delivery-facts">${p.primary_user?`<div><dt>Primary user</dt><dd>${esc(p.primary_user)}</dd></div>`:""}<div><dt>Schedule</dt><dd>${esc(p.horizon)}</dd></div><div><dt>Power & grid</dt><dd>${esc(p.grid)}</dd></div><div><dt>AI connection</dt><dd>${esc(p.ai_relationship)}</dd></div></dl>${powerBasisNote(p)}${localLabor(p)}${projectMeasures(p)}<div class="delivery-latest"><span class="eyebrow muted">LATEST EVIDENCE IN THIS REVIEW</span><p>${esc(latest.summary)}</p><p class="chart-footnote">${dateLabel(latest.date)} · ${sourceLink(latest.source)}</p></div>
  <details class="delivery-history"><summary>Evidence timeline & capacity sources</summary><ol>${p.milestones.map(m=>`<li><time datetime="${esc(m.date)}">${dateLabel(m.date)}</time><p>${esc(m.summary)}</p>${sourceLink(m.source)}</li>`).join('')}</ol>${quantities.map(o=>`<p class="chart-footnote"><strong>${esc(metricOf(o.metric).title)}</strong>: ${esc(metricOf(o.metric).scope)} ${sourceLink(o.source)} · Published ${dateLabel(sourceOf(o.source).published)} · Accessed ${dateLabel(o.retrieved_at)} · Record ${esc(o.id)}</p>`).join('')}</details><div class="delivery-next"><strong>Next evidence needed</strong><p>${esc(p.next_evidence)}</p></div></article>`;
 }
 function projectsPage() {
@@ -28,4 +28,23 @@ function extendWithDelivery() {
  } else if(page==='home') {
   const target=root.querySelector('#outlook');target.insertAdjacentHTML('beforebegin',`<section class="delivery-invitation"><div><span class="eyebrow">FROM PROMISE TO POWER</span><h2>Follow the projects coming online.</h2><p>Generation, grid connections and AI infrastructure, with plans and operation clearly separated.</p></div><a class="button" href="${base}projects/">Explore delivery tracker ↗</a></section>`);
  }
+}
+
+function localLabor(p) {
+ // County employment from BLS QCEW for projects placed in a reviewed county; measured jobs beside the project's promises.
+ const loc=p.map_location||(p.map_locations||[]).map(e=>e.location||e).find(l=>l.source==='census-map-counties');
+ if(!loc||loc.source!=='census-map-counties'||!loc.source_key)return '';
+ const fips=String(loc.source_key).padStart(5,'0');
+ const series=data.metrics.filter(m=>m.geography_code===fips&&m.measurement_type==='county_industry_employment');
+ if(!series.length)return '';
+ const rows=series.map(m=>{
+  const obs=data.observations.filter(o=>o.metric===m.id&&!o.superseded_by).sort((a,b)=>a.year-b.year||a.period.localeCompare(b.period));
+  if(!obs.length)return '';
+  const latest=obs.at(-1),[y,q]=latest.period.split('-Q'),prior=obs.find(o=>o.period===`${Number(y)-1}-Q${q}`);
+  const delta=prior?latest.value-prior.value:null;
+  const naics=m.id.split('-').at(-1),label=naics==='518210'?'Data processing & hosting':naics==='238210'?'Electrical contractors':m.title;
+  return `<div><dt>${esc(label)} <small>NAICS ${esc(naics)}</small></dt><dd><strong>${number(latest.value)}</strong> jobs · ${esc(latest.period.replace('-',' '))}${delta===null?'':` · <span class="${delta>=0?'up':'down'}">${delta>=0?'+':''}${number(delta)} vs a year earlier</span>`}<p class="chart-footnote">${sourceLink(latest.source)} · county private employment, third month of quarter</p></dd></div>`;
+ }).join('');
+ if(!rows)return '';
+ return `<details class="delivery-history local-labor"><summary>Local labor market · ${esc(loc.label||fips)}</summary><dl class="basis-rows">${rows}</dl><p class="chart-footnote">Measured county employment from unemployment-insurance records, not attributable to this project alone. Suppressed quarters are omitted, not zero.</p></details>`;
 }

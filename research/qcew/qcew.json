@@ -1,0 +1,147 @@
+{
+  "dataset": "BLS QCEW open data",
+  "source_id": "bls-qcew-open-data",
+  "retrieved_at": "2026-09-09T15:15:27Z",
+  "industries": {
+    "518210": [
+      "Data processing, hosting and related services",
+      "infrastructure"
+    ],
+    "238210": [
+      "Electrical contractors",
+      "infrastructure"
+    ]
+  },
+  "counties": {
+    "32003": "Clark County, NV",
+    "49001": "Beaver County, UT",
+    "42043": "Dauphin County, PA",
+    "22083": "Richland Parish, LA",
+    "48185": "Grimes County, TX",
+    "48417": "Shackelford County, TX",
+    "26161": "Washtenaw County, MI",
+    "26159": "Van Buren County, MI",
+    "56023": "Lincoln County, WY",
+    "22017": "Caddo Parish, LA",
+    "22015": "Bossier Parish, LA",
+    "36067": "Onondaga County, NY",
+    "45015": "Berkeley County, SC",
+    "13097": "Douglas County, GA",
+    "01071": "Jackson County, AL",
+    "51107": "Loudoun County, VA",
+    "40097": "Mayes County, OK",
+    "47125": "Montgomery County, TN",
+    "51153": "Prince William County, VA",
+    "32029": "Storey County, NV",
+    "51041": "Chesterfield County, VA",
+    "13033": "Burke County, GA",
+    "48415": "Scurry County, TX",
+    "45083": "Spartanburg County, SC",
+    "31153": "Sarpy County, NE",
+    "51087": "Henrico County, VA",
+    "54053": "Mason County, WV",
+    "42079": "Luzerne County, PA",
+    "42017": "Bucks County, PA",
+    "37153": "Richmond County, NC",
+    "13035": "Butts County, GA",
+    "28089": "Madison County, MS",
+    "28149": "Warren County, MS",
+    "28049": "Hinds County, MS",
+    "48125": "Dickens County, TX"
+  },
+  "files": [
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/1/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/2/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/3/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/4/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/1/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/2/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/3/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/4/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2026/1/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2026/2/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2026/3/industry/518210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/1/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/2/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/3/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2024/4/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/1/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/2/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/3/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2025/4/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2026/1/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2026/2/industry/238210.csv",
+      "status": "ValueError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2026/3/industry/238210.csv",
+      "status": "ValueError"
+    }
+  ],
+  "quarters_available": [],
+  "suppressed": [],
+  "metrics": [],
+  "records": 0,
+  "license": "Public domain (U.S. government work)"
+}

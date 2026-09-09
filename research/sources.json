@@ -5974,6 +5974,18 @@
         "chips"
       ],
       "license": "CC BY 4.0"
+    },
+    {
+      "id": "bls-qcew-open-data",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "title": "Quarterly Census of Employment and Wages · open data files",
+      "url": "https://www.bls.gov/cew/additional-resources/open-data/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "Public domain (U.S. government work)"
     }
   ],
   "discovery_keywords": [
@@ -6122,7 +6134,8 @@
         "feed-intel-5205c9",
         "feed-aws-d0c96b",
         "feed-constellation-3252f6",
-        "feed-recursion-4114ef"
+        "feed-recursion-4114ef",
+        "bls-qcew-open-data"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -12150,6 +12163,17 @@
       "region_book": "global",
       "company_id": null,
       "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "bls-qcew-open-data": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "labor",
       "cadence": "manual",
       "weekday": 0,
       "path_prefixes": [],
