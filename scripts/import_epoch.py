@@ -297,10 +297,93 @@ def revenue_crosscheck(companies_record,ledger,ecosystem):
     return '\n'.join(L)
 
 
+def owner_label(raw):
+    """'Microsoft #confident, OpenAI #likely' -> 'Microsoft, OpenAI'; blank -> 'Undisclosed'."""
+    parts=[re.sub(r'\s*#\w+','',x).strip() for x in (raw or '').split(',')]
+    return ', '.join(p for p in parts if p) or 'Undisclosed'
+
+
+def company_links(*labels,companies):
+    """Directory company ids whose name shares a distinctive token with the Epoch owner or user labels."""
+    want=set()
+    for label in labels:want|=tokens(owner_label(label))
+    ids=[]
+    for c in companies:
+        if tokens(c['name'])&want:ids.append(c['id'])
+    return sorted(set(ids))
+
+
+def slug(text):return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',text.lower())).strip('-')[:80]
+
+
+def draft_project(row,record,companies):
+    """A status-unverified project drafted from one Epoch data-center row. Estimates stay in prose."""
+    source_id=DATASETS['data-centers']['source_id'];vintage=record['vintage']
+    mw=number(row.get('Current power (MW)'));h=number(row.get('Current H100 equivalents'));capex=number(row.get('Current total capital cost (2025 USD billions)'))
+    owner=owner_label(row.get('Owner'));users=owner_label(row.get('Users')) if row.get('Users') else None
+    location=', '.join(x for x in [row.get('Address','').strip(),row.get('Country','').strip()] if x) or row.get('Country','') or 'Location not stated'
+    facts=' · '.join(x for x in [f'current power about {mw:g} MW' if mw else None,f'about {h:,.0f} H100 equivalents' if h else None,f'capital cost about {capex:.1f} billion 2025 USD' if capex else None] if x)
+    return {'id':slug(row['Name']),'name':row['Name'],'layer':'infrastructure','owner':owner[:600],'location':location[:600],'category':'AI data center','stage':'status-unverified',
+            'ai_relationship':(f"Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage {vintage}). "+(f"Users named by Epoch: {users}. " if users else '')+"AI-only allocation and the delivery stage are not established by this record.")[:600],
+            'observations':[],
+            'horizon':f'Epoch estimate as of dataset vintage {vintage}; no completion date is inferred. Seek a dated operator or permitting update.',
+            'grid':(f'Epoch estimates {facts}. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.' if facts else 'Power and grid connection are not quantified in this record.')[:600],
+            'next_evidence':'Confirm site identity against Epoch\'s cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.',
+            'milestones':[{'date':None,'summary':(f"Epoch AI Data Centers dataset (vintage {vintage}) lists this site: owner {owner}"+(f", users {users}" if users else '')+f", {row.get('Country','')}"+(f"; {facts}" if facts else '')+". Directory presence is not proof of operation.")[:600],'source':source_id}],
+            'company_ids':company_links(row.get('Owner'),row.get('Users'),companies=companies)}
+
+
+def enqueue_additions(root,result,record,min_mw=100,per_package=6):
+    """Draft proposed additions as catalog_change packages for the Research Control review panel.
+
+    One package per owner group. Nothing is applied here: the panel's Validate preview, Approve
+    and Apply steps remain the only path into the catalog.
+    """
+    from catalog_review import enqueue
+    companies=load(root/'research/ecosystem.json')['companies']
+    existing={p['id'] for p in load(root/'research/delivery.json')['projects']}
+    rows={r['Name']:r for r in record['tables']['data_centers.csv']}
+    chosen=[a for a in result['proposed_additions'] if (a['current_power_mw'] or 0)>=min_mw and slug(a['epoch_name']) not in existing]
+    groups={}
+    for a in chosen:groups.setdefault(owner_label(a['owner']).split(',')[0],[]).append(a)
+    evidence_dir=root/'.local/catalog-evidence';evidence_dir.mkdir(parents=True,exist_ok=True)
+    packages=[]
+    for owner,items in sorted(groups.items()):
+        for i in range(0,len(items),per_package):
+            batch=items[i:i+per_package];changes=[];evidence=[]
+            for a in batch:
+                row=rows[a['epoch_name']];draft=draft_project(row,record,companies)
+                body=json.dumps({'dataset':record['title'],'vintage':record['vintage'],'dataset_sha256':record['sha256'],'row':row},ensure_ascii=False,indent=1)
+                sha=hashlib.sha256(body.encode('utf-8')).hexdigest();(evidence_dir/(sha+'.txt')).write_bytes(body.encode('utf-8'))
+                eid='epoch-dc-'+draft['id']
+                evidence.append({'id':eid,'url':record['page'],'published_at':None,'retrieved_at':record['retrieved_at'],'sha256':sha,
+                                 'summary':(f"Epoch AI Data Centers row for {a['epoch_name']} (vintage {record['vintage']}, dataset sha256 {record['sha256'][:12]}). Epoch cites: "+'; '.join(a['sources'][:6]))[:2000]})
+                changes.append({'target':'project','id':draft['id'],'after':draft,'evidence':[eid]})
+            title=f"Epoch data centers: add {len(batch)} {owner} site{'s' if len(batch)>1 else ''} as status-unverified"[:200]
+            packages.append(enqueue(root,title,changes,evidence,author='Epoch import (maintainer tool)'))
+    return packages
+
+
+def confirm_matches(result,accept_suggested=False,rejects=(),path=None):
+    """Record reviewed aliases: Epoch name -> project id, or null for a reviewed non-match."""
+    path=path or SNAPSHOTS/'aliases.json'
+    aliases=load(path) if path.exists() else {}
+    if accept_suggested:
+        for m in result['matched']:
+            if m['match_basis']=='suggested':aliases[m['epoch_name']]=m['match']
+    for name in rejects:aliases[name]=None
+    save(path,dict(sorted(aliases.items())))
+    return aliases
+
+
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument('dataset',choices=[*DATASETS,'all']);p.add_argument('--apply',action='store_true',help='Register dataset sources, promote reviewed series, update catalog/ledger/registry and build')
     p.add_argument('--offline',action='store_true',help='Use the retained snapshot instead of downloading')
+    p.add_argument('--enqueue-additions',action='store_true',help='Draft proposed data-center additions as catalog packages for the review panel')
+    p.add_argument('--min-mw',type=float,default=100,help='Only enqueue Epoch sites at or above this estimated current power')
+    p.add_argument('--confirm-suggested-matches',action='store_true',help='Record every suggested site match as a reviewed alias')
+    p.add_argument('--reject',action='append',default=[],metavar='EPOCH_NAME',help='Record an Epoch site name as a reviewed non-match')
     a=p.parse_args(argv)
     names=list(DATASETS) if a.dataset=='all' else [a.dataset]
     records={}
@@ -316,6 +399,12 @@ def main(argv=None):
         result=reconcile(records['data-centers'],records['gpu-clusters'],load(ROOT/'research/delivery.json'),aliases)
         report.append(reconciliation_markdown(result,records['data-centers'],records['gpu-clusters'],ledger))
         save(research.LOCAL/'review-candidates'/f"epoch-reconciliation-{now()[:10]}.json",{'kind':'coverage_expansion','source':DATASETS['data-centers']['source_id'],'created_at':now(),'review_required':True,'result':result})
+        if a.confirm_suggested_matches or a.reject:
+            aliases=confirm_matches(result,a.confirm_suggested_matches,a.reject)
+            print(f"aliases recorded: {sum(1 for v in aliases.values() if v)} matches, {sum(1 for v in aliases.values() if v is None)} non-matches -> {SNAPSHOTS/'aliases.json'}",flush=True)
+        if a.enqueue_additions:
+            packages=enqueue_additions(ROOT,result,records['data-centers'],a.min_mw)
+            print(f"{len(packages)} catalog packages queued for the review panel: "+'; '.join(f"{q['id']} ({len(q['changes'])})" for q in packages),flush=True)
     if 'companies' in records:
         report.append(revenue_crosscheck(records['companies'],ledger,load(ROOT/'research/ecosystem.json')))
     if report:

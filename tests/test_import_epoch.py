@@ -61,6 +61,30 @@ class EpochImportTests(unittest.TestCase):
         metrics={m['id']:m for m in catalog['metrics']}
         for r in records:observation_valid(r,metrics,{source['id']:source})
 
+    def test_drafted_project_validates_inside_the_delivery_catalog(self):
+        import validate_delivery as vd
+        delivery=json.loads((ROOT/'research/delivery.json').read_text(encoding='utf-8'));ledger=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        companies=json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
+        record={'title':'AI Data Centers dataset','vintage':'2026-09','sha256':'b'*64,'retrieved_at':'2026-09-09T09:00:00Z','page':'https://epoch.ai/data/ai-data-centers'}
+        row={'Name':'Microsoft Fairwater Atlanta','Owner':'Microsoft #confident','Users':'OpenAI #likely, Microsoft #likely','Country':'United States','Address':'Atlanta, GA','Current power (MW)':'636','Current H100 equivalents':'768769.2','Current total capital cost (2025 USD billions)':'24.1'}
+        draft=ie.draft_project(row,record,companies)
+        self.assertEqual((draft['id'],draft['stage'],draft['owner']),('microsoft-fairwater-atlanta','status-unverified','Microsoft'))
+        self.assertEqual(draft['company_ids'],['microsoft','openai']);self.assertIn('636 MW',draft['grid']);self.assertIsNone(draft['milestones'][0]['date'])
+        self.assertTrue(any(s['id']==draft['milestones'][0]['source'] for s in ledger['sources']),'Epoch dataset source must be registered')
+        delivery['projects'].append(draft)
+        self.assertTrue(vd.validate_delivery(delivery,ledger))
+        self.assertEqual(ie.owner_label(''),'Undisclosed');self.assertEqual(ie.owner_label('Google'),'Google')
+
+    def test_confirm_matches_records_aliases_without_touching_the_catalog(self):
+        import tempfile
+        result={'matched':[{'epoch_name':'Colossus 2','match':'colossus-two','match_basis':'suggested'},{'epoch_name':'Already','match':'x','match_basis':'reviewed'}]}
+        with tempfile.TemporaryDirectory() as t:
+            path=Path(t)/'aliases.json'
+            aliases=ie.confirm_matches(result,accept_suggested=True,rejects=['Meta Kansas City'],path=path)
+            self.assertEqual(aliases,{'Colossus 2':'colossus-two','Meta Kansas City':None})
+            self.assertEqual(json.loads(path.read_text(encoding='utf-8')),aliases)
+            self.assertEqual(ie.match_projects('Meta Kansas City','Meta',[],aliases),(None,'reviewed'))
+
     def test_vintage_read_from_readme_citation(self):
         self.assertEqual(ie.vintage_of('@misc{x,\n  year = {2026},\n  month = {07},\n}','2026-09-09T00:00:00Z'),'2026-07')
         self.assertEqual(ie.vintage_of('no citation','2026-09-09T00:00:00Z'),'2026-09')
