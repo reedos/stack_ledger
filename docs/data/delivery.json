@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T10:50:57Z",
+  "reviewed_at": "2026-09-09T10:52:11Z",
   "projects": [
     {
       "id": "gemini",
@@ -6055,6 +6055,80 @@
         }
       ],
       "company_ids": []
+    },
+    {
+      "id": "aws-new-albany",
+      "name": "AWS New Albany",
+      "layer": "infrastructure",
+      "owner": "Amazon",
+      "location": "13360 Miller Rd NW, United States",
+      "category": "AI data center",
+      "stage": "status-unverified",
+      "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). AI-only allocation and the delivery stage are not established by this record.",
+      "observations": [],
+      "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
+      "grid": "Epoch estimates current power about 213 MW · about 201,112 H100 equivalents · capital cost about 8.1 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
+      "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Epoch AI Data Centers dataset (vintage 2026-09) lists this site: owner Amazon, United States; current power about 213 MW · about 201,112 H100 equivalents · capital cost about 8.1 billion 2025 USD. Directory presence is not proof of operation.",
+          "source": "epoch-data-centers-dataset"
+        }
+      ],
+      "company_ids": [
+        "aws"
+      ]
+    },
+    {
+      "id": "amazon-ridgeland",
+      "name": "Amazon Ridgeland",
+      "layer": "infrastructure",
+      "owner": "Amazon",
+      "location": "1626 County Line Road Ridgeland, Mississippi, United States",
+      "category": "AI data center",
+      "stage": "status-unverified",
+      "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: Anthropic. AI-only allocation and the delivery stage are not established by this record.",
+      "observations": [],
+      "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
+      "grid": "Epoch estimates current power about 228 MW · about 171,299 H100 equivalents · capital cost about 8.6 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
+      "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Epoch AI Data Centers dataset (vintage 2026-09) lists this site: owner Amazon, users Anthropic, United States; current power about 228 MW · about 171,299 H100 equivalents · capital cost about 8.6 billion 2025 USD. Directory presence is not proof of operation.",
+          "source": "epoch-data-centers-dataset"
+        }
+      ],
+      "company_ids": [
+        "anthropic",
+        "aws"
+      ]
+    },
+    {
+      "id": "aws-berwick",
+      "name": "AWS Berwick",
+      "layer": "infrastructure",
+      "owner": "Amazon",
+      "location": "1125 Electron Ave, Berwick, PA 18603, United States",
+      "category": "AI data center",
+      "stage": "status-unverified",
+      "ai_relationship": "Epoch AI identifies this site as an AI data center from satellite, permit and filing analysis (dataset vintage 2026-09). Users named by Epoch: Anthropic. AI-only allocation and the delivery stage are not established by this record.",
+      "observations": [],
+      "horizon": "Epoch estimate as of dataset vintage 2026-09; no completion date is inferred. Seek a dated operator or permitting update.",
+      "grid": "Epoch estimates current power about 108 MW · about 81,354 H100 equivalents · capital cost about 4.1 billion 2025 USD. These are estimates with stated uncertainty, not energized-capacity or grid-connection records.",
+      "next_evidence": "Confirm site identity against Epoch's cited sources, then verify delivery stage, energized IT load, campus boundaries and local jobs from dated operator, utility or permitting evidence before any stage other than status-unverified.",
+      "milestones": [
+        {
+          "date": null,
+          "summary": "Epoch AI Data Centers dataset (vintage 2026-09) lists this site: owner Amazon, users Anthropic, United States; current power about 108 MW · about 81,354 H100 equivalents · capital cost about 4.1 billion 2025 USD. Directory presence is not proof of operation.",
+          "source": "epoch-data-centers-dataset"
+        }
+      ],
+      "company_ids": [
+        "anthropic",
+        "aws"
+      ]
     }
   ],
   "context_metrics": [
