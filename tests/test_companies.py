@@ -28,7 +28,8 @@ class CompanyProfiles(unittest.TestCase):
         c=copy.deepcopy(next(x for x in self.eco['companies'] if x['id']=='nvidia'));c['output_metric']='epoch-nvidia-ai-chips-cumulative-yearly'
         html=company_snapshot(self.data,c,'../../')
         self.assertIn('company-output',html);self.assertIn('accelerators (cumulative)',html);self.assertIn('Historical estimate',html);self.assertIn('Epoch AI',html)
-        plain=company_snapshot(self.data,next(x for x in self.eco['companies'] if x['id']=='nvidia'),'../../');self.assertNotIn('company-output',plain)
+        base=copy.deepcopy(next(x for x in self.eco['companies'] if x['id']=='nvidia'));base.pop('output_metric',None)   # the live catalog may configure one
+        plain=company_snapshot(self.data,base,'../../');self.assertNotIn('company-output',plain)
 
     def test_no_script_snapshot_contains_revenue_and_forecast(self):
         c = next(c for c in self.eco['companies'] if c['id'] == 'asml')

@@ -10,6 +10,7 @@ import copy
 import hashlib
 import json
 import re
+import os
 import shutil
 import subprocess
 import sys
@@ -141,6 +142,18 @@ def check_evidence(root,p):
         f=root/'.local/catalog-evidence'/(e['sha256']+'.txt')
         require(f.exists() and hashlib.sha256(f.read_bytes()).hexdigest()==e['sha256'],'Retained evidence changed')
 
+def run_check(command,cwd,timeout=120):
+    """One preview check as a record. Child output is decoded with replacement and the child is told to
+    write UTF-8, so a stray non-UTF-8 byte in a test message can never turn the check into a crash."""
+    r=subprocess.run(command,cwd=cwd,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=timeout,env=dict(os.environ,PYTHONIOENCODING='utf-8'))
+    return {'command':' '.join(command[1:]),'passed':r.returncode==0,'output':((r.stdout or '')+(r.stderr or ''))[-12000:]}
+
+def preview_validation(root,rid):
+    """The saved validation.json of a package's isolated preview, or a clear ValueError when none exists."""
+    path=root/'.local/catalog-previews'/rid/'validation.json'
+    require(path.exists(),'Validate the preview first: approval needs a passing preview of this exact package')
+    return read(path)
+
 def preview(root,rid):
     p=package(root,rid);check_base(root,p);check_evidence(root,p)
     destination=root/'.local/catalog-previews'/rid
@@ -155,9 +168,8 @@ def preview(root,rid):
     commands=[[sys.executable,'scripts/validate.py'],[sys.executable,'scripts/build.py'],[sys.executable,'-m','unittest','discover','-s','tests'],[sys.executable,'scripts/evaluate_editorial.py']]
     checks=[]
     for command in commands:
-        r=subprocess.run(command,cwd=destination,capture_output=True,text=True,encoding='utf-8',timeout=120)
-        checks.append({'command':' '.join(command[1:]),'passed':r.returncode==0,'output':(r.stdout+r.stderr)[-12000:]})
-        if r.returncode:break
+        check=run_check(command,destination);checks.append(check)
+        if not check['passed']:break
     result={'proposal_hash':digest(p),'base_hashes':p['base_hashes'],'passed':all(c['passed'] for c in checks) and len(checks)==len(commands),'checks':checks,'at':now()}
     save(destination/'validation.json',result)
     return result
@@ -203,8 +215,8 @@ def review(root,value,reviewer,identity=None):
         require(digest(p)==value['proposal_hash'] and digest(prior)==value['review_hash'],'Package or review changed; reload')
         if value['decision']=='approved':
             check_base(root,p);check_evidence(root,p)
-            validation=read(root/'.local/catalog-previews'/p['id']/'validation.json')
-            require(validation['passed'] and validation['proposal_hash']==digest(p),'Passing preview required before approval')
+            validation=preview_validation(root,p['id'])
+            require(validation.get('passed') and validation.get('proposal_hash')==digest(p),'Passing preview required before approval: validate this package again, then approve')
         append_event(root,dict(dict(id=p['id'],kind='catalog_change',status=value['decision'],reviewer=reviewer,rationale=value['rationale'],at=now(),proposal_hash=digest(p)),**channel_fields(identity)))
     return {'status':value['decision'],'published':False}
 

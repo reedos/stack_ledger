@@ -149,7 +149,7 @@ def commits_ahead(root):
 def run_importer(root, imp):
     command = [sys.executable, str(root/imp['command'][0]), *imp['command'][1:]]
     try:
-        result = subprocess.run(command, cwd=root, capture_output=True, text=True, timeout=imp['timeout_seconds'])
+        result = subprocess.run(command, cwd=root, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=imp['timeout_seconds'], env=dict(os.environ, PYTHONIOENCODING='utf-8'))
     except subprocess.TimeoutExpired:
         restore_importer_paths(root)
         return {'id': imp['id'], 'status': 'failed', 'error': 'timeout', 'timeout_seconds': imp['timeout_seconds']}
@@ -214,7 +214,7 @@ def stage_research(root, budget_seconds):
     if research_ignore_gpu_busy(root): command.append('--ignore-gpu-busy')
     timeout = max(60, budget_seconds)
     try:
-        result = subprocess.run(command, cwd=root, capture_output=True, text=True, timeout=timeout)
+        result = subprocess.run(command, cwd=root, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout, env=dict(os.environ, PYTHONIOENCODING='utf-8'))
     except subprocess.TimeoutExpired as e:
         return {'status': 'failed', 'error': 'timeout', 'timeout_seconds': timeout, 'stdout_tail': (e.stdout or '')[-3000:]}
     return {'status': 'ok' if result.returncode == 0 else 'failed', 'returncode': result.returncode,

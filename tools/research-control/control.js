@@ -6,6 +6,12 @@ function sessionKeyFromPath(pathname){const parts=String(pathname||'').split('/'
 const sessionKey=()=>sessionKeyFromPath(location.pathname);
 const key=sessionKey();
 if(typeof module!=='undefined')module.exports={sessionKeyFromPath};
+// Visible feedback for every action: the review status line plus a toast above the phone tab bar.
+function notify(text,kind){
+  const line=document.getElementById('review-message');if(line)line.textContent=text;
+  let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.setAttribute('role','alert');document.body.append(t);}
+  t.textContent=text;t.className='toast '+(kind||'ok');t.hidden=false;clearTimeout(notify.timer);notify.timer=setTimeout(()=>{t.hidden=true;},kind==='error'?14000:8000);
+}
 const PANELS=['decisions-panel','session-panel','activity-panel'];
 const TABS={'decisions-tab':'decisions-panel','session-tab':'session-panel','activity-tab':'activity-panel'};
 function showPanel(id){

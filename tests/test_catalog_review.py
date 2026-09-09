@@ -55,7 +55,8 @@ class CatalogTests(unittest.TestCase):
         with patch.object(findings_review.getpass,'getuser',return_value='outsider'):
             with self.assertRaises(ValueError):c.review(self.root,self.payload(p),'human')
         with patch.object(findings_review.getpass,'getuser',return_value='fixture'):
-            with self.assertRaises(FileNotFoundError):c.review(self.root,self.payload(p),'human')
+            with self.assertRaises(ValueError) as caught:c.review(self.root,self.payload(p),'human')
+        self.assertIn('Validate the preview first',str(caught.exception))   # a clear 400, not a misleading 409 (seen live 2026-09-09)
             c.save(self.root/'.local/catalog-previews'/p['id']/'validation.json',{'passed':True,'proposal_hash':c.digest(p)})
             payload=self.payload(p);self.assertFalse(c.review(self.root,payload,'human')['published'])
             with self.assertRaises(ValueError):c.review(self.root,payload,'human')
@@ -162,3 +163,22 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(discovery.research_topic(self.root,policy,cursor),discovery.topic(policy,broad))
 
 if __name__=='__main__':unittest.main()
+
+
+class PreviewCheckRobustnessTests(unittest.TestCase):
+    """A child that prints non-UTF-8 bytes must produce a failed/passed check record, never a crash (seen live 2026-09-09)."""
+    def test_run_check_survives_non_utf8_output(self):
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        record = c.run_check([sys.executable, '-c', "import sys;sys.stdout.buffer.write(b'x\\xb7y');sys.stderr.buffer.write(b'z\\xb7');sys.exit(1)"], Path(temp.name))
+        self.assertFalse(record['passed']); self.assertIn('x', record['output']); self.assertIn('z', record['output'])
+        ok = c.run_check([sys.executable, '-c', "print('fine')"], Path(temp.name))
+        self.assertTrue(ok['passed']); self.assertIn('fine', ok['output'])
+
+    def test_preview_validation_missing_is_a_clear_value_error(self):
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        with self.assertRaises(ValueError) as caught:
+            c.preview_validation(Path(temp.name), 'catalog-' + 'a' * 24)
+        self.assertIn('Validate the preview first', str(caught.exception))
+        folder = Path(temp.name) / '.local/catalog-previews' / ('catalog-' + 'a' * 24); folder.mkdir(parents=True)
+        (folder / 'validation.json').write_text(json.dumps({'passed': True, 'proposal_hash': 'h'}), encoding='utf-8')
+        self.assertEqual(c.preview_validation(Path(temp.name), 'catalog-' + 'a' * 24)['proposal_hash'], 'h')

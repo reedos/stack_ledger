@@ -33,3 +33,5 @@
   select,button{min-height:44px}
   .bulk-actions button{min-height:44px}
 }
+
+.toast{position:fixed;left:12px;right:12px;bottom:16px;z-index:60;background:#182619;border:1px solid var(--green);color:var(--text);padding:14px 16px;border-radius:12px;font-size:14px;line-height:1.5;box-shadow:0 10px 30px #000a}.toast.error{border-color:#ff9c7a;background:#2a1a17}.toast[hidden]{display:none}@media(max-width:720px){.toast{bottom:calc(76px + env(safe-area-inset-bottom,0px))}}.card-status{font-size:13px;line-height:1.5;padding:10px 12px;border-radius:8px;background:#0f1712;border-left:3px solid var(--line);margin:14px 0}.card-status.ok{border-left-color:var(--green);color:var(--green)}.card-status.error{border-left-color:#ff9c7a;color:#ffc9b8}
