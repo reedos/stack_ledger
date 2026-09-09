@@ -56,7 +56,7 @@ class CatalogTests(unittest.TestCase):
             with self.assertRaises(ValueError):c.review(self.root,self.payload(p),'human')
         with patch.object(findings_review.getpass,'getuser',return_value='fixture'):
             with self.assertRaises(ValueError) as caught:c.review(self.root,self.payload(p),'human')
-        self.assertIn('Validate the preview first',str(caught.exception))   # a clear 400, not a misleading 409 (seen live 2026-09-09)
+            self.assertIn('Validate the preview first',str(caught.exception))   # a clear 400, not a misleading 409 (seen live 2026-09-09)
             c.save(self.root/'.local/catalog-previews'/p['id']/'validation.json',{'passed':True,'proposal_hash':c.digest(p)})
             payload=self.payload(p);self.assertFalse(c.review(self.root,payload,'human')['published'])
             with self.assertRaises(ValueError):c.review(self.root,payload,'human')
