@@ -10,6 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 STATUSES = {'observation','estimate','forecast','government-target','company-commitment'}
 PRECISIONS = {'eq','approx','gt','lt','range'}
 LAYERS = ['energy','chips','infrastructure','models','applications']
+# Reviewed per-metric period bases. Without one, a metric holds one value per year and a second
+# value for the same year is a conflict. With one, readings are keyed on the canonical period.
+PERIOD_FORMATS = {'month': r'20[0-9]{2}-(0[1-9]|1[0-2])', 'quarter': r'20[0-9]{2}-Q[1-4]', 'snapshot': r'20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])'}
 
 def require(condition, message):
     if not condition: raise ValueError(message)
@@ -66,10 +69,15 @@ def observation_valid(o,metrics,sources):
     require((o['upper'] is not None)==(o['precision']=='range'),'Range bounds/precision mismatch')
     if o['upper'] is not None:require(o['upper']>=o['value'],'Inverted interval')
     dt=timestamp(o['retrieved_at'])
-    if m.get('period_basis')=='month':
-        require(re.fullmatch(r'20[0-9]{2}-(0[1-9]|1[0-2])',o['period']) is not None,'Monthly period requires YYYY-MM')
-        require(int(o['period'][:4])==o['year'],'Monthly period/year mismatch')
-        if o['status'] in {'estimate','observation'}:require(o['period']<=dt.strftime('%Y-%m'),'Historical month is in the future')
+    basis=m.get('period_basis')
+    if basis is not None:
+        require(basis in PERIOD_FORMATS,'Unknown period basis')
+        require(re.fullmatch(PERIOD_FORMATS[basis],o['period']) is not None,f'{basis.title()} period format required')
+        require(int(o['period'][:4])==o['year'],f'{basis.title()} period/year mismatch')
+        if o['status'] in {'estimate','observation'}:
+            if basis=='month':require(o['period']<=dt.strftime('%Y-%m'),'Historical month is in the future')
+            if basis=='snapshot':require(o['period']<=dt.strftime('%Y-%m-%d'),'Historical snapshot date is in the future')
+            if basis=='quarter':require(o['period']<=f'{dt.year}-Q{(dt.month-1)//3+1}','Historical quarter is in the future')
     if o['status'] in {'estimate','observation'}:require(o['year']<=dt.year,'Historical result cannot be in the future')
     text(o['period'],80)
     if o['note']:text(o['note'],300)

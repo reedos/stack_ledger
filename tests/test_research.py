@@ -100,7 +100,7 @@ class IntegrityTests(unittest.TestCase):
 
 class RunnerTests(unittest.TestCase):
     def fixture(self,path):
-        for name in ['research/discovery-policy.json','research/RESEARCH_AGENDA.md','research/runtime.json','research/sources.json','research/CONSTITUTION.md','research/OPERATING_GUIDE.md','research/ecosystem.json','research/delivery.json','research/fabric.json','research/expansion.json','research/agenda.json','research/claims.json','site/data/ledger.json']:
+        for name in ['research/discovery-policy.json','research/RESEARCH_AGENDA.md','research/runtime.json','research/sources.json','research/CONSTITUTION.md','research/OPERATING_GUIDE.md','research/MODEL_BRIEF.md','research/ecosystem.json','research/delivery.json','research/fabric.json','research/expansion.json','research/agenda.json','research/claims.json','site/data/ledger.json']:
             target=path/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((ROOT/name).read_bytes())
         # These fixtures isolate legacy monitoring. Discovery integration has its own E2E test.
         policy=research.load(path/'research/discovery-policy.json');policy['enabled']=False
@@ -280,6 +280,73 @@ class PublicationCadenceTests(unittest.TestCase):
         self.assertEqual(research.processing_identity('doc',base,{},[]),same)
         self.assertNotEqual(research.processing_identity('doc',dict(base,screening_version='2'),{},[]),same)
         self.assertNotEqual(research.processing_identity('doc',dict(base,_instruction_mode='brief'),{},[]),same)
+
+class VerdictChecklistTests(unittest.TestCase):
+    def checklist(self,**over):
+        v={'index':0,'numbers_in_evidence':True,'scope_matches':True,'basis_correct':True,'attribution_correct':True,'defect':'none','reason':'ok'}
+        v.update(over);return v
+    def test_support_is_derived_from_the_checklist(self):
+        self.assertTrue(research.normalize_verdict(self.checklist())['supported'])
+        rejected=research.normalize_verdict(self.checklist(defect='wrong_scope',scope_matches=False))
+        self.assertFalse(rejected['supported']);self.assertEqual(rejected['defect'],'wrong_scope')
+        contradictory=research.normalize_verdict(self.checklist(numbers_in_evidence=False))
+        self.assertFalse(contradictory['supported']);self.assertEqual(contradictory['defect'],'other')
+        legacy=research.normalize_verdict({'index':1,'supported':True,'reason':'r'})
+        self.assertEqual((legacy['supported'],legacy['defect']),(True,'none'))
+        with self.assertRaises(ValueError):research.normalize_verdict(self.checklist(defect='made_up'))
+        with self.assertRaises(ValueError):research.normalize_verdict({'index':0,'reason':'no checks'})
+    def test_schema_asks_for_the_checklist_not_a_bare_boolean(self):
+        props=research.VERDICT_SCHEMA['properties']['verdicts']['items']['properties']
+        self.assertNotIn('supported',props)
+        for k in research.CHECKLIST:self.assertEqual(props[k],{'type':'boolean'})
+        self.assertEqual(props['defect']['enum'],research.DEFECTS)
+    def test_note_quarantine_carries_the_defect_code(self):
+        source={'id':'test-source','url':'https://example.org/ai-report','layers':['models'],'publisher':'Research Lab','published':None}
+        note={'title':'A model release','summary':'The lab released an open model for research.','layer':'models','kind':'Company announcement','evidence':'The lab released an open model for research.'}
+        quarantine=[]
+        with patch.object(research,'ollama',side_effect=[{'notes':[note]},{'verdicts':[self.checklist(defect='wrong_basis',basis_correct=False,reason='Plan stated as release')]}]):
+            self.assertIsNone(research.extract_note({},source,note['evidence'],[],{'model_calls':0},quarantine))
+        self.assertEqual(quarantine[0]['reason'],'wrong_basis: Plan stated as release')
+
+class PeriodBasisTests(unittest.TestCase):
+    def setUp(self):
+        self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.metrics={m['id']:m for m in self.data['metrics']};self.sources={s['id']:s for s in self.data['sources']}
+        base=next(o for o in self.data['observations'] if o['metric']=='ai-adoption')
+        self.base=dict(base,id='period-basis-test',year=2026,value=50,upper=None,precision='eq',status='observation',note='')
+    def with_basis(self,basis):
+        metrics=copy.deepcopy(self.metrics);metrics['ai-adoption']['period_basis']=basis;return metrics
+    def test_quarter_and_snapshot_periods_are_canonical_and_not_in_the_future(self):
+        for basis,good,bad in [('quarter','2026-Q1','Q1 2026'),('snapshot','2026-03-05','March 2026'),('month','2026-03','2026-3')]:
+            with self.subTest(basis=basis):
+                metrics=self.with_basis(basis)
+                observation_valid(dict(self.base,period=good),metrics,self.sources)
+                with self.assertRaisesRegex(ValueError,'format'):observation_valid(dict(self.base,period=bad),metrics,self.sources)
+                with self.assertRaisesRegex(ValueError,'mismatch'):observation_valid(dict(self.base,period=good.replace('2026','2025')),metrics,self.sources)
+        with self.assertRaisesRegex(ValueError,'future'):observation_valid(dict(self.base,period='2026-12-31'),self.with_basis('snapshot'),self.sources)
+        with self.assertRaisesRegex(ValueError,'future'):observation_valid(dict(self.base,period='2026-Q4'),self.with_basis('quarter'),self.sources)
+    def test_periodic_metrics_append_new_readings_instead_of_conflicting(self):
+        metrics=self.with_basis('snapshot')
+        existing=[dict(self.base,period='2026-01-15',value=40)]
+        self.assertIsNone(research.duplicate_or_conflict(dict(self.base,period='2026-03-05'),existing,metrics))
+        self.assertEqual(research.duplicate_or_conflict(dict(self.base,period='2026-01-15',value=41),existing,metrics),'conflict')
+        self.assertEqual(research.duplicate_or_conflict(dict(self.base,period='2026-01-15',value=40),existing,metrics),'duplicate')
+        self.assertEqual(research.duplicate_or_conflict(dict(self.base,period='Calendar 2026'),existing,self.metrics),'conflict')
+
+class InstructionModeTests(unittest.TestCase):
+    def test_brief_is_small_and_states_the_rules_the_runner_enforces(self):
+        brief=(ROOT/'research/MODEL_BRIEF.md').read_text(encoding='utf-8')
+        self.assertLess(len(brief),9000)
+        for phrase in ['untrusted','company-commitment','forecast','observation','estimate','government-target','contiguous','publication year','not the tone','energy','applications']:
+            with self.subTest(phrase=phrase):self.assertIn(phrase,brief)
+    def test_runner_honours_instruction_mode(self):
+        for mode,marker in [('brief','Stack Ledger model brief'),('full','Stack Ledger research constitution')]:
+            with self.subTest(mode=mode),tempfile.TemporaryDirectory() as tmp:
+                path=Path(tmp);RunnerTests().fixture(path)
+                document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
+                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',return_value={'observations':[],'notes':[]}) as model,patch.object(sys,'argv',['research.py','--max-documents','3','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
+                    research.main()
+                self.assertTrue(model.call_args_list and all(marker in call.args[1] for call in model.call_args_list))
 
 class ChildCoverageTests(unittest.TestCase):
     def test_discovered_page_inherits_parent_coverage_context(self):

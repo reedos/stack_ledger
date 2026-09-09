@@ -20,14 +20,32 @@ import test_research
 
 
 class CollectionTests(unittest.TestCase):
-    def test_robots_denial_is_shared_across_pages_and_batches(self):
+    def test_robots_unreachable_is_shared_across_pages_and_batches(self):
+        # 5xx and 429 on robots.txt are "unreachable" (RFC 9309): fail closed and cool down.
         with tempfile.TemporaryDirectory() as t,patch.object(r,'LOCAL',Path(t)),patch.object(health.time,'time',return_value=1000):
-            with patch.object(r.Fetcher,'get',side_effect=HTTPError('https://example.org/robots.txt',403,'Forbidden',Message(),None)) as get:
-                with self.assertRaisesRegex(ValueError,'HTTP 403'):r.Fetcher().fetch('https://example.org/a')
+            with patch.object(r.Fetcher,'get',side_effect=HTTPError('https://example.org/robots.txt',503,'Unavailable',Message(),None)) as get:
+                with self.assertRaisesRegex(ValueError,'HTTP 503'):r.Fetcher().fetch('https://example.org/a')
                 second=r.Fetcher()
                 self.assertFalse(second.due('https://example.org/b'))
                 with self.assertRaises(health.CoolingDown):second.fetch('https://example.org/b')
                 self.assertEqual(get.call_count,1)
+        with tempfile.TemporaryDirectory() as t,patch.object(r,'LOCAL',Path(t)):
+            with patch.object(r.Fetcher,'get',side_effect=HTTPError('https://example.org/robots.txt',429,'Too Many',Message(),None)):
+                with self.assertRaisesRegex(ValueError,'HTTP 429'):r.Fetcher().check_robots('https://example.org/a')
+
+    def test_robots_4xx_permits_crawling_per_rfc_9309_and_is_recorded(self):
+        # 359 of last session's 575 source failures were robots.txt 4xx responses from bot-hostile hosts.
+        for code in (401,403,404,410):
+            with self.subTest(code=code),tempfile.TemporaryDirectory() as t,patch.object(r,'LOCAL',Path(t)):
+                f=r.Fetcher()
+                with patch.object(f,'get',side_effect=HTTPError('https://example.org/robots.txt',code,'x',Message(),None)):
+                    self.assertEqual(f.check_robots('https://example.org/a'),'example.org')
+                record=f.health.get('robots','example.org')
+                self.assertEqual(record['status'],'available');self.assertEqual(record['lines'],['User-agent: *','Allow: /'])
+                self.assertIn('RFC 9309' if code!=404 else '',record.get('note',''))
+
+    def test_contact_address_in_user_agent(self):
+        self.assertIn('reedosaki@gmail.com',r.UA);self.assertIn('github.com/reedos/stack_ledger',r.UA)
 
     def test_cached_robots_still_enforces_disallow_and_expires(self):
         with tempfile.TemporaryDirectory() as t,patch.object(r,'LOCAL',Path(t)):

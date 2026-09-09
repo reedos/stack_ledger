@@ -16,7 +16,7 @@ class ModelRuleParityTests(unittest.TestCase):
             with self.subTest(phrase=phrase):self.assertIn(phrase,EVIDENCE_RULES)
 
     def test_screening_rules_name_both_outcomes_and_a_specific_defect(self):
-        for phrase in ['not the tone of the source','specific defect','Both outcomes are legitimate','never that the outcome occurred']:
+        for phrase in ['not the tone of the source','A defect must be specific','Both outcomes are legitimate','never that the outcome occurred','Fill the checklist']:
             with self.subTest(phrase=phrase):self.assertIn(phrase,SCREENING_RULES)
 
     def test_reviewer_lanes_share_the_screening_rules(self):
