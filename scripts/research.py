@@ -47,12 +47,16 @@ def load(path):return json.loads(path.read_text(encoding='utf-8'))
 def normalize(value):return ' '.join(value.split())
 
 def processing_identity(document_hash,config,policy,related):
-    """Do not replay screening after a model, schema, prompt or code change."""
-    return digest(json.dumps({'document':document_hash,'instructions':config['_instructions'],
+    """Replay screening when the document, reviewed policy, model or screening version changes.
+
+    The maintainer bumps runtime.json screening_version when prompts, rules or validators
+    change meaning. Wording edits and unrelated code changes no longer re-screen every document.
+    """
+    return digest(json.dumps({'document':document_hash,'screening_version':str(config.get('screening_version','0')),
+        'instruction_mode':config.get('_instruction_mode','full'),
         'coverage':config['_coverage'],'policy':policy,'metrics':related,'model':config['model'],
         'max_candidates':config['max_candidates_per_document'],
-        'generation':config.get('_generation_settings',GENERATION),
-        'text_processing':implementation_hash(),'implementation':digest(Path(__file__).read_text(encoding='utf-8'))},sort_keys=True))
+        'generation':config.get('_generation_settings',GENERATION)},sort_keys=True))
 
 def source_queue(registry, day, selected=None, attempted=None):
     order=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
@@ -359,8 +363,24 @@ def git(*args):
     result=subprocess.run(['git',*args],cwd=ROOT,capture_output=True,text=True,check=True,timeout=90)
     return result.stdout.strip()
 
+def pending_changes():
+    """Unstaged edits to publishable files only: deferred monitoring output waiting for the session commit."""
+    changed=set()
+    for line in git('status','--porcelain').splitlines():
+        code,path=line[:2],line[3:].strip().strip('"')
+        require(code==' M' and path in ALLOWED_CHANGES,f'Working tree must be clean apart from deferred monitoring output; unapproved change: {path}')
+        changed.add(path)
+    if changed:
+        validate(load(ROOT/'site/data/ledger.json'))
+        validate_monitoring_delta(json.loads(git('show','HEAD:site/data/ledger.json')),load(ROOT/'site/data/ledger.json'),json.loads(git('show','HEAD:site/data/excerpts.json')),load(ROOT/'site/data/excerpts.json'))
+    return changed
+
+def publication_due(run,flush=False):
+    """Push when a batch accepted something or the session is flushing; receipts otherwise wait."""
+    return bool(run.get('accepted')) or bool(flush)
+
 def preflight(config):
-    require(not git('status','--porcelain'),'Working tree must be clean before automatic publication')
+    pending_changes()
     require(git('branch','--show-current')==config['branch'],'Unexpected branch')
     expected=f'https://github.com/{config["repository"]}'
     require(git('remote','get-url','origin').removesuffix('.git')==expected,'Unexpected Git remote')
@@ -426,6 +446,7 @@ def main():
     mode.add_argument('--publish',action='store_true')
     parser.add_argument('--max-documents',type=int,default=None)
     parser.add_argument('--refresh',action='store_true',help='Re-extract unchanged source documents')
+    parser.add_argument('--flush',action='store_true',help='With --publish: commit and push deferred monitoring output even if this batch accepts nothing')
     parser.add_argument('--sources',nargs='+',help='Focus this run on approved source IDs; normal evidence checks still apply')
     parser.add_argument('--question',help='Focus on a human-approved bounded question from the existing private review queue')
     parser.add_argument('--max-seconds',type=int,default=3600,help='Stop starting documents after this time budget; finish the active document')
@@ -672,8 +693,13 @@ def main():
                 build()
                 require(load(ROOT/'docs/data/ledger.json')==data,'Build data mismatch')
                 if args.publish:
-                    publish(config)
-                    batch_receipt['publication']='pushed'
+                    # Receipts-only batches wait in the working tree; the next accepted finding or the
+                    # session's closing summary carries them in one commit instead of one per batch.
+                    if publication_due(run,args.flush):
+                        publish(config)
+                        batch_receipt['publication']='pushed'
+                    else:
+                        batch_receipt['publication']='deferred'
                     if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),batch_receipt)
                 save(LOCAL/'cache.json',cache)
             except Exception as error:

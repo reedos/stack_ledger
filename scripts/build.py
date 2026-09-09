@@ -47,7 +47,9 @@ def build():
     digest.update(json.dumps(editorial_policy, sort_keys=True).encode())
     for asset in sorted(p for directory in ['site/assets','site/data'] for p in (ROOT/directory).rglob('*') if p.is_file()):
         digest.update(asset.relative_to(ROOT).as_posix().encode())
-        digest.update(asset.read_bytes())
+        # Line endings differ between a Windows working copy and a fresh checkout; the
+        # build stamp must not. Hash the normalized bytes so both agree.
+        digest.update(asset.read_bytes().replace(b'\r\n',b'\n'))
     build_version=digest.hexdigest()[:16]
     dest = ROOT / 'docs'
     dest.mkdir(exist_ok=True)

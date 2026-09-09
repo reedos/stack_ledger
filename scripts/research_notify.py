@@ -22,6 +22,7 @@ def summary(folder):
         totals['model_calls']+=run.get('model_calls',0)+private.get('model_calls',0)
         totals['pushed_batches']+=item.get('publication')=='pushed'
         totals['unpublished_batches']+=item.get('publication')=='pending'
+        totals['deferred_batches']=totals.get('deferred_batches',0)+(item.get('publication')=='deferred')
         if item.get('publication')=='pushed':
             totals['finding_pushes']+=run.get('accepted',0)>0
             totals['monitoring_only_pushes']+=not run.get('accepted',0)
@@ -55,7 +56,7 @@ def message(report,totals):
         f"New discovery proposals: {totals['discovery_proposals']} (private review inbox)",
         f"Source failures: {totals['source_failures']} | Discovery errors: {totals['discovery_errors']}",
         f"Discovery searches: {totals.get('search_calls',0)} ({totals.get('search_errors',0)} failed) | Documents screened: {totals.get('discovery_screened',0)}",
-        (f"Publication: {totals['pushed_batches']} batches pushed; {totals['unpublished_batches']} pending/unconfirmed."
+        (f"Publication: {totals['pushed_batches']} batches pushed; {totals['unpublished_batches']} pending/unconfirmed. Receipts-only batches deferred to the session commit: {totals.get('deferred_batches',0)}."
          if report.get('options',{}).get('publish') else 'Publication: private proposals only.'),
         (f"Pushes containing new accepted findings: {totals.get('finding_pushes',0)}; monitoring-only: {totals.get('monitoring_only_pushes',0)}." if report.get('options',{}).get('publish') else 'Private findings still require the existing review process.'),
         'Public session summary: '+report.get('session_summary_publication','not attempted')+'.',

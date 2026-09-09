@@ -252,6 +252,35 @@ class DatelineTests(unittest.TestCase):
         self.assertIsNone(research.dateline('January 1, 2999 is in the future'))
         self.assertIsNone(research.dateline(('x'*700)+' January 5, 2026 buried too deep'))
 
+class PublicationCadenceTests(unittest.TestCase):
+    """Receipts-only batches wait for the session commit; findings and flushes push."""
+    def test_publication_is_due_only_for_findings_or_flush(self):
+        self.assertFalse(research.publication_due({'accepted':0}))
+        self.assertTrue(research.publication_due({'accepted':1}))
+        self.assertTrue(research.publication_due({'accepted':0},flush=True))
+    def test_deferred_monitoring_output_passes_preflight(self):
+        ledger=(ROOT/'site/data/ledger.json').read_text(encoding='utf-8');excerpts=(ROOT/'site/data/excerpts.json').read_text(encoding='utf-8')
+        def fake_git(*args):
+            if args[0]=='status':return ' M site/data/ledger.json\n M docs/data/ledger.json\n M docs/feed.xml'
+            if args[0]=='show':return ledger if 'ledger' in args[1] else excerpts
+            if args[0]=='branch':return 'main'
+            if args[0]=='remote':return 'https://github.com/reedos/stack_ledger'
+            if args[0]=='rev-parse':return 'abc'
+            return ''
+        with patch.object(research,'git',side_effect=fake_git):
+            research.preflight({'branch':'main','repository':'reedos/stack_ledger'})
+    def test_untracked_staged_or_unapproved_changes_still_block(self):
+        for porcelain in ['?? scripts/new.py','M  site/data/ledger.json',' M scripts/research.py',' M site/data/ledger.json\n M site/assets/app.js']:
+            with self.subTest(porcelain=porcelain),patch.object(research,'git',return_value=porcelain) as git:
+                with self.assertRaisesRegex(ValueError,'clean'):research.preflight({'branch':'main','repository':'reedos/stack_ledger'})
+                self.assertEqual(git.call_count,1)
+    def test_screening_version_governs_cache_identity_not_wording(self):
+        base={'_coverage':'{}','model':'m','max_candidates_per_document':4,'screening_version':'1','_instructions':'wording A'}
+        same=research.processing_identity('doc',dict(base,_instructions='wording B'),{},[])
+        self.assertEqual(research.processing_identity('doc',base,{},[]),same)
+        self.assertNotEqual(research.processing_identity('doc',dict(base,screening_version='2'),{},[]),same)
+        self.assertNotEqual(research.processing_identity('doc',dict(base,_instruction_mode='brief'),{},[]),same)
+
 class ChildCoverageTests(unittest.TestCase):
     def test_discovered_page_inherits_parent_coverage_context(self):
         parent={'id':'claude-current-api-pricing'}
