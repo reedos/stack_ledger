@@ -73,7 +73,22 @@
     for(const change of p.changes){const detail=node('details');detail.append(node('summary',`${change.target}: ${change.id} — ${change.before?'update':'new entry'}`),node('h4','Before'),node('pre',JSON.stringify(change.before,null,2)),node('h4','After'),node('pre',JSON.stringify(change.after,null,2)));card.append(detail);}
     for(const evidence of p.evidence){const detail=node('details');detail.append(node('summary','Evidence: '+evidence.id),node('p',evidence.summary),node('p',`Published: ${evidence.published_at||'unknown'} · Retrieved: ${evidence.retrieved_at}`));try{const u=new URL(evidence.url);if(u.protocol==='https:'&&!u.username&&!u.password){const a=node('a','Read source ↗');a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';detail.append(a);}}catch(e){}card.append(detail);}
     const msg=node('p',p.validation?(p.validation.passed?'Preview validation passed.':'Preview validation failed; inspect the checks below.'):'Preview has not been validated.','hint');msg.setAttribute('role','status');card.append(msg);
-    if(p.validation?.passed){const a=node('a','Open site preview ↗');a.href='preview/'+p.id+'/';a.target='_blank';a.rel='noopener';card.append(a);}
+    if(p.validation?.passed){
+      const a=node('a','Open site preview ↗');a.href='preview/'+p.id+'/';a.target='_blank';a.rel='noopener';card.append(a);
+      // Where each changed object appears in the previewed site, so the reviewer is not left on the homepage.
+      const where=node('details');where.append(node('summary','Where to look in the preview'));const list=node('ul');
+      const place=c=>{const id=encodeURIComponent(c.id);switch(c.target){
+        case 'project':return ['projects/#project-'+id,'Projects page, card "'+(c.after.name||c.id)+'" (stage '+(c.after.stage||'?')+')'];
+        case 'company':return ['companies/'+id+'/','Company page '+(c.after.name||c.id)];
+        case 'product':return [((c.after.layers||['models'])[0])+'/','Layer page '+((c.after.layers||['models'])[0])+', product '+(c.after.name||c.id)];
+        case 'note':return ['ledger/#'+id,'Ledger, research note "'+(c.after.title||c.id)+'"'];
+        case 'observation':return ['ledger/#'+id,'Ledger, record '+c.id];
+        case 'metric':return ['ledger/','Ledger, metric '+(c.after.title||c.id)];
+        case 'source':return ['methodology/#sources','Methodology, source library: '+(c.after.title||c.id)];
+        default:return ['','' ];}};
+      for(const c of p.changes){const [path,label]=place(c);const li=node('li');if(path){const l=node('a',label+' ↗');l.href='preview/'+p.id+'/'+path;l.target='_blank';l.rel='noopener';li.append(l);}else li.textContent=c.target+': '+c.id;list.append(li);}
+      where.append(list);card.append(where);
+    }
     if(p.validation){const d=node('details');d.append(node('summary','Validation results'),node('pre',JSON.stringify(p.validation.checks,null,2)));card.append(d);}
     if(p.status==='applied'||p.status==='rejected'){
       // Finished packages: the objects are live (or declined); validating would only report that they changed since proposal.
