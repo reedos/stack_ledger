@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T11:40:25Z",
+  "reviewed_at": "2026-09-09T11:41:55Z",
   "projects": [
     {
       "id": "gemini",
@@ -3162,7 +3162,10 @@
       "category": "Cloud data-center locality",
       "stage": "operating",
       "ai_relationship": "Cloud infrastructure can support AI and other services. AI-only allocation is not disclosed.",
-      "observations": [],
+      "observations": [
+        "epoch-google-midlothian-texas-it-mw-2026-09-09",
+        "epoch-google-midlothian-texas-h100e-2026-09-09"
+      ],
       "horizon": "Follow the dated source milestone; subsequent delivery needs new evidence.",
       "grid": "Site-specific power draw, grid allocation and operating utilization are not quantified in this record.",
       "next_evidence": "Seek a dated operating update, scoped capacity, actual utilization and verified local employment.",
@@ -3366,7 +3369,10 @@
       "category": "Cloud data-center locality",
       "stage": "operating",
       "ai_relationship": "Cloud infrastructure can support AI and other services. AI-only allocation is not disclosed.",
-      "observations": [],
+      "observations": [
+        "epoch-google-storey-county-nevada-it-mw-2026-09-09",
+        "epoch-google-storey-county-nevada-h100e-2026-09-09"
+      ],
       "horizon": "Follow the dated source milestone; subsequent delivery needs new evidence.",
       "grid": "Site-specific power draw, grid allocation and operating utilization are not quantified in this record.",
       "next_evidence": "Seek a dated operating update, scoped capacity, actual utilization and verified local employment.",
