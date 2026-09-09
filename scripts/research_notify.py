@@ -58,6 +58,7 @@ def message(report,totals):
         (f"Publication: {totals['pushed_batches']} batches pushed; {totals['unpublished_batches']} pending/unconfirmed."
          if report.get('options',{}).get('publish') else 'Publication: private proposals only.'),
         (f"Pushes containing new accepted findings: {totals.get('finding_pushes',0)}; monitoring-only: {totals.get('monitoring_only_pushes',0)}." if report.get('options',{}).get('publish') else 'Private findings still require the existing review process.'),
+        'Public session summary: '+report.get('session_summary_publication','not attempted')+'.',
         ('Collection needs attention: most discovery searches failed. More runtime alone is unlikely to help.' if totals.get('search_calls',0)>=3 and totals.get('search_errors',0)>totals['search_calls']/2 else 'Completion describes session duration, not research quality.'),
         'Review findings and details in your local Research Control panel.'
     ])
@@ -93,6 +94,9 @@ def notify_session(root,report,folder):
         except Exception as error:totals['question_report_error']=type(error).__name__
         from research_loop import atomic
         atomic(folder/'summary.json',totals)
+        from session_receipt import finalize
+        publication=finalize(root,report,folder,totals)
+        report['session_summary_publication']=publication['status']
         return deliver(root,message(report,totals),folder/'notification.json')
     except Exception as error:
         return {'status':'failed','error_type':type(error).__name__}

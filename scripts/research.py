@@ -309,13 +309,36 @@ def preflight(config):
         require(changed<=ALLOWED_CHANGES,'Pending commit includes unapproved files')
         # Retry the previously validated daily commit after a failed network push.
         validate(load(ROOT/'site/data/ledger.json'))
+        validate_monitoring_delta(json.loads(git('show','HEAD^:site/data/ledger.json')),load(ROOT/'site/data/ledger.json'),json.loads(git('show','HEAD^:site/data/excerpts.json')),load(ROOT/'site/data/excerpts.json'))
         git('push','origin','HEAD:'+config['branch'])
+
+def validate_monitoring_delta(before,after,old_excerpts,new_excerpts):
+    """Daily publication may append monitoring records, never editorial corrections."""
+    if before['runtime'].get('latest_session')!=after['runtime'].get('latest_session'):
+        from session_receipt import verify_retained_receipt
+        verify_retained_receipt(ROOT,after['runtime'].get('latest_session'))
+    for key in ['version','seed_date','layers','metrics','targets']:
+        require(before[key]==after[key],'Monitoring changed reviewed ledger configuration')
+    for key in ['sources','observations','events','runs']:
+        old={r['id']:r for r in before[key]};new={r['id']:r for r in after[key]}
+        require(all(new.get(rid)==record for rid,record in old.items()),'Monitoring rewrote existing '+key)
+        if key in {'observations','events'}:
+            for rid,record in new.items():
+                if rid in old:continue
+                require(record.get('method')=='automated','Monitoring cannot append curated records')
+                require(not {'correction_of','superseded_by','correction_reason','corrected_at'} & record.keys(),'Monitoring cannot issue corrections')
+    require(old_excerpts.keys()==new_excerpts.keys() and old_excerpts['version']==new_excerpts['version'],'Monitoring changed excerpt structure')
+    old={r['url']:r for r in old_excerpts['excerpts']};new={r['url']:r for r in new_excerpts['excerpts']}
+    require(all(new.get(url)==record for url,record in old.items()),'Monitoring rewrote existing excerpts')
+    require(all('correction_history' not in r for url,r in new.items() if url not in old),'Monitoring cannot append excerpt corrections')
+
 
 def publish(config):
     changed=set(git('diff','--name-only').splitlines())
     require(changed and changed<=ALLOWED_CHANGES,'Daily build changed unapproved files')
     require(not git('ls-files','--others','--exclude-standard'),'Unexpected untracked files')
     require(not git('diff','--cached','--name-only'),'Unexpected staged changes')
+    validate_monitoring_delta(json.loads(git('show','HEAD:site/data/ledger.json')),load(ROOT/'site/data/ledger.json'),json.loads(git('show','HEAD:site/data/excerpts.json')),load(ROOT/'site/data/excerpts.json'))
     subprocess.run([sys.executable,'-m','unittest','discover','-s','tests'],cwd=ROOT,check=True,timeout=90)
     git('add','--',*sorted(changed))
     require(set(git('diff','--cached','--name-only').splitlines())==changed,'Staged file set changed')

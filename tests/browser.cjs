@@ -36,6 +36,13 @@ const server=http.createServer((req,res)=>{
   assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/500,000[\s\S]*Mar 2026/);
   assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/paid trips/);
   assert.match(await staticPage.locator('#runtime').innerText(),/RTX 5090.*Last run:.*Last successful research:/s);
+  const sessionReceipt=JSON.parse(fs.readFileSync(path.join(root,'data/ledger.json'),'utf8')).runtime.latest_session;
+  if(sessionReceipt){
+   const provenance=await staticPage.locator('#runtime').textContent();
+   assert.ok(provenance.includes(`${sessionReceipt.documents_fetched.toLocaleString('en-US')} document fetches (includes repeats)`));
+   assert.ok(provenance.includes(`${sessionReceipt.accepted.toLocaleString('en-US')} accepted monitoring records`));
+   assert.match(provenance,/Latest research session:.*Latest monitoring batch:/s);
+  }
   assert.equal(await staticPage.locator('#recent-changes').count(),1);
   const recentConfig=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../research/homepage.json'),'utf8'));
   const recentText=await staticPage.locator('#recent-changes').innerText();
@@ -262,6 +269,25 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('[data-layer="chips"]').getAttribute('aria-pressed'),'true');
   await page.locator('#research-search').fill('zz-no-such-record');assert.match(await page.locator('#result-count').innerText(),/0 research notes and 0 observations/);
   await page.locator('#research-search').fill('');await page.locator('[data-layer="all"]').click();
+  // Replacements are current notes; historical deep links reveal the preserved original.
+  const correctionData=JSON.parse(fs.readFileSync(path.join(root,'data/ledger.json'),'utf8'));
+  const noteCorrections=correctionData.events.filter(e=>e.correction_of);
+  for(const width of [1440,390]){
+   await page.setViewportSize({width,height:1000});
+   for(const note of noteCorrections){
+    await page.goto(origin+'ledger/?review='+note.id+'#'+note.id);await page.locator('body[data-enhanced="true"]').waitFor();
+    const card=page.locator('#'+note.id);await card.waitFor({state:'visible'});
+    assert.equal(await card.locator('.record-badge').first().innerText(),'Corrected');
+    assert.equal(await card.locator('.signal-body > p').first().innerText(),note.summary);
+    assert.match(await card.locator('.signal-meta').innerText(),/Source published:.*Collected:/s);
+    assert.equal(await card.locator('.note-history').first().getAttribute('open'),null);
+    await page.goto(origin+'ledger/#'+note.correction_of);await page.locator('body[data-enhanced="true"]').waitFor();
+    const original=page.locator('#'+note.correction_of);await original.waitFor({state:'visible'});
+    assert.match(await original.innerText(),/Original record/);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+   }
+  }
+  await page.setViewportSize({width:1440,height:1000});await page.goto(origin+'ledger/');await page.locator('#download-csv').waitFor();
   const downloaded=page.waitForEvent('download');await page.locator('#download-csv').click();const csv=await downloaded;await csv.saveAs(path.join(evidence,'observations.csv'));
   assert.match(fs.readFileSync(path.join(evidence,'observations.csv'),'utf-8'),/source_url/);
   await page.goto(origin);await page.locator('.hero').waitFor();await page.screenshot({path:path.join(evidence,'desktop.png'),fullPage:true});await page.screenshot({path:path.join(evidence,'homepage-viewport.png')});
@@ -275,6 +301,11 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#runtime').evaluate(el=>el.previousElementSibling.className),'project-attribution');
   assert.equal(await page.locator('#runtime').evaluate(el=>el.nextElementSibling.className),'footer-bottom');
   const originalRuntime=await page.locator('#runtime').innerHTML();
+  if(sessionReceipt){
+   assert.ok(originalRuntime.includes(`${sessionReceipt.documents_fetched.toLocaleString('en-US')} document fetches (includes repeats)`));
+   await page.evaluate(()=>{data.runtime.latest_session.documents_fetched=9876;runtime();});
+   assert.match(await page.locator('#runtime').textContent(),/9,876 document fetches/);
+  }
   await page.evaluate(()=>{data.runtime.status='failed';data.runtime.display_model='Browser fixture model';data.runs.at(-1).accepted=777;runtime();});
   assert.match(await page.locator('#runtime').innerText(),/Browser fixture model.*Status: failed/s);
   await page.locator('#runtime summary').click();

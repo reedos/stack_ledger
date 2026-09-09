@@ -101,18 +101,21 @@ def atom(data,dest):
     child(feed,'id','https://reedos.github.io/stack_ledger/')
     child(feed,'link',href='https://reedos.github.io/stack_ledger/feed.xml',rel='self')
     child(feed,'link',href='https://reedos.github.io/stack_ledger/')
-    updated=data['runtime']['last_attempt'] or max(o['retrieved_at'] for o in data['observations'])
+    updated=max([data['runtime']['last_attempt'] or max(o['retrieved_at'] for o in data['observations'])]+[e['corrected_at'] for e in data['events'] if e.get('corrected_at')])
     child(feed,'updated',updated)
     child(child(feed,'author'),'name','Stack Ledger')
     sources={s['id']:s for s in data['sources']}
-    for event in data['events']:
+    from validate import current_events
+    for event in current_events(data['events']):
         entry=child(feed,'entry')
         child(entry,'id','https://reedos.github.io/stack_ledger/ledger/#'+event['id'])
         child(entry,'title',event['title'])
         child(entry,'link',href=sources[event['source']]['url'])
-        child(entry,'updated',event.get('retrieved_at',data['seed_date']+'T12:00:00Z'))
+        child(entry,'updated',event.get('corrected_at',event.get('retrieved_at',data['seed_date']+'T12:00:00Z')))
         if event['date']: child(entry,'published',event['date']+'T12:00:00Z')
-        child(entry,'summary',event['summary'])
+        child(entry,'summary',event['summary']+(' Correction: '+event['correction_reason'] if event.get('correction_of') else ''))
+        if event.get('correction_of'):
+            child(entry,'link',rel='related',href='https://reedos.github.io/stack_ledger/ledger/#'+event['correction_of'])
     for run in data['runs'][-30:]:
         entry=child(feed,'entry')
         child(entry,'id','https://reedos.github.io/stack_ledger/ledger/#'+run['id'])

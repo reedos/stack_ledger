@@ -80,20 +80,49 @@ def observation_valid(o,metrics,sources):
 def event_valid(event,sources):
     required={'id','layer','date','title','summary','source','kind'}
     optional={'method','retrieved_at','document_sha256','evidence_sha256'}
-    require(required<=event.keys() and event.keys()<=required|optional,'Unexpected event shape')
+    correction={'correction_of','correction_reason','corrected_at'}
+    require(required<=event.keys() and event.keys()<=required|optional|correction,'Unexpected event shape')
     require(event['source'] in sources and event['layer'] in LAYERS,'Invalid event mapping')
     for k in ['id','title','summary','kind']:text(event[k],600 if k=='summary' else 140)
     if event['date']:
         dt=datetime.strptime(event['date'],'%Y-%m-%d')
         require(dt.date()<=datetime.now(timezone.utc).date(),'Future event publication date')
     if event.get('method')=='automated':
+        require(not correction & event.keys(),'Automated notes cannot issue corrections')
         require(event['layer'] in sources[event['source']]['layers'],'Invalid event/source layer')
         require(event['date']==sources[event['source']]['published'],'Event must preserve source publication date')
         require(event['kind'] in {'Reported milestone','Research finding','Company announcement','Forecast update','Government target','Constraint update'},'Invalid note classification')
         require(re.fullmatch(r'note-[0-9a-f]{20}',event['id']) is not None,'Invalid automated note ID')
         for k in ['document_sha256','evidence_sha256']:require(re.fullmatch(r'[0-9a-f]{64}',event.get(k,'')) is not None,'Missing note evidence hash')
         timestamp(event['retrieved_at'])
+    elif correction & event.keys():
+        require(correction<=event.keys() and event.get('method')=='curated','Incomplete curated correction')
+        text(event['correction_of'],140);text(event['correction_reason'],500)
+        require(timestamp(event['corrected_at'])>=timestamp(event['retrieved_at']),'Correction precedes collection')
+        for k in ['document_sha256','evidence_sha256']:
+            require(re.fullmatch(r'[0-9a-f]{64}',event.get(k,'')) is not None,'Missing correction evidence hash')
+        require(event['date']==sources[event['source']]['published'],'Correction must preserve source publication date')
     else:require(not (optional & event.keys()),'Unexpected curated note metadata')
+
+def current_events(events):
+    """Original records remain in the ledger; ordinary views use replacements."""
+    replaced={e['correction_of'] for e in events if 'correction_of' in e}
+    return [e for e in events if e['id'] not in replaced]
+
+def validate_event_corrections(events):
+    by_id={e['id']:e for e in events};replaced=set()
+    for event in events:
+        if 'correction_of' not in event:continue
+        old=by_id.get(event['correction_of'])
+        require(old is not None and old['id']!=event['id'],'Missing/self correction ancestor')
+        require(old['id'] not in replaced,'Conflicting note replacements');replaced.add(old['id'])
+        require(all(event[k]==old[k] for k in ['source','layer','date']),'Correction changes source, layer or publication date')
+        if old.get('corrected_at'):
+            require(timestamp(event['corrected_at'])>=timestamp(old['corrected_at']),'Correction chronology reversed')
+        seen={event['id']};ancestor=old
+        while ancestor:
+            require(ancestor['id'] not in seen,'Cyclic note correction');seen.add(ancestor['id'])
+            ancestor=by_id.get(ancestor.get('correction_of'))
 
 def validate(data):
     require(set(data)=={'version','seed_date','layers','metrics','sources','observations','events','targets','runs','runtime'},'Unexpected ledger shape')
@@ -154,6 +183,7 @@ def validate(data):
     for event in data['events']:
         event_valid(event,sources)
     require(len({e['id'] for e in data['events']})==len(data['events']),'Duplicate event IDs')
+    validate_event_corrections(data['events'])
     run_ids=set()
     for run in data['runs']:
         require(set(run)=={'id','started_at','finished_at','status','documents_fetched','documents_reviewed','accepted','quarantined','source_failures','model_calls','coverage_layers'},'Unexpected run shape')
@@ -167,7 +197,11 @@ def validate(data):
         for f in run['source_failures']:
             require(set(f)=={'source','reason'},'Unexpected failure shape');text(f['source'],200);text(f['reason'],200)
     r=data['runtime']
-    require(set(r)=={'display_model','model','engine','hardware','timezone','schedule','last_attempt','last_success','status'},'Unexpected runtime shape')
+    required_runtime={'display_model','model','engine','hardware','timezone','schedule','last_attempt','last_success','status'}
+    require(required_runtime<=r.keys() and r.keys()<=required_runtime|{'latest_session'},'Unexpected runtime shape')
+    if 'latest_session' in r:
+        from session_receipt import validate_receipt
+        validate_receipt(r['latest_session'])
     config=json.loads((ROOT/'research/runtime.json').read_text(encoding='utf-8'))
     for k in ['display_model','model','hardware','timezone']:require(r[k]==config[k],'Runtime identity changed')
     if data['runs']:

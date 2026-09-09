@@ -30,10 +30,20 @@
       ],
       "region_book": "unknown",
       "claim_type": "other",
-      "status": "company-commitment",
+      "status": "observation",
       "metric_ids": [],
       "quote": "To evaluate long-term performance, Lumentum conducted an extensive accelerated life-test program using production UHP devices manufactured on standard production lines and subjected to elevated stress",
-      "notes": "Lumentum reports an accelerated life-test program for its ultra-high-power laser platform used in ELSFP solutions for co-packaged optics. The company states more than 100 million accelerated device hours with zero observed failures and stable operating characteristics, supporting reliability objectives for large-scale AI and CPO deployments."
+      "notes": "Lumentum reports a completed accelerated life-test program with more than 100 million accelerated device hours and zero observed failures. This is a company-reported test result, not field operating exposure or a guarantee of zero failure risk.",
+      "correction_history": [
+        {
+          "corrected_at": "2026-09-09T03:51:53Z",
+          "reason": "Classifies the reported completed accelerated test as an observation, with its limits.",
+          "previous": {
+            "status": "company-commitment",
+            "notes": "Lumentum reports an accelerated life-test program for its ultra-high-power laser platform used in ELSFP solutions for co-packaged optics. The company states more than 100 million accelerated device hours with zero observed failures and stable operating characteristics, supporting reliability objectives for large-scale AI and CPO deployments."
+          }
+        }
+      ]
     },
     {
       "source_id": "builder-role-aws",
@@ -93,11 +103,22 @@
         "applications"
       ],
       "region_book": "europe",
-      "claim_type": "roadmap",
-      "status": "company-commitment",
+      "claim_type": "financial",
+      "status": "observation",
       "metric_ids": [],
       "quote": "LONDON, 12 May, 2026 - Isomorphic Labs, an AI-first drug design and development company, today announced it has raised $2.1 Billion in Series B funding",
-      "notes": "Isomorphic Labs announced $2.1 billion Series B funding on 12 May 2026 to scale its AI drug design engine and advance therapeutic programs toward the clinic. The financing is led by Thrive Capital with participation from Alphabet, GV, MGX, Temasek, CapitalG and the UK Sovereign AI Fund."
+      "notes": "Isomorphic Labs reported on May 12, 2026 that it had raised $2.1 billion in Series B funding. This records the financing announcement; plans to scale AI drug design and advance therapeutic programs do not establish clinical efficacy or patient outcomes.",
+      "correction_history": [
+        {
+          "corrected_at": "2026-09-09T03:51:53Z",
+          "reason": "Separates financing reportedly raised from the future use of proceeds; classifies the source as financial.",
+          "previous": {
+            "claim_type": "roadmap",
+            "status": "company-commitment",
+            "notes": "Isomorphic Labs announced $2.1 billion Series B funding on 12 May 2026 to scale its AI drug design engine and advance therapeutic programs toward the clinic. The financing is led by Thrive Capital with participation from Alphabet, GV, MGX, Temasek, CapitalG and the UK Sovereign AI Fund."
+          }
+        }
+      ]
     },
     {
       "source_id": "nebius-msft-contract",
@@ -110,26 +131,48 @@
       ],
       "region_book": "europe",
       "claim_type": "other",
-      "status": "observation",
+      "status": "company-commitment",
       "metric_ids": [],
       "quote": "Amsterdam, September 8, 2025 — Nebius Group N.V. (NASDAQ: NBIS) (“Nebius” or the “Company”), a leading AI infrastructure company, today announced an agreement to deliver",
-      "notes": "Nebius announced a multi-year agreement to deliver dedicated AI infrastructure capacity to Microsoft from its new Vineland, New Jersey data center starting later in 2025. The company said the deal will support more aggressive growth of its AI cloud business in 2026."
+      "notes": "In its September 8, 2025 announcement, Nebius said it would deliver dedicated AI infrastructure capacity to Microsoft from its Vineland, New Jersey data center under a multi-year agreement, with delivery planned to begin later in 2025. This records the agreement, not subsequent commissioning.",
+      "correction_history": [
+        {
+          "corrected_at": "2026-09-09T03:51:53Z",
+          "reason": "Classifies the agreement as a company announcement and limits the summary to the retained evidence; removes the 2026 growth statement. Capacity delivery remained a commitment at the source date.",
+          "previous": {
+            "status": "observation",
+            "notes": "Nebius announced a multi-year agreement to deliver dedicated AI infrastructure capacity to Microsoft from its new Vineland, New Jersey data center starting later in 2025. The company said the deal will support more aggressive growth of its AI cloud business in 2026."
+          }
+        }
+      ]
     },
     {
       "source_id": "meta-awa-graduates",
-      "company_id": null,
+      "company_id": "meta",
       "url": "https://about.fb.com/news/2026/08/americas-workforce-academy-meta-skilled-trade-training-program/",
       "published_at": "2026-08-18",
       "retrieved_at": "2026-09-08T19:53:48Z",
       "layer": [
         "infrastructure"
       ],
-      "region_book": "global",
-      "claim_type": "other",
+      "region_book": "united-states",
+      "claim_type": "labor",
       "status": "observation",
       "metric_ids": [],
       "quote": "The first cohort of America’s Workforce Academy (AWA) graduated last week, and we’re sharing their stories, which highlight how AWA is helping them land careers",
-      "notes": "Meta reports the first cohort of America’s Workforce Academy graduated last week and will work at Meta construction sites. The free program guarantees jobs for graduates and awards NCCER credential and AWA certificate, funded by an initial $115 million first-year investment."
+      "notes": "In its August 18, 2026 update, Meta reported that the first America’s Workforce Academy cohort had graduated the preceding week. Meta described a free program with credentials and guaranteed jobs, backed by an initial $115 million first-year investment. This is a company-reported milestone, not a verified placement count.",
+      "correction_history": [
+        {
+          "corrected_at": "2026-09-09T03:51:53Z",
+          "reason": "Anchors relative timing to the source publication date and distinguishes a company announcement from verified job placements. Maps the U.S. workforce announcement to Meta and labor coverage.",
+          "previous": {
+            "company_id": null,
+            "region_book": "global",
+            "claim_type": "other",
+            "notes": "Meta reports the first cohort of America’s Workforce Academy graduated last week and will work at Meta construction sites. The free program guarantees jobs for graduates and awards NCCER credential and AWA certificate, funded by an initial $115 million first-year investment."
+          }
+        }
+      ]
     }
   ]
 }

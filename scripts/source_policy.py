@@ -48,7 +48,7 @@ def validate_excerpts(dataset, ledger, registry):
     totals={}; seen=set()
     fields={'source_id','company_id','url','published_at','retrieved_at','layer','region_book','claim_type','status','metric_ids','quote','notes'}
     for e in dataset['excerpts']:
-        require(set(e)==fields and e['source_id'] in sources, 'Invalid excerpt fields/source')
+        require(fields<=e.keys() and e.keys()<=fields|{'correction_history'} and e['source_id'] in sources, 'Invalid excerpt fields/source')
         s=sources[e['source_id']]; p=collection_for(registry,s)
         require(p.get('excerpts') and e['company_id']==p['company_id'] and e['region_book']==p['region_book'] and e['claim_type']==p['claim_type'], 'Excerpt identity differs from review')
         require(e['url']==s['url'] and e['published_at']==s['published'] and e['layer']==s['layers'], 'Excerpt attribution mismatch')
@@ -59,6 +59,20 @@ def validate_excerpts(dataset, ledger, registry):
         require(key not in seen, 'Duplicate excerpt'); seen.add(key)
         totals[e['url']]=totals.get(e['url'],0)+len(e['quote'].split())
         require(totals[e['url']]<=25, 'Public quote budget exceeded')
+        history=e.get('correction_history',[])
+        require(isinstance(history,list),'Invalid excerpt correction history')
+        last=timestamp(e['retrieved_at'])
+        for revision in history:
+            require(set(revision)=={'corrected_at','reason','previous'},'Invalid excerpt correction fields')
+            when=timestamp(revision['corrected_at']);require(when>=last,'Excerpt correction chronology reversed');last=when
+            text(revision['reason'],500)
+            previous=revision['previous']
+            require(isinstance(previous,dict) and previous and previous.keys()<={'status','notes','company_id','region_book','claim_type'},'Invalid previous excerpt values')
+            if 'status' in previous:require(previous['status'] in STATUSES,'Invalid previous excerpt status')
+            if 'notes' in previous:text(previous['notes'],1000)
+            if 'company_id' in previous and previous['company_id'] is not None:text(previous['company_id'],140)
+            if 'region_book' in previous:require(previous['region_book'] in REGIONS,'Invalid previous region')
+            if 'claim_type' in previous:require(previous['claim_type'] in CLAIMS,'Invalid previous claim type')
 
 def append_excerpt(dataset, source, policy, evidence, notes, retrieved_at, status='company-commitment', metric_ids=None):
     # Identity, class and URLs come from reviewed policy, never model text.

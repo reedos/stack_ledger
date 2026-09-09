@@ -76,7 +76,8 @@
         "finance-moderna-consensus-20260907",
         "finance-recursion-consensus-20260907",
         "aws-annual-history-2024",
-        "iihs-waymo-crash-2026"
+        "iihs-waymo-crash-2026",
+        "meta-awa-graduates"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -242,7 +243,6 @@
         "indeed-dc-hiring-2026",
         "google-eta-training",
         "meta-awa-funding",
-        "meta-awa-graduates",
         "talen-amazon-ppa-2025",
         "google-kairos-2024",
         "sk-hynix-hbm4-ready",
@@ -2256,9 +2256,9 @@
     },
     "meta-awa-graduates": {
       "rank": 4,
-      "region_book": "global",
-      "company_id": null,
-      "claim_type": "other",
+      "region_book": "united-states",
+      "company_id": "meta",
+      "claim_type": "labor",
       "cadence": "daily",
       "weekday": 0,
       "path_prefixes": [],
@@ -2501,7 +2501,7 @@
       "rank": 4,
       "region_book": "europe",
       "company_id": "isomorphic",
-      "claim_type": "roadmap",
+      "claim_type": "financial",
       "cadence": "daily",
       "weekday": 0,
       "path_prefixes": [],
