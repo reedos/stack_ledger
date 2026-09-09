@@ -3789,60 +3789,6 @@
       "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
     },
     {
-      "id": "terafab-wafer-starts",
-      "layer": "chips",
-      "title": "Terafab Wafer Starts",
-      "unit": "300mm wafer starts / month",
-      "geography": "Grimes County, Texas, U.S.",
-      "scope": "Terafab site and named node required; excludes global foundry totals.",
-      "direction": "context",
-      "min": 0,
-      "max": 1000000000,
-      "note": "Terafab site and named node required; excludes global foundry totals.",
-      "source_ids": [
-        "spacex-terafab-2026"
-      ],
-      "company": "spacex",
-      "measurement_type": "wafer_starts_per_month",
-      "project": "terafab",
-      "allowed_statuses": [
-        "observation",
-        "estimate"
-      ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
-      "chart_default_end": 2030,
-      "definition_stable": true,
-      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
-    },
-    {
-      "id": "hynix-indiana-hbm-stacks",
-      "layer": "chips",
-      "title": "Hynix Indiana Hbm Stacks",
-      "unit": "HBM stacks / month",
-      "geography": "West Lafayette, Indiana, U.S.",
-      "scope": "West Lafayette qualified HBM stacks by generation; revenue is not physical output.",
-      "direction": "context",
-      "min": 0,
-      "max": 1000000000,
-      "note": "West Lafayette qualified HBM stacks by generation; revenue is not physical output.",
-      "source_ids": [
-        "hynix-indiana-2026"
-      ],
-      "company": "sk-hynix",
-      "measurement_type": "hbm_stack_capacity",
-      "project": "hynix-west-lafayette",
-      "allowed_statuses": [
-        "observation",
-        "estimate"
-      ],
-      "series_start_year": 2026,
-      "chart_default_start": 2026,
-      "chart_default_end": 2030,
-      "definition_stable": true,
-      "pre_period_note": "Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity."
-    },
-    {
       "id": "abilene-facility-mw",
       "layer": "infrastructure",
       "title": "Abilene Facility Mw",

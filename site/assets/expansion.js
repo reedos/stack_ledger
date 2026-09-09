@@ -41,7 +41,7 @@ function chipCapacity(p) {
  const latestPerStatus=all.filter(o=>!all.some(n=>n.status===o.status&&(n.year>o.year||(n.year===o.year&&n.period>o.period))));
  const header=`<span class="eyebrow">CAPACITY QUANTIFICATION</span><span class="chip-capacity-class">${esc(cls.label)}</span>`;
  if(!latestPerStatus.length) {
-  return `<div class="chip-capacity">${header}<div class="delivery-quantity unknown"><span>CAPACITY DISCLOSURE</span><strong>Not disclosed</strong><p>Quantifying figure: ${esc(cls.unit)}</p><p>Watching: ${entry.source_ids.map(sourceLink).join(' · ')}</p><p>Unknown is not zero.</p></div></div>`;
+  return `<div class="chip-capacity">${header}<div class="delivery-quantity unknown"><span>CAPACITY DISCLOSURE</span><strong>Not disclosed</strong><p>Quantifying figure: ${esc(cls.unit)}</p><p>Watching: ${[...new Map(entry.source_ids.map(id=>[sourceOf(id).publisher,id])).values()].map(sourceLink).join(' · ')}</p><p>Unknown is not zero.</p></div></div>`;
  }
  const base=latestPerStatus.find(o=>['observation','estimate'].includes(o.status))||latestPerStatus[0];
  const conditional=!['observation','estimate'].includes(base.status)?' if the plan is delivered':'';
