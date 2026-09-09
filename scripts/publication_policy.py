@@ -47,8 +47,13 @@ def source_ranks(registry):
     return ranks
 
 
-def eligible(package,p,registry):
-    """(admitted, reasons). Every rule must hold; the reasons list explains the first failure or the admission."""
+def eligible(package,p,registry,ledger=None):
+    """(admitted, reasons). Every rule must hold; the reasons list explains the first failure or the admission.
+
+    ledger, when supplied, is the current published site/data/ledger.json: a new observation
+    whose metric already has three or more trailing non-superseded values is ineligible when
+    its value falls outside 10x the trailing range either way (a unit or scale mistake reads as
+    an outlier before it reads as a real jump). Omitting ledger skips this one check only."""
     a=p['auto_apply'];reasons=[]
     if not a['enabled']:return False,['auto-apply disabled by policy']
     if package.get('author') not in a['authors']:return False,[f"author {package.get('author')!r} is not a policy-listed tool"]
@@ -69,7 +74,13 @@ def eligible(package,p,registry):
             if af.get('observations',[])[:len(b.get('observations',[]))]!=b.get('observations',[]):return False,[f"project {c['id']} removes or reorders existing records; human review"]
             continue
         if c['target']=='project' and c['after'].get('stage') not in a['project_stages']:return False,[f"project {c['id']} stage {c['after'].get('stage')} needs human review"]
-        if c['target']=='observation' and c['after'].get('status') not in {'estimate','observation','company-commitment','forecast','government-target'}:return False,[f"record {c['id']} has an unknown status"]
+        if c['target']=='observation':
+            if c['after'].get('status') not in {'estimate','observation','company-commitment','forecast','government-target'}:return False,[f"record {c['id']} has an unknown status"]
+            if ledger is not None and isinstance(c['after'].get('value'),(int,float)):
+                trailing=[o['value'] for o in ledger.get('observations',[]) if o.get('metric')==c['after'].get('metric') and not o.get('superseded_by') and isinstance(o.get('value'),(int,float))]
+                if len(trailing)>=3:
+                    low,high=min(trailing)/10,max(trailing)*10
+                    if not low<=c['after']['value']<=high:return False,[f"record {c['id']}: magnitude outside trailing range; human review"]
     ranks=source_ranks(registry)
     for e in package.get('evidence',[]):
         host=urlparse(e['url']).hostname;rank=ranks.get(host)
@@ -83,12 +94,12 @@ def auto_apply(root,rid,p=None):
     import catalog_review as cr
     from editorial_review import append_event, locked
     from research import load, now
-    p=p or policy(root);registry=load(root/'research/sources.json')
+    p=p or policy(root);registry=load(root/'research/sources.json');ledger=load(root/'site/data/ledger.json')
     package=cr.package(root,rid)
     prior=cr.last_review(root,rid);label=p['auto_apply']['reviewer_label']
     resuming=bool(prior and prior['status']=='approved' and prior.get('reviewer')==label)   # approved by policy, publication interrupted
     require(resuming or not prior or prior['status'] in {'pending_review','deferred'},f'package {rid} already has a recorded decision ({prior["status"] if prior else "?"})')
-    ok,reasons=eligible(package,p,registry)
+    ok,reasons=eligible(package,p,registry,ledger)
     require(ok,'Not admitted by publication policy: '+'; '.join(reasons))
     cr.check_base(root,package);cr.check_evidence(root,package)
     result=cr.preview(root,rid)
@@ -106,25 +117,48 @@ def pending(root,label='publication-policy'):
     return [q for q in cr.inbox(root) if q['status'] in {'pending_review','deferred'} or (q['status']=='approved' and (q.get('last_review') or {}).get('reviewer')==label)]
 
 
+def admissions(root,p,registry,ledger,only=None):
+    """(rows, admitted_ids): every package the policy may act on, with its eligibility decision. No side effects."""
+    rows=[];admitted=[]
+    for q in pending(root):
+        if only and q['id'] not in only:continue
+        ok,reasons=eligible(q,p,registry,ledger)
+        row=dict(q,admitted=ok,reason=reasons[0]);rows.append(row)
+        if ok:admitted.append(row['id'])
+    return rows,admitted
+
+
+def apply_admitted(root,p=None,only=None):
+    """Preview-checked automatic application of every pending package the policy admits.
+
+    The one function both the CLI and the nightly orchestrator call; stops at the first failure
+    so a broken package cannot silently skip ahead of ones still waiting behind it.
+    """
+    from research import load
+    p=p or policy(root);registry=load(root/'research/sources.json');ledger=load(root/'site/data/ledger.json')
+    rows,admitted=admissions(root,p,registry,ledger,only)
+    outcomes={}
+    for rid in admitted:
+        try:
+            r=auto_apply(root,rid,p);outcomes[rid]=r['status']
+        except Exception as e:
+            outcomes[rid]='failed: '+type(e).__name__+': '+str(e)[:160];break
+    return {'pending':len(rows),'rows':rows,'admitted':admitted,'outcomes':outcomes}
+
+
 def main(argv=None):
     ap=argparse.ArgumentParser(description=__doc__.splitlines()[0]);ap.add_argument('--apply',action='store_true');ap.add_argument('--only',action='append',default=[],metavar='PACKAGE_ID')
     a=ap.parse_args(argv)
     from research import load
-    p=policy(ROOT);registry=load(ROOT/'research/sources.json')
-    rows=[q for q in pending(ROOT) if not a.only or q['id'] in a.only]
-    admitted=[]
+    p=policy(ROOT);registry=load(ROOT/'research/sources.json');ledger=load(ROOT/'site/data/ledger.json')
+    rows,admitted=admissions(ROOT,p,registry,ledger,a.only)
     for q in rows:
-        ok,reasons=eligible(q,p,registry)
-        print(f"{'ADMIT ' if ok else 'HUMAN '} {q['id']} · {q['title'][:70]} · {reasons[0][:110]}",flush=True)
-        if ok:admitted.append(q['id'])
+        print(f"{'ADMIT ' if q['admitted'] else 'HUMAN '} {q['id']} · {q['title'][:70]} · {q['reason'][:110]}",flush=True)
     if not a.apply:
         print(f"\n{len(admitted)} of {len(rows)} pending packages admitted by policy. Run with --apply to publish them.",flush=True);return 0
-    outcomes={}
-    for rid in admitted:
-        try:
-            r=auto_apply(ROOT,rid,p);outcomes[rid]=r['status'];print(f"applied {rid}: {r['status']} commit {r.get('commit','')[:10]}",flush=True)
-        except Exception as e:
-            outcomes[rid]='failed: '+type(e).__name__+': '+str(e)[:160];print(f"stopped at {rid}: {outcomes[rid]}",flush=True);break
+    result=apply_admitted(ROOT,p,a.only)
+    outcomes=result['outcomes']
+    for rid,status in outcomes.items():print(f"applied {rid}: {status}",flush=True)
     print(json.dumps(outcomes,indent=1),flush=True)
     return 0 if all(v in {'deployed','deployment_pending','pushed'} for v in outcomes.values()) else 1
 

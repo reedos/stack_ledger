@@ -2,7 +2,10 @@
 
 Research may enqueue and preview. Only explicit local review authorizes application.
 No arbitrary paths, code, deletes, source-policy wildcards or model approvals.
+
+    python scripts/catalog_review.py --check-deployments   # finish verification for packages already pushed
 """
+import argparse
 import copy
 import hashlib
 import json
@@ -16,6 +19,7 @@ from urllib.request import urlopen
 from editorial_review import queue, events, append_event, locked, save, now
 from validate import require, text, timestamp
 
+ROOT=Path(__file__).resolve().parents[1]
 TARGETS={
  'project':('research/delivery.json','projects'),
  'company':('research/ecosystem.json','companies'),
@@ -244,18 +248,72 @@ def publish_package(root,rid,p,decision,reviewer):
                 git(root,'push','origin','HEAD:'+config['branch'])
                 receipt['status']='pushed';save(receipt_path,receipt)
                 # Verify the actual data, not merely successful git transport.
-                url='https://'+config['repository'].split('/')[0]+'.github.io/'+config['repository'].split('/')[1]+'/data/'
-                expected={Path(n).name:read(root/n) for n in ['site/data/ledger.json','site/data/delivery.json','site/data/ecosystem.json','site/data/expansion.json','site/data/source-books.json']}
+                matches=False
                 for attempt in range(18):
-                    try:
-                        matches=all(json.load(urlopen(url+name+'?revision='+receipt['commit'],timeout=10))==v for name,v in expected.items())
-                        if matches:break
-                    except (OSError,ValueError):matches=False
+                    if deployed(root,config,receipt['commit']):matches=True;break
                     time.sleep(5)
                 receipt['status']='deployed' if matches else 'deployment_pending';save(receipt_path,receipt)
-                if matches:
-                    append_event(root,dict(id=rid,kind='catalog_change',status='applied',reviewer=reviewer,at=now(),proposal_hash=digest(p),commit=receipt['commit']))
-                    save(queue(root)/(rid+'-followup.json'),{'kind':'catalog_followup','package':rid,'status':'pending_evidence','created_at':now(),'questions':[{'target':c['target'],'id':c['id'],'next_evidence':c['after'].get('next_evidence') or c['after'].get('gap') or 'Check the next dated primary disclosure for changed facts.'} for c in p['changes'] if c['target'] in {'project','company','product'}]})
+                if matches:mark_deployed(root,rid,p,reviewer,receipt['commit'])
                 return receipt
             except Exception:
                 receipt['status']='publication_failed';save(receipt_path,receipt);raise
+
+def deployed(root,config,commit):
+    """One live check of the pushed data against GitHub Pages, the same comparison publish_package polls."""
+    url='https://'+config['repository'].split('/')[0]+'.github.io/'+config['repository'].split('/')[1]+'/data/'
+    expected={Path(n).name:read(root/n) for n in ['site/data/ledger.json','site/data/delivery.json','site/data/ecosystem.json','site/data/expansion.json','site/data/source-books.json']}
+    try:
+        return all(json.load(urlopen(url+name+'?revision='+commit,timeout=10))==v for name,v in expected.items())
+    except (OSError,ValueError):
+        return False
+
+def mark_deployed(root,rid,p,reviewer,commit):
+    """The exact applied event and follow-up publish_package records once the live data matches."""
+    append_event(root,dict(id=rid,kind='catalog_change',status='applied',reviewer=reviewer,at=now(),proposal_hash=digest(p),commit=commit))
+    save(queue(root)/(rid+'-followup.json'),{'kind':'catalog_followup','package':rid,'status':'pending_evidence','created_at':now(),'questions':[{'target':c['target'],'id':c['id'],'next_evidence':c['after'].get('next_evidence') or c['after'].get('gap') or 'Check the next dated primary disclosure for changed facts.'} for c in p['changes'] if c['target'] in {'project','company','product'}]})
+
+def verify_pending_deployments(root):
+    """Finish verification for packages whose commit already pushed but the 90s deploy-check timed out.
+
+    Every '-publication.json' receipt still at 'deployment_pending' with a commit is checked once
+    against the live GitHub Pages data, exactly as publish_package's own polling loop checks it. A
+    match appends the 'applied' event and follow-up publish_package would have written; a package
+    that still does not match, or whose recorded approval no longer matches the package, is left
+    untouched and reported so a human or the next nightly run can look again.
+    """
+    import research
+    require(root.resolve()==research.ROOT.resolve(),'Repository mismatch')
+    candidates=[]
+    for path in sorted(queue(root).glob('catalog-*-publication.json')):
+        rid=path.stem[:-len('-publication')]
+        if not RID.fullmatch(rid):continue
+        receipt=read(path)
+        if receipt.get('status')=='deployment_pending' and receipt.get('commit'):candidates.append((rid,path,receipt))
+    checked=[];applied=[];still_pending=[]
+    if not candidates:return {'checked':checked,'applied':applied,'still_pending':still_pending}
+    config=read(root/'research/runtime.json')
+    with research.lock():
+        for rid,path,receipt in candidates:
+            decision=last_review(root,rid)
+            if not decision or decision['status']!='approved' or decision.get('proposal_hash')!=receipt.get('proposal_hash'):continue
+            p=package(root,rid)
+            if digest(p)!=decision['proposal_hash']:continue
+            checked.append(rid)
+            if deployed(root,config,receipt['commit']):
+                save(path,dict(receipt,status='deployed'))
+                mark_deployed(root,rid,p,decision['reviewer'],receipt['commit'])
+                applied.append(rid)
+            else:
+                still_pending.append(rid)
+    return {'checked':checked,'applied':applied,'still_pending':still_pending}
+
+def main(argv=None):
+    ap=argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument('--check-deployments',action='store_true',help='Finish verification for packages whose commit already pushed; nothing else')
+    a=ap.parse_args(argv)
+    if not a.check_deployments:ap.error('Nothing to do; pass --check-deployments')
+    result=verify_pending_deployments(ROOT)
+    print(json.dumps(result,indent=2),flush=True)
+    return 0 if not result['still_pending'] else 1
+
+if __name__=='__main__':sys.exit(main())

@@ -1,5 +1,6 @@
 import copy
 import hashlib
+import io
 import json
 import sys
 import tempfile
@@ -12,6 +13,7 @@ sys.path.insert(0,str(ROOT/'scripts'))
 import catalog_review as c
 import catalog_recommender as recommender
 import findings_review
+import research
 from validate_delivery import validate_delivery
 
 class CatalogTests(unittest.TestCase):
@@ -109,6 +111,41 @@ class CatalogTests(unittest.TestCase):
         source_id=self.project['milestones'][0]['source']
         context=json.loads(coverage_context(self.root,{'id':source_id}))
         self.assertTrue(any(row.get('next_evidence')==self.project['next_evidence'] for row in context['delivery']))
+
+    def approve(self):
+        p=self.enqueue()
+        with patch.object(findings_review.getpass,'getuser',return_value='fixture'):
+            c.save(self.root/'.local/catalog-previews'/p['id']/'validation.json',{'passed':True,'proposal_hash':c.digest(p)})
+            c.review(self.root,self.payload(p),'human')
+        c.save(self.root/'research/runtime.json',c.read(ROOT/'research/runtime.json'))
+        for name in ['delivery','ecosystem','expansion','source-books']:c.save(self.root/f'site/data/{name}.json',c.read(ROOT/f'site/data/{name}.json'))
+        commit='f'*40
+        c.save(c.queue(self.root)/(p['id']+'-publication.json'),{'commit':commit,'proposal_hash':c.digest(p),'status':'deployment_pending'})
+        return p
+
+    def test_verify_pending_deployments_match_appends_applied_event(self):
+        p=self.approve()
+        expected={Path(n).name:c.read(self.root/n) for n in ['site/data/ledger.json','site/data/delivery.json','site/data/ecosystem.json','site/data/expansion.json','site/data/source-books.json']}
+        def matching(url,timeout=10):return io.BytesIO(json.dumps(expected[url.split('/')[-1].split('?')[0]]).encode())
+        with patch.object(research,'ROOT',self.root),patch.object(research,'LOCAL',self.root/'.local'),patch.object(c,'urlopen',side_effect=matching):
+            result=c.verify_pending_deployments(self.root)
+        self.assertEqual(result,{'checked':[p['id']],'applied':[p['id']],'still_pending':[]})
+        self.assertEqual(c.last_review(self.root,p['id'])['status'],'applied')
+        self.assertEqual(json.loads((c.queue(self.root)/(p['id']+'-publication.json')).read_text(encoding='utf-8'))['status'],'deployed')
+        self.assertTrue((c.queue(self.root)/(p['id']+'-followup.json')).exists())
+
+    def test_verify_pending_deployments_mismatch_leaves_package_untouched(self):
+        p=self.approve()
+        def mismatching(url,timeout=10):return io.BytesIO(b'{}')
+        with patch.object(research,'ROOT',self.root),patch.object(research,'LOCAL',self.root/'.local'),patch.object(c,'urlopen',side_effect=mismatching):
+            result=c.verify_pending_deployments(self.root)
+        self.assertEqual(result,{'checked':[p['id']],'applied':[],'still_pending':[p['id']]})
+        self.assertEqual(c.last_review(self.root,p['id'])['status'],'approved')
+        self.assertEqual(json.loads((c.queue(self.root)/(p['id']+'-publication.json')).read_text(encoding='utf-8'))['status'],'deployment_pending')
+
+    def test_verify_pending_deployments_ignores_packages_without_a_pending_receipt(self):
+        with patch.object(research,'ROOT',self.root):
+            self.assertEqual(c.verify_pending_deployments(self.root),{'checked':[],'applied':[],'still_pending':[]})
 
     def test_catalog_search_followups_preserve_broad_rotation_and_layers(self):
         import discovery

@@ -64,5 +64,29 @@ class PublicationPolicyTests(unittest.TestCase):
         self.assertEqual(ranks.get('epoch.ai'),1)
         self.assertTrue(all(1<=r<=6 for r in ranks.values()))
 
+    def test_magnitude_sanity_rule_both_sides(self):
+        ledger={'observations':[{'metric':'m1','value':100},{'metric':'m1','value':110},{'metric':'m1','value':90}]}
+        def addition(value):
+            return {'author':'Epoch import (maintainer tool)','evidence':self.package['evidence'],
+                    'changes':[{'target':'observation','id':'o-new','before':None,'after':{'status':'estimate','metric':'m1','value':value},'evidence':['e1']}]}
+        ok,reasons=pp.eligible(addition(105),self.policy,self.registry,ledger)   # within [min/10, max*10] = [9, 1100]
+        self.assertTrue(ok,reasons)
+        ok,reasons=pp.eligible(addition(2000),self.policy,self.registry,ledger)  # above max*10
+        self.assertFalse(ok);self.assertIn('magnitude outside trailing range',reasons[0])
+        ok,reasons=pp.eligible(addition(1),self.policy,self.registry,ledger)     # below min/10
+        self.assertFalse(ok);self.assertIn('magnitude outside trailing range',reasons[0])
+        fewer={'observations':ledger['observations'][:2]}                        # under three trailing values: rule does not apply
+        self.assertTrue(pp.eligible(addition(999999),self.policy,self.registry,fewer)[0])
+        self.assertTrue(pp.eligible(addition(2000),self.policy,self.registry,None)[0])  # no ledger supplied: rule skipped, not enforced
+
+    def test_admissions_and_apply_admitted_stop_at_first_failure(self):
+        from unittest.mock import patch
+        with patch.object(pp,'pending',return_value=[dict(self.package,id='catalog-'+'a'*24,title='Fixture',status='pending_review')]):
+            rows,admitted=pp.admissions(ROOT,self.policy,self.registry,None)
+            self.assertEqual(admitted,['catalog-'+'a'*24]);self.assertTrue(rows[0]['admitted'])
+            with patch.object(pp,'auto_apply',side_effect=RuntimeError('boom')):
+                result=pp.apply_admitted(ROOT,self.policy)
+                self.assertEqual(result['pending'],1);self.assertTrue(result['outcomes']['catalog-'+'a'*24].startswith('failed'))
+
 
 if __name__=='__main__':unittest.main()
