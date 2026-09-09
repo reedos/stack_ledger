@@ -3,8 +3,47 @@
   "reviewed_at": "2026-09-09T15:00:00Z",
   "research_ignore_gpu_busy": true,
   "importers": [
-    {"id": "epoch", "command": ["scripts/import_epoch.py", "all", "--apply", "--enqueue-capacity"], "cadence": "weekly", "weekday": 2, "timeout_seconds": 900},
-    {"id": "qcew", "command": ["scripts/import_qcew.py", "--apply"], "cadence": "weekly", "weekday": 3, "timeout_seconds": 600},
-    {"id": "qwi", "command": ["scripts/import_qwi.py", "--apply"], "cadence": "weekly", "weekday": 4, "timeout_seconds": 600}
+    {
+      "id": "epoch",
+      "command": [
+        "scripts/import_epoch.py",
+        "all",
+        "--apply",
+        "--enqueue-capacity"
+      ],
+      "cadence": "weekly",
+      "weekday": 2,
+      "timeout_seconds": 900
+    },
+    {
+      "id": "qcew",
+      "command": [
+        "scripts/import_qcew.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 3,
+      "timeout_seconds": 600
+    },
+    {
+      "id": "qwi",
+      "command": [
+        "scripts/import_qwi.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 4,
+      "timeout_seconds": 600
+    },
+    {
+      "id": "btos",
+      "command": [
+        "scripts/import_btos.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 0,
+      "timeout_seconds": 600
+    }
   ]
 }
