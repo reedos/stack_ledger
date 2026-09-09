@@ -27,7 +27,7 @@ class CompanyProfiles(unittest.TestCase):
         import copy
         c=copy.deepcopy(next(x for x in self.eco['companies'] if x['id']=='nvidia'));c['output_metric']='epoch-nvidia-ai-chips-cumulative-yearly'
         html=company_snapshot(self.data,c,'../../')
-        self.assertIn('company-output',html);self.assertIn('accelerators (cumulative)',html);self.assertIn('Estimate',html);self.assertIn('Epoch AI',html)
+        self.assertIn('company-output',html);self.assertIn('accelerators (cumulative)',html);self.assertIn('Historical estimate',html);self.assertIn('Epoch AI',html)
         plain=company_snapshot(self.data,next(x for x in self.eco['companies'] if x['id']=='nvidia'),'../../');self.assertNotIn('company-output',plain)
 
     def test_no_script_snapshot_contains_revenue_and_forecast(self):
@@ -35,7 +35,10 @@ class CompanyProfiles(unittest.TestCase):
         html = company_snapshot(self.data, c, '../../')
         self.assertIn('2030', html)
         self.assertIn('44–60', html)
-        self.assertIn('Forecast', html)
+        # ASML's own 2030 investor-day scenario is company guidance; the nearer-term Stock
+        # Analysis/S&P Global consensus years are an independent projection -- both attributed.
+        self.assertIn('Company guidance', html)
+        self.assertIn('Independent projection', html)
         self.assertIn('EUR billion', html)
 
     def test_route_traversal_is_rejected(self):

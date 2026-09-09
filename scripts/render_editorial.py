@@ -21,7 +21,7 @@ def selected(data, slot, policy):
 
 
 def history(data, slot, policy, base):
-    from render import number, link_url, STATUSES
+    from render import number, link_url, attribution_label, COMPANIES
     if slot['visualization'] != 'history':
         return ''
     m = next(m for m in data['metrics'] if m['id'] == slot['metric_id'])
@@ -63,13 +63,15 @@ def history(data, slot, policy, base):
         else:
             svg.append(f'<circle cx="{px:.2f}" cy="{py:.2f}" r="4" fill="currentColor"/>')
     svg.append(f'<text x="18" y="107">{rows[0]["year"]}</text><text x="202" y="107" text-anchor="end">{rows[-1]["year"]}</text></svg>')
-    table = ''.join(f'<tr><th scope="row">{e(o["period"])}</th><td>{e(number(o))}</td><td>{STATUSES[o["status"]]}</td><td><a href="{link_url(sources[o["source"]]["url"])}">{e(sources[o["source"]]["publisher"])}</a></td></tr>' for o in rows)
+    company = COMPANIES.get(m.get('company'))
+    table = ''.join(f'<tr><th scope="row">{e(o["period"])}</th><td>{e(number(o))}</td><td>{attribution_label(o, m, sources[o["source"]], company)}</td>'
+                    f'<td>{e(sources[o["source"]].get("published") or "date unlisted")}</td><td><a href="{link_url(sources[o["source"]]["url"])}">{e(sources[o["source"]]["publisher"])}</a></td></tr>' for o in rows)
     qualification = ('Ranges are historical estimates; no annual ramp is inferred.' if any(o['upper'] is not None for o in rows)
                      else 'Reported checkpoints; triangle marks a bound, horizontal mark the disclosed month. Service footprint changes.' if m['id'] == 'waymo-paid-weekly'
                      else 'Historical checkpoints only. No values are interpolated.')
     return (f'<figure class="headline-history">{"".join(svg)}<figcaption>{e(chart_unit)}. {e(qualification)}</figcaption></figure>'
             f'<details class="headline-history-data"><summary>History &amp; sources</summary><p>{e(m["unit"])}. {e(m["scope"])}</p>'
-            f'<div class="table-scroll"><table><caption>{e(m["title"])}</caption><thead><tr><th>Period</th><th>Value</th><th>Evidence</th><th>Source</th></tr></thead><tbody>{table}</tbody></table></div></details>')
+            f'<div class="table-scroll"><table><caption>{e(m["title"])}</caption><thead><tr><th>Period</th><th>Value</th><th>Evidence</th><th>Published</th><th>Source</th></tr></thead><tbody>{table}</tbody></table></div></details>')
 
 
 def recent_changes(config, ledger, base, at=None):

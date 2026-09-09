@@ -1,4 +1,5 @@
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -50,6 +51,21 @@ class StaticPresentationTests(unittest.TestCase):
         self.assertIn('<strong>Status:</strong> failed', after)
         self.assertIn('<strong>Last successful research:</strong> Not yet run', after)
         self.assertIn('source failures', after)
+
+    def test_published_schedule_text_hour_matches_the_configured_cron_or_research_window(self):
+        # site/data/ledger.json's runtime.schedule is a hand-typed, human-readable string;
+        # research/runtime.json's schedule (or a future research_window) is the actual cron.
+        # They drifted once (audit: docs-schedule-mismatch); pin the hour so they can't again.
+        runtime_config = json.loads((ROOT / 'research/runtime.json').read_text(encoding='utf-8'))
+        window = runtime_config.get('research_window')
+        if window and window.get('start'):
+            expected_hour = window['start'].split(':')[0].zfill(2)
+        else:
+            minute, hour = runtime_config['schedule'].split()[:2]
+            expected_hour = hour.zfill(2)
+        match = re.search(r'(\d{2}):\d{2}', self.data['runtime']['schedule'])
+        self.assertIsNotNone(match, self.data['runtime']['schedule'])
+        self.assertEqual(match.group(1), expected_hour, self.data['runtime']['schedule'])
 
     def test_daily_publisher_only_adds_existing_generated_page_paths(self):
         self.assertEqual(len(render.GENERATED_PAGES), 12 + len(render.COMPANY_IDS))

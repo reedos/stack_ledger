@@ -26,7 +26,7 @@ function bindComponentMap(){
 
 function evidenceTile(id){
  const o=data.observations.find(v=>v.id===id),m=metricOf(o.metric);
- return `<article class="fabric-stat ${['forecast','company-commitment','government-target'].includes(o.status)?'planned':''}"><span class="eyebrow">${esc(statusLabel(o.status))}</span><strong>${esc(valueOf(o))}<small>${esc(m.unit)}</small></strong><h3>${esc(m.title)}</h3><p>${esc(o.period)}</p><p class="chart-footnote">${esc(m.scope)}</p><p class="chart-footnote">${sourceLink(o.source)} · Published ${dateLabel(sourceOf(o.source).published)} · Accessed ${dateLabel(o.retrieved_at)}</p></article>`;
+ return `<article class="fabric-stat ${historicalStatus(o.status)?'':'planned'}"><span class="eyebrow">${esc(attributionLabel(o))}</span><strong>${esc(valueOf(o))}<small>${esc(m.unit)}</small></strong><h3>${esc(m.title)}</h3><p>${esc(o.period)}</p><p class="chart-footnote">${esc(m.scope)}</p><p class="chart-footnote">${sourceLink(o.source)} · Published ${dateLabel(sourceOf(o.source).published)} · Accessed ${dateLabel(o.retrieved_at)}</p></article>`;
 }
 
 function workforceSection(){

@@ -324,7 +324,7 @@ class HomepageContracts(unittest.TestCase):
         self.assertEqual([s['metric_id'] for s in c['slots'].values()],[l['headline_metric'] for l in d['layers']])
         self.assertNotIn('<svg',presentation.history(d,c['slots']['models'],p,'./'))
         chips=presentation.history(d,c['slots']['chips'],p,'./')
-        self.assertIn('<svg',chips);self.assertIn('<table',chips);self.assertIn('Estimate',chips)
+        self.assertIn('<svg',chips);self.assertIn('<table',chips);self.assertIn('Historical estimate',chips)
         self.assertNotIn('cowos-2026',chips)
 
     def test_empty_recent_module_and_no_raw_note_promotion(self):
