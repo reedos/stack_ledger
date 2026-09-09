@@ -168,12 +168,16 @@ class SessionTests(unittest.TestCase):
         self.assertTrue(loop.session_active(21599,9999,0,21600,0))
         self.assertFalse(loop.session_active(21600,9999,0,21600,0))
 
-    def test_timezone_window_and_minimum(self):
-        for at,seconds in [('2026-09-08T08:00:00+00:00',21600),
-                           ('2026-09-08T09:00:00+00:00',21600),
+    def test_timezone_window_stops_at_seven_even_after_late_start(self):
+        for at,seconds in [('2026-09-08T08:00:00+00:00',0),
+                           ('2026-09-08T09:00:00+00:00',18000),
+                           ('2026-09-08T13:30:00+00:00',1800),
                            ('2026-09-08T14:00:00+00:00',0),
-                           ('2027-03-14T09:00:00+00:00',21600),
-                           ('2026-11-01T08:00:00+00:00',25200)]:
+                           ('2027-03-14T09:00:00+00:00',0),
+                           ('2027-03-14T10:00:00+00:00',14400),
+                           ('2026-11-01T08:00:00+00:00',0),
+                           ('2026-11-01T09:00:00+00:00',0),
+                           ('2026-11-01T10:00:00+00:00',18000)]:
             self.assertEqual(loop.overnight_seconds(datetime.fromisoformat(at)),seconds)
 
     def test_source_filters_use_reviewed_rank_and_layers(self):

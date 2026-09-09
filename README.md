@@ -134,7 +134,7 @@ See [the operating guide](research/OPERATING_GUIDE.md), [current research agenda
 
 Repeated sessions prioritize never-attempted and oldest-attempted sources. Weekly sources become eligible on their scheduled day, when never checked, or after seven days without an attempt. Focused `--sources` runs override the queue using approved IDs only. Content caches also include policy, instructions, context and metric definitions, so changed guidance can trigger a new screening. First runs after this update may therefore use more GPU time.
 
-The daily OpenClaw job runs a duration-driven overnight session from 1 AM toward 7 AM Pacific, with at least six elapsed hours. Manual sessions are optional. Double-click `Research-Control.cmd` for the local control panel, or see [session controls and operating details](research/RESEARCH_SESSIONS.md). Opening the panel does not start research. The default CLI command also only prints a plan:
+The daily OpenClaw job runs a duration-driven overnight session from 2 AM to 7 AM Pacific, with active work finalized safely at the deadline. Manual sessions are optional. Double-click `Research-Control.cmd` for the local control panel, or see [session controls and operating details](research/RESEARCH_SESSIONS.md). Opening the panel does not start research. The default CLI command also only prints a plan:
 
 ```powershell
 python scripts/research_loop.py

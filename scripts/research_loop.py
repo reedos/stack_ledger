@@ -31,21 +31,21 @@ def gpu_idle(threshold):
 
 
 def overnight_seconds(at):
-    """Aim for 7 AM, preserving at least six elapsed hours after an eligible start."""
+    """Return the remaining 2–7 AM Pacific window, including timezone transitions."""
     try:local=at.astimezone(ZoneInfo('America/Los_Angeles'))
     except ZoneInfoNotFoundError:
         if os.name!='nt':raise
         # Windows Python may lack IANA tzdata. Use the OS-maintained Pacific
         # timezone rules rather than a fixed UTC offset or guessed DST dates.
-        script="$u=[DateTimeOffset]::Parse($env:STACK_LEDGER_WINDOW_TIME); $z=[TimeZoneInfo]::FindSystemTimeZoneById('Pacific Standard Time'); $l=[TimeZoneInfo]::ConvertTime($u,$z); if($l.Hour -lt 1 -or $l.Hour -ge 7){0}else{ $end=[DateTime]::SpecifyKind($l.Date.AddHours(7),[DateTimeKind]::Unspecified); ([TimeZoneInfo]::ConvertTimeToUtc($end,$z)-$u.UtcDateTime).TotalSeconds }"
+        script="$u=[DateTimeOffset]::Parse($env:STACK_LEDGER_WINDOW_TIME); $z=[TimeZoneInfo]::FindSystemTimeZoneById('Pacific Standard Time'); $l=[TimeZoneInfo]::ConvertTime($u,$z); if($l.Hour -lt 2 -or $l.Hour -ge 7){0}else{ $end=[DateTime]::SpecifyKind($l.Date.AddHours(7),[DateTimeKind]::Unspecified); ([TimeZoneInfo]::ConvertTimeToUtc($end,$z)-$u.UtcDateTime).TotalSeconds }"
         result=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
             capture_output=True,text=True,check=True,timeout=15,
             env=dict(os.environ,STACK_LEDGER_WINDOW_TIME=at.isoformat()))
         remaining=float(result.stdout.strip())
-        return max(21600,remaining) if remaining>0 else 0
-    if not 1<=local.hour<7:return 0
+        return max(0,remaining)
+    if not 2<=local.hour<7:return 0
     end=local.replace(hour=7,minute=0,second=0,microsecond=0)
-    return max(21600,(end.astimezone(timezone.utc)-at.astimezone(timezone.utc)).total_seconds())
+    return (end.astimezone(timezone.utc)-at.astimezone(timezone.utc)).total_seconds()
 
 
 @contextlib.contextmanager
@@ -92,7 +92,7 @@ def main(argv=None):
     p.add_argument('--idle-percent',type=int,default=10)
     p.add_argument('--ignore-gpu-busy',action='store_true',help='Dedicated research time; do not wait for low GPU utilization')
     p.add_argument('--keep-awake',action='store_true',help='Prevent automatic system sleep during the session on Windows')
-    p.add_argument('--overnight',action='store_true',help='Start inside 1–7 AM Pacific; aim for 7 AM with at least six elapsed hours')
+    p.add_argument('--overnight',action='store_true',help='Research inside the 2–7 AM Pacific window; finish active work safely at 7 AM')
     add_arguments(p)
     a=p.parse_args(argv)
     if a.min_minutes is None:a.min_minutes=a.minutes
@@ -101,7 +101,7 @@ def main(argv=None):
     print(json.dumps(plan,indent=2),flush=True)
     if not a.start:return 0
     duration=overnight_seconds(datetime.now(timezone.utc)) if a.overnight else a.minutes*60
-    if duration<=0:print('Outside the 1–7 AM Pacific window; no research started',flush=True);return 0
+    if duration<=0:print('Outside the 2–7 AM Pacific window; no research started',flush=True);return 0
     if a.overnight and (ROOT/'.local/research.lock').exists():
         overlap_notice(ROOT);return 0
     sid=uuid.uuid4().hex

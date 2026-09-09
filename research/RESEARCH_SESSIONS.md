@@ -1,20 +1,20 @@
 # Research sessions
 
-The owner requested a daily 1–7 AM Pacific session and configurable manual research. This extends the existing runner, discovery lane, evidence checks and private review queues. It does not grant the model approval or publication authority.
+The owner requested a daily 2–7 AM Pacific session and configurable manual research. This extends the existing runner, discovery lane, evidence checks and private review queues. It does not grant the model approval or publication authority.
 
 ## Overnight operation
 
-`research/runtime.json` declares `0 1 * * *` in `America/Los_Angeles`. `python scripts/schedule.py --update` updates the existing OpenClaw daily job in place; it does not create a second nightly job. The payload is:
+`research/runtime.json` declares `0 2 * * *` in `America/Los_Angeles`. `python scripts/schedule.py --update` updates the existing OpenClaw daily job in place; it does not create a second nightly job. The payload is:
 
 ```powershell
-python scripts/research_loop.py --start --publish --minutes 360 --overnight --ignore-gpu-busy --keep-awake
+python scripts/research_loop.py --start --publish --minutes 300 --overnight --ignore-gpu-busy --keep-awake
 ```
 
-The controller aims for 7 AM and preserves a six-hour elapsed minimum. A late start or spring DST transition can finish later; fall DST can require seven elapsed hours. Starts outside 1–7 AM are skipped. OpenClaw allows 7.5 hours for the window and finalization and receives heartbeat output while a batch runs or waits. This is elapsed session time, not a guarantee of six hours of model inference or novel evidence. Source cooldowns, unavailable data, retries and any user-selected GPU waits count as elapsed time. Never manufacture findings to fill the window.
+The scheduled window is 2–7 AM Pacific: five elapsed hours on ordinary nights. A late eligible start receives only the time remaining until 7 AM; there is no minimum-duration extension beyond the window. Starts outside 2–7 AM are skipped. Daylight-saving transitions follow Pacific time; if the scheduler invokes a missed spring-forward start at 3 AM, four hours remain. OpenClaw allows 5.5 hours for the window and graceful finalization and receives heartbeat output while a batch runs or waits. Elapsed time includes cooldowns, unavailable data, retries and waits; it is not a guarantee of five hours of model inference or novel evidence. Never manufacture findings to fill the window.
 
 The default session count cap is removed (`--max-cycles 0`). Eight work units per batch, model timeouts, evidence limits, source cooldowns, robots restrictions and discovery's four-call cap remain. Publication/preflight failures (batch exit code 3) stop immediately for maintenance. Other failed batches retry after a minute, up to three consecutive failures; success resets that counter and pauses briefly before another batch. These are failure limits, not a cap on healthy research. A blocked session exits nonzero and immediately attempts its existing Telegram completion receipt. The panel shows the failure reason. A deadline reached with unresolved failures is reported as failed. Every publishing batch repeats the clean-tree/remote preflight. A dirty tree remains blocked until a maintainer resolves it; the controller never resets files or widens permissions. Manual stop, process interruption and machine shutdown can end a session early.
 
-Keep-awake prevents automatic system sleep only while the session controller is running on Windows; it permits display sleep. The PC and OpenClaw gateway must already be awake at 1 AM. No Windows wake timer, startup task or global power setting is changed. An active document/model call or publication finishes safely after a stop/deadline, so the end is not an exact hard cutoff.
+Keep-awake prevents automatic system sleep only while the session controller is running on Windows; it permits display sleep. The PC and OpenClaw gateway must already be awake at 2 AM. No Windows wake timer, startup task or global power setting is changed. An active document/model call or publication finishes safely after a stop/deadline, so the end is not an exact hard cutoff.
 
 ## Manual control panel
 

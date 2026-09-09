@@ -32,11 +32,11 @@ def main():
     parser.add_argument('--editorial',action='store_true',help='Preview the optional monthly editorial job; installation remains explicit')
     args=parser.parse_args()
     config=json.loads((ROOT/'research/runtime.json').read_text(encoding='utf-8'))
-    payload=[sys.executable,str(ROOT/'scripts/research_loop.py'),'--start','--publish','--minutes','360','--overnight','--ignore-gpu-busy','--keep-awake']
+    payload=[sys.executable,str(ROOT/'scripts/research_loop.py'),'--start','--publish','--minutes','300','--overnight','--ignore-gpu-busy','--keep-awake']
     name=NAME
     declaration='stack-ledger-daily-v1'
-    description='Research 1–7 AM Pacific with no session batch cap. Validate, build, test and publish eligible monitoring; private discovery stays in review. No chat delivery.'
-    timeout='27000'  # Seven elapsed hours at DST fallback, plus graceful finalization.
+    description='Research 2–7 AM Pacific with no session batch cap. Validate, build, test and publish eligible monitoring; private discovery stays in review. No chat delivery.'
+    timeout='19800'  # Five-hour window plus graceful finalization.
     if args.editorial:
         policy=json.loads((ROOT/'research/editorial-policy.json').read_text(encoding='utf-8'))
         config=dict(config,schedule=policy['schedule'],timezone=policy['timezone'])
