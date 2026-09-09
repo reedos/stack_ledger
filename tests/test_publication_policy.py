@@ -64,5 +64,17 @@ class PublicationPolicyTests(unittest.TestCase):
         self.assertEqual(ranks.get('epoch.ai'),1)
         self.assertTrue(all(1<=r<=6 for r in ranks.values()))
 
+    def test_source_or_note_addition_is_never_eligible_regardless_of_author_or_rank(self):
+        # Importers produce project/metric/observation changes; source and note stay human-reviewed
+        # (research/publication-policy.json auto_apply.targets no longer lists them).
+        self.assertNotIn('source',self.policy['auto_apply']['targets']);self.assertNotIn('note',self.policy['auto_apply']['targets'])
+        for target in ['source','note']:
+            with self.subTest(target=target):
+                q=copy.deepcopy(self.package)
+                q['changes']=[{'target':target,'id':'x','before':None,'after':{'id':'x'},'evidence':['e1']}]
+                ok,reasons=pp.eligible(q,self.policy,self.registry)
+                self.assertFalse(ok)
+                self.assertTrue(any('always needs human review' in r for r in reasons),reasons)
+
 
 if __name__=='__main__':unittest.main()

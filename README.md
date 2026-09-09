@@ -12,14 +12,14 @@ This is our guiding ambition, tested against evidence. Announced investment is n
 
 ## What is included
 
-- An expanding company directory with 38 annual revenue records, two annualized run rates and five explicit revenue coverage gaps; product-role sources are linked separately.
+- An expanding company directory with annual revenue records, annualized run rates and explicit revenue coverage gaps, each linked to its own reviewed observation; see the [live company directory](https://reedos.github.io/stack_ledger/companies/) for current counts. Product-role sources are linked separately.
 - A searchable datacenter component map covering compute, memory, DSPs, SerDes, copper, optical modules, CPO, fiber, switching, assembly and electrical infrastructure.
 - Electrical workforce evidence and clean-energy manufacturing cases, distinguishing reported employment, projected openings, hiring plans and investment stages.
 
 - An original interactive five-layer illustration, responsive landing page and five dedicated dashboards.
 - Attributed observations, forecast charts, explicit units, accessible data tables, research notes and a source library.
 - Search, layer filters, CSV and JSON downloads, an Atom feed and correction links.
-- A daily Ollama research runner scheduled by OpenClaw. Model proposals pass deterministic validation and a separate evidence-screening pass before publication.
+- A daily Ollama research runner scheduled by OpenClaw. Model proposals pass deterministic validation and a separate evidence-screening pass before publication. The monitoring lane can append screened automated observations once accepted; as of September 2026 the published ledger holds none yet, only nine automated research notes (see Automated updates in the methodology).
 - A public runtime line showing the model, owner-reported hardware, actual last attempt, last successful complete research run and source failures.
 
 The initial dataset is curated from IEA, DOE/LBNL, Stanford HAI, TSMC and Microsoft. It is a starting collection, not a complete accounting of global AI capacity. The charts retain their observation periods; historical prices or forecasts are never presented as current measurements. Every layer explains the next research priorities and known gaps in target tracking.
@@ -35,7 +35,7 @@ python scripts/build.py
 python -m http.server 4173 --directory docs --bind 127.0.0.1
 ```
 
-Open http://127.0.0.1:4173. Website source is in `site/`; `docs/` is the deterministic GitHub Pages build. GitHub Pages serves `main:/docs`, with `.nojekyll`. All links support the `/stack_ledger/` project prefix and direct visits to individual layer pages. There are no runtime server services, analytics or API keys in the public site. Google Fonts is optional; system font fallbacks work offline.
+Open http://127.0.0.1:4173. Website source is in `site/`; `docs/` is the deterministic GitHub Pages build. GitHub Pages serves `main:/docs`, with `.nojekyll`. All links support the `/stack_ledger/` project prefix and direct visits to individual layer pages. There are no runtime server services or API keys in the public site; analytics are optional and controlled entirely by `site/analytics.json` (see Website analytics below). Google Fonts is optional; system font fallbacks work offline.
 
 The homepage hero, isometric layer links, five evidence cards, navigation and runtime footer are rendered into HTML by `scripts/render.py`. Charts and directory filters progressively load in the browser. The static snapshot and raw-data links remain usable without JavaScript or after a data-request failure. The reviewed stack artwork lives in `site/partials/stack.html`.
 
@@ -49,7 +49,7 @@ Configuration lives in [`research/runtime.json`](research/runtime.json):
 
 - Ollama model: `muse-glimmer:30b-q4_K_M-dflash` (public label: muse glimmer:30B dflash).
 - Endpoint: `http://127.0.0.1:11434`, reachable only on the local host.
-- Scheduler: OpenClaw, **01:00 America/Los_Angeles daily, researching through 07:00**, following Pacific daylight-saving changes.
+- Scheduler: OpenClaw, **02:00 America/Los_Angeles daily, researching through 07:00**, following Pacific daylight-saving changes.
 - Hardware: Ryzen 9 9950X3D, RTX 5090, 64 GB DDR5 (owner-provided configuration).
 - At most 24 documents, one discovered link per approved source page, bounded context, bounded generation and network timeouts. Unchanged successfully screened documents reuse their recorded content hash.
 - Generation requests a 32,768-token context. The runner refuses a prompt that would not fit, shrinks the document window to fit first, and fails closed if `/api/ps` shows the model already loaded with a smaller context by another process. Measured prompts reached 16k–20k tokens under the earlier 16,384 setting and survived only because the keep-alive had loaded the model larger.
@@ -121,13 +121,13 @@ The organizing concept is inspired by [Jensen Huang’s five-layer AI framework]
 
 ## Energy and infrastructure delivery
 
-The `/projects/` tracker follows ten selected projects across generation, storage, transmission and AI infrastructure. Filter by stage, layer, owner or location. Each card separates reported quantities from plans, retains an evidence timeline, records grid context and identifies the next missing evidence. The site also includes new research on accelerator delivery, HBM, packaging, model reliability, inference price-performance, workplace productivity and scientific prediction.
+The `/projects/` tracker follows a growing set of selected projects across generation, storage, transmission and AI infrastructure; see the [live tracker](https://reedos.github.io/stack_ledger/projects/) for the current count. Filter by stage, layer, owner or location. Each card separates reported quantities from plans, retains an evidence timeline, records grid context and identifies the next missing evidence. The site also includes new research on accelerator delivery, HBM, packaging, model reliability, inference price-performance, workplace productivity and scientific prediction.
 
 Tracker definitions live in `research/delivery.json`; numeric evidence lives in the main ledger. Validate with `python scripts/validate_delivery.py` (also run by the build). Stages are reviewed snapshots, while the daily runner can append screened observations and notes. For a fresh, focused local research pass: `python scripts/research.py --apply --refresh --max-documents 6 --sources fervo-q2-2026 eia-additions-2026 aws-delivery-2026`. Use `--publish` instead of `--apply` only with a clean working tree. A focused pass may be partial because its coverage is intentionally limited.
 
 ## Company and industry research
 
-The company directory covers 45 representative businesses across the five layers. Company roles and jobs/factory snapshots are reviewed metadata in `research/ecosystem.json`, mirrored to `site/data/ecosystem.json`. Revenue and chip-capacity observations use the main ledger and reviewed metric catalog. Annual revenue, AWS segment sales and private-company annualized run rates are labeled separately.
+The company directory covers a growing set of representative businesses across the five layers; see the [live company directory](https://reedos.github.io/stack_ledger/companies/) for the current count. Company roles and jobs/factory snapshots are reviewed metadata in `research/ecosystem.json`, mirrored to `site/data/ecosystem.json`. Revenue and chip-capacity observations use the main ledger and reviewed metric catalog. Annual revenue, AWS segment sales and private-company annualized run rates are labeled separately.
 
 The `/industry/` page includes the chip supply chain, capacity charts, project stages, jobs disclosures and BLS employment context. The chips page embeds the supply chain and capacity views; every layer links to its companies. These snapshots are dated; a daily research run does not imply that all financial statements or workforce claims were refreshed.
 

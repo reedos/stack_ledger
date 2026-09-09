@@ -10,9 +10,49 @@ ROOT = Path(__file__).resolve().parents[1]
 PAGE_IDS = ('home', 'energy', 'chips', 'infrastructure', 'models', 'applications',
             'projects', 'companies', 'industry', 'ledger', 'methodology', 'claims')
 GENERATED_PAGES = {'docs/' + ('' if p == 'home' else p + '/') + 'index.html' for p in PAGE_IDS}
-COMPANY_IDS = tuple(c['id'] for c in json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies'])
+_ECOSYSTEM_COMPANIES = json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
+COMPANY_IDS = tuple(c['id'] for c in _ECOSYSTEM_COMPANIES)
+COMPANIES = {c['id']: c for c in _ECOSYSTEM_COMPANIES}
 assert all(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', cid) for cid in COMPANY_IDS)
 GENERATED_PAGES |= {f'docs/companies/{cid}/index.html' for cid in COMPANY_IDS}
+
+
+def _normalized_name(value):
+    return re.sub(r'[^a-z0-9]+', ' ', (value or '').lower()).strip()
+
+
+def _normalized_host(url):
+    try:
+        host = (urlsplit(url).hostname or '').lower()
+    except ValueError:
+        return ''
+    return host[4:] if host.startswith('www.') else host
+
+
+def is_first_party(source, company):
+    """A forecast's source is first-party when its publisher/host is the tracked company's own."""
+    if not company:
+        return False
+    publisher, name = _normalized_name(source.get('publisher')), _normalized_name(company.get('name'))
+    if name and (publisher == name or publisher.startswith(name + ' ')):
+        return True
+    source_host = _normalized_host(source.get('url', ''))
+    if not source_host:
+        return False
+    for url in [company.get('ir_url')] + list(company.get('blog_urls') or []):
+        host = _normalized_host(url) if url else ''
+        if host and (source_host == host or source_host.endswith('.' + host)):
+            return True
+    return False
+
+
+def attribution_label(o, metric, source, company):
+    """Reader-facing evidence label: distinguishes a company's own forecast from an independent one."""
+    status = o['status']
+    if status == 'forecast':
+        return 'Company guidance' if is_first_party(source, company) else 'Independent projection'
+    return {'observation': 'Reported observation', 'estimate': 'Historical estimate',
+            'company-commitment': 'Company commitment', 'government-target': 'Government target'}.get(status, STATUSES.get(status, status))
 
 
 def company_snapshot(data, company, base):
@@ -23,16 +63,18 @@ def company_snapshot(data, company, base):
     metric = metrics.get(mid)
     mids = {mid, metric.get('chart_companion_metric') if metric else None}
     records = sorted((o for o in data['observations'] if o['metric'] in mids and not o.get('superseded_by')), key=lambda o: (o['year'], o['period']))
-    rows = ''.join(f'<tr><td>{e(o["period"])}</td><td>{e(number(o))}</td><td>{STATUSES[o["status"]]}</td><td><a href="{link_url(sources[o["source"]]["url"])}">{e(sources[o["source"]]["publisher"])}</a></td></tr>' for o in records)
+    published = lambda o: sources[o['source']].get('published') or 'date unlisted'
+    rows = ''.join(f'<tr><td>{e(o["period"])}</td><td>{e(number(o))}</td><td>{attribution_label(o, metrics[o["metric"]], sources[o["source"]], COMPANIES.get(metrics[o["metric"]].get("company")))}</td>'
+                   f'<td>{e(published(o))}</td><td><a href="{link_url(sources[o["source"]]["url"])}">{e(sources[o["source"]]["publisher"])}</a></td></tr>' for o in records)
     output = ''
     if company.get('output_metric') and company['output_metric'] in metrics:
         om = metrics[company['output_metric']]
         latest = max((o for o in data['observations'] if o['metric'] == om['id'] and not o.get('superseded_by') and o['status'] in ('observation', 'estimate')), key=lambda o: (o['year'], o['period']), default=None)
         if latest:
             output = (f'<section class="company-output"><div class="eyebrow muted">OUTPUT</div><div class="layer-value">{e(number(latest))} <small>{e(om["unit"])}</small></div>'
-                      f'<p class="layer-label">{e(om["title"])} · {e(latest["period"])} · {STATUSES[latest["status"]]} · <a href="{link_url(sources[latest["source"]]["url"])}">{e(sources[latest["source"]]["publisher"])} ↗</a></p>'
+                      f'<p class="layer-label">{e(om["title"])} · {e(latest["period"])} · {attribution_label(latest, om, sources[latest["source"]], COMPANIES.get(om.get("company")))} · <a href="{link_url(sources[latest["source"]]["url"])}">{e(sources[latest["source"]]["publisher"])} ↗</a></p>'
                       f'<p class="chart-footnote">{e(om["scope"])}</p></section>')
-    financials = (f'<h2>Revenue history &amp; outlook</h2><p>{e(metric["scope"])} · {e(metric["unit"])}</p><div class="table-scroll"><table><thead><tr><th>Period</th><th>Revenue</th><th>Classification</th><th>Source</th></tr></thead><tbody>{rows}</tbody></table></div>' if records else '<h2>Revenue coverage</h2><p>No reviewed revenue series yet. Missing data does not mean zero revenue. Funding and valuation are not substitutes.</p>')
+    financials = (f'<h2>Revenue history &amp; outlook</h2><p>{e(metric["scope"])} · {e(metric["unit"])}</p><div class="table-scroll"><table><thead><tr><th>Period</th><th>Revenue</th><th>Classification</th><th>Published</th><th>Source</th></tr></thead><tbody>{rows}</tbody></table></div>' if records else '<h2>Revenue coverage</h2><p>No reviewed revenue series yet. Missing data does not mean zero revenue. Funding and valuation are not substitutes.</p>')
     return (f'<section class="page-hero" data-company="{e(company["id"])}"><a class="section-link" href="{base}companies/">← All companies</a><div class="eyebrow">THE BUILDERS / COMPANY RESEARCH</div><h1>{e(company["name"])}</h1><p>{e(company["role"])}</p></section><section class="panel">{output}{financials}</section>')
 HOME_DESCRIPTION = ('Track energy, chips, infrastructure, models and applications worldwide, '
                     'with deeper U.S. coverage and a horizon of 2030 and beyond.')
@@ -79,6 +121,7 @@ def layer_cards(data, base, config=None, policy=None):
             record = latest_headline(data, layer)
         if record:
             source = next(s for s in data['sources'] if s['id'] == record['source'])
+            record_metric = next(m for m in data['metrics'] if m['id'] == record['metric'])
             display = record
             if record['metric'] == 'tsmc-cowos-wpm':
                 display = dict(record, value=record['value'] / 1000,
@@ -86,7 +129,7 @@ def layer_cards(data, base, config=None, policy=None):
             evidence = (f'<div class="layer-value">{e(number(display))}</div>'
                         f'<div class="metric-context"><span>{e(unit)}</span><span>{e(record["period"])}</span></div>'
                         f'<p class="layer-label">{e(label)}</p>'
-                        f'<span class="headline-status">{STATUSES[record["status"]]}</span>'
+                        f'<span class="headline-status">{attribution_label(record, record_metric, source, COMPANIES.get(record_metric.get("company")))}</span>'
                         f'<a class="headline-source" href="{link_url(source["url"])}">{e(source["publisher"])} ↗</a>'
                         + ('<p class="headline-note">Named model, dated price. Excludes tools, subscriptions and oversight.</p>'
                            if layer['id'] == 'models' else ''))
@@ -107,7 +150,7 @@ def layer_cards(data, base, config=None, policy=None):
                 if supporting_record:
                     source = next(s for s in data['sources'] if s['id']==supporting_record['source'])
                     evidence += (f'<aside class="headline-support"><h4>Supporting context: {e(metric["title"])}</h4>'
-                                 f'<p>{e(number(supporting_record))} {e(metric["unit"])} · {e(supporting_record["period"])} · {STATUSES[supporting_record["status"]]}</p>'
+                                 f'<p>{e(number(supporting_record))} {e(metric["unit"])} · {e(supporting_record["period"])} · {attribution_label(supporting_record, metric, source, COMPANIES.get(metric.get("company")))}</p>'
                                  f'<p>{e(metric["scope"])}</p><a href="{link_url(source["url"])}">{e(source["publisher"])}</a>'
                                  + history(data,supporting_slot,policy,base)+'</aside>')
         marker = f' data-observation="{e(record["id"])}"' if record else ''
