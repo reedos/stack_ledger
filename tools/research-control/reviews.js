@@ -58,7 +58,14 @@
     }
     el('more-findings').hidden=selected.length<=limit;
   }
-  async function catalogPost(route,body){const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':location.pathname.split('/')[1]},body:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw new Error(data.error||'Catalog action failed');return data;}
+  async function catalogPost(route,body){
+    const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':location.pathname.split('/')[1]},body:JSON.stringify(body)});
+    let data={};try{data=await r.json();}catch(e){}
+    // A panel server started before catalog review existed answers "Unknown action" or 404; say so instead of failing quietly.
+    if(r.status===404||(r.status===400&&data.error==='Unknown action'))throw new Error('This panel server predates catalog review. Close this tab, reopen Research-Control.cmd and use the newly opened tab; the queue and your decisions are unaffected.');
+    if(!r.ok)throw new Error(data.error||'Catalog action failed');
+    return data;
+  }
   function drawCatalog(data){
    let box=el('catalog-packages');if(!box){box=node('section');box.id='catalog-packages';el('review-panel').append(box);}box.replaceChildren(node('h2','Catalog updates'),node('p','Review exact changes, validate their preview, then approve and publish. Research and model screening never count as approval.'));
    for(const p of data.catalog_packages||[]){
