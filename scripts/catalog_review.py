@@ -140,7 +140,7 @@ def preview(root,rid):
     # Isolated copy excludes local secrets, repositories, caches and runtime processes.
     for name in ['scripts','research','site','tests','tools','.github']:
         if not (root/name).exists():continue
-        shutil.copytree(root/name,destination/name,dirs_exist_ok=True,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+        shutil.copytree(root/name,destination/name,dirs_exist_ok=True,ignore=shutil.ignore_patterns('__pycache__','*.pyc','*.tmp'))  # *.tmp: atomic saves in flight
     for name in ['AGENTS.md','README.md']:
         if (root/name).exists():shutil.copy2(root/name,destination/name)
     for name,value in projected(p,base(root)).items():save(destination/name,value)

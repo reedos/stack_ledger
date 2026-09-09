@@ -217,6 +217,8 @@ def server(root=ROOT):
                     import catalog_review
                     owner=reviewer(root)
                     if not owner:raise ValueError('This local account cannot review catalog changes')
+                    if route!='catalog-review' and ((root/'.local/research.lock').exists() or (root/'.local/research-session.lock').exists()):
+                        raise ValueError('An automatic publication or research batch is running right now; the preview and publish actions will work again when it finishes (usually within a few minutes).')
                     if route=='catalog-preview':
                         if set(value)!={'id'}:raise ValueError('Invalid preview request')
                         result=catalog_review.preview(root,value['id'])
@@ -227,7 +229,7 @@ def server(root=ROOT):
                 else:raise ValueError('Unknown action')
                 self.send(200,result)
             except FileExistsError:self.send(409,{'error':'Another review is being saved; reload and try again'})
-            except FileNotFoundError:self.send(409,{'error':'Finding is no longer available; reload the inbox'})
+            except FileNotFoundError:self.send(409,{'error':('A file changed while the preview was being built, usually because a publication or research batch is running; try again in a minute.' if self.path.split('/')[-1].startswith('catalog-') else 'Finding is no longer available; reload the inbox')})
             except (ValueError,TypeError) as e:self.send(400,{'error':str(e)})
             except (OSError,subprocess.SubprocessError):self.send(503,{'error':'Catalog operation failed; saved evidence and publication receipts are retained. Check the local repository and retry.'})
     http=ThreadingHTTPServer(('127.0.0.1',0),Handler)
