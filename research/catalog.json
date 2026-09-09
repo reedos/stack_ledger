@@ -8744,6 +8744,168 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-jeffersonville-it-mw",
+      "layer": "infrastructure",
+      "title": "Meta · Jeffersonville · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "500 8th St, Jeffersonville, IN 47130, USA, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "meta-jeffersonville",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-jeffersonville-h100e",
+      "layer": "infrastructure",
+      "title": "Meta · Jeffersonville · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "500 8th St, Jeffersonville, IN 47130, USA, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "meta-jeffersonville",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-jeffersonville-capex",
+      "layer": "infrastructure",
+      "title": "Meta · Jeffersonville · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "500 8th St, Jeffersonville, IN 47130, USA, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "meta-jeffersonville",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-montgomery-it-mw",
+      "layer": "infrastructure",
+      "title": "Meta · Montgomery · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "Co Rd 42, Montgomery, AL 36105, USA, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "meta-montgomery",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-montgomery-h100e",
+      "layer": "infrastructure",
+      "title": "Meta · Montgomery · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "Co Rd 42, Montgomery, AL 36105, USA, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "meta-montgomery",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-montgomery-capex",
+      "layer": "infrastructure",
+      "title": "Meta · Montgomery · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "Co Rd 42, Montgomery, AL 36105, USA, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "meta-montgomery",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
     }
   ],
   "targets": [
