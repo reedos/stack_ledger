@@ -30,6 +30,8 @@ def build():
     validate_fabric_files()
     from validate_expansion import validate_files as validate_expansion_files
     validate_expansion_files()
+    from validate_chip_capacity import validate_files as validate_chip_capacity_files
+    validate_chip_capacity_files()
     from validate_agenda import validate_files as validate_agenda_files
     validate_agenda_files()
     from validate_claims import validate_files as validate_claims_files

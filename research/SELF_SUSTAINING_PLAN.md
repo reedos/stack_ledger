@@ -10,6 +10,7 @@ Working today, all on `main`:
 - Extraction and screening: shared evidence and screening rules supplied to the model; quotes snapped to source bytes; numbers checked against evidence; checklist verdicts with defect codes; a model brief (`research/MODEL_BRIEF.md`) behind `runtime.json` `instructions`.
 - Publication: commit per finding or per session; preflight validates any pending delta; `publication-policy.json` auto-applies additions from credible authorities (Epoch site records, series, sources, notes) and leaves headline content and figure replacement to a human; every automatic application is a recorded approval with its commit.
 - Datasets: Epoch AI data centers, GPU clusters, chip components, chip sales and companies imported as vintage-stamped snapshots with per-site and per-designer estimate series; 876 Epoch-cited primary URLs queued as leads.
+- Chip capacity: `scripts/chip_capacity.py` turns a reviewed configuration (`research/chip-capacity.json`) into one capacity metric per configured chips project (wafer starts, advanced-packaging wafer starts or HBM stacks per month), with an illustrative Epoch-ratio compute equivalent shown only once a base figure is disclosed; every project starts at zero observations and the daily monitoring lane attaches disclosures independently.
 - Review surface: Research Control panel with inline previews, status toggles, bulk actions, applied-package outcomes, and a launcher that reuses a live server.
 
 Known weaknesses that the rest of this plan removes:

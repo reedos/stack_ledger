@@ -1,5 +1,6 @@
 'use strict';
 let expansion;
+let chipCapacityConfig;
 const publicationLabel=d=>d?`Published ${dateLabel(d)}`:"Publication date unlisted";
 const moneyKinds=[['Announced investment','capex_announced_usd'],['Contracted compute','compute_contract_usd'],['Capex paid / recognized','capex_recognized_usd'],['Local contracts / procurement','local_procurement_usd'],['Cumulative capital cost · Epoch estimate','estimated_site_capital_cost_usd_bn']];
 const jobsKinds=[['Peak construction workers','construction_workers_peak'],['Contractor FTEs','contractor_fte'],['Permanent jobs promised','permanent_jobs_promised'],['Operating jobs reported','permanent_jobs_reported'],['Company-wide headcount','company_headcount']];
@@ -17,6 +18,52 @@ function projectMeasures(p) {
  const obs=typedRecords('project',p.id),grouped=[...moneyKinds,...jobsKinds].map(([,kind])=>kind);
  const other=obs.filter(o=>!grouped.includes(kindOf(o)));
  return `${other.length?`<details class="project-measures" ${['colossus-one','colossus-two','waymo-one'].includes(p.id)?'open':''}><summary>Plans, contracts & equipment evidence (${other.length})</summary><div class="scoped-grid">${other.map(quantityEvidence).join('')}</div></details>`:''}<details class="project-measures"><summary>Capital & jobs — separate measurement bases</summary><h3>Project money</h3>${basisRows(obs,moneyKinds)}<h3>Workforce</h3>${basisRows(obs,jobsKinds.slice(0,4))}<p class="chart-footnote">No totals: project investment, local contracts, cash paid and jobs measure different things.</p></details>`;
+}
+const CHIP_CAPACITY_TYPES=['wafer_starts_per_month','cowos_or_advanced_packaging_wspm','hbm_stack_capacity'];
+function chipCapacityNote(text) {
+ return `<div class="chip-capacity"><span class="eyebrow">CAPACITY QUANTIFICATION</span><p class="chip-capacity-note">${esc(text)}</p></div>`;
+}
+function chipCapacityTsmcShare(annualWafers) {
+ const obs=data.observations.filter(o=>o.metric==='tsmc-wafer-capacity'&&!o.superseded_by).sort((a,b)=>a.year-b.year);
+ if(!obs.length)return '';
+ const latest=obs.at(-1),pct=annualWafers/(latest.value*1_000_000)*100;
+ return `<div><dt>Share of TSMC company-wide capacity</dt><dd>≈ ${number(pct)}% of TSMC's ${latest.year} company-wide capacity (${number(latest.value)} million 12-inch-equivalent wafers/year) · ${sourceLink(latest.source)}</dd></div>`;
+}
+// Chips-layer project cards: base disclosure (or what would quantify it) plus, only when a
+// base figure exists, an illustrative compute equivalent. Nothing invented: unknown is not zero.
+function chipCapacity(p) {
+ if(p.id==='tsmc-arizona-program')return chipCapacityNote('Program envelope; capacity is tracked per phase.');
+ if(p.id==='globalfoundries-singapore-expansion')return chipCapacityNote('Company entry pending review; no capacity metric yet.');
+ const entry=chipCapacityConfig.projects[p.id];
+ if(!entry)return '<div class="delivery-quantity unknown"><span>CAPACITY DISCLOSURE</span><strong>Not quantified</strong><p>No reviewed operating quantity for this project. Unknown is not zero.</p></div>';
+ const cls=chipCapacityConfig.classes[entry.class];
+ const all=typedRecords('project',p.id).filter(o=>CHIP_CAPACITY_TYPES.includes(kindOf(o)));
+ const latestPerStatus=all.filter(o=>!all.some(n=>n.status===o.status&&(n.year>o.year||(n.year===o.year&&n.period>o.period))));
+ const header=`<span class="eyebrow">CAPACITY QUANTIFICATION</span><span class="chip-capacity-class">${esc(cls.label)}</span>`;
+ if(!latestPerStatus.length) {
+  return `<div class="chip-capacity">${header}<div class="delivery-quantity unknown"><span>CAPACITY DISCLOSURE</span><strong>Not disclosed</strong><p>Quantifying figure: ${esc(cls.unit)}</p><p>Watching: ${[...new Map(entry.source_ids.map(id=>[sourceOf(id).publisher,id])).values()].map(sourceLink).join(' · ')}</p><p>Unknown is not zero.</p></div></div>`;
+ }
+ const base=latestPerStatus.find(o=>['observation','estimate'].includes(o.status))||latestPerStatus[0];
+ const conditional=!['observation','estimate'].includes(base.status)?' if the plan is delivered':'';
+ let computeHtml='';
+ if(entry.class==='packaging') {
+  const ratios=chipConversions.impliedRatios(data.observations);
+  if(ratios) {
+   const {acceleratorsPerYear,h100ePerYear}=chipConversions.packagingEquivalent(base.value,ratios);
+   computeHtml=`<div class="chip-capacity-compute"><div class="chip-capacity-figures"><div><strong>${number(acceleratorsPerYear)}</strong><span>accelerators / year${conditional}</span></div><div><strong>${number(h100ePerYear)}</strong><span>H100e / year${conditional}</span></div></div><dl class="basis-rows"><div><dt>Accelerators per CoWoS wafer</dt><dd>${number(ratios.acceleratorsPerCowosWafer)} — Epoch, ${esc(ratios.quarter)}</dd></div><div><dt>H100e per accelerator</dt><dd>${number(ratios.h100ePerAccelerator)} — Epoch, ${esc(ratios.quarter)}</dd></div></dl><p class="chart-footnote">${sourceLink('epoch-chip-sales-dataset')} · ${sourceLink('epoch-chip-components-dataset')}</p><p class="chart-footnote">Illustrative scale using Epoch's Nvidia-mix ratios; this site's customers, package types and yields are undisclosed. Not a forecast, not a company disclosure.</p></div>`;
+  }
+ } else if(entry.class==='logic-fab') {
+  const ratios=chipConversions.impliedRatios(data.observations);
+  const rd=chipCapacityConfig.reference_die;
+  const diePerWafer=chipConversions.grossDiePerWafer(rd.area_mm2,rd.wafer_diameter_mm);
+  const {diePerYear}=chipConversions.logicCeiling(base.value,diePerWafer);
+  const shareRow=entry.company==='tsmc'?chipCapacityTsmcShare(base.value*12):'';
+  computeHtml=`<div class="chip-capacity-compute"><div class="chip-capacity-figures single"><div><strong>${number(diePerYear)}</strong><span>H100-class die / year${conditional} (ceiling)</span></div></div><p class="chart-footnote">A ceiling assuming every wafer carried a reticle-scale accelerator die at perfect yield; actual product mix and yields are undisclosed.</p><dl class="basis-rows"><div><dt>Gross die / 300 mm wafer</dt><dd>${number(diePerWafer)} for the ${esc(rd.name)} (${number(rd.area_mm2)} mm²) · ${sourceLink(rd.source_id)}</dd></div>${ratios&&ratios.shipments?`<div><dt>Scale reference</dt><dd>Nvidia shipped an estimated ${number(ratios.shipments.value)} accelerators in ${ratios.shipments.year} (Epoch) · ${sourceLink('epoch-chip-sales-dataset')}</dd></div>`:''}${shareRow}</dl></div>`;
+ } else {
+  const hbmSource=metricOf('epoch-hbm-supply-quarterly')?.source_ids?.[0];
+  computeHtml=`<p class="chart-footnote">No compute conversion: stack height, die size and yields are undisclosed, so this figure cannot be translated into accelerator or H100e counts. HBM supply consumed by AI accelerators is tracked separately in value terms by Epoch${hbmSource?` (${sourceLink(hbmSource)})`:''}.</p>`;
+ }
+ return `<div class="chip-capacity">${header}<div class="scoped-grid">${latestPerStatus.map(quantityEvidence).join('')}</div>${computeHtml}</div>`;
 }
 function companyMeasures(c) {
  const obs=typedRecords('company',c.id),grouped=[...moneyKinds,...jobsKinds].map(([,kind])=>kind);
