@@ -9880,6 +9880,87 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-sarpy-it-mw",
+      "layer": "infrastructure",
+      "title": "Meta · Sarpy · current IT power (Epoch estimate)",
+      "unit": "MW IT",
+      "geography": "14436-14998 Fairview Rd, Springfield, NE 68059, USA, United States",
+      "scope": "Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_it_mw",
+      "project": "meta-sarpy",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-sarpy-h100e",
+      "layer": "infrastructure",
+      "title": "Meta · Sarpy · installed compute (Epoch estimate)",
+      "unit": "H100 equivalents",
+      "geography": "14436-14998 Fairview Rd, Springfield, NE 68059, USA, United States",
+      "scope": "Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_h100_equivalents",
+      "project": "meta-sarpy",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-meta-sarpy-capex",
+      "layer": "infrastructure",
+      "title": "Meta · Sarpy · cumulative capital cost (Epoch estimate)",
+      "unit": "USD billion (2025)",
+      "geography": "14436-14998 Fairview Rd, Springfield, NE 68059, USA, United States",
+      "scope": "Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Epoch AI Data Centers dataset, CC BY 4.0. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+      "source_ids": [
+        "epoch-data-centers-dataset"
+      ],
+      "company": "meta",
+      "measurement_type": "estimated_site_capital_cost_usd_bn",
+      "project": "meta-sarpy",
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "period_basis": "snapshot",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
     }
   ],
   "sources": [
@@ -27423,6 +27504,48 @@
       "retrieved_at": "2026-09-09T09:51:49Z",
       "method": "curated",
       "note": "Epoch AI estimate for QTS Richmond 1 (owner Undisclosed), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
+      "id": "epoch-meta-sarpy-it-mw-2026-09-09",
+      "metric": "epoch-meta-sarpy-it-mw",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 80.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Meta Sarpy (owner Meta), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
+      "id": "epoch-meta-sarpy-h100e-2026-09-09",
+      "metric": "epoch-meta-sarpy-h100e",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 91966,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Meta Sarpy (owner Meta), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
+      "id": "epoch-meta-sarpy-capex-2026-09-09",
+      "metric": "epoch-meta-sarpy-capex",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 3.03,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Meta Sarpy (owner Meta), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
     }
   ],
   "events": [
