@@ -16,7 +16,7 @@ from validate import LAYERS, require
 from document_formats import CollectionGap
 from model_rules import SCREENING_RULES, EVIDENCE_RULES
 from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, locate_in_windows, coverage as text_coverage, implementation_hash
-from editorial_review import queue, locked, append_event, events
+from editorial_review import queue, locked, append_event, events, channel_fields
 
 ROOT = Path(__file__).resolve().parents[1]
 KINDS = ['company', 'project', 'source', 'metric', 'occupation', 'topic']
@@ -430,7 +430,7 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     return receipt
 
 
-def record_review(root, rid, decision, reviewer, rationale, at, *, human_confirm, expected_hash=None, expected_review=None):
+def record_review(root, rid, decision, reviewer, rationale, at, *, human_confirm, expected_hash=None, expected_review=None, identity=None):
     from research import load, digest
     require(re.fullmatch(r'discovery-[0-9a-f]{24}',rid), 'Invalid discovery ID')
     p=load(root/'research/editorial-policy.json')
@@ -444,9 +444,9 @@ def record_review(root, rid, decision, reviewer, rationale, at, *, human_confirm
             history=[e for e in events(root) if e.get('kind')=='coverage_expansion' and e.get('id')==rid]
             current=history[-1] if history else None
             require(digest(json.dumps(current,sort_keys=True))==expected_review,'Review changed; reload before reviewing')
-        append_event(root,{'id':rid,'kind':'coverage_expansion','layer':item['layer'],'status':decision,
+        append_event(root,dict({'id':rid,'kind':'coverage_expansion','layer':item['layer'],'status':decision,
                           'reviewer':reviewer,'rationale':rationale,'at':at,
-                          'proposal_hash':digest(json.dumps(item,sort_keys=True))})
+                          'proposal_hash':digest(json.dumps(item,sort_keys=True))},**channel_fields(identity)))
     # Do not race the runner's live digest. A later batch also refreshes all triage counts.
     if not (root/'.local/research.lock').exists() and (root/'.local/discovery/latest.json').exists():
         receipt=load(root/'.local/discovery/latest.json')

@@ -15,8 +15,9 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from urllib.parse import urlparse
 from urllib.request import urlopen
-from editorial_review import queue, events, append_event, locked, save, now
+from editorial_review import queue, events, append_event, locked, save, now, channel_fields
 from validate import require, text, timestamp
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -162,6 +163,13 @@ def preview(root,rid):
     return result
 
 def inbox(root,errors=None):
+    from publication_policy import policy as pub_policy, source_ranks, eligible
+    from research import load as load_json
+    # Loaded once for the whole listing; a broken policy/registry file degrades the
+    # eligibility line for every package rather than hiding an otherwise well-formed queue.
+    try:
+        pol=pub_policy(root);registry=load_json(root/'research/sources.json');ranks=source_ranks(registry)
+    except (OSError,ValueError,KeyError,TypeError):pol=None;registry=None;ranks={}
     rows=[]
     for path in sorted(queue(root).glob('catalog-*.json')):
         if not RID.fullmatch(path.stem):continue
@@ -169,18 +177,27 @@ def inbox(root,errors=None):
             p=package(root,path.stem);review=last_review(root,p['id'])
             require(isinstance(p['changes'],list) and isinstance(p['evidence'],list),'Invalid package shape')
             validation=root/'.local/catalog-previews'/p['id']/'validation.json'
-            rows.append(dict(p,status=review['status'] if review else 'pending_review',last_review=review,
-                             proposal_hash=digest(p),review_hash=digest(review),validation=read(validation) if validation.exists() else None))
+            status=review['status'] if review else 'pending_review'
+            receipt_path=queue(root)/(p['id']+'-publication.json')
+            receipt=read(receipt_path) if receipt_path.exists() else None
+            display_status=status
+            if status=='approved' and receipt and receipt.get('commit') and receipt.get('status')=='deployment_pending':
+                display_status='deployment_pending'
+            eligible_ok,eligible_reasons=eligible(p,pol,registry) if pol is not None else (None,['publication policy unavailable'])
+            evidence=[dict(e,source_rank=ranks.get(urlparse(e['url']).hostname)) for e in p['evidence']]
+            rows.append(dict(p,evidence=evidence,status=status,display_status=display_status,last_review=review,
+                             proposal_hash=digest(p),review_hash=digest(review),validation=read(validation) if validation.exists() else None,
+                             publication_receipt=receipt,auto_apply_eligible=eligible_ok,auto_apply_reasons=eligible_reasons))
         except (OSError,ValueError,KeyError,TypeError):
             if errors is not None:errors.append(path.name)
     return rows
 
-def review(root,value,reviewer):
+def review(root,value,reviewer,identity=None):
     require(set(value)=={'id','decision','rationale','proposal_hash','review_hash','confirmed'},'Invalid catalog review fields')
     require(value['decision'] in {'approved','deferred','rejected'},'Invalid catalog decision')
     require(value['confirmed'] is True and reviewer,'Human review confirmation required');text(value['rationale'],1200)
-    from findings_review import reviewer as current_reviewer
-    require(current_reviewer(root)==reviewer,'Unauthorized local reviewer')
+    from findings_review import authorized
+    require(authorized(root,reviewer,identity),'Unauthorized local reviewer')
     with locked(root):
         p=package(root,value['id']);prior=last_review(root,p['id'])
         require(digest(p)==value['proposal_hash'] and digest(prior)==value['review_hash'],'Package or review changed; reload')
@@ -188,10 +205,10 @@ def review(root,value,reviewer):
             check_base(root,p);check_evidence(root,p)
             validation=read(root/'.local/catalog-previews'/p['id']/'validation.json')
             require(validation['passed'] and validation['proposal_hash']==digest(p),'Passing preview required before approval')
-        append_event(root,dict(id=p['id'],kind='catalog_change',status=value['decision'],reviewer=reviewer,rationale=value['rationale'],at=now(),proposal_hash=digest(p)))
+        append_event(root,dict(dict(id=p['id'],kind='catalog_change',status=value['decision'],reviewer=reviewer,rationale=value['rationale'],at=now(),proposal_hash=digest(p)),**channel_fields(identity)))
     return {'status':value['decision'],'published':False}
 
-def apply_publish(root,rid,proposal_hash,review_hash,reviewer,confirmed=False):
+def apply_publish(root,rid,proposal_hash,review_hash,reviewer,confirmed=False,identity=None):
     """Human publication: the reviewer is the local authorized account and confirms explicitly."""
     require(confirmed is True and reviewer,'Explicit human publication action required')
     p=package(root,rid)
@@ -199,11 +216,11 @@ def apply_publish(root,rid,proposal_hash,review_hash,reviewer,confirmed=False):
         decision=last_review(root,rid)
         require(digest(p)==proposal_hash and digest(decision)==review_hash,'Package or review changed; reload')
         require(decision and decision['status']=='approved' and decision['proposal_hash']==digest(p),'Recorded approval required')
-        from findings_review import reviewer as current_reviewer
-        require(current_reviewer(root)==reviewer,'Unauthorized local reviewer')
-        return publish_package(root,rid,p,decision,reviewer)
+        from findings_review import authorized
+        require(authorized(root,reviewer,identity),'Unauthorized local reviewer')
+        return publish_package(root,rid,p,decision,reviewer,identity=identity)
 
-def publish_package(root,rid,p,decision,reviewer):
+def publish_package(root,rid,p,decision,reviewer,identity=None):
     """Shared publication body: preview, project the change, validate, build, commit, push, verify.
 
     Called after either a human approval (apply_publish) or a recorded policy approval
@@ -253,7 +270,7 @@ def publish_package(root,rid,p,decision,reviewer):
                     if deployed(root,config,receipt['commit']):matches=True;break
                     time.sleep(5)
                 receipt['status']='deployed' if matches else 'deployment_pending';save(receipt_path,receipt)
-                if matches:mark_deployed(root,rid,p,reviewer,receipt['commit'])
+                if matches:mark_deployed(root,rid,p,reviewer,receipt['commit'],identity)
                 return receipt
             except Exception:
                 receipt['status']='publication_failed';save(receipt_path,receipt);raise
@@ -267,9 +284,10 @@ def deployed(root,config,commit):
     except (OSError,ValueError):
         return False
 
-def mark_deployed(root,rid,p,reviewer,commit):
+def mark_deployed(root,rid,p,reviewer,commit,identity=None):
     """The exact applied event and follow-up publish_package records once the live data matches."""
-    append_event(root,dict(id=rid,kind='catalog_change',status='applied',reviewer=reviewer,at=now(),proposal_hash=digest(p),commit=commit))
+    from editorial_review import channel_fields
+    append_event(root,dict(dict(id=rid,kind='catalog_change',status='applied',reviewer=reviewer,at=now(),proposal_hash=digest(p),commit=commit),**channel_fields(identity)))
     save(queue(root)/(rid+'-followup.json'),{'kind':'catalog_followup','package':rid,'status':'pending_evidence','created_at':now(),'questions':[{'target':c['target'],'id':c['id'],'next_evidence':c['after'].get('next_evidence') or c['after'].get('gap') or 'Check the next dated primary disclosure for changed facts.'} for c in p['changes'] if c['target'] in {'project','company','product'}]})
 
 def verify_pending_deployments(root):

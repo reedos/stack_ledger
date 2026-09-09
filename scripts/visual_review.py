@@ -421,7 +421,7 @@ def inbox(root):
     return {'proposals':rows,'assessment':ed.read(latest) if latest.exists() else None,'invalid_files':len(errors)}
 
 
-def review(root,value,owner):
+def review(root,value,owner,identity=None):
     require(isinstance(value,dict) and set(value)=={'id','decision','rationale','proposal_hash','review_hash','confirmed','reconsider_after'}, 'Invalid review fields')
     require(owner in ed.read(root/'research/editorial-policy.json')['reviewers'], 'Authorized reviewer required')
     require(value['confirmed'] is True, 'Confirm evidence review')
@@ -445,9 +445,10 @@ def review(root,value,owner):
             require(payload==p['packet'], 'Evidence packet changed')
             response,change,scores=validate_response(p['response'],payload,refs,s)
             require(response==p['response'] and change==p['config_after'] and scores==p['scores'], 'Proposed result no longer matches validated response')
-        er.append_event(root,{'id':p['id'],'kind':'visual_recommendation','display_id':p['display']['id'],
+        er.append_event(root,dict({'id':p['id'],'kind':'visual_recommendation','display_id':p['display']['id'],
             'status':value['decision'],'at':at,'reviewer':owner,'rationale':value['rationale'].strip(),
-            'proposal_hash':value['proposal_hash'],'suggestion_hash':p['suggestion_hash'],'reconsider_after':value['reconsider_after']})
+            'proposal_hash':value['proposal_hash'],'suggestion_hash':p['suggestion_hash'],'reconsider_after':value['reconsider_after']},
+            **er.channel_fields(identity)))
     return {'saved':True,'status':value['decision'],'published':False,'applied':False}
 
 

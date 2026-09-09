@@ -48,9 +48,33 @@ def locked(root):
         path.unlink()
 
 
-def events(root):
+def events(root, *, report=None):
+    """Every line is independent; a torn trailing write (crash, full disk) must not take down every review surface.
+
+    report, when given a dict, receives 'unreadable_events' with the count of lines dropped this call.
+    """
     path = queue(root)/'editorial-events.jsonl'
-    return [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines()] if path.exists() else []
+    if not path.exists():
+        if report is not None: report['unreadable_events'] = 0
+        return []
+    rows = []; bad = 0
+    for line in path.read_text(encoding='utf-8').splitlines():
+        if not line.strip(): continue
+        try:
+            rows.append(json.loads(line))
+        except ValueError:
+            bad += 1
+    if report is not None: report['unreadable_events'] = bad
+    return rows
+
+
+def channel_fields(identity):
+    """Merge into an appended event: {} for a CLI-authored decision (identity=None, unchanged shape),
+    else {'channel':...} and, on tailnet, {'login':...} so the audit trail shows where a decision was made."""
+    if not identity: return {}
+    fields = {'channel': identity.get('channel')}
+    if identity.get('channel') == 'tailnet': fields['login'] = identity.get('login')
+    return fields
 
 
 def append_event(root, event):
@@ -377,6 +401,7 @@ def apply(root, rid):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--verify-log', action='store_true', help='Report unreadable editorial-events.jsonl lines without changing the file')
     sub = parser.add_subparsers(dest='command')
     assess = sub.add_parser('assess')
     assess.add_argument('--as-of', default=None)
@@ -406,6 +431,9 @@ def main():
             qparser.add_argument('--outcome', choices=sorted(ed.OUTCOMES), required=True)
             qparser.add_argument('--observations', nargs='*', default=[])
     args = parser.parse_args()
+    if args.verify_log:
+        report = {}; events(ROOT, report=report)
+        print(json.dumps({'unreadable_events': report['unreadable_events']}, indent=2)); return
     if args.command in {None, 'assess'}:
         result = run(ROOT, getattr(args, 'as_of', None) or now(), getattr(args, 'model', False), getattr(args, 'trigger', 'on-demand'), critique=getattr(args,'critique',False))
         print(json.dumps({'snapshot_hash': result['snapshot_hash'], 'model_status': result['model_status'], 'proposals': result['proposals'], 'failures': result['failures']}, indent=2))
