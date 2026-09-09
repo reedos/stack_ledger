@@ -161,7 +161,8 @@ class VisualTests(unittest.TestCase):
 
     def test_checkpoint_detects_change_without_queue(self):
         folder=self.root/'.local/session-fixture';self.assertEqual(v.checkpoint(self.root,folder),[])
-        l=ed.read(self.root/'site/data/ledger.json');next(o for o in l['observations'] if o['metric']=='tsmc-cowos-wpm')['note']+=' fixture';save(self.root/'site/data/ledger.json',l)
+        l=ed.read(self.root/'site/data/ledger.json');headline=next(x for x in l['layers'] if x['id']=='chips')['headline_metric']
+        next(o for o in l['observations'] if o['metric']==headline)['note']+=' fixture';save(self.root/'site/data/ledger.json',l)
         self.assertEqual(v.checkpoint(self.root,folder),['highlight-chips'])
         self.assertFalse(v.er.queue(self.root).exists())
 

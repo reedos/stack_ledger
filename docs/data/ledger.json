@@ -33,7 +33,7 @@
         "Accelerators, memory, storage and advanced packaging",
         "Networking silicon, optical connections and delivered supply"
       ],
-      "headline_metric": "tsmc-cowos-wpm",
+      "headline_metric": "epoch-nvidia-ai-chips-cumulative-yearly",
       "headline_record": "chips-2025",
       "headline_label": "TSMC wafer capacity · 2025",
       "outlook": "Follow operational fabs and reproducible system benchmarks. Process-node names alone do not establish speed, efficiency or available AI capacity."
@@ -8341,6 +8341,58 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-nvidia-ai-chips-cumulative-yearly",
+      "layer": "chips",
+      "title": "Nvidia AI accelerators shipped, cumulative (Epoch estimate, year-end or latest quarter)",
+      "unit": "accelerators (cumulative)",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of cumulative Nvidia data-center AI accelerators shipped since Q1 2022, one point per year: the latest complete quarter of that year. The current year is cumulative through its latest complete quarter. 5th to 95th percentile in each note. Estimate, not an Nvidia disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-08; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-sales-dataset"
+      ],
+      "company": "nvidia",
+      "measurement_type": "estimated_cumulative_ai_chips",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2022. Earlier quarters are not estimated. Missing quarters are not zero."
+    },
+    {
+      "id": "epoch-amd-ai-chips-cumulative-yearly",
+      "layer": "chips",
+      "title": "AMD AI accelerators shipped, cumulative (Epoch estimate, year-end or latest quarter)",
+      "unit": "accelerators (cumulative)",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of cumulative AMD data-center AI accelerators shipped since Q1 2024, one point per year: the latest complete quarter of that year. 5th to 95th percentile in each note. Estimate, not an AMD disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-08; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-sales-dataset"
+      ],
+      "company": "amd",
+      "measurement_type": "estimated_cumulative_ai_chips",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2024. Earlier quarters are not estimated. Missing quarters are not zero."
     }
   ],
   "sources": [
@@ -24402,6 +24454,48 @@
       "note": "Epoch AI median estimate; 5th to 95th percentile 110,532 to 122,180. Dataset vintage 2026-07, sha256 fa5bc4f7f0b0. CC BY 4.0."
     },
     {
+      "id": "epoch-google-mesa-it-mw-2026-09-09",
+      "metric": "epoch-google-mesa-it-mw",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 183.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
+      "id": "epoch-google-mesa-h100e-2026-09-09",
+      "metric": "epoch-google-mesa-h100e",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 289540,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
+      "id": "epoch-google-mesa-capex-2026-09-09",
+      "metric": "epoch-google-mesa-capex",
+      "year": 2026,
+      "period": "2026-09-09",
+      "value": 6.93,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-data-centers-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T09:51:49Z",
+      "method": "curated",
+      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+    },
+    {
       "id": "epoch-nvidia-ai-chips-cumulative-2022-q1",
       "metric": "epoch-nvidia-ai-chips-cumulative",
       "year": 2022,
@@ -25046,46 +25140,116 @@
       "note": "Epoch AI median estimate; 5th to 95th percentile 18,283,448 to 23,989,231. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
     },
     {
-      "id": "epoch-google-mesa-it-mw-2026-09-09",
-      "metric": "epoch-google-mesa-it-mw",
-      "year": 2026,
-      "period": "2026-09-09",
-      "value": 183.0,
+      "id": "epoch-nvidia-ai-chips-cumulative-yearly-2022",
+      "metric": "epoch-nvidia-ai-chips-cumulative-yearly",
+      "year": 2022,
+      "period": "Year-end 2022",
+      "value": 834843.0,
       "upper": null,
       "status": "estimate",
-      "source": "epoch-data-centers-dataset",
+      "source": "epoch-chip-sales-dataset",
       "precision": "approx",
-      "retrieved_at": "2026-09-09T09:51:49Z",
+      "retrieved_at": "2026-09-09T11:03:44Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI median estimate; 5th to 95th percentile 652,476 to 1,075,296. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
     },
     {
-      "id": "epoch-google-mesa-h100e-2026-09-09",
-      "metric": "epoch-google-mesa-h100e",
-      "year": 2026,
-      "period": "2026-09-09",
-      "value": 289540,
+      "id": "epoch-nvidia-ai-chips-cumulative-yearly-2023",
+      "metric": "epoch-nvidia-ai-chips-cumulative-yearly",
+      "year": 2023,
+      "period": "Year-end 2023",
+      "value": 2132549.0,
       "upper": null,
       "status": "estimate",
-      "source": "epoch-data-centers-dataset",
+      "source": "epoch-chip-sales-dataset",
       "precision": "approx",
-      "retrieved_at": "2026-09-09T09:51:49Z",
+      "retrieved_at": "2026-09-09T11:03:44Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI median estimate; 5th to 95th percentile 1,769,587 to 2,568,891. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
     },
     {
-      "id": "epoch-google-mesa-capex-2026-09-09",
-      "metric": "epoch-google-mesa-capex",
-      "year": 2026,
-      "period": "2026-09-09",
-      "value": 6.93,
+      "id": "epoch-nvidia-ai-chips-cumulative-yearly-2024",
+      "metric": "epoch-nvidia-ai-chips-cumulative-yearly",
+      "year": 2024,
+      "period": "Year-end 2024",
+      "value": 5992099.0,
       "upper": null,
       "status": "estimate",
-      "source": "epoch-data-centers-dataset",
+      "source": "epoch-chip-sales-dataset",
       "precision": "approx",
-      "retrieved_at": "2026-09-09T09:51:49Z",
+      "retrieved_at": "2026-09-09T11:03:44Z",
       "method": "curated",
-      "note": "Epoch AI estimate for Google Mesa (owner Google), dataset vintage 2026-09, sha256 758d27879586. CC BY 4.0."
+      "note": "Epoch AI median estimate; 5th to 95th percentile 5,047,111 to 7,022,524. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
+    },
+    {
+      "id": "epoch-nvidia-ai-chips-cumulative-yearly-2025",
+      "metric": "epoch-nvidia-ai-chips-cumulative-yearly",
+      "year": 2025,
+      "period": "Year-end 2025",
+      "value": 10477887.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-chip-sales-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T11:03:44Z",
+      "method": "curated",
+      "note": "Epoch AI median estimate; 5th to 95th percentile 8,973,271 to 12,079,633. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
+    },
+    {
+      "id": "epoch-nvidia-ai-chips-cumulative-yearly-2026",
+      "metric": "epoch-nvidia-ai-chips-cumulative-yearly",
+      "year": 2026,
+      "period": "June 30, 2026",
+      "value": 13390128.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-chip-sales-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T11:03:44Z",
+      "method": "curated",
+      "note": "Epoch AI median estimate; 5th to 95th percentile 11,546,470 to 15,356,257. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
+    },
+    {
+      "id": "epoch-amd-ai-chips-cumulative-yearly-2024",
+      "metric": "epoch-amd-ai-chips-cumulative-yearly",
+      "year": 2024,
+      "period": "Year-end 2024",
+      "value": 482651.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-chip-sales-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T11:03:44Z",
+      "method": "curated",
+      "note": "Epoch AI median estimate; 5th to 95th percentile 404,632 to 569,881. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
+    },
+    {
+      "id": "epoch-amd-ai-chips-cumulative-yearly-2025",
+      "metric": "epoch-amd-ai-chips-cumulative-yearly",
+      "year": 2025,
+      "period": "Year-end 2025",
+      "value": 931167.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-chip-sales-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T11:03:44Z",
+      "method": "curated",
+      "note": "Epoch AI median estimate; 5th to 95th percentile 789,671 to 1,089,637. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
+    },
+    {
+      "id": "epoch-amd-ai-chips-cumulative-yearly-2026",
+      "metric": "epoch-amd-ai-chips-cumulative-yearly",
+      "year": 2026,
+      "period": "June 30, 2026",
+      "value": 1159316.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "epoch-chip-sales-dataset",
+      "precision": "approx",
+      "retrieved_at": "2026-09-09T11:03:44Z",
+      "method": "curated",
+      "note": "Epoch AI median estimate; 5th to 95th percentile 997,608 to 1,337,583. Dataset vintage 2026-08, sha256 e53f0e575542. CC BY 4.0."
     }
   ],
   "events": [

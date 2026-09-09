@@ -31,7 +31,7 @@
         "Accelerators, memory, storage and advanced packaging",
         "Networking silicon, optical connections and delivered supply"
       ],
-      "headline_metric": "tsmc-cowos-wpm",
+      "headline_metric": "epoch-nvidia-ai-chips-cumulative-yearly",
       "headline_record": "chips-2025",
       "headline_label": "TSMC wafer capacity · 2025",
       "outlook": "Follow operational fabs and reproducible system benchmarks. Process-node names alone do not establish speed, efficiency or available AI capacity."
@@ -8339,6 +8339,58 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "epoch-nvidia-ai-chips-cumulative-yearly",
+      "layer": "chips",
+      "title": "Nvidia AI accelerators shipped, cumulative (Epoch estimate, year-end or latest quarter)",
+      "unit": "accelerators (cumulative)",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of cumulative Nvidia data-center AI accelerators shipped since Q1 2022, one point per year: the latest complete quarter of that year. The current year is cumulative through its latest complete quarter. 5th to 95th percentile in each note. Estimate, not an Nvidia disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-08; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-sales-dataset"
+      ],
+      "company": "nvidia",
+      "measurement_type": "estimated_cumulative_ai_chips",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2022,
+      "chart_default_start": 2022,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2022. Earlier quarters are not estimated. Missing quarters are not zero."
+    },
+    {
+      "id": "epoch-amd-ai-chips-cumulative-yearly",
+      "layer": "chips",
+      "title": "AMD AI accelerators shipped, cumulative (Epoch estimate, year-end or latest quarter)",
+      "unit": "accelerators (cumulative)",
+      "geography": "Global",
+      "scope": "Epoch AI median estimate of cumulative AMD data-center AI accelerators shipped since Q1 2024, one point per year: the latest complete quarter of that year. 5th to 95th percentile in each note. Estimate, not an AMD disclosure.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000000,
+      "note": "Epoch AI estimates, CC BY 4.0. Median plotted; 5th to 95th percentile in each record note. Dataset vintage 2026-08; a new vintage replaces the series through reviewed import, never by appending competing values.",
+      "source_ids": [
+        "epoch-chip-sales-dataset"
+      ],
+      "company": "amd",
+      "measurement_type": "estimated_cumulative_ai_chips",
+      "project": null,
+      "allowed_statuses": [
+        "estimate"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Epoch series begins Q1 2024. Earlier quarters are not estimated. Missing quarters are not zero."
     }
   ],
   "targets": [

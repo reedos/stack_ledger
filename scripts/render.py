@@ -30,7 +30,7 @@ HOME_DESCRIPTION = ('Track energy, chips, infrastructure, models and application
                     'with deeper U.S. coverage and a horizon of 2030 and beyond.')
 LABELS = {
     'energy': ('Generate', 'Global data-center electricity demand (all workloads)', 'TWh / year'),
-    'chips': ('Compute', 'TSMC CoWoS packaging capacity (Epoch estimate)', 'thousand wafers / month'),
+    'chips': ('Compute', 'Nvidia AI accelerators shipped, cumulative since 2022 (Epoch estimate)', 'accelerators'),
     'infrastructure': ('Connect', 'Stargate Abilene: estimated operating IT power', 'MW IT'),
     'models': ('Learn', 'GPT-5.3-Codex API input list price', 'USD / million input tokens'),
     'applications': ('Apply', 'Waymo One: reported paid weekly service', 'paid trips / week'),

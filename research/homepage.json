@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-08T06:02:54Z",
+  "reviewed_at": "2026-09-09T11:05:00Z",
   "slots": {
     "energy": {
       "metric_id": "dc-electricity",
@@ -10,23 +10,25 @@
       "supporting": []
     },
     "chips": {
-      "metric_id": "tsmc-cowos-wpm",
+      "metric_id": "epoch-nvidia-ai-chips-cumulative-yearly",
       "profile": "trajectory",
       "visualization": "history",
       "pin": null,
-      "supporting": []
+      "supporting": [
+        "epoch-amd-ai-chips-cumulative-yearly"
+      ]
     },
     "infrastructure": {
       "metric_id": "abilene-it-operating",
       "profile": "delivery-state",
-      "visualization": "snapshot",
+      "visualization": "history",
       "pin": null,
       "supporting": []
     },
     "models": {
       "metric_id": "codex-input-price",
       "profile": "delivery-state",
-      "visualization": "snapshot",
+      "visualization": "history",
       "pin": null,
       "supporting": []
     },
