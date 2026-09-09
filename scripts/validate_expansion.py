@@ -31,7 +31,11 @@ TYPES |= {'annual_revenue_reported', 'annual_revenue_forecast', 'construction_wo
 # Epoch AI quarterly estimate series imported by scripts/import_epoch.py (CC BY 4.0); estimates, never observations.
 # Supply aggregates are industry-wide and carry no company; the consumption series is attributed to a designer.
 EPOCH_AGGREGATE={'estimated_cowos_supply_wafers_quarterly', 'estimated_logic_supply_wafers_quarterly', 'estimated_hbm_supply_usd_quarterly'}
-PUBLIC_TYPES |= EPOCH_AGGREGATE
+# Per-site Epoch estimates (IT power, H100 equivalents, cumulative capital cost). The owner may be undisclosed, so company is optional.
+EPOCH_SITE={'estimated_site_it_mw', 'estimated_site_h100_equivalents', 'estimated_site_capital_cost_usd_bn'}
+EPOCH_DESIGNER={'estimated_cumulative_ai_chips', 'estimated_cumulative_ai_compute_h100e'}   # per-designer, company attributed
+PUBLIC_TYPES |= EPOCH_AGGREGATE | EPOCH_SITE
+TYPES |= EPOCH_SITE | EPOCH_DESIGNER
 TYPES |= EPOCH_AGGREGATE | {'estimated_cowos_consumption_wafers_quarterly'}
 FUTURE_ONLY |= {'annual_revenue_forecast'}
 HISTORICAL_ONLY = {'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',

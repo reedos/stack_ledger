@@ -240,6 +240,17 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--open',action='store_true')
     parser.add_argument('--ephemeral',action='store_true',help='Do not replace the saved panel URL (for isolated UI tests)')
     args=parser.parse_args()
+    if args.open and not args.ephemeral:
+        # Reuse a live panel instead of stacking a new server (and a new URL) on every double-click.
+        saved=ROOT/'.local/research-control-url.txt'
+        if saved.exists():
+            from urllib.request import urlopen
+            live=saved.read_text(encoding='utf-8').strip()
+            try:
+                with urlopen(live+'findings',timeout=3) as r:ok=r.status==200
+            except Exception:ok=False
+            if ok:
+                print('Research control (already running): '+live,flush=True);webbrowser.open(live);return
     http,url=server()
     if not args.ephemeral:
         (ROOT/'.local').mkdir(exist_ok=True)

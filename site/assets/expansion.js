@@ -1,7 +1,7 @@
 'use strict';
 let expansion;
 const publicationLabel=d=>d?`Published ${dateLabel(d)}`:"Publication date unlisted";
-const moneyKinds=[['Announced investment','capex_announced_usd'],['Contracted compute','compute_contract_usd'],['Capex paid / recognized','capex_recognized_usd'],['Local contracts / procurement','local_procurement_usd']];
+const moneyKinds=[['Announced investment','capex_announced_usd'],['Contracted compute','compute_contract_usd'],['Capex paid / recognized','capex_recognized_usd'],['Local contracts / procurement','local_procurement_usd'],['Cumulative capital cost · Epoch estimate','estimated_site_capital_cost_usd_bn']];
 const jobsKinds=[['Peak construction workers','construction_workers_peak'],['Contractor FTEs','contractor_fte'],['Permanent jobs promised','permanent_jobs_promised'],['Operating jobs reported','permanent_jobs_reported'],['Company-wide headcount','company_headcount']];
 const kindOf=o=>metricOf(o.metric).measurement_type;
 const evidenceOf=ids=>ids.map(id=>data.observations.find(o=>o.id===id)).filter(Boolean);

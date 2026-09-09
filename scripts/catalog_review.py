@@ -54,6 +54,9 @@ def projected(p,documents):
         index=next((i for i,r in enumerate(rows) if r['id']==op['id']),None)
         current=rows[index] if index is not None else None
         require(current==op['before'],'Object changed since proposal')
+        if op['target']=='metric':
+            # The ledger mirrors the reviewed catalog exactly; a metric change must reach both.
+            d['site/data/ledger.json']['metrics']=d['research/catalog.json']['metrics']
         if op['target']=='note' and current is not None:
             require(current==op['after'],'Existing notes need appended correction records')
         if op['target']=='observation' and current is not None:

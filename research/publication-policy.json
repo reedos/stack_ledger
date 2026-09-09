@@ -1,24 +1,40 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T10:40:00Z",
-  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site. Additions from credible authorities are applied to the site automatically under the rules below, each one recorded as a catalog_change event with its commit.",
+  "reviewed_at": "2026-09-09T10:45:00Z",
+  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site. Additions from credible authorities are applied to the site automatically under the rules below, each one recorded as a catalog_change event with its commit. Ingested figures (site power, chip counts, capital cost) from those authorities are recorded as estimates and attached to their projects automatically; nothing already on the site is replaced without a human decision.",
   "auto_apply": {
     "enabled": true,
     "reviewer_label": "publication-policy",
-    "authors": ["Epoch import (maintainer tool)"],
-    "targets": ["project", "source", "note", "observation"],
+    "authors": [
+      "Epoch import (maintainer tool)"
+    ],
+    "targets": [
+      "project",
+      "source",
+      "note",
+      "observation",
+      "metric"
+    ],
     "new_entries_only": true,
-    "project_stages": ["status-unverified"],
+    "project_stages": [
+      "status-unverified"
+    ],
     "max_source_rank": 2,
     "require_passing_preview": true,
-    "max_changes_per_package": 12
+    "max_changes_per_package": 40,
+    "metric_measurement_types": [
+      "estimated_site_it_mw",
+      "estimated_site_h100_equivalents",
+      "estimated_site_capital_cost_usd_bn"
+    ],
+    "project_updates": "append_observations_only"
   },
   "always_human": [
     "homepage.json, editorial selections and any headline card",
     "replacing, correcting or superseding a figure already on the site",
-    "metric definitions, targets and chart configuration",
     "source policy, excerpt permission and discovery permissions",
     "company and product objects",
-    "stage changes on accepted projects and any object that already exists"
+    "stage changes on accepted projects and any object that already exists",
+    "metric definitions other than per-site estimate series of a policy-listed measurement type, targets and chart configuration"
   ]
 }

@@ -5963,6 +5963,17 @@
       ],
       "license": "Original source rights apply",
       "index": true
+    },
+    {
+      "id": "epoch-chip-sales-dataset",
+      "publisher": "Epoch AI",
+      "title": "AI Chip Sales dataset",
+      "url": "https://epoch.ai/data/ai_chip_sales.zip",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "CC BY 4.0"
     }
   ],
   "discovery_keywords": [
@@ -6337,7 +6348,8 @@
         "map-bmw-robots",
         "map-waymo-mesa",
         "capital-apollo-2026-outlook",
-        "audit-meta-singapore"
+        "audit-meta-singapore",
+        "epoch-chip-sales-dataset"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -12131,6 +12143,17 @@
         "power",
         "intelligence"
       ],
+      "excerpts": false
+    },
+    "epoch-chip-sales-dataset": {
+      "rank": 1,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
       "excerpts": false
     }
   }

@@ -19,7 +19,8 @@ class PublicationPolicyTests(unittest.TestCase):
     def test_policy_file_is_reviewed_and_bounded(self):
         a=self.policy['auto_apply']
         self.assertTrue(a['new_entries_only'] and a['require_passing_preview'])
-        self.assertNotIn('company',a['targets']);self.assertNotIn('metric',a['targets']);self.assertNotIn('product',a['targets'])
+        self.assertNotIn('company',a['targets']);self.assertNotIn('product',a['targets'])
+        self.assertTrue(all(t.startswith('estimated_site_') for t in a['metric_measurement_types']));self.assertEqual(a['project_updates'],'append_observations_only')
         self.assertTrue(any('headline' in line for line in self.policy['always_human']))
 
     def test_epoch_addition_is_admitted(self):
@@ -41,6 +42,22 @@ class PublicationPolicyTests(unittest.TestCase):
                 else:p['auto_apply']['enabled']=False
                 ok,reasons=pp.eligible(q,p,self.registry)
                 self.assertFalse(ok,label);self.assertTrue(reasons)
+
+    def test_site_estimate_metrics_and_append_only_project_updates_are_admitted(self):
+        q=copy.deepcopy(self.package)
+        before={'id':'x','stage':'status-unverified','observations':['old']}
+        q['changes']=[{'target':'metric','id':'epoch-x-it-mw','before':None,'after':{'id':'epoch-x-it-mw','measurement_type':'estimated_site_it_mw','allowed_statuses':['estimate']},'evidence':['e1']},
+                      {'target':'observation','id':'epoch-x-it-mw-2026-09-09','before':None,'after':{'status':'estimate'},'evidence':['e1']},
+                      {'target':'project','id':'x','before':before,'after':dict(before,observations=['old','epoch-x-it-mw-2026-09-09']),'evidence':['e1']}]
+        self.assertTrue(pp.eligible(q,self.policy,self.registry)[0])
+        bad=copy.deepcopy(q);bad['changes'][2]['after']['stage']='operating'
+        self.assertFalse(pp.eligible(bad,self.policy,self.registry)[0])
+        bad=copy.deepcopy(q);bad['changes'][2]['after']['observations']=['epoch-x-it-mw-2026-09-09']   # drops 'old'
+        self.assertFalse(pp.eligible(bad,self.policy,self.registry)[0])
+        bad=copy.deepcopy(q);bad['changes'][0]['after']['measurement_type']='capex_recognized_usd'
+        self.assertFalse(pp.eligible(bad,self.policy,self.registry)[0])
+        bad=copy.deepcopy(q);bad['changes'][0]['after']['allowed_statuses']=['observation','estimate']
+        self.assertFalse(pp.eligible(bad,self.policy,self.registry)[0])
 
     def test_rank_ceiling_uses_the_best_registered_rank_on_the_host(self):
         ranks=pp.source_ranks(self.registry)

@@ -85,6 +85,27 @@ class EpochImportTests(unittest.TestCase):
             self.assertEqual(json.loads(path.read_text(encoding='utf-8')),aliases)
             self.assertEqual(ie.match_projects('Meta Kansas City','Meta',[],aliases),(None,'reviewed'))
 
+    def test_site_records_attach_valid_estimates_to_a_project(self):
+        import validate_delivery as vd, validate_expansion as ve
+        delivery=json.loads((ROOT/'research/delivery.json').read_text(encoding='utf-8'));ledger=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        companies=json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
+        record={'title':'AI Data Centers dataset','vintage':'2026-09','sha256':'c'*64,'retrieved_at':'2026-09-09T09:00:00Z','page':'https://epoch.ai/data/ai-data-centers'}
+        row={'Name':'Amazon Testville Site','Owner':'Amazon #confident','Users':'Anthropic #speculative','Country':'United States','Address':'1 Test Road, Testville, Mississippi','Current power (MW)':'228','Current H100 equivalents':'171299.4','Current total capital cost (2025 USD billions)':'8.6'}
+        project=ie.draft_project(row,record,companies)
+        metrics,observations,updated=ie.site_records(row,project,record,companies)
+        self.assertEqual([m['measurement_type'] for m in metrics],['estimated_site_it_mw','estimated_site_h100_equivalents','estimated_site_capital_cost_usd_bn'])
+        self.assertTrue(all(t in ve.TYPES and t in ve.PUBLIC_TYPES for t in [m['measurement_type'] for m in metrics]))
+        mw=next(o for o in observations if o['metric'].endswith('-it-mw'));self.assertEqual((mw['value'],mw['period'],mw['status'],mw['year']),(228,'2026-09-09','estimate',2026))
+        self.assertEqual(updated['observations'],[o['id'] for o in observations if not o['metric'].endswith('-capex')])   # capital cost reaches the money section via metric.project
+        self.assertEqual(metrics[0]['project'],project['id']);self.assertEqual(metrics[0]['company'],'aws')
+        sources={s['id']:s for s in ledger['sources']};allm={m['id']:m for m in ledger['metrics']};allm.update({m['id']:m for m in metrics})
+        for o in observations:observation_valid(o,allm,sources)
+        ledger2=dict(ledger,metrics=list(allm.values()),observations=ledger['observations']+observations)
+        delivery['projects'].append(updated)
+        self.assertTrue(vd.validate_delivery(delivery,ledger2))
+        self.assertTrue(ie.has_epoch_capacity(updated,ledger2,{'metrics':list(allm.values())}))
+        self.assertFalse(ie.has_epoch_capacity(project,ledger,{'metrics':ledger['metrics']}))
+
     def test_vintage_read_from_readme_citation(self):
         self.assertEqual(ie.vintage_of('@misc{x,\n  year = {2026},\n  month = {07},\n}','2026-09-09T00:00:00Z'),'2026-07')
         self.assertEqual(ie.vintage_of('no citation','2026-09-09T00:00:00Z'),'2026-09')

@@ -20,6 +20,7 @@ Estimates are never observations. Every promoted record carries the dataset vint
     python scripts/import_epoch.py data-centers --apply      # also register the dataset source
 """
 import argparse
+import copy
 import csv
 import hashlib
 import io
@@ -46,6 +47,7 @@ DATASETS={
     'data-centers':{'url':'https://epoch.ai/data/data_centers/data_centers.zip','page':'https://epoch.ai/data/ai-data-centers','source_id':'epoch-data-centers-dataset','title':'AI Data Centers dataset','layers':['infrastructure']},
     'gpu-clusters':{'url':'https://epoch.ai/data/gpu_clusters.csv','page':'https://epoch.ai/data/gpu-clusters','source_id':'epoch-gpu-clusters-dataset','title':'GPU Clusters dataset','layers':['infrastructure','chips']},
     'chip-components':{'url':'https://epoch.ai/data/ai_chip_components.zip','page':'https://epoch.ai/data/ai-chip-components','source_id':'epoch-chip-components-dataset','title':'AI Chip Components dataset','layers':['chips']},
+    'chip-sales':{'url':'https://epoch.ai/data/ai_chip_sales.zip','page':'https://epoch.ai/data/ai-chip-sales','source_id':'epoch-chip-sales-dataset','title':'AI Chip Sales dataset','layers':['chips']},
     'companies':{'url':'https://epoch.ai/data/ai_companies.zip','page':'https://epoch.ai/data/ai-companies','source_id':'epoch-companies-dataset','title':'AI Companies dataset','layers':['models','applications']},
 }
 
@@ -56,6 +58,11 @@ PROMOTED={
         {'metric':'epoch-logic-supply-quarterly','file':'supply_denominators.csv','column':'Logic supply','unit':'wafers / quarter','title':'Advanced logic wafer supply for AI accelerators (Epoch estimate)','measurement_type':'estimated_logic_supply_wafers_quarterly','scope':'Epoch AI median estimate of advanced logic wafer supply consumed by AI accelerators per quarter. 5th to 95th percentile in each note. Not total foundry output.','max':100_000_000},
         {'metric':'epoch-hbm-supply-quarterly','file':'supply_denominators.csv','column':'HBM supply (USD)','unit':'USD / quarter','title':'HBM supply value for AI accelerators (Epoch estimate)','measurement_type':'estimated_hbm_supply_usd_quarterly','scope':'Epoch AI median estimate of high-bandwidth-memory supply value consumed by AI accelerators per quarter, in USD. 5th to 95th percentile in each note. Not memory-maker revenue.','max':1_000_000_000_000},
         {'metric':'epoch-nvidia-cowos-wafers-quarterly','file':'quarterly_by_designer.csv','column':'CoWoS wafers','filter':{'Designer':'NVIDIA'},'unit':'wafers / quarter','title':'Nvidia CoWoS wafer consumption (Epoch estimate)','measurement_type':'estimated_cowos_consumption_wafers_quarterly','scope':'Epoch AI median estimate of CoWoS wafers consumed by Nvidia accelerators per quarter. 5th to 95th percentile in each note. Consumption estimate, not TSMC capacity or Nvidia disclosure.','max':10_000_000,'company':'nvidia'},
+    ],
+    'chip-sales':[
+        {'metric':'epoch-nvidia-ai-chips-cumulative','file':'cumulative_timelines_by_designer.csv','column':'Number of units','end_date':'End date','filter':{'Chip manufacturer':'Nvidia'},'unit':'accelerators (cumulative)','title':'Nvidia AI accelerators shipped, cumulative (Epoch estimate)','measurement_type':'estimated_cumulative_ai_chips','scope':'Epoch AI median estimate of cumulative Nvidia data-center AI accelerators shipped since Q1 2022, all chip types. 5th to 95th percentile in each note. An estimate built from disclosed revenue and supply chains, not a shipment count disclosed by Nvidia.','max':1_000_000_000,'company':'nvidia'},
+        {'metric':'epoch-amd-ai-chips-cumulative','file':'cumulative_timelines_by_designer.csv','column':'Number of units','end_date':'End date','filter':{'Chip manufacturer':'AMD'},'unit':'accelerators (cumulative)','title':'AMD AI accelerators shipped, cumulative (Epoch estimate)','measurement_type':'estimated_cumulative_ai_chips','scope':'Epoch AI median estimate of cumulative AMD data-center AI accelerators shipped since Q1 2024. 5th to 95th percentile in each note. An estimate, not an AMD disclosure.','max':1_000_000_000,'company':'amd'},
+        {'metric':'epoch-nvidia-ai-compute-cumulative','file':'cumulative_timelines_by_designer.csv','column':'Compute estimate in H100e','end_date':'End date','filter':{'Chip manufacturer':'Nvidia'},'unit':'H100 equivalents (cumulative)','title':'Nvidia AI compute shipped, cumulative (Epoch estimate)','measurement_type':'estimated_cumulative_ai_compute_h100e','scope':'Epoch AI median estimate of cumulative Nvidia AI accelerator compute shipped, in H100 equivalents using the Epoch conversion. 5th to 95th percentile in each note.','max':1_000_000_000,'company':'nvidia'},
     ],
 }
 
@@ -218,12 +225,12 @@ def quarter_period(label):
     return f'{m[2]}-Q{m[1]}',int(m[2])
 
 
-def metric_definition(spec,source_id,vintage):
+def metric_definition(spec,source_id,vintage,start_year=2024):
     return {'id':spec['metric'],'layer':'chips','title':spec['title'],'unit':spec['unit'],'geography':'Global','scope':spec['scope'],'direction':'context','min':0,'max':spec['max'],
             'note':f"Epoch AI estimates, {LICENSE}. Median plotted; 5th to 95th percentile in each record note. Dataset vintage {vintage}; a new vintage replaces the series through reviewed import, never by appending competing values.",
             'source_ids':[source_id],'company':spec.get('company'),'measurement_type':spec['measurement_type'],'project':None,'allowed_statuses':['estimate'],'period_basis':'quarter',
-            'series_start_year':2024,'chart_default_start':2024,'chart_default_end':2027,'definition_stable':True,
-            'pre_period_note':'Epoch series begins Q1 2024. Earlier quarters are not estimated. Missing quarters are not zero.'}
+            'series_start_year':start_year,'chart_default_start':start_year,'chart_default_end':2027,'definition_stable':True,
+            'pre_period_note':f'Epoch series begins Q1 {start_year}. Earlier quarters are not estimated. Missing quarters are not zero.'}
 
 
 def promote(name,record,catalog,ledger,registry):
@@ -232,16 +239,20 @@ def promote(name,record,catalog,ledger,registry):
     added_metrics=[];records=[]
     metrics={m['id']:m for m in catalog['metrics']}
     for spec in spec_list:
-        definition=metric_definition(spec,source_id,record['vintage'])
+        rows=record['tables'][spec['file']]
+        years=[int(r[spec['end_date']][:4]) if spec.get('end_date') else quarter_period(r['Quarter'])[1] for r in rows if all(r.get(k)==v for k,v in spec.get('filter',{}).items()) and (r.get('Incomplete') or '').strip().lower()!='true']
+        definition=metric_definition(spec,source_id,record['vintage'],min(years) if years else 2024)
         if spec['metric'] in metrics:
             # Importer-owned definitions are replaced whole; the reviewed spec lives in PROMOTED.
             metrics[spec['metric']].clear();metrics[spec['metric']].update(definition)
         else:
             catalog['metrics'].append(definition);metrics[spec['metric']]=definition;added_metrics.append(spec['metric'])
-        rows=record['tables'][spec['file']]
         for row in rows:
             if any(row.get(k)!=v for k,v in spec.get('filter',{}).items()):continue
-            period,year=quarter_period(row['Quarter'])
+            if spec.get('end_date'):
+                if (row.get('Incomplete') or '').strip().lower()=='true':continue   # partial quarter: wait for the complete estimate
+                end=row[spec['end_date']];period,year=f"{end[:4]}-Q{(int(end[5:7])-1)//3+1}",int(end[:4])
+            else:period,year=quarter_period(row['Quarter'])
             med=number(row.get(f"{spec['column']} (median)"));lo=number(row.get(f"{spec['column']} (5th percentile)"));hi=number(row.get(f"{spec['column']} (95th percentile)"))
             if med is None:continue
             records.append({'id':f"{spec['metric']}-{period.lower()}",'metric':spec['metric'],'year':year,'period':period,'value':round(med,2),'upper':None,'status':'estimate','source':source_id,'precision':'approx','retrieved_at':record['retrieved_at'],'method':'curated',
@@ -364,6 +375,81 @@ def enqueue_additions(root,result,record,min_mw=100,per_package=6):
     return packages
 
 
+SITE_SERIES=[
+    ('it-mw','Current power (MW)','estimated_site_it_mw','MW IT','current IT power (Epoch estimate)',10000,1,'Epoch AI site estimate of current IT power from satellite, permit and filing evidence; not metered consumption. Campus boundary may exceed an individual building.'),
+    ('h100e','Current H100 equivalents','estimated_site_h100_equivalents','H100 equivalents','installed compute (Epoch estimate)',100_000_000,0,"Epoch AI estimate of installed accelerator compute expressed in H100 equivalents using Epoch's published conversion; not a chip count disclosed by the operator."),
+    ('capex','Current total capital cost (2025 USD billions)','estimated_site_capital_cost_usd_bn','USD billion (2025)','cumulative capital cost (Epoch estimate)',1000,2,'Epoch AI estimate of cumulative capital cost to date in 2025 dollars, compute and construction combined; not recognized capex from a filing.'),
+]
+
+
+def site_records(row,project,record,companies):
+    """Per-site estimate metrics and snapshot records for one Epoch row, attached to a project.
+
+    Returns (metrics, observations, updated_project). IT power and compute join the project's
+    headline records; capital cost reaches the card's money section through the metric's
+    project link. Nothing already attached to the project is touched.
+    """
+    source_id=DATASETS['data-centers']['source_id'];vintage=record['vintage'];day=record['retrieved_at'][:10];year=int(day[:4])
+    owner=owner_label(row.get('Owner'));links=company_links(row.get('Owner'),companies=companies)
+    geography=', '.join(x for x in [row.get('Address','').strip(),row.get('Country','').strip()] if x) or row.get('Country','') or 'Location not stated'
+    metrics=[];observations=[]
+    for key,column,mtype,unit,label,maximum,digits,scope in SITE_SERIES:
+        value=number(row.get(column))
+        if value is None or value<=0:continue
+        mid=f"epoch-{project['id']}-{key}"
+        metrics.append({'id':mid,'layer':'infrastructure','title':f"{project['name']} · {label}",'unit':unit,'geography':geography[:700],'scope':scope,'direction':'context','min':0,'max':maximum,
+            'note':f"Epoch AI Data Centers dataset, {LICENSE}. Snapshot series: each import records the current estimate on its retrieval date; a new vintage adds a dated point and never rewrites earlier ones.",
+            'source_ids':[source_id],'company':links[0] if links else None,'measurement_type':mtype,'project':project['id'],'allowed_statuses':['estimate'],'period_basis':'snapshot',
+            'series_start_year':2024,'chart_default_start':2024,'chart_default_end':2027,'definition_stable':True,'pre_period_note':'Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero.'})
+        observations.append({'id':f"{mid}-{day}",'metric':mid,'year':year,'period':day,'value':round(value,digits) if digits else round(value),'upper':None,'status':'estimate','source':source_id,'precision':'approx','retrieved_at':record['retrieved_at'],'method':'curated',
+            'note':f"Epoch AI estimate for {row['Name']} (owner {owner}), dataset vintage {vintage}, sha256 {record['sha256'][:12]}. {LICENSE}."[:300]})
+    updated=copy.deepcopy(project)
+    headline=[o['id'] for o in observations if not o['metric'].endswith('-capex')]
+    updated['observations']=list(project.get('observations',[]))+[i for i in headline if i not in project.get('observations',[])]
+    return metrics,observations,updated
+
+
+def has_epoch_capacity(project,ledger,catalog):
+    metrics={m['id']:m for m in catalog['metrics']}
+    if any(m['id'].startswith(f"epoch-{project['id']}-") for m in catalog['metrics']):return True
+    obs={o['id']:o for o in ledger['observations']}
+    return any(oid in obs and obs[oid]['metric'] in metrics and any(sid.startswith('epoch-') for sid in metrics[obs[oid]['metric']]['source_ids']) for oid in project.get('observations',[]))
+
+
+def enqueue_capacity(root,result,record,per_package=2):
+    """Attach Epoch power, compute and capital-cost estimates to every project that lacks them, as catalog packages."""
+    from catalog_review import enqueue
+    companies=load(root/'research/ecosystem.json')['companies'];delivery=load(root/'research/delivery.json');ledger=load(root/'site/data/ledger.json');catalog=load(root/'research/catalog.json')
+    projects={p['id']:p for p in delivery['projects']};rows={r['Name']:r for r in record['tables']['data_centers.csv']}
+    pairs=[]
+    for m in result['matched']:
+        if m['match'] in projects:pairs.append((m['epoch_name'],projects[m['match']]))
+    for a in result['proposed_additions']:
+        if slug(a['epoch_name']) in projects:pairs.append((a['epoch_name'],projects[slug(a['epoch_name'])]))
+    pairs=[(n,p) for n,p in pairs if not has_epoch_capacity(p,ledger,catalog)]
+    groups={}
+    for n,p in pairs:groups.setdefault(owner_label(rows[n].get('Owner')).split(',')[0],[]).append((n,p))
+    evidence_dir=root/'.local/catalog-evidence';evidence_dir.mkdir(parents=True,exist_ok=True)
+    packages=[]
+    for owner,items in sorted(groups.items()):
+        for i in range(0,len(items),per_package):
+            batch=items[i:i+per_package];changes=[];evidence=[]
+            for name,project in batch:
+                row=rows[name];metrics,observations,updated=site_records(row,project,record,companies)
+                if not metrics:continue
+                body=json.dumps({'dataset':record['title'],'vintage':record['vintage'],'dataset_sha256':record['sha256'],'row':row},ensure_ascii=False,indent=1)
+                sha=hashlib.sha256(body.encode('utf-8')).hexdigest();(evidence_dir/(sha+'.txt')).write_bytes(body.encode('utf-8'))
+                eid='epoch-dc-'+slug(name)
+                evidence.append({'id':eid,'url':record['page'],'published_at':None,'retrieved_at':record['retrieved_at'],'sha256':sha,'summary':(f"Epoch AI Data Centers row for {name} (vintage {record['vintage']}, dataset sha256 {record['sha256'][:12]}): current power, H100 equivalents and capital cost estimates. Epoch cites: "+'; '.join(markdown_urls(row.get('Selected Sources',''))[:6]))[:2000]})
+                for m in metrics:changes.append({'target':'metric','id':m['id'],'after':m,'evidence':[eid]})
+                for o in observations:changes.append({'target':'observation','id':o['id'],'after':o,'evidence':[eid]})
+                changes.append({'target':'project','id':project['id'],'after':updated,'evidence':[eid]})
+            if not changes:continue
+            title=f"Epoch estimates: attach power, compute and capital cost to {len(batch)} {owner} site{'s' if len(batch)>1 else ''}"[:200]
+            packages.append(enqueue(root,title,changes,evidence,author='Epoch import (maintainer tool)'))
+    return packages
+
+
 def confirm_matches(result,accept_suggested=False,rejects=(),path=None):
     """Record reviewed aliases: Epoch name -> project id, or null for a reviewed non-match."""
     path=path or SNAPSHOTS/'aliases.json'
@@ -381,6 +467,7 @@ def main(argv=None):
     p.add_argument('dataset',choices=[*DATASETS,'all']);p.add_argument('--apply',action='store_true',help='Register dataset sources, promote reviewed series, update catalog/ledger/registry and build')
     p.add_argument('--offline',action='store_true',help='Use the retained snapshot instead of downloading')
     p.add_argument('--enqueue-additions',action='store_true',help='Draft proposed data-center additions as catalog packages for the review panel')
+    p.add_argument('--enqueue-capacity',action='store_true',help='Attach Epoch power, compute and capital-cost estimate records to matched and imported projects as catalog packages')
     p.add_argument('--min-mw',type=float,default=100,help='Only enqueue Epoch sites at or above this estimated current power')
     p.add_argument('--confirm-suggested-matches',action='store_true',help='Record every suggested site match as a reviewed alias')
     p.add_argument('--reject',action='append',default=[],metavar='EPOCH_NAME',help='Record an Epoch site name as a reviewed non-match')
@@ -402,6 +489,9 @@ def main(argv=None):
         if a.confirm_suggested_matches or a.reject:
             aliases=confirm_matches(result,a.confirm_suggested_matches,a.reject)
             print(f"aliases recorded: {sum(1 for v in aliases.values() if v)} matches, {sum(1 for v in aliases.values() if v is None)} non-matches -> {SNAPSHOTS/'aliases.json'}",flush=True)
+        if a.enqueue_capacity:
+            packages=enqueue_capacity(ROOT,result,records['data-centers'])
+            print(f"{len(packages)} capacity packages queued: "+'; '.join(f"{q['id']} ({len(q['changes'])})" for q in packages),flush=True)
         if a.enqueue_additions:
             packages=enqueue_additions(ROOT,result,records['data-centers'],a.min_mw)
             print(f"{len(packages)} catalog packages queued for the review panel: "+'; '.join(f"{q['id']} ({len(q['changes'])})" for q in packages),flush=True)

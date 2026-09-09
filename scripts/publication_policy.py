@@ -27,9 +27,10 @@ def policy(root=ROOT):
     require(set(p)=={'version','reviewed_at','owner_decision','auto_apply','always_human'} and p['version']==1,'Unexpected publication policy shape')
     timestamp(p['reviewed_at']);text(p['owner_decision'],1000)
     a=p['auto_apply']
-    require(set(a)=={'enabled','reviewer_label','authors','targets','new_entries_only','project_stages','max_source_rank','require_passing_preview','max_changes_per_package'},'Unexpected auto_apply fields')
+    require(set(a)=={'enabled','reviewer_label','authors','targets','new_entries_only','project_stages','max_source_rank','require_passing_preview','max_changes_per_package','metric_measurement_types','project_updates'},'Unexpected auto_apply fields')
+    require(a['project_updates']=='append_observations_only' and all(isinstance(x,str) for x in a['metric_measurement_types']),'Invalid policy update rules')
     require(type(a['enabled']) is bool and a['new_entries_only'] is True and a['require_passing_preview'] is True,'Policy must keep new-entries-only and passing-preview rules')
-    require(set(a['targets'])<={'project','source','note','observation'},'Policy may not auto-apply companies, products or metrics')
+    require(set(a['targets'])<={'project','source','note','observation','metric'},'Policy may not auto-apply companies or products')
     require(type(a['max_source_rank']) is int and 1<=a['max_source_rank']<=3,'Invalid source rank ceiling')
     require(all(isinstance(x,str) and x for x in a['authors']+a['project_stages']) and type(a['max_changes_per_package']) is int and 1<=a['max_changes_per_package']<=100,'Invalid policy lists')
     text(a['reviewer_label'],60)
@@ -55,7 +56,18 @@ def eligible(package,p,registry):
     if not changes or len(changes)>a['max_changes_per_package']:return False,[f'{len(changes)} changes exceeds the per-package ceiling']
     for c in changes:
         if c['target'] not in a['targets']:return False,[f"target {c['target']} always needs human review"]
-        if c.get('before') is not None:return False,[f"{c['target']} {c['id']} already exists; replacing it needs human review"]
+        if c['target']=='metric':
+            if c.get('before') is not None:return False,[f"metric {c['id']} already exists; redefining it needs human review"]
+            if c['after'].get('measurement_type') not in a['metric_measurement_types']:return False,[f"metric {c['id']} has measurement type {c['after'].get('measurement_type')}, not a policy-listed per-site estimate"]
+            if c['after'].get('allowed_statuses')!=['estimate']:return False,[f"metric {c['id']} must be estimate-only"]
+            continue
+        if c.get('before') is not None:
+            # The one permitted update: appending records to a project without touching anything else it says.
+            b,af=c['before'],c['after']
+            if c['target']!='project':return False,[f"{c['target']} {c['id']} already exists; replacing it needs human review"]
+            if {k:v for k,v in b.items() if k!='observations'}!={k:v for k,v in af.items() if k!='observations'}:return False,[f"project {c['id']} changes more than its attached records; human review"]
+            if af.get('observations',[])[:len(b.get('observations',[]))]!=b.get('observations',[]):return False,[f"project {c['id']} removes or reorders existing records; human review"]
+            continue
         if c['target']=='project' and c['after'].get('stage') not in a['project_stages']:return False,[f"project {c['id']} stage {c['after'].get('stage')} needs human review"]
         if c['target']=='observation' and c['after'].get('status') not in {'estimate','observation','company-commitment','forecast','government-target'}:return False,[f"record {c['id']} has an unknown status"]
     ranks=source_ranks(registry)
@@ -73,23 +85,25 @@ def auto_apply(root,rid,p=None):
     from research import load, now
     p=p or policy(root);registry=load(root/'research/sources.json')
     package=cr.package(root,rid)
-    prior=cr.last_review(root,rid)
-    require(not prior or prior['status'] in {'pending_review','deferred'},f'package {rid} already has a recorded decision ({prior["status"] if prior else "?"})')
+    prior=cr.last_review(root,rid);label=p['auto_apply']['reviewer_label']
+    resuming=bool(prior and prior['status']=='approved' and prior.get('reviewer')==label)   # approved by policy, publication interrupted
+    require(resuming or not prior or prior['status'] in {'pending_review','deferred'},f'package {rid} already has a recorded decision ({prior["status"] if prior else "?"})')
     ok,reasons=eligible(package,p,registry)
     require(ok,'Not admitted by publication policy: '+'; '.join(reasons))
     cr.check_base(root,package);cr.check_evidence(root,package)
     result=cr.preview(root,rid)
     require(result['passed'] and result['proposal_hash']==cr.digest(package),'Preview validation failed; left for human review')
-    label=p['auto_apply']['reviewer_label']
-    with locked(root):
-        append_event(root,dict(id=rid,kind='catalog_change',status='approved',reviewer=label,rationale='Auto-approved under research/publication-policy.json: '+'; '.join(reasons),at=now(),proposal_hash=cr.digest(package)))
+    if not resuming:
+        with locked(root):
+            append_event(root,dict(id=rid,kind='catalog_change',status='approved',reviewer=label,rationale='Auto-approved under research/publication-policy.json: '+'; '.join(reasons),at=now(),proposal_hash=cr.digest(package)))
     decision=cr.last_review(root,rid)
     return cr.publish_package(root,rid,package,decision,label)
 
 
-def pending(root):
+def pending(root,label='publication-policy'):
+    """Packages the policy may act on: undecided ones, plus its own approvals whose publication was interrupted."""
     import catalog_review as cr
-    return [q for q in cr.inbox(root) if q['status'] in {'pending_review','deferred'}]
+    return [q for q in cr.inbox(root) if q['status'] in {'pending_review','deferred'} or (q['status']=='approved' and (q.get('last_review') or {}).get('reviewer')==label)]
 
 
 def main(argv=None):
