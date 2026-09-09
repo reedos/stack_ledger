@@ -1,5 +1,7 @@
 # Research sessions
 
+Visual review: controller sessions now retain no-inference display dependency checks and a bounded private recommendation assessment at healthy session completion. Review in **Review findings → Visual recommendations**. Accepting a preview never applies or publishes it; see [operation and limits](VISUAL_RECOMMENDATIONS.md). Failed/stopped sessions do not start editorial inference. Collection retains its existing window; bounded final assessment precedes the completion receipt.
+
 The owner requested a daily 2–7 AM Pacific session and configurable manual research. This extends the existing runner, discovery lane, evidence checks and private review queues. It does not grant the model approval or publication authority.
 
 ## Overnight operation

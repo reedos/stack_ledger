@@ -1,5 +1,7 @@
 # Editorial recommender: operation and review
 
+Site-wide extension: [Visual recommendations: operation and limits](VISUAL_RECOMMENDATIONS.md) documents the implemented recommendation-only session assessment and local panel. [The algorithm draft](VISUAL_RECOMMENDATION_DRAFT.md) retains the broader design, including follow-ups not yet implemented. Neither widens publication permissions.
+
 Implements [the approved handoff](editorial-handoff-v1.md). This is reviewed coding configuration, not permission for a research model to change the site. No extra schedule was installed as part of implementation.
 
 ## Repository map and authority

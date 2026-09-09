@@ -220,4 +220,6 @@ if __name__=='__main__':
     validate(data)
     from editorial import read, validate_config
     validate_config(read(ROOT/'research/homepage.json'),data,read(ROOT/'research/editorial-policy.json'))
+    from visual_review import policy as visual_policy
+    visual_policy(ROOT)
     print('Ledger validation passed')

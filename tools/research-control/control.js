@@ -36,6 +36,7 @@ async function poll(){
     const q=d.discovery||{};$('discovery').textContent=q.id?`Latest discovery batch: ${q.status}; ${q.documents_screened||0} documents screened; ${q.proposals_queued||0} proposals. ${q.started_at||''}`:'';
     $('schedule-notice').textContent=d.schedule_notice?`${d.schedule_notice.at}: ${d.schedule_notice.reason}`:'';
     if(d.notification)$('schedule-notice').textContent+=` Telegram completion summary: ${d.notification.status}.`;
+    if(d.visual_assessment)$('schedule-notice').textContent+=` Visual recommendations: ${d.visual_assessment.state}${d.visual_assessment.state==='assessing'?' (private review, graphics unchanged)':''}.`;
   }catch(e){$('connection').textContent='Connection unavailable';}
   setTimeout(poll,2000);
 }

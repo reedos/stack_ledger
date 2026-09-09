@@ -14,5 +14,6 @@ jobs:
       - run: python -m unittest discover -s tests
       - run: python scripts/evaluate_editorial.py
       - run: python scripts/evaluate_catalog.py
+      - run: python scripts/evaluate_visuals.py
       - run: python scripts/build.py
       # This workflow has no publication step, credentials, or write permission.

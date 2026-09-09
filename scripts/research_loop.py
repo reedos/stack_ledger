@@ -156,6 +156,11 @@ def main(argv=None):
                         time.sleep(5)
                 cycles+=1;idle_samples=0
                 report['batches']=cycles
+                try:
+                    from visual_review import checkpoint as visual_checkpoint
+                    visual_checkpoint(ROOT,folder)
+                except (OSError,ValueError,KeyError):
+                    print('Visual dependency check unavailable; research evidence is retained.',flush=True)
                 if child.returncode==2:
                     report['consecutive_failures']=0
                     report['idle_checks']=report.get('idle_checks',0)+1
@@ -186,6 +191,8 @@ def main(argv=None):
             raise
         finally:
             if awake:ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
+            from visual_review import finish_session
+            finish_session(ROOT,report,folder)
             from research_notify import notify_session
             notification=notify_session(ROOT,report,folder)
             print('Session notification: '+notification['status'],flush=True)

@@ -105,6 +105,7 @@ class Controller:
             controller_log=tail(self.root/'.local/control-launch.log',3000),
             discovery=read(self.root/'.local/discovery/latest.json',{}),
             notification=read(self.root/'.local/sessions'/sid/'notification.json') if valid else None,
+            visual_assessment=read(self.root/'.local/sessions'/sid/'visual-progress.json') if valid else None,
             schedule_notice=read(self.root/'.local/schedule-overlap.json'))
 
     def start(self,options):
@@ -165,6 +166,24 @@ def server(root=ROOT):
                 except (OSError,ValueError):self.send(503,{'error':'Review queue is unavailable; try again shortly'})
                 return
             assets={'':('index.html','text/html'),'control.js':('control.js','text/javascript'),'control.css':('control.css','text/css'),'reviews.js':('reviews.js','text/javascript')}
+            if route=='visuals':
+                from visual_review import inbox
+                from findings_review import reviewer
+                try:self.send(200,dict(inbox(root),reviewer=reviewer(root)))
+                except (OSError,ValueError):self.send(503,{'error':'Visual review queue is unavailable'})
+                return
+            if '/visual-preview/' in self.path:
+                from visual_review import load
+                import editorial as ed
+                try:
+                    rid=self.path.split('/')[-1];p,s=load(root,rid)
+                    path=root/'.local/editorial'/('visual-'+p['snapshot_hash'])/(rid+'.html')
+                    html=path.read_text(encoding='utf-8')
+                    if ed.hashed(html)!=p['preview_hash']:raise ValueError('Preview changed')
+                    self.send(200,html,'text/html',preview=True)
+                except (ValueError,OSError,KeyError):self.send(404,{'error':'Preview unavailable'})
+                return
+            assets['visuals.js']=('visuals.js','text/javascript')
             if route not in assets:self.send(404,{});return
             name,kind=assets[route];self.send(200,(root/'tools/research-control'/name).read_text(encoding='utf-8'),kind)
         def do_POST(self):
@@ -181,6 +200,16 @@ def server(root=ROOT):
                 elif route=='review':
                     from findings_review import review
                     result=review(root,value)
+                elif route in {'visual-review','visual-assess'}:
+                    from findings_review import reviewer
+                    import visual_review
+                    owner=reviewer(root)
+                    if not owner:raise ValueError('This local account cannot review visual recommendations')
+                    if route=='visual-review':result=visual_review.review(root,value,owner)
+                    else:
+                        if value!={'model':False}:raise ValueError('Panel assessment is offline; model evaluation runs at session conclusion')
+                        if controller.status()['active'] or (root/'.local/research.lock').exists():raise ValueError('Wait for active research to finish before an on-demand assessment')
+                        result=visual_review.assess(root)
                 elif route in {'catalog-preview','catalog-review','catalog-publish'}:
                     from findings_review import reviewer
                     import catalog_review

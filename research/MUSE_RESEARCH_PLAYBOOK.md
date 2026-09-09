@@ -1,5 +1,9 @@
 # Muse Glimmer research playbook
 
+## Visual recommendation follow-through
+
+The controller now runs the separate [visual recommendation workflow](VISUAL_RECOMMENDATIONS.md) after healthy session completion. Its bounded model packet contains a reader question, display restrictions, accepted evidence, deterministic calculations and prior human decisions. Keep recommendations qualitative and evidence-linked in the requested schema. KEEP and insufficient evidence are valid; errors and budget limits remain explicit. A new graphic or metric selection is a proposal, never permission to edit a page. Owner acceptance records a review decision only; unsupported layouts require implementation and final preview review. Collection/extraction schemas and unattended publication permissions are unchanged.
+
 Effective guidance: September 8, 2026. Maintainer-authored operating documentation based on the [Astra research pass](ASTRA_RESEARCH_REPORT-2026-09-08.md). This document is instruction and evaluation design, not evidence for any public claim. The constitution and existing publication restrictions remain in force.
 
 ## What Muse actually receives

@@ -1,5 +1,7 @@
 # Stack Ledger
 
+Read research/VISUAL_RECOMMENDATIONS.md when maintaining visual recommendation sessions or review UI. The 19-display evaluator writes only private recommendations; accepting a preview is not application or publication. Specifications require a separate implemented preview. Preserve the existing human identity/CSRF checks, immutable evidence/preview hashes, KEEP and insufficient-evidence outcomes, bounded session finalization and excluded runtime block. No model-authored rendering code or formulas may execute.
+
 Read research/CONSTITUTION.md before researching or publishing. Read research/METHODOLOGY.md before changing metrics or graphics. The owner has authorized daily validated data publication; do not ask again for ordinary data updates.
 
 Read research/OPERATING_GUIDE.md when maintaining local automation. Research readiness checks must not start inference: `research.py` even without flags performs real research; `research_loop.py` without `--start` only previews a plan. Keep curated coverage and private review candidates distinct. Do not enable extra schedules merely to audit downtime readiness.
