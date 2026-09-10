@@ -64,6 +64,26 @@
       "cadence": "weekly",
       "weekday": 5,
       "timeout_seconds": 600
+    },
+    {
+      "id": "policy",
+      "command": [
+        "scripts/import_policy.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 6,
+      "timeout_seconds": 300
+    },
+    {
+      "id": "grid",
+      "command": [
+        "scripts/import_grid.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 2,
+      "timeout_seconds": 300
     }
   ]
 }

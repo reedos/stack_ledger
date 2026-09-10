@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-10T22:00:00Z",
+  "owner_decision": "September 10, 2026: track official U.S. government action on the grid interface (electricity prices, interconnection, transmission siting) and on export controls for advanced computing, as grade A events from the Federal Register API (www.federalregister.gov/api/v1/, public domain, keyless). Each matching document becomes an event, never a numeric record; a quantity named inside a rule is a research question for the model, not an import.",
+  "api_base": "https://www.federalregister.gov/api/v1/documents.json",
+  "lookback_days": 120,
+  "max_documents_per_run": 20,
+  "agencies": [
+    {"slug": "energy-department", "publisher": "U.S. Department of Energy"},
+    {"slug": "federal-energy-regulatory-commission", "publisher": "Federal Energy Regulatory Commission"},
+    {"slug": "industry-and-security-bureau", "publisher": "U.S. Bureau of Industry and Security"},
+    {"slug": "environmental-protection-agency", "publisher": "U.S. Environmental Protection Agency"}
+  ],
+  "queries": [
+    {"id": "data-center-electricity", "term": "\"data center\" electricity", "layer": "energy",
+     "note": "PJM large-load/bring-power-or-face-cuts, DOE Eddystone and similar data-centre electricity-demand actions."},
+    {"id": "large-load-interconnection", "term": "\"large load\" interconnection", "layer": "energy",
+     "note": "Large-load interconnection queue and flexibility proceedings (FERC dockets, DOE notices)."},
+    {"id": "transmission-corridor", "term": "\"transmission corridor\"", "layer": "energy",
+     "note": "DOE transmission-corridor and national transmission-needs actions."},
+    {"id": "advanced-computing-export-controls", "term": "\"advanced computing\" export", "layer": "chips",
+     "note": "BIS export-control actions on advanced computing chips and related items."}
+  ]
+}

@@ -76,6 +76,30 @@ class PublicationPolicyTests(unittest.TestCase):
                 self.assertFalse(ok)
                 self.assertTrue(any('always needs human review' in r for r in reasons),reasons)
 
+    def test_policy_import_author_is_listed_but_its_events_still_need_a_human(self):
+        # Grid-interface tracking (2026-09-10): Federal Register grade-A government-action
+        # events are additions from an official authority, so 'Policy import (maintainer
+        # tool)' joins the reviewed author list -- confirmed here. But a *source* or *note*
+        # (event) addition stays off auto_apply.targets on purpose, by the same reviewed rule
+        # test_source_or_note_addition_is_never_eligible_regardless_of_author_or_rank checks
+        # for every other author: eligible() correctly refuses a Federal Register package
+        # shaped exactly like this importer's own additions, regardless of author or rank.
+        # scripts/import_policy.py therefore publishes through the non-pushing
+        # scripts/importer_common.apply_changes lane instead, never through this one.
+        self.assertIn('Policy import (maintainer tool)', self.policy['auto_apply']['authors'])
+        source_after = {'id': 'federal-register-2026-18370', 'publisher': 'U.S. Department of Energy',
+                         'title': 'Securing the United States Bulk-Power System', 'url': 'https://www.federalregister.gov/documents/2026/09/09/2026-18370/x',
+                         'published': '2026-09-09', 'layers': ['energy'], 'license': 'Public domain (U.S. government work)'}
+        note_after = {'id': 'policy-2026-18370', 'layer': 'energy', 'date': '2026-09-09', 'title': 'Securing the United States Bulk-Power System',
+                      'summary': 'Notice from U.S. Department of Energy.', 'source': 'federal-register-2026-18370', 'kind': 'Government action', 'grade': 'A'}
+        package = {'author': 'Policy import (maintainer tool)',
+                   'changes': [{'target': 'source', 'id': source_after['id'], 'before': None, 'after': source_after, 'evidence': ['e1']},
+                               {'target': 'note', 'id': note_after['id'], 'before': None, 'after': note_after, 'evidence': ['e1']}],
+                   'evidence': [{'id': 'e1', 'url': source_after['url'], 'published_at': '2026-09-09', 'retrieved_at': '2026-09-09T09:00:00Z', 'sha256': 'b'*64, 'summary': 'doc'}]}
+        ok, reasons = pp.eligible(package, self.policy, self.registry)
+        self.assertFalse(ok)
+        self.assertTrue(any('always needs human review' in r for r in reasons), reasons)
+
     def test_magnitude_sanity_rule_both_sides(self):
         ledger={'observations':[{'metric':'m1','value':100},{'metric':'m1','value':110},{'metric':'m1','value':90}]}
         def addition(value):

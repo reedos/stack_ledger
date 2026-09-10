@@ -1,3 +1,4 @@
+import json
 import sys
 import unittest
 from datetime import date
@@ -29,6 +30,15 @@ STEO_ROWS = [
     {'period': '2025', 'seriesId': 'ELGEN', 'value': '4430.0'},
     {'period': '2026', 'seriesId': 'ELGEN', 'value': '4508.0'},
     {'period': '2027', 'seriesId': 'ELGEN', 'value': '4632.0'},
+]
+
+RETAIL_PRICE_ROWS = [
+    {'period': '2026-06', 'stateid': 'TX', 'sectorid': 'RES', 'price': '15.32'},
+    {'period': '2026-07', 'stateid': 'TX', 'sectorid': 'RES', 'price': '15.90'},
+    {'period': '2026-07', 'stateid': 'VA', 'sectorid': 'RES', 'price': '14.11'},         # untracked state: ignored
+    {'period': '2026-07', 'stateid': 'TX', 'sectorid': 'IND', 'price': '9.00'},          # untracked sector: ignored
+    {'period': '2026-07', 'stateid': 'US', 'sectorid': 'ALL', 'price': '13.20'},
+    {'period': '2026-07', 'stateid': 'TX', 'sectorid': 'RES', 'price': 'NA'},            # non-numeric: dropped, never zero
 ]
 
 
@@ -107,6 +117,62 @@ class EiaRecordTests(unittest.TestCase):
     def test_source_is_public_domain_energy_layer(self):
         self.assertEqual(ie.SOURCE['license'], 'Public domain (U.S. government work)')
         self.assertEqual(ie.SOURCE['layers'], ['energy'])
+
+
+class RetailPriceTests(unittest.TestCase):
+    def test_project_states_come_from_reviewed_county_and_place_locations_only(self):
+        delivery = json.loads((ROOT/'research/delivery.json').read_text(encoding='utf-8'))
+        states = ie.project_states(delivery)
+        self.assertTrue(states)
+        self.assertTrue(all(len(k) == 2 and k.isalpha() and k == k.upper() for k in states))
+        self.assertTrue(all(v == ie.STATE_NAMES[k] for k, v in states.items()))
+
+    def test_project_states_reads_the_state_suffix_off_the_label(self):
+        fake = {'projects': [
+            {'map_location': {'source': 'census-map-counties', 'source_key': '32003', 'label': 'Clark County, NV'}},
+            {'map_locations': [{'location': {'source': 'census-map-places', 'source_key': '5554875', 'label': 'Mount Pleasant village, WI'}}]},
+            {'map_location': {'source': 'geonames-map', 'source_key': '2643743', 'label': 'London, GB'}},   # not a U.S. state: ignored
+            {'map_location': {'source': 'census-map-places', 'source_key': '1234567', 'label': 'Social Circle, GA — Stanton Springs area'}},
+        ]}
+        self.assertEqual(ie.project_states(fake), {'NV': 'Nevada', 'WI': 'Wisconsin', 'GA': 'Georgia'})
+
+    def test_project_states_empty_for_no_reviewed_locations(self):
+        self.assertEqual(ie.project_states({'projects': []}), {})
+
+    def test_retail_price_records_keep_only_tracked_states_and_sectors(self):
+        states = {'TX': 'Texas', 'US': 'United States'}
+        metrics, observations = ie.retail_price_records(RETAIL_PRICE_ROWS, '2026-09-10T12:00:00Z', states)
+        self.assertEqual(sorted(metrics), ['eia-retail-price-tx-residential', 'eia-retail-price-us-all'])
+        by_id = {o['id']: o for o in observations}
+        self.assertEqual(by_id['eia-retail-price-tx-residential-2026-06']['value'], 15.32)
+        self.assertEqual(by_id['eia-retail-price-tx-residential-2026-07']['value'], 15.9)
+        self.assertEqual(by_id['eia-retail-price-us-all-2026-07']['value'], 13.2)
+        self.assertNotIn('eia-retail-price-va-residential-2026-07', by_id)   # untracked state
+        self.assertTrue(all(o['status'] == 'observation' and o['source'] == ie.SOURCE_ID for o in observations))
+
+    def test_retail_price_metric_geography_and_code(self):
+        state_metric = ie.retail_price_metric('TX', 'Texas', 'residential')
+        national_metric = ie.retail_price_metric('US', 'United States', 'all')
+        self.assertEqual(state_metric['geography'], 'Texas'); self.assertEqual(state_metric['geography_code'], 'TX')
+        self.assertEqual(national_metric['geography'], 'United States'); self.assertEqual(national_metric['geography_code'], 'US')
+        self.assertEqual(state_metric['unit'], 'cents/kWh'); self.assertEqual(state_metric['period_basis'], 'month')
+        self.assertEqual(state_metric['series_start_year'], 2019)
+
+    def test_retail_price_metrics_are_reviewed_public_measurement_type_and_internally_valid(self):
+        states = {'TX': 'Texas', 'US': 'United States'}
+        metrics, observations = ie.retail_price_records(RETAIL_PRICE_ROWS, '2026-09-10T12:00:00Z', states)
+        for m in metrics.values():
+            self.assertTrue(m['measurement_type'] in ve.TYPES and m['measurement_type'] in ve.PUBLIC_TYPES and m['measurement_type'] in ve.HISTORICAL_ONLY)
+            self.assertIsNone(m['company'])
+        sources = {ie.SOURCE_ID: ie.SOURCE}
+        for o in observations:
+            observation_valid(o, metrics, sources)
+
+    def test_retail_price_url_carries_state_and_sector_facets(self):
+        url = ie.retail_price_url(['TX', 'CA', 'US'], 'RES')
+        self.assertTrue(url.startswith('https://api.eia.gov/v2/electricity/retail-sales/data/'))
+        self.assertIn('facets[stateid][]=TX', url); self.assertIn('facets[stateid][]=CA', url); self.assertIn('facets[stateid][]=US', url)
+        self.assertIn('facets[sectorid][]=RES', url); self.assertIn('data[0]=price', url)
 
 
 if __name__ == '__main__':

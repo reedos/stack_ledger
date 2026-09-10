@@ -28,7 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from research import load, save, now
-from validate import validate, observation_valid
+from validate import validate, observation_valid, event_valid
 from source_policy import validate_registry
 from editorial_review import append_event, locked
 
@@ -55,9 +55,10 @@ def _snapshot_sha256s(snapshot):
 
 
 def apply_changes(root, *, importer_id, new_sources=(), collection_entries={}, region_book=None,
-                   new_metrics=(), replace_metric_ids=(), new_observations=(), snapshot=None):
-    """Register sources, add/replace catalog metrics, upsert observations, validate the whole
-    ledger with restore-on-failure, save, rebuild, and record an 'importer_apply' audit event.
+                   new_metrics=(), replace_metric_ids=(), new_observations=(), new_events=(), snapshot=None):
+    """Register sources, add/replace catalog metrics, upsert observations and events, validate
+    the whole ledger with restore-on-failure, save, rebuild, and record an 'importer_apply'
+    audit event.
 
     new_sources: source dicts (validate.source_valid shape). Skipped if already registered.
     collection_entries: {source_id: reviewed collection policy dict}, for newly registered sources.
@@ -68,6 +69,11 @@ def apply_changes(root, *, importer_id, new_sources=(), collection_entries={}, r
     new_observations: observation dicts to land. An id already in the ledger is replaced in
       place (an upsert); a new id is appended. Every one is checked with observation_valid
       against the metrics/sources that result from this same call before it lands.
+    new_events: event dicts (validate.event_valid shape) to land the same way -- an id already
+      present is replaced in place, a new id is appended, each one checked with event_valid
+      against the sources that result from this same call before it lands. Additions only: this
+      is for a maintainer importer's own graded events (e.g. an official government publication),
+      never a correction of something already published.
     snapshot: the importer's own retained snapshot metadata (whatever shape it already saves),
       used only to fill the receipt's retrieved_at and snapshot_sha256s.
 
@@ -119,6 +125,17 @@ def apply_changes(root, *, importer_id, new_sources=(), collection_entries={}, r
             ledger['observations'].append(o)
             records_added.append(o['id'])
 
+    event_index = {e['id']: i for i, e in enumerate(ledger['events'])}
+    events_added = []
+    for e in new_events:
+        event_valid(e, sources_by_id)
+        if e['id'] in event_index:
+            ledger['events'][event_index[e['id']]] = e
+        else:
+            event_index[e['id']] = len(ledger['events'])
+            ledger['events'].append(e)
+            events_added.append(e['id'])
+
     validate_registry(registry, {c['id'] for c in load(root/'research/ecosystem.json')['companies']})
 
     originals = {p: p.read_bytes() for p in [root/'research/catalog.json', root/'research/sources.json', root/'site/data/source-books.json']}
@@ -139,7 +156,7 @@ def apply_changes(root, *, importer_id, new_sources=(), collection_entries={}, r
     at = now()
     receipt = {'importer_id': importer_id, 'retrieved_at': (snapshot or {}).get('retrieved_at', at),
                'sources_touched': sources_touched, 'metrics_added': metrics_added, 'metrics_replaced': metrics_replaced,
-               'records_added': records_added, 'snapshot_sha256s': _snapshot_sha256s(snapshot),
+               'records_added': records_added, 'events_added': events_added, 'snapshot_sha256s': _snapshot_sha256s(snapshot),
                'account': getpass.getuser().lower(), 'channel': 'importer', 'at': at}
     event_id = 'importer-'+hashlib.sha256((importer_id+at).encode('utf-8')).hexdigest()[:24]
     with locked(root):

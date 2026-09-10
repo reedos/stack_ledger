@@ -58,7 +58,7 @@ TYPES |= SEC_TYPES
 # generation and generator-capacity-addition series carry no company; the STEO outlook mixes
 # elapsed (observation) and future (forecast) years for the same series, so it stays out of
 # HISTORICAL_ONLY and FUTURE_ONLY alike.
-EIA_TYPES = {'eia_net_generation_twh', 'eia_capacity_additions_mw', 'eia_steo_generation_twh'}
+EIA_TYPES = {'eia_net_generation_twh', 'eia_capacity_additions_mw', 'eia_steo_generation_twh', 'retail_electricity_price_cents_kwh'}
 PUBLIC_TYPES |= EIA_TYPES
 TYPES |= EIA_TYPES
 HISTORICAL_ONLY = {'county_industry_employment', 'county_industry_hires', 'county_industry_avg_monthly_earnings', 'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
@@ -68,7 +68,20 @@ HISTORICAL_ONLY = {'county_industry_employment', 'county_industry_hires', 'count
                    'operating_vehicle_count', 'operating_metro_count',
                    'humanoid_units_in_production_use', 'completed_totes',
                    'crash_involvements_per_million_miles'}
-HISTORICAL_ONLY |= SEC_TYPES | {'eia_net_generation_twh', 'eia_capacity_additions_mw'}
+HISTORICAL_ONLY |= SEC_TYPES | {'eia_net_generation_twh', 'eia_capacity_additions_mw', 'retail_electricity_price_cents_kwh'}
+# Grid-interface tracking (owner-approved 2026-09-10): each grid operator's own published
+# peak-load and, where disclosed separately, large-load/data-centre load forecast -- yearly,
+# grid-wide (no company), always a forecast never an actual reading.
+GRID_TYPES = {'grid_peak_load_forecast_mw', 'grid_large_load_forecast_mw'}
+PUBLIC_TYPES |= GRID_TYPES
+TYPES |= GRID_TYPES
+FUTURE_ONLY |= GRID_TYPES
+# Grid-interface tracking: virtual-power-plant/demand-response capacity a company has
+# contracted (Google/PG&E, Sunrun/Voltus and similar disclosures). Company-attributed --
+# deliberately not PUBLIC_TYPES -- and created only once a company discloses a number; never
+# FUTURE_ONLY, since a contracted commitment, a company-reported result and an estimate of
+# enrolled capacity are all legitimate statuses here.
+TYPES |= {'demand_flexibility_mw_contracted'}
 
 
 def validate_expansion(x, ledger, ecosystem, delivery):

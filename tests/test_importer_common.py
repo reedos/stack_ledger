@@ -64,6 +64,12 @@ class ImporterCommonEndToEndTests(unittest.TestCase):
                 'source': FIXTURE_SOURCE['id'], 'precision': 'eq', 'retrieved_at': '2026-09-09T12:00:00Z',
                 'method': 'curated', 'note': 'Test fixture observation.'}
 
+    def fixture_event(self, title='Test fixture event'):
+        # FIXTURE_SOURCE is registered at collection rank 1, so grade_for derives grade A.
+        return {'id': 'test-importer-common-event', 'layer': 'infrastructure', 'date': '2026-09-09',
+                'title': title, 'summary': 'A test fixture event created only inside a temp copy of the repo.',
+                'source': FIXTURE_SOURCE['id'], 'kind': 'Government action', 'grade': 'A'}
+
     def test_apply_registers_adds_and_appends_and_records_an_event(self):
         ledger_before = self.read('site/data/ledger.json')
         self.assertNotIn(FIXTURE_SOURCE['id'], {s['id'] for s in ledger_before['sources']})
@@ -133,6 +139,33 @@ class ImporterCommonEndToEndTests(unittest.TestCase):
         obs = next(o for o in ledger['observations'] if o['id'] == 'test-importer-common-metric-2026q1')
         self.assertEqual(obs['value'], 150)
         self.assertEqual(sum(1 for o in ledger['observations'] if o['id'] == 'test-importer-common-metric-2026q1'), 1)
+
+    def test_new_events_upsert_by_id_and_are_recorded_in_the_receipt(self):
+        receipt = self.apply(importer_id='test-importer', new_sources=[FIXTURE_SOURCE],
+                              collection_entries=FIXTURE_COLLECTION, region_book='united-states',
+                              new_events=[self.fixture_event()])
+        self.assertEqual(receipt['events_added'], ['test-importer-common-event'])
+        ledger = self.read('site/data/ledger.json')
+        events = {e['id']: e for e in ledger['events']}
+        self.assertEqual(events['test-importer-common-event']['grade'], 'A')
+        self.assertEqual(events['test-importer-common-event']['kind'], 'Government action')
+
+        # A second call with a revised title upserts the same id rather than duplicating it.
+        receipt2 = self.apply(importer_id='test-importer', new_events=[self.fixture_event('Revised title')])
+        self.assertEqual(receipt2['events_added'], [])
+        ledger2 = self.read('site/data/ledger.json')
+        matching = [e for e in ledger2['events'] if e['id'] == 'test-importer-common-event']
+        self.assertEqual(len(matching), 1)
+        self.assertEqual(matching[0]['title'], 'Revised title')
+
+    def test_new_event_with_wrong_grade_for_its_source_rolls_back(self):
+        bad_event = dict(self.fixture_event(), grade='C')   # FIXTURE_SOURCE is rank 1: only grade A is valid
+        error = self.apply_expecting_failure(importer_id='test-importer', new_sources=[FIXTURE_SOURCE],
+                                              collection_entries=FIXTURE_COLLECTION, region_book='united-states',
+                                              new_events=[bad_event])
+        self.assertIn('Event grade', error)
+        ledger = self.read('site/data/ledger.json')
+        self.assertNotIn('test-importer-common-event', {e['id'] for e in ledger['events']})
 
     def test_rollback_on_validation_failure_restores_every_file_byte_for_byte(self):
         catalog_before = (self.root/'research/catalog.json').read_bytes()

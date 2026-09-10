@@ -1,12 +1,13 @@
 {
   "version": 1,
   "reviewed_at": "2026-09-09T10:45:00Z",
-  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site. Additions from credible authorities are applied to the site automatically under the rules below, each one recorded as a catalog_change event with its commit. Ingested figures (site power, chip counts, capital cost) from those authorities are recorded as estimates and attached to their projects automatically; nothing already on the site is replaced without a human decision.",
+  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site. Additions from credible authorities are applied to the site automatically under the rules below, each one recorded as a catalog_change event with its commit. Ingested figures (site power, chip counts, capital cost) from those authorities are recorded as estimates and attached to their projects automatically; nothing already on the site is replaced without a human decision. September 10, 2026: 'Policy import (maintainer tool)' joins the authors for a future maintainer tool producing project/metric/observation packages under this name; source and note (new sources, new published events) stay off auto_apply.targets on purpose (tests/test_publication_policy.py) -- scripts/import_policy.py's Federal Register grade-A events publish through the non-pushing scripts/importer_common.apply_changes lane instead, never through this one.",
   "auto_apply": {
     "enabled": true,
     "reviewer_label": "publication-policy",
     "authors": [
-      "Epoch import (maintainer tool)"
+      "Epoch import (maintainer tool)",
+      "Policy import (maintainer tool)"
     ],
     "targets": [
       "project",

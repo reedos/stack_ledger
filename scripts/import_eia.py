@@ -1,7 +1,7 @@
 """Maintainer importer for EIA electricity data via the EIA API v2 (needs a registered key).
 No model calls.
 
-Three national series, all public domain (U.S. government work):
+Four series, all public domain (U.S. government work):
 
   * `eia-net-generation-monthly` -- all-fuels monthly net generation, electric power sector
     total (facet sectorid=99), from `/v2/electricity/electric-power-operational-data/data/`.
@@ -13,11 +13,19 @@ Three national series, all public domain (U.S. government work):
     history` metric (never a replacement for it). Status is `observation` for a fully elapsed
     year and `forecast` otherwise, matching this project's existing STEO convention (a current,
     still-elapsing year stays a forecast).
+  * `eia-retail-price-<state>-{residential,all}` -- average monthly retail electricity price
+    (cents/kWh) from `/v2/electricity/retail-sales/data/`, one pair of metrics per state where
+    the catalog places a project (`project_states`, the same reviewed-map derivation
+    `import_qcew.project_counties` uses for counties) plus `eia-retail-price-us-{...}` for the
+    national figure. This is deliverable A of the grid-interface tracking work (2026-09-10):
+    the site's own premise -- whether the AI buildout raises costs for people who live near it
+    -- needs a price series next to the load and policy trackers, not just generation and
+    capacity context.
 
 `.local/api-keys.json` has no owner-registered EIA key in this environment. Per the owner's
 scope for this importer: with no key, this script prints the exact registration URL and exits
 0 without making any network call at all -- not even the keyless SEC-style paths some other
-importers use, because every EIA v2 route requires the key. The three record-building
+importers use, because every EIA v2 route requires the key. The four record-building
 functions above are still fully implemented and unit-tested against hand-written fixtures
 built from EIA's published API v2 documentation, so the importer is ready the moment the owner
 registers a key; nothing here has been exercised against EIA's real response shape.
@@ -31,6 +39,12 @@ CONFIRM AGAINST A LIVE PULL BEFORE THE FIRST --apply ONCE A KEY EXISTS:
   * Whether `operating-generator-capacity` returns planned (not-yet-operating) generators at
     all, or only already-operating ones, is unconfirmed; "additions" here means generators
     whose `operating-year-month` equals the queried period.
+  * Retail-sales facets: this module assumes `facets[stateid][]` (two-letter state code, plus
+    `US` for the national row) and `facets[sectorid][]` (`RES` residential, `ALL` all sectors)
+    and a `data[0]=price` column named `price` in cents/kWh on the response rows, following EIA
+    API v2's documented general facet-naming convention for this route -- not confirmed against
+    a live response. Confirm the exact facet/column names and that `US` is a valid `stateid`
+    value (EIA's documentation describes it as such) before the first `--apply`.
 
     python scripts/import_eia.py            # with a key: fetch, snapshot, report; without one: print registration URL, exit 0
     python scripts/import_eia.py --apply    # register the source, add metrics and records, rebuild
@@ -60,6 +74,22 @@ REGISTRATION_URL = 'https://www.eia.gov/opendata/register.php'
 NET_GENERATION_ROUTE = 'https://api.eia.gov/v2/electricity/electric-power-operational-data/data/'
 CAPACITY_ROUTE = 'https://api.eia.gov/v2/electricity/operating-generator-capacity/data/'
 STEO_ROUTE = 'https://api.eia.gov/v2/steo/data/'
+RETAIL_PRICE_ROUTE = 'https://api.eia.gov/v2/electricity/retail-sales/data/'
+
+# USPS state abbreviation -> full name, for every state (plus DC) a reviewed project map
+# location can resolve to; 'US' (national) is handled separately, never through this map.
+STATE_NAMES = {'AL':'Alabama','AK':'Alaska','AZ':'Arizona','AR':'Arkansas','CA':'California','CO':'Colorado',
+    'CT':'Connecticut','DE':'Delaware','DC':'District of Columbia','FL':'Florida','GA':'Georgia','HI':'Hawaii',
+    'ID':'Idaho','IL':'Illinois','IN':'Indiana','IA':'Iowa','KS':'Kansas','KY':'Kentucky','LA':'Louisiana',
+    'ME':'Maine','MD':'Maryland','MA':'Massachusetts','MI':'Michigan','MN':'Minnesota','MS':'Mississippi',
+    'MO':'Missouri','MT':'Montana','NE':'Nebraska','NV':'Nevada','NH':'New Hampshire','NJ':'New Jersey',
+    'NM':'New Mexico','NY':'New York','NC':'North Carolina','ND':'North Dakota','OH':'Ohio','OK':'Oklahoma',
+    'OR':'Oregon','PA':'Pennsylvania','RI':'Rhode Island','SC':'South Carolina','SD':'South Dakota',
+    'TN':'Tennessee','TX':'Texas','UT':'Utah','VT':'Vermont','VA':'Virginia','WA':'Washington',
+    'WV':'West Virginia','WI':'Wisconsin','WY':'Wyoming'}
+# (EIA sectorid, our metric-id slug)
+RETAIL_SECTORS = [('RES', 'residential'), ('ALL', 'all')]
+STATE_LABEL_RE = re.compile(r',\s*([A-Za-z]{2})\b')
 # Placeholder: EIA's STEO API groups series by a seriesId facet. The real mnemonic for total
 # electricity generation in the ELGEN family is confirmed only once a live key exists.
 STEO_SERIES_ID = 'ELGEN'
@@ -82,6 +112,32 @@ def capacity_url():
 
 def steo_url():
     return f'{STEO_ROUTE}?frequency=annual&data[0]=value&facets[seriesId][]={STEO_SERIES_ID}'
+
+
+def project_states(delivery):
+    """2-letter state code -> state name, from the same reviewed Census map locations
+    import_qcew.project_counties reads off accepted projects: a county (census-map-counties)
+    or place (census-map-places) location's own label always ends "<name>, <ST>". A
+    geonames-map location (used for non-U.S. places) is never a U.S. state and is ignored."""
+    states = {}
+    for p in delivery['projects']:
+        locs = [p['map_location']] if p.get('map_location') else [e.get('location', e) for e in p.get('map_locations', [])]
+        for l in locs:
+            if l.get('source') not in ('census-map-counties', 'census-map-places'):
+                continue
+            m = STATE_LABEL_RE.search(l.get('label') or '')
+            if not m:
+                continue
+            code = m.group(1).upper()
+            if code in STATE_NAMES:
+                states[code] = STATE_NAMES[code]
+    return states
+
+
+def retail_price_url(codes, sector):
+    facets = ''.join(f'&facets[stateid][]={code}' for code in codes)
+    return (f'{RETAIL_PRICE_ROUTE}?frequency=monthly&data[0]=price{facets}'
+            f'&facets[sectorid][]={sector}&sort[0][column]=period&sort[0][direction]=asc')
 
 
 def parse_rows(body):
@@ -226,6 +282,58 @@ def steo_records(rows, retrieved_at, today=None):
     return observations
 
 
+def retail_price_metric(code, name, slug):
+    sector_label = 'residential' if slug == 'residential' else 'all-sector'
+    geography = 'United States' if code == 'US' else name
+    return {'id': f'eia-retail-price-{code.lower()}-{slug}', 'layer': 'energy',
+            'title': f'{geography} · retail electricity price, {sector_label} (EIA, monthly)',
+            'unit': 'cents/kWh', 'geography': geography,
+            'scope': f"EIA API v2 electricity/retail-sales average retail electricity price, {sector_label} customers, "
+                     f"{geography}, monthly. Grid-interface tracking (2026-09-10): the price people near the buildout pay, "
+                     "not a claim about what caused a change in it.",
+            'direction': 'context', 'min': 0, 'max': 100,
+            'note': "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. "
+                    "Monthly series; each import appends newly published months and never rewrites earlier ones.",
+            'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'retail_electricity_price_cents_kwh', 'project': None,
+            'allowed_statuses': ['observation'], 'period_basis': 'month', 'geography_code': code,
+            'series_start_year': 2019, 'chart_default_start': 2019, 'chart_default_end': 2027, 'definition_stable': True,
+            'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs; "
+                                "2019 onward exists in EIA's API. Missing months are unpublished, not zero."}
+
+
+def retail_price_records(rows, retrieved_at, states):
+    """states: {2-letter code -> name}, including 'US' -> 'United States'. Rows outside the
+    tracked states/sectors, or without a usable numeric price, are skipped."""
+    slug_by_sectorid = dict(RETAIL_SECTORS)
+    metrics = {}
+    observations = []
+    for r in rows:
+        code = r.get('stateid')
+        sector_id = r.get('sectorid')
+        if code not in states or sector_id not in slug_by_sectorid:
+            continue
+        period = r.get('period')
+        if not period or not MONTH_RE.fullmatch(period):
+            continue
+        raw = r.get('price')
+        if raw in (None, '', 'NA', 'w', 'ND'):
+            continue
+        try:
+            value = round(float(raw), 2)
+        except (TypeError, ValueError):
+            continue
+        if value <= 0:
+            continue
+        slug = slug_by_sectorid[sector_id]
+        mid = f'eia-retail-price-{code.lower()}-{slug}'
+        metrics.setdefault(mid, retail_price_metric(code, states[code], slug))
+        observations.append({'id': f'{mid}-{period}', 'metric': mid, 'year': int(period[:4]), 'period': period, 'value': value,
+                              'upper': None, 'status': 'observation', 'source': SOURCE_ID, 'precision': 'eq', 'retrieved_at': retrieved_at,
+                              'method': 'curated',
+                              'note': f"EIA API v2 electricity/retail-sales, state {code}, sector {sector_id}, {period}: {value:g} cents/kWh."[:300]})
+    return metrics, observations
+
+
 def run(apply=False, today=None):
     key = api_access.key('eia')
     if not key:
@@ -255,6 +363,9 @@ def run(apply=False, today=None):
     gen_rows = pull('net-generation', net_generation_url())
     cap_rows = pull('capacity-additions', capacity_url())
     steo_rows = pull('steo', steo_url())
+    states = project_states(load(ROOT/'research/delivery.json'))
+    codes = sorted(states) + ['US']
+    retail_rows = {sector: pull(f'retail-price-{sector.lower()}', retail_price_url(codes, sector)) for sector, _ in RETAIL_SECTORS}
 
     all_metrics = {}
     all_obs = []
@@ -268,11 +379,16 @@ def run(apply=False, today=None):
     if steo_obs:
         all_metrics['eia-steo-generation-outlook'] = steo_metric()
         all_obs += steo_obs
+    retail_states = dict(states, US='United States')
+    for sector, _ in RETAIL_SECTORS:
+        retail_metrics, retail_obs = retail_price_records(retail_rows[sector], retrieved, retail_states)
+        all_metrics.update(retail_metrics); all_obs += retail_obs
 
     SNAPSHOTS.mkdir(exist_ok=True)
     snapshot = {'dataset': 'EIA API v2 electricity data', 'source_id': SOURCE_ID, 'retrieved_at': retrieved, 'calls': calls,
                 'metrics': sorted(all_metrics), 'records': len(all_obs), 'license': 'Public domain (U.S. government work)',
-                'key': 'owner-registered, not recorded', 'steo_series_id_placeholder': STEO_SERIES_ID}
+                'key': 'owner-registered, not recorded', 'steo_series_id_placeholder': STEO_SERIES_ID,
+                'retail_price_states': sorted(retail_states)}
     save(SNAPSHOTS/'eia.json', snapshot)
 
     registry = load(ROOT/'research/sources.json'); ledger = load(ROOT/'site/data/ledger.json'); catalog = load(ROOT/'research/catalog.json')

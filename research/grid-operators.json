@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-10T22:00:00Z",
+  "owner_decision": "September 10, 2026: the site tracks PJM, ERCOT, MISO and SPP (the grid operators named in the news cluster that motivated this work) plus the national EIA figure as a fifth reference row. This task's network scope covers only the Federal Register API and the EIA API v2, so none of the four operators' own hosts (pjm.com, ercot.com, misoenergy.org, spp.org) were fetched; every reviewed source_url below was found by web research, not by the importer, and is a citation only until a machine-readable route is confirmed and approved for that host. No number from a PDF or spreadsheet is hand-entered into the ledger.",
+  "operators": [
+    {
+      "id": "pjm",
+      "name": "PJM Interconnection",
+      "source_url": "https://www.pjm.com/-/media/DotCom/library/reports-notices/load-forecast/2026-load-report.pdf",
+      "source_title": "2026 PJM Load Forecast Report",
+      "machine_endpoint": null,
+      "format": "PDF",
+      "status": "needs_reviewed_import",
+      "note": "PJM's annual Load Forecast Report (20-year peak-load forecast by zone, region and LDA) is published as a PDF; PJM's machine-readable planning data (Data Miner 2) requires a separate registered account and is outside this task's allowed network hosts. No number entered."
+    },
+    {
+      "id": "ercot",
+      "name": "ERCOT",
+      "source_url": "https://www.ercot.com/files/docs/2025/04/08/ERCOT-2025-Long-Term-Load-Forecast-Report.pdf",
+      "source_title": "ERCOT 2025 Long-Term Load Forecast Report",
+      "machine_endpoint": null,
+      "format": "PDF",
+      "status": "needs_reviewed_import",
+      "note": "ERCOT's Long-Term Load Forecast (hourly, 10-year) is published as a PDF report and stakeholder deck under ercot.com/gridinfo/load/forecast; no keyless CSV/JSON export was identified within this task's allowed network hosts. No number entered."
+    },
+    {
+      "id": "miso",
+      "name": "MISO",
+      "source_url": "https://cdn.misoenergy.org/MISO%20Long-Term%20Load%20Forecast%20Whitepaper_December%202024667166.pdf",
+      "source_title": "MISO Long-Term Load Forecast Whitepaper",
+      "machine_endpoint": null,
+      "format": "PDF",
+      "status": "needs_reviewed_import",
+      "note": "MISO's long-term load forecast and its large-load-addition figures (e.g. MTEP's tracked large-load MW) are published as PDF whitepapers and MTEP report chapters under misoenergy.org; no keyless CSV/JSON export was identified within this task's allowed network hosts. No number entered."
+    },
+    {
+      "id": "spp",
+      "name": "Southwest Power Pool",
+      "source_url": "https://www.spp.org/media/2429/2025-itp-report-v10.pdf",
+      "source_title": "SPP 2025 Integrated Transmission Planning (ITP) Report",
+      "machine_endpoint": null,
+      "format": "PDF",
+      "status": "needs_reviewed_import",
+      "note": "SPP's peak-load growth projection (its ITP report cites roughly 56 GW current peak load rising toward 109 GW within a decade) is published as a PDF; no keyless CSV/JSON export was identified within this task's allowed network hosts. No number entered."
+    },
+    {
+      "id": "eia-national",
+      "name": "United States (EIA, national)",
+      "source_url": "https://www.eia.gov/outlooks/aeo/",
+      "source_title": "EIA Annual Energy Outlook",
+      "machine_endpoint": "https://api.eia.gov/v2/ (route unconfirmed)",
+      "format": "API (key-gated)",
+      "status": "needs_reviewed_import",
+      "note": "No confirmed EIA API v2 route for a national peak-load or large-load forecast was identified without a registered key; the Annual Energy Outlook's electricity-demand tables are the leading candidate. scripts/import_eia.py already imports EIA's Short-Term Energy Outlook total-generation series (eia-steo-generation-outlook) as national annual context; a dedicated grid_peak_load_forecast_mw series needs the key plus a live route check (the same 'confirm before first --apply' discipline already used for STEO_SERIES_ID) before it is added."
+    }
+  ]
+}

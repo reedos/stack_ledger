@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 from validate_expansion import validate_expansion, validate_files
+import validate_expansion as ve
 from validate import observation_valid
 from validate_delivery import validate_delivery
 
@@ -16,6 +17,21 @@ class ExpansionTests(unittest.TestCase):
 
     def test_reviewed_files_resolve(self):
         self.assertTrue(validate_files())
+
+    def test_grid_interface_measurement_types_are_reviewed(self):
+        # Deliverable B (2026-09-10): grid operator peak-load and large-load forecasts are
+        # public (grid-wide, no company) and always a forecast, never an actual reading.
+        for t in ('grid_peak_load_forecast_mw', 'grid_large_load_forecast_mw'):
+            self.assertIn(t, ve.TYPES); self.assertIn(t, ve.PUBLIC_TYPES); self.assertIn(t, ve.FUTURE_ONLY)
+            self.assertNotIn(t, ve.HISTORICAL_ONLY)
+
+    def test_demand_flexibility_measurement_type_is_company_attributed_and_unrestricted(self):
+        # Deliverable D (2026-09-10): created only once a company discloses megawatts, so it
+        # stays out of PUBLIC_TYPES (company required); not FUTURE_ONLY or HISTORICAL_ONLY, so
+        # observation/estimate/company-commitment can all be reviewed allowed_statuses.
+        t = 'demand_flexibility_mw_contracted'
+        self.assertIn(t, ve.TYPES)
+        self.assertNotIn(t, ve.PUBLIC_TYPES); self.assertNotIn(t, ve.FUTURE_ONLY); self.assertNotIn(t, ve.HISTORICAL_ONLY)
 
     def test_announced_capex_cannot_be_reclassified_as_spent(self):
         o = next(o for o in self.l['observations'] if o['metric'] == 'terafab-announced-capital')

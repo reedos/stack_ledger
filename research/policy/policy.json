@@ -1,0 +1,45 @@
+{
+  "dataset": "Federal Register API documents",
+  "source": "federal-register-api",
+  "retrieved_at": "2026-09-10T22:35:12Z",
+  "since": "2026-05-13",
+  "calls": [
+    {
+      "query": "data-center-electricity",
+      "status": "ok",
+      "sha256": "f3717b901ea61e3f79d3b07b22d25581b123705630e60bf73146a9e06f951704",
+      "results": 3
+    },
+    {
+      "query": "large-load-interconnection",
+      "status": "ok",
+      "sha256": "15e4ff99792f9e2ad7fdde0f971f87e7e41613fa52ecf760b739fb70d66e786e",
+      "results": 3
+    },
+    {
+      "query": "transmission-corridor",
+      "status": "ok",
+      "sha256": "00884bd4fb3edb4ba15516f2a8d8143fe7c63fc35f0bf4b0cfed58f626da6644",
+      "results": 1
+    },
+    {
+      "query": "advanced-computing-export-controls",
+      "status": "ok",
+      "sha256": "78eb59e099cdbe9482c9bd37609bedb4d1b12e5e907813d50d5e4f28e48d2206",
+      "results": 1
+    }
+  ],
+  "candidates_matched": 8,
+  "documents_selected": 8,
+  "document_numbers": [
+    "2026-18151",
+    "2026-16927",
+    "2026-16808",
+    "2026-14132",
+    "2026-13883",
+    "2026-13844",
+    "2026-11436",
+    "2026-09895"
+  ],
+  "license": "Public domain (U.S. government work)"
+}
