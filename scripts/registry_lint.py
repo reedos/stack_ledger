@@ -41,7 +41,7 @@ def dated_one_offs(registry):
     cadence: manual, and it changes cadence only -- research/sources.json's other reviewed
     fields (rank, region_book, topics, excerpts, ...) are untouched.
     """
-    out=[]
+    out=[];held=[]
     for s in registry['sources']:
         if s.get('index'):continue
         policy=registry.get('collection',{}).get(s['id'])
@@ -51,8 +51,13 @@ def dated_one_offs(registry):
         if policy is None or policy.get('cadence')=='manual':continue
         if not DATED_ID.search(s['id']):continue
         if not FIXED_DOCUMENT_PATH.search(urlparse(s['url']).path):continue
+        # source_policy's reviewed invariant: a manual source may keep neither excerpt permission nor
+        # discovery prefixes, and dropping either is a source-policy change only a person makes. Such a
+        # source is reported as held back instead of being retired.
+        if policy.get('excerpts') or policy.get('path_prefixes'):
+            held.append(s['id']);continue
         out.append(s['id'])
-    return out
+    return out,held
 
 
 def classify(registry,ledger):
@@ -108,12 +113,17 @@ def main(argv=None):
     args=parser.parse_args(argv)
     if args.retire_dated:
         registry=load(ROOT/'research/sources.json')
-        ids=dated_one_offs(registry)
+        ids,held=dated_one_offs(registry)
         print(f"{len(ids)} dated one-off source(s) {'retired' if args.apply else 'to retire (dry run; pass --apply to write)'}:")
         for sid in ids:print(f'- {sid}')
+        if held:
+            print(f'\n{len(held)} dated source(s) held back: they carry excerpt permission or discovery prefixes, which a manual source may not keep. Drop those permissions in research/sources.json first if they should stop being fetched:')
+            for sid in held:print(f'- {sid}')
         if args.apply:
             for sid in ids:registry['collection'][sid]['cadence']='manual'
             atomic_save(ROOT/'research/sources.json',registry)
+            # site/data/source-books.json mirrors the reviewed policy; validate_agenda compares them.
+            atomic_save(ROOT/'site/data/source-books.json',{k:registry[k] for k in ['region_books','collection']})
             print(f'\nSet cadence: manual for {len(ids)} source(s). Manual sources stay registered as evidence and are never fetched by the runner; no other field changed.')
         return 0
     rows=classify(load(ROOT/'research/sources.json'),load(ROOT/'site/data/ledger.json'))

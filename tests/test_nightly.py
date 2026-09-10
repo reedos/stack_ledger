@@ -8,6 +8,7 @@ import tempfile
 import time
 import unittest
 from datetime import date, datetime, timedelta, timezone
+from types import SimpleNamespace
 from pathlib import Path
 from unittest.mock import patch
 
@@ -458,3 +459,52 @@ class PushTests(unittest.TestCase):
             with patch.object(nightly, 'run_importer', return_value={'id': 'a', 'status': 'ok', 'committed': True, 'commit': 'abc'}):
                 receipt = nightly.stage_importers(self.root, 600)
         self.assertEqual(receipt['status'], 'partial')
+
+
+class ResearchWindowTests(unittest.TestCase):
+    """The 01:30 job must wait for 02:00 Pacific; launching earlier produced a night with no research."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+
+    def clocks(self, start_utc, remaining):
+        """A fake wall clock advanced by the injected sleep, plus a window that opens after `remaining`."""
+        state = {'now': start_utc, 'mono': 0.0, 'slept': 0}
+        def sleep(seconds): state['now'] += timedelta(seconds=seconds); state['mono'] += seconds; state['slept'] += seconds
+        return state, sleep, (lambda: state['mono']), (lambda: state['now'])
+
+    def test_waits_until_the_window_opens_then_reports_the_wait(self):
+        start = datetime(2026, 9, 10, 8, 30, tzinfo=timezone.utc)      # 01:30 Pacific
+        state, sleep, mono, now = self.clocks(start, None)
+        opens = datetime(2026, 9, 10, 9, 0, tzinfo=timezone.utc)       # 02:00 Pacific
+        with patch('research_loop.overnight_seconds', side_effect=lambda at: 3600 if at >= opens else 0), \
+             patch('research_loop.pacific', side_effect=lambda at: at-timedelta(hours=7)):
+            ready, waited, reason = nightly.wait_for_window(self.root, 3600, sleep=sleep, clock=mono, now=now)
+        self.assertTrue(ready); self.assertIsNone(reason)
+        self.assertEqual(waited, 1800); self.assertEqual(state['slept'], 1800)
+
+    def test_starts_at_once_when_already_inside_the_window(self):
+        state, sleep, mono, now = self.clocks(datetime(2026, 9, 10, 10, 0, tzinfo=timezone.utc), None)
+        with patch('research_loop.overnight_seconds', return_value=3600):
+            ready, waited, reason = nightly.wait_for_window(self.root, 3600, sleep=sleep, clock=mono, now=now)
+        self.assertTrue(ready); self.assertEqual(waited, 0); self.assertEqual(state['slept'], 0)
+
+    def test_skips_once_the_window_has_passed_for_the_day(self):
+        state, sleep, mono, now = self.clocks(datetime(2026, 9, 10, 15, 0, tzinfo=timezone.utc), None)   # 08:00 Pacific
+        with patch('research_loop.overnight_seconds', return_value=0), \
+             patch('research_loop.pacific', side_effect=lambda at: at-timedelta(hours=7)):
+            ready, waited, reason = nightly.wait_for_window(self.root, 3600, sleep=sleep, clock=mono, now=now)
+        self.assertFalse(ready); self.assertIn('already passed', reason); self.assertEqual(state['slept'], 0)
+
+    def test_gives_up_when_the_budget_runs_out_before_the_window(self):
+        state, sleep, mono, now = self.clocks(datetime(2026, 9, 10, 8, 30, tzinfo=timezone.utc), None)
+        with patch('research_loop.overnight_seconds', return_value=0), \
+             patch('research_loop.pacific', side_effect=lambda at: at-timedelta(hours=7)):
+            ready, waited, reason = nightly.wait_for_window(self.root, 120, sleep=sleep, clock=mono, now=now)
+        self.assertFalse(ready); self.assertIn('did not open', reason)
+
+    def test_a_runner_that_starts_nothing_is_skipped_not_ok(self):
+        completed = SimpleNamespace(returncode=0, stdout='Outside the 2-7 AM Pacific window; no research started\n', stderr='')
+        with patch.object(nightly, 'wait_for_window', return_value=(True, 0, None)), \
+             patch.object(nightly.subprocess, 'run', return_value=completed):
+            receipt = nightly.stage_research(self.root, 600)
+        self.assertEqual(receipt['status'], 'skipped'); self.assertIn('started no research', receipt['reason'])

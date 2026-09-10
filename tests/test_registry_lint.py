@@ -25,11 +25,11 @@ class DatedOneOffTests(unittest.TestCase):
         ]
         collection={'iea-2026':{'cadence':'daily'},'metr-horizons-2026':{'cadence':'daily'},
                     'quarterly-feed-2026':{'cadence':'daily'},'no-year-here':{'cadence':'daily'}}
-        self.assertEqual(rl.dated_one_offs(registry(sources,collection)),['iea-2026'])
+        self.assertEqual(rl.dated_one_offs(registry(sources,collection))[0],['iea-2026'])
     def test_already_manual_is_not_relisted(self):
         sources=[{'id':'iea-2026','url':'https://iea.org/reports/key-questions','layers':['energy']}]
         collection={'iea-2026':{'cadence':'manual'}}
-        self.assertEqual(rl.dated_one_offs(registry(sources,collection)),[])
+        self.assertEqual(rl.dated_one_offs(registry(sources,collection))[0],[])
 
 
 class RetireDatedCommandTests(unittest.TestCase):
@@ -61,12 +61,36 @@ class RetireDatedCommandTests(unittest.TestCase):
             self.assertEqual(written['collection']['metr-horizons-2026']['cadence'],'daily')
     def test_real_registry_selection_is_index_false_and_not_already_manual(self):
         real=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
-        ids=rl.dated_one_offs(real)
+        ids,held=rl.dated_one_offs(real)
         by_id={s['id']:s for s in real['sources']}
-        self.assertGreater(len(ids),0)
+        # An empty list is the healthy steady state once the registry has been retired; the point of
+        # this test is that whatever it selects obeys every invariant a manual source must satisfy.
+        self.assertIsInstance(ids,list)
         for sid in ids:
             self.assertFalse(by_id[sid].get('index'))
             self.assertNotEqual(real['collection'][sid]['cadence'],'manual')
+            # source_policy forbids both on a manual source, so neither may appear in the retire list
+            self.assertFalse(real['collection'][sid].get('excerpts'));self.assertFalse(real['collection'][sid].get('path_prefixes'))
+        for sid in held:
+            self.assertTrue(real['collection'][sid].get('excerpts') or real['collection'][sid].get('path_prefixes'))
 
 
 if __name__=='__main__':unittest.main()
+
+
+class RetireHoldsBackPermittedSourcesTests(unittest.TestCase):
+    """Retiring a source that keeps excerpt permission or discovery prefixes would break
+    source_policy's manual-source invariant, so it is reported instead (hit live 2026-09-10)."""
+    def registry(self, policy):
+        return {'sources': [{'id': 'iea-2026', 'url': 'https://www.iea.org/reports/energy-and-ai/executive-summary'}],
+                'collection': {'iea-2026': dict({'cadence': 'daily', 'excerpts': False, 'path_prefixes': []}, **policy)}}
+
+    def test_plain_dated_source_is_retired(self):
+        ids, held = rl.dated_one_offs(self.registry({}))
+        self.assertEqual(ids, ['iea-2026']); self.assertEqual(held, [])
+
+    def test_excerpt_permission_or_prefixes_hold_it_back(self):
+        for policy in [{'excerpts': True}, {'path_prefixes': ['/reports/']}]:
+            with self.subTest(policy=policy):
+                ids, held = rl.dated_one_offs(self.registry(policy))
+                self.assertEqual(ids, []); self.assertEqual(held, ['iea-2026'])

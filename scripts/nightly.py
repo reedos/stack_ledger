@@ -203,6 +203,29 @@ def research_ignore_gpu_busy(root):
 
 # -------------------------------------------------------------- research
 
+WINDOW_POLL_SECONDS = 60
+
+
+def wait_for_window(root, budget_seconds, *, sleep=time.sleep, clock=time.monotonic, now=None):
+    """Block until the research window opens. (ready, waited_seconds, reason).
+
+    The job starts at 01:30 so lock recovery and importers finish before 02:00; the research stage
+    itself must then WAIT rather than launch, because research_loop's --overnight refuses to start
+    outside 2-7 AM Pacific. On 2026-09-10 it launched at 01:30:23, exited in 0.2s with "Outside the
+    2-7 AM Pacific window; no research started", and the night produced no research at all.
+    Re-checking every minute rather than computing one sleep keeps this correct across the two DST
+    nights, when the local clock itself jumps inside the window."""
+    import research_loop as loop
+    clock_at = now or (lambda: datetime.now(timezone.utc))
+    deadline = clock()+max(0, budget_seconds); waited = 0
+    while True:
+        at = clock_at()
+        if loop.overnight_seconds(at) > 0: return True, waited, None
+        if loop.pacific(at).hour >= 7: return False, waited, 'the 2-7 AM Pacific research window has already passed today'
+        if clock() >= deadline: return False, waited, 'the research window did not open within this stage budget'
+        sleep(WINDOW_POLL_SECONDS); waited += WINDOW_POLL_SECONDS
+
+
 def stage_research(root, budget_seconds):
     if (root/'.local/stop-research-loop').exists():
         return {'status': 'skipped', 'reason': '.local/stop-research-loop present'}
@@ -210,15 +233,23 @@ def stage_research(root, budget_seconds):
         status = lock_status(root/rel)
         if status['blocking']:
             return {'status': 'skipped', 'reason': f"{status['path']} held by live pid {status.get('pid')}"}
+    ready, waited, reason = wait_for_window(root, budget_seconds)
+    if not ready:
+        return {'status': 'skipped', 'reason': reason, 'waited_seconds': waited}
     command = [sys.executable, str(root/'scripts/research_loop.py'), '--start', '--publish', '--minutes', '300', '--overnight', '--keep-awake']
     if research_ignore_gpu_busy(root): command.append('--ignore-gpu-busy')
-    timeout = max(60, budget_seconds)
+    timeout = max(60, budget_seconds-waited)
     try:
         result = subprocess.run(command, cwd=root, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout, env=dict(os.environ, PYTHONIOENCODING='utf-8'))
     except subprocess.TimeoutExpired as e:
         return {'status': 'failed', 'error': 'timeout', 'timeout_seconds': timeout, 'stdout_tail': (e.stdout or '')[-3000:]}
-    return {'status': 'ok' if result.returncode == 0 else 'failed', 'returncode': result.returncode,
-            'stdout_tail': result.stdout[-4000:], 'stderr_tail': result.stderr[-2000:]}
+    # A clean exit that started nothing is not a successful research stage: say so in the digest.
+    started = 'no research started' not in (result.stdout or '')
+    status = 'ok' if result.returncode == 0 and started else ('skipped' if result.returncode == 0 else 'failed')
+    outcome = {'status': status, 'returncode': result.returncode, 'waited_seconds': waited,
+               'stdout_tail': result.stdout[-4000:], 'stderr_tail': result.stderr[-2000:]}
+    if status == 'skipped': outcome['reason'] = 'the session runner started no research; see stdout_tail'
+    return outcome
 
 
 # ---------------------------------------------------------------- policy

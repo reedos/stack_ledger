@@ -22,10 +22,12 @@ class EcosystemTests(unittest.TestCase):
         registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         reached=set()
         # Weekly technical books have a separate rotation; test a complete horizon.
+        # The head of the queue is data, not a fixed id: retiring dated one-offs to manual changes it.
+        first=source_queue(registry,date(2026,9,7))[0]['id']
         for n in range(len(registry['sources'])*7):
             queue=source_queue(registry,date(2026,9,7)+timedelta(days=n))
             self.assertEqual(len(queue),len({s['id'] for s in queue}))
-            self.assertEqual(queue[0]['id'],'iea-2026')
+            self.assertEqual(queue[0]['id'],first)
             reached.update(s['id'] for s in queue[:12])
         self.assertEqual(reached,{s['id'] for s in registry['sources'] if s['layers'] and registry.get('collection',{}).get(s['id'],{}).get('cadence')!='manual'})
 
@@ -33,7 +35,7 @@ class EcosystemTests(unittest.TestCase):
         registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         with self.assertRaisesRegex(ValueError,'approved source IDs'):
             source_queue(registry,date(2026,9,7),['https://unapproved.example'])
-        selected=['fairwater-operating','fervo-q2-2026','fairwater-operating']
+        selected=['fairwater-operating','doe-demand','fairwater-operating']   # both actively collected; a manual source is refused by design
         self.assertEqual([s['id'] for s in source_queue(registry,date(2026,9,7),selected)],selected[:2])
 
     def test_missing_revenue_or_source_blocks_publication(self):

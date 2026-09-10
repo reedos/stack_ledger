@@ -302,7 +302,7 @@ class DiscoveryTests(unittest.TestCase):
         original=(self.root/'site/data/ledger.json').read_bytes()
         registry=r.load(self.root/'research/sources.json')
         monitor=[next(s for s in registry['sources'] if s['id']==sid) for sid in
-                 ['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']]
+                 ['doe-demand','company-nvidia','msft-wisconsin','stanford-cost','company-microsoft']]
         with patch.object(r,'ROOT',self.root),patch.object(r,'LOCAL',self.root/'.local'),\
              patch.object(r,'Fetcher',return_value=self.fetcher),patch.object(r,'source_queue',return_value=monitor),\
              patch.object(r,'select_stale_tasks',return_value=[]),\

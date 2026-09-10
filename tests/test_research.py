@@ -128,7 +128,7 @@ class RunnerTests(unittest.TestCase):
             # Pinned sources (feeds now sort first in the default queue -- deliverable 6 --
             # and feed pages never reach note/metric extraction): together these five span
             # every layer, so a clean no-op batch can still reach status 'success'.
-            sources=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
+            sources=['doe-demand','company-nvidia','msft-wisconsin','stanford-cost','company-microsoft']
             with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model),patch.object(sys,'argv',['research.py','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
                 self.assertEqual(research.main(),0)
             proposal=research.load(path/'.local/proposed-ledger.json')
@@ -141,7 +141,7 @@ class RunnerTests(unittest.TestCase):
             path=Path(tmp);self.fixture(path)
             before=research.load(path/'site/data/ledger.json')['runtime']['last_success']
             document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
-            sources=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
+            sources=['doe-demand','company-nvidia','msft-wisconsin','stanford-cost','company-microsoft']
             with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=TimeoutError('fixture timeout')),patch.object(sys,'argv',['research.py','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
                 self.assertEqual(research.main(),1)
             proposal=research.load(path/'.local/proposed-ledger.json')
@@ -168,7 +168,7 @@ class NoteLaneCoverageTests(unittest.TestCase):
                 return {'observations':[]}
             # All three: no parent_source, excerpts disabled in policy, but each has a linked
             # metric -- the old gate ("publishable or not related") skipped every one of them.
-            sources=['iea-2026','iea-2025','doe-demand']
+            sources=['doe-demand','company-nvidia','msft-wisconsin']
             with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',side_effect=fake_fetch), \
                  patch.object(research,'ollama',side_effect=fake_model),patch.object(sys,'argv',['research.py','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
                 research.main()
@@ -434,7 +434,7 @@ class NothingNewTests(unittest.TestCase):
             path=Path(tmp);RunnerTests().fixture(path)
             def fake_build():
                 (path/'docs/data').mkdir(parents=True,exist_ok=True);(path/'docs/data/ledger.json').write_bytes((path/'site/data/ledger.json').read_bytes())
-            sources=['iea-2026','tsmc-2025','stanford-2026']
+            sources=['doe-demand','company-nvidia','stanford-cost']
             self.assertEqual(self.run_batch(path,sources,fake_build),0)
             self.assertEqual(self.run_batch(path,sources,fake_build),2)
             receipts=sorted((path/'.local/runs').glob('*.json'),key=lambda p:p.stat().st_mtime)
@@ -459,7 +459,7 @@ class NothingNewTests(unittest.TestCase):
             path=Path(tmp);RunnerTests().fixture(path);sid='d'*32
             with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
                  patch.object(research.Fetcher,'fetch',side_effect=research.Unchanged('test')), \
-                 patch.object(sys,'argv',['research.py','--session-id',sid,'--sources','iea-2026','tsmc-2025']),patch('sys.stdout',new=io.StringIO()):
+                 patch.object(sys,'argv',['research.py','--session-id',sid,'--sources','doe-demand','company-nvidia']),patch('sys.stdout',new=io.StringIO()):
                 self.assertEqual(research.main(),2)
             receipts=list((path/'.local/sessions'/sid/'batches').glob('*.json'))
             receipt=json.loads(receipts[0].read_text(encoding='utf-8'))
@@ -533,7 +533,7 @@ class InstructionModeTests(unittest.TestCase):
                 document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
                 # Pinned, non-feed sources: feeds sort first in the default queue (deliverable
                 # 6) and never reach a model call.
-                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model) as model,patch.object(sys,'argv',['research.py','--sources','iea-2026','tsmc-2025','stanford-2026','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
+                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model) as model,patch.object(sys,'argv',['research.py','--sources','doe-demand','company-nvidia','stanford-cost','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
                     research.main()
                 self.assertTrue(model.call_args_list and all(marker in call.args[1] for call in model.call_args_list))
 

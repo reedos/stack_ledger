@@ -30,6 +30,18 @@ def gpu_idle(threshold):
     return bool(values) and all(0<=v<=threshold for v in values)
 
 
+def pacific(at):
+    """`at` as an aware Pacific datetime, through the OS rules when IANA tzdata is missing."""
+    try:return at.astimezone(ZoneInfo('America/Los_Angeles'))
+    except ZoneInfoNotFoundError:
+        if os.name!='nt':raise
+        script="$u=[DateTimeOffset]::Parse($env:STACK_LEDGER_WINDOW_TIME); $z=[TimeZoneInfo]::FindSystemTimeZoneById('Pacific Standard Time'); [TimeZoneInfo]::ConvertTime($u,$z).ToString('o')"
+        result=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
+            capture_output=True,text=True,check=True,timeout=15,
+            env=dict(os.environ,STACK_LEDGER_WINDOW_TIME=at.isoformat()))
+        return datetime.fromisoformat(result.stdout.strip())
+
+
 def overnight_seconds(at):
     """Return the remaining 2–7 AM Pacific window, including timezone transitions."""
     try:local=at.astimezone(ZoneInfo('America/Los_Angeles'))
