@@ -35,3 +35,17 @@
 }
 
 .toast{position:fixed;left:12px;right:12px;bottom:16px;z-index:60;background:#182619;border:1px solid var(--green);color:var(--text);padding:14px 16px;border-radius:12px;font-size:14px;line-height:1.5;box-shadow:0 10px 30px #000a}.toast.error{border-color:#ff9c7a;background:#2a1a17}.toast[hidden]{display:none}@media(max-width:720px){.toast{bottom:calc(76px + env(safe-area-inset-bottom,0px))}}.card-status{font-size:13px;line-height:1.5;padding:10px 12px;border-radius:8px;background:#0f1712;border-left:3px solid var(--line);margin:14px 0}.card-status.ok{border-left-color:var(--green);color:var(--green)}.card-status.error{border-left-color:#ff9c7a;color:#ffc9b8}
+
+/* Compact before/after change table: the exact edit, at a glance, before opening any raw detail. */
+.change-table{margin:16px 0}.change-row{padding:10px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.change-row:last-child{border-bottom:0}.change-row strong{display:block;font-size:13px;margin-bottom:4px}.change-row p{font-size:12px;margin:2px 0;color:var(--text)}.change-row p.unchanged{color:var(--muted)}.change-row p.changed{color:var(--green)}.change-row a{font-size:12px;color:var(--green);text-decoration:underline;margin-top:4px;display:inline-block}.change-row-summary{font-size:12px;color:var(--muted);margin:8px 0 2px}
+
+/* One-tap approval: full-width, thumb-sized primary action; everything else stays one tap away. */
+.one-tap-form textarea{display:block;width:100%;resize:vertical;background:var(--bg);border:1px solid var(--line);color:var(--text);font:inherit;padding:12px;border-radius:8px;margin:10px 0}
+button.primary-action{width:100%;min-height:48px;font-size:15px;font-weight:700}
+.secondary-decision{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}.secondary-decision>summary{font-size:12px;color:var(--muted)}
+
+/* Publishing strip: everything already approved, moving on its own, with live status and a Retry. */
+.publishing-strip{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:0 0 18px;background:#0f1712}.publishing-strip h3{margin:0 0 10px;font-size:14px}
+.strip-item{padding:10px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.strip-item:first-of-type{border-top:0}
+.strip-item h4{margin:0;font-size:13px;flex:1;min-width:0;overflow-wrap:anywhere}.strip-item p{margin:2px 0 0;font-size:12px}.strip-item button{width:auto;min-height:44px;margin:0}
+@media(max-width:520px){.strip-item{flex-direction:column;align-items:stretch}.strip-item button{width:100%}}

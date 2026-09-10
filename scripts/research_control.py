@@ -165,7 +165,8 @@ def identity(handler):
 def server(root=ROOT,*,config=None,asset_root=None):
     """root: live checkout for status/locks/launches. asset_root: checkout serving panel code (defaults to root)."""
     asset_root=asset_root or root
-    token=secrets.token_urlsafe(32);controller=Controller(root);gpu=GpuSampler()
+    import catalog_jobs
+    token=secrets.token_urlsafe(32);controller=Controller(root);gpu=GpuSampler();jobs=catalog_jobs.Queue(root)
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
         def send(self,code,body,kind='application/json',preview=False):
@@ -221,7 +222,10 @@ def server(root=ROOT,*,config=None,asset_root=None):
             if route=='gpu':self.send(200,gpu.snapshot());return
             if route=='findings':
                 from findings_review import inbox
-                try:self.send(200,inbox(root,ident))
+                try:
+                    data=inbox(root,ident)
+                    catalog_jobs.auto_validate(root,jobs,data['catalog_packages'])
+                    self.send(200,data)
                 except (OSError,ValueError):self.send(503,{'error':'Review queue is unavailable; try again shortly'})
                 return
             assets={'':('index.html','text/html'),'control.js':('control.js','text/javascript'),'control.css':('control.css','text/css'),
@@ -275,19 +279,31 @@ def server(root=ROOT,*,config=None,asset_root=None):
                         if controller.status()['active'] or (root/'.local/research.lock').exists():raise ValueError('Wait for active research to finish before an on-demand assessment')
                         result=visual_review.assess(root)
                 elif route in {'catalog-preview','catalog-review','catalog-publish'}:
-                    from findings_review import reviewer
+                    from findings_review import reviewer,authorized
                     import catalog_review
                     owner=reviewer(root,ident)
                     if not owner:raise ValueError('This account cannot review catalog changes')
-                    if route!='catalog-review' and ((root/'.local/research.lock').exists() or (root/'.local/research-session.lock').exists()):
-                        raise ValueError('An automatic publication or research batch is running right now; the preview and publish actions will work again when it finishes (usually within a few minutes).')
                     if route=='catalog-preview':
+                        # Validation runs any time; it never waits on the research/session lock, so it
+                        # just joins the queue -- the reviewer never has to babysit or retry by hand.
                         if set(value)!={'id'}:raise ValueError('Invalid preview request')
-                        result=catalog_review.preview(root,value['id'])
+                        p=catalog_review.package(root,value['id'])
+                        job=jobs.enqueue('validate',value['id'],proposal_hash=catalog_review.digest(p))
+                        result={'job':job,'status':job['status']}
                     elif route=='catalog-review':result=catalog_review.review(root,value,owner,ident)
                     else:
+                        # The one-tap button's second half: the approval event must already be recorded
+                        # (catalog-review, above) before publication can be queued at all.
                         if set(value)!={'id','proposal_hash','review_hash','confirmed'}:raise ValueError('Invalid publication request')
-                        result=catalog_review.apply_publish(root,value['id'],value['proposal_hash'],value['review_hash'],owner,value['confirmed'],ident)
+                        if value['confirmed'] is not True:raise ValueError('Explicit human publication action required')
+                        p=catalog_review.package(root,value['id']);decision=catalog_review.last_review(root,value['id'])
+                        if catalog_review.digest(p)!=value['proposal_hash'] or catalog_review.digest(decision)!=value['review_hash']:
+                            raise ValueError('Package or review changed; reload')
+                        if not(decision and decision['status']=='approved' and decision['proposal_hash']==catalog_review.digest(p)):
+                            raise ValueError('Recorded approval required')
+                        if not authorized(root,owner,ident):raise ValueError('Unauthorized local reviewer')
+                        job=jobs.enqueue('publish',value['id'],proposal_hash=value['proposal_hash'],review_hash=value['review_hash'],reviewer=owner,identity=ident)
+                        result={'job':job,'status':job['status']}
                 else:raise ValueError('Unknown action')
                 self.send(200,result)
             except FileExistsError:self.send(409,{'error':'Another review is being saved; reload and try again'})

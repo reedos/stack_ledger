@@ -46,22 +46,23 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
     status:'pending_review',proposal_hash:'a'.repeat(64),review_hash:'b'.repeat(64),
     finding:{kind:'project',subject:'Fixture geothermal project',claim:'Operator reports commissioning. <img src=x onerror=alert(1)>',
       evidence:'The operator states the project is commissioning.',basis:'actual',why_track:'Check dependable power delivery.',next_question:'Verify grid-operator records.'}};
-  let catalogStatus='pending_review',previewed=false,decisionBody,publishBody;
+  let catalogStatus='pending_review',previewed=false,catalogJob=null,decisionBody,publishBody;
   const catalog={id:'catalog-'+'c'.repeat(24),title:'Fixture catalog package',author:'fixture researcher',created_at:'2026-09-09T00:00:00Z',
     proposal_hash:'c'.repeat(64),review_hash:'d'.repeat(64),auto_apply_eligible:false,auto_apply_reasons:['evidence example.org is not a registered rank <=2 source'],
     changes:[{target:'project',id:'fixture-project',before:null,after:{id:'fixture-project',name:'<img src=x onerror=alert(1)>',next_evidence:'x'.repeat(400)}}],
     evidence:[{id:'fixture-source',url:'javascript:alert(1)',published_at:null,retrieved_at:'2026-09-08T00:00:00Z',summary:'Fixture evidence.',source_rank:3}]};
   async function findingsPayload(){
     return {findings:[{...finding,status:reviewed?'investigate':'pending_review'}],reviewer:'reedos',invalid_files:0,unreadable_events:0,
-      catalog_packages:[{...catalog,status:catalogStatus,display_status:catalogStatus,validation:previewed?{passed:true,checks:[]}:null,publication_receipt:null}],handoffs:[]};
+      catalog_packages:[{...catalog,status:catalogStatus,display_status:catalogStatus,validation:previewed?{passed:true,checks:[],proposal_hash:catalog.proposal_hash}:null,publication_receipt:null,job:catalogJob}],
+      handoffs:[],jobs:catalogJob?[catalogJob]:[]};
   }
   await page.route('**/findings',async route=>route.fulfill({contentType:'application/json',body:JSON.stringify(await findingsPayload())}));
   await page.route('**/visuals',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({proposals:[],reviewer:'reedos',assessment:null,invalid_files:0})}));
   await page.route('**/activity',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({policy_events:[],digests:[],unreadable_events:0})}));
   await page.route('**/review',route=>{reviewRequest=route.request().postDataJSON();reviewed=true;return route.fulfill({contentType:'application/json',body:'{"saved":true,"reviewer":"reedos","status":"investigate","published":false}'});});
-  await page.route('**/catalog-preview',route=>{previewed=true;return route.fulfill({contentType:'application/json',body:'{"passed":true}'});});
+  await page.route('**/catalog-preview',route=>{previewed=true;catalogJob={id:'job-validate-1',rid:catalog.id,kind:'validate',status:'done',step:'Done',error:null,result:{passed:true}};return route.fulfill({contentType:'application/json',body:JSON.stringify({job:catalogJob,status:'done'})});});
   await page.route('**/catalog-review',route=>{decisionBody=route.request().postDataJSON();catalogStatus='approved';return route.fulfill({contentType:'application/json',body:'{"status":"approved","published":false}'});});
-  await page.route('**/catalog-publish',route=>{publishBody=route.request().postDataJSON();catalogStatus='applied';return route.fulfill({contentType:'application/json',body:'{"status":"deployed"}'});});
+  await page.route('**/catalog-publish',route=>{publishBody=route.request().postDataJSON();catalogJob={id:'job-publish-1',rid:catalog.id,kind:'publish',status:'running',step:'Publishing: validating, building, committing and pushing…',error:null,result:null};return route.fulfill({contentType:'application/json',body:JSON.stringify({job:catalogJob,status:'running'})});});
 
   await page.goto(url);await page.waitForFunction(()=>document.querySelector('#connection').textContent==='Connected locally');
   // Decisions is the default-visible tab; both the finding and the catalog package are pending, so both
@@ -96,23 +97,28 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
   // Investigated findings are no longer pending, so only the catalog card remains in the feed.
   assert.equal(await page.locator('#decision-feed .finding-card').count(),1);
 
-  // Catalog workflow through the feed card: preview, decide, apply and publish.
+  // Catalog workflow through the feed card: the compact change table is visible immediately (no
+  // hunting for the changed graphic), validate, then one tap to approve and publish.
   const catalogCard=page.locator('#decision-feed article').first();await catalogCard.waitFor();
   assert.equal(await catalogCard.locator('img,a[href^="javascript:"]').count(),0);
+  await catalogCard.locator('.change-table').waitFor();
+  assert.match(await catalogCard.locator('.change-table').innerText(),/next evidence/);
+  assert.equal(await catalogCard.getByRole('button',{name:'Approve and publish',exact:true}).isDisabled(),true,'not validated yet, so publication is not enabled');
   await catalogCard.getByRole('button',{name:'Validate preview',exact:true}).click();
-  await catalogCard.getByRole('link',{name:'Open site preview'}).waitFor();
-  await catalogCard.getByRole('button',{name:'Record catalog decision'}).click();assert.equal(decisionBody,undefined);
-  await catalogCard.locator('textarea').fill('Synthetic evidence review only.');await catalogCard.locator('form input[type=checkbox]').check();
-  await catalogCard.getByRole('button',{name:'Record catalog decision'}).click();
-  await catalogCard.getByRole('button',{name:'Apply and publish'}).waitFor();assert.equal(decisionBody.confirmed,true);assert.equal(publishBody,undefined);
-  await catalogCard.getByRole('button',{name:'Apply and publish'}).click();assert.equal(publishBody,undefined);
-  await catalogCard.locator(':scope > label input[type=checkbox]').check();await catalogCard.getByRole('button',{name:'Apply and publish'}).click();
-  await page.waitForFunction(()=>document.querySelector('#review-message').textContent.includes('deployed'));
-  assert.equal(publishBody.proposal_hash,catalog.proposal_hash);assert.equal(publishBody.confirmed,true);
+  await catalogCard.locator('.one-tap-form input[type=checkbox]').check();
+  await catalogCard.getByRole('button',{name:'Approve and publish',exact:true}).click();assert.equal(publishBody,undefined);
+  await page.waitForFunction(()=>document.querySelector('#review-message').textContent.includes('Publishing strip'));
+  assert.equal(decisionBody.decision,'approved');assert.equal(decisionBody.rationale,catalog.title,'reason field is pre-filled with the package title');
+  assert.equal(publishBody.confirmed,true);
   await page.waitForFunction(()=>document.querySelectorAll('#decision-feed .finding-card').length===0);
   assert.match(await page.locator('#decision-feed').innerText(),/Nothing needs a decision/);
 
-  // History fold: the applied package and the investigated finding are still browsable, collapsed by default.
+  // Approved and queued, not yet applied: the card leaves the feed and the Publishing strip picks it up.
+  await page.locator('#publishing-strip .strip-item').waitFor();
+  assert.match(await page.locator('#publishing-strip').innerText(),/Fixture catalog package/);
+  assert.match(await page.locator('#publishing-strip').innerText(),/Publishing: validating, building/);
+
+  // History fold: the approved package and the investigated finding are still browsable, collapsed by default.
   assert.equal(await page.locator('.decision-history').getAttribute('open'),null);
   await page.locator('.decision-history').locator(':scope > summary').click();
   await page.locator('#review-status').selectOption('investigate');

@@ -1,5 +1,6 @@
 // Real mobile emulation for the unified panel: touch input, device pixel ratio, tap-target size,
-// no horizontal overflow, the merged Decisions feed, and the live log collapsed on a phone.
+// no horizontal overflow, the merged Decisions feed, the live log collapsed on a phone, and the
+// one-tap catalog flow (auto-validation state, the compact change table, the Publishing strip).
 // Offline fixtures only; start requests are intercepted; no research is launched.
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const {spawn}=require('node:child_process');
@@ -8,7 +9,7 @@ const root=path.resolve(__dirname,'..');
 const shots=process.env.PANEL_SHOTS_DIR||path.resolve(__dirname,'..','.local/browser');
 const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:root,windowsHide:true});
 
-async function mockPanel(page){
+function makeState(){
   const finding={id:'discovery-'+'a'.repeat(24),layer:'energy',url:'https://example.org/primary-source',
     created_at:'2026-09-08T00:00:00Z',published_at:null,retrieved_at:'2026-09-08T00:00:00Z',
     status:'pending_review',proposal_hash:'a'.repeat(64),review_hash:'b'.repeat(64),
@@ -16,9 +17,13 @@ async function mockPanel(page){
       evidence:'The operator states the project is commissioning.',basis:'actual',why_track:'Check dependable power delivery.',next_question:'Verify grid-operator records.'}};
   const catalog={id:'catalog-'+'c'.repeat(24),title:'Fixture catalog package',author:'fixture researcher',created_at:'2026-09-09T00:00:00Z',
     status:'pending_review',display_status:'pending_review',proposal_hash:'c'.repeat(64),review_hash:'d'.repeat(64),
-    auto_apply_eligible:false,auto_apply_reasons:['evidence example.org is not a registered rank <=2 source'],validation:null,publication_receipt:null,
+    auto_apply_eligible:false,auto_apply_reasons:['evidence example.org is not a registered rank <=2 source'],validation:null,publication_receipt:null,job:null,
     changes:[{target:'project',id:'fixture-project',before:null,after:{id:'fixture-project',name:'Fixture project',next_evidence:'Check the next dated disclosure.'}}],
     evidence:[{id:'fixture-source',url:'https://example.org/release',published_at:'2026-09-08',retrieved_at:'2026-09-08T00:00:00Z',summary:'Fixture evidence.',source_rank:3}]};
+  return {finding,catalog};
+}
+
+async function mockPanel(page,state){
   await page.route('**/gpu',route=>{
     const now=Date.now();
     const samples=Array.from({length:30},(_,i)=>({timestamp_ms:now-(29-i)*2000,name:'Fixture GPU',utilization:20+i,temperature:40+i}));
@@ -26,7 +31,8 @@ async function mockPanel(page){
   });
   await page.route('**/status',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({active:false,launching:false,session:{}})}));
   await page.route('**/findings',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(
-    {findings:[finding],reviewer:'reedos',invalid_files:0,unreadable_events:0,catalog_packages:[catalog],handoffs:[]})}));
+    {findings:[state.finding],reviewer:'reedos',invalid_files:0,unreadable_events:0,catalog_packages:[state.catalog],handoffs:[],
+     jobs:state.catalog.job?[state.catalog.job]:[]})}));
   await page.route('**/visuals',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({proposals:[],reviewer:'reedos',assessment:null,invalid_files:0})}));
   await page.route('**/activity',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({policy_events:[],digests:[],unreadable_events:0})}));
 }
@@ -61,7 +67,11 @@ async function tapTargetSizes(page){
     const phone=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:3});
     const page=await phone.newPage();
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
-    await mockPanel(page);
+    const state=makeState();
+    // The server auto-enqueues validation for a pending package; simulate that job already running
+    // (deliverable 2/7): no Validate button, no approve button, just a status line, until it finishes.
+    state.catalog.job={id:'job-validate-1',rid:state.catalog.id,kind:'validate',status:'running',step:'Building and testing the isolated preview…',error:null,result:null};
+    await mockPanel(page,state);
     await page.goto(url);
     await page.waitForFunction(()=>document.querySelector('#connection').textContent==='Connected locally');
 
@@ -69,6 +79,30 @@ async function tapTargetSizes(page){
     await page.locator('#decision-feed .finding-card').first().waitFor();
     assert.equal(await page.locator('#decision-feed .finding-card').count(),2,'Decisions feed merges the pending finding and catalog package');
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'no horizontal overflow on the Decisions tab at 390px');
+
+    // A pending card without a finished validation shows "Validating..." and no approve/validate button.
+    const catalogCard=page.locator('#decision-feed article').filter({hasText:'Fixture catalog package'});
+    await catalogCard.waitFor();
+    assert.match(await catalogCard.innerText(),/Validating…/);
+    assert.equal(await catalogCard.getByRole('button',{name:'Approve and publish',exact:true}).count(),0,'no approve button while validation is in flight');
+    assert.equal(await catalogCard.getByRole('button',{name:'Validate preview',exact:true}).count(),0,'no manual re-run button while a validation job is already queued/running');
+
+    // The job finishes: a validated card shows the compact change table and no Validate button.
+    state.catalog.job=null;
+    state.catalog.validation={passed:true,checks:[],proposal_hash:state.catalog.proposal_hash};
+    await page.tap('#refresh-findings');
+    await catalogCard.locator('.change-table').waitFor();
+    assert.match(await catalogCard.locator('.change-table').innerText(),/next evidence/);
+    assert.equal(await catalogCard.getByRole('button',{name:'Validate preview',exact:true}).count(),0,'Validate is hidden once a passing validation exists');
+    const approveButton=catalogCard.getByRole('button',{name:'Approve and publish',exact:true});
+    await approveButton.waitFor();
+    assert.equal(await approveButton.isDisabled(),false);
+    const approveBox=await approveButton.boundingBox();
+    assert.ok(approveBox.height>=48,'primary action is at least 48px tall: '+approveBox.height);
+    const fullWidth=await approveButton.evaluate(el=>el.offsetWidth>=el.parentElement.clientWidth-1);
+    assert.ok(fullWidth,'primary action spans the full width of its form, not just part of the card');
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'no horizontal overflow once the change table and one-tap form render');
+
     await page.tap('#decisions-tab');
     await page.screenshot({path:path.join(shots,'panel-v2-decisions-390.png'),fullPage:false});
 
@@ -93,13 +127,29 @@ async function tapTargetSizes(page){
     const undersized=sizes.filter(r=>r.height<44-0.5);
     assert.equal(undersized.length,0,'every interactive element is >=44px tall: '+JSON.stringify(undersized));
 
+    // Back to Decisions: tap Approve and publish -- one tap records the approval, then queues
+    // publication in the background. The card leaves the feed and shows up in the Publishing strip.
+    await page.tap('#decisions-tab');
+    await catalogCard.waitFor();
+    let decisionBody,publishBody;
+    await page.route('**/catalog-review',route=>{decisionBody=route.request().postDataJSON();state.catalog.status='approved';state.catalog.display_status='approved';return route.fulfill({contentType:'application/json',body:'{"status":"approved","published":false}'});});
+    await page.route('**/catalog-publish',route=>{publishBody=route.request().postDataJSON();state.catalog.job={id:'job-publish-1',rid:state.catalog.id,kind:'publish',status:'running',step:'Publishing: validating, building, committing and pushing…',error:null,result:null};return route.fulfill({contentType:'application/json',body:JSON.stringify({job:state.catalog.job,status:'running'})});});
+    await catalogCard.locator('.one-tap-form input[type=checkbox]').tap();
+    await catalogCard.getByRole('button',{name:'Approve and publish',exact:true}).tap();
+    await page.waitForFunction(()=>document.querySelectorAll('#decision-feed .finding-card').length===1,{},{timeout:8000});
+    assert.equal(decisionBody.decision,'approved');assert.equal(decisionBody.rationale,state.catalog.title,'reason is pre-filled with the package title');
+    assert.equal(publishBody.confirmed,true);
+    await page.locator('#publishing-strip .strip-item').waitFor();
+    assert.match(await page.locator('#publishing-strip').innerText(),/Fixture catalog package/);
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'no horizontal overflow with the Publishing strip visible');
+
     assert.deepEqual(errors,[],'no console errors under mobile emulation');
     await phone.close();
 
     // Desktop-width companions of the same two tabs, for a direct visual comparison.
     const desktop=await browser.newContext({viewport:{width:1280,height:900}});
     const dpage=await desktop.newPage();
-    await mockPanel(dpage);
+    await mockPanel(dpage,makeState());
     await dpage.goto(url);
     await dpage.waitForFunction(()=>document.querySelector('#connection').textContent==='Connected locally');
     await dpage.locator('#decision-feed .finding-card').first().waitFor();
@@ -110,7 +160,7 @@ async function tapTargetSizes(page){
     await dpage.screenshot({path:path.join(shots,'panel-v2-session-1280.png'),fullPage:false});
     await desktop.close();
 
-    console.log('Research control mobile passed: real touch emulation, no overflow, 44px tap targets, merged Decisions feed, log collapsed on phone. Screenshots in '+shots);
+    console.log('Research control mobile passed: real touch emulation, no overflow, 44px tap targets, merged Decisions feed, auto-validation state, the change table, one-tap approve-and-publish into the Publishing strip, log collapsed on phone. Screenshots in '+shots);
   }finally{
     if(browser)await browser.close();
     child.kill();

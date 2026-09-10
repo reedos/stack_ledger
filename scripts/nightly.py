@@ -223,20 +223,42 @@ def stage_research(root, budget_seconds):
 
 # ---------------------------------------------------------------- policy
 
+def stage_validate_pending(root):
+    """Refresh every pending package's preview so its card is ready -- validated, not homepage-bound
+    -- when the owner looks in the morning. Skips a package whose validation already passes for its
+    current hash; a package that fails here still shows the failure on its card, it is not hidden."""
+    import catalog_review as cr
+    validated = []; failed = []
+    for pkg in cr.inbox(root):
+        if pkg['status'] != 'pending_review': continue
+        v = pkg.get('validation')
+        if v and v.get('passed') and v.get('proposal_hash') == pkg['proposal_hash']: continue
+        try:
+            result = cr.preview(root, pkg['id'])
+            validated.append({'id': pkg['id'], 'passed': result['passed']})
+        except Exception as e:
+            failed.append({'id': pkg['id'], 'error': f'{type(e).__name__}: {str(e)[:200]}'})
+    return validated, failed
+
+
 def stage_policy(root):
     import publication_policy as pp
     p = pp.policy(root)
+    validated, validation_failures = stage_validate_pending(root)
     if not p['auto_apply']['enabled']:
-        return {'status': 'skipped', 'reason': 'auto-apply disabled by policy (auto_apply.enabled=false)'}
+        return {'status': 'partial' if validation_failures else 'skipped', 'reason': 'auto-apply disabled by policy (auto_apply.enabled=false)',
+                'validated': validated, 'validation_failures': validation_failures}
     status = lock_status(root/'.local/review-candidates/editorial.lock')
     if status['blocking']:
-        return {'status': 'skipped', 'reason': f"editorial.lock held by live pid {status.get('pid')}"}
+        return {'status': 'partial' if validation_failures else 'skipped', 'reason': f"editorial.lock held by live pid {status.get('pid')}",
+                'validated': validated, 'validation_failures': validation_failures}
     result = pp.apply_admitted(root, p)
     import catalog_review as cr
     deployments = cr.verify_pending_deployments(root)
     failed = [rid for rid, outcome in result['outcomes'].items() if str(outcome).startswith('failed')]
-    return {'status': 'partial' if failed else 'ok', 'pending': result['pending'], 'admitted': result['admitted'],
-            'outcomes': result['outcomes'], 'deployment_verification': deployments}
+    return {'status': 'partial' if failed or validation_failures else 'ok', 'pending': result['pending'], 'admitted': result['admitted'],
+            'outcomes': result['outcomes'], 'deployment_verification': deployments,
+            'validated': validated, 'validation_failures': validation_failures}
 
 
 # ---------------------------------------------------------------- health

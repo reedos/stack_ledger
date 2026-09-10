@@ -27,9 +27,10 @@ def policy(root=ROOT):
     require(set(p)=={'version','reviewed_at','owner_decision','auto_apply','always_human'} and p['version']==1,'Unexpected publication policy shape')
     timestamp(p['reviewed_at']);text(p['owner_decision'],1000)
     a=p['auto_apply']
-    require(set(a)=={'enabled','reviewer_label','authors','targets','new_entries_only','project_stages','max_source_rank','require_passing_preview','max_changes_per_package','metric_measurement_types','project_updates'},'Unexpected auto_apply fields')
+    require(set(a)=={'enabled','reviewer_label','authors','targets','new_entries_only','project_stages','max_source_rank','require_passing_preview','max_changes_per_package','metric_measurement_types','project_updates','same_source_relabel'},'Unexpected auto_apply fields')
     require(a['project_updates']=='append_observations_only' and all(isinstance(x,str) for x in a['metric_measurement_types']),'Invalid policy update rules')
     require(type(a['enabled']) is bool and a['new_entries_only'] is True and a['require_passing_preview'] is True,'Policy must keep new-entries-only and passing-preview rules')
+    require(type(a['same_source_relabel']) is bool,'Invalid same_source_relabel flag')
     require(set(a['targets'])<={'project','source','note','observation','metric'},'Policy may not auto-apply companies or products')
     require(type(a['max_source_rank']) is int and 1<=a['max_source_rank']<=3,'Invalid source rank ceiling')
     require(all(isinstance(x,str) and x for x in a['authors']+a['project_stages']) and type(a['max_changes_per_package']) is int and 1<=a['max_changes_per_package']<=100,'Invalid policy lists')
@@ -47,6 +48,22 @@ def source_ranks(registry):
     return ranks
 
 
+OBSERVATION_RELABEL_KEEP={'id','metric','value','upper','status','source','precision','method'}
+OBSERVATION_RELABEL_MUTABLE={'period','year','note','retrieved_at','correction_of','superseded_by','correction_reason'}
+
+
+def same_source_relabel(before,after):
+    """True when `after` only relabels an existing observation: the figure, its status, source and
+    metric are untouched, and only period/year (kept internally consistent), note, retrieved_at or a
+    correction-chain field differ. Figure values, statuses and sources always need a person."""
+    if not isinstance(before,dict) or not isinstance(after,dict):return False
+    if before==after:return False
+    if any(before.get(k)!=after.get(k) for k in OBSERVATION_RELABEL_KEEP):return False
+    if not set(before)|set(after)<=OBSERVATION_RELABEL_KEEP|OBSERVATION_RELABEL_MUTABLE:return False
+    period=str(after.get('period',''))
+    return period[:4].isdigit() and int(period[:4])==after.get('year')
+
+
 def eligible(package,p,registry,ledger=None):
     """(admitted, reasons). Every rule must hold; the reasons list explains the first failure or the admission.
 
@@ -58,7 +75,10 @@ def eligible(package,p,registry,ledger=None):
     if not a['enabled']:return False,['auto-apply disabled by policy']
     if package.get('author') not in a['authors']:return False,[f"author {package.get('author')!r} is not a policy-listed tool"]
     changes=package.get('changes',[])
-    if not changes or len(changes)>a['max_changes_per_package']:return False,[f'{len(changes)} changes exceeds the per-package ceiling']
+    if not changes:return False,['0 changes exceeds the per-package ceiling']
+    relabel_only=a['same_source_relabel'] and all(c.get('target')=='observation' and c.get('before') is not None
+                                                    and same_source_relabel(c['before'],c.get('after',{})) for c in changes)
+    if not relabel_only and len(changes)>a['max_changes_per_package']:return False,[f'{len(changes)} changes exceeds the per-package ceiling']
     for c in changes:
         if c['target'] not in a['targets']:return False,[f"target {c['target']} always needs human review"]
         if c['target']=='metric':
@@ -67,6 +87,8 @@ def eligible(package,p,registry,ledger=None):
             if c['after'].get('allowed_statuses')!=['estimate']:return False,[f"metric {c['id']} must be estimate-only"]
             continue
         if c.get('before') is not None:
+            if c['target']=='observation' and a['same_source_relabel'] and same_source_relabel(c['before'],c['after']):
+                continue
             # The one permitted update: appending records to a project without touching anything else it says.
             b,af=c['before'],c['after']
             if c['target']!='project':return False,[f"{c['target']} {c['id']} already exists; replacing it needs human review"]
