@@ -25136,6 +25136,20 @@
       ],
       "license": "Original source rights apply",
       "parent_source": "feed-fervo-37c88d"
+    },
+    {
+      "id": "discovered-78766b69535cd949",
+      "publisher": "Data Center Dynamics",
+      "title": "Discovered public update · Data Center Dynamics",
+      "url": "https://www.datacenterdynamics.com/en/news/sb-gruppe-to-build-data-center-in-bucharest-romania/",
+      "published": "2026-09-10",
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "parent_source": "outlet-www-datacenterdynamics-com-727821"
     }
   ],
   "observations": [
@@ -66167,6 +66181,25 @@
       "document_sha256": "fe0f79a01ddd29382f487560f01d8e6cdb5d07f3c3a62cea61eddab56b621011",
       "evidence_sha256": "b674f78b22d532a6d6ec2531494fe21a84a2b928cab371509de91f8599e2b931",
       "grade": "B"
+    },
+    {
+      "title": "S+B Gruppe secures planning permission for 12MW NIMB data center in Bucharest",
+      "summary": "S+B Gruppe has secured planning permission to build a 12MW Tier III data center named NIMB in Bucharest’s northern office district, with 36,597 square feet of white space and an expected opening in 2028.",
+      "layer": "infrastructure",
+      "kind": "News report",
+      "id": "note-9e418c7757942480b5de",
+      "source": "discovered-78766b69535cd949",
+      "date": "2026-09-10",
+      "method": "automated",
+      "retrieved_at": "2026-09-10T19:14:28Z",
+      "document_sha256": "47bdad1dc64828b60d45ee0b4d68c2ca70c2bbe08a1e07f56cb7c67f1499017c",
+      "evidence_sha256": "851ff081aa51b03443e3d46c9361b6055ab6f32ac7b757decd8c55c0a9759888",
+      "grade": "C",
+      "outlet": "Data Center Dynamics",
+      "reported_on": "2026-09-10",
+      "about": [],
+      "quote": "Real estate developer S+B Gruppe has secured planning permission to build a 12MW data center in Bucharest, southern Romania.\nNamed ‘NIMB,’ the firm said that it had received approval for a building permit and a grid connection request for the Tier III facility in the city’s northern office district.\n– S+B Gruppe\nThe data center will provide 36,597 square feet (3,400sqm) of white space and is expected to open in 2028.",
+      "confirmation": "unconfirmed"
     }
   ],
   "targets": [
@@ -79277,6 +79310,23 @@
       "coverage_layers": [
         "energy"
       ]
+    },
+    {
+      "id": "run-20260910T191417Z-5f63442c76bd4ba288f3868c6802c230",
+      "started_at": "2026-09-10T19:14:17Z",
+      "finished_at": "2026-09-10T19:14:32Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -79286,7 +79336,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-10T19:12:56Z",
+    "last_attempt": "2026-09-10T19:14:32Z",
     "last_success": "2026-09-09T00:19:21Z",
     "status": "partial",
     "latest_session": {
