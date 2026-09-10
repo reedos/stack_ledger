@@ -79,6 +79,62 @@ class CollectionTests(unittest.TestCase):
             f.health.failure('page',url,TimeoutError())
             self.assertFalse(r.Fetcher().due(url,True))
 
+    def test_conditional_headers_are_sent_and_a_304_response_counts_as_unchanged(self):
+        # Deliverable 2/9: a fake HTTP response drives the real Fetcher.get/fetch code path
+        # (not a mocked .get()), so the outgoing conditional headers are actually checked.
+        class FakeResponse:
+            def __init__(self,body,headers):self.body=body;self.headers=headers
+            def read(self,n=None):return self.body
+            def __enter__(self):return self
+            def __exit__(self,*a):return False
+        class FakeOpener:
+            def __init__(self,responses):self.responses=list(responses);self.requests=[]
+            def open(self,req,timeout=None):
+                self.requests.append(req);result=self.responses.pop(0)
+                if isinstance(result,Exception):raise result
+                return result
+        with tempfile.TemporaryDirectory() as t,patch.object(r,'LOCAL',Path(t)):
+            f=r.Fetcher();url='https://example.org/a'
+            robots_headers=Message();robots_headers['Content-Type']='text/plain'
+            page_headers=Message();page_headers['Content-Type']='text/html; charset=utf-8'
+            page_headers['ETag']='"abc123"';page_headers['Last-Modified']='Wed, 09 Sep 2026 00:00:00 GMT'
+            page_body=('<p>'+'Evidence about infrastructure. '*20+'</p>').encode()
+            first=FakeOpener([FakeResponse(b'User-agent: *\nAllow: /',robots_headers),FakeResponse(page_body,page_headers)])
+            with patch.object(r,'build_opener',return_value=first):
+                self.assertIsNotNone(f.fetch(url))
+            state=f.fetch_state.get('page',url)
+            self.assertEqual(state['etag'],'"abc123"');self.assertEqual(state['unchanged_streak'],0)
+            # Robots is already cached in memory, so the second fetch is a single request; it
+            # must carry the stored validators, and a 304 is unchanged: no hash, no model call
+            # is possible from this alone, and the private streak advances.
+            second=FakeOpener([HTTPError(url,304,'Not Modified',Message(),None)])
+            with patch.object(r,'build_opener',return_value=second):
+                with self.assertRaises(r.Unchanged):f.fetch(url)
+            sent=second.requests[0]
+            self.assertEqual(sent.get_header('If-none-match'),'"abc123"')
+            self.assertEqual(sent.get_header('If-modified-since'),'Wed, 09 Sep 2026 00:00:00 GMT')
+            self.assertEqual(f.fetch_state.get('page',url)['unchanged_streak'],1)
+
+    def test_text_hash_fallback_when_a_host_ignores_conditional_validators(self):
+        # Deliverable 2/3: a host that always answers 200 (no ETag/Last-Modified reused)
+        # still gets flagged unchanged once the normalised readable text repeats -- boilerplate
+        # (a different footer year) around identical evidence text does not count as a change.
+        with tempfile.TemporaryDirectory() as t,patch.object(r,'LOCAL',Path(t)):
+            f=r.Fetcher();url='https://example.org/b'
+            evidence='<p>'+'Evidence about infrastructure. '*20+'</p>'
+            with patch.object(f,'get',side_effect=['User-agent: *\nAllow: /','<footer>2025</footer>'+evidence]):
+                f.fetch(url)
+            self.assertFalse(f.last_text_unchanged)
+            with patch.object(f,'get',side_effect=['<footer>2026 -- updated copyright</footer>'+evidence]):
+                f.fetch(url)
+            self.assertTrue(f.last_text_unchanged)
+            self.assertEqual(f.fetch_state.get('page',url)['unchanged_streak'],1)
+
+    def test_readable_text_hash_ignores_boilerplate_outside_the_document(self):
+        a=r.ReadableHTML();a.feed('<nav>Menu 2025</nav><header>Site A</header><p>AI use reached 90 percent in 2026.</p><footer>Copyright A</footer>')
+        b=r.ReadableHTML();b.feed('<nav>Different menu</nav><header>Site B</header><p>AI use reached 90 percent in 2026.</p><footer>Copyright B, 2026</footer>')
+        self.assertEqual(r.digest(a.readable()),r.digest(b.readable()))
+
     def test_excess_search_results_are_capped_without_losing_valid_leads(self):
         fetcher=Mock();fetcher.fetch_json.return_value={'articles':[{'url':f'https://example.org/{i}'} for i in range(10)]}
         self.assertEqual(len(d.search(fetcher,{'query':'electricity grid'},5)),5)
@@ -113,15 +169,55 @@ class CollectionTests(unittest.TestCase):
             report=json.loads((Path(t)/'.local/session-status.json').read_text())
             self.assertEqual(report['failed_batches'],0);self.assertEqual(spawn.call_count,2)
 
+    def test_three_consecutive_nothing_new_batches_end_the_session_early(self):
+        # Deliverable 7: research.py writes {'status':'nothing_new'} into its batch receipt
+        # on exit code 2 when nothing was new; research_loop reads that receipt (not just
+        # the exit code, which an "everything unreachable" pause also uses) and stops after
+        # three in a row, never counting them as failures.
+        with tempfile.TemporaryDirectory() as t:
+            clock=[0];calls=[0]
+            def sleep(seconds):clock[0]+=seconds
+            def fake_popen(command,**kwargs):
+                calls[0]+=1
+                sid=command[command.index('--session-id')+1]
+                from research_loop import atomic
+                atomic(Path(t)/'.local/sessions'/sid/'batches'/f'{calls[0]}.json',{'status':'nothing_new','monitoring':{},'collection':{}})
+                child=Mock(returncode=2);child.poll.return_value=2
+                return child
+            with patch.object(loop,'ROOT',Path(t)),patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]), \
+                 patch.object(loop.time,'sleep',side_effect=sleep),patch.object(loop.subprocess,'Popen',side_effect=fake_popen), \
+                 patch('research_notify.notify_session',return_value={'status':'disabled'}),patch('builtins.print'):
+                self.assertEqual(loop.main(['--start','--minutes','60','--ignore-gpu-busy']),0)
+            report=json.loads((Path(t)/'.local/session-status.json').read_text())
+            self.assertEqual(report['state'],'completed (nothing new)')
+            self.assertEqual(report['consecutive_nothing_new'],3)
+            self.assertEqual(report['failed_batches'],0)
+            self.assertEqual(calls[0],3)  # ended after exactly three, not the full duration
+
+    def test_an_unreachable_pause_batch_does_not_count_toward_nothing_new(self):
+        # The pre-existing "every due source unreachable" pause also exits 2, but writes no
+        # 'status' key at all -- it must not be confused with deliverable 7's nothing_new.
+        with tempfile.TemporaryDirectory() as t:
+            clock=[0]
+            def sleep(seconds):clock[0]+=seconds
+            child=Mock(returncode=2);child.poll.return_value=2
+            with patch.object(loop,'ROOT',Path(t)),patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]), \
+                 patch.object(loop.time,'sleep',side_effect=sleep),patch.object(loop.subprocess,'Popen',return_value=child), \
+                 patch('research_notify.notify_session',return_value={'status':'disabled'}),patch('builtins.print'):
+                self.assertEqual(loop.main(['--start','--minutes','10','--ignore-gpu-busy']),0)
+            report=json.loads((Path(t)/'.local/session-status.json').read_text())
+            self.assertNotEqual(report['state'],'completed (nothing new)')
+            self.assertEqual(report.get('consecutive_nothing_new',0),0)
+
     def test_receipt_distinguishes_actual_findings_from_status_pushes(self):
         with tempfile.TemporaryDirectory() as t:
             folder=Path(t)
             for n,accepted in enumerate([1,0]):
                 r.save(folder/'batches'/f'{n}.json',{'monitoring':{'documents_fetched':1,'accepted':accepted},'publication':'pushed',
-                    'collection':{'documents':[{'sha256':'same'}],'cache_hits':n,'model_documents':1-n}})
+                    'collection':{'documents':[{'sha256':'same'}],'already_reviewed':n,'model_documents':1-n}})
             totals=notify.summary(folder)
             self.assertEqual(totals['finding_pushes'],1);self.assertEqual(totals['monitoring_only_pushes'],1)
-            self.assertEqual(totals['unique_document_versions'],1);self.assertEqual(totals['cache_hits'],1)
+            self.assertEqual(totals['unique_document_versions'],1);self.assertEqual(totals['already_reviewed'],1)
             text=notify.message({'state':'completed','options':{'publish':True}},totals)
             self.assertIn('monitoring-only: 1',text)
 

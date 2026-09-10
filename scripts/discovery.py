@@ -292,7 +292,7 @@ def digest_text(root, receipt, s):
 
 def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     from research import now, load, save, digest
-    from collection_health import Health, QueryRejected, error_details
+    from collection_health import Health, QueryRejected, Unchanged, error_details
     health=Health(root/'.local/discovery/provider-health.json');provider='gdelt-doc-2'
     s = state(root);at = now();folder = root/'.local/discovery'
     receipt = {'id':run_id,'started_at':at,'status':'running','budget_units':units,'units_used':0,
@@ -406,6 +406,10 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
                     if any(t in urlparse(url).path.lower() for t in ['research','report','investor','news','publication','press','jobs','feed','rss']):
                         added+=add_lead(s,url,lead['context'],{'type':'document_link','url':lead['url'],'document_sha256':body_hash},p,at,depth=1)
                         if added>=3:break
+        except Unchanged:
+            # A 304 (deliverable 2): this lead's fetch_state entry -- shared with monitoring,
+            # keyed by URL -- confirmed no change since it was last fetched. Not a failure.
+            lead['status']='unchanged';lead['failures']=0
         except Exception as error:
             lead['status']='source_inaccessible' if stage=='fetch' else 'screen_failed';lead['failures']+=1
             receipt['errors'].append({'stage':stage,'url':lead['url'],'outcome':lead['status'],**error_details(error)})

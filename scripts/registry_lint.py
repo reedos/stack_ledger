@@ -1,13 +1,16 @@
 """Registry triage report: which sources can publish, which only inform, and which keep failing.
 
-Read-only. No network, no model, no registry change. Registry edits remain reviewed changes.
+Read-only by default. No network, no model. Registry edits remain reviewed changes.
 
-    python scripts/registry_lint.py            # print
-    python scripts/registry_lint.py --write    # also save .local/evaluations/registry-lint.md
+    python scripts/registry_lint.py                       # print
+    python scripts/registry_lint.py --write                # also save .local/evaluations/registry-lint.md
+    python scripts/registry_lint.py --retire-dated          # list dated one-off sources (dry run)
+    python scripts/registry_lint.py --retire-dated --apply  # set cadence: manual for exactly that list
 """
 import argparse
 import glob
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -15,12 +18,41 @@ from urllib.parse import urlparse
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from source_policy import collection_for
+from atomic_json import save as atomic_save
 
 ROOT=Path(__file__).resolve().parents[1]
 LOCAL=ROOT/'.local'
 
+# Deliverable 5: a dated one-off document -- a report or press release published once and
+# never revised in place -- looks like this in its registered id and its URL path. Both
+# must match, plus index:false (a feed/index page is never a one-off) and cadence!=manual
+# already (nothing to retire twice).
+DATED_ID=re.compile(r'-(19|20)\d\d(-|$)|-q[1-4]-|-may-|-\d{8}$')
+FIXED_DOCUMENT_PATH=re.compile(r'press-release|news-release|news\.release|/reports?/|\.pdf$|annualreport|/ai-index/|/\d{4}/\d{1,2}/|-\d{2}-\d{2}-\d{4}|\d{8}|/abs/|edgar|/archives/|prospectus|/\d?10-?[kq]/|[^a-z]6-?k[^a-z]',re.IGNORECASE)
+
 
 def load(path):return json.loads(path.read_text(encoding='utf-8'))
+
+
+def dated_one_offs(registry):
+    """Registered source ids matching every retirement criterion, in registry order.
+
+    Printed for a maintainer to review; --apply is the only thing that ever writes
+    cadence: manual, and it changes cadence only -- research/sources.json's other reviewed
+    fields (rank, region_book, topics, excerpts, ...) are untouched.
+    """
+    out=[]
+    for s in registry['sources']:
+        if s.get('index'):continue
+        policy=registry.get('collection',{}).get(s['id'])
+        # No registered collection policy at all (an evidence-only citation, never actively
+        # fetched) is already outside unattended monitoring; --apply only ever sets an
+        # existing policy's cadence, never fabricates one.
+        if policy is None or policy.get('cadence')=='manual':continue
+        if not DATED_ID.search(s['id']):continue
+        if not FIXED_DOCUMENT_PATH.search(urlparse(s['url']).path):continue
+        out.append(s['id'])
+    return out
 
 
 def classify(registry,ledger):
@@ -69,8 +101,21 @@ def report(rows,fails,unhealthy):
 
 
 def main(argv=None):
-    parser=argparse.ArgumentParser(description=__doc__.splitlines()[0]);parser.add_argument('--write',action='store_true')
+    parser=argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument('--write',action='store_true')
+    parser.add_argument('--retire-dated',action='store_true',help='List (or, with --apply, retire) dated one-off document sources')
+    parser.add_argument('--apply',action='store_true',help='With --retire-dated: write cadence: manual for exactly the printed list (reviewed, maintainer-run change)')
     args=parser.parse_args(argv)
+    if args.retire_dated:
+        registry=load(ROOT/'research/sources.json')
+        ids=dated_one_offs(registry)
+        print(f"{len(ids)} dated one-off source(s) {'retired' if args.apply else 'to retire (dry run; pass --apply to write)'}:")
+        for sid in ids:print(f'- {sid}')
+        if args.apply:
+            for sid in ids:registry['collection'][sid]['cadence']='manual'
+            atomic_save(ROOT/'research/sources.json',registry)
+            print(f'\nSet cadence: manual for {len(ids)} source(s). Manual sources stay registered as evidence and are never fetched by the runner; no other field changed.')
+        return 0
     rows=classify(load(ROOT/'research/sources.json'),load(ROOT/'site/data/ledger.json'))
     md=report(rows,failures(),robots_health());print(md)
     if args.write:

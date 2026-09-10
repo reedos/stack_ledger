@@ -74,6 +74,19 @@ def overlap_notice(root):
     except Exception:print('Could not deliver overlap notification; research remains skipped',flush=True)
 
 
+def latest_batch_status(folder):
+    """The 'status' field of the most recently written batch receipt, or None.
+
+    Only research.py's two "nothing new" exits (deliverable 7) ever set this key; a normal
+    success/partial/failed batch, or the older "every due source unreachable" pause, leaves
+    it absent, so callers can tell "nothing new" apart from those without re-deriving it.
+    """
+    files=sorted((folder/'batches').glob('*.json'),key=lambda p:p.stat().st_mtime)
+    if not files:return None
+    try:return json.loads(files[-1].read_text(encoding='utf-8')).get('status')
+    except (OSError,ValueError):return None
+
+
 def batch_command(args,sid,remaining):
     command=[sys.executable,str(ROOT/'scripts/research.py'),'--session-id',sid,
              '--max-documents',str(args.batch_documents),'--max-seconds',str(max(1,min(900,int(remaining)))),*choice_args(args)]
@@ -164,8 +177,19 @@ def main(argv=None):
                 if child.returncode==2:
                     report['consecutive_failures']=0
                     report['idle_checks']=report.get('idle_checks',0)+1
+                    if latest_batch_status(folder)=='nothing_new':
+                        report['consecutive_nothing_new']=report.get('consecutive_nothing_new',0)+1
+                    else:
+                        report['consecutive_nothing_new']=0
+                    if report['consecutive_nothing_new']>=3:
+                        # Deliverable 7: three consecutive batches found no due, unchanged-only
+                        # or already-reviewed sources -- stop polling and end the session early.
+                        # Never counted as a failure.
+                        checkpoint('completed (nothing new)')
+                        return 0
                     pause(300,'waiting for eligible sources')
                 elif child.returncode:
+                    report['consecutive_nothing_new']=0
                     report['failed_batches']+=1
                     report['consecutive_failures']+=1
                     checkpoint('batch failed',last_exit_code=child.returncode)
@@ -178,6 +202,7 @@ def main(argv=None):
                     pause(60,'retrying after batch failure')
                 else:
                     report['consecutive_failures']=0
+                    report['consecutive_nothing_new']=0
                     pause(20,'between batches')
             if report['consecutive_failures']:
                 checkpoint('failed',failure_reason='Session ended with unresolved batch failures. Inspect the batch log.')

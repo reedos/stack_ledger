@@ -5,7 +5,7 @@ from pathlib import Path
 from validate import require, timestamp
 
 COUNTS=('batches','failed_batches','receipts_recorded','elapsed_seconds','documents_fetched','model_calls','accepted','quarantined','source_failures','discovery_errors')
-STATES={'completed','cycle limit reached','stopped','interrupted','blocked','failed'}
+STATES={'completed','completed (nothing new)','cycle limit reached','stopped','interrupted','blocked','failed'}
 
 
 def validate_receipt(record):
