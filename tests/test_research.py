@@ -4,7 +4,7 @@ import sys
 import tempfile
 import io
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, date, timezone
 from pathlib import Path
 from unittest.mock import patch
 
@@ -125,7 +125,11 @@ class RunnerTests(unittest.TestCase):
             path=Path(tmp);self.fixture(path)
             original=(path/'site/data/ledger.json').read_bytes()
             document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
-            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model),patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+            # Pinned sources (feeds now sort first in the default queue -- deliverable 6 --
+            # and feed pages never reach note/metric extraction): together these five span
+            # every layer, so a clean no-op batch can still reach status 'success'.
+            sources=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model),patch.object(sys,'argv',['research.py','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
                 self.assertEqual(research.main(),0)
             proposal=research.load(path/'.local/proposed-ledger.json')
             self.assertEqual(proposal['runs'][-1]['accepted'],0)
@@ -137,7 +141,8 @@ class RunnerTests(unittest.TestCase):
             path=Path(tmp);self.fixture(path)
             before=research.load(path/'site/data/ledger.json')['runtime']['last_success']
             document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
-            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=TimeoutError('fixture timeout')),patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+            sources=['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=TimeoutError('fixture timeout')),patch.object(sys,'argv',['research.py','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
                 self.assertEqual(research.main(),1)
             proposal=research.load(path/'.local/proposed-ledger.json')
             self.assertEqual(proposal['runtime']['last_success'],before)
@@ -150,8 +155,13 @@ class NoteLaneCoverageTests(unittest.TestCase):
             path=Path(tmp);RunnerTests().fixture(path)
             config=research.load(path/'research/runtime.json');config['max_private_notes_per_run']=1
             research.save(path/'research/runtime.json',config)
-            document=research.ReadableHTML();document.feed('<p>Filler context. In 2026, the lab reported new AI infrastructure progress and 42 new facilities.</p>')
             note={'title':'A research development','summary':'The lab reported 42 new facilities in 2026.','layer':'energy','kind':'Research finding','evidence':'In 2026, the lab reported new AI infrastructure progress and 42 new facilities.'}
+            def fake_fetch(url):
+                # Distinct per-URL text: the review ledger's note identity (deliverable 1) is
+                # keyed on document text alone, so three identical documents would only ever
+                # reach extract_note once regardless of the per-run cap being tested here.
+                d=research.ReadableHTML();d.feed(f'<p>Filler context for {url}. {note["evidence"]}</p>')
+                return d
             def fake_model(cfg,system,prompt,schema):
                 if schema==research.NOTE_SCHEMA:return {'notes':[note]}
                 if schema==research.VERDICT_SCHEMA:return {'verdicts':[{'index':0,'supported':True,'reason':'Direct support'}]}
@@ -159,7 +169,7 @@ class NoteLaneCoverageTests(unittest.TestCase):
             # All three: no parent_source, excerpts disabled in policy, but each has a linked
             # metric -- the old gate ("publishable or not related") skipped every one of them.
             sources=['iea-2026','iea-2025','doe-demand']
-            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document), \
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',side_effect=fake_fetch), \
                  patch.object(research,'ollama',side_effect=fake_model),patch.object(sys,'argv',['research.py','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
                 research.main()
             queued=list((path/'.local/review-candidates').glob('*.json'))
@@ -382,12 +392,81 @@ class PublicationCadenceTests(unittest.TestCase):
                 self.assertEqual(publish.call_count,expected_calls)
                 receipts=list((path/'.local/sessions'/sid/'batches').glob('*.json'))
                 self.assertEqual(len(receipts),1);self.assertEqual(json.loads(receipts[0].read_text(encoding='utf-8'))['publication'],state)
-    def test_screening_version_governs_cache_identity_not_wording(self):
-        base={'_coverage':'{}','model':'m','max_candidates_per_document':4,'screening_version':'1','_instructions':'wording A'}
-        same=research.processing_identity('doc',dict(base,_instructions='wording B'),{},[])
-        self.assertEqual(research.processing_identity('doc',base,{},[]),same)
-        self.assertNotEqual(research.processing_identity('doc',dict(base,screening_version='2'),{},[]),same)
-        self.assertNotEqual(research.processing_identity('doc',dict(base,_instruction_mode='brief'),{},[]),same)
+class ReviewLedgerIdentityTests(unittest.TestCase):
+    """Deliverable 1: two independent lane identities, and the ledger built on them."""
+    def test_note_rules_bump_never_invalidates_a_metrics_review_and_vice_versa(self):
+        note_a=research.note_identity('doc','1');note_b=research.note_identity('doc','2')
+        metrics_a=research.metrics_identity('doc',['m1'],'1');metrics_b=research.metrics_identity('doc',['m1'],'2')
+        self.assertNotEqual(note_a,note_b)
+        self.assertNotEqual(metrics_a,metrics_b)
+        # A note-rules bump changes only the note identity; a metrics-rules bump changes
+        # only the metrics identity. Neither ever collides with the other lane's key.
+        self.assertEqual(research.metrics_identity('doc',['m1'],'1'),metrics_a)
+        self.assertEqual(research.note_identity('doc','1'),note_a)
+        self.assertNotIn(metrics_a,{note_a,note_b})
+    def test_metrics_identity_ignores_metric_order_but_not_membership(self):
+        self.assertEqual(research.metrics_identity('doc',['a','b'],'1'),research.metrics_identity('doc',['b','a'],'1'))
+        self.assertNotEqual(research.metrics_identity('doc',['a','b'],'1'),research.metrics_identity('doc',['a'],'1'))
+    def test_identity_changes_with_document_text(self):
+        self.assertNotEqual(research.note_identity('doc-a','1'),research.note_identity('doc-b','1'))
+        self.assertNotEqual(research.metrics_identity('doc-a',['m'],'1'),research.metrics_identity('doc-b',['m'],'1'))
+    def test_ledger_records_and_reports_outcome(self):
+        reviews={}
+        key=research.note_identity('doc','1')
+        self.assertIsNone(research.already_reviewed(reviews,key))
+        entry=research.record_review(reviews,key,'note','test-source','empty',empty_reason='document outside scope')
+        self.assertEqual(entry['outcome'],'empty');self.assertEqual(entry['empty_reason'],'document outside scope')
+        found=research.already_reviewed(reviews,key)
+        self.assertEqual(found['outcome'],'empty');self.assertIn('reviewed_at',found)
+    def test_load_reviews_of_a_missing_file_is_empty(self):
+        self.assertEqual(research.load_reviews(ROOT/'.local'/'no-such-reviews-file.json'),{})
+
+class NothingNewTests(unittest.TestCase):
+    """Deliverable 7: once every due source is already reviewed, the batch is nothing_new."""
+    def run_batch(self,path,sources,build_fn):
+        document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
+        with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research,'build',side_effect=build_fn), \
+             patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model), \
+             patch.object(sys,'argv',['research.py','--apply','--sources',*sources]),patch('sys.stdout',new=io.StringIO()):
+            return research.main()
+    def test_second_apply_of_the_same_documents_exits_nothing_new(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            def fake_build():
+                (path/'docs/data').mkdir(parents=True,exist_ok=True);(path/'docs/data/ledger.json').write_bytes((path/'site/data/ledger.json').read_bytes())
+            sources=['iea-2026','tsmc-2025','stanford-2026']
+            self.assertEqual(self.run_batch(path,sources,fake_build),0)
+            self.assertEqual(self.run_batch(path,sources,fake_build),2)
+            receipts=sorted((path/'.local/runs').glob('*.json'),key=lambda p:p.stat().st_mtime)
+            second=research.load(receipts[-1])
+            self.assertEqual(second['collection']['already_reviewed'],3)
+            self.assertEqual(second['collection']['model_documents'],0)
+            self.assertEqual(second['receipt']['source_failures'],[])
+    def test_not_attempts_batch_also_reports_nothing_new(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path);sid='c'*32
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'due',return_value=False), \
+                 patch.object(sys,'argv',['research.py','--session-id',sid,'--max-documents','3']),patch('sys.stdout',new=io.StringIO()):
+                self.assertEqual(research.main(),2)
+            receipts=list((path/'.local/sessions'/sid/'batches').glob('*.json'))
+            self.assertEqual(len(receipts),1)
+            self.assertEqual(json.loads(receipts[0].read_text(encoding='utf-8'))['status'],'nothing_new')
+    def test_an_all_304_batch_is_partial_and_idle_never_failed(self):
+        # Regression: zero reviewed documents with zero source_failures (every attempted
+        # source came back 304) must never be reported as a genuine model/research failure.
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path);sid='d'*32
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'fetch',side_effect=research.Unchanged('test')), \
+                 patch.object(sys,'argv',['research.py','--session-id',sid,'--sources','iea-2026','tsmc-2025']),patch('sys.stdout',new=io.StringIO()):
+                self.assertEqual(research.main(),2)
+            receipts=list((path/'.local/sessions'/sid/'batches').glob('*.json'))
+            receipt=json.loads(receipts[0].read_text(encoding='utf-8'))
+            self.assertEqual(receipt['monitoring']['status'],'partial')
+            self.assertEqual(receipt['monitoring']['source_failures'],[])
+            self.assertEqual(receipt['collection']['unchanged_304'],2)
+            self.assertEqual(receipt['status'],'nothing_new')
 
 class VerdictChecklistTests(unittest.TestCase):
     def checklist(self,**over):
@@ -452,7 +531,9 @@ class InstructionModeTests(unittest.TestCase):
             with self.subTest(mode=mode),tempfile.TemporaryDirectory() as tmp:
                 path=Path(tmp);RunnerTests().fixture(path)
                 document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
-                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model) as model,patch.object(sys,'argv',['research.py','--max-documents','3','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
+                # Pinned, non-feed sources: feeds sort first in the default queue (deliverable
+                # 6) and never reach a model call.
+                with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model) as model,patch.object(sys,'argv',['research.py','--sources','iea-2026','tsmc-2025','stanford-2026','--instructions',mode]),patch('sys.stdout',new=io.StringIO()):
                     research.main()
                 self.assertTrue(model.call_args_list and all(marker in call.args[1] for call in model.call_args_list))
 
@@ -462,6 +543,61 @@ class ChildCoverageTests(unittest.TestCase):
         child={'id':'discovered-0123456789abcdef','parent_source':'claude-current-api-pricing'}
         self.assertEqual(research.coverage_context(ROOT,child),research.coverage_context(ROOT,parent))
         self.assertNotEqual(research.coverage_context(ROOT,child),'{}')
+
+class FeedsFirstOrderingTests(unittest.TestCase):
+    """Deliverable 6: feed/index sources win a tie, without starving non-feed breadth."""
+    def registry(self):
+        sources=[{'id':'daily-a','url':'https://a.example/','layers':['energy']},
+                  {'id':'feed-a','url':'https://b.example/feed','layers':['energy'],'index':True},
+                  {'id':'daily-b','url':'https://c.example/','layers':['energy']},
+                  {'id':'feed-b','url':'https://d.example/feed','layers':['energy'],'index':True}]
+        collection={sid:{'cadence':'daily','weekday':0} for sid in ['daily-a','feed-a','daily-b','feed-b']}
+        return {'sources':sources,'collection':collection}
+    def test_feeds_win_a_tie_at_cold_start(self):
+        queue=research.source_queue(self.registry(),date(2026,9,9),attempted={})
+        ids=[s['id'] for s in queue]
+        self.assertLess(ids.index('feed-a'),ids.index('daily-a'))
+        self.assertLess(ids.index('feed-b'),ids.index('daily-b'))
+    def test_a_stale_non_feed_source_is_not_starved_forever(self):
+        # Once a feed has been attempted more recently than a non-feed, the non-feed's own
+        # staleness wins: feed status is a tie-break, not an absolute partition (2026-09-10
+        # regression -- an absolute partition let ~29 feeds monopolise every batch forever).
+        attempted={'feed-a':'2026-09-09T00:00:00Z','feed-b':'2026-09-09T00:00:00Z'}
+        queue=research.source_queue(self.registry(),date(2026,9,9),attempted=attempted)
+        ids=[s['id'] for s in queue]
+        self.assertLess(ids.index('daily-a'),ids.index('feed-a'))
+        self.assertLess(ids.index('daily-b'),ids.index('feed-b'))
+
+class DiscoveryCapTests(unittest.TestCase):
+    """Deliverable 6: a feed reads up to max_discovered_per_feed new entries; an ordinary
+    page still discovers at most max_discovered_per_source."""
+    def run_with_source(self,source,policy,max_discovered_per_feed=3):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            registry=research.load(path/'research/sources.json')
+            registry['sources'].append(source);registry['collection'][source['id']]=policy
+            research.save(path/'research/sources.json',registry)
+            config=research.load(path/'research/runtime.json')
+            config['max_discovered_per_feed']=max_discovered_per_feed
+            research.save(path/'research/runtime.json',config)
+            links=''.join(f'<a href="https://feed.example/story/{i}-ai">Story {i}</a>' for i in range(10))
+            document=research.ReadableHTML();document.feed(f'<p>Filler content.</p>{links}')
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model), \
+                 patch.object(sys,'argv',['research.py','--sources',source['id'],'--max-documents','20']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            receipt=research.load(sorted((path/'.local/runs').glob('*.json'))[0])
+            return receipt['collection']['documents']
+    def test_feed_source_discovers_up_to_the_per_feed_cap(self):
+        source={'id':'test-feed','publisher':'Test','title':'Test feed','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x','index':True}
+        policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
+        documents=self.run_with_source(source,policy,max_discovered_per_feed=3)
+        self.assertEqual(len(documents),1+3)  # the feed itself, plus exactly 3 discovered entries
+    def test_ordinary_page_still_discovers_only_one(self):
+        source={'id':'test-page','publisher':'Test','title':'Test page','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x'}
+        policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
+        documents=self.run_with_source(source,policy)
+        self.assertEqual(len(documents),1+1)  # the page itself, plus max_discovered_per_source (1)
 
 class BriefDefaultTests(unittest.TestCase):
     def test_runtime_defaults_to_brief_instructions(self):
@@ -492,7 +628,17 @@ class RunSummaryTests(unittest.TestCase):
     def test_missing_pieces_read_as_zero_or_empty(self):
         self.assertEqual(research.run_summary({}),
                           {'documents':0,'model_calls':0,'accepted':0,'quarantined':0,
-                           'quarantined_by_reason':{},'private_notes':0,'empty_reasons':{}})
+                           'quarantined_by_reason':{},'private_notes':0,'empty_reasons':{},
+                           'unchanged_304':0,'text_unchanged':0,'already_reviewed':0,'model_documents':0,
+                           'stale_tasks':0,'stale_tasks_met':0})
+    def test_deliverable_8_reports_why_the_model_was_or_was_not_called(self):
+        receipt={'receipt':{'documents_fetched':9},'quarantine':[],
+                  'collection':{'unchanged_304':2,'text_unchanged':1,'already_reviewed':3,'model_documents':4,
+                                'stale_tasks':[{'metric':'m1','overdue_days':5,'outcome':'met'},
+                                               {'metric':'m2','overdue_days':2,'outcome':'nothing_newer'}]}}
+        summary=research.run_summary(receipt)
+        self.assertEqual((summary['unchanged_304'],summary['text_unchanged'],summary['already_reviewed'],summary['model_documents']),(2,1,3,4))
+        self.assertEqual((summary['stale_tasks'],summary['stale_tasks_met']),(2,1))
     def test_never_includes_source_text_or_local_paths(self):
         receipt={'receipt':{'documents_fetched':1},'quarantine':[{'source':'a','candidate':{'evidence':'secret excerpt text'},'reason':'other'}],'collection':{}}
         summary=research.run_summary(receipt)
@@ -586,6 +732,106 @@ class CandidateCapTests(unittest.TestCase):
         with patch.object(research,'ollama',return_value=candidates(9)):
             with self.assertRaisesRegex(RuntimeError,'Model extraction failed'):
                 research.extract_observations(config,source,document,related,data2,self.metrics,dict(self.sources),run2,quarantine2,{})
+
+
+class FakeHealth:
+    """Enough of collection_health.Health for source_usable_for_stale_task: per-URL records
+    with an explicit due() answer, independent of the wall clock."""
+    def __init__(self,records=None):self.records=records or {}
+    def get(self,kind,target):return self.records.get(target,{})
+    def due(self,kind,target):return self.records.get(target,{}).get('_due',True)
+
+class StaleFigureTaskTests(unittest.TestCase):
+    """Deliverable 10: overdue-metric tasking, cadence thresholds, prompt target, receipt."""
+    def setUp(self):
+        self.today=date(2026,9,10)
+        def metric(mid,basis,definition_stable=True,company=None,**over):
+            m={'id':mid,'title':mid,'unit':'x','scope':'s','geography':'g','source_ids':[f'src-{mid}'],
+               'definition_stable':definition_stable}
+            if basis is not None:m['period_basis']=basis
+            if company:m['company']=company
+            m.update(over);return m
+        def obs(mid,period,value,year):
+            return {'metric':mid,'period':period,'value':value,'year':year}
+        self.metrics=[
+            metric('m-quarter-stale','quarter'),       # 2025-Q1, 497 days overdue
+            metric('m-quarter-fresh','quarter'),        # 2026-Q3, not overdue
+            metric('m-month-stale','month'),            # 2026-06, 56 days overdue
+            metric('m-snapshot-fresh','snapshot'),       # 2026-08-01, not overdue
+            metric('m-yearly-stale',None),               # 2020, 2044 days overdue
+            metric('m-unstable-stale','quarter',definition_stable=False),  # would be overdue, but excluded
+            metric('m-manual-only','quarter'),           # overdue, but its only source is manual
+            metric('m-refused-only','quarter'),          # overdue, but its only source is refused+cooling
+        ]
+        self.observations=[
+            obs('m-quarter-stale','2025-Q1',1,2025),obs('m-quarter-fresh','2026-Q3',1,2026),
+            obs('m-month-stale','2026-06',1,2026),obs('m-snapshot-fresh','2026-08-01',1,2026),
+            obs('m-yearly-stale','2020',1,2020),obs('m-unstable-stale','2025-Q1',1,2025),
+            obs('m-manual-only','2025-Q1',1,2025),obs('m-refused-only','2025-Q1',1,2025),
+            # A superseded reading close to today must never mask the real (overdue) latest one.
+            {'metric':'m-quarter-stale','period':'2026-Q3','value':9,'year':2026,'superseded_by':'later'},
+        ]
+        self.data={'metrics':self.metrics,'observations':self.observations}
+        self.registry={'sources':[{'id':f'src-{m["id"]}','url':f'https://example.org/{m["id"]}'} for m in self.metrics],
+                       'collection':{f'src-{m["id"]}':{'cadence':'daily'} for m in self.metrics}}
+        self.registry['collection']['src-m-manual-only']['cadence']='manual'
+        self.health=FakeHealth({'https://example.org/m-refused-only':{'status':'unavailable','refused':True,'_due':False}})
+        self.ecosystem={'companies':[]}
+    def test_thresholds_select_the_right_metrics_and_exclude_fresh_ones(self):
+        tasks=research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,20)
+        ids=[t['metric'] for t in tasks]
+        self.assertIn('m-quarter-stale',ids);self.assertIn('m-month-stale',ids);self.assertIn('m-yearly-stale',ids)
+        for excluded in ['m-quarter-fresh','m-snapshot-fresh','m-unstable-stale','m-manual-only','m-refused-only']:
+            self.assertNotIn(excluded,ids,excluded)
+    def test_ordering_is_most_overdue_first(self):
+        tasks=research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,20)
+        ids=[t['metric'] for t in tasks]
+        self.assertEqual(ids,['m-yearly-stale','m-quarter-stale','m-month-stale'])
+        by_id={t['metric']:t for t in tasks}
+        self.assertEqual(by_id['m-quarter-stale']['overdue_days'],497)
+        self.assertEqual(by_id['m-month-stale']['overdue_days'],56)
+    def test_limit_bounds_the_returned_list(self):
+        tasks=research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,2)
+        self.assertEqual(len(tasks),2)
+    def test_a_superseded_reading_never_hides_the_true_latest_observation(self):
+        tasks=research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,20)
+        task=next(t for t in tasks if t['metric']=='m-quarter-stale')
+        self.assertEqual(task['latest_period'],'2025-Q1')
+    def test_task_carries_the_metric_definition_and_latest_reading(self):
+        task=next(t for t in research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,20) if t['metric']=='m-month-stale')
+        self.assertEqual(task['latest_period'],'2026-06');self.assertEqual(task['latest_value'],1)
+        self.assertEqual(task['definition']['id'],'m-month-stale')
+        self.assertEqual(task['source_ids'],['src-m-month-stale'])
+
+    def test_stale_target_reaches_the_extraction_prompt(self):
+        data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        metrics={m['id']:m for m in data['metrics']};sources={s['id']:s for s in data['sources']}
+        related=[metrics['ai-adoption']];source=sources['stanford-2026']
+        config={'_instructions':'i','_coverage':'c','max_candidates_per_document':8}
+        stale_targets=[{'definition':{'id':'ai-adoption'},'latest_period':'2025','latest_value':80}]
+        with patch.object(research,'ollama',return_value={'observations':[]}) as model:
+            research.extract_observations(config,source,'Filler document text.',related,copy.deepcopy(data),metrics,dict(sources),{'model_calls':0},[],{},stale_targets)
+        prompt=json.loads(model.call_args.args[2])
+        self.assertEqual(prompt['stale_targets'],stale_targets)
+        self.assertIn('period after',prompt['stale_target_instruction'])
+        self.assertIn('duplicate',prompt['stale_target_instruction'])
+    def test_no_stale_targets_omits_the_field_entirely(self):
+        data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        metrics={m['id']:m for m in data['metrics']};sources={s['id']:s for s in data['sources']}
+        related=[metrics['ai-adoption']];source=sources['stanford-2026']
+        config={'_instructions':'i','_coverage':'c','max_candidates_per_document':8}
+        with patch.object(research,'ollama',return_value={'observations':[]}) as model:
+            research.extract_observations(config,source,'Filler document text.',related,copy.deepcopy(data),metrics,dict(sources),{'model_calls':0},[],{})
+        prompt=json.loads(model.call_args.args[2])
+        self.assertNotIn('stale_targets',prompt)
+
+    def test_receipt_accounting_met_quarantined_and_nothing_newer(self):
+        tasks=[{'metric':'a','overdue_days':10},{'metric':'b','overdue_days':5},{'metric':'c','overdue_days':1}]
+        outcomes={o['metric']:o for o in research.stale_task_outcomes(tasks,met_metrics={'a'},quarantined_metrics={'b'})}
+        self.assertEqual(outcomes['a']['outcome'],'met')
+        self.assertEqual(outcomes['b']['outcome'],'quarantined')
+        self.assertEqual(outcomes['c']['outcome'],'nothing_newer')
+        self.assertEqual(outcomes['a']['overdue_days'],10)
 
 
 if __name__=='__main__':unittest.main()

@@ -6,7 +6,7 @@ from datetime import date
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
-from source_policy import discoverable, due, append_excerpt, validate_excerpts, validate_registry
+from source_policy import discoverable, due, effective_cadence, append_excerpt, validate_excerpts, validate_registry
 from research import duplicate_or_conflict, source_queue
 from validate_agenda import validate_files
 
@@ -63,3 +63,42 @@ class SourcePolicyTests(unittest.TestCase):
         self.assertIsNone(duplicate_or_conflict(new,[old],metrics))
         self.assertEqual(duplicate_or_conflict(dict(old,value=76000),[old],metrics),'conflict')
         with self.assertRaises(ValueError):duplicate_or_conflict(dict(new,period='August'),[old],metrics)
+
+class AdaptiveCadenceTests(unittest.TestCase):
+    """Deliverable 4: a daily source unchanged for long enough is checked less often."""
+    def setUp(self):
+        self.daily={'cadence':'daily','weekday':0}
+        self.weekly={'cadence':'weekly','weekday':2}  # Wednesday
+        self.wednesday=date(2026,9,9);self.thursday=date(2026,9,10)
+    def test_two_arg_calls_are_unaffected(self):
+        # Existing call sites (no state argument) must see exactly today's behavior.
+        self.assertTrue(due(self.daily,self.thursday))
+        self.assertTrue(due(self.weekly,self.wednesday));self.assertFalse(due(self.weekly,self.thursday))
+        self.assertEqual(effective_cadence(self.daily),'daily')
+    def test_seven_unchanged_checks_promote_daily_to_weekly(self):
+        for streak in range(6):
+            self.assertEqual(effective_cadence(self.daily,{'unchanged_streak':streak}),'daily')
+        self.assertEqual(effective_cadence(self.daily,{'unchanged_streak':7}),'weekly')
+        # Promoted to weekly: due only on the registered weekday, same as a registered-weekly source.
+        promoted=dict(self.daily,weekday=2)
+        self.assertTrue(due(promoted,self.wednesday,{'unchanged_streak':7}))
+        self.assertFalse(due(promoted,self.thursday,{'unchanged_streak':7}))
+    def test_six_more_unchanged_weekly_checks_promote_to_monthly(self):
+        self.assertEqual(effective_cadence(self.daily,{'unchanged_streak':12}),'weekly')
+        self.assertEqual(effective_cadence(self.daily,{'unchanged_streak':13}),'monthly')
+        promoted=dict(self.daily,weekday=2)
+        self.assertTrue(due(promoted,date(2026,9,2),{'unchanged_streak':13}))  # first Wednesday of September
+        self.assertFalse(due(promoted,date(2026,9,9),{'unchanged_streak':13}))  # a later Wednesday, same month
+    def test_any_change_resets_to_the_registered_cadence(self):
+        # The caller resets unchanged_streak to zero on a real change (research.py's Fetcher);
+        # effective_cadence reads that state fresh every time, with no memory of its own.
+        self.assertEqual(effective_cadence(self.daily,{'unchanged_streak':0}),'daily')
+        self.assertTrue(due(self.daily,self.thursday,{'unchanged_streak':0}))
+    def test_promotion_never_applies_to_weekly_or_manual_sources(self):
+        self.assertEqual(effective_cadence(self.weekly,{'unchanged_streak':99}),'weekly')
+        self.assertEqual(effective_cadence({'cadence':'manual'},{'unchanged_streak':99}),'manual')
+    def test_state_missing_or_not_a_mapping_reads_as_unpromoted(self):
+        # A Mock (or any non-dict) fetch-state stand-in must never crash cadence math.
+        self.assertEqual(effective_cadence(self.daily,None),'daily')
+        self.assertEqual(effective_cadence(self.daily,object()),'daily')
+        self.assertEqual(effective_cadence(self.daily,{}),'daily')

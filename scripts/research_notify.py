@@ -10,7 +10,9 @@ def summary(folder):
     totals=dict(documents=0,accepted=0,quarantined=0,source_failures=0,discovery_proposals=0,
                 discovery_errors=0,model_calls=0,pushed_batches=0,unpublished_batches=0,
                 finding_pushes=0,monitoring_only_pushes=0,search_calls=0,search_errors=0,
-                discovery_screened=0,cache_hits=0,model_documents=0,cooldown_skips=0,idle_checks=0,private_notes=0)
+                discovery_screened=0,model_documents=0,cooldown_skips=0,idle_checks=0,private_notes=0,
+                unchanged_304=0,text_unchanged=0,already_reviewed=0,nothing_new_batches=0,
+                stale_tasks_queued=0,stale_tasks_met=0,empty_reasons={})
     hashes=set();complete_inventory=True
     for path in (folder/'batches').glob('*.json'):
         item=json.loads(path.read_text(encoding='utf-8'));run=item.get('monitoring',{});private=item.get('discovery') or {}
@@ -30,9 +32,13 @@ def summary(folder):
         totals['search_errors']+=sum(e.get('stage')=='search' for e in private.get('errors',[]))
         totals['discovery_screened']+=private.get('documents_screened',0)
         stats=item.get('collection',{})
-        for key in ['cache_hits','model_documents','cooldown_skips','private_notes']:totals[key]+=stats.get(key,0)
+        for key in ['model_documents','cooldown_skips','private_notes','unchanged_304','text_unchanged','already_reviewed','stale_tasks_queued']:
+            totals[key]+=stats.get(key,0)
+        for reason,count in stats.get('empty_reasons',{}).items():totals['empty_reasons'][reason]=totals['empty_reasons'].get(reason,0)+count
+        totals['stale_tasks_met']+=sum(t.get('outcome')=='met' for t in stats.get('stale_tasks',[]))
         totals['cooldown_skips']+=private.get('cooldown_skips',0)
-        totals['idle_checks']+=item.get('status')=='nothing_due'
+        totals['idle_checks']+=item.get('status')=='nothing_new'
+        totals['nothing_new_batches']+=item.get('status')=='nothing_new'
         docs=stats.get('documents',[])
         if len(docs)!=run.get('documents_fetched',0):complete_inventory=False
         hashes.update(d['sha256'] for d in docs)
@@ -46,13 +52,25 @@ def summary(folder):
 
 def message(report,totals):
     if report.get('status')=='skipped':return 'Stack Ledger: scheduled research skipped.\nAnother research run is active and continues unchanged. Next automatic attempt: the next scheduled night.'
+    if report.get('state')=='completed (nothing new)':
+        # Deliverable 7: a short receipt for the common, unremarkable "caught up" ending --
+        # the full receipt below still exists in the local session record for inspection.
+        return '\n'.join([
+            'Stack Ledger research: completed (nothing new).',
+            f"Elapsed: {round(report.get('elapsed_seconds',0)/60)} min | Batches: {report.get('batches',0)}",
+            f"{report.get('consecutive_nothing_new',3)} consecutive batches found no due, unchanged or already-reviewed sources; the session ended early rather than keep polling. Never counted as a failure.",
+            'Review findings and details in your local Research Control panel.'
+        ])
+    top_empty=', '.join(f'{k} ×{v}' for k,v in sorted(totals.get('empty_reasons',{}).items(),key=lambda kv:-kv[1])[:3])
     return '\n'.join([
         'Stack Ledger research: '+report['state']+'.',
         ('Research stopped for maintenance; inspect the local batch log.' if report['state'] in {'blocked','failed','interrupted'} else 'Session receipt; elapsed time includes waits and publication checks.'),
-        f"Elapsed: {round(report.get('elapsed_seconds',0)/60)} min | Batches: {report.get('batches',0)} ({report.get('failed_batches',0)} failed)",
+        f"Elapsed: {round(report.get('elapsed_seconds',0)/60)} min | Batches: {report.get('batches',0)} ({report.get('failed_batches',0)} failed, {totals.get('nothing_new_batches',0)} nothing-new)",
         f"Fetches (includes repeats): {totals['documents']} | Unique document versions: {totals.get('unique_document_versions') if totals.get('unique_document_versions') is not None else 'not recorded'} | Model calls: {totals['model_calls']}",
-        (f"Monitoring model documents: {totals['model_documents']} | Cached reviews reused: {totals['cache_hits']} | Cooldown skips: {totals['cooldown_skips']}" if totals.get('collection_detail_available') else 'Older receipts lack unique-document/cache detail.'),
-        f"Monitoring records accepted: {totals['accepted']} | Quarantined: {totals['quarantined']}",
+        (f"Monitoring: {totals['model_documents']} model-reviewed, {totals.get('already_reviewed',0)} already reviewed (ledger), {totals.get('unchanged_304',0)} 304 unchanged, {totals.get('text_unchanged',0)} text-unchanged, {totals['cooldown_skips']} cooldown skips"
+         if totals.get('collection_detail_available') else 'Older receipts lack unique-document/cache detail.'),
+        f"Monitoring records accepted: {totals['accepted']} | Quarantined: {totals['quarantined']}"+(f" | Top empty reasons: {top_empty}" if top_empty else ''),
+        (f"Stale-metric tasks queued: {totals.get('stale_tasks_queued',0)} (met: {totals.get('stale_tasks_met',0)})" if totals.get('stale_tasks_queued',0) else 'No stale-metric tasks queued this session.'),
         f"New discovery proposals: {totals['discovery_proposals']} (private review inbox) | Private notes from sources without excerpt permission: {totals.get('private_notes',0)}",
         f"Source failures: {totals['source_failures']} | Discovery errors: {totals['discovery_errors']}",
         f"Discovery searches: {totals.get('search_calls',0)} ({totals.get('search_errors',0)} failed) | Documents screened: {totals.get('discovery_screened',0)}",

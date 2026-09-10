@@ -29,6 +29,10 @@ class QueryRejected(ValueError):
     """A rejected topic must not take healthy provider access offline."""
 
 
+class Unchanged(ValueError):
+    """A 304 conditional response: no download, no new hash, no model call."""
+
+
 class Health:
     def __init__(self,path):
         self.path=path

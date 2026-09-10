@@ -8,8 +8,34 @@ CLAIMS = {'architecture','shipment','financial','roadmap','safety','clinical','l
 def collection_for(registry, source):
     return registry.get('collection', {}).get(source.get('parent_source', source['id']), {})
 
-def due(policy, day):
-    return policy.get('cadence') != 'manual' and (policy.get('cadence') != 'weekly' or day.weekday() == policy.get('weekday', 0))
+# A daily source unchanged for this many consecutive checks is worth checking less often.
+# Promotion only ever loosens a *registered daily* cadence; weekly and manual sources are
+# never promoted, and research/sources.json's own registered cadence never changes for it.
+PROMOTE_TO_WEEKLY_STREAK = 7
+PROMOTE_TO_MONTHLY_STREAK = PROMOTE_TO_WEEKLY_STREAK + 6
+
+def effective_cadence(policy, state=None):
+    """The cadence actually checked today, given private per-source fetch state.
+
+    `state` is the caller's private per-URL fetch-state record (unchanged_streak and the
+    like); pass None (or omit it) to read the plain registered cadence unaffected. Any
+    observed change resets the caller's stored streak to zero, so the very next check
+    reverts here to the registered cadence -- nothing here is itself persisted.
+    """
+    cadence = policy.get('cadence')
+    if cadence != 'daily' or not isinstance(state, dict) or not state:
+        return cadence
+    streak = state.get('unchanged_streak', 0)
+    if streak >= PROMOTE_TO_MONTHLY_STREAK: return 'monthly'
+    if streak >= PROMOTE_TO_WEEKLY_STREAK: return 'weekly'
+    return 'daily'
+
+def due(policy, day, state=None):
+    cadence = effective_cadence(policy, state)
+    if cadence == 'manual': return False
+    if cadence == 'weekly': return day.weekday() == policy.get('weekday', 0)
+    if cadence == 'monthly': return day.weekday() == policy.get('weekday', 0) and day.day <= 7
+    return True
 
 def discoverable(source, url, policy):
     u = urlparse(url)

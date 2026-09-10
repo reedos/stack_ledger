@@ -305,6 +305,7 @@ class DiscoveryTests(unittest.TestCase):
                  ['iea-2026','tsmc-2025','msft-wisconsin','stanford-cost','stanford-2026']]
         with patch.object(r,'ROOT',self.root),patch.object(r,'LOCAL',self.root/'.local'),\
              patch.object(r,'Fetcher',return_value=self.fetcher),patch.object(r,'source_queue',return_value=monitor),\
+             patch.object(r,'select_stale_tasks',return_value=[]),\
              patch.object(r,'ollama',side_effect=self.model),patch.object(sys,'argv',['research.py','--max-documents','8']),\
              patch('sys.stdout',new=io.StringIO()):
             self.assertEqual(r.main(),0)
