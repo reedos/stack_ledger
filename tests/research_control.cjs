@@ -47,6 +47,19 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
     finding:{kind:'project',subject:'Fixture geothermal project',claim:'Operator reports commissioning. <img src=x onerror=alert(1)>',
       evidence:'The operator states the project is commissioning.',basis:'actual',why_track:'Check dependable power delivery.',next_question:'Verify grid-operator records.'}};
   let catalogStatus='pending_review',previewed=false,catalogJob=null,decisionBody,publishBody;
+  // Deliverable: promoting a report is one tap ("Track this"), next to Retract. An
+  // already-promoted report shows queued state instead of the control.
+  const trackableReport={id:'note-'+'t'.repeat(20),grade:'C',kind:'News report',layer:'infrastructure',
+    title:'Fixture Co secures planning permission for a data center in Fixtureville',
+    summary:'Fixture Co secured planning permission for a data center in Fixtureville.',
+    outlet:'Fixture Wire',reported_on:'2026-09-09',date:'2026-09-09',about:[],
+    quote:'Fixture Co said it secured planning permission.',confirmation:'unconfirmed'};
+  const trackedReport={id:'note-'+'q'.repeat(20),grade:'C',kind:'News report',layer:'energy',
+    title:'Already Tracked Co breaks ground on a site in Trackedville',
+    summary:'Already Tracked Co is building a site in Trackedville.',
+    outlet:'Fixture Wire',reported_on:'2026-09-08',date:'2026-09-08',about:[],
+    quote:'Already Tracked Co confirmed the groundbreaking.',confirmation:'unconfirmed'};
+  let promotions={[trackedReport.id]:{package_id:'catalog-'+'p'.repeat(24),status:'pending_review'}},promoteBody;
   const catalog={id:'catalog-'+'c'.repeat(24),title:'Fixture catalog package',author:'fixture researcher',created_at:'2026-09-09T00:00:00Z',
     proposal_hash:'c'.repeat(64),review_hash:'d'.repeat(64),auto_apply_eligible:false,auto_apply_reasons:['evidence example.org is not a registered rank <=2 source'],
     changes:[{target:'project',id:'fixture-project',before:null,after:{id:'fixture-project',name:'<img src=x onerror=alert(1)>',next_evidence:'x'.repeat(400)}}],
@@ -58,7 +71,13 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
   }
   await page.route('**/findings',async route=>route.fulfill({contentType:'application/json',body:JSON.stringify(await findingsPayload())}));
   await page.route('**/visuals',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({proposals:[],reviewer:'reedos',assessment:null,invalid_files:0})}));
-  await page.route('**/activity',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({policy_events:[],digests:[],unreadable_events:0})}));
+  await page.route('**/activity',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(
+    {policy_events:[],digests:[],unreadable_events:0,reviewer:'reedos',reports:[trackableReport,trackedReport],promotions})}));
+  await page.route('**/report-promote',route=>{
+    promoteBody=route.request().postDataJSON();
+    promotions={...promotions,[promoteBody.id]:{package_id:'catalog-'+'n'.repeat(24),status:'pending_review'}};
+    return route.fulfill({contentType:'application/json',body:JSON.stringify({package_id:promotions[promoteBody.id].package_id,already_promoted:false,job:{status:'queued'},status:'queued'})});
+  });
   await page.route('**/review',route=>{reviewRequest=route.request().postDataJSON();reviewed=true;return route.fulfill({contentType:'application/json',body:'{"saved":true,"reviewer":"reedos","status":"investigate","published":false}'});});
   await page.route('**/catalog-preview',route=>{previewed=true;catalogJob={id:'job-validate-1',rid:catalog.id,kind:'validate',status:'done',step:'Done',error:null,result:{passed:true}};return route.fulfill({contentType:'application/json',body:JSON.stringify({job:catalogJob,status:'done'})});});
   await page.route('**/catalog-review',route=>{decisionBody=route.request().postDataJSON();catalogStatus='approved';return route.fulfill({contentType:'application/json',body:'{"status":"approved","published":false}'});});
@@ -125,9 +144,24 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
   assert.equal(await page.locator('.finding-card').filter({hasText:'Fixture geothermal project'}).count(),1);
   await page.locator('.decision-history').locator(':scope > summary').click();
 
-  // Activity tab is a read-only automated-events log, distinct from Decisions.
+  // Activity tab is a read-only automated-events log, distinct from Decisions -- except for
+  // Track this, the one tap that drafts a private catalog package from a report.
   await page.locator('#activity-tab').click();await page.locator('#activity-panel').waitFor();
   await page.waitForFunction(()=>document.querySelector('#activity-panel').innerText.includes('No automatic approvals'));
+  const trackableCard=page.locator('#activity-log .finding-card').filter({hasText:'Fixtureville'});
+  await trackableCard.waitFor();
+  const trackedCard=page.locator('#activity-log .finding-card').filter({hasText:'Trackedville'});
+  // Already promoted: shows queued state instead of the control.
+  assert.equal(await trackedCard.getByRole('button',{name:'Track this'}).count(),0,'an already-promoted report has no Track this control');
+  assert.match(await trackedCard.innerText(),/Queued for review/);
+  await trackedCard.locator('a',{hasText:'Open in Decisions'}).click();
+  await page.locator('#decisions-panel').waitFor();
+  await page.locator('#activity-tab').click();await page.locator('#activity-panel').waitFor();
+  // Not yet promoted: one tap drafts the package and the card flips to the queued state.
+  await trackableCard.getByRole('button',{name:'Track this'}).click();
+  await trackableCard.getByRole('button',{name:'Track this'}).waitFor({state:'detached'});
+  assert.equal(promoteBody.id,trackableReport.id);
+  assert.match(await trackableCard.innerText(),/Queued for review/,'the control is replaced once queued');
 
   // Session tab: unaffected controls, GPU charts, missing-readings handling, mocked start.
   await page.locator('#session-tab').click();

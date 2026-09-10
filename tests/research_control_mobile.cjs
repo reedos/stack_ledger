@@ -20,7 +20,20 @@ function makeState(){
     auto_apply_eligible:false,auto_apply_reasons:['evidence example.org is not a registered rank <=2 source'],validation:null,publication_receipt:null,job:null,
     changes:[{target:'project',id:'fixture-project',before:null,after:{id:'fixture-project',name:'Fixture project',next_evidence:'Check the next dated disclosure.'}}],
     evidence:[{id:'fixture-source',url:'https://example.org/release',published_at:'2026-09-08',retrieved_at:'2026-09-08T00:00:00Z',summary:'Fixture evidence.',source_rank:3}]};
-  return {finding,catalog};
+  // Deliverable: promoting a report ("Track this") is one tap, next to Retract; an already
+  // promoted report shows queued state instead of the control.
+  const trackableReport={id:'note-'+'t'.repeat(20),grade:'C',kind:'News report',layer:'infrastructure',
+    title:'Fixture Co secures planning permission for a data center in Fixtureville',
+    summary:'Fixture Co secured planning permission for a data center in Fixtureville.',
+    outlet:'Fixture Wire',reported_on:'2026-09-09',date:'2026-09-09',about:[],
+    quote:'Fixture Co said it secured planning permission.',confirmation:'unconfirmed'};
+  const trackedReport={id:'note-'+'q'.repeat(20),grade:'C',kind:'News report',layer:'energy',
+    title:'Already Tracked Co breaks ground on a site in Trackedville',
+    summary:'Already Tracked Co is building a site in Trackedville.',
+    outlet:'Fixture Wire',reported_on:'2026-09-08',date:'2026-09-08',about:[],
+    quote:'Already Tracked Co confirmed the groundbreaking.',confirmation:'unconfirmed'};
+  const promotions={[trackedReport.id]:{package_id:'catalog-'+'p'.repeat(24),status:'pending_review'}};
+  return {finding,catalog,reports:[trackableReport,trackedReport],promotions};
 }
 
 async function mockPanel(page,state){
@@ -34,7 +47,13 @@ async function mockPanel(page,state){
     {findings:[state.finding],reviewer:'reedos',invalid_files:0,unreadable_events:0,catalog_packages:[state.catalog],handoffs:[],
      jobs:state.catalog.job?[state.catalog.job]:[]})}));
   await page.route('**/visuals',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({proposals:[],reviewer:'reedos',assessment:null,invalid_files:0})}));
-  await page.route('**/activity',route=>route.fulfill({contentType:'application/json',body:JSON.stringify({policy_events:[],digests:[],unreadable_events:0})}));
+  await page.route('**/activity',route=>route.fulfill({contentType:'application/json',body:JSON.stringify(
+    {policy_events:[],digests:[],unreadable_events:0,reviewer:'reedos',reports:state.reports,promotions:state.promotions})}));
+  await page.route('**/report-promote',route=>{
+    const body=route.request().postDataJSON();
+    state.promotions={...state.promotions,[body.id]:{package_id:'catalog-'+'n'.repeat(24),status:'pending_review'}};
+    return route.fulfill({contentType:'application/json',body:JSON.stringify({package_id:state.promotions[body.id].package_id,already_promoted:false,job:{status:'queued'},status:'queued'})});
+  });
 }
 
 async function tapTargetSizes(page){
@@ -127,6 +146,26 @@ async function tapTargetSizes(page){
     const undersized=sizes.filter(r=>r.height<44-0.5);
     assert.equal(undersized.length,0,'every interactive element is >=44px tall: '+JSON.stringify(undersized));
 
+    // Activity tab: promoting a report is one tap ("Track this"), next to Retract. An
+    // already-promoted report shows queued state instead of the control.
+    await page.tap('#activity-tab');
+    await page.locator('#activity-panel').waitFor();
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'no horizontal overflow on the Activity tab at 390px');
+    const trackableCard=page.locator('#activity-log .finding-card').filter({hasText:'Fixtureville'});
+    await trackableCard.waitFor();
+    const trackedCard=page.locator('#activity-log .finding-card').filter({hasText:'Trackedville'});
+    assert.equal(await trackedCard.getByRole('button',{name:'Track this'}).count(),0,'an already-promoted report has no Track this control');
+    assert.match(await trackedCard.innerText(),/Queued for review/);
+    const trackButton=trackableCard.getByRole('button',{name:'Track this'});
+    const trackBox=await trackButton.boundingBox();
+    assert.ok(trackBox.height>=44,'Track this is at least 44px tall: '+trackBox.height);
+    await page.screenshot({path:path.join(shots,'panel-v2-activity-390.png'),fullPage:false});
+    await trackButton.tap();
+    await trackButton.waitFor({state:'detached'});
+    assert.match(await trackableCard.innerText(),/Queued for review/,'one tap replaces the control with the queued state');
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'no horizontal overflow once a report is queued');
+    await page.screenshot({path:path.join(shots,'panel-v2-activity-queued-390.png'),fullPage:false});
+
     // Back to Decisions: tap Approve and publish -- one tap records the approval, then queues
     // publication in the background. The card leaves the feed and shows up in the Publishing strip.
     await page.tap('#decisions-tab');
@@ -158,9 +197,12 @@ async function tapTargetSizes(page){
     await dpage.locator('#session-panel').waitFor();
     assert.equal(await dpage.locator('#log-details').getAttribute('open'),'','live log defaults open on desktop');
     await dpage.screenshot({path:path.join(shots,'panel-v2-session-1280.png'),fullPage:false});
+    await dpage.click('#activity-tab');
+    await dpage.locator('#activity-log .finding-card').first().waitFor();
+    await dpage.screenshot({path:path.join(shots,'panel-v2-activity-1280.png'),fullPage:false});
     await desktop.close();
 
-    console.log('Research control mobile passed: real touch emulation, no overflow, 44px tap targets, merged Decisions feed, auto-validation state, the change table, one-tap approve-and-publish into the Publishing strip, log collapsed on phone. Screenshots in '+shots);
+    console.log('Research control mobile passed: real touch emulation, no overflow, 44px tap targets, merged Decisions feed, auto-validation state, the change table, one-tap approve-and-publish into the Publishing strip, one-tap report promotion and its queued state, log collapsed on phone. Screenshots in '+shots);
   }finally{
     if(browser)await browser.close();
     child.kill();
