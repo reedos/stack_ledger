@@ -10,6 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import research
 import evaluate_extraction as ee
 from evidence_text import numeric_tokens
+from source_policy import collection_for
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -226,6 +227,8 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         self.metrics = {m['id']: m for m in self.data['metrics']}
         self.sources = {s['id']: s for s in self.data['sources']}
         self.source = self.sources['stanford-2026']
+        registry = json.loads((ROOT / 'research/sources.json').read_text(encoding='utf-8'))
+        self.policy = collection_for(registry, self.source)
         self.related = [self.metrics['ai-adoption']]
         self.document = 'In 2026, 90 percent of surveyed organizations reported AI use.'
         self.candidate = {'metric': 'ai-adoption', 'year': 2026, 'period': '2026', 'value': 90, 'upper': None,
@@ -242,7 +245,7 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, patch.object(research, 'LOCAL', Path(tmp)), \
              patch.object(research, 'ollama', side_effect=[{'observations': [self.candidate]}, {'verdicts': [verdict]}]):
             accepted = research.extract_observations(self.config, self.source, self.document, self.related, data,
-                                                       self.metrics, self.sources, run, quarantine, collection)
+                                                       self.metrics, self.sources, run, quarantine, collection, policy=self.policy)
             proof = json.loads((Path(tmp) / 'evidence' / f'{accepted[0]["id"]}.json').read_text(encoding='utf-8'))
         self.assertEqual(len(accepted), 1)
         self.assertEqual(accepted[0]['metric'], 'ai-adoption')
@@ -263,7 +266,7 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         bad = dict(self.candidate, value=91)  # not present as a numeric token in the evidence
         with patch.object(research, 'ollama', return_value={'observations': [bad]}):
             accepted = research.extract_observations(self.config, self.source, self.document, self.related, data,
-                                                       self.metrics, self.sources, run, quarantine, collection)
+                                                       self.metrics, self.sources, run, quarantine, collection, policy=self.policy)
         self.assertEqual(accepted, [])
         self.assertEqual(run['model_calls'], 1)
         self.assertEqual(len(quarantine), 1)
@@ -275,7 +278,7 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         with patch.object(research, 'ollama', side_effect=TimeoutError('fixture timeout')):
             with self.assertRaisesRegex(RuntimeError, 'Model extraction failed'):
                 research.extract_observations(self.config, self.source, self.document, self.related, data,
-                                               self.metrics, self.sources, run, [], {})
+                                               self.metrics, self.sources, run, [], {}, policy=self.policy)
 
     def test_empty_reason_recorded_in_collection_histogram_and_entry(self):
         run = {'model_calls': 0, 'accepted': 0}
@@ -283,7 +286,7 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         collection = {}
         with patch.object(research, 'ollama', return_value={'observations': [], 'empty_reason': 'no supported number for these metrics'}):
             accepted = research.extract_observations(self.config, self.source, self.document, self.related, data,
-                                                       self.metrics, self.sources, run, [], collection)
+                                                       self.metrics, self.sources, run, [], collection, policy=self.policy)
         self.assertEqual(accepted, [])
         self.assertEqual(collection['empty_reasons'], {'no supported number for these metrics': 1})
         self.assertEqual(collection['document_windows'][-1]['empty_reason'], 'no supported number for these metrics')
@@ -294,7 +297,7 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         with patch.object(research, 'ollama', return_value={'observations': [], 'empty_reason': 'x' * 201}):
             with self.assertRaisesRegex(RuntimeError, 'Model extraction failed'):
                 research.extract_observations(self.config, self.source, self.document, self.related, data,
-                                               self.metrics, self.sources, run, [], {})
+                                               self.metrics, self.sources, run, [], {}, policy=self.policy)
 
     def test_evidence_over_cap_but_shrinkable_is_accepted_and_marked(self):
         run = {'model_calls': 0, 'accepted': 0}
@@ -307,7 +310,7 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, patch.object(research, 'LOCAL', Path(tmp)), \
              patch.object(research, 'ollama', side_effect=[{'observations': [candidate]}, {'verdicts': [verdict]}]):
             accepted = research.extract_observations(self.config, self.source, long_doc, self.related, data,
-                                                       self.metrics, self.sources, run, quarantine, {})
+                                                       self.metrics, self.sources, run, quarantine, {}, policy=self.policy)
             proof = json.loads((Path(tmp) / 'evidence' / f'{accepted[0]["id"]}.json').read_text(encoding='utf-8'))
         self.assertEqual(len(accepted), 1)
         self.assertEqual(quarantine, [])
@@ -324,7 +327,7 @@ class ExtractObservationsRefactorTests(unittest.TestCase):
         candidate = dict(self.candidate, evidence=long_doc)
         with patch.object(research, 'ollama', return_value={'observations': [candidate]}):
             accepted = research.extract_observations(self.config, self.source, long_doc, self.related, data,
-                                                       self.metrics, self.sources, run, quarantine, {})
+                                                       self.metrics, self.sources, run, quarantine, {}, policy=self.policy)
         self.assertEqual(accepted, [])
         self.assertEqual(len(quarantine), 1)
         self.assertIn('too long even after shrinking', quarantine[0]['reason'])

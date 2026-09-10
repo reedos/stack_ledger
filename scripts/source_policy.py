@@ -3,10 +3,38 @@ from urllib.parse import urlparse, unquote
 from validate import require, text, timestamp, LAYERS, STATUSES
 
 REGIONS = {'united-states','taiwan','korea','japan','china','europe','middle-east','india','canada-latam-africa-anz','global','unknown'}
-CLAIMS = {'architecture','shipment','financial','roadmap','safety','clinical','labor','other'}
+CLAIMS = {'architecture','shipment','financial','roadmap','safety','clinical','labor','other','news'}
+GRADES = {'A','B','C','D'}
 
 def collection_for(registry, source):
     return registry.get('collection', {}).get(source.get('parent_source', source['id']), {})
+
+# Owner decision, September 9, 2026 (exploratory intake with graded evidence): every published
+# event/note and every automated observation carries a grade derived only from the registry's
+# own reviewed rank and claim_type -- never chosen by the model. Rank already carries an
+# established meaning (session_options.SOURCE_KINDS): 1 official data/filings, 2 earnings & IR,
+# 3 technical/product publishing, 4 press releases & newsrooms, 5 news & analyst leads, 6
+# official social accounts. claim_type 'news' marks a registered independent news outlet's own
+# feed (deliverable 4 registers those at rank 4, so rank alone cannot tell them apart from an
+# ordinary company newsroom feed at the same rank). Total and order-sensitive: rank 1 always
+# wins as A; 'news' always reads as a third-party report (C) whatever its rank; every other
+# rank 2/3/4/6 source is the company's own channel (B, matching "company statement... official
+# account" in the owner decision verbatim); rank 5 is third-party trade/analyst reporting (C);
+# anything else -- no policy, or a rank outside the reviewed 1-6 range -- fails closed to D,
+# the most conservative grade, rather than silently promoting an unrecognized source.
+def grade_for(policy):
+    if not policy or not isinstance(policy, dict):
+        return 'D'
+    rank = policy.get('rank')
+    if rank == 1:
+        return 'A'
+    if policy.get('claim_type') == 'news':
+        return 'C'
+    if rank in (2, 3, 4, 6):
+        return 'B'
+    if rank == 5:
+        return 'C'
+    return 'D'
 
 # A daily source unchanged for this many consecutive checks is worth checking less often.
 # Promotion only ever loosens a *registered daily* cadence; weekly and manual sources are
@@ -64,6 +92,10 @@ def validate_registry(registry, companies):
         require(type(p['weekday']) is int and 0<=p['weekday']<=6 and type(p['excerpts']) is bool, 'Invalid collection schedule')
         require(p['rank']!=3 or p['cadence'] in {'weekly','manual'}, 'Technical publishing requires weekly or manual cadence')
         require(p['cadence']!='manual' or (not p['path_prefixes'] and not p['excerpts']), 'Manual sources cannot enable unattended discovery or excerpts')
+        # Deliverable 3: rank-5 trade/analyst aggregators remain private leads -- an index/feed
+        # source is walked for discovered child pages, which auto-publish; only rank <=4 or an
+        # official social account (rank 6) may be walked this way.
+        require(p['rank']!=5 or not sources[sid].get('index'), 'A rank-5 aggregator cannot be an index/feed source; it must remain a private lead')
         for prefix in p['path_prefixes']:
             require(prefix.startswith('/') and prefix!='/' and '*' not in prefix and '..' not in prefix, 'Wildcard discovery forbidden')
         require(not p['path_prefixes'] or p['topics'], 'Discovery needs reviewed topics')

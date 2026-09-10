@@ -48,6 +48,15 @@ class SourcePolicyTests(unittest.TestCase):
     def test_manual_sources_cannot_enable_extraction(self):
         self.registry['collection']['epoch-eci-dataset']['excerpts']=True
         with self.assertRaisesRegex(ValueError,'Manual sources'):validate_registry(self.registry,self.companies)
+    def test_rank_five_aggregator_cannot_be_an_index_source(self):
+        # Deliverable 3: rank-5 trade/analyst aggregators remain private leads, never a walked
+        # feed whose discovered children auto-publish.
+        rank5=next(sid for sid,p in self.registry['collection'].items() if p['rank']==5)
+        r=copy.deepcopy(self.registry)
+        next(s for s in r['sources'] if s['id']==rank5)['index']=True
+        with self.assertRaisesRegex(ValueError,'rank-5 aggregator'):validate_registry(r,self.companies)
+    def test_real_registry_currently_passes_validate_registry(self):
+        validate_registry(self.registry,self.companies)  # no rank-5 index source registered today
     def test_excerpt_identity_and_quote_budget(self):
         d={'version':1,'excerpts':[]}
         append_excerpt(d,self.source,self.policy,'Optical connections connect the reference design.','Architecture description, not installed capacity.','2026-09-07T00:00:00Z','observation')

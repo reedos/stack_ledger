@@ -1,0 +1,6 @@
+{
+ "version": 1,
+ "reviewed_at": "2026-09-10T00:00:00Z",
+ "instructions": "Deliverable 4, owner decision September 9, 2026: register a company's OFFICIAL Bluesky account only after a human has verified the handle actually belongs to that company (its own website links to the profile, or the profile carries Bluesky's own verification badge/domain-handle match, e.g. @nvidia.com). Never guess a handle from a company name -- an unverified guess can land on an impersonator or an unrelated account and publish under that company's name. This file starts empty on purpose: no handle here has been verified yet. To add one, append an entry below with company_id matching an id in research/ecosystem.json, the verified handle, who verified it and when and how, then run 'python scripts/find_feeds.py --social --register' to probe and register it (rank 6, the official-social-accounts category; grade B, same as any other company channel). X/LinkedIn are not crawlable (X answered HTTP 402 on 2026-09-09); their posts can only reach the ledger secondhand, through a registered news outlet's own reporting (graded C, noted as quoting a post).",
+ "accounts": []
+}

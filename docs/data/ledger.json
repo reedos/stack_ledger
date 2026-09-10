@@ -24868,6 +24868,61 @@
         "applications"
       ],
       "license": "Public domain (U.S. government work)"
+    },
+    {
+      "id": "outlet-www-datacenterdynamics-com-727821",
+      "publisher": "Data Center Dynamics",
+      "title": "Data Center Dynamics feed · www.datacenterdynamics.com",
+      "url": "https://www.datacenterdynamics.com/en/rss/",
+      "published": null,
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "outlet-semiengineering-com-234e4a",
+      "publisher": "Semiconductor Engineering",
+      "title": "Semiconductor Engineering feed · semiengineering.com",
+      "url": "https://semiengineering.com/feed/",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "outlet-techcrunch-com-f84187",
+      "publisher": "TechCrunch",
+      "title": "TechCrunch feed · techcrunch.com",
+      "url": "https://techcrunch.com/feed/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "outlet-arstechnica-com-48cf4d",
+      "publisher": "Ars Technica",
+      "title": "Ars Technica feed · arstechnica.com",
+      "url": "https://arstechnica.com/feed",
+      "published": null,
+      "layers": [
+        "chips",
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "index": true
     }
   ],
   "observations": [
@@ -65205,7 +65260,8 @@
       "title": "August payroll data show an uneven industrial employment picture",
       "summary": "BLS reports a preliminary, seasonally adjusted gain of 16,000 U.S. manufacturing jobs and a decline of 23,000 information-sector jobs in August 2026. These broad sectors include activity beyond AI, so the changes cannot be attributed to AI alone.",
       "source": "bls-aug-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "A"
     },
     {
       "id": "workforce-bls-aug-2026",
@@ -65214,7 +65270,8 @@
       "title": "What the August jobs report establishes",
       "summary": "BLS reports gains of 22,000 construction jobs and 8,000 nonresidential specialty trade jobs, a subset of construction. BLS calls overall construction little changed. These broad industry figures do not isolate electricians or AI projects.",
       "source": "bls-aug-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "A"
     },
     {
       "id": "workforce-wh-aug-jobs-2026",
@@ -65223,7 +65280,8 @@
       "title": "Reading the White House article",
       "summary": "The administration presents the August report as evidence for its reindustrialization agenda. The ledger uses the underlying BLS release for measured payroll changes; those figures alone do not establish policy or AI causation.",
       "source": "wh-aug-jobs-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "A"
     },
     {
       "id": "coverage-stargate-sites",
@@ -65232,7 +65290,8 @@
       "title": "Stargate is tracked campus by campus",
       "summary": "Epoch’s Abilene record distinguishes an estimated current IT footprint from its end-state projection. Stack Ledger now separates additional New Mexico, Wisconsin, Michigan, Ohio and Texas sites, preserving different construction and operating evidence instead of assigning the program envelope to every campus.",
       "source": "epoch-openai-stargate-abilene",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "C"
     },
     {
       "id": "coverage-hynix",
@@ -65241,7 +65300,8 @@
       "title": "Indiana HBM packaging gets a revised production schedule",
       "summary": "SK hynix reports groundbreaking for its Indiana packaging and test facility. The updated release distinguishes cleanroom readiness from later mass production, moving beyond the older overview’s earlier operations target. Korean wafer fabrication and U.S. packaging remain separate production steps.",
       "source": "hynix-indiana-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "workforce-bls-electricians-2026",
@@ -65250,7 +65310,8 @@
       "title": "The electrician outlook includes AI and the grid",
       "summary": "BLS projects electrician employment to grow 9% over 2025–2035 and cites data centers, grid upgrades and renewable power connections among the drivers. Projected annual openings include replacement needs.",
       "source": "bls-electricians-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "A"
     },
     {
       "title": "NVLink Fusion enables XPU integration with NVIDIA AI infrastructure",
@@ -65263,7 +65324,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-07T03:00:30Z",
       "document_sha256": "e93b9baa24782565a54c993630ed358401706bfae9bc19f015f59ffd3d730c9c",
-      "evidence_sha256": "ba4b404bca33c7ce43937bc77cdc101694e2c970bdbdc8b4857681b051c681e8"
+      "evidence_sha256": "ba4b404bca33c7ce43937bc77cdc101694e2c970bdbdc8b4857681b051c681e8",
+      "grade": "B"
     },
     {
       "id": "delivery-cape-phases",
@@ -65272,7 +65334,8 @@
       "title": "Cape Station advances commissioning with a phased power schedule",
       "summary": "Fervo reports mechanical completion on its first two GeoBlocks. Block 1 targets first power in Q4 2026, with blocks 2 and 3 following in early 2027; Phase II targets 2028. Commissioning progress should not be recorded as the entire first phase already generating.",
       "source": "fervo-q2-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "delivery-generation-growth",
@@ -65281,7 +65344,8 @@
       "title": "Actual electricity output is growing alongside capacity plans",
       "summary": "EIA estimates U.S. electric power sector generation rose by 37 billion kWh, or 1.8%, in the first half of 2026 versus the same period in 2025. Solar and wind generation increased 21% and 6%. These are historical output changes, not nameplate additions or electricity dedicated to AI.",
       "source": "eia-output-aug-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "A"
     },
     {
       "id": "coverage-terafab",
@@ -65290,7 +65354,8 @@
       "title": "Terafab enters the delivery ledger as a commitment",
       "summary": "SpaceX identifies a Texas site and an initial investment requirement for Terafab. The ledger separates this future chip-manufacturing program from Tesla Cortex training compute and the Colossus data centers. Permits, first wafers and qualified production remain milestones to verify.",
       "source": "spacex-terafab-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "delivery-ercot-review",
@@ -65299,7 +65364,8 @@
       "title": "Texas grid-connection review changes the scheduling context",
       "summary": "ERCOT says data-center large loads must undergo verification before advancing through interconnection, and delays its planned Batch Zero classification notices. The notice does not establish that Abilene’s operating facilities have stopped or identify the effect on each expansion.",
       "source": "ercot-queue-review-2026",
-      "kind": "Constraint update"
+      "kind": "Constraint update",
+      "grade": "B"
     },
     {
       "id": "coverage-colossus-power",
@@ -65308,7 +65374,8 @@
       "title": "Colossus power transition has a dated removal schedule",
       "summary": "SpaceXAI reports a permanent Southaven power plant under construction and an agreed schedule for removing temporary turbines. Grid energization, temporary generation, the permitted future plant and the filed legal challenge are tracked separately. Actual removals and operating output require follow-up evidence.",
       "source": "spacexai-power-july",
-      "kind": "Constraint update"
+      "kind": "Constraint update",
+      "grade": "B"
     },
     {
       "id": "coverage-tesla-stages",
@@ -65317,7 +65384,8 @@
       "title": "Tesla driving and robotics retain their deployment stages",
       "summary": "Tesla’s shareholder update distinguishes consumer FSD supervision from city-specific Robotaxi operations. Optimus training builds and manufacturing preparations do not establish a productive deployed fleet. Cortex compute is tracked separately from driving exposure and physical work.",
       "source": "tesla-q2-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "delivery-packaging",
@@ -65326,7 +65394,8 @@
       "title": "TSMC and Amkor extend the Arizona packaging supply chain",
       "summary": "The companies describe a long-term U.S. advanced-packaging partnership while Amkor’s Arizona campus and TSMC’s fabrication facilities continue development. An agreement and an expanding site do not establish commissioned packaging throughput.",
       "source": "amkor-arizona-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "delivery-hyperion",
@@ -65335,7 +65404,8 @@
       "title": "Hyperion’s expanded campus remains a construction-stage plan",
       "summary": "Meta describes a 5 GW campus expansion and future Entergy-backed energy infrastructure. The project tracker keeps the announced rating separate from verified operational capacity and asks for generation, grid and data-center commissioning evidence.",
       "source": "hyperion-plan-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "coverage-hyperion",
@@ -65344,7 +65414,8 @@
       "title": "Hyperion separates local contracts from investment plans",
       "summary": "Meta’s Richland Parish update distinguishes contracts awarded to Louisiana businesses from its regional investment plans and future staffing. The jobs table keeps expected peak construction work apart from promised permanent roles; contracts awarded are not labeled as cash already paid.",
       "source": "hyperion-plan-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "delivery-grid-queues",
@@ -65353,7 +65424,8 @@
       "title": "Grid agreements are improving, but the queue is not delivered power",
       "summary": "Berkeley Lab reports 2,061 GW of generation and storage active in end-2025 queues. Several regions processed record agreement volumes, while the median path to commercial operation exceeded five years in the available regional data. Queue withdrawals also contributed to the smaller backlog.",
       "source": "lbl-queues-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "A"
     },
     {
       "id": "industry-semi-memory-2026",
@@ -65362,7 +65434,8 @@
       "title": "Memory capacity outlook points to further expansion",
       "summary": "SEMI projects global 300mm memory fabrication capacity of 4.1 million wafers per month in 2026 and 4.2 million in 2027. These are forecasts covering memory broadly, not HBM-only output or accelerator shipments.",
       "source": "semi-memory-2026",
-      "kind": "Forecast update"
+      "kind": "Forecast update",
+      "grade": "B"
     },
     {
       "id": "delivery-fairwater",
@@ -65371,7 +65444,8 @@
       "title": "Fairwater moves from construction plans to reported operation",
       "summary": "Microsoft reports its first Mount Pleasant facility fully operational, with nearly 550 full-time employees on site. Construction of the adjacent second facility continues toward a 2028 completion schedule. No commissioned-MW total is supplied in this release.",
       "source": "fairwater-operating",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "delivery-chpe",
@@ -65380,7 +65454,8 @@
       "title": "CHPE adds an operating transmission link to New York City",
       "summary": "The developer reports commercial operation and power deliveries on the 1,250 MW Quebec-to-New York City link. This is transmission capability, not new generating capacity. The June disclosure also identifies temporary market restrictions; later resolution remains a follow-up.",
       "source": "chpe-operating",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "green-qcells-cells",
@@ -65389,7 +65464,8 @@
       "title": "Qcells starts U.S. solar cell manufacturing",
       "summary": "Qcells reported starting Cartersville solar cell production in June 2026, with module assembly at full capacity. Full integrated production remained targeted for Q3, and the combined Georgia workforce figure was an expectation, not verified hiring.",
       "source": "qcells-cartersville",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "delivery-metr",
@@ -65398,7 +65474,8 @@
       "title": "Model capability needs a reliability threshold",
       "summary": "METR’s current Time Horizon 1.1 page distinguishes 50% and 80% success on software tasks measured in human-expert time. It warns that measurements above 16 hours are unreliable with its current task suite. These results do not establish dependable autonomy across ordinary jobs.",
       "source": "metr-horizons-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "coverage-waymo",
@@ -65407,7 +65484,8 @@
       "title": "Waymo operating service has a measurable footprint",
       "summary": "Alphabet reports fully autonomous rides across an expanded U.S. service footprint. The ledger keeps this disclosure separate from Waymo’s older explicitly paid-trip run-rate, commercial vehicle count and rider-only safety mileage, retaining each record’s geography and date.",
       "source": "waymo-q1-2026",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "iea-outlook",
@@ -65416,7 +65494,8 @@
       "title": "A clearer view of the power ahead",
       "summary": "The IEA’s updated outlook puts global data-center electricity consumption at roughly 950 TWh in 2030, from 485 TWh in 2025. Grid delivery and equipment supply remain important to realizing that growth.",
       "source": "iea-2026",
-      "kind": "Forecast update"
+      "kind": "Forecast update",
+      "grade": "A"
     },
     {
       "id": "delivery-mlperf",
@@ -65425,7 +65504,8 @@
       "title": "New inference results broaden the measurement toolkit",
       "summary": "MLPerf Inference v6.0 adds a GPT-OSS 120B workload and an interactive DeepSeek-R1 scenario permitting speculative decoding. Compare compatible workloads, quality targets, accelerator counts and serving scenarios. Throughput results do not by themselves measure dollar cost or application reliability.",
       "source": "mlperf-inference-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "delivery-inference-cost",
@@ -65434,7 +65514,8 @@
       "title": "Inference price-performance research extends the cost picture",
       "summary": "A revised research paper estimates roughly 5–10-fold annual declines in the price of achieving a fixed benchmark performance level across several task families. This is a retrospective benchmark-based estimate, not a guarantee that frontier API prices or every real task get cheaper at that rate.",
       "source": "inference-price-research-2026",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "fabric-coherent-cpo",
@@ -65443,7 +65524,8 @@
       "title": "Coherent optical engines · demonstration announced",
       "summary": "Coherent announced OFC demonstrations of several CPO architectures and components. This is a demonstration announcement, not evidence of installed production capacity.",
       "source": "coherent-cpo",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "nuclear-horizon",
@@ -65452,7 +65534,8 @@
       "title": "A longer horizon for firm power",
       "summary": "DOE describes a 400 GW U.S. nuclear capacity goal for 2050. It is an economy-wide ambition; tracking operational additions will help distinguish the target from delivered power.",
       "source": "doe-nuclear",
-      "kind": "Government target"
+      "kind": "Government target",
+      "grade": "A"
     },
     {
       "id": "fabric-lightmatter-passage",
@@ -65461,7 +65544,8 @@
       "title": "Lightmatter Passage · sampling reported",
       "summary": "Lightmatter reported Passage chiplet sampling and a throughput demonstration. Sampling is earlier than volume deployment.",
       "source": "lightmatter-passage",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "delivery-hbm",
@@ -65470,7 +65554,8 @@
       "title": "Samsung reports commercial HBM4 shipments",
       "summary": "Samsung says HBM4 mass production has begun and commercial products have shipped. This establishes a product milestone, not a verified industry-wide output rate; comparable shipment volumes and packaging throughput remain research gaps.",
       "source": "samsung-hbm4-shipping",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "delivery-rainier",
@@ -65479,7 +65564,8 @@
       "title": "AWS reports deployed accelerator supply and production workloads",
       "summary": "Amazon reports 1.4 million Trainium2 chips landed across its fleet and more than 500,000 in the operational Rainier cluster. Rainier is a subset of the fleet, so these counts must not be added. The same release says Trainium3 is delivering production workloads.",
       "source": "aws-delivery-2026",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "fabric-marvell-celestial",
@@ -65488,7 +65574,8 @@
       "title": "Marvell / Celestial AI · acquisition completed",
       "summary": "Marvell completed the acquisition of Celestial AI. Its optical scale-up technology now belongs within the Marvell profile; acquisition value is not product revenue.",
       "source": "marvell-celestial",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "workforce-corning-meta",
@@ -65497,7 +65584,8 @@
       "title": "Fiber supply also creates industrial work",
       "summary": "Corning’s Meta agreement is for up to $6 billion over multiple years and supports a North Carolina expansion. Its employment language includes sustaining an existing workforce, not 5,000 newly created jobs.",
       "source": "corning-meta",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "industry-micron-ny-2026",
@@ -65506,7 +65594,8 @@
       "title": "Micron announces New York groundbreaking; production expected in 2030",
       "summary": "Micron announced the groundbreaking for its New York memory complex, with up to four fabs planned. The company expects production to start in 2030 and ramp through the decade. Its regional jobs projection is a long-term impact claim, not a count of workers already hired.",
       "source": "micron-ny-2026",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "green-firstsolar-la",
@@ -65515,7 +65604,8 @@
       "title": "Solar manufacturing delivers reported Louisiana employment",
       "summary": "First Solar’s inauguration release reports a $1.1 billion Louisiana facility and more than 700 current employees. Manufacturing began in July 2025; the later staffing target and full-ramp module capacity remain distinct from that reported milestone.",
       "source": "firstsolar-louisiana",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "wisconsin",
@@ -65524,7 +65614,8 @@
       "title": "Another chapter in Wisconsin’s buildout",
       "summary": "Microsoft announced an additional $4 billion commitment for a second Wisconsin data center over three years. The pledge is tracked separately from completed construction and actual expenditure.",
       "source": "msft-wisconsin",
-      "kind": "Company commitment"
+      "kind": "Company commitment",
+      "grade": "B"
     },
     {
       "id": "delivery-alphagenome",
@@ -65533,7 +65624,8 @@
       "title": "AlphaGenome supplies measured scientific prediction results",
       "summary": "DeepMind reports gains on DNA-sequence and regulatory-variant prediction evaluations; its research page notes Nature publication in January 2026. These are research prediction outcomes, not evidence of new treatments or demonstrated clinical benefit.",
       "source": "alphagenome-research",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "fabric-broadcom-cpo",
@@ -65542,7 +65634,8 @@
       "title": "Broadcom Bailly CPO · volume production reported",
       "summary": "Broadcom described its Tomahawk 5-Bailly CPO generation as in volume production while announcing a newer generation. That does not establish universal CPO adoption.",
       "source": "broadcom-cpo",
-      "kind": "Reported milestone"
+      "kind": "Reported milestone",
+      "grade": "B"
     },
     {
       "id": "workforce-ibew-datacenters",
@@ -65551,7 +65644,8 @@
       "title": "Training capacity matters",
       "summary": "IBEW’s May 2025 reporting describes rising data-center labor demand and a nearly tripled apprenticeship program at Baltimore Local 24. This is a dated local union account, not a national hiring statistic.",
       "source": "ibew-datacenters",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "grid-eaton-jonesville",
@@ -65560,7 +65654,8 @@
       "title": "Transformer investment links grid demand to manufacturing jobs",
       "summary": "Eaton announced a $340 million Jonesville transformer manufacturing investment, with production and hiring for 700 local jobs expected to begin in 2027. The 2025 disclosure remains a plan until delivery evidence is reviewed.",
       "source": "eaton-transformers",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "industry-ge-jobs-2025",
@@ -65569,7 +65664,8 @@
       "title": "Power equipment expansion includes a U.S. workforce commitment",
       "summary": "GE Vernova announced almost $600 million for U.S. factories and facilities over two years, with approximately 1,500 expected factory and engineering jobs. This is a dated investment and hiring plan; realized employment remains a follow-up question.",
       "source": "ge-us-jobs-2025",
-      "kind": "Company announcement"
+      "kind": "Company announcement",
+      "grade": "B"
     },
     {
       "id": "delivery-productivity",
@@ -65578,7 +65674,8 @@
       "title": "Customer-support field evidence goes beyond adoption counts",
       "summary": "The revised Generative AI at Work paper studies 5,172 support agents and reports a 15% average increase in issues resolved per hour, with heterogeneous effects. This is historical evidence from a particular workplace setting, not a 2026 economy-wide productivity estimate.",
       "source": "productivity-field-study",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "tsmc-n2",
@@ -65587,7 +65684,8 @@
       "title": "An advanced manufacturing milestone",
       "summary": "TSMC reports that its 2 nm technology entered high-volume manufacturing in the fourth quarter of 2025. Its annual report also describes expanding manufacturing capacity across regions.",
       "source": "tsmc-2025",
-      "kind": "Company-reported milestone"
+      "kind": "Company-reported milestone",
+      "grade": "A"
     },
     {
       "id": "cost-access",
@@ -65596,7 +65694,8 @@
       "title": "Useful model capability became more affordable",
       "summary": "Stanford’s 2025 AI Index records a drop from $20 to $0.07 per million tokens at a GPT-3.5-equivalent benchmark threshold between November 2022 and October 2024.",
       "source": "stanford-cost",
-      "kind": "Historical finding"
+      "kind": "Historical finding",
+      "grade": "A"
     },
     {
       "id": "adoption",
@@ -65605,7 +65704,8 @@
       "title": "AI reaches more organizations",
       "summary": "The 2026 AI Index reports organizational AI adoption of 88%, following 78% in the previous report. These survey results track use; measured business outcomes remain a separate research question.",
       "source": "stanford-2026",
-      "kind": "Survey finding"
+      "kind": "Survey finding",
+      "grade": "A"
     },
     {
       "title": "Veo 3 zero-shot video reasoning",
@@ -65618,7 +65718,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-07T02:52:53Z",
       "document_sha256": "adf52c0f4f29a596bbaedd29e862cc5495c38890d26147ac78301b9b3675cc8e",
-      "evidence_sha256": "648401964b3f865f2f5a47fc86d38c3b159d10d7454fa5d333abd722060242d1"
+      "evidence_sha256": "648401964b3f865f2f5a47fc86d38c3b159d10d7454fa5d333abd722060242d1",
+      "grade": "A"
     },
     {
       "title": "Lumentum UHP laser accelerated life test",
@@ -65631,7 +65732,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-07T21:48:24Z",
       "document_sha256": "1653b1b723a417b7a313a31691e7a1ab2ea38fed8db96f6e1d48a5512c2851b7",
-      "evidence_sha256": "cbd2b3aa42cb5e47a30f27e22ec96fab5fa6fdd74f88b1274317d0f1224ae9ce"
+      "evidence_sha256": "cbd2b3aa42cb5e47a30f27e22ec96fab5fa6fdd74f88b1274317d0f1224ae9ce",
+      "grade": "B"
     },
     {
       "title": "Amazon Nova Act SDK research preview",
@@ -65644,7 +65746,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-07T21:59:32Z",
       "document_sha256": "b29eda37d8bf31c839a79ab2e30287240f18b65bfdc37c98b50d8182f6a6131f",
-      "evidence_sha256": "6838024523ecfdd99be7996556187def78df6bac4c5880daebf289da41938e79"
+      "evidence_sha256": "6838024523ecfdd99be7996556187def78df6bac4c5880daebf289da41938e79",
+      "grade": "B"
     },
     {
       "title": "Richland Parish Data Center · Mortenson scope",
@@ -65657,7 +65760,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-07T22:05:26Z",
       "document_sha256": "aa8931fb32bec485ff72004585b23813bacc53492695b27d947e9508ec4eda2a",
-      "evidence_sha256": "5d477251febf20208381d4158ca7c2ced29d283ab480a8fc92ce89470782e06b"
+      "evidence_sha256": "5d477251febf20208381d4158ca7c2ced29d283ab480a8fc92ce89470782e06b",
+      "grade": "B"
     },
     {
       "title": "Turner Construction selected for Meta Jeffersonville hyperscale data center",
@@ -65670,7 +65774,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-08T07:18:33Z",
       "document_sha256": "d807b3594cd81819f2d961413b429e603f2a66597f2524a8509591db99f189db",
-      "evidence_sha256": "1ca31f54512b9bf6a0b30a1bb33265327c508ea3390a0f02b2244f1857500245"
+      "evidence_sha256": "1ca31f54512b9bf6a0b30a1bb33265327c508ea3390a0f02b2244f1857500245",
+      "grade": "B"
     },
     {
       "title": "Isomorphic Labs Series B funding",
@@ -65683,7 +65788,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-08T17:37:20Z",
       "document_sha256": "edc769f40c759dd4510f9b6c23f486373617f7de57814912f2d34b588a30965c",
-      "evidence_sha256": "f63b496d640565ef043e5df99a70c12a07819bc07d0b29595ec5d3d206dc2bae"
+      "evidence_sha256": "f63b496d640565ef043e5df99a70c12a07819bc07d0b29595ec5d3d206dc2bae",
+      "grade": "B"
     },
     {
       "title": "Nebius multi-billion dollar Microsoft AI infrastructure agreement",
@@ -65696,7 +65802,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-08T18:18:41Z",
       "document_sha256": "a13b072798c98196e6b948929d2310de2e389058012bec90011017d8ecf2a16e",
-      "evidence_sha256": "703d8dbdc0e8bc6c749f4859dd4656533dd8bef136ad7a627ad3de505fa17b8d"
+      "evidence_sha256": "703d8dbdc0e8bc6c749f4859dd4656533dd8bef136ad7a627ad3de505fa17b8d",
+      "grade": "B"
     },
     {
       "title": "America’s Workforce Academy first cohort graduates",
@@ -65709,7 +65816,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-08T19:53:48Z",
       "document_sha256": "da52d7b3ccfb229a2c17bd0dcca2b89bae8f567add23760ef01eadeaa4c88ba0",
-      "evidence_sha256": "4739b238c0b5a3a0156f21969bd56c48c4fa4bff9c88b219d2afa8158ae2c7cc"
+      "evidence_sha256": "4739b238c0b5a3a0156f21969bd56c48c4fa4bff9c88b219d2afa8158ae2c7cc",
+      "grade": "B"
     },
     {
       "title": "NVIDIA describes NVLink Fusion for custom XPUs",
@@ -65725,7 +65833,8 @@
       "evidence_sha256": "ba4b404bca33c7ce43937bc77cdc101694e2c970bdbdc8b4857681b051c681e8",
       "correction_of": "note-f21b782b05987822e4db",
       "correction_reason": "Classifies a company architecture announcement; avoids implying an initial launch or measured deployment gains.",
-      "corrected_at": "2026-09-09T03:51:53Z"
+      "corrected_at": "2026-09-09T03:51:53Z",
+      "grade": "B"
     },
     {
       "title": "Amazon Nova Act SDK research preview",
@@ -65741,7 +65850,8 @@
       "evidence_sha256": "6838024523ecfdd99be7996556187def78df6bac4c5880daebf289da41938e79",
       "correction_of": "note-bdf88a88599fdadd3400",
       "correction_reason": "Classifies research-preview availability as a company announcement rather than a measured research result.",
-      "corrected_at": "2026-09-09T03:51:53Z"
+      "corrected_at": "2026-09-09T03:51:53Z",
+      "grade": "B"
     },
     {
       "title": "Nebius multi-billion dollar Microsoft AI infrastructure agreement",
@@ -65757,7 +65867,8 @@
       "evidence_sha256": "703d8dbdc0e8bc6c749f4859dd4656533dd8bef136ad7a627ad3de505fa17b8d",
       "correction_of": "note-388bb6fc196f6f62b89d",
       "correction_reason": "Classifies the agreement as a company announcement and limits the summary to the retained evidence; removes the 2026 growth statement.",
-      "corrected_at": "2026-09-09T03:51:53Z"
+      "corrected_at": "2026-09-09T03:51:53Z",
+      "grade": "B"
     },
     {
       "title": "America’s Workforce Academy first cohort graduates",
@@ -65773,7 +65884,8 @@
       "evidence_sha256": "4739b238c0b5a3a0156f21969bd56c48c4fa4bff9c88b219d2afa8158ae2c7cc",
       "correction_of": "note-6da38e8f55121f0e70a0",
       "correction_reason": "Anchors relative timing to the source publication date and distinguishes a company announcement from verified job placements.",
-      "corrected_at": "2026-09-09T03:51:53Z"
+      "corrected_at": "2026-09-09T03:51:53Z",
+      "grade": "B"
     },
     {
       "id": "astra-coding-shipping-20260621",
@@ -65782,7 +65894,8 @@
       "layer": "applications",
       "source": "astra-coding-shipping-20260621",
       "date": "2026-06-21",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "D"
     },
     {
       "id": "astra-metr-uplift-20260224",
@@ -65791,7 +65904,8 @@
       "layer": "applications",
       "source": "claims-metr-update",
       "date": "2026-02-24",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "B"
     },
     {
       "id": "astra-anthropic-expertise-20260616",
@@ -65800,7 +65914,8 @@
       "layer": "applications",
       "source": "astra-anthropic-expertise-20260616",
       "date": "2026-06-16",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "D"
     },
     {
       "id": "astra-primary-care-rct-20260626",
@@ -65809,7 +65924,8 @@
       "layer": "applications",
       "source": "astra-primary-care-rct-20260626",
       "date": "2026-06-26",
-      "kind": "Research finding"
+      "kind": "Research finding",
+      "grade": "D"
     },
     {
       "title": "Micron HBM4 high-volume production for NVIDIA Vera Rubin",
@@ -65822,7 +65938,8 @@
       "method": "automated",
       "retrieved_at": "2026-09-10T03:30:17Z",
       "document_sha256": "bbd2b32a827111b8a7aa6c82f310ed27864f34938e3f96ce67b0e99fc6360610",
-      "evidence_sha256": "6792c6e09fb92132c43e6afdae2d87678be72026c37a3aa0739b4794d68f96c7"
+      "evidence_sha256": "6792c6e09fb92132c43e6afdae2d87678be72026c37a3aa0739b4794d68f96c7",
+      "grade": "B"
     }
   ],
   "targets": [

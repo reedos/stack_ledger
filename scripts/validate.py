@@ -10,6 +10,12 @@ ROOT = Path(__file__).resolve().parents[1]
 STATUSES = {'observation','estimate','forecast','government-target','company-commitment'}
 PRECISIONS = {'eq','approx','gt','lt','range'}
 LAYERS = ['energy','chips','infrastructure','models','applications']
+# Owner decision, September 9, 2026: A official statistics/filings; B company statement (press
+# release, IR page, official account); C news report citing named sources/documents; D
+# unverified secondary or social claim. See source_policy.grade_for for the deterministic
+# derivation from a source's reviewed rank/claim_type.
+GRADES = {'A','B','C','D'}
+REPORT_KINDS = {'News report','Social post'}
 # Reviewed per-metric period bases. Without one, a metric holds one value per year and a second
 # value for the same year is a conflict. With one, readings are keyed on the canonical period.
 PERIOD_FORMATS = {'month': r'20[0-9]{2}-(0[1-9]|1[0-2])', 'quarter': r'20[0-9]{2}-Q[1-4]', 'snapshot': r'20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])'}
@@ -49,7 +55,7 @@ def source_valid(source, approved):
 
 def observation_valid(o,metrics,sources):
     required={'id','metric','year','period','value','upper','status','source','precision','retrieved_at','method','note'}
-    optional={'document_sha256','evidence_sha256','correction_of','superseded_by','correction_reason'}
+    optional={'document_sha256','evidence_sha256','correction_of','superseded_by','correction_reason','grade'}
     require(isinstance(o,dict) and required<=o.keys() and o.keys()<=required|optional,'Unknown/missing observation fields')
     require(re.fullmatch(r'[a-z0-9][a-z0-9-]{0,99}',o['id']) is not None,'Invalid observation ID')
     require(o['metric'] in metrics and o['source'] in sources,'Unknown metric/source')
@@ -83,13 +89,23 @@ def observation_valid(o,metrics,sources):
     if o['note']:text(o['note'],300)
     if o['method']=='automated':
         for k in ['document_sha256','evidence_sha256']:require(re.fullmatch(r'[0-9a-f]{64}',o.get(k,'')) is not None,'Missing evidence hash')
+        # Deliverable 1: a grade C or D item never enters a numeric series -- an automated
+        # numeric observation must already be official-statistics or company-statement grade.
+        require(o.get('grade') in {'A','B'},'Automated observation needs grade A or B; C/D evidence stays a report, never a numeric record')
+    elif 'grade' in o:
+        require(o['grade'] in GRADES,'Invalid evidence grade')
     if 'correction_of' in o: text(o.get('correction_reason',''),500)
 
+REPORT_FIELDS = {'outlet','reported_on','about','quote','confirmation'}
+MATCHING_FIELDS = {'metric_id','period','value','precision','upper'}
+RETRACTION_FIELDS = {'retracted','retraction_reason','retracted_at','retracted_by'}
+
 def event_valid(event,sources):
-    required={'id','layer','date','title','summary','source','kind'}
-    optional={'method','retrieved_at','document_sha256','evidence_sha256'}
+    required={'id','layer','date','title','summary','source','kind','grade'}
+    optional={'method','retrieved_at','document_sha256','evidence_sha256'}|REPORT_FIELDS|MATCHING_FIELDS|RETRACTION_FIELDS
     correction={'correction_of','correction_reason','corrected_at'}
     require(required<=event.keys() and event.keys()<=required|optional|correction,'Unexpected event shape')
+    require(event['grade'] in GRADES,'Invalid evidence grade')
     require(event['source'] in sources and event['layer'] in LAYERS,'Invalid event mapping')
     for k in ['id','title','summary','kind']:text(event[k],600 if k=='summary' else 140)
     if event['date']:
@@ -99,7 +115,7 @@ def event_valid(event,sources):
         require(not correction & event.keys(),'Automated notes cannot issue corrections')
         require(event['layer'] in sources[event['source']]['layers'],'Invalid event/source layer')
         require(event['date']==sources[event['source']]['published'],'Event must preserve source publication date')
-        require(event['kind'] in {'Reported milestone','Research finding','Company announcement','Forecast update','Government target','Constraint update'},'Invalid note classification')
+        require(event['kind'] in {'Reported milestone','Research finding','Company announcement','Forecast update','Government target','Constraint update'}|REPORT_KINDS,'Invalid note classification')
         require(re.fullmatch(r'note-[0-9a-f]{20}',event['id']) is not None,'Invalid automated note ID')
         for k in ['document_sha256','evidence_sha256']:require(re.fullmatch(r'[0-9a-f]{64}',event.get(k,'')) is not None,'Missing note evidence hash')
         timestamp(event['retrieved_at'])
@@ -111,6 +127,35 @@ def event_valid(event,sources):
             require(re.fullmatch(r'[0-9a-f]{64}',event.get(k,'')) is not None,'Missing correction evidence hash')
         require(event['date']==sources[event['source']]['published'],'Correction must preserve source publication date')
     else:require(not (optional & event.keys()),'Unexpected curated note metadata')
+    # Deliverable 2: grade C/D evidence from a registered news feed or official social account
+    # publishes as a report -- never blended into a metric/note event's normal shape, never
+    # rendered as a numeric series or homepage headline. Deliverable 5: a report can carry a
+    # human-only retraction; nothing else may.
+    if event['kind'] in REPORT_KINDS:
+        require(event['grade'] in {'C','D'},'A report event needs grade C or D')
+        require(REPORT_FIELDS<=event.keys(),'Report event missing outlet/reported_on/about/quote/confirmation')
+        text(event['outlet'],250)
+        if event['reported_on'] is not None:
+            require(re.fullmatch(r'\d{4}-\d{2}-\d{2}',event['reported_on']) is not None,'Invalid reported_on date')
+        require(isinstance(event['about'],list) and len(event['about'])<=10 and all(isinstance(x,str) and 0<len(x)<=140 for x in event['about']),'Invalid about list')
+        text(event['quote'],1600)
+        require(event['confirmation'] in {'unconfirmed','expired'} or re.fullmatch(r'(confirmed_by|contradicted_by):[a-z0-9-]{1,100}',event['confirmation']) is not None,'Invalid confirmation state')
+        present=MATCHING_FIELDS & event.keys()
+        if present:
+            require(present==MATCHING_FIELDS,'Incomplete confirmation-matching fields')
+            require(isinstance(event['metric_id'],str) and event['metric_id'],'Invalid matching metric_id')
+            text(event['period'],80)
+            require(type(event['value']) in (int,float) and math.isfinite(event['value']),'Invalid matching value')
+            require(event['precision'] in PRECISIONS,'Invalid matching precision')
+            require((event['upper'] is not None)==(event['precision']=='range'),'Range bounds/precision mismatch')
+            if event['upper'] is not None:require(event['upper']>=event['value'],'Inverted matching interval')
+        if 'retracted' in event:
+            require(event['retracted'] is True and RETRACTION_FIELDS<=event.keys(),'Invalid retraction flag')
+            text(event['retraction_reason'],500);timestamp(event['retracted_at']);text(event['retracted_by'],120)
+        else:
+            require(not (RETRACTION_FIELDS-{'retracted'}) & event.keys(),'Retraction metadata without retracted flag')
+    else:
+        require(not (REPORT_FIELDS|MATCHING_FIELDS|RETRACTION_FIELDS) & event.keys(),'Only a report event carries reports-lane or retraction fields')
 
 def current_events(events):
     """Original records remain in the ledger; ordinary views use replacements."""
@@ -197,12 +242,15 @@ def validate(data):
         if not m['definition_stable']:
             require(type(m.get('definition_break_year')) is int and m['series_start_year']<=m['definition_break_year']<=m['chart_default_end'],'Missing methodology break marker')
     ids=set(); periods=set()
+    from source_policy import collection_for, grade_for
     for o in data['observations']:
         observation_valid(o,metrics,sources)
         require(o['id'] not in ids,'Duplicate observation ID');ids.add(o['id'])
         key=(o['metric'],o['year'],o['period'],o['status'])
         if not o.get('superseded_by'):
             require(key not in periods,'Duplicate metric period/status');periods.add(key)
+        if o.get('method')=='automated':
+            require(o['grade']==grade_for(collection_for(registry,sources[o['source']])),'Observation grade does not match deterministic derivation from its source')
     by_id={o['id']:o for o in data['observations']}
     for o in data['observations']:
         if 'superseded_by' in o:
@@ -213,6 +261,7 @@ def validate(data):
             require(old is not None and old.get('superseded_by')==o['id'],'Broken correction ancestry')
     for event in data['events']:
         event_valid(event,sources)
+        require(event['grade']==grade_for(collection_for(registry,sources[event['source']])),'Event grade does not match deterministic derivation from its source')
     require(len({e['id'] for e in data['events']})==len(data['events']),'Duplicate event IDs')
     validate_event_corrections(data['events'])
     run_ids=set()

@@ -11,14 +11,17 @@ import research
 class HistoryTests(unittest.TestCase):
     def setUp(self):
         self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         self.metrics={m['id']:m for m in self.data['metrics']}
         self.sources={s['id']:s for s in self.data['sources']}
 
     def test_runner_rejects_backfill_before_reviewed_start(self):
+        from source_policy import collection_for
         m='us-electrician-employment-oews'
+        source=self.sources[self.metrics[m]['source_ids'][0]]
         candidate=dict(metric=m,year=2018,period='May 2018',value=600000,upper=None,status='estimate',precision='eq',note='',evidence='May 2018 employment was 600,000 workers.')
         with self.assertRaisesRegex(ValueError,'backfill requires review'):
-            research.candidate_record(candidate,self.sources[self.metrics[m]['source_ids'][0]],candidate['evidence'],self.metrics,self.sources)
+            research.candidate_record(candidate,source,candidate['evidence'],self.metrics,self.sources,policy=collection_for(self.registry,source))
 
     def test_future_append_does_not_require_changing_window(self):
         o=copy.deepcopy(next(o for o in self.data['observations'] if o['metric']=='dc-electricity-iea2025-high-efficiency' and o['status']=='forecast'))

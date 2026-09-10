@@ -27,12 +27,15 @@ def empty_model(config,system,prompt,schema):
 class IntegrityTests(unittest.TestCase):
     def setUp(self):
         self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         self.metrics={m['id']:m for m in self.data['metrics']}
         self.sources={s['id']:s for s in self.data['sources']}
         self.candidate={'metric':'ai-adoption','year':2026,'period':'2026','value':90,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'In 2026, 90 percent of surveyed organizations reported AI use.'}
-    def record(self,candidate=None,document=None):
+    def record(self,candidate=None,document=None,source_id='stanford-2026'):
+        from source_policy import collection_for
         c=candidate or self.candidate
-        return research.candidate_record(c,self.sources['stanford-2026'],document or c['evidence'],self.metrics,self.sources)
+        source=self.sources[source_id]
+        return research.candidate_record(c,source,document or c['evidence'],self.metrics,self.sources,policy=collection_for(self.registry,source))
     def test_seed_ledger_validates(self):self.assertTrue(validate(self.data))
     def test_invented_evidence_is_rejected(self):
         with self.assertRaisesRegex(ValueError,'Evidence not found'):self.record(document='In 2026, 72 percent of surveyed organizations reported AI use.')
@@ -648,16 +651,20 @@ class NumericTokenSupportTests(unittest.TestCase):
     """candidate_record end to end: suffix-multiplier and unit-scaled table values (deliverable 1)."""
     def setUp(self):
         self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         self.metrics={m['id']:m for m in self.data['metrics']}
         self.sources={s['id']:s for s in self.data['sources']}
+    def policy(self,source_id):
+        from source_policy import collection_for
+        return collection_for(self.registry,self.sources[source_id])
     def test_glued_k_suffix_is_accepted_with_a_traceable_note(self):
         c={'metric':'epoch-nvidia-ai-chips-cumulative','year':2024,'period':'2024-Q4','value':110000,'upper':None,'status':'estimate','precision':'eq','note':'','evidence':'B200 Nvidia shipments reached 110k units by year-end 2024.'}
-        record=research.candidate_record(c,self.sources['epoch-chip-sales-dataset'],c['evidence'],self.metrics,self.sources)
+        record=research.candidate_record(c,self.sources['epoch-chip-sales-dataset'],c['evidence'],self.metrics,self.sources,policy=self.policy('epoch-chip-sales-dataset'))
         self.assertEqual(record['value'],110000)
         self.assertIn('110k',record['note'])
     def test_table_value_in_millions_supports_a_usd_billion_metric_value(self):
         c={'metric':'revenue-amphenol','year':2026,'period':'2026','value':23.0947,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Net sales for the year were 23,094.7 as reported in 2026.'}
-        record=research.candidate_record(c,self.sources['company-amphenol'],c['evidence'],self.metrics,self.sources)
+        record=research.candidate_record(c,self.sources['company-amphenol'],c['evidence'],self.metrics,self.sources,policy=self.policy('company-amphenol'))
         self.assertEqual(record['value'],23.0947)
         self.assertIn('23,094.7',record['note'])
         self.assertIn('USD million',record['note'])
@@ -677,31 +684,35 @@ class AccessDatedYearTests(unittest.TestCase):
     can accept year == retrieval year without a year token in the evidence (deliverable 2)."""
     def setUp(self):
         self.data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         self.metrics={m['id']:m for m in self.data['metrics']}
         self.sources={s['id']:s for s in self.data['sources']}
         self.this_year=datetime.now(timezone.utc).year
+    def policy(self,source_id):
+        from source_policy import collection_for
+        return collection_for(self.registry,self.sources[source_id])
     def test_access_dated_metric_accepts_the_retrieval_year_and_matches_its_own_period_style(self):
         existing=[o for o in self.data['observations'] if o['metric']=='codex-input-price']
         c={'metric':'codex-input-price','year':self.this_year,'period':'','value':1.75,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Input pricing is listed at $1.75 per million tokens.'}
-        record=research.candidate_record(c,self.sources['codex53-pricing'],c['evidence'],self.metrics,self.sources,existing)
+        record=research.candidate_record(c,self.sources['codex53-pricing'],c['evidence'],self.metrics,self.sources,existing,self.policy('codex53-pricing'))
         self.assertTrue(record['period'].lower().startswith('list pricing accessed'))
         self.assertIn(str(self.this_year),record['period'])
     def test_wrong_year_is_still_rejected_even_when_access_dated(self):
         existing=[o for o in self.data['observations'] if o['metric']=='codex-input-price']
         c={'metric':'codex-input-price','year':self.this_year-1,'period':'','value':1.75,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Input pricing is listed at $1.75 per million tokens.'}
         with self.assertRaisesRegex(ValueError,'Year not found'):
-            research.candidate_record(c,self.sources['codex53-pricing'],c['evidence'],self.metrics,self.sources,existing)
+            research.candidate_record(c,self.sources['codex53-pricing'],c['evidence'],self.metrics,self.sources,existing,self.policy('codex53-pricing'))
     def test_ordinary_metric_with_a_published_source_still_requires_a_year_token(self):
         # revenue-amphenol has no access-style history and its source has a real publication date.
         c={'metric':'revenue-amphenol','year':2024,'period':'2024','value':1,'upper':None,'status':'observation','precision':'eq','note':'','evidence':'Net sales reported at $1 billion for the period.'}
         with self.assertRaisesRegex(ValueError,'Year not found'):
-            research.candidate_record(c,self.sources['company-amphenol'],c['evidence'],self.metrics,self.sources,[])
+            research.candidate_record(c,self.sources['company-amphenol'],c['evidence'],self.metrics,self.sources,[],self.policy('company-amphenol'))
     def test_snapshot_basis_metric_gets_an_iso_period_not_free_text(self):
         # epoch-chip-sales-dataset has no published date, so this exercises the period_basis
         # branch specifically rather than the "source has no published date" fallback alone.
         metrics=copy.deepcopy(self.metrics);metrics['epoch-nvidia-ai-chips-cumulative']['period_basis']='snapshot'
         c={'metric':'epoch-nvidia-ai-chips-cumulative','year':self.this_year,'period':'','value':500,'upper':None,'status':'estimate','precision':'eq','note':'','evidence':'Cumulative shipments snapshot stood at 500 units.'}
-        record=research.candidate_record(c,self.sources['epoch-chip-sales-dataset'],c['evidence'],metrics,self.sources,[])
+        record=research.candidate_record(c,self.sources['epoch-chip-sales-dataset'],c['evidence'],metrics,self.sources,[],self.policy('epoch-chip-sales-dataset'))
         self.assertRegex(record['period'],r'20\d\d-\d\d-\d\d')
 
 

@@ -431,12 +431,12 @@ def process_document(index, doc, source, match_type, ledger_base, registry, base
         # or unrelated ones; a note from a non-publishable, metric-linked source is simply
         # not routed to publication below (matching note_row's private/quarantine reporting).
         config['_document_windows'] = collection.setdefault('document_windows', [])
-        note_result = research.extract_note(config, source, doc['text'], data['events'], run, note_quarantine, collection)
+        note_result = research.extract_note(config, source, doc['text'], data['events'], run, note_quarantine, collection, policy)
         metric_quarantine = []
         accepted_records = []
         if related:
             accepted_records = research.extract_observations(
-                config, source, doc['text'], related, data, metrics, sources, run, metric_quarantine, collection)
+                config, source, doc['text'], related, data, metrics, sources, run, metric_quarantine, collection, policy=policy)
         entry['note_candidate'] = note_row(index, note_result, note_quarantine, private=not publishable)
         entry['metric_candidates'] = metric_rows(index, accepted_records, metric_quarantine)
     except Exception as error:

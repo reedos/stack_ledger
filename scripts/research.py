@@ -24,9 +24,10 @@ from urllib.parse import urlparse, urljoin, urldefrag
 from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
 from urllib.robotparser import RobotFileParser
 
-from validate import validate, observation_valid, event_valid, require, STATUSES, PRECISIONS, LAYERS, PERIOD_FORMATS
+from validate import validate, observation_valid, event_valid, require, STATUSES, PRECISIONS, LAYERS, PERIOD_FORMATS, REPORT_KINDS
 from build import build
-from source_policy import collection_for, due, effective_cadence, discoverable, append_excerpt, validate_excerpts
+from source_policy import collection_for, due, effective_cadence, discoverable, append_excerpt, validate_excerpts, grade_for
+from reports import about_ids, report_kind, reconcile_confirmations, confirmation_only_change
 from atomic_json import save
 from document_formats import as_html, SUPPORTED, CollectionGap, format_gap
 from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, locate_in_windows, focus_text, fold, coverage as text_coverage, implementation_hash, shrink_to_numbers, value_support
@@ -92,7 +93,12 @@ def source_queue(registry, day, selected=None, attempted=None):
     rest=[s for s in approved.values() if s['id'] not in order and s['layers']]
     daily=[s for s in rest if collection_for(registry,s).get('cadence')!='weekly']
     weekly=[s for s in rest if collection_for(registry,s).get('cadence')=='weekly' and (due(collection_for(registry,s),day) or (attempted is not None and (s['id'] not in attempted or (day-datetime.fromisoformat(attempted[s['id']].replace('Z','+00:00')).date()).days>=7)))]
-    offset=(day.toordinal()*7)%len(daily) if daily else 0
+    # A stride coprime with len(daily) for every registry size is what actually guarantees
+    # full rotation coverage; a fixed stride of 7 landed exactly on a multiple of len(daily)
+    # once the registry grew to 245 daily sources (245=35x7), so day.toordinal()*7 mod 245
+    # only ever hit 35 of the 245 possible offsets and silently stopped reaching the rest.
+    # Stepping by 1 has gcd 1 with any length, so it cannot resonate like that again.
+    offset=day.toordinal()%len(daily) if daily else 0
     weekly_offset=((day.toordinal()//7)*7)%len(weekly) if weekly else 0
     queue=[approved[i] for i in order if i in approved]+weekly[weekly_offset:]+weekly[:weekly_offset]+daily[offset:]+daily[:offset]
     if attempted is not None:
@@ -475,7 +481,7 @@ def normalize_verdict(v):
 
 NOTE_SCHEMA={'type':'object','properties':{'notes':{'type':'array','maxItems':1,'items':{'type':'object','properties':{'title':{'type':'string'},'summary':{'type':'string'},'layer':{'type':'string','enum':LAYERS},'kind':{'type':'string','enum':['Reported milestone','Research finding','Company announcement','Forecast update','Government target','Constraint update']},'evidence':{'type':'string'}},'required':['title','summary','layer','kind','evidence'],'additionalProperties':False}},'empty_reason':{'type':'string'}},'required':['notes'],'additionalProperties':False}
 
-def extract_note(config,source,document,existing_events,run,quarantine,collection=None):
+def extract_note(config,source,document,existing_events,run,quarantine,collection=None,policy=None):
     if any(e['source']==source['id'] and e.get('document_sha256')==digest(document) for e in existing_events):return None
     existing_notes=[e['summary'] for e in existing_events if e['source']==source['id']][-5:]
     windows=select_windows(document,source.get('title','')+' '+config.get('_coverage',''),document_budget(config,len(json.dumps(existing_notes,ensure_ascii=False))+len(EVIDENCE_RULES)+900))
@@ -511,6 +517,19 @@ def extract_note(config,source,document,existing_events,run,quarantine,collectio
             event={k:c[k] for k in ['title','summary','layer','kind']}
             if any(normalize(e['summary'])==normalize(c['summary']) and e['source']==source['id'] for e in existing_events):continue
             event.update(id='note-'+digest(source['url']+'\n'+c['evidence'])[:20],source=source['id'],date=source['published'],method='automated',retrieved_at=now(),document_sha256=digest(document),evidence_sha256=digest(c['evidence']))
+            # Deliverable 1/2: grade is derived from the registered source, never the model's
+            # choice; grade C/D turns the event into a report (News report/Social post), with
+            # deliverable 3's own quote/attribution/reviewer-pass rules -- the same ones below,
+            # just carrying the outlet, the outlet's own date and an unconfirmed state until a
+            # later official record covers the same metric/period.
+            event['grade']=grade_for(policy)
+            if event['grade'] in ('C','D'):
+                event['kind']=report_kind(policy)
+                event['outlet']=source['publisher']
+                event['reported_on']=source['published']
+                event['about']=about_ids(ROOT,policy,event['title'],event['summary'])
+                event['quote']=c['evidence']
+                event['confirmation']='unconfirmed'
             if any(e['id']==event['id'] for e in existing_events):continue
             event_valid(event,{source['id']:source})
         except Exception as e:
@@ -531,7 +550,7 @@ def numeric_support(value,evidence):
     tokens=numeric_tokens(evidence)
     return any(float(t.replace(',',''))==value for t in tokens)
 
-def candidate_record(c,source,document,metrics,all_sources,existing=()):
+def candidate_record(c,source,document,metrics,all_sources,existing=(),policy=None):
     fields={'metric','year','period','value','upper','status','precision','note','evidence'}
     require(isinstance(c,dict) and set(c)==fields,'Malformed candidate')
     evidence=c['evidence']
@@ -558,6 +577,12 @@ def candidate_record(c,source,document,metrics,all_sources,existing=()):
     if fragments:record['note']=(record['note']+' ' if record['note'] else '')+'; '.join(fragments)
     identity=json.dumps([record[k] for k in ['metric','year','period','value','upper','status','precision']],separators=(',',':'))
     record.update(id='auto-'+digest(identity)[:20],source=source['id'],retrieved_at=now(),method='automated',document_sha256=digest(document),evidence_sha256=digest(evidence))
+    # Deliverable 1 hard rule: grade C/D evidence never enters a numeric series. A source
+    # whose derived grade is C or D cannot mint a numeric observation at all here; that
+    # evidence still reaches readers, honestly labeled, only through the report lane above.
+    grade=grade_for(policy)
+    require(grade in ('A','B'),f'Grade {grade} evidence cannot become a numeric observation; publish as a report instead')
+    record['grade']=grade
     observation_valid(record,metrics,all_sources)
     return record
 
@@ -577,7 +602,7 @@ def duplicate_or_conflict(record,observations,metrics=None):
             return 'duplicate' if same else 'conflict'
     return None
 
-def extract_observations(config,source,full_text,related,data,metrics,sources,run,quarantine,collection,stale_targets=None):
+def extract_observations(config,source,full_text,related,data,metrics,sources,run,quarantine,collection,stale_targets=None,policy=None):
     """Propose, validate and screen numeric observations for one document.
 
     Same side effects as the former inline block in main(): appends accepted records to
@@ -628,7 +653,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
                 require(reduced is not None,'evidence too long even after shrinking')
                 located=reduced;shrunk=True
             candidate['evidence']=located  # the document's own bytes
-            record=candidate_record(candidate,source,content,metrics,sources,existing)
+            record=candidate_record(candidate,source,content,metrics,sources,existing,policy)
             conflict=duplicate_or_conflict(record,data['observations'],metrics)
             if conflict=='duplicate':continue
             require(conflict!='conflict','Conflicting metric/year requires reviewed correction')
@@ -737,7 +762,15 @@ def validate_monitoring_delta(before,after,old_excerpts,new_excerpts):
         require(before[key]==after[key],'Monitoring changed reviewed ledger configuration')
     for key in ['sources','observations','events','runs']:
         old={r['id']:r for r in before[key]};new={r['id']:r for r in after[key]}
-        require(all(new.get(rid)==record for rid,record in old.items()),'Monitoring rewrote existing '+key)
+        if key=='events':
+            # Deliverable 2's own authorized exception: an unattended run may flip a pending
+            # report's confirmation field to confirmed_by/contradicted_by, and nothing else,
+            # on an already-published report -- never a value, source, grade or retraction.
+            for rid,record in old.items():
+                current=new.get(rid)
+                require(current==record or confirmation_only_change(record,current),'Monitoring rewrote existing '+key)
+        else:
+            require(all(new.get(rid)==record for rid,record in old.items()),'Monitoring rewrote existing '+key)
         if key in {'observations','events'}:
             for rid,record in new.items():
                 if rid in old:continue
@@ -980,7 +1013,7 @@ def main():
                     quarantine_before=len(quarantine)
                     try:
                         config['_document_windows']=collection.setdefault('document_windows',[])
-                        note=extract_note(config,source,full_text,data['events'],run,quarantine,collection)
+                        note=extract_note(config,source,full_text,data['events'],run,quarantine,collection,policy)
                     except Exception:
                         model_failed=True;raise RuntimeError('Model note extraction or review failed')
                     record_review(reviews,note_key,'note',source['id'],'accepted' if note else ('quarantined' if len(quarantine)>quarantine_before else 'empty'))
@@ -998,8 +1031,12 @@ def main():
                     remaining=deadline-time.monotonic()
                     if remaining>1 and not stopped(ROOT,args.session_id):
                         draft(ROOT,dict(config,model_timeout_seconds=min(config['model_timeout_seconds'],remaining)),source,full_text,note,run,ollama)
-                    note_status={'Company announcement':'company-commitment','Forecast update':'forecast','Government target':'government-target'}.get(note['kind'],'observation')
-                    append_excerpt(excerpts,source,policy,proof['evidence'],note['summary'],note['retrieved_at'],status=note_status)
+                    if note['kind'] not in REPORT_KINDS:
+                        # A report's own quote/grade/confirmation fields are its public evidence
+                        # trail; excerpts.json has no grade concept, and its status vocabulary
+                        # (STATUSES) has nothing honest to say about an unconfirmed C/D claim.
+                        note_status={'Company announcement':'company-commitment','Forecast update':'forecast','Government target':'government-target'}.get(note['kind'],'observation')
+                        append_excerpt(excerpts,source,policy,proof['evidence'],note['summary'],note['retrieved_at'],status=note_status)
                     if not related:
                         save(LOCAL/'metric-candidates'/f'{note["id"]}.json',{'source':source['id'],'note':note,'review_required':True,'reason':'No reviewed metric. This proposal cannot create catalog IDs or change project stages.'})
                 if not related:
@@ -1008,7 +1045,7 @@ def main():
                     quarantine_before=len(quarantine)
                     try:
                         stale_targets=stale_targets_by_source.get(source.get('parent_source',source['id']))
-                        accepted_now=extract_observations(config,source,full_text,related,data,metrics,sources,run,quarantine,collection,stale_targets)
+                        accepted_now=extract_observations(config,source,full_text,related,data,metrics,sources,run,quarantine,collection,stale_targets,policy)
                     except Exception:
                         model_failed=True;raise
                     record_review(reviews,metrics_key,'metrics',source['id'],'accepted' if accepted_now else ('quarantined' if len(quarantine)>quarantine_before else 'empty'))
@@ -1050,6 +1087,12 @@ def main():
         data['runs'].append(run)
         data['runtime'].update(last_attempt=run['finished_at'],status=run['status'])
         if run['status']=='success':data['runtime']['last_success']=run['finished_at']
+        # Deliverable 2: a pending report becomes confirmed_by/contradicted_by the moment an
+        # official record for the same metric and period is in this run's ledger -- including
+        # one this very batch just accepted above. Pure metric+period matching; never a model
+        # call, never touches a retracted or already-decided report.
+        data['events'],reconciled=reconcile_confirmations(data['events'],data['observations'])
+        if reconciled:collection['confirmations_reconciled']=len(reconciled)
         validate(data)
         save(LOCAL/'runs'/f'{run_id}.json',{'receipt':run,'quarantine':quarantine,'collection':collection})
         save(LOCAL/'coverage'/f'{run_id}.json',{'attempts':attempt_log,'registered_sources':len(registry['sources']),'attempted_sources':len(attempted),'never_attempted':[s['id'] for s in registry['sources'] if s['id'] not in attempted]})

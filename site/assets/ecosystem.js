@@ -86,6 +86,12 @@ function extendWithEcosystem() {
 }
 
 
+// Deliverable 2: grade C/D reports about this company, never a numeric series entry.
+function companyReports(c){
+ const rows=data.events.filter(e=>REPORT_KINDS.has(e.kind)&&(e.about||[]).includes(c.id));
+ if(!rows.length)return '';
+ return `<section class="section"><h2>Reported, not yet confirmed.</h2><div class="report-list">${rows.map(e=>`<article class="report-card">${gradeBadge(e)}<h5>${esc(e.title)}</h5><p>${esc(e.summary)}</p><p>${esc(e.outlet)} &middot; ${e.reported_on?dateLabel(e.reported_on):'date unlisted'} &middot; ${sourceLink(e.source)}</p>${confirmationNote(e)}</article>`).join('')}</div><p class="chart-footnote">News and social evidence, honestly labeled by grade. Never blended into the revenue chart above or a homepage headline.</p></section>`;
+}
 function companyPage() {
  const id=root.querySelector('[data-company]')?.dataset.company || location.pathname.split('/').filter(Boolean).at(-1),c=companyOf(id);
  if(!c)throw new Error('Unknown company profile');
@@ -103,5 +109,5 @@ function companyPage() {
  ${c.revenue_chart_metric&&c.revenue_metric?`<details class="panel"><summary>Original reported currency series</summary>${chart(c.revenue_metric)}</details>`:''}
  <p class="chart-footnote">Company-wide revenue includes every business reported within its scope. It is not automatically AI revenue, customer productivity, local spending or jobs. Fiscal calendars and currencies differ. Public consensus is attributed to Stock Analysis / S&P Global; company outlooks name their issuer. Every point retains its access date and source.</p></section>
  <section class="section"><h2>Capital, jobs & delivered capacity.</h2>${companyMeasures(c)}${projects.length?`<div class="supplier-links">${projects.map(p=>`<a href="${base}projects/#project-${esc(p.id)}">${esc(p.name)} ↗</a>`).join('')}</div>`:''}${extra.length?`<div class="company-data-grid">${extra.map(x=>`<div class="panel">${chart(x.id)}</div>`).join('')}</div>`:'<p class="empty">Additional company-specific operating metrics remain a research priority.</p>'}</section>
- <section class="section"><h2>Connected builders.</h2><div class="supplier-links">${peers.map(c=>companyLink(c.id)).join('')}</div><p class="chart-footnote">Other covered organizations in the same layers; shared coverage does not assert a commercial partnership.</p></section>`;
+ ${companyReports(c)}<section class="section"><h2>Connected builders.</h2><div class="supplier-links">${peers.map(c=>companyLink(c.id)).join('')}</div><p class="chart-footnote">Other covered organizations in the same layers; shared coverage does not assert a commercial partnership.</p></section>`;
 }

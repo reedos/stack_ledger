@@ -6046,6 +6046,61 @@
         "applications"
       ],
       "license": "Public domain (U.S. government work)"
+    },
+    {
+      "id": "outlet-www-datacenterdynamics-com-727821",
+      "publisher": "Data Center Dynamics",
+      "title": "Data Center Dynamics feed · www.datacenterdynamics.com",
+      "url": "https://www.datacenterdynamics.com/en/rss/",
+      "published": null,
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "outlet-semiengineering-com-234e4a",
+      "publisher": "Semiconductor Engineering",
+      "title": "Semiconductor Engineering feed · semiengineering.com",
+      "url": "https://semiengineering.com/feed/",
+      "published": null,
+      "layers": [
+        "chips"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "outlet-techcrunch-com-f84187",
+      "publisher": "TechCrunch",
+      "title": "TechCrunch feed · techcrunch.com",
+      "url": "https://techcrunch.com/feed/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "index": true
+    },
+    {
+      "id": "outlet-arstechnica-com-48cf4d",
+      "publisher": "Ars Technica",
+      "title": "Ars Technica feed · arstechnica.com",
+      "url": "https://arstechnica.com/feed",
+      "published": null,
+      "layers": [
+        "chips",
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "index": true
     }
   ],
   "discovery_keywords": [
@@ -6427,7 +6482,11 @@
         "audit-meta-singapore",
         "epoch-chip-sales-dataset",
         "nvidia-hopper-whitepaper",
-        "epoch-notable-models-dataset"
+        "epoch-notable-models-dataset",
+        "outlet-www-datacenterdynamics-com-727821",
+        "outlet-semiengineering-com-234e4a",
+        "outlet-techcrunch-com-f84187",
+        "outlet-arstechnica-com-48cf4d"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -12299,6 +12358,118 @@
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
+    },
+    "outlet-www-datacenterdynamics-com-727821": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "news",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/en/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": true
+    },
+    "outlet-semiengineering-com-234e4a": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "news",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/redefining-processes-at-sub-2nm/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": true
+    },
+    "outlet-techcrunch-com-f84187": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "news",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/2026/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": true
+    },
+    "outlet-arstechnica-com-48cf4d": {
+      "rank": 4,
+      "region_book": "global",
+      "company_id": null,
+      "claim_type": "news",
+      "cadence": "daily",
+      "weekday": 0,
+      "path_prefixes": [
+        "/gadgets/"
+      ],
+      "topics": [
+        "ai",
+        "artificial-intelligence",
+        "data-center",
+        "data-centre",
+        "nuclear",
+        "annual",
+        "report",
+        "inference",
+        "semiconductor",
+        "model",
+        "chip",
+        "compute",
+        "power",
+        "intelligence"
+      ],
+      "excerpts": true
     }
   }
 }

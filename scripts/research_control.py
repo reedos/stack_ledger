@@ -237,7 +237,8 @@ def server(root=ROOT,*,config=None,asset_root=None):
                 except (OSError,ValueError):self.send(503,{'error':'Visual review queue is unavailable'})
                 return
             if route=='activity':
-                try:self.send(200,activity(root))
+                from findings_review import reviewer
+                try:self.send(200,dict(activity(root),reviewer=reviewer(root,ident)))
                 except (OSError,ValueError):self.send(503,{'error':'Activity log is unavailable; try again shortly'})
                 return
             if '/visual-preview/' in path:
@@ -304,6 +305,18 @@ def server(root=ROOT,*,config=None,asset_root=None):
                         if not authorized(root,owner,ident):raise ValueError('Unauthorized local reviewer')
                         job=jobs.enqueue('publish',value['id'],proposal_hash=value['proposal_hash'],review_hash=value['review_hash'],reviewer=owner,identity=ident)
                         result={'job':job,'status':job['status']}
+                elif route=='retract':
+                    # Deliverable 5: the one control on a report -- writes an editorial audit
+                    # event and marks the report retracted. A direct human action, not a
+                    # catalog package: there is nothing to preview, only a flag to flip.
+                    from findings_review import reviewer,authorized
+                    import reports as rp
+                    owner=reviewer(root,ident)
+                    if not owner:raise ValueError('This account cannot retract a report')
+                    if set(value)!={'id','rationale','confirmed'}:raise ValueError('Invalid retraction request')
+                    if value['confirmed'] is not True:raise ValueError('Explicit human retraction action required')
+                    if not authorized(root,owner,ident):raise ValueError('Unauthorized local reviewer')
+                    result=rp.retract(root,value['id'],owner,value['rationale'],identity=ident)
                 else:raise ValueError('Unknown action')
                 self.send(200,result)
             except FileExistsError:self.send(409,{'error':'Another review is being saved; reload and try again'})
@@ -318,6 +331,7 @@ def server(root=ROOT,*,config=None,asset_root=None):
 def activity(root):
     """Automated events (publication-policy approvals/applications, importer runs) for the Activity tab. Read-only."""
     from editorial_review import events
+    from validate import REPORT_KINDS
     report={};rows=events(root,report=report)
     automated=[e for e in rows if e.get('reviewer')=='publication-policy']
     digests=[]
@@ -326,7 +340,14 @@ def activity(root):
         for path in sorted(folder.glob('*.json')):
             value=read(path)
             if value is not None:digests.append({'file':path.name,'value':value})
-    return {'policy_events':automated[-100:],'digests':digests,'unreadable_events':report.get('unreadable_events',0)}
+    # Deliverable 5: grade C/D reports publish automatically -- they never enter the
+    # Decisions queue -- so this is the only place a reviewer sees them, with grade and
+    # confirmation state, and the one control (Retract) that turns a report into a human
+    # decision.
+    ledger=read(root/'site/data/ledger.json',{'events':[]})
+    reports=[e for e in ledger.get('events',[]) if e.get('kind') in REPORT_KINDS]
+    return {'policy_events':automated[-100:],'digests':digests,'unreadable_events':report.get('unreadable_events',0),
+            'reports':sorted(reports,key=lambda e:e.get('retrieved_at') or e.get('date') or '',reverse=True)[:200]}
 
 
 def base_python():

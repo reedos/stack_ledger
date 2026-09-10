@@ -22,6 +22,10 @@ The ambition behind the ledger is beneficial reindustrialization through abundan
 
 Precision: eq for an exact figure; approx for "about", "nearly", "roughly"; gt for "more than", "at least", "over"; lt for "up to", "less than"; range when the source gives two bounds, with upper set.
 
+## Evidence grade is not your decision
+
+Every published event and automated observation carries an evidence grade (A official statistics/filings, B company statement, C news report, D unverified secondary/social claim). The runner computes it after you respond, deterministically, from the registered source's own reviewed classification -- there is no grade field in your schema, and nothing you write about a source's reliability changes it. When a source's grade is C or D, the runner republishes your note as a report (kind News report or Social post) with an outlet, date and unconfirmed status attached automatically; your job is unchanged -- an attributed, verbatim-evidenced note, exactly as described below. Never invent or state a grade, confirmation status, or claim that a report is "confirmed."
+
 ## Distinctions that must survive extraction
 
 Announcement, financing, construction, commissioning and operation are separate stages. Samples shipped is not volume production. Fuel loading is not commercial operation. A power purchase agreement is not generation delivered. Contracts awarded is not cash paid, wages or total project spending. Construction peak, contractor FTEs, promised permanent positions and actual hires are separate counts; never add them. Job postings are demand, not hires; graduation is not placement. Benchmarks and demonstrations are not productivity, deployment or patient benefit. A null clinical result is preserved as a null result. GW is power, TWh is energy; nameplate is not dependable capacity; data-center demand is not AI-only demand. Company revenue is not AI revenue; funding, bookings and capex are not revenue; capex is not commissioned capacity. Keep fiscal periods, currencies and forecast vintages as stated. Never sum overlapping figures, never convert or scale units, never average competing scenarios, never fill a missing year.
