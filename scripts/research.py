@@ -289,11 +289,29 @@ class Fetcher:
         # importer-only fetch() never routes through this class at all.
         self.fetch_state=Health(LOCAL/'fetch-state.json')
         self.last_text_unchanged=False
-    def due(self,url,refresh=False):
+    def due(self,url,refresh=False,feed_poll_seconds=None):
+        """Whether `url` may be fetched now.
+
+        A blocked-robots host or a page currently cooling down after a failure always wins,
+        regardless of `refresh`/`feed_poll_seconds`. Otherwise: `feed_poll_seconds` (not
+        None) replaces the ordinary six-hour page-success cooldown with a check against
+        fetch_state's own last-checked timestamp -- deliverable 2 (2026-09-10), so a
+        feed/index source can be re-polled far more often than a ordinary page across one
+        session; passing 0 forces it due immediately (deliverable 3's idle top-up), still
+        subject to the failure-cooldown check above. Every other source keeps exactly
+        today's page-success-cooldown/refresh behaviour, unaffected by this parameter.
+        """
         host=urlparse(url).hostname
         robot=self.health.get('robots',host)
-        return (not (robot.get('status')=='unavailable' and not self.health.due('robots',host))
-                and (self.health.due('page',url) or (refresh and self.health.get('page',url).get('status')=='available')))
+        if robot.get('status')=='unavailable' and not self.health.due('robots',host):return False
+        record=self.health.get('page',url)
+        if record.get('status')=='unavailable':return self.health.due('page',url)
+        if feed_poll_seconds is not None:
+            checked_at=self.fetch_state.get('page',url).get('checked_at')
+            if not checked_at:return True
+            elapsed=(datetime.now(timezone.utc)-datetime.fromisoformat(checked_at.replace('Z','+00:00'))).total_seconds()
+            return elapsed>=feed_poll_seconds
+        return self.health.due('page',url) or (refresh and record.get('status')=='available')
     def get(self,url,host,raw=False,headers=None,capture=None):
         allowed_url(url,host)
         delay=max(1,self.robots[host].crawl_delay(UA) or 0) if host in self.robots else 1
@@ -739,7 +757,13 @@ def run_summary(receipt):
             'unchanged_304':collection.get('unchanged_304',0),'text_unchanged':collection.get('text_unchanged',0),
             'already_reviewed':collection.get('already_reviewed',0),'model_documents':collection.get('model_documents',0),
             # Deliverable 10: overdue-metric tasking, from the same private receipt.
-            'stale_tasks':len(stale),'stale_tasks_met':sum(t.get('outcome')=='met' for t in stale)}
+            'stale_tasks':len(stale),'stale_tasks_met':sum(t.get('outcome')=='met' for t in stale),
+            # Deliverable 4 (2026-09-10): feed reach and idle-pass top-up, so a quiet night can
+            # say whether nothing was published or nothing was reachable.
+            'feeds_polled':collection.get('feeds_polled',0),'feed_entries_new':collection.get('feed_entries_new',0),
+            'feed_entries_already_reviewed':collection.get('feed_entries_already_reviewed',0),
+            'idle_pass':bool(collection.get('idle_pass',False)),
+            'idle_feeds_polled':collection.get('idle_feeds_polled',0),'idle_stale_tasks_run':collection.get('idle_stale_tasks_run',0)}
 
 def preflight(config):
     pending_changes()
@@ -925,18 +949,18 @@ def main():
         collection['stale_tasks_queued']=len(stale_tasks)
         stale_metric_ids={t['metric'] for t in stale_tasks}
         stale_metrics_met=set();stale_metrics_quarantined=set()
-        queue=stale_front+queue
-        while queue and attempts<limit and time.monotonic()<deadline and not stopped(ROOT,args.session_id):
-            source=queue.pop(0)
-            if source['url'] in seen:continue
-            if not fetcher.due(source['url'],args.refresh):
-                collection['cooldown_skips']+=1;continue
-            # Deliverable 4: a registered-daily source unchanged for long enough is checked
-            # less often; a stale task (deliverable 10) still forces its own sources through.
+        # Deliverable 2 (2026-09-10): a feed/index source becomes due again after
+        # feed_poll_minutes (runtime.json, default 20) instead of the registered cadence, so
+        # stories published during a multi-hour session are picked up in that same session.
+        feed_poll_seconds=config.get('feed_poll_minutes',20)*60
+        feed_child_urls=set()  # discovered-child URLs whose parent was a feed, for the receipt
+
+        def process(source):
+            """Fetch, extract and record one already-due, not-yet-seen source. Shared by the
+            ordinary due-list pass and deliverable 3's idle top-up below -- the caller is
+            responsible for every due/cooldown/dedup decision; this always attempts."""
+            nonlocal attempts,model_failed
             cadence_policy=collection_for(registry,source)
-            if cadence_policy.get('cadence')=='daily' and source['url'] not in stale_forced_urls \
-                    and not due(cadence_policy,today,fetcher.fetch_state.get('page',source['url'])):
-                collection['cooldown_skips']+=1;continue
             seen.add(source['url']);attempts+=1
             attempt_log.append({'source':source['id'],'url':source['url'],'attempted_at':now(),
                 'effective_cadence':effective_cadence(cadence_policy,fetcher.fetch_state.get('page',source['url']))})
@@ -948,7 +972,7 @@ def main():
                     document=fetcher.fetch(source['url'])
                 except Unchanged:
                     collection['unchanged_304']+=1
-                    continue
+                    return
                 full_text=document.readable();h=digest(full_text)
                 if fetcher.last_text_unchanged:collection['text_unchanged']+=1
                 published_basis=None
@@ -989,9 +1013,16 @@ def main():
                         child=dict(source,id='discovered-'+digest(url)[:16],url=url,published=None,parent_source=source['id'],title='Discovered public update · '+source['publisher'])
                         child.pop('index',None)
                         queue.insert(0,child)
+                        if source.get('index'):feed_child_urls.add(child['url'])
                         found+=1
                         if found>=cap:break
-                if source.get('index'):continue
+                    if source.get('index'):
+                        # Deliverable 4: how many feeds were checked and how much they yielded,
+                        # so a quiet night can say whether nothing was published or nothing
+                        # was reachable.
+                        collection['feeds_polled']=collection.get('feeds_polled',0)+1
+                        collection['feed_entries_new']=collection.get('feed_entries_new',0)+found
+                if source.get('index'):return
                 related=[m for m in metrics.values() if source.get('parent_source',source['id']) in m['source_ids']]
                 related_ids=[m['id'] for m in related]
                 policy=collection_for(registry,source)
@@ -1006,7 +1037,9 @@ def main():
                 metrics_done=metrics_key is None or metrics_entry is not None
                 if note_done and metrics_done:
                     collection['already_reviewed']+=1
-                    run['documents_reviewed']+=1;coverage.update(source['layers']);continue
+                    if source['url'] in feed_child_urls:
+                        collection['feed_entries_already_reviewed']=collection.get('feed_entries_already_reviewed',0)+1
+                    run['documents_reviewed']+=1;coverage.update(source['layers']);return
                 collection['model_documents']+=1
                 # Every due, not-already-reviewed source is read, and every such document gets
                 # a note-lane attempt. Only discovered pages and excerpt-permitted sources may
@@ -1045,7 +1078,7 @@ def main():
                     if not related:
                         save(LOCAL/'metric-candidates'/f'{note["id"]}.json',{'source':source['id'],'note':note,'review_required':True,'reason':'No reviewed metric. This proposal cannot create catalog IDs or change project stages.'})
                 if not related:
-                    run['documents_reviewed']+=1;coverage.update(source['layers']);continue
+                    run['documents_reviewed']+=1;coverage.update(source['layers']);return
                 if not metrics_done:
                     quarantine_before=len(quarantine)
                     try:
@@ -1067,6 +1100,55 @@ def main():
                 reason=re.sub(r'[^a-zA-Z0-9 .,;:/_()\-]','',reason)[:180]
                 run['source_failures'].append({'source':source['id'],'reason':reason})
                 print(f'  Skipped: {reason}',flush=True)
+
+        queue=stale_front+queue
+        while queue and attempts<limit and time.monotonic()<deadline and not stopped(ROOT,args.session_id):
+            source=queue.pop(0)
+            if source['url'] in seen:continue
+            is_feed=bool(source.get('index'))
+            if not fetcher.due(source['url'],args.refresh,feed_poll_seconds if is_feed else None):
+                collection['cooldown_skips']+=1;continue
+            # Deliverable 4: a registered-daily source unchanged for long enough is checked
+            # less often; a stale task (deliverable 10) still forces its own sources through.
+            # A feed/index source's due-ness above already used feed_poll_minutes instead of
+            # the registered cadence (deliverable 2), so it is exempt from this adaptive
+            # daily/weekly/monthly promotion check too -- that check is for non-feed sources.
+            cadence_policy=collection_for(registry,source)
+            if cadence_policy.get('cadence')=='daily' and not is_feed and source['url'] not in stale_forced_urls \
+                    and not due(cadence_policy,today,fetcher.fetch_state.get('page',source['url'])):
+                collection['cooldown_skips']+=1;continue
+            process(source)
+        # Deliverable 3 (2026-09-10): before conceding a batch nothing_new, spend the
+        # otherwise-idle time and network budget looking harder instead -- force a feed
+        # re-poll past its own feed_poll_minutes gate (the due list is empty, or everything on
+        # it was unreachable/already reviewed, so the network is free), then retry
+        # stale-metric sources past their ordinary cooldown, capped by
+        # max_stale_tasks_per_batch. Only then does the batch concede nothing_new. A focused
+        # --sources/--question run never gets this extra reach, matching the stale-task queue
+        # itself.
+        if not (args.sources or question) and not stopped(ROOT,args.session_id) and time.monotonic()<deadline and \
+                (not attempts or (not model_failed and not run['source_failures'] and not collection.get('model_documents',0))):
+            collection['idle_pass']=True
+            idle_feeds=selected_sources([s for s in registry['sources'] if s.get('index') and s['url'] not in seen
+                and collection_for(registry,s).get('cadence')!='manual'],registry,args.layers,args.source_kinds)
+            for source in idle_feeds:
+                if attempts>=limit or time.monotonic()>=deadline or stopped(ROOT,args.session_id):break
+                if not fetcher.due(source['url'],args.refresh,0):
+                    collection['cooldown_skips']+=1;continue
+                process(source);collection['idle_feeds_polled']=collection.get('idle_feeds_polled',0)+1
+                while queue and attempts<limit and time.monotonic()<deadline and not stopped(ROOT,args.session_id):
+                    child=queue.pop(0)
+                    if child['url'] in seen:continue
+                    if not fetcher.due(child['url'],args.refresh):
+                        collection['cooldown_skips']+=1;continue
+                    process(child)
+            for task in stale_tasks:
+                if attempts>=limit or time.monotonic()>=deadline or stopped(ROOT,args.session_id):break
+                for sid in task['source_ids']:
+                    if attempts>=limit or time.monotonic()>=deadline or stopped(ROOT,args.session_id):break
+                    source=registry_by_id.get(sid)
+                    if source is None or not fetcher.due(source['url'],True):continue
+                    process(source);collection['idle_stale_tasks_run']=collection.get('idle_stale_tasks_run',0)+1
         if not attempts:
             # Deliverable 7: no due source that is not cooling down, unchanged or already
             # reviewed -- nothing new to research this batch.

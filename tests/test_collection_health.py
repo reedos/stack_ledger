@@ -158,6 +158,8 @@ class CollectionTests(unittest.TestCase):
             self.assertEqual((root/'site/data/ledger.json').read_bytes(),original)
 
     def test_idle_controller_waits_without_counting_failure(self):
+        # 2026-09-10: idle_pause_seconds defaults to 120 (runtime.json), down from the old
+        # fixed 300s -- two pauses now span 4 minutes, not 10.
         with tempfile.TemporaryDirectory() as t:
             clock=[0]
             def sleep(seconds):clock[0]+=seconds
@@ -165,16 +167,20 @@ class CollectionTests(unittest.TestCase):
             with patch.object(loop,'ROOT',Path(t)),patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]), \
                  patch.object(loop.time,'sleep',side_effect=sleep),patch.object(loop.subprocess,'Popen',return_value=child) as spawn, \
                  patch('research_notify.notify_session',return_value={'status':'disabled'}),patch('builtins.print'):
-                self.assertEqual(loop.main(['--start','--minutes','10','--ignore-gpu-busy']),0)
+                self.assertEqual(loop.main(['--start','--minutes','4','--ignore-gpu-busy']),0)
             report=json.loads((Path(t)/'.local/session-status.json').read_text())
             self.assertEqual(report['failed_batches'],0);self.assertEqual(spawn.call_count,2)
 
-    def test_three_consecutive_nothing_new_batches_end_the_session_early(self):
-        # Deliverable 7: research.py writes {'status':'nothing_new'} into its batch receipt
-        # on exit code 2 when nothing was new; research_loop reads that receipt (not just
-        # the exit code, which an "everything unreachable" pause also uses) and stops after
-        # three in a row, never counting them as failures.
+    def test_three_consecutive_nothing_new_batches_end_the_session_early_when_opted_in(self):
+        # Deliverable 7 (2026-09-09) still exists but is opt-in since deliverable 1
+        # (2026-09-10): research.py writes {'status':'nothing_new'} into its batch receipt on
+        # exit code 2 when nothing was new; research_loop reads that receipt (not just the
+        # exit code, which an "everything unreachable" pause also uses) and, only with
+        # end_session_when_idle:true in runtime.json, stops after three in a row -- never
+        # counting them as failures.
         with tempfile.TemporaryDirectory() as t:
+            (Path(t)/'research').mkdir(parents=True,exist_ok=True)
+            (Path(t)/'research/runtime.json').write_text(json.dumps({'end_session_when_idle':True}),encoding='utf-8')
             clock=[0];calls=[0]
             def sleep(seconds):clock[0]+=seconds
             def fake_popen(command,**kwargs):
@@ -191,8 +197,36 @@ class CollectionTests(unittest.TestCase):
             report=json.loads((Path(t)/'.local/session-status.json').read_text())
             self.assertEqual(report['state'],'completed (nothing new)')
             self.assertEqual(report['consecutive_nothing_new'],3)
+            self.assertEqual(report['idle_passes'],3)
             self.assertEqual(report['failed_batches'],0)
             self.assertEqual(calls[0],3)  # ended after exactly three, not the full duration
+
+    def test_default_settings_keep_exploring_through_repeated_nothing_new_batches(self):
+        # Deliverable 1 (2026-09-10): end_session_when_idle defaults false -- a session that
+        # has read everything once keeps polling until its own deadline instead of stopping
+        # after three consecutive nothing_new batches. idle_passes counts every one of them,
+        # never resetting, so the digest can say how much of the session found nothing;
+        # consecutive_nothing_new is still tracked but no longer ends the session by itself.
+        with tempfile.TemporaryDirectory() as t:
+            clock=[0];calls=[0]
+            def sleep(seconds):clock[0]+=seconds
+            def fake_popen(command,**kwargs):
+                calls[0]+=1
+                sid=command[command.index('--session-id')+1]
+                from research_loop import atomic
+                atomic(Path(t)/'.local/sessions'/sid/'batches'/f'{calls[0]}.json',{'status':'nothing_new','monitoring':{},'collection':{}})
+                child=Mock(returncode=2);child.poll.return_value=2
+                return child
+            with patch.object(loop,'ROOT',Path(t)),patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]), \
+                 patch.object(loop.time,'sleep',side_effect=sleep),patch.object(loop.subprocess,'Popen',side_effect=fake_popen), \
+                 patch('research_notify.notify_session',return_value={'status':'disabled'}),patch('builtins.print'):
+                self.assertEqual(loop.main(['--start','--minutes','10','--ignore-gpu-busy']),0)
+            report=json.loads((Path(t)/'.local/session-status.json').read_text())
+            self.assertEqual(report['state'],'completed')
+            self.assertGreater(report['consecutive_nothing_new'],3)  # kept counting past the old cutoff
+            self.assertEqual(report['idle_passes'],calls[0])
+            self.assertEqual(report['failed_batches'],0)
+            self.assertGreater(calls[0],3)  # kept going well past the old three-batch cutoff
 
     def test_an_unreachable_pause_batch_does_not_count_toward_nothing_new(self):
         # The pre-existing "every due source unreachable" pause also exits 2, but writes no
@@ -204,10 +238,11 @@ class CollectionTests(unittest.TestCase):
             with patch.object(loop,'ROOT',Path(t)),patch.object(loop.time,'monotonic',side_effect=lambda:clock[0]), \
                  patch.object(loop.time,'sleep',side_effect=sleep),patch.object(loop.subprocess,'Popen',return_value=child), \
                  patch('research_notify.notify_session',return_value={'status':'disabled'}),patch('builtins.print'):
-                self.assertEqual(loop.main(['--start','--minutes','10','--ignore-gpu-busy']),0)
+                self.assertEqual(loop.main(['--start','--minutes','4','--ignore-gpu-busy']),0)
             report=json.loads((Path(t)/'.local/session-status.json').read_text())
             self.assertNotEqual(report['state'],'completed (nothing new)')
             self.assertEqual(report.get('consecutive_nothing_new',0),0)
+            self.assertEqual(report.get('idle_passes',0),0)
 
     def test_receipt_distinguishes_actual_findings_from_status_pushes(self):
         with tempfile.TemporaryDirectory() as t:

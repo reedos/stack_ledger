@@ -12,7 +12,12 @@ def summary(folder):
                 finding_pushes=0,monitoring_only_pushes=0,search_calls=0,search_errors=0,
                 discovery_screened=0,model_documents=0,cooldown_skips=0,idle_checks=0,private_notes=0,
                 unchanged_304=0,text_unchanged=0,already_reviewed=0,nothing_new_batches=0,
-                stale_tasks_queued=0,stale_tasks_met=0,empty_reasons={})
+                stale_tasks_queued=0,stale_tasks_met=0,empty_reasons={},
+                # Deliverable 4 (2026-09-10): feed reach and idle-pass top-up, across the batches
+                # a session actually ran -- so a quiet night can say whether nothing was
+                # published or nothing was reachable, not just how many batches were quiet.
+                feeds_polled=0,feed_entries_new=0,feed_entries_already_reviewed=0,
+                idle_feeds_polled=0,idle_stale_tasks_run=0,idle_batches=0)
     hashes=set();complete_inventory=True
     for path in (folder/'batches').glob('*.json'):
         item=json.loads(path.read_text(encoding='utf-8'));run=item.get('monitoring',{});private=item.get('discovery') or {}
@@ -32,13 +37,15 @@ def summary(folder):
         totals['search_errors']+=sum(e.get('stage')=='search' for e in private.get('errors',[]))
         totals['discovery_screened']+=private.get('documents_screened',0)
         stats=item.get('collection',{})
-        for key in ['model_documents','cooldown_skips','private_notes','unchanged_304','text_unchanged','already_reviewed','stale_tasks_queued']:
+        for key in ['model_documents','cooldown_skips','private_notes','unchanged_304','text_unchanged','already_reviewed','stale_tasks_queued',
+                    'feeds_polled','feed_entries_new','feed_entries_already_reviewed','idle_feeds_polled','idle_stale_tasks_run']:
             totals[key]+=stats.get(key,0)
         for reason,count in stats.get('empty_reasons',{}).items():totals['empty_reasons'][reason]=totals['empty_reasons'].get(reason,0)+count
         totals['stale_tasks_met']+=sum(t.get('outcome')=='met' for t in stats.get('stale_tasks',[]))
         totals['cooldown_skips']+=private.get('cooldown_skips',0)
         totals['idle_checks']+=item.get('status')=='nothing_new'
         totals['nothing_new_batches']+=item.get('status')=='nothing_new'
+        totals['idle_batches']+=bool(stats.get('idle_pass'))
         docs=stats.get('documents',[])
         if len(docs)!=run.get('documents_fetched',0):complete_inventory=False
         hashes.update(d['sha256'] for d in docs)
@@ -71,6 +78,9 @@ def message(report,totals):
          if totals.get('collection_detail_available') else 'Older receipts lack unique-document/cache detail.'),
         f"Monitoring records accepted: {totals['accepted']} | Quarantined: {totals['quarantined']}"+(f" | Top empty reasons: {top_empty}" if top_empty else ''),
         (f"Stale-metric tasks queued: {totals.get('stale_tasks_queued',0)} (met: {totals.get('stale_tasks_met',0)})" if totals.get('stale_tasks_queued',0) else 'No stale-metric tasks queued this session.'),
+        f"Feeds polled: {totals.get('feeds_polled',0)} ({totals.get('feed_entries_new',0)} new entries seen, {totals.get('feed_entries_already_reviewed',0)} already in the review ledger)",
+        (f"Idle passes (batch found nothing due, so it force-repolled feeds and retried stale-metric sources before conceding): {report.get('idle_passes',0)}"
+         + (f" -- {totals.get('idle_feeds_polled',0)} extra feed checks, {totals.get('idle_stale_tasks_run',0)} extra stale-task retries" if totals.get('idle_batches',0) else '')),
         f"New discovery proposals: {totals['discovery_proposals']} (private review inbox) | Private notes from sources without excerpt permission: {totals.get('private_notes',0)}",
         f"Source failures: {totals['source_failures']} | Discovery errors: {totals['discovery_errors']}",
         f"Discovery searches: {totals.get('search_calls',0)} ({totals.get('search_errors',0)} failed) | Documents screened: {totals.get('discovery_screened',0)}",

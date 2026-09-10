@@ -471,6 +471,92 @@ class NothingNewTests(unittest.TestCase):
             self.assertEqual(receipt['collection']['unchanged_304'],2)
             self.assertEqual(receipt['status'],'nothing_new')
 
+class IdleTopUpTests(unittest.TestCase):
+    """Deliverable 3: before conceding nothing_new, force a feed re-poll and retry
+    stale-metric sources past their ordinary cooldown -- both bypassed in the normal pass
+    here, so any accepted-into-review-queue document below can only have come from the
+    idle top-up, not the ordinary due-list walk."""
+    def test_idle_pass_force_repolls_a_feed_the_ordinary_pass_could_not_reach(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            registry=research.load(path/'research/sources.json')
+            feed={'id':'test-feed','publisher':'Test','title':'Test feed','url':'https://feed.example/rss',
+                  'published':None,'layers':['energy'],'license':'x','index':True}
+            policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily',
+                    'weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
+            registry['sources'].append(feed);registry['collection']['test-feed']=policy
+            research.save(path/'research/sources.json',registry)
+            def fake_due(url,refresh=False,feed_poll_seconds=None):
+                # The ordinary pass never sees feed_poll_seconds==0 (deliverable 3 forces it
+                # only in the idle top-up) and never sees the discovered child at all until
+                # the feed that names it has been fetched -- so True here can only be reached
+                # from the idle top-up's forced re-poll, not the normal due-list walk.
+                if feed_poll_seconds==0 and url==feed['url']:return True
+                return url=='https://feed.example/story/1-ai'
+            def fake_fetch(url):
+                d=research.ReadableHTML()
+                if url==feed['url']:d.feed('<p>Filler content.</p><a href="https://feed.example/story/1-ai">Story 1</a>')
+                else:d.feed('<p>Public report of 2026 AI infrastructure progress at the story link.</p>')
+                return d
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'due',side_effect=fake_due), \
+                 patch.object(research.Fetcher,'fetch',side_effect=fake_fetch), \
+                 patch.object(research,'ollama',side_effect=empty_model), \
+                 patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            receipt=research.load(sorted((path/'.local/runs').glob('*.json'))[-1])
+            collection=receipt['collection']
+            self.assertTrue(collection['idle_pass'])
+            self.assertEqual(collection['idle_feeds_polled'],1)
+            self.assertEqual(collection['feeds_polled'],1)
+            self.assertEqual(collection['feed_entries_new'],1)
+            # The forced re-poll found a genuinely new document needing model review, so the
+            # batch is no longer nothing_new -- the whole point of looking harder before
+            # conceding.
+            self.assertGreater(receipt['receipt']['documents_fetched'],0)
+            self.assertNotEqual(research.run_summary(receipt)['model_documents'],0)
+
+    def test_idle_pass_retries_a_stale_metrics_source_past_its_ordinary_cooldown(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            registry=research.load(path/'research/sources.json')
+            for source in registry['sources']:source.pop('index',None)  # no feeds: isolate deliverable 3(b)
+            research.save(path/'research/sources.json',registry)
+            doe_url=next(s for s in registry['sources'] if s['id']=='doe-demand')['url']
+            stale=[{'metric':'us-dc-electricity','source_ids':['doe-demand'],'feed_source_ids':[],
+                    'latest_period':'2020','latest_value':1,'overdue_days':999,
+                    'definition':{'id':'us-dc-electricity','title':'x','unit':'x','scope':'x','geography':'x'}}]
+            def fake_due(url,refresh=False,feed_poll_seconds=None):
+                # Only the idle top-up's forced retry (refresh=True) may reach this source;
+                # the ordinary pass (refresh=args.refresh, false here) never can.
+                return bool(refresh) and url==doe_url
+            document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure progress.</p>')
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research,'select_stale_tasks',return_value=stale), \
+                 patch.object(research.Fetcher,'due',side_effect=fake_due), \
+                 patch.object(research.Fetcher,'fetch',return_value=document), \
+                 patch.object(research,'ollama',side_effect=empty_model), \
+                 patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            receipt=research.load(sorted((path/'.local/runs').glob('*.json'))[-1])
+            collection=receipt['collection']
+            self.assertTrue(collection['idle_pass'])
+            self.assertEqual(collection['idle_stale_tasks_run'],1)
+            self.assertEqual(receipt['receipt']['documents_fetched'],1)
+            self.assertNotEqual(research.run_summary(receipt)['model_documents'],0)
+
+    def test_a_focused_sources_run_never_gets_the_idle_top_up(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'due',return_value=False), \
+                 patch.object(sys,'argv',['research.py','--sources','doe-demand']),patch('sys.stdout',new=io.StringIO()):
+                self.assertEqual(research.main(),2)
+            receipt=research.load(sorted((path/'.local/runs').glob('*.json'))[-1]) if list((path/'.local/runs').glob('*.json')) else None
+            # A focused run that finds nothing due exits before any receipt is written at all
+            # (the pre-existing not-attempts path); the idle top-up must not have run either.
+            self.assertIsNone(receipt)
+
 class VerdictChecklistTests(unittest.TestCase):
     def checklist(self,**over):
         v={'index':0,'numbers_in_evidence':True,'scope_matches':True,'basis_correct':True,'attribution_correct':True,'defect':'none','reason':'ok'}
@@ -633,7 +719,9 @@ class RunSummaryTests(unittest.TestCase):
                           {'documents':0,'model_calls':0,'accepted':0,'quarantined':0,
                            'quarantined_by_reason':{},'private_notes':0,'empty_reasons':{},
                            'unchanged_304':0,'text_unchanged':0,'already_reviewed':0,'model_documents':0,
-                           'stale_tasks':0,'stale_tasks_met':0})
+                           'stale_tasks':0,'stale_tasks_met':0,
+                           'feeds_polled':0,'feed_entries_new':0,'feed_entries_already_reviewed':0,
+                           'idle_pass':False,'idle_feeds_polled':0,'idle_stale_tasks_run':0})
     def test_deliverable_8_reports_why_the_model_was_or_was_not_called(self):
         receipt={'receipt':{'documents_fetched':9},'quarantine':[],
                   'collection':{'unchanged_304':2,'text_unchanged':1,'already_reviewed':3,'model_documents':4,

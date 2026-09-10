@@ -20,5 +20,8 @@
   "model_timeout_seconds": 300,
   "max_candidates_per_document": 8,
   "document_window_chars": 60000,
-  "max_private_notes_per_run": 12
+  "max_private_notes_per_run": 12,
+  "end_session_when_idle": false,
+  "feed_poll_minutes": 20,
+  "idle_pause_seconds": 120
 }

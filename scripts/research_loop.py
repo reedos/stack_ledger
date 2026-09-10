@@ -99,6 +99,18 @@ def latest_batch_status(folder):
     except (OSError,ValueError):return None
 
 
+def loop_settings(root):
+    """Owner-tunable idle behavior from research/runtime.json (deliverable 1, 2026-09-10).
+
+    Defaults safely when the file is missing or a key is absent -- isolated tests routinely
+    point ROOT at an empty temp directory with no research/ tree at all.
+    """
+    try:config=json.loads((root/'research/runtime.json').read_text(encoding='utf-8'))
+    except (OSError,ValueError):config={}
+    return {'end_session_when_idle':bool(config.get('end_session_when_idle',False)),
+            'idle_pause_seconds':config.get('idle_pause_seconds',120)}
+
+
 def batch_command(args,sid,remaining):
     command=[sys.executable,str(ROOT/'scripts/research.py'),'--session-id',sid,
              '--max-documents',str(args.batch_documents),'--max-seconds',str(max(1,min(900,int(remaining)))),*choice_args(args)]
@@ -130,6 +142,7 @@ def main(argv=None):
     if a.overnight and (ROOT/'.local/research.lock').exists():
         overlap_notice(ROOT);return 0
     sid=uuid.uuid4().hex
+    settings=loop_settings(ROOT)
     with session_lock(ROOT,sid,skip_if_busy=a.overnight) as acquired:
         if not acquired:return 0
         folder=ROOT/'.local/sessions'/sid;folder.mkdir(parents=True,exist_ok=True)
@@ -191,15 +204,23 @@ def main(argv=None):
                     report['idle_checks']=report.get('idle_checks',0)+1
                     if latest_batch_status(folder)=='nothing_new':
                         report['consecutive_nothing_new']=report.get('consecutive_nothing_new',0)+1
+                        # Deliverable 1 (2026-09-10): idle_passes never resets, unlike the
+                        # consecutive streak below -- it tells the digest how much of the
+                        # whole session found nothing, even across a batch that did find
+                        # something in between.
+                        report['idle_passes']=report.get('idle_passes',0)+1
                     else:
                         report['consecutive_nothing_new']=0
-                    if report['consecutive_nothing_new']>=3:
-                        # Deliverable 7: three consecutive batches found no due, unchanged-only
-                        # or already-reviewed sources -- stop polling and end the session early.
-                        # Never counted as a failure.
+                    if settings['end_session_when_idle'] and report['consecutive_nothing_new']>=3:
+                        # Deliverable 7 (2026-09-09): three consecutive batches found no due,
+                        # unchanged-only or already-reviewed sources. Off by default since
+                        # 2026-09-10 (end_session_when_idle in runtime.json) -- the owner wants
+                        # a session to keep exploring, not stop the moment it has read
+                        # everything once; a maintainer who wants the old behavior back can
+                        # still opt in. Never counted as a failure either way.
                         checkpoint('completed (nothing new)')
                         return 0
-                    pause(300,'waiting for eligible sources')
+                    pause(settings['idle_pause_seconds'],'waiting for eligible sources')
                 elif child.returncode:
                     report['consecutive_nothing_new']=0
                     report['failed_batches']+=1
