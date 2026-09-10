@@ -1,0 +1,58 @@
+{
+  "dataset": "EIA-930 demand by balancing authority",
+  "source_id": "eia-930-demand",
+  "retrieved_at": "2026-09-10T23:48:23Z",
+  "operators": [
+    "pjm",
+    "ercot",
+    "miso",
+    "spp"
+  ],
+  "calls": [
+    {
+      "operator": "pjm",
+      "offset": 0,
+      "status": "ok",
+      "rows": 2808,
+      "total": 2808,
+      "sha256": "bc0b4165e740f6c52f7190353468781ecc46d5f9b47d82903cfe4e7f3ec7d488"
+    },
+    {
+      "operator": "ercot",
+      "offset": 0,
+      "status": "ok",
+      "rows": 2808,
+      "total": 2808,
+      "sha256": "0966b77483829cbb9c74a985d94dca1894aced2d01bbbbf55f4c03e534aa3f1b"
+    },
+    {
+      "operator": "miso",
+      "offset": 0,
+      "status": "ok",
+      "rows": 2809,
+      "total": 2809,
+      "sha256": "dee6ee530aa58b29493b6e4b7e4122859546ad0e3766410ad3e405488662a911"
+    },
+    {
+      "operator": "spp",
+      "offset": 0,
+      "status": "ok",
+      "rows": 2809,
+      "total": 2809,
+      "sha256": "c82b47e1d3bbde406f75a5c3e25461d156b5793c3aaebc121f7b381733bd883a"
+    }
+  ],
+  "metrics": [
+    "grid-demand-ercot-average-monthly",
+    "grid-demand-ercot-peak-monthly",
+    "grid-demand-miso-average-monthly",
+    "grid-demand-miso-peak-monthly",
+    "grid-demand-pjm-average-monthly",
+    "grid-demand-pjm-peak-monthly",
+    "grid-demand-spp-average-monthly",
+    "grid-demand-spp-peak-monthly"
+  ],
+  "records": 732,
+  "license": "Public domain (U.S. government work)",
+  "key": "owner-registered, not recorded"
+}

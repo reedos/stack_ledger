@@ -6324,6 +6324,18 @@
         "energy"
       ],
       "license": "Public domain (U.S. government work)"
+    },
+    {
+      "id": "eia-930-demand",
+      "publisher": "U.S. Energy Information Administration",
+      "title": "Hourly and daily electric grid monitor (EIA-930) · demand by balancing authority",
+      "url": "https://www.eia.gov/electricity/gridmonitor/",
+      "published": null,
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Public domain (U.S. government work)"
     }
   ],
   "discovery_keywords": [
@@ -6515,7 +6527,8 @@
         "census-btos-data",
         "sec-xbrl-companyfacts",
         "federal-register-2026-14132",
-        "eia-api-v2-electricity"
+        "eia-api-v2-electricity",
+        "eia-930-demand"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -13949,6 +13962,17 @@
       "excerpts": false
     },
     "eia-api-v2-electricity": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-930-demand": {
       "rank": 1,
       "region_book": "united-states",
       "company_id": null,

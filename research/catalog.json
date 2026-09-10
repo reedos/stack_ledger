@@ -20890,6 +20890,230 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "grid-demand-ercot-average-monthly",
+      "layer": "energy",
+      "title": "ERCOT · average daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "ERCOT",
+      "scope": "ERCOT balancing-authority demand as published by EIA-930, aggregated by this importer to the average daily demand for the month: the mean of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_average_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "grid-demand-ercot-peak-monthly",
+      "layer": "energy",
+      "title": "ERCOT · highest daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "ERCOT",
+      "scope": "ERCOT balancing-authority demand as published by EIA-930, aggregated by this importer to the highest daily demand for the month: the largest of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_max_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "grid-demand-miso-average-monthly",
+      "layer": "energy",
+      "title": "MISO · average daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "MISO",
+      "scope": "MISO balancing-authority demand as published by EIA-930, aggregated by this importer to the average daily demand for the month: the mean of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_average_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "grid-demand-miso-peak-monthly",
+      "layer": "energy",
+      "title": "MISO · highest daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "MISO",
+      "scope": "MISO balancing-authority demand as published by EIA-930, aggregated by this importer to the highest daily demand for the month: the largest of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_max_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "grid-demand-pjm-average-monthly",
+      "layer": "energy",
+      "title": "PJM Interconnection · average daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "PJM Interconnection",
+      "scope": "PJM Interconnection balancing-authority demand as published by EIA-930, aggregated by this importer to the average daily demand for the month: the mean of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_average_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "grid-demand-pjm-peak-monthly",
+      "layer": "energy",
+      "title": "PJM Interconnection · highest daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "PJM Interconnection",
+      "scope": "PJM Interconnection balancing-authority demand as published by EIA-930, aggregated by this importer to the highest daily demand for the month: the largest of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_max_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "grid-demand-spp-average-monthly",
+      "layer": "energy",
+      "title": "Southwest Power Pool · average daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "Southwest Power Pool",
+      "scope": "Southwest Power Pool balancing-authority demand as published by EIA-930, aggregated by this importer to the average daily demand for the month: the mean of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_average_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "grid-demand-spp-peak-monthly",
+      "layer": "energy",
+      "title": "Southwest Power Pool · highest daily demand, by month (EIA-930)",
+      "unit": "MWh per day (daily demand)",
+      "geography": "Southwest Power Pool",
+      "scope": "Southwest Power Pool balancing-authority demand as published by EIA-930, aggregated by this importer to the highest daily demand for the month: the largest of that month's daily totals. A day's total energy in MWh, never an instantaneous peak in megawatts. Measured demand for the whole balancing authority, not a data-centre figure and not a forecast; a month is recorded only when every day of it has been published.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "EIA-930 hourly electric grid monitor, public domain, through the owner's registered EIA key. Monthly points derived from EIA's own published daily values; each import appends newly completed months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-930-demand"
+      ],
+      "company": null,
+      "measurement_type": "grid_monthly_max_daily_demand_mwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
     }
   ],
   "targets": [

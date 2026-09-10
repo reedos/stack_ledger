@@ -84,6 +84,16 @@
       "cadence": "weekly",
       "weekday": 2,
       "timeout_seconds": 300
+    },
+    {
+      "id": "grid-demand",
+      "command": [
+        "scripts/import_grid_demand.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 6,
+      "timeout_seconds": 900
     }
   ]
 }

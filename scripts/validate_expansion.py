@@ -36,9 +36,12 @@ EPOCH_SITE={'estimated_site_it_mw', 'estimated_site_h100_equivalents', 'estimate
 EPOCH_DESIGNER={'estimated_cumulative_ai_chips', 'estimated_cumulative_ai_compute_h100e'}   # per-designer, company attributed
 # BLS QCEW county and national private employment by industry (public domain); measured, never estimated.
 # Census QWI hires and average monthly earnings by county and 4-digit industry (public domain); measured.
+# EIA-930 measured demand per balancing authority, aggregated by scripts/import_grid_demand.py to
+# monthly points from EIA's own published daily values. Measured, never a forecast, no company.
+GRID_DEMAND={'grid_monthly_average_daily_demand_mwh','grid_monthly_max_daily_demand_mwh'}
 LABOR_MARKET={'county_industry_employment','county_industry_hires','county_industry_avg_monthly_earnings'}
-PUBLIC_TYPES |= EPOCH_AGGREGATE | EPOCH_SITE | LABOR_MARKET
-TYPES |= EPOCH_SITE | EPOCH_DESIGNER | LABOR_MARKET
+PUBLIC_TYPES |= EPOCH_AGGREGATE | EPOCH_SITE | LABOR_MARKET | GRID_DEMAND
+TYPES |= EPOCH_SITE | EPOCH_DESIGNER | LABOR_MARKET | GRID_DEMAND
 TYPES |= EPOCH_AGGREGATE | {'estimated_cowos_consumption_wafers_quarterly'}
 FUTURE_ONLY |= {'annual_revenue_forecast'}
 # Epoch AI Notable AI Models yearly series (scripts/import_epoch.py, CC BY 4.0): industry-wide
@@ -61,7 +64,7 @@ TYPES |= SEC_TYPES
 EIA_TYPES = {'eia_net_generation_twh', 'eia_capacity_additions_mw', 'eia_steo_generation_twh', 'retail_electricity_price_cents_kwh'}
 PUBLIC_TYPES |= EIA_TYPES
 TYPES |= EIA_TYPES
-HISTORICAL_ONLY = {'county_industry_employment', 'county_industry_hires', 'county_industry_avg_monthly_earnings', 'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
+HISTORICAL_ONLY = {'grid_monthly_average_daily_demand_mwh', 'grid_monthly_max_daily_demand_mwh', 'county_industry_employment', 'county_industry_hires', 'county_industry_avg_monthly_earnings', 'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
                    'permanent_jobs_reported', 'annual_revenue_usd',
                    'interconnection_mw_energized', 'accelerator_units_installed',
                    'supervised_driver_miles', 'unsupervised_or_rider_only_miles',
