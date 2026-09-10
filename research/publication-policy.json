@@ -25,7 +25,8 @@
       "estimated_site_h100_equivalents",
       "estimated_site_capital_cost_usd_bn"
     ],
-    "project_updates": "append_observations_only"
+    "project_updates": "append_observations_only",
+    "same_source_relabel": true
   },
   "always_human": [
     "homepage.json, editorial selections and any headline card",
@@ -33,6 +34,7 @@
     "source policy, excerpt permission and discovery permissions",
     "company and product objects",
     "stage changes on accepted projects and any object that already exists",
-    "metric definitions other than per-site estimate series of a policy-listed measurement type, targets and chart configuration"
+    "metric definitions other than per-site estimate series of a policy-listed measurement type, targets and chart configuration",
+    "changing a record's value, status or source -- same_source_relabel only ever touches period, year, note, retrieved_at or a correction-chain field on an existing observation from the same source"
   ]
 }

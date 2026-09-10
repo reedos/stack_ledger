@@ -155,6 +155,8 @@ Repeated sessions prioritize never-attempted and oldest-attempted sources. Weekl
 
 The daily OpenClaw job runs a duration-driven overnight session from 2 AM to 7 AM Pacific, with active work finalized safely at the deadline. Manual sessions are optional. Double-click `Research-Control.cmd` for the control panel — one implementation, usable on the PC over loopback and, when a private `.local/research-control.json` names this machine's Tailscale hostname, from the owner's phone over the tailnet, with every feature including editorial decisions available there too (see [session controls and operating details](research/RESEARCH_SESSIONS.md)). Opening the panel does not start research. The default CLI command also only prints a plan:
 
+Reviewing a catalog package on a phone is one tap: a pending package validates itself automatically in the background (`scripts/catalog_jobs.py`'s single FIFO worker, mirrored to `.local/catalog-jobs.json` so a panel restart still shows the last known state), each card leads with a compact before/after change table with a "Show" link into the exact changed element instead of a homepage-landing preview link, and **Approve and publish** records the decision then queues publication — polling for the research lock to clear rather than refusing the tap — so the owner never waits mid-review. A **Publishing** strip tracks everything already approved through to live, with a Retry for anything that failed. See ["One tap: automatic validation, background publication"](research/RESEARCH_SESSIONS.md#one-tap-automatic-validation-background-publication) and [CATALOG_FEEDBACK_LOOP.md](research/CATALOG_FEEDBACK_LOOP.md).
+
 ```powershell
 python scripts/research_loop.py
 

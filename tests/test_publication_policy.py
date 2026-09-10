@@ -91,6 +91,57 @@ class PublicationPolicyTests(unittest.TestCase):
         self.assertTrue(pp.eligible(addition(999999),self.policy,self.registry,fewer)[0])
         self.assertTrue(pp.eligible(addition(2000),self.policy,self.registry,None)[0])  # no ledger supplied: rule skipped, not enforced
 
+    def observation(self, **over):
+        base={'id':'o1','metric':'m1','year':2026,'period':'2026-Q1','value':10,'upper':None,'status':'estimate',
+              'source':'s1','precision':'eq','method':'automated','note':'old','retrieved_at':'2026-01-01T00:00:00Z'}
+        base.update(over);return base
+
+    def relabel_package(self,changes):
+        return {'author':'Epoch import (maintainer tool)','evidence':self.package['evidence'],'changes':changes}
+
+    def test_same_source_relabel_flag_is_reviewed(self):
+        self.assertTrue(self.policy['auto_apply']['same_source_relabel'])
+        self.assertTrue(any('period, year, note, retrieved_at' in line for line in self.policy['always_human']))
+
+    def test_relabel_admits_period_note_and_retrieved_at_changes(self):
+        before=self.observation()
+        after=dict(before,period='2026-Q2',note='relabeled',retrieved_at='2026-09-09T00:00:00Z')
+        pkg=self.relabel_package([{'target':'observation','id':'o1','before':before,'after':after,'evidence':['e1']}])
+        ok,reasons=pp.eligible(pkg,self.policy,self.registry)
+        self.assertTrue(ok,reasons)
+
+    def test_relabel_ignores_the_per_package_change_ceiling(self):
+        changes=[]
+        for i in range(self.policy['auto_apply']['max_changes_per_package']+5):
+            before=self.observation(id=f'o{i}')
+            after=dict(before,period='2026-Q2',retrieved_at='2026-09-09T00:00:00Z')
+            changes.append({'target':'observation','id':f'o{i}','before':before,'after':after,'evidence':['e1']})
+        ok,reasons=pp.eligible(self.relabel_package(changes),self.policy,self.registry)
+        self.assertTrue(ok,reasons)
+
+    def test_relabel_never_admits_a_changed_value_status_or_source(self):
+        before=self.observation()
+        for field,new in [('value',11),('status','observation'),('source','s2')]:
+            after=dict(before,**{field:new},retrieved_at='2026-09-09T00:00:00Z')
+            pkg=self.relabel_package([{'target':'observation','id':'o1','before':before,'after':after,'evidence':['e1']}])
+            ok,reasons=pp.eligible(pkg,self.policy,self.registry)
+            with self.subTest(field=field):
+                self.assertFalse(ok);self.assertTrue(any('already exists' in r for r in reasons),reasons)
+
+    def test_relabel_requires_year_period_consistency(self):
+        before=self.observation()
+        after=dict(before,period='2026-Q2',year=2027)   # period says 2026, year claims 2027
+        pkg=self.relabel_package([{'target':'observation','id':'o1','before':before,'after':after,'evidence':['e1']}])
+        self.assertFalse(pp.eligible(pkg,self.policy,self.registry)[0])
+
+    def test_relabel_disabled_by_policy_falls_back_to_human_review(self):
+        before=self.observation()
+        after=dict(before,note='relabeled',retrieved_at='2026-09-09T00:00:00Z')
+        pkg=self.relabel_package([{'target':'observation','id':'o1','before':before,'after':after,'evidence':['e1']}])
+        disabled=copy.deepcopy(self.policy);disabled['auto_apply']['same_source_relabel']=False
+        ok,reasons=pp.eligible(pkg,disabled,self.registry)
+        self.assertFalse(ok);self.assertTrue(any('already exists' in r for r in reasons),reasons)
+
     def test_admissions_and_apply_admitted_stop_at_first_failure(self):
         from unittest.mock import patch
         with patch.object(pp,'pending',return_value=[dict(self.package,id='catalog-'+'a'*24,title='Fixture',status='pending_review')]):

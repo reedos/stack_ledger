@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
 import nightly
 import catalog_review as cr
+import publication_policy as pp
 from validate import validate_importers
 
 
@@ -271,6 +272,75 @@ class RunOrchestrationTests(unittest.TestCase):
         fake_locks.assert_not_called()
         self.assertTrue((self.root/'.local/nightly'/self.date/'health.json').exists())
         self.assertFalse((self.root/'.local/nightly'/self.date/'locks.json').exists())
+
+
+class StageValidatePendingTests(unittest.TestCase):
+    """So cards are ready in the morning: the policy stage re-validates every pending package whose
+    preview is missing or stale before the digest runs, receipted separately from admission/apply."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+
+    def test_validates_only_packages_missing_or_stale_validation(self):
+        rows = [
+            {'id': 'catalog-a', 'status': 'pending_review', 'proposal_hash': 'h1', 'validation': None},
+            {'id': 'catalog-b', 'status': 'pending_review', 'proposal_hash': 'h2', 'validation': {'passed': True, 'proposal_hash': 'h2'}},
+            {'id': 'catalog-c', 'status': 'pending_review', 'proposal_hash': 'h3', 'validation': {'passed': False, 'proposal_hash': 'h3'}},
+            {'id': 'catalog-d', 'status': 'approved', 'proposal_hash': 'h4', 'validation': None},
+        ]
+        calls = []
+        with patch.object(cr, 'inbox', return_value=rows), \
+             patch.object(cr, 'preview', side_effect=lambda root, rid: calls.append(rid) or {'passed': True}):
+            validated, failed = nightly.stage_validate_pending(self.root)
+        self.assertEqual(calls, ['catalog-a', 'catalog-c'])  # missing, and failed-for-this-hash; not the passing one, not the non-pending one
+        self.assertEqual(validated, [{'id': 'catalog-a', 'passed': True}, {'id': 'catalog-c', 'passed': True}])
+        self.assertEqual(failed, [])
+
+    def test_a_failing_preview_is_reported_not_raised(self):
+        rows = [{'id': 'catalog-a', 'status': 'pending_review', 'proposal_hash': 'h1', 'validation': None}]
+        with patch.object(cr, 'inbox', return_value=rows), patch.object(cr, 'preview', side_effect=ValueError('boom')):
+            validated, failed = nightly.stage_validate_pending(self.root)
+        self.assertEqual(validated, [])
+        self.assertEqual(len(failed), 1); self.assertIn('boom', failed[0]['error']); self.assertEqual(failed[0]['id'], 'catalog-a')
+
+
+class StagePolicyValidationTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+
+    def test_validation_runs_even_when_auto_apply_is_disabled(self):
+        with patch.object(nightly, 'stage_validate_pending', return_value=([{'id': 'catalog-a', 'passed': True}], [])) as fake_validate, \
+             patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': False}}):
+            result = nightly.stage_policy(self.root)
+        fake_validate.assert_called_once_with(self.root)
+        self.assertEqual(result['status'], 'skipped')
+        self.assertEqual(result['validated'], [{'id': 'catalog-a', 'passed': True}])
+        self.assertEqual(result['validation_failures'], [])
+
+    def test_a_validation_failure_alone_still_marks_the_disabled_stage_partial(self):
+        with patch.object(nightly, 'stage_validate_pending', return_value=([], [{'id': 'catalog-a', 'error': 'boom'}])), \
+             patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': False}}):
+            result = nightly.stage_policy(self.root)
+        self.assertEqual(result['status'], 'partial')
+
+    def test_a_validation_failure_marks_the_stage_partial_even_when_policy_succeeds(self):
+        with patch.object(nightly, 'stage_validate_pending', return_value=([], [{'id': 'catalog-a', 'error': 'boom'}])), \
+             patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': True}}), \
+             patch.object(nightly, 'lock_status', return_value={'blocking': False}), \
+             patch.object(pp, 'apply_admitted', return_value={'pending': 0, 'admitted': [], 'outcomes': {}}), \
+             patch.object(cr, 'verify_pending_deployments', return_value={'checked': [], 'applied': [], 'still_pending': []}):
+            result = nightly.stage_policy(self.root)
+        self.assertEqual(result['status'], 'partial')
+        self.assertEqual(result['validation_failures'], [{'id': 'catalog-a', 'error': 'boom'}])
+
+    def test_receipt_stays_ok_when_nothing_failed(self):
+        with patch.object(nightly, 'stage_validate_pending', return_value=([{'id': 'catalog-a', 'passed': True}], [])), \
+             patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': True}}), \
+             patch.object(nightly, 'lock_status', return_value={'blocking': False}), \
+             patch.object(pp, 'apply_admitted', return_value={'pending': 1, 'admitted': ['catalog-a'], 'outcomes': {'catalog-a': 'deployed'}}), \
+             patch.object(cr, 'verify_pending_deployments', return_value={'checked': [], 'applied': [], 'still_pending': []}):
+            result = nightly.stage_policy(self.root)
+        self.assertEqual(result['status'], 'ok')
+        self.assertEqual(result['validated'], [{'id': 'catalog-a', 'passed': True}])
 
 
 class PruneTests(unittest.TestCase):

@@ -177,6 +177,7 @@ def preview(root,rid):
 def inbox(root,errors=None):
     from publication_policy import policy as pub_policy, source_ranks, eligible
     from research import load as load_json
+    import catalog_jobs
     # Loaded once for the whole listing; a broken policy/registry file degrades the
     # eligibility line for every package rather than hiding an otherwise well-formed queue.
     try:
@@ -199,7 +200,8 @@ def inbox(root,errors=None):
             evidence=[dict(e,source_rank=ranks.get(urlparse(e['url']).hostname)) for e in p['evidence']]
             rows.append(dict(p,evidence=evidence,status=status,display_status=display_status,last_review=review,
                              proposal_hash=digest(p),review_hash=digest(review),validation=read(validation) if validation.exists() else None,
-                             publication_receipt=receipt,auto_apply_eligible=eligible_ok,auto_apply_reasons=eligible_reasons))
+                             publication_receipt=receipt,auto_apply_eligible=eligible_ok,auto_apply_reasons=eligible_reasons,
+                             job=catalog_jobs.read_latest(root,p['id'])))
         except (OSError,ValueError,KeyError,TypeError):
             if errors is not None:errors.append(path.name)
     return rows
