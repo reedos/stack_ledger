@@ -1,0 +1,282 @@
+{
+  "dataset": "SEC XBRL company facts",
+  "source_id": "sec-xbrl-companyfacts",
+  "retrieved_at": "2026-09-10T06:48:17Z",
+  "company_tickers_sha256": "4082b0e6fc5ecc91715b5a1ec6a8dcbdaf83add9e920b97b25c4f3c2548c3d6d",
+  "companies": {
+    "alphabet": {
+      "ticker": "GOOGL",
+      "cik": 1652044,
+      "sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+      "metrics": 4,
+      "records": 72,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    },
+    "amd": {
+      "ticker": "AMD",
+      "cik": 2488,
+      "sha256": "21a29c75076d90fced568785d855fc427a15c7458bc0bb153a9dedd88ad3349e",
+      "metrics": 3,
+      "records": 37,
+      "latest_quarter": "2026-Q1",
+      "latest_annual": "CY2025"
+    },
+    "constellation": {
+      "ticker": "CEG",
+      "cik": 1868275,
+      "sha256": "a8687375ee9f368b8d024f1541f8aafbb4f082c1f0b27dfea8abf79fa7e16a08",
+      "metrics": 4,
+      "records": 35,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    },
+    "intel": {
+      "ticker": "INTC",
+      "cik": 50863,
+      "sha256": "70056711b8b04d3a27e4a42b6d86e26f85ddaa3d59e480039d66ccfb353eb0b8",
+      "metrics": 4,
+      "records": 73,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    },
+    "marvell": {
+      "ticker": "MRVL",
+      "cik": 1835632,
+      "sha256": "2190d7525c2749e96636b0f95376c5f7d73d9cb47a7452b3a94f70e156ec1169",
+      "metrics": 4,
+      "records": 41,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    },
+    "merck": {
+      "ticker": "MRK",
+      "cik": 310158,
+      "sha256": "de2e92301923703e6aee247c42c0cf2f1b741118ebca221fbaa5dc0e47644bd7",
+      "metrics": 4,
+      "records": 57,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    },
+    "meta": {
+      "ticker": "META",
+      "cik": 1326801,
+      "sha256": "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e",
+      "metrics": 4,
+      "records": 62,
+      "latest_quarter": "2026-Q1",
+      "latest_annual": "CY2025"
+    },
+    "micron": {
+      "ticker": "MU",
+      "cik": 723125,
+      "sha256": "a8b088c2111daef36536e53c81fef4c0f01220c64933e126a665b00a9257f882",
+      "metrics": 4,
+      "records": 44,
+      "latest_quarter": "2025-Q4",
+      "latest_annual": "CY2025"
+    },
+    "microsoft": {
+      "ticker": "MSFT",
+      "cik": 789019,
+      "sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "metrics": 4,
+      "records": 86,
+      "latest_quarter": "2026-Q1",
+      "latest_annual": "CY2026"
+    },
+    "moderna": {
+      "ticker": "MRNA",
+      "cik": 1682852,
+      "sha256": "12a0739e5dd00db86b0090739fb41774c5eebf2739f333839f0b619541a28262",
+      "metrics": 4,
+      "records": 49,
+      "latest_quarter": "2026-Q1",
+      "latest_annual": "CY2025"
+    },
+    "nvidia": {
+      "ticker": "NVDA",
+      "cik": 1045810,
+      "sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "metrics": 4,
+      "records": 95,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    },
+    "recursion": {
+      "ticker": "RXRX",
+      "cik": 1601830,
+      "sha256": "238c834540b26747e7f8af5dc10e3b986fcfbc96383469c4a944c9a5b2844e04",
+      "metrics": 4,
+      "records": 41,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    },
+    "tesla": {
+      "ticker": "TSLA",
+      "cik": 1318605,
+      "sha256": "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204",
+      "metrics": 4,
+      "records": 105,
+      "latest_quarter": "2026-Q2",
+      "latest_annual": "CY2025"
+    }
+  },
+  "calls": [
+    {
+      "company": "alphabet",
+      "ticker": "GOOGL",
+      "cik": 1652044,
+      "status": "ok",
+      "facts_sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5"
+    },
+    {
+      "company": "amd",
+      "ticker": "AMD",
+      "cik": 2488,
+      "status": "ok",
+      "facts_sha256": "21a29c75076d90fced568785d855fc427a15c7458bc0bb153a9dedd88ad3349e"
+    },
+    {
+      "company": "constellation",
+      "ticker": "CEG",
+      "cik": 1868275,
+      "status": "ok",
+      "facts_sha256": "a8687375ee9f368b8d024f1541f8aafbb4f082c1f0b27dfea8abf79fa7e16a08"
+    },
+    {
+      "company": "intel",
+      "ticker": "INTC",
+      "cik": 50863,
+      "status": "ok",
+      "facts_sha256": "70056711b8b04d3a27e4a42b6d86e26f85ddaa3d59e480039d66ccfb353eb0b8"
+    },
+    {
+      "company": "marvell",
+      "ticker": "MRVL",
+      "cik": 1835632,
+      "status": "ok",
+      "facts_sha256": "2190d7525c2749e96636b0f95376c5f7d73d9cb47a7452b3a94f70e156ec1169"
+    },
+    {
+      "company": "merck",
+      "ticker": "MRK",
+      "cik": 310158,
+      "status": "ok",
+      "facts_sha256": "de2e92301923703e6aee247c42c0cf2f1b741118ebca221fbaa5dc0e47644bd7"
+    },
+    {
+      "company": "meta",
+      "ticker": "META",
+      "cik": 1326801,
+      "status": "ok",
+      "facts_sha256": "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e"
+    },
+    {
+      "company": "micron",
+      "ticker": "MU",
+      "cik": 723125,
+      "status": "ok",
+      "facts_sha256": "a8b088c2111daef36536e53c81fef4c0f01220c64933e126a665b00a9257f882"
+    },
+    {
+      "company": "microsoft",
+      "ticker": "MSFT",
+      "cik": 789019,
+      "status": "ok",
+      "facts_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+    },
+    {
+      "company": "moderna",
+      "ticker": "MRNA",
+      "cik": 1682852,
+      "status": "ok",
+      "facts_sha256": "12a0739e5dd00db86b0090739fb41774c5eebf2739f333839f0b619541a28262"
+    },
+    {
+      "company": "nvidia",
+      "ticker": "NVDA",
+      "cik": 1045810,
+      "status": "ok",
+      "facts_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff"
+    },
+    {
+      "company": "recursion",
+      "ticker": "RXRX",
+      "cik": 1601830,
+      "status": "ok",
+      "facts_sha256": "238c834540b26747e7f8af5dc10e3b986fcfbc96383469c4a944c9a5b2844e04"
+    },
+    {
+      "company": "tesla",
+      "ticker": "TSLA",
+      "cik": 1318605,
+      "status": "ok",
+      "facts_sha256": "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204"
+    }
+  ],
+  "skipped": {
+    "foreign_filers": {
+      "tsmc": "Files Form 20-F annually (TWSE / SEC); XBRL companyfacts cannot give quarterly-or-better cadence.",
+      "asml": "Files Form 20-F/annual accounts (Netherlands annual accounts / SEC); same cadence limitation.",
+      "nebius": "Files Form 20-F/annual accounts (Netherlands annual accounts / SEC); same cadence limitation.",
+      "alibaba": "Files Form 20-F annually (HKEX / SEC); same cadence limitation."
+    },
+    "aws": "No separate 'amazon' parent entity exists in research/ecosystem.json alongside 'aws'; recording Amazon.com, Inc.'s consolidated SEC financials under the 'aws' company id without a reviewed 'amazon' entity would misattribute whole-company figures as the AWS segment. Skipped pending that reviewed ecosystem change."
+  },
+  "metrics": [
+    "sec-capex-alphabet-annual",
+    "sec-capex-alphabet-quarterly",
+    "sec-capex-amd-annual",
+    "sec-capex-amd-quarterly",
+    "sec-capex-constellation-annual",
+    "sec-capex-constellation-quarterly",
+    "sec-capex-intel-annual",
+    "sec-capex-intel-quarterly",
+    "sec-capex-marvell-annual",
+    "sec-capex-marvell-quarterly",
+    "sec-capex-merck-annual",
+    "sec-capex-merck-quarterly",
+    "sec-capex-meta-annual",
+    "sec-capex-meta-quarterly",
+    "sec-capex-micron-annual",
+    "sec-capex-micron-quarterly",
+    "sec-capex-microsoft-annual",
+    "sec-capex-microsoft-quarterly",
+    "sec-capex-moderna-annual",
+    "sec-capex-moderna-quarterly",
+    "sec-capex-nvidia-annual",
+    "sec-capex-nvidia-quarterly",
+    "sec-capex-recursion-annual",
+    "sec-capex-recursion-quarterly",
+    "sec-capex-tesla-annual",
+    "sec-capex-tesla-quarterly",
+    "sec-revenue-alphabet-annual",
+    "sec-revenue-alphabet-quarterly",
+    "sec-revenue-amd-quarterly",
+    "sec-revenue-constellation-annual",
+    "sec-revenue-constellation-quarterly",
+    "sec-revenue-intel-annual",
+    "sec-revenue-intel-quarterly",
+    "sec-revenue-marvell-annual",
+    "sec-revenue-marvell-quarterly",
+    "sec-revenue-merck-annual",
+    "sec-revenue-merck-quarterly",
+    "sec-revenue-meta-annual",
+    "sec-revenue-meta-quarterly",
+    "sec-revenue-micron-annual",
+    "sec-revenue-micron-quarterly",
+    "sec-revenue-microsoft-annual",
+    "sec-revenue-microsoft-quarterly",
+    "sec-revenue-moderna-annual",
+    "sec-revenue-moderna-quarterly",
+    "sec-revenue-nvidia-annual",
+    "sec-revenue-nvidia-quarterly",
+    "sec-revenue-recursion-annual",
+    "sec-revenue-recursion-quarterly",
+    "sec-revenue-tesla-annual",
+    "sec-revenue-tesla-quarterly"
+  ],
+  "records": 797,
+  "license": "Public domain (U.S. government work)"
+}

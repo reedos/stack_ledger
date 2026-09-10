@@ -29,3 +29,17 @@ class ApiAccessTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class HostAgentTests(unittest.TestCase):
+    def test_sec_hosts_declare_their_own_agent_and_fetch_uses_it(self):
+        import api_access as aa
+        from unittest.mock import patch, MagicMock
+        p=aa.policy()
+        self.assertTrue(p['hosts']['data.sec.gov']['user_agent'].startswith('Stack Ledger research'))
+        response=MagicMock();response.read.return_value=b'{}';response.__enter__.return_value=response
+        opener=MagicMock();opener.open.return_value=response
+        with patch.object(aa,'build_opener',return_value=opener):
+            aa.fetch('https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json','StackLedgerBot/1.0 (+x; y)',p)
+        request=opener.open.call_args.args[0]
+        self.assertEqual(request.get_header('User-agent'),p['hosts']['data.sec.gov']['user_agent'])

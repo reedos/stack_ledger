@@ -27,6 +27,7 @@ def policy(root=ROOT):
     for host,h in p['hosts'].items():
         require(isinstance(h.get('paths'),list) and h['paths'] and all(x.startswith('/') and '..' not in x for x in h['paths']),f'{host}: documented API paths required')
         text(h['publisher'],200);text(h['terms'],500);text(h['limits'],300)
+        if 'user_agent' in h:text(h['user_agent'],120)   # a publisher that prescribes its own agent format (SEC refuses the project's Bot/1.0 string)
     return p
 
 
@@ -55,7 +56,7 @@ def fetch(url,agent,p=None,root=ROOT,timeout=60):
     host=urlparse(url).hostname;wait=1-(time.monotonic()-_last.get(host,0))
     if wait>0:time.sleep(wait)
     _last[host]=time.monotonic()
-    with build_opener(ProxyHandler({})).open(Request(url,headers={'User-Agent':agent}),timeout=timeout) as response:
+    with build_opener(ProxyHandler({})).open(Request(url,headers={'User-Agent':h.get('user_agent') or agent}),timeout=timeout) as response:
         body=response.read(MAX_BYTES+1)
     require(len(body)<=MAX_BYTES,'API response exceeds size cap')
     return body

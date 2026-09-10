@@ -48,7 +48,9 @@
       "key_param": null,
       "limits": "SEC fair-access policy: a declared User-Agent naming the operator with a contact address, no more than 10 requests/second; this project holds to 4 requests/second and its shared api_access.fetch helper further spaces every request one second apart per host.",
       "registration": null,
-      "note": "Documented XBRL company-facts JSON API, no key required. Listed here as a keyless statistical API path under SEC's own fair-access policy rather than data.sec.gov's crawler-facing robots.txt."
+      "note": "Documented XBRL company-facts JSON API, no key required. Listed here as a keyless statistical API path under SEC's own fair-access policy rather than data.sec.gov's crawler-facing robots.txt.",
+      "user_agent": "Stack Ledger research reedosaki@gmail.com",
+      "agent_note": "SEC refuses agent strings in the Bot/1.0 (+url; email) form (HTTP 403) and accepts a plain operator name plus contact address (checked 2026-09-09)."
     },
     "www.sec.gov": {
       "publisher": "U.S. Securities and Exchange Commission",
@@ -60,7 +62,9 @@
       "key_param": null,
       "limits": "SEC fair-access policy: a declared User-Agent naming the operator with a contact address, no more than 10 requests/second; this project holds to 4 requests/second and its shared api_access.fetch helper further spaces every request one second apart per host.",
       "registration": null,
-      "note": "The single published ticker-to-CIK lookup file used to make CIK resolution deterministic (research/sec-companies.json); not a crawlable page."
+      "note": "The single published ticker-to-CIK lookup file used to make CIK resolution deterministic (research/sec-companies.json); not a crawlable page.",
+      "user_agent": "Stack Ledger research reedosaki@gmail.com",
+      "agent_note": "SEC refuses agent strings in the Bot/1.0 (+url; email) form (HTTP 403) and accepts a plain operator name plus contact address (checked 2026-09-09)."
     },
     "api.eia.gov": {
       "publisher": "U.S. Energy Information Administration",
