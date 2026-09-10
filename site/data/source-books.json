@@ -134,7 +134,8 @@
         "census-qwi-api",
         "census-btos-data",
         "sec-xbrl-companyfacts",
-        "federal-register-2026-14132"
+        "federal-register-2026-14132",
+        "eia-api-v2-electricity"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -7557,6 +7558,17 @@
       "excerpts": true
     },
     "federal-register-2026-14132": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "eia-api-v2-electricity": {
       "rank": 1,
       "region_book": "united-states",
       "company_id": null,

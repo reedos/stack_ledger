@@ -1,6 +1,7 @@
 import json
 import sys
 import unittest
+from unittest.mock import patch
 from datetime import date
 from pathlib import Path
 
@@ -12,10 +13,11 @@ import validate_expansion as ve
 from validate import observation_valid
 
 NET_GEN_ROWS = [
-    {'period': '2026-01', 'fueltypeid': 'ALL', 'sectorid': '99', 'generation': '350000'},
-    {'period': '2026-02', 'fueltypeid': 'ALL', 'sectorid': '99', 'generation': '340500'},
-    {'period': '2026-02', 'fueltypeid': 'SUN', 'sectorid': '99', 'generation': '12000'},   # per-fuel row, not the ALL total: ignored
-    {'period': '2026-03', 'fueltypeid': 'ALL', 'sectorid': '99', 'generation': 'NA'},       # non-numeric: dropped, never zero
+    {'period': '2026-01', 'location': 'US', 'fueltypeid': 'ALL', 'sectorid': '99', 'generation': '350000'},
+    {'period': '2026-02', 'location': 'US', 'fueltypeid': 'ALL', 'sectorid': '99', 'generation': '340500'},
+    {'period': '2026-02', 'location': 'TX', 'fueltypeid': 'ALL', 'sectorid': '99', 'generation': '40000'},   # a state row, not the national total: ignored
+    {'period': '2026-02', 'location': 'US', 'fueltypeid': 'SUN', 'sectorid': '99', 'generation': '12000'},   # per-fuel row, not the ALL total: ignored
+    {'period': '2026-03', 'location': 'US', 'fueltypeid': 'ALL', 'sectorid': '99', 'generation': 'NA'},       # non-numeric: dropped, never zero
 ]
 
 CAPACITY_ROWS = [
@@ -33,32 +35,32 @@ STEO_ROWS = [
 ]
 
 RETAIL_PRICE_ROWS = [
-    {'period': '2026-06', 'stateid': 'TX', 'sectorid': 'RES', 'price': '15.32'},
-    {'period': '2026-07', 'stateid': 'TX', 'sectorid': 'RES', 'price': '15.90'},
-    {'period': '2026-07', 'stateid': 'VA', 'sectorid': 'RES', 'price': '14.11'},         # untracked state: ignored
-    {'period': '2026-07', 'stateid': 'TX', 'sectorid': 'IND', 'price': '9.00'},          # untracked sector: ignored
-    {'period': '2026-07', 'stateid': 'US', 'sectorid': 'ALL', 'price': '13.20'},
-    {'period': '2026-07', 'stateid': 'TX', 'sectorid': 'RES', 'price': 'NA'},            # non-numeric: dropped, never zero
+    {'period': '2024', 'stateid': 'TX', 'sectorid': 'RES', 'price': '15.32'},
+    {'period': '2025', 'stateid': 'TX', 'sectorid': 'RES', 'price': '15.90'},
+    {'period': '2025', 'stateid': 'VA', 'sectorid': 'RES', 'price': '14.11'},         # untracked state: ignored
+    {'period': '2025', 'stateid': 'TX', 'sectorid': 'IND', 'price': '9.00'},          # untracked sector: ignored
+    {'period': '2025', 'stateid': 'US', 'sectorid': 'ALL', 'price': '13.20'},
+    {'period': '2018', 'stateid': 'TX', 'sectorid': 'RES', 'price': '11.00'},         # before the reviewed 2019 start: ignored
+    {'period': '2026', 'stateid': 'TX', 'sectorid': 'RES', 'price': 'NA'},            # non-numeric: dropped, never zero
 ]
 
 
 class EiaNoKeyTests(unittest.TestCase):
     def test_missing_key_prints_registration_and_makes_no_network_call(self):
-        self.assertIsNone(api_access.key('eia', root=ROOT))   # confirms the environment has no key, as expected
+        # The owner registered a real key on 2026-09-10, so the no-key path is created here rather
+        # than assumed; a test must never depend on the machine's private key file.
         def boom(*a, **k): raise AssertionError('import_eia must not call the network without a key')
-        real_fetch = api_access.fetch
-        api_access.fetch = boom
-        try:
+        with patch.object(ie.api_access, 'key', return_value=None), patch.object(api_access, 'fetch', boom):
             result = ie.run(apply=False)
-        finally:
-            api_access.fetch = real_fetch
         self.assertEqual(result['status'], 'no_key')
         self.assertEqual(result['registration_url'], 'https://www.eia.gov/opendata/register.php')
-        self.assertFalse((ROOT/'research/eia/eia.json').exists())
+        # The snapshot from a real keyed run may exist; what matters is that the no-key path wrote nothing new.
 
     def test_main_exits_zero_with_no_key(self):
-        self.assertEqual(ie.main([]), 0)
-        self.assertEqual(ie.main(['--apply']), 0)
+        # --apply is exercised only in the no-key path: with a real key it would import for real.
+        with patch.object(ie.api_access, 'key', return_value=None):
+            self.assertEqual(ie.main([]), 0)
+            self.assertEqual(ie.main(['--apply']), 0)
 
 
 class EiaRecordTests(unittest.TestCase):
@@ -144,10 +146,11 @@ class RetailPriceTests(unittest.TestCase):
         metrics, observations = ie.retail_price_records(RETAIL_PRICE_ROWS, '2026-09-10T12:00:00Z', states)
         self.assertEqual(sorted(metrics), ['eia-retail-price-tx-residential', 'eia-retail-price-us-all'])
         by_id = {o['id']: o for o in observations}
-        self.assertEqual(by_id['eia-retail-price-tx-residential-2026-06']['value'], 15.32)
-        self.assertEqual(by_id['eia-retail-price-tx-residential-2026-07']['value'], 15.9)
-        self.assertEqual(by_id['eia-retail-price-us-all-2026-07']['value'], 13.2)
-        self.assertNotIn('eia-retail-price-va-residential-2026-07', by_id)   # untracked state
+        self.assertEqual(by_id['eia-retail-price-tx-residential-2024']['value'], 15.32)
+        self.assertEqual(by_id['eia-retail-price-tx-residential-2025']['value'], 15.9)
+        self.assertEqual(by_id['eia-retail-price-us-all-2025']['value'], 13.2)
+        self.assertNotIn('eia-retail-price-va-residential-2025', by_id)   # untracked state
+        self.assertNotIn('eia-retail-price-tx-residential-2018', by_id)  # before the reviewed 2019 start
         self.assertTrue(all(o['status'] == 'observation' and o['source'] == ie.SOURCE_ID for o in observations))
 
     def test_retail_price_metric_geography_and_code(self):
@@ -155,7 +158,7 @@ class RetailPriceTests(unittest.TestCase):
         national_metric = ie.retail_price_metric('US', 'United States', 'all')
         self.assertEqual(state_metric['geography'], 'Texas'); self.assertEqual(state_metric['geography_code'], 'TX')
         self.assertEqual(national_metric['geography'], 'United States'); self.assertEqual(national_metric['geography_code'], 'US')
-        self.assertEqual(state_metric['unit'], 'cents/kWh'); self.assertEqual(state_metric['period_basis'], 'month')
+        self.assertEqual(state_metric['unit'], 'cents/kWh'); self.assertIsNone(state_metric['period_basis'])   # annual averages, one point per year
         self.assertEqual(state_metric['series_start_year'], 2019)
 
     def test_retail_price_metrics_are_reviewed_public_measurement_type_and_internally_valid(self):
@@ -177,3 +180,23 @@ class RetailPriceTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class LiveShapeRegressionTests(unittest.TestCase):
+    """Both routes were mis-queried against the live API on 2026-09-10: generation returned a row per
+    state that all collapsed onto the national record id, and a multi-state price request returned
+    only one state."""
+    def test_generation_asks_for_and_keeps_only_the_national_row(self):
+        self.assertIn('facets[location][]=US', ie.net_generation_url())
+        rows = [{'period': '2026-01', 'location': 'US', 'fueltypeid': 'ALL', 'generation': '332493.16'},
+                {'period': '2026-01', 'location': 'TX', 'fueltypeid': 'ALL', 'generation': '40000.0'},
+                {'period': '2026-01', 'location': 'AK', 'fueltypeid': 'ALL', 'generation': '590.145'}]
+        obs = ie.net_generation_records(rows, '2026-09-10T00:00:00Z')
+        self.assertEqual(len(obs), 1)
+        self.assertEqual(len({o['id'] for o in obs}), len(obs))
+        self.assertEqual(obs[0]['value'], 332.493)
+
+    def test_retail_price_url_names_exactly_one_state(self):
+        url = ie.retail_price_url(['TX'], 'ALL')
+        self.assertEqual(url.count('facets[stateid][]='), 1)
+        self.assertIn('facets[stateid][]=TX', url)

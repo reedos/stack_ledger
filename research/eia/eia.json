@@ -1,0 +1,589 @@
+{
+  "dataset": "EIA API v2 electricity data",
+  "source_id": "eia-api-v2-electricity",
+  "retrieved_at": "2026-09-10T23:23:57Z",
+  "calls": [
+    {
+      "call": "net-generation",
+      "status": "ok",
+      "sha256": "38d68ecc714a052861ebc069cfad4e7fd9ba6b397070e62b83a8b1766e62f09d",
+      "rows": 90
+    },
+    {
+      "call": "capacity-additions",
+      "status": "ok",
+      "sha256": "5a6f2c439a44bcc449d185e835bd5d23cb7320560ac298a626bd5810d2319aa1",
+      "rows": 5000
+    },
+    {
+      "call": "steo",
+      "status": "ok",
+      "sha256": "de99adba2feec567339b3f17ace609e3ab30908d11c2dbd381190ee3f1d15658",
+      "rows": 0
+    },
+    {
+      "call": "retail-price-res-al",
+      "status": "ok",
+      "sha256": "f4ddfe9fcea8b86884d43e31edb2503ce0d290b747530e1efd1a2ba3d383f50f",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-az",
+      "status": "ok",
+      "sha256": "025ff998114e899b88aa6dbfef1fda8c94203990dff91cd8b16a60dcde3f4cde",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ca",
+      "status": "ok",
+      "sha256": "e7da7d2302c75e387b9998fbc542ff59ac4d083b6ee4d5e2f7f6bf61512b2090",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-co",
+      "status": "ok",
+      "sha256": "b53b8bea75fa352b1ef141dc8718d7523a1d60eea0142ab122b4ff98bfdb7134",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-dc",
+      "status": "ok",
+      "sha256": "be4549103e26472ab756df64ab437787b371d9e9b4a32956edf5cec614583344",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-fl",
+      "status": "ok",
+      "sha256": "5d32cc190775ef38c58b4445d767e167e2ff833f852ff04157723895d5a636f4",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ga",
+      "status": "ok",
+      "sha256": "5750e27c5b259ac5215f13635de8f1c06b561c59404ed01f6f3883e7ba7852c3",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ia",
+      "status": "ok",
+      "sha256": "c671452168723d11dd76669928f30604aada85dc62d8497344dcc8f79f98dbad",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-id",
+      "status": "ok",
+      "sha256": "ac5886f75e0233b64bd365e02a90ac159f80649a4e193d2e5f25e0465687699f",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-il",
+      "status": "ok",
+      "sha256": "3600f3d60e65484b2a5dd437bb953097495d41046fdf239c10c285f9d5432509",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-in",
+      "status": "ok",
+      "sha256": "223dfef397eaa26c9be9ba76c07f59f4d784274e5b19ab875607019a5a975795",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-la",
+      "status": "ok",
+      "sha256": "c5a8a127bd43e42c2a869f171cc3b8f0830aa7111302be4bf78e44ef128884f3",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ma",
+      "status": "ok",
+      "sha256": "febe8bc1c6d28174e716d6f4e42e77b3bd073db72ad5894171bbef446294c95b",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-md",
+      "status": "ok",
+      "sha256": "f4e20657757323a5a087e16d714f04303ad30599250e15c5dd2c75865f9d6d9f",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-mi",
+      "status": "ok",
+      "sha256": "c542cec38a2d57cfe6961cf69b5d8228ce7c8ae3ed951647a1974785bbb05c87",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-mn",
+      "status": "ok",
+      "sha256": "66c584dad11b001356facb51c61db0ded2d670b3ccb2dc0f927126fb1c26ce64",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-mo",
+      "status": "ok",
+      "sha256": "b0543d32689e844f2b14592afd535a673d5651d57595a97ed9217463422811aa",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ms",
+      "status": "ok",
+      "sha256": "aee8fc9bf935ba6a84996118942f19ab2e839ad10bc73aacc488f5922e37c2e7",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-nc",
+      "status": "ok",
+      "sha256": "fb181b0cc1a551d0c2af27ba496c80d81e2c1d052ee214d16bc896485ef44c13",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ne",
+      "status": "ok",
+      "sha256": "de0ad4ce1a19fd314b4d6988ed64bb45ce5272b4e0102898eb5064e6d1b469ed",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-nm",
+      "status": "ok",
+      "sha256": "54956f06a1f76edd413fe5e0a0ebc57a6fd1ef73d2254764061a3d9582a2393e",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-nv",
+      "status": "ok",
+      "sha256": "4d1fc9959905605d6f1a4537702c8d83fed0caf2caec8a3029d320f13741bca2",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ny",
+      "status": "ok",
+      "sha256": "dc9fad93c657a8a2ebce12245bd09b0e2edd679e6fba119ef4358f1dcb957e69",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-oh",
+      "status": "ok",
+      "sha256": "1bb6132dc09891bf5e68a91cbf80bf50cdafb108b37d353952b4d3cbfde1ec55",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ok",
+      "status": "ok",
+      "sha256": "a4a163a34ddea8cc4d61dc23e2dcf847f9f55b638dcee405d4bb9460df862d65",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-or",
+      "status": "ok",
+      "sha256": "ca5c0720fa0277d105b60712acd11cc6c367a7965144cdc7b3df10c475ded146",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-pa",
+      "status": "ok",
+      "sha256": "77b41df2679d64b06520e37816682feb20bf6c41ef025b7637c3bbdfe69de1b0",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-sc",
+      "status": "ok",
+      "sha256": "d152ed8a9001cfe665a55a5654fe7d782fc324752c54a6503c52385f137e5ac2",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-tn",
+      "status": "ok",
+      "sha256": "900ca4f111b8d41b4380d73c5cd814e0719820ef8b8bc67812e89bc7f531706d",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-tx",
+      "status": "ok",
+      "sha256": "552f209bd3a61b94ab392a5ab349ae631f2d89ea80d514c317a4f3e4edc974d0",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-ut",
+      "status": "ok",
+      "sha256": "e6a8abc8253cc88a02cd93472e4a55ee8dc054ae39cf1721bfef9d9ab99a2816",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-va",
+      "status": "ok",
+      "sha256": "4dc29b74042f0163902b4895fa7c4850ca00fe65c1940c521cdd1220d71d4c80",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-wa",
+      "status": "ok",
+      "sha256": "b7a0815c3bf1f7852849631178c45fdc20b1e042d3ad88f01f78c2a25ba92457",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-wi",
+      "status": "ok",
+      "sha256": "fbc161112ecfa55c4f0b220263d2461a86698cdc2043c58a9b7d25990cef587b",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-wv",
+      "status": "ok",
+      "sha256": "7ce45eb786aafaba602a08fb145515b1ba63f3e097a26c17a3885d5796ae09a8",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-wy",
+      "status": "ok",
+      "sha256": "03f14eb853dfe78053bd6bf877357c12e7a00ce5df911cd1f64aa18e5b7a0f25",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-res-us",
+      "status": "ok",
+      "sha256": "0b8fa54908b4ff952325d8bec60d70a0f4c95b38f6a07b53253df98a30acd4d9",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-al",
+      "status": "ok",
+      "sha256": "6058114df8cf754066d949a82218a6e5fe3a0324ab182d29c44cb22bf33cecea",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-az",
+      "status": "ok",
+      "sha256": "70f1bd290568ed43ee6af48c3f16a0423c3559f727a62f72e7a2c088e4372ea0",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ca",
+      "status": "ok",
+      "sha256": "10c5fdab6b433899e35ae7ff22cedbcacea2f7af0ab70632485e223aec97b9d4",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-co",
+      "status": "ok",
+      "sha256": "ed36e068f9ed86eda397b3608d868827eb8d186f3b38bce91475d10eabd63914",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-dc",
+      "status": "ok",
+      "sha256": "4cc74f9b7b0c265adfd2519053f6a94ab12bc9b3a0ad125e9e641e62407188fe",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-fl",
+      "status": "ok",
+      "sha256": "c8f77222070b80e434c1ca954cbf63b92d0b4090c7f9ca145e13847242b77f80",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ga",
+      "status": "ok",
+      "sha256": "6997dfd406f24458a2f611bb137de54b0c979168d6b47f3b3336057e6baae7d8",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ia",
+      "status": "ok",
+      "sha256": "e666ce78d32dec18570679ba6ef18221874d55a6703a9fd221d51e86930abcde",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-id",
+      "status": "ok",
+      "sha256": "02bad8f77a4b6f3bd4b3edb525fdf9d1991fd1f43c8c1a3e03b4a1e4026ec05d",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-il",
+      "status": "ok",
+      "sha256": "9698307e08ee54c76315828eba8bb885831430110e46b111c427131b7ab309e6",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-in",
+      "status": "ok",
+      "sha256": "c9f7fd6e3ea8ad859b4b3aab11fade1d50dc53f54177e43f8d822403bd67f314",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-la",
+      "status": "ok",
+      "sha256": "906dfd6ef1c4082bfd48d68de3152519d685a44575bb03c4b870cb9977180344",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ma",
+      "status": "ok",
+      "sha256": "ae1755c9eda7e4ed020ee5e25e35f56c343e4a618c60e5441bdd44eefb1099f9",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-md",
+      "status": "ok",
+      "sha256": "8de73948a705b31c359070386f1adf427bfa24f84910bec284bd437cb0c89bad",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-mi",
+      "status": "ok",
+      "sha256": "e669f13f2ee5e479e99a298ef540807d688a87d8f189460ca868c92b936c7c8a",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-mn",
+      "status": "ok",
+      "sha256": "615c992de82038b8f8810c74687c6ed8f031c8a937c849153d8d6d01aa60c817",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-mo",
+      "status": "ok",
+      "sha256": "fe3d51738251584a928673eca9ed756cb900f6542f487d5ff1bc0dc003f41487",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ms",
+      "status": "ok",
+      "sha256": "3bf583ecdd5696ae0d53651ea5fc566c7b13cfb157391221ceb660e34a05123b",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-nc",
+      "status": "ok",
+      "sha256": "fba1e7f1a170ce97e6a3fc1ed2994ebadadab53ae50045c647d05fde8be7ced8",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ne",
+      "status": "ok",
+      "sha256": "9ea75990618887318465e192260e2d7aac472c078b4f5df4769253ab2a6882f3",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-nm",
+      "status": "ok",
+      "sha256": "6ea12907763343db4e2b3a0cdefc1ababb499520554a204be74516f34bab4b52",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-nv",
+      "status": "ok",
+      "sha256": "b190b9592f14d0b4a20af2fbbfbbbeb24004c20a8b915cd83c2e1f591306ea4e",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ny",
+      "status": "ok",
+      "sha256": "5155b161286884fd825d81caf474a0102666bf9d3cd47f867866b722cfa799a7",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-oh",
+      "status": "ok",
+      "sha256": "ff0ddf2ac13f2ab778b6d2cca3ab2ab9be7c4fc3493ff544f460ac6a92cd4151",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ok",
+      "status": "ok",
+      "sha256": "0c2897fc53644840bc46746055290d7e997aa69b29ace7723172f6bfc3f8917b",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-or",
+      "status": "ok",
+      "sha256": "7dd16b1433098f2a8efa1ebc1fbde01250433b6f36dab18a1ea3f66eef7159c3",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-pa",
+      "status": "ok",
+      "sha256": "9f2e6bed85570fc53eeb053c9912b8d954fc39d1381cefd5e9efb8c76d1f52c9",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-sc",
+      "status": "ok",
+      "sha256": "a2cf90c55c46f01f4bd5e5898eadf31d8b19bf35d5c7bec3b7c27dfb7900c37c",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-tn",
+      "status": "ok",
+      "sha256": "b888673245856cdb243259aff80073af6b7111dae1cbe2ad1b6ab96b27303794",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-tx",
+      "status": "ok",
+      "sha256": "7d5579576b638403103c77c8c979b9d2c0d07a9b7505ec234228ba6c7f71c83b",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-ut",
+      "status": "ok",
+      "sha256": "bc9784c44df5a3b1cfe55ae3630e9fa7bc63eda8dadeec2dba0dd2dd5e2d890e",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-va",
+      "status": "ok",
+      "sha256": "22522803b55809947536ea2f76c6e4ad58326ba562efd16e3c78ccb9225fb247",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-wa",
+      "status": "ok",
+      "sha256": "9bf2f92705134395cc981216b05dd8958ed1ce4558ebb12eda2f8365ac8d9a00",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-wi",
+      "status": "ok",
+      "sha256": "d269913a7096f647e0e0d7c4138ad9b57c03775d14b6c6f115c611a7b28a775a",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-wv",
+      "status": "ok",
+      "sha256": "27e1f5f9d10c587732b648858e43680216e9432200b56aa4fab905005f28febb",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-wy",
+      "status": "ok",
+      "sha256": "de181349b7adab83037a1e199d0c5bb330bc44132fc6c4dedcb213816add9548",
+      "rows": 7
+    },
+    {
+      "call": "retail-price-all-us",
+      "status": "ok",
+      "sha256": "385345e834874f359368e8ae255b27b08e1fba8177b8fd9d5ee9027b67cc2bf0",
+      "rows": 7
+    }
+  ],
+  "metrics": [
+    "eia-net-generation-monthly",
+    "eia-retail-price-al-all",
+    "eia-retail-price-al-residential",
+    "eia-retail-price-az-all",
+    "eia-retail-price-az-residential",
+    "eia-retail-price-ca-all",
+    "eia-retail-price-ca-residential",
+    "eia-retail-price-co-all",
+    "eia-retail-price-co-residential",
+    "eia-retail-price-dc-all",
+    "eia-retail-price-dc-residential",
+    "eia-retail-price-fl-all",
+    "eia-retail-price-fl-residential",
+    "eia-retail-price-ga-all",
+    "eia-retail-price-ga-residential",
+    "eia-retail-price-ia-all",
+    "eia-retail-price-ia-residential",
+    "eia-retail-price-id-all",
+    "eia-retail-price-id-residential",
+    "eia-retail-price-il-all",
+    "eia-retail-price-il-residential",
+    "eia-retail-price-in-all",
+    "eia-retail-price-in-residential",
+    "eia-retail-price-la-all",
+    "eia-retail-price-la-residential",
+    "eia-retail-price-ma-all",
+    "eia-retail-price-ma-residential",
+    "eia-retail-price-md-all",
+    "eia-retail-price-md-residential",
+    "eia-retail-price-mi-all",
+    "eia-retail-price-mi-residential",
+    "eia-retail-price-mn-all",
+    "eia-retail-price-mn-residential",
+    "eia-retail-price-mo-all",
+    "eia-retail-price-mo-residential",
+    "eia-retail-price-ms-all",
+    "eia-retail-price-ms-residential",
+    "eia-retail-price-nc-all",
+    "eia-retail-price-nc-residential",
+    "eia-retail-price-ne-all",
+    "eia-retail-price-ne-residential",
+    "eia-retail-price-nm-all",
+    "eia-retail-price-nm-residential",
+    "eia-retail-price-nv-all",
+    "eia-retail-price-nv-residential",
+    "eia-retail-price-ny-all",
+    "eia-retail-price-ny-residential",
+    "eia-retail-price-oh-all",
+    "eia-retail-price-oh-residential",
+    "eia-retail-price-ok-all",
+    "eia-retail-price-ok-residential",
+    "eia-retail-price-or-all",
+    "eia-retail-price-or-residential",
+    "eia-retail-price-pa-all",
+    "eia-retail-price-pa-residential",
+    "eia-retail-price-sc-all",
+    "eia-retail-price-sc-residential",
+    "eia-retail-price-tn-all",
+    "eia-retail-price-tn-residential",
+    "eia-retail-price-tx-all",
+    "eia-retail-price-tx-residential",
+    "eia-retail-price-us-all",
+    "eia-retail-price-us-residential",
+    "eia-retail-price-ut-all",
+    "eia-retail-price-ut-residential",
+    "eia-retail-price-va-all",
+    "eia-retail-price-va-residential",
+    "eia-retail-price-wa-all",
+    "eia-retail-price-wa-residential",
+    "eia-retail-price-wi-all",
+    "eia-retail-price-wi-residential",
+    "eia-retail-price-wv-all",
+    "eia-retail-price-wv-residential",
+    "eia-retail-price-wy-all",
+    "eia-retail-price-wy-residential"
+  ],
+  "records": 608,
+  "license": "Public domain (U.S. government work)",
+  "key": "owner-registered, not recorded",
+  "steo_series_id_placeholder": "ELGEN",
+  "retail_price_states": [
+    "AL",
+    "AZ",
+    "CA",
+    "CO",
+    "DC",
+    "FL",
+    "GA",
+    "IA",
+    "ID",
+    "IL",
+    "IN",
+    "LA",
+    "MA",
+    "MD",
+    "MI",
+    "MN",
+    "MO",
+    "MS",
+    "NC",
+    "NE",
+    "NM",
+    "NV",
+    "NY",
+    "OH",
+    "OK",
+    "OR",
+    "PA",
+    "SC",
+    "TN",
+    "TX",
+    "US",
+    "UT",
+    "VA",
+    "WA",
+    "WI",
+    "WV",
+    "WY"
+  ]
+}

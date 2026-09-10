@@ -75,6 +75,8 @@ NET_GENERATION_ROUTE = 'https://api.eia.gov/v2/electricity/electric-power-operat
 CAPACITY_ROUTE = 'https://api.eia.gov/v2/electricity/operating-generator-capacity/data/'
 STEO_ROUTE = 'https://api.eia.gov/v2/steo/data/'
 RETAIL_PRICE_ROUTE = 'https://api.eia.gov/v2/electricity/retail-sales/data/'
+RETAIL_START_YEAR = 2019   # the site's reviewed history start; EIA publishes back to 2001
+SERIES_START_YEAR = 2019   # the same start for every EIA series, so no record precedes its metric
 
 # USPS state abbreviation -> full name, for every state (plus DC) a reviewed project map
 # location can resolve to; 'US' (national) is handled separately, never through this map.
@@ -98,12 +100,17 @@ STEO_SERIES_ID = 'ELGEN'
 CAPACITY_SOURCES = [('SUN', 'solar', 'Solar'), ('WND', 'wind', 'Wind'), ('BAT', 'battery-storage', 'Battery storage'),
                      ('NG', 'natural-gas', 'Natural gas'), ('NUC', 'nuclear', 'Nuclear')]
 
+YEAR_RE = re.compile(r'20\d\d')
 MONTH_RE = re.compile(r'20\d\d-(0[1-9]|1[0-2])')
 
 
 def net_generation_url():
-    return (f'{NET_GENERATION_ROUTE}?frequency=monthly&data[0]=generation'
-            f'&facets[sectorid][]=99&facets[fueltypeid][]=ALL&sort[0][column]=period&sort[0][direction]=asc')
+    # The route returns one row per state per month; the national aggregate is location 'US'
+    # (confirmed against a live pull 2026-09-10). Without this facet every state's row carried the
+    # national record id and 4,978 duplicate records were produced.
+    return (f'{NET_GENERATION_ROUTE}?frequency=monthly&data[0]=generation&facets[location][]=US'
+            f'&facets[sectorid][]=99&facets[fueltypeid][]=ALL&start={SERIES_START_YEAR}-01'
+            f'&sort[0][column]=period&sort[0][direction]=asc')
 
 
 def capacity_url():
@@ -136,8 +143,8 @@ def project_states(delivery):
 
 def retail_price_url(codes, sector):
     facets = ''.join(f'&facets[stateid][]={code}' for code in codes)
-    return (f'{RETAIL_PRICE_ROUTE}?frequency=monthly&data[0]=price{facets}'
-            f'&facets[sectorid][]={sector}&sort[0][column]=period&sort[0][direction]=asc')
+    return (f'{RETAIL_PRICE_ROUTE}?frequency=annual&data[0]=price{facets}'
+            f'&facets[sectorid][]={sector}&start={RETAIL_START_YEAR}&sort[0][column]=period&sort[0][direction]=asc')
 
 
 def parse_rows(body):
@@ -154,10 +161,10 @@ def net_generation_metric():
                      "Source thousand MWh divided by 1,000 to express TWh.",
             'direction': 'context', 'min': 0, 'max': 2_000_000,
             'note': "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. "
-                    "Monthly series; each import appends newly published months and never rewrites earlier ones.",
+                    "Annual series from 2019; each import appends newly published years and never rewrites earlier ones.",
             'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'eia_net_generation_twh', 'project': None,
             'allowed_statuses': ['observation'], 'period_basis': 'month', 'geography_code': None,
-            'series_start_year': 2024, 'chart_default_start': 2024, 'chart_default_end': 2027, 'definition_stable': True,
+            'series_start_year': SERIES_START_YEAR, 'chart_default_start': SERIES_START_YEAR, 'chart_default_end': 2027, 'definition_stable': True,
             'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs; "
                                 "earlier months exist in EIA's API and can be imported on review. Missing months are unpublished, not zero."}
 
@@ -166,8 +173,10 @@ def net_generation_records(rows, retrieved_at):
     """Monthly all-fuels total generation (fueltypeid ALL), thousand MWh converted to TWh."""
     observations = []
     for r in rows:
-        if r.get('fueltypeid') != 'ALL':
+        if r.get('fueltypeid') != 'ALL' or r.get('location') != 'US':
             continue
+        if str(r.get('period') or '')[:4].isdigit() and int(str(r['period'])[:4]) < SERIES_START_YEAR:
+            continue   # no record may precede its metric's reviewed series start
         period = r.get('period')
         if not period or not MONTH_RE.fullmatch(period):
             continue
@@ -199,7 +208,7 @@ def capacity_metric(slug, label):
                     "Monthly series; each import appends newly published months and never rewrites earlier ones.",
             'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'eia_capacity_additions_mw', 'project': None,
             'allowed_statuses': ['observation'], 'period_basis': 'month', 'geography_code': None,
-            'series_start_year': 2024, 'chart_default_start': 2024, 'chart_default_end': 2027, 'definition_stable': True,
+            'series_start_year': SERIES_START_YEAR, 'chart_default_start': SERIES_START_YEAR, 'chart_default_end': 2027, 'definition_stable': True,
             'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs; "
                                 "earlier months exist in EIA's API and can be imported on review. Missing months are unpublished, not zero."}
 
@@ -251,7 +260,7 @@ def steo_metric():
                     "never recorded. Yearly series; each import appends newly published years and never rewrites earlier ones.",
             'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'eia_steo_generation_twh', 'project': None,
             'allowed_statuses': ['observation', 'forecast'], 'geography_code': None,
-            'series_start_year': 2024, 'chart_default_start': 2024, 'chart_default_end': 2030, 'definition_stable': True,
+            'series_start_year': SERIES_START_YEAR, 'chart_default_start': SERIES_START_YEAR, 'chart_default_end': 2030, 'definition_stable': True,
             'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs. "
                                 "Missing years are unpublished, not zero."}
 
@@ -286,17 +295,17 @@ def retail_price_metric(code, name, slug):
     sector_label = 'residential' if slug == 'residential' else 'all-sector'
     geography = 'United States' if code == 'US' else name
     return {'id': f'eia-retail-price-{code.lower()}-{slug}', 'layer': 'energy',
-            'title': f'{geography} · retail electricity price, {sector_label} (EIA, monthly)',
+            'title': f'{geography} · retail electricity price, {sector_label} (EIA, annual)',
             'unit': 'cents/kWh', 'geography': geography,
             'scope': f"EIA API v2 electricity/retail-sales average retail electricity price, {sector_label} customers, "
-                     f"{geography}, monthly. Grid-interface tracking (2026-09-10): the price people near the buildout pay, "
+                     f"{geography}, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, "
                      "not a claim about what caused a change in it.",
             'direction': 'context', 'min': 0, 'max': 100,
             'note': "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. "
                     "Monthly series; each import appends newly published months and never rewrites earlier ones.",
             'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'retail_electricity_price_cents_kwh', 'project': None,
-            'allowed_statuses': ['observation'], 'period_basis': 'month', 'geography_code': code,
-            'series_start_year': 2019, 'chart_default_start': 2019, 'chart_default_end': 2027, 'definition_stable': True,
+            'allowed_statuses': ['observation'], 'period_basis': None, 'geography_code': code,
+            'series_start_year': RETAIL_START_YEAR, 'chart_default_start': RETAIL_START_YEAR, 'chart_default_end': 2027, 'definition_stable': True,
             'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs; "
                                 "2019 onward exists in EIA's API. Missing months are unpublished, not zero."}
 
@@ -312,9 +321,9 @@ def retail_price_records(rows, retrieved_at, states):
         sector_id = r.get('sectorid')
         if code not in states or sector_id not in slug_by_sectorid:
             continue
-        period = r.get('period')
-        if not period or not MONTH_RE.fullmatch(period):
-            continue
+        period = str(r.get('period') or '')
+        if not YEAR_RE.fullmatch(period) or int(period) < RETAIL_START_YEAR:
+            continue   # annual frequency: the period is a bare year
         raw = r.get('price')
         if raw in (None, '', 'NA', 'w', 'ND'):
             continue
@@ -330,7 +339,7 @@ def retail_price_records(rows, retrieved_at, states):
         observations.append({'id': f'{mid}-{period}', 'metric': mid, 'year': int(period[:4]), 'period': period, 'value': value,
                               'upper': None, 'status': 'observation', 'source': SOURCE_ID, 'precision': 'eq', 'retrieved_at': retrieved_at,
                               'method': 'curated',
-                              'note': f"EIA API v2 electricity/retail-sales, state {code}, sector {sector_id}, {period}: {value:g} cents/kWh."[:300]})
+                              'note': f"EIA API v2 electricity/retail-sales annual average, state {code}, sector {sector_id}, {period}: {value:g} cents/kWh."[:300]})
     return metrics, observations
 
 
@@ -365,7 +374,15 @@ def run(apply=False, today=None):
     steo_rows = pull('steo', steo_url())
     states = project_states(load(ROOT/'research/delivery.json'))
     codes = sorted(states) + ['US']
-    retail_rows = {sector: pull(f'retail-price-{sector.lower()}', retail_price_url(codes, sector)) for sector, _ in RETAIL_SECTORS}
+    # One call per state: a request naming several stateid facets comes back with a single state's
+    # rows (checked live 2026-09-10 -- ['TX','VA'] returned 306 Virginia rows), which silently
+    # dropped every project state and left only the national series.
+    retail_rows = {}
+    for sector, _ in RETAIL_SECTORS:
+        rows = []
+        for code in codes:
+            rows += pull(f'retail-price-{sector.lower()}-{code.lower()}', retail_price_url([code], sector))
+        retail_rows[sector] = rows
 
     all_metrics = {}
     all_obs = []

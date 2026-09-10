@@ -18790,6 +18790,2106 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "eia-net-generation-monthly",
+      "layer": "energy",
+      "title": "U.S. net electricity generation, all fuels (EIA, monthly)",
+      "unit": "TWh",
+      "geography": "United States",
+      "scope": "EIA electric-power-sector monthly net generation, all fuels combined (sector 99, electric power total), from the EIA API v2 electric-power-operational-data route. National context, not AI-only demand. Source thousand MWh divided by 1,000 to express TWh.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000000,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Annual series from 2019; each import appends newly published years and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "eia_net_generation_twh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; earlier months exist in EIA's API and can be imported on review. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-al-all",
+      "layer": "energy",
+      "title": "Alabama · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Alabama",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Alabama, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "AL",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-al-residential",
+      "layer": "energy",
+      "title": "Alabama · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Alabama",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Alabama, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "AL",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-az-all",
+      "layer": "energy",
+      "title": "Arizona · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Arizona",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Arizona, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "AZ",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-az-residential",
+      "layer": "energy",
+      "title": "Arizona · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Arizona",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Arizona, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "AZ",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ca-all",
+      "layer": "energy",
+      "title": "California · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "California",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, California, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "CA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ca-residential",
+      "layer": "energy",
+      "title": "California · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "California",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, California, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "CA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-co-all",
+      "layer": "energy",
+      "title": "Colorado · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Colorado",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Colorado, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "CO",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-co-residential",
+      "layer": "energy",
+      "title": "Colorado · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Colorado",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Colorado, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "CO",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-dc-all",
+      "layer": "energy",
+      "title": "District of Columbia · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "District of Columbia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, District of Columbia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "DC",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-dc-residential",
+      "layer": "energy",
+      "title": "District of Columbia · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "District of Columbia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, District of Columbia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "DC",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-fl-all",
+      "layer": "energy",
+      "title": "Florida · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Florida",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Florida, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "FL",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-fl-residential",
+      "layer": "energy",
+      "title": "Florida · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Florida",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Florida, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "FL",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ga-all",
+      "layer": "energy",
+      "title": "Georgia · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Georgia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Georgia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "GA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ga-residential",
+      "layer": "energy",
+      "title": "Georgia · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Georgia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Georgia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "GA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ia-all",
+      "layer": "energy",
+      "title": "Iowa · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Iowa",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Iowa, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "IA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ia-residential",
+      "layer": "energy",
+      "title": "Iowa · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Iowa",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Iowa, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "IA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-id-all",
+      "layer": "energy",
+      "title": "Idaho · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Idaho",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Idaho, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "ID",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-id-residential",
+      "layer": "energy",
+      "title": "Idaho · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Idaho",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Idaho, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "ID",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-il-all",
+      "layer": "energy",
+      "title": "Illinois · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Illinois",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Illinois, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "IL",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-il-residential",
+      "layer": "energy",
+      "title": "Illinois · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Illinois",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Illinois, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "IL",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-in-all",
+      "layer": "energy",
+      "title": "Indiana · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Indiana",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Indiana, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "IN",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-in-residential",
+      "layer": "energy",
+      "title": "Indiana · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Indiana",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Indiana, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "IN",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-la-all",
+      "layer": "energy",
+      "title": "Louisiana · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Louisiana",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Louisiana, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "LA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-la-residential",
+      "layer": "energy",
+      "title": "Louisiana · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Louisiana",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Louisiana, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "LA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ma-all",
+      "layer": "energy",
+      "title": "Massachusetts · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Massachusetts",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Massachusetts, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ma-residential",
+      "layer": "energy",
+      "title": "Massachusetts · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Massachusetts",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Massachusetts, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-md-all",
+      "layer": "energy",
+      "title": "Maryland · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Maryland",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Maryland, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MD",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-md-residential",
+      "layer": "energy",
+      "title": "Maryland · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Maryland",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Maryland, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MD",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-mi-all",
+      "layer": "energy",
+      "title": "Michigan · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Michigan",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Michigan, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MI",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-mi-residential",
+      "layer": "energy",
+      "title": "Michigan · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Michigan",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Michigan, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MI",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-mn-all",
+      "layer": "energy",
+      "title": "Minnesota · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Minnesota",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Minnesota, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MN",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-mn-residential",
+      "layer": "energy",
+      "title": "Minnesota · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Minnesota",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Minnesota, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MN",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-mo-all",
+      "layer": "energy",
+      "title": "Missouri · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Missouri",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Missouri, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MO",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-mo-residential",
+      "layer": "energy",
+      "title": "Missouri · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Missouri",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Missouri, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MO",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ms-all",
+      "layer": "energy",
+      "title": "Mississippi · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Mississippi",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Mississippi, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MS",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ms-residential",
+      "layer": "energy",
+      "title": "Mississippi · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Mississippi",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Mississippi, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "MS",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-nc-all",
+      "layer": "energy",
+      "title": "North Carolina · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "North Carolina",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, North Carolina, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NC",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-nc-residential",
+      "layer": "energy",
+      "title": "North Carolina · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "North Carolina",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, North Carolina, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NC",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ne-all",
+      "layer": "energy",
+      "title": "Nebraska · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Nebraska",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Nebraska, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NE",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ne-residential",
+      "layer": "energy",
+      "title": "Nebraska · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Nebraska",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Nebraska, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NE",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-nm-all",
+      "layer": "energy",
+      "title": "New Mexico · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "New Mexico",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, New Mexico, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NM",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-nm-residential",
+      "layer": "energy",
+      "title": "New Mexico · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "New Mexico",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, New Mexico, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NM",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-nv-all",
+      "layer": "energy",
+      "title": "Nevada · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Nevada",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Nevada, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NV",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-nv-residential",
+      "layer": "energy",
+      "title": "Nevada · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Nevada",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Nevada, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NV",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ny-all",
+      "layer": "energy",
+      "title": "New York · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "New York",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, New York, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NY",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ny-residential",
+      "layer": "energy",
+      "title": "New York · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "New York",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, New York, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "NY",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-oh-all",
+      "layer": "energy",
+      "title": "Ohio · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Ohio",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Ohio, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "OH",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-oh-residential",
+      "layer": "energy",
+      "title": "Ohio · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Ohio",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Ohio, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "OH",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ok-all",
+      "layer": "energy",
+      "title": "Oklahoma · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Oklahoma",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Oklahoma, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "OK",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ok-residential",
+      "layer": "energy",
+      "title": "Oklahoma · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Oklahoma",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Oklahoma, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "OK",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-or-all",
+      "layer": "energy",
+      "title": "Oregon · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Oregon",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Oregon, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "OR",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-or-residential",
+      "layer": "energy",
+      "title": "Oregon · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Oregon",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Oregon, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "OR",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-pa-all",
+      "layer": "energy",
+      "title": "Pennsylvania · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Pennsylvania",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Pennsylvania, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "PA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-pa-residential",
+      "layer": "energy",
+      "title": "Pennsylvania · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Pennsylvania",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Pennsylvania, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "PA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-sc-all",
+      "layer": "energy",
+      "title": "South Carolina · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "South Carolina",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, South Carolina, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "SC",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-sc-residential",
+      "layer": "energy",
+      "title": "South Carolina · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "South Carolina",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, South Carolina, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "SC",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-tn-all",
+      "layer": "energy",
+      "title": "Tennessee · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Tennessee",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Tennessee, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "TN",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-tn-residential",
+      "layer": "energy",
+      "title": "Tennessee · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Tennessee",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Tennessee, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "TN",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-tx-all",
+      "layer": "energy",
+      "title": "Texas · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Texas",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Texas, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "TX",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-tx-residential",
+      "layer": "energy",
+      "title": "Texas · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Texas",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Texas, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "TX",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-us-all",
+      "layer": "energy",
+      "title": "United States · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "United States",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, United States, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "US",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-us-residential",
+      "layer": "energy",
+      "title": "United States · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "United States",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, United States, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "US",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ut-all",
+      "layer": "energy",
+      "title": "Utah · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Utah",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Utah, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "UT",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-ut-residential",
+      "layer": "energy",
+      "title": "Utah · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Utah",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Utah, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "UT",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-va-all",
+      "layer": "energy",
+      "title": "Virginia · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Virginia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Virginia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "VA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-va-residential",
+      "layer": "energy",
+      "title": "Virginia · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Virginia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Virginia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "VA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wa-all",
+      "layer": "energy",
+      "title": "Washington · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Washington",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Washington, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wa-residential",
+      "layer": "energy",
+      "title": "Washington · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Washington",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Washington, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WA",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wi-all",
+      "layer": "energy",
+      "title": "Wisconsin · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Wisconsin",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Wisconsin, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WI",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wi-residential",
+      "layer": "energy",
+      "title": "Wisconsin · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Wisconsin",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Wisconsin, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WI",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wv-all",
+      "layer": "energy",
+      "title": "West Virginia · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "West Virginia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, West Virginia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WV",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wv-residential",
+      "layer": "energy",
+      "title": "West Virginia · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "West Virginia",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, West Virginia, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WV",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wy-all",
+      "layer": "energy",
+      "title": "Wyoming · retail electricity price, all-sector (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Wyoming",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, all-sector customers, Wyoming, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WY",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "eia-retail-price-wy-residential",
+      "layer": "energy",
+      "title": "Wyoming · retail electricity price, residential (EIA, annual)",
+      "unit": "cents/kWh",
+      "geography": "Wyoming",
+      "scope": "EIA API v2 electricity/retail-sales average retail electricity price, residential customers, Wyoming, annual average. Grid-interface tracking (2026-09-10): the price people near the buildout pay, not a claim about what caused a change in it.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "retail_electricity_price_cents_kwh",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": null,
+      "geography_code": "WY",
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; 2019 onward exists in EIA's API. Missing months are unpublished, not zero."
     }
   ],
   "targets": [
