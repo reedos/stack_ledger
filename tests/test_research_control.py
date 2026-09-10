@@ -357,3 +357,98 @@ class SessionKeyTests(unittest.TestCase):
             path = ROOT/'tools/research-control'/name
             if path.exists():
                 self.assertNotIn("location.pathname.split('/')[1]", path.read_text(encoding='utf-8'), name)
+
+
+class ReportPromotePanelTests(unittest.TestCase):
+    """The one-tap report-promote route: same identity/CSRF/reviewer rules as every other
+    mutation (retract, catalog-review, catalog-publish), a resolved-and-recorded reviewer,
+    the validate job it enqueues, and idempotent double promotion through the live route."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+        import catalog_review as cr
+        for file in cr.FILES:
+            path = self.root/file
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes((ROOT/file).read_bytes())
+        policy = {'reviewers': ['reedos'], 'reviewer_accounts': {'reedos': ['fixture-human']},
+                  'reviewer_logins': {'reedos': ['reedosaki@gmail.com']}}
+        (self.root/'research/editorial-policy.json').write_text(json.dumps(policy), encoding='utf-8')
+        ledger = json.loads((self.root/'site/data/ledger.json').read_text(encoding='utf-8'))
+        self.source = {'id': 'discovered-fixture-panel', 'publisher': 'Fixture Wire',
+            'title': 'Discovered public update — Fixture Wire', 'url': 'https://fixturewire.example/2026/09/fixture-site',
+            'published': '2026-09-09', 'layers': ['infrastructure'], 'license': 'Original source rights apply',
+            'parent_source': 'outlet-fixture-panel'}
+        ledger['sources'].append(self.source)
+        self.report_id = 'note-' + 'p'*20
+        self.report = {'id': self.report_id, 'layer': 'infrastructure', 'date': '2026-09-09',
+            'title': 'Fixture Panel Co secures planning permission for a data center in Fixtureville',
+            'summary': 'Fixture Panel Co secured planning permission for a data center in Fixtureville.',
+            'source': self.source['id'], 'kind': 'News report', 'method': 'automated',
+            'retrieved_at': '2026-09-09T12:00:00Z', 'document_sha256': '0'*64, 'evidence_sha256': '0'*64,
+            'grade': 'C', 'outlet': 'Fixture Wire', 'reported_on': '2026-09-09', 'about': [],
+            'quote': 'Fixture Panel Co said it secured planning permission.', 'confirmation': 'unconfirmed'}
+        ledger['events'].append(self.report)
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger, ensure_ascii=False), encoding='utf-8')
+        self.git = patch.object(cr, 'git', return_value='fixture-head'); self.git.start(); self.addCleanup(self.git.stop)
+        self.http, self.url = control.server(self.root, config=TAILNET, asset_root=ROOT)
+        self.token = self.url.rstrip('/').rsplit('/', 1)[-1]
+        self.worker = threading.Thread(target=self.http.serve_forever, daemon=True); self.worker.start()
+
+    def tearDown(self):
+        self.http.shutdown(); self.http.server_close(); self.worker.join()
+
+    def post(self, route, body, origin=None, login='reedosaki@gmail.com'):
+        req = urllib.request.Request(
+            f'http://127.0.0.1:{self.http.server_port}/{self.token}/{route}',
+            data=json.dumps(body).encode(),
+            headers={'Host': TAILNET['hostname'], 'Tailscale-User-Login': login,
+                     'Origin': origin or 'https://'+TAILNET['hostname'], 'X-Session-Key': self.token,
+                     'Content-Type': 'application/json'},
+            method='POST')
+        try:
+            with urllib.request.urlopen(req, timeout=5) as r: return r.status, json.loads(r.read())
+        except urllib.error.HTTPError as e:
+            with e: return e.code, json.loads(e.read())
+
+    def test_success_records_reviewer_and_enqueues_validation(self):
+        code, data = self.post('report-promote', {'id': self.report_id})
+        self.assertEqual(code, 200)
+        self.assertFalse(data['already_promoted'])
+        self.assertEqual(data['status'], 'queued')
+        event = [e for e in editorial_review.events(self.root) if e.get('kind') == 'report_promotion'][-1]
+        self.assertEqual(event['reviewer'], 'reedos')
+        self.assertEqual(event['report_id'], self.report_id)
+        self.assertEqual(event['package_id'], data['package_id'])
+        self.assertEqual(event['channel'], 'tailnet')
+        self.assertEqual(event['login'], 'reedosaki@gmail.com')
+
+    def test_double_promotion_through_the_route_is_idempotent(self):
+        code1, data1 = self.post('report-promote', {'id': self.report_id})
+        code2, data2 = self.post('report-promote', {'id': self.report_id})
+        self.assertEqual((code1, code2), (200, 200))
+        self.assertEqual(data1['package_id'], data2['package_id'])
+        self.assertTrue(data2['already_promoted'])
+        promotions = [e for e in editorial_review.events(self.root) if e.get('kind') == 'report_promotion']
+        self.assertEqual(len(promotions), 1)
+
+    def test_no_site_named_refused_with_a_clear_message(self):
+        ledger = json.loads((self.root/'site/data/ledger.json').read_text(encoding='utf-8'))
+        ledger['events'][-1]['title'] = 'Fixture Wire reports a capacity agreement for AI hyperscale data centers'
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger, ensure_ascii=False), encoding='utf-8')
+        code, data = self.post('report-promote', {'id': self.report_id})
+        self.assertEqual(code, 400)
+        self.assertIn('does not name a site', data['error'])
+
+    def test_unknown_report_is_a_clear_400(self):
+        code, data = self.post('report-promote', {'id': 'note-doesnotexist'})
+        self.assertEqual(code, 400)
+        self.assertIn('not found', data['error'])
+
+    def test_origin_mismatch_refused_like_every_other_mutation(self):
+        code, _ = self.post('report-promote', {'id': self.report_id}, origin='https://attacker.example')
+        self.assertEqual(code, 403)
+
+    def test_unmapped_tailnet_login_refused_like_every_other_mutation(self):
+        code, _ = self.post('report-promote', {'id': self.report_id}, login='stranger@example.org')
+        self.assertEqual(code, 403)

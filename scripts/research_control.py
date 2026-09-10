@@ -317,6 +317,21 @@ def server(root=ROOT,*,config=None,asset_root=None):
                     if value['confirmed'] is not True:raise ValueError('Explicit human retraction action required')
                     if not authorized(root,owner,ident):raise ValueError('Unauthorized local reviewer')
                     result=rp.retract(root,value['id'],owner,value['rationale'],identity=ident)
+                elif route=='report-promote':
+                    # One tap: draft a private catalog_change package tracking a report as a
+                    # status-unverified project, then queue its preview. Never writes the
+                    # catalog itself; the package always waits in Decisions like any other.
+                    from findings_review import reviewer,authorized
+                    import report_promotion as rpp
+                    import catalog_review
+                    owner=reviewer(root,ident)
+                    if not owner:raise ValueError('This account cannot track a report')
+                    if set(value)!={'id'}:raise ValueError('Invalid promotion request')
+                    if not authorized(root,owner,ident):raise ValueError('Unauthorized local reviewer')
+                    outcome=rpp.promote(root,value['id'],owner,identity=ident)
+                    p=outcome['package']
+                    job=jobs.enqueue('validate',p['id'],proposal_hash=catalog_review.digest(p))
+                    result={'package_id':p['id'],'already_promoted':outcome['already_promoted'],'job':job,'status':job['status']}
                 else:raise ValueError('Unknown action')
                 self.send(200,result)
             except FileExistsError:self.send(409,{'error':'Another review is being saved; reload and try again'})
@@ -346,8 +361,22 @@ def activity(root):
     # decision.
     ledger=read(root/'site/data/ledger.json',{'events':[]})
     reports=[e for e in ledger.get('events',[]) if e.get('kind') in REPORT_KINDS]
+    # Promoting a report: the one-tap "Track this" control (report_promotion.promote) leaves a
+    # report_promotion audit event; this is the only place that maps back to the package it
+    # drafted, and the reviewer's current status, so a promoted row shows that state instead of
+    # the control and a second tap never drafts a second package.
+    promoted={e['report_id']:e['package_id'] for e in rows if e.get('kind')=='report_promotion' and e.get('report_id')}
+    packages={}
+    if promoted:
+        try:
+            import catalog_review
+            packages={p['id']:p for p in catalog_review.inbox(root)}
+        except (OSError,ValueError):packages={}
+    promotions={rid:{'package_id':pid,'status':(packages[pid]['display_status'] if pid in packages else 'pending_review')}
+                for rid,pid in promoted.items()}
     return {'policy_events':automated[-100:],'digests':digests,'unreadable_events':report.get('unreadable_events',0),
-            'reports':sorted(reports,key=lambda e:e.get('retrieved_at') or e.get('date') or '',reverse=True)[:200]}
+            'reports':sorted(reports,key=lambda e:e.get('retrieved_at') or e.get('date') or '',reverse=True)[:200],
+            'promotions':promotions}
 
 
 def base_python():
