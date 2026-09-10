@@ -25163,6 +25163,18 @@
       ],
       "license": "Original source rights apply",
       "parent_source": "outlet-www-datacenterknowledge-com-bb714f"
+    },
+    {
+      "id": "discovered-7c3de3980dc2627b",
+      "publisher": "AMD",
+      "title": "Discovered public update · AMD",
+      "url": "https://ir.amd.com/news-events/press-releases/detail/1298/amd-cisco-and-humain-expand-saudi-arabias-ai-infrastructure-as-amd-instinct-systems-go-live",
+      "published": "2026-08-31",
+      "layers": [
+        "chips"
+      ],
+      "license": "Original source rights apply",
+      "parent_source": "feed-amd-0e2d3d"
     }
   ],
   "observations": [
@@ -66232,6 +66244,20 @@
       "about": [],
       "quote": "Sunrun will supply Voltus with capacity from residential solar-plus-storage systems in PJM and MISO grid operator regions under an agreement supporting Voltus’ “Bring Your Own Capacity” programs for AI hyperscale data centers, the companies said today (August 17).",
       "confirmation": "unconfirmed"
+    },
+    {
+      "title": "AMD Instinct MI355X systems now live in Saudi Arabia",
+      "summary": "AMD says AMD Instinct MI355X GPU-based AI infrastructure built on Cisco Silicon One-based AI networking is now live in Saudi Arabia and serving HUMAIN customers in the Kingdom and beyond.",
+      "layer": "chips",
+      "kind": "Research finding",
+      "id": "note-c6a710a3939e84bdf618",
+      "source": "discovered-7c3de3980dc2627b",
+      "date": "2026-08-31",
+      "method": "automated",
+      "retrieved_at": "2026-09-10T19:44:19Z",
+      "document_sha256": "84b311cd104e20e579302a1860c1d1733d228211ecf6441c8ee0e431b15766e0",
+      "evidence_sha256": "1b37de99ce708202e5280c41fcf6fef47c5c9880ae784931833e54707385d48f",
+      "grade": "B"
     }
   ],
   "targets": [
@@ -79392,6 +79418,586 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260910T191827Z-74716166e73945a1a7a6142b2edb0ed4",
+      "started_at": "2026-09-10T19:18:27Z",
+      "finished_at": "2026-09-10T19:18:54Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 2,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "discovered-cfb7b22bf5249570",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "discovered-80e29edaa709d5ed",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 2,
+      "coverage_layers": [
+        "energy"
+      ]
+    },
+    {
+      "id": "run-20260910T191918Z-24f8126ccc404ed1824814dc6d4be980",
+      "started_at": "2026-09-10T19:19:18Z",
+      "finished_at": "2026-09-10T19:19:34Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 2,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "discovered-2e3d5ce3265d50c0",
+          "reason": "Source exceeds size cap"
+        },
+        {
+          "source": "discovered-eed4909465cef86c",
+          "reason": "Source exceeds size cap"
+        },
+        {
+          "source": "discovered-f0484c85e0f50275",
+          "reason": "Source exceeds size cap"
+        }
+      ],
+      "model_calls": 2,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T191958Z-b31a49e1f3374175ae0c66211a7a053c",
+      "started_at": "2026-09-10T19:19:58Z",
+      "finished_at": "2026-09-10T19:20:12Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 3,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T192038Z-4dfa875f35614caf9d2a08296c4b2fd9",
+      "started_at": "2026-09-10T19:20:38Z",
+      "finished_at": "2026-09-10T19:20:52Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T192118Z-c86e184637e742f18abc59799c86a4f4",
+      "started_at": "2026-09-10T19:21:18Z",
+      "finished_at": "2026-09-10T19:22:28Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T192254Z-64b4d397a66949eb9e769b700da9c7be",
+      "started_at": "2026-09-10T19:22:54Z",
+      "finished_at": "2026-09-10T19:23:06Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 4,
+      "coverage_layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "run-20260910T192329Z-bdad0df07fa7461e9d3ddcd81bb99052",
+      "started_at": "2026-09-10T19:23:29Z",
+      "finished_at": "2026-09-10T19:23:40Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 2,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 4,
+      "coverage_layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "run-20260910T192404Z-2c004dda8cf14316bf85ba5c9ca97886",
+      "started_at": "2026-09-10T19:24:04Z",
+      "finished_at": "2026-09-10T19:24:48Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-samsung",
+          "reason": "Robots policy unavailable (ConnectionResetError); source skipped"
+        },
+        {
+          "source": "cisco-silicon",
+          "reason": "Robots policy unavailable (URLError); source skipped"
+        },
+        {
+          "source": "intel-fab52-18a",
+          "reason": "Robots policy unavailable (ValueError); source skipped"
+        }
+      ],
+      "model_calls": 4,
+      "coverage_layers": [
+        "energy"
+      ]
+    },
+    {
+      "id": "run-20260910T192514Z-f800ee335e7a4c188fbc906845928cc2",
+      "started_at": "2026-09-10T19:25:14Z",
+      "finished_at": "2026-09-10T19:25:50Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 10,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T192614Z-e74c71e5879649489949646757478246",
+      "started_at": "2026-09-10T19:26:14Z",
+      "finished_at": "2026-09-10T19:26:59Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T192724Z-5636bd23fb9045e39f40436314072a93",
+      "started_at": "2026-09-10T19:27:24Z",
+      "finished_at": "2026-09-10T19:28:17Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 10,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T192839Z-d69733c93a3a469aa93e37710d9cfeec",
+      "started_at": "2026-09-10T19:28:39Z",
+      "finished_at": "2026-09-10T19:28:53Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 4,
+      "coverage_layers": [
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T192919Z-9d689e540fc8420880b7f18bcb3c3053",
+      "started_at": "2026-09-10T19:29:19Z",
+      "finished_at": "2026-09-10T19:29:47Z",
+      "status": "success",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T193010Z-916f379e6b094fa38ff6be59d7ea3a45",
+      "started_at": "2026-09-10T19:30:10Z",
+      "finished_at": "2026-09-10T19:30:38Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 6,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T193100Z-f08c30cba5754dc78bae48de8655b256",
+      "started_at": "2026-09-10T19:31:00Z",
+      "finished_at": "2026-09-10T19:31:15Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T193140Z-5ae39f7611bb4e3e9c7e86bf3d9cfbad",
+      "started_at": "2026-09-10T19:31:40Z",
+      "finished_at": "2026-09-10T19:32:23Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T193245Z-2d504437283d47d08d953150f579bf2a",
+      "started_at": "2026-09-10T19:32:45Z",
+      "finished_at": "2026-09-10T19:33:17Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 3,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T193340Z-418d6aa190b14e0da91fb89dc29a4587",
+      "started_at": "2026-09-10T19:33:40Z",
+      "finished_at": "2026-09-10T19:34:18Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 8,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T193441Z-343bb7e5632a49fb8b3179ba4a237462",
+      "started_at": "2026-09-10T19:34:41Z",
+      "finished_at": "2026-09-10T19:35:02Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "energy"
+      ]
+    },
+    {
+      "id": "run-20260910T193526Z-4b0dd319c41a432380b05c07e72df7ca",
+      "started_at": "2026-09-10T19:35:26Z",
+      "finished_at": "2026-09-10T19:35:45Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "eia-steo-aug2026-generation",
+          "reason": "HTTP 406"
+        },
+        {
+          "source": "eia-aeo2026-high-growth",
+          "reason": "HTTP 406"
+        }
+      ],
+      "model_calls": 6,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T193611Z-440be713cc5447fc94e9e171443705a3",
+      "started_at": "2026-09-10T19:36:11Z",
+      "finished_at": "2026-09-10T19:37:08Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 13,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T193731Z-f728a6c7bf2f4571af8b942adc66c646",
+      "started_at": "2026-09-10T19:37:31Z",
+      "finished_at": "2026-09-10T19:38:22Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 12,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T193846Z-7be46eb485514a109fc0522688bba4e3",
+      "started_at": "2026-09-10T19:38:46Z",
+      "finished_at": "2026-09-10T19:39:13Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 12,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T193936Z-9556a342e2c141c78639ff68ca3e9e8c",
+      "started_at": "2026-09-10T19:39:36Z",
+      "finished_at": "2026-09-10T19:39:45Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 4,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T194011Z-37e8508a4e3741a38d17ef6f59a79c2f",
+      "started_at": "2026-09-10T19:40:11Z",
+      "finished_at": "2026-09-10T19:40:20Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "marvell-optics",
+          "reason": "Source exceeds size cap"
+        },
+        {
+          "source": "marvell-celestial",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 4,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T194041Z-66e083ccad604c9d99277bcad3e4c6f0",
+      "started_at": "2026-09-10T19:40:41Z",
+      "finished_at": "2026-09-10T19:40:51Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [
+        {
+          "source": "cisco-optics",
+          "reason": "Robots policy unavailable (URLError); source skipped"
+        },
+        {
+          "source": "amphenol-interconnect",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "corning-meta",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 3,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T194117Z-254ed01732964a0691d8a88d889a382d",
+      "started_at": "2026-09-10T19:41:17Z",
+      "finished_at": "2026-09-10T19:41:31Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "bls-electricians-2026",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T194157Z-ee336160b81f436e8372a5e8bf1e3b7f",
+      "started_at": "2026-09-10T19:41:57Z",
+      "finished_at": "2026-09-10T19:42:05Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T194227Z-b29e199ecd6e4daaa0d5005ab92b393c",
+      "started_at": "2026-09-10T19:42:27Z",
+      "finished_at": "2026-09-10T19:43:12Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 12,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T194337Z-90c461cc0c31485690ef3314469c842b",
+      "started_at": "2026-09-10T19:43:37Z",
+      "finished_at": "2026-09-10T19:43:44Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications"
+      ]
+    },
+    {
+      "id": "run-20260910T194407Z-1623a140b60a422581142065d506f7ce",
+      "started_at": "2026-09-10T19:44:07Z",
+      "finished_at": "2026-09-10T19:44:23Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "chips"
+      ]
     }
   ],
   "runtime": {
@@ -79401,8 +80007,8 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-10T19:17:05Z",
-    "last_success": "2026-09-09T00:19:21Z",
+    "last_attempt": "2026-09-10T19:44:23Z",
+    "last_success": "2026-09-10T19:29:47Z",
     "status": "partial",
     "latest_session": {
       "started_at": "2026-09-10T03:12:15.411583+00:00",
