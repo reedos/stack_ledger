@@ -511,6 +511,65 @@ class RegistryAdditionsValidTests(unittest.TestCase):
                      'status': 'ineligible', 'layers': ['chips']}]}
                 self.assertEqual(ff.register_outlets(payload), [])
 
+    def outlets_fixture(self, tmp):
+        # Deliverable 4: the reviewed candidate file register_outlets writes outcomes back onto.
+        path = Path(tmp)/'research/news-outlets.json'
+        path.write_text(json.dumps({'version': 1, 'reviewed_at': research.now(), 'outlets': [
+            {'name': 'Example News', 'home': 'https://news.example.test/', 'layers': ['chips']}]}), encoding='utf-8')
+        return path
+
+    def test_register_outlets_records_registration_onto_reviewed_outlets_file(self):
+        # Deliverable 1/4: a registered outlet's outcome (status + source_id) is written back.
+        with tempfile.TemporaryDirectory() as tmp:
+            self.fixture(tmp)
+            outlets_path = self.outlets_fixture(tmp)
+            with patch.object(ff, 'ROOT', Path(tmp)), patch.object(validate_module, 'ROOT', Path(tmp)):
+                payload = {'candidates': [{'publisher': 'Example News', 'host': 'news.example.test',
+                            'feed_url': 'https://news.example.test/feed/', 'checked_at': research.now(),
+                            'entries': 3, 'links': 5, 'same_host_links': 4, 'top_prefix': '/2026/',
+                            'eligible': True, 'status': 'eligible', 'layers': ['chips']}]}
+                added = ff.register_outlets(payload)
+                self.assertEqual(len(added), 1)
+                entry = json.loads(outlets_path.read_text(encoding='utf-8'))['outlets'][0]
+                self.assertEqual(entry['status'], 'registered')
+                self.assertEqual(entry['source_id'], added[0])
+                self.assertNotIn('reason', entry)
+                # Re-registering the same host (already carrying an index source) is a no-op:
+                # never re-added, and the reviewed file keeps the same registered outcome.
+                self.assertEqual(ff.register_outlets(payload), [])
+                entry2 = json.loads(outlets_path.read_text(encoding='utf-8'))['outlets'][0]
+                self.assertEqual(entry2['status'], 'registered')
+                self.assertEqual(entry2['source_id'], added[0])
+
+    def test_register_outlets_records_rejection_reason_onto_reviewed_outlets_file(self):
+        # Deliverable 4: a rejected outlet is recorded, not forgotten -- status + a genuine reason.
+        with tempfile.TemporaryDirectory() as tmp:
+            self.fixture(tmp)
+            outlets_path = self.outlets_fixture(tmp)
+            with patch.object(ff, 'ROOT', Path(tmp)):
+                payload = {'candidates': [{'publisher': 'Example News', 'host': 'news.example.test',
+                            'feed_url': 'https://news.example.test/rss.rss', 'entries': 0, 'links': 0,
+                            'same_host_links': 0, 'top_prefix': None, 'eligible': False,
+                            'status': 'ineligible', 'layers': ['chips']}]}
+                self.assertEqual(ff.register_outlets(payload), [])
+                entry = json.loads(outlets_path.read_text(encoding='utf-8'))['outlets'][0]
+                self.assertEqual(entry['status'], 'rejected')
+                self.assertIn('did not parse', entry['reason'])
+                self.assertNotIn('source_id', entry)
+
+    def test_register_outlets_is_a_no_op_on_the_outlets_file_when_none_exists(self):
+        # No reviewed research/news-outlets.json in the tempdir (as in the two tests above this
+        # one): registration must still succeed and simply skip the outcome write-back.
+        with tempfile.TemporaryDirectory() as tmp:
+            self.fixture(tmp)
+            with patch.object(ff, 'ROOT', Path(tmp)), patch.object(validate_module, 'ROOT', Path(tmp)):
+                payload = {'candidates': [{'publisher': 'Example News', 'host': 'news.example.test',
+                            'feed_url': 'https://news.example.test/feed/', 'entries': 3, 'links': 5,
+                            'same_host_links': 4, 'top_prefix': '/2026/', 'eligible': True,
+                            'status': 'eligible', 'layers': ['chips']}]}
+                self.assertEqual(len(ff.register_outlets(payload)), 1)
+                self.assertFalse((Path(tmp)/'research/news-outlets.json').exists())
+
     def test_register_social_adds_a_rank6_official_account(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.fixture(tmp)
