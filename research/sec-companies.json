@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-09T12:00:00Z",
+  "note": "Reviewed ticker map for scripts/import_sec.py, restricted to ecosystem companies whose filings_jurisdiction is exactly 'SEC' (domestic filers, 10-K/10-Q). Foreign private issuers (Form 20-F: tsmc, asml, nebius, alibaba) and aws (no reviewed 'amazon' parent entity in research/ecosystem.json) are deliberately excluded; see the importer's SKIPPED report.",
+  "companies": {
+    "nvidia": {"ticker": "NVDA"},
+    "amd": {"ticker": "AMD"},
+    "intel": {"ticker": "INTC"},
+    "micron": {"ticker": "MU"},
+    "microsoft": {"ticker": "MSFT"},
+    "alphabet": {"ticker": "GOOGL"},
+    "meta": {"ticker": "META"},
+    "marvell": {"ticker": "MRVL"},
+    "tesla": {"ticker": "TSLA"},
+    "constellation": {"ticker": "CEG"},
+    "merck": {"ticker": "MRK"},
+    "moderna": {"ticker": "MRNA"},
+    "recursion": {"ticker": "RXRX"}
+  }
+}

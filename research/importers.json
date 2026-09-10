@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T15:00:00Z",
+  "reviewed_at": "2026-09-09T20:00:00Z",
   "research_ignore_gpu_busy": true,
   "importers": [
     {
@@ -43,6 +43,26 @@
       ],
       "cadence": "weekly",
       "weekday": 0,
+      "timeout_seconds": 600
+    },
+    {
+      "id": "sec",
+      "command": [
+        "scripts/import_sec.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 1,
+      "timeout_seconds": 900
+    },
+    {
+      "id": "eia",
+      "command": [
+        "scripts/import_eia.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 5,
       "timeout_seconds": 600
     }
   ]

@@ -50,6 +50,17 @@ TYPES |= EPOCH_MODELS
 # a national or sector survey estimate, no company.
 PUBLIC_TYPES |= {'business_ai_use_share'}
 TYPES |= {'business_ai_use_share'}
+# SEC XBRL company facts (scripts/import_sec.py, public domain): a company's own reported revenue
+# and capex from 10-K/10-Q frame-tagged facts. Always company-attributed, never PUBLIC_TYPES.
+SEC_TYPES = {'sec_revenue_usd_bn', 'sec_capex_usd_bn'}
+TYPES |= SEC_TYPES
+# EIA electricity data (scripts/import_eia.py, public domain, needs a registered key): national
+# generation and generator-capacity-addition series carry no company; the STEO outlook mixes
+# elapsed (observation) and future (forecast) years for the same series, so it stays out of
+# HISTORICAL_ONLY and FUTURE_ONLY alike.
+EIA_TYPES = {'eia_net_generation_twh', 'eia_capacity_additions_mw', 'eia_steo_generation_twh'}
+PUBLIC_TYPES |= EIA_TYPES
+TYPES |= EIA_TYPES
 HISTORICAL_ONLY = {'county_industry_employment', 'county_industry_hires', 'county_industry_avg_monthly_earnings', 'construction_workers_cumulative', 'on_site_full_time_employees', 'annual_revenue_reported', 'site_it_mw_operating', 'capex_recognized_usd',
                    'permanent_jobs_reported', 'annual_revenue_usd',
                    'interconnection_mw_energized', 'accelerator_units_installed',
@@ -57,6 +68,7 @@ HISTORICAL_ONLY = {'county_industry_employment', 'county_industry_hires', 'count
                    'operating_vehicle_count', 'operating_metro_count',
                    'humanoid_units_in_production_use', 'completed_totes',
                    'crash_involvements_per_million_miles'}
+HISTORICAL_ONLY |= SEC_TYPES | {'eia_net_generation_twh', 'eia_capacity_additions_mw'}
 
 
 def validate_expansion(x, ledger, ecosystem, delivery):

@@ -1,0 +1,304 @@
+"""Maintainer importer for EIA electricity data via the EIA API v2 (needs a registered key).
+No model calls.
+
+Three national series, all public domain (U.S. government work):
+
+  * `eia-net-generation-monthly` -- all-fuels monthly net generation, electric power sector
+    total (facet sectorid=99), from `/v2/electricity/electric-power-operational-data/data/`.
+  * `eia-operating-capacity-additions-monthly-<source>` -- monthly nameplate MW newly reporting
+    operating status, one metric per tracked energy source (solar, wind, battery storage,
+    natural gas, nuclear), from `/v2/electricity/operating-generator-capacity/data/`.
+  * `eia-steo-generation-outlook` -- EIA's Short-Term Energy Outlook total generation, from
+    `/v2/steo/data/`, a machine-readable companion to the PDF-curated `us-utility-generation-
+    history` metric (never a replacement for it). Status is `observation` for a fully elapsed
+    year and `forecast` otherwise, matching this project's existing STEO convention (a current,
+    still-elapsing year stays a forecast).
+
+`.local/api-keys.json` has no owner-registered EIA key in this environment. Per the owner's
+scope for this importer: with no key, this script prints the exact registration URL and exits
+0 without making any network call at all -- not even the keyless SEC-style paths some other
+importers use, because every EIA v2 route requires the key. The three record-building
+functions above are still fully implemented and unit-tested against hand-written fixtures
+built from EIA's published API v2 documentation, so the importer is ready the moment the owner
+registers a key; nothing here has been exercised against EIA's real response shape.
+
+CONFIRM AGAINST A LIVE PULL BEFORE THE FIRST --apply ONCE A KEY EXISTS:
+  * The exact facet/column names below (`fueltypeid`, `sectorid`, `energy_source_code`,
+    `operating-year-month`, `nameplate-capacity-mw`) follow EIA API v2's documented general
+    conventions but are not confirmed against this project's own live response.
+  * STEO_SERIES_ID is a placeholder ("ELGEN"); the real total-generation series id in the
+    ELGEN family must be read from a live `/v2/steo/data/facet/seriesId` call.
+  * Whether `operating-generator-capacity` returns planned (not-yet-operating) generators at
+    all, or only already-operating ones, is unconfirmed; "additions" here means generators
+    whose `operating-year-month` equals the queried period.
+
+    python scripts/import_eia.py            # with a key: fetch, snapshot, report; without one: print registration URL, exit 0
+    python scripts/import_eia.py --apply    # register the source, add metrics and records, rebuild
+"""
+import argparse
+import hashlib
+import json
+import re
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import research
+from research import load, save, now, require, UA
+import api_access
+
+ROOT = Path(__file__).resolve().parents[1]
+SNAPSHOTS = ROOT/'research/eia'
+SOURCE_ID = 'eia-api-v2-electricity'
+SOURCE = {'id': SOURCE_ID, 'publisher': 'U.S. Energy Information Administration', 'title': 'EIA API v2 · electricity data',
+          'url': 'https://www.eia.gov/opendata/documentation.php', 'published': None, 'layers': ['energy'],
+          'license': 'Public domain (U.S. government work)'}
+
+REGISTRATION_URL = 'https://www.eia.gov/opendata/register.php'
+
+NET_GENERATION_ROUTE = 'https://api.eia.gov/v2/electricity/electric-power-operational-data/data/'
+CAPACITY_ROUTE = 'https://api.eia.gov/v2/electricity/operating-generator-capacity/data/'
+STEO_ROUTE = 'https://api.eia.gov/v2/steo/data/'
+# Placeholder: EIA's STEO API groups series by a seriesId facet. The real mnemonic for total
+# electricity generation in the ELGEN family is confirmed only once a live key exists.
+STEO_SERIES_ID = 'ELGEN'
+
+# EIA energy_source_code -> our metric slug/label. Tracked sources named in the reviewed scope.
+CAPACITY_SOURCES = [('SUN', 'solar', 'Solar'), ('WND', 'wind', 'Wind'), ('BAT', 'battery-storage', 'Battery storage'),
+                     ('NG', 'natural-gas', 'Natural gas'), ('NUC', 'nuclear', 'Nuclear')]
+
+MONTH_RE = re.compile(r'20\d\d-(0[1-9]|1[0-2])')
+
+
+def net_generation_url():
+    return (f'{NET_GENERATION_ROUTE}?frequency=monthly&data[0]=generation'
+            f'&facets[sectorid][]=99&facets[fueltypeid][]=ALL&sort[0][column]=period&sort[0][direction]=asc')
+
+
+def capacity_url():
+    return f'{CAPACITY_ROUTE}?frequency=monthly&data[0]=nameplate-capacity-mw&sort[0][column]=period&sort[0][direction]=asc'
+
+
+def steo_url():
+    return f'{STEO_ROUTE}?frequency=annual&data[0]=value&facets[seriesId][]={STEO_SERIES_ID}'
+
+
+def parse_rows(body):
+    payload = json.loads(body.decode('utf-8'))
+    require(isinstance(payload, dict) and isinstance((payload.get('response') or {}).get('data'), list), 'Unexpected EIA API v2 response shape')
+    return payload['response']['data']
+
+
+def net_generation_metric():
+    return {'id': 'eia-net-generation-monthly', 'layer': 'energy', 'title': 'U.S. net electricity generation, all fuels (EIA, monthly)',
+            'unit': 'TWh', 'geography': 'United States',
+            'scope': "EIA electric-power-sector monthly net generation, all fuels combined (sector 99, electric power total), "
+                     "from the EIA API v2 electric-power-operational-data route. National context, not AI-only demand. "
+                     "Source thousand MWh divided by 1,000 to express TWh.",
+            'direction': 'context', 'min': 0, 'max': 2_000_000,
+            'note': "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. "
+                    "Monthly series; each import appends newly published months and never rewrites earlier ones.",
+            'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'eia_net_generation_twh', 'project': None,
+            'allowed_statuses': ['observation'], 'period_basis': 'month', 'geography_code': None,
+            'series_start_year': 2024, 'chart_default_start': 2024, 'chart_default_end': 2027, 'definition_stable': True,
+            'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs; "
+                                "earlier months exist in EIA's API and can be imported on review. Missing months are unpublished, not zero."}
+
+
+def net_generation_records(rows, retrieved_at):
+    """Monthly all-fuels total generation (fueltypeid ALL), thousand MWh converted to TWh."""
+    observations = []
+    for r in rows:
+        if r.get('fueltypeid') != 'ALL':
+            continue
+        period = r.get('period')
+        if not period or not MONTH_RE.fullmatch(period):
+            continue
+        raw = r.get('generation')
+        if raw in (None, '', 'NA', 'w', 'ND'):
+            continue
+        try:
+            thousand_mwh = float(raw)
+        except (TypeError, ValueError):
+            continue
+        if thousand_mwh < 0:
+            continue
+        value = round(thousand_mwh/1000, 3)
+        observations.append({'id': f'eia-net-generation-monthly-{period}', 'metric': 'eia-net-generation-monthly', 'year': int(period[:4]),
+                              'period': period, 'value': value, 'upper': None, 'status': 'observation', 'source': SOURCE_ID,
+                              'precision': 'eq', 'retrieved_at': retrieved_at, 'method': 'curated',
+                              'note': f"EIA API v2 electric-power-operational-data, sector 99 (electric power total), all fuels, {period}: {thousand_mwh:,.1f} thousand MWh."[:300]})
+    return observations
+
+
+def capacity_metric(slug, label):
+    return {'id': f'eia-operating-capacity-additions-monthly-{slug}', 'layer': 'energy',
+            'title': f'U.S. {label.lower()} generator capacity additions (EIA, monthly)',
+            'unit': 'MW added in month', 'geography': 'United States',
+            'scope': f"Nameplate capacity of {label.lower()} generators newly reporting operating status in the month, from EIA's "
+                     f"operating-generator-capacity route (EIA-860M derived). A monthly capacity flow (additions), not a cumulative fleet total.",
+            'direction': 'context', 'min': 0, 'max': 100_000,
+            'note': "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. "
+                    "Monthly series; each import appends newly published months and never rewrites earlier ones.",
+            'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'eia_capacity_additions_mw', 'project': None,
+            'allowed_statuses': ['observation'], 'period_basis': 'month', 'geography_code': None,
+            'series_start_year': 2024, 'chart_default_start': 2024, 'chart_default_end': 2027, 'definition_stable': True,
+            'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs; "
+                                "earlier months exist in EIA's API and can be imported on review. Missing months are unpublished, not zero."}
+
+
+def capacity_addition_records(rows, retrieved_at):
+    """Sum nameplate MW of generators whose operating-year-month equals the row's own period,
+    grouped by energy source, for the five tracked sources. Rows for other sources are ignored.
+    """
+    metrics = {}
+    totals = {}   # (slug, period) -> MW
+    slug_by_code = {code: (slug, label) for code, slug, label in CAPACITY_SOURCES}
+    for r in rows:
+        code = r.get('energy_source_code')
+        if code not in slug_by_code:
+            continue
+        period = r.get('period')
+        online = r.get('operating-year-month')
+        if not period or not MONTH_RE.fullmatch(period) or online != period:
+            continue   # only count a generator in the month it newly came online
+        raw = r.get('nameplate-capacity-mw')
+        if raw in (None, '', 'NA'):
+            continue
+        try:
+            mw = float(raw)
+        except (TypeError, ValueError):
+            continue
+        if mw <= 0:
+            continue
+        slug, label = slug_by_code[code]
+        totals[(slug, period)] = totals.get((slug, period), 0.0) + mw
+        metrics.setdefault(slug, capacity_metric(slug, label))
+    observations = []
+    for (slug, period), mw in sorted(totals.items()):
+        mid = f'eia-operating-capacity-additions-monthly-{slug}'
+        observations.append({'id': f'{mid}-{period}', 'metric': mid, 'year': int(period[:4]), 'period': period, 'value': round(mw, 1),
+                              'upper': None, 'status': 'observation', 'source': SOURCE_ID, 'precision': 'eq', 'retrieved_at': retrieved_at,
+                              'method': 'curated', 'note': f"EIA API v2 operating-generator-capacity, generators newly operating {period}: {round(mw,1):,} MW nameplate."[:300]})
+    return metrics, observations
+
+
+def steo_metric():
+    return {'id': 'eia-steo-generation-outlook', 'layer': 'energy', 'title': 'U.S. electricity generation outlook (EIA STEO, annual)',
+            'unit': 'TWh', 'geography': 'United States',
+            'scope': "EIA Short-Term Energy Outlook total electricity generation, from the EIA API v2 STEO route (the ELGEN-family "
+                     "series; the exact live series id is confirmed only once the owner registers a key -- see the code comment on "
+                     "STEO_SERIES_ID). A machine-readable companion to the PDF-curated us-utility-generation-history metric, not a replacement for it.",
+            'direction': 'context', 'min': 0, 'max': 2_000_000,
+            'note': "EIA API v2 Short-Term Energy Outlook, public domain (U.S. government work); requires the owner's registered key, "
+                    "never recorded. Yearly series; each import appends newly published years and never rewrites earlier ones.",
+            'source_ids': [SOURCE_ID], 'company': None, 'measurement_type': 'eia_steo_generation_twh', 'project': None,
+            'allowed_statuses': ['observation', 'forecast'], 'geography_code': None,
+            'series_start_year': 2024, 'chart_default_start': 2024, 'chart_default_end': 2030, 'definition_stable': True,
+            'pre_period_note': "Series begins once the owner registers an EIA API key and the first live import runs. "
+                                "Missing years are unpublished, not zero."}
+
+
+def steo_records(rows, retrieved_at, today=None):
+    """Yearly STEO total generation. A fully elapsed year is an observation; the current
+    (still-elapsing) year and later years are a forecast, matching this project's existing
+    STEO convention for us-utility-generation-history."""
+    today = today or datetime.now(timezone.utc).date()
+    observations = []
+    for r in rows:
+        period = r.get('period')
+        if not period or not re.fullmatch(r'20\d\d', str(period)):
+            continue
+        raw = r.get('value')
+        if raw in (None, '', 'NA'):
+            continue
+        try:
+            value = float(raw)
+        except (TypeError, ValueError):
+            continue
+        year = int(period)
+        status = 'observation' if year < today.year else 'forecast'
+        observations.append({'id': f'eia-steo-generation-outlook-{year}', 'metric': 'eia-steo-generation-outlook', 'year': year,
+                              'period': str(year), 'value': round(value, 3), 'upper': None, 'status': status, 'source': SOURCE_ID,
+                              'precision': 'eq' if status == 'observation' else 'approx', 'retrieved_at': retrieved_at, 'method': 'curated',
+                              'note': f"EIA STEO, series {STEO_SERIES_ID} (placeholder id, confirm live), {year}: {value:,.1f}."[:300]})
+    return observations
+
+
+def run(apply=False, today=None):
+    key = api_access.key('eia')
+    if not key:
+        message = (f"No EIA API key registered. Register one at {REGISTRATION_URL}, save it to .local/api-keys.json "
+                    f"under \"eia\", then re-run this importer. No network calls made.")
+        print(message, flush=True)
+        return {'status': 'no_key', 'registration_url': REGISTRATION_URL}
+
+    retrieved = now()
+    private = research.LOCAL/'eia'; private.mkdir(parents=True, exist_ok=True)
+    calls = []
+
+    def pull(name, url):
+        try:
+            body = api_access.fetch(url, UA)
+        except Exception as e:
+            calls.append({'call': name, 'status': type(e).__name__}); return []
+        sha = hashlib.sha256(body).hexdigest()
+        (private/f'{name}-{sha[:12]}.json').write_bytes(body)
+        try:
+            rows = parse_rows(body)
+        except ValueError:
+            calls.append({'call': name, 'status': 'unparseable'}); return []
+        calls.append({'call': name, 'status': 'ok', 'sha256': sha, 'rows': len(rows)})
+        return rows
+
+    gen_rows = pull('net-generation', net_generation_url())
+    cap_rows = pull('capacity-additions', capacity_url())
+    steo_rows = pull('steo', steo_url())
+
+    all_metrics = {}
+    all_obs = []
+    gen_obs = net_generation_records(gen_rows, retrieved)
+    if gen_obs:
+        all_metrics['eia-net-generation-monthly'] = net_generation_metric()
+        all_obs += gen_obs
+    cap_metrics, cap_obs = capacity_addition_records(cap_rows, retrieved)
+    all_metrics.update(cap_metrics); all_obs += cap_obs
+    steo_obs = steo_records(steo_rows, retrieved, today)
+    if steo_obs:
+        all_metrics['eia-steo-generation-outlook'] = steo_metric()
+        all_obs += steo_obs
+
+    SNAPSHOTS.mkdir(exist_ok=True)
+    snapshot = {'dataset': 'EIA API v2 electricity data', 'source_id': SOURCE_ID, 'retrieved_at': retrieved, 'calls': calls,
+                'metrics': sorted(all_metrics), 'records': len(all_obs), 'license': 'Public domain (U.S. government work)',
+                'key': 'owner-registered, not recorded', 'steo_series_id_placeholder': STEO_SERIES_ID}
+    save(SNAPSHOTS/'eia.json', snapshot)
+
+    registry = load(ROOT/'research/sources.json'); ledger = load(ROOT/'site/data/ledger.json'); catalog = load(ROOT/'research/catalog.json')
+    existing_ids = {o['id'] for o in ledger['observations']}
+    new_obs = [o for o in all_obs if o['id'] not in existing_ids]
+    with_records = {o['metric'] for o in all_obs}
+    known = {m['id'] for m in catalog['metrics']}
+    new_metrics = [m for mid, m in sorted(all_metrics.items()) if mid not in known and mid in with_records]
+
+    ok = sum(1 for c in calls if c['status'] == 'ok')
+    print(f"api calls ok {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new)", flush=True)
+    result = {'status': 'ok', 'metrics': new_metrics, 'records': new_obs, 'calls': calls}
+    if not apply:
+        return result
+    from importer_common import apply_changes
+    collection_entries = {SOURCE_ID: {'rank': 1, 'region_book': 'united-states', 'company_id': None, 'claim_type': 'other', 'cadence': 'manual', 'weekday': 0, 'path_prefixes': [], 'topics': [], 'excerpts': False}}
+    apply_changes(ROOT, importer_id='eia', new_sources=[SOURCE] if SOURCE_ID not in {s['id'] for s in registry['sources']} else (),
+                  collection_entries=collection_entries, region_book='united-states',
+                  new_metrics=new_metrics, new_observations=new_obs, snapshot=snapshot)
+    print('catalog, registry and ledger updated; site rebuilt', flush=True)
+    return result
+
+
+def main(argv=None):
+    p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
+    a = p.parse_args(argv); run(apply=a.apply); return 0
+
+
+if __name__ == '__main__': sys.exit(main())

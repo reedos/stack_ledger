@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T12:00:00Z",
-  "owner_decision": "September 9, 2026: named government statistical APIs are used under their own terms with the owner's registered key; robots.txt does not govern these documented API paths. Keys live in .local/api-keys.json. data.bls.gov QCEW open-data files are included as a documented keyless programmatic path, pending owner confirmation.",
+  "reviewed_at": "2026-09-09T18:00:00Z",
+  "owner_decision": "September 9, 2026: named government statistical APIs are used under their own terms with the owner's registered key; robots.txt does not govern these documented API paths. Keys live in .local/api-keys.json. data.bls.gov QCEW open-data files are included as a documented keyless programmatic path, pending owner confirmation. Also September 9, 2026: SEC EDGAR's data.sec.gov/www.sec.gov XBRL and ticker-lookup paths are added as a keyless statistical API under SEC's fair-access policy (declared contact User-Agent, no more than 10 requests/second; this project holds to 4). api.eia.gov/v2/ is added keyed (key name eia); until the owner registers a key at the listed registration URL, scripts/import_eia.py makes no network calls at all.",
   "hosts": {
     "api.bls.gov": {
       "publisher": "U.S. Bureau of Labor Statistics",
@@ -37,6 +37,42 @@
       "limits": "Documented keyless open-data files; one request per second, files cached locally by hash",
       "registration": null,
       "note": "QCEW Open Data Access is documented by BLS for programmatic retrieval and carries no key; the host robots.txt is written for crawlers. Listed here as a keyless documented API path for the owner to confirm or strike."
+    },
+    "data.sec.gov": {
+      "publisher": "U.S. Securities and Exchange Commission",
+      "terms": "https://www.sec.gov/os/webmaster-faq#developers",
+      "paths": [
+        "/api/xbrl/"
+      ],
+      "key_name": null,
+      "key_param": null,
+      "limits": "SEC fair-access policy: a declared User-Agent naming the operator with a contact address, no more than 10 requests/second; this project holds to 4 requests/second and its shared api_access.fetch helper further spaces every request one second apart per host.",
+      "registration": null,
+      "note": "Documented XBRL company-facts JSON API, no key required. Listed here as a keyless statistical API path under SEC's own fair-access policy rather than data.sec.gov's crawler-facing robots.txt."
+    },
+    "www.sec.gov": {
+      "publisher": "U.S. Securities and Exchange Commission",
+      "terms": "https://www.sec.gov/os/webmaster-faq#developers",
+      "paths": [
+        "/files/company_tickers.json"
+      ],
+      "key_name": null,
+      "key_param": null,
+      "limits": "SEC fair-access policy: a declared User-Agent naming the operator with a contact address, no more than 10 requests/second; this project holds to 4 requests/second and its shared api_access.fetch helper further spaces every request one second apart per host.",
+      "registration": null,
+      "note": "The single published ticker-to-CIK lookup file used to make CIK resolution deterministic (research/sec-companies.json); not a crawlable page."
+    },
+    "api.eia.gov": {
+      "publisher": "U.S. Energy Information Administration",
+      "terms": "https://www.eia.gov/opendata/documentation.php",
+      "paths": [
+        "/v2/"
+      ],
+      "key_name": "eia",
+      "key_param": "api_key",
+      "limits": "EIA API v2 requires a free registered key on every call; EIA publishes no fixed rate ceiling beyond fair use. This project's shared api_access.fetch helper spaces every request one second apart per host.",
+      "registration": "https://www.eia.gov/opendata/register.php",
+      "note": "scripts/import_eia.py makes no network call at all until .local/api-keys.json has an 'eia' key; it prints the registration URL and exits 0 instead."
     }
   },
   "importers_only": true,
