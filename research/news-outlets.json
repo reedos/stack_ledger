@@ -1,0 +1,349 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-09-10T00:00:00Z",
+  "instructions": "Deliverable 4 (owner decision, September 10, 2026): register every trade and general-interest outlet below that publishes a working public feed and permits crawling, so the daily runner sees the day's stories -- every item stays grade C (claim_type: news, source_policy.grade_for) and can never enter a numeric series, chart or headline. 'layers' is the reviewed beat assignment for the outlet's own feed source record, not a topic filter -- discovery still only walks pages matching the registry's own path_prefixes/topics. Run 'python scripts/find_feeds.py --outlets --register' to probe every outlet below that has no 'status' yet (or whose 'status' is 'rejected', to retry it) and register what passes; the script writes 'status'/'reason'/'source_id'/'checked_at' back onto each entry below so a later run does not blindly re-probe a host that already answered. Never guess a feed path by hand into this file -- only the probe's own eligibility check (parses, same-host entries, a stable article path, robots allows it) adds a source_id.",
+  "outlets": [
+    {
+      "name": "Data Center Frontier",
+      "home": "https://www.datacenterfrontier.com/",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-datacenterfrontier-com-1b7366"
+    },
+    {
+      "name": "Data Center Knowledge",
+      "home": "https://www.datacenterknowledge.com/",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-datacenterknowledge-com-bb714f"
+    },
+    {
+      "name": "Data Center Dynamics",
+      "home": "https://www.datacenterdynamics.com/",
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-datacenterdynamics-com-727821"
+    },
+    {
+      "name": "Latitude Media",
+      "home": "https://www.latitudemedia.com/",
+      "layers": [
+        "energy"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-latitudemedia-com-072d3a"
+    },
+    {
+      "name": "Heatmap News",
+      "home": "https://heatmap.news/",
+      "layers": [
+        "energy"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-heatmap-news-94f854"
+    },
+    {
+      "name": "POWER Magazine",
+      "home": "https://www.powermag.com/",
+      "layers": [
+        "energy"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-powermag-com-03cb73"
+    },
+    {
+      "name": "RTO Insider",
+      "home": "https://www.rtoinsider.com/",
+      "layers": [
+        "energy"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "probe error (ParseError)"
+    },
+    {
+      "name": "Utility Dive",
+      "home": "https://www.utilitydive.com/",
+      "layers": [
+        "energy"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-utilitydive-com-f0fb32"
+    },
+    {
+      "name": "Canary Media",
+      "home": "https://www.canarymedia.com/",
+      "layers": [
+        "energy"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "feed fetched but did not parse as a genuine, same-host article feed with a stable path"
+    },
+    {
+      "name": "Semiconductor Engineering",
+      "home": "https://semiengineering.com/",
+      "layers": [
+        "chips"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-semiengineering-com-234e4a"
+    },
+    {
+      "name": "SemiAnalysis",
+      "home": "https://semianalysis.com/",
+      "layers": [
+        "chips"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-semianalysis-com-60a43a"
+    },
+    {
+      "name": "Tom's Hardware",
+      "home": "https://www.tomshardware.com/",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-tomshardware-com-92686c"
+    },
+    {
+      "name": "AnandTech",
+      "home": "https://www.anandtech.com/",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "robots.txt could not be read as a usable policy (bot-protection challenge page, unreachable, or an off-host redirect); fails closed per RFC 9309"
+    },
+    {
+      "name": "IEEE Spectrum",
+      "home": "https://spectrum.ieee.org/",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-spectrum-ieee-org-9ab67a"
+    },
+    {
+      "name": "EE Times",
+      "home": "https://www.eetimes.com/",
+      "layers": [
+        "chips"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "network error reaching the homepage twice (TimeoutError); never reached a candidate feed"
+    },
+    {
+      "name": "The Next Platform",
+      "home": "https://www.nextplatform.com/",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "robots.txt disallows crawling www.nextplatform.com"
+    },
+    {
+      "name": "Blocks & Files",
+      "home": "https://www.blocksandfiles.com/",
+      "layers": [
+        "infrastructure",
+        "chips"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "robots.txt disallows crawling www.blocksandfiles.com"
+    },
+    {
+      "name": "ServeTheHome",
+      "home": "https://www.servethehome.com/",
+      "layers": [
+        "infrastructure",
+        "chips"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-servethehome-com-104967"
+    },
+    {
+      "name": "TechCrunch",
+      "home": "https://techcrunch.com/",
+      "layers": [
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-techcrunch-com-f84187"
+    },
+    {
+      "name": "Ars Technica",
+      "home": "https://arstechnica.com/",
+      "layers": [
+        "chips",
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-arstechnica-com-48cf4d"
+    },
+    {
+      "name": "The Verge",
+      "home": "https://www.theverge.com/",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-theverge-com-8c3d9d"
+    },
+    {
+      "name": "VentureBeat",
+      "home": "https://venturebeat.com/",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "the homepage answered HTTP 429 twice; never reached a candidate feed"
+    },
+    {
+      "name": "ZDNet",
+      "home": "https://www.zdnet.com/",
+      "layers": [
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-zdnet-com-8dad9f"
+    },
+    {
+      "name": "Axios",
+      "home": "https://www.axios.com/",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "the homepage answered HTTP 403 twice; never reached a candidate feed"
+    },
+    {
+      "name": "CNBC",
+      "home": "https://www.cnbc.com/",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:44:31Z",
+      "status": "rejected",
+      "reason": "the homepage could not be safely fetched (Source exceeds size cap)"
+    },
+    {
+      "name": "Import AI",
+      "home": "https://importai.substack.com/",
+      "layers": [
+        "models"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-importai-substack-com-0f90c1"
+    },
+    {
+      "name": "Epoch AI",
+      "home": "https://epoch.ai/",
+      "layers": [
+        "models"
+      ],
+      "checked_at": "2026-09-10T17:44:31Z",
+      "status": "rejected",
+      "reason": "no feed link discovered on the homepage or well-known feed paths (fetched fine, nothing pointed to a feed)"
+    },
+    {
+      "name": "Hugging Face Blog",
+      "home": "https://huggingface.co/blog",
+      "layers": [
+        "models"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-huggingface-co-61d314"
+    },
+    {
+      "name": "MIT Technology Review",
+      "home": "https://www.technologyreview.com/",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-technologyreview-com-abb25a"
+    },
+    {
+      "name": "Construction Dive",
+      "home": "https://www.constructiondive.com/",
+      "layers": [
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "the homepage answered HTTP 403 twice; never reached a candidate feed"
+    },
+    {
+      "name": "ENR",
+      "home": "https://www.enr.com/",
+      "layers": [
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-enr-com-a22a7c"
+    },
+    {
+      "name": "Smart Cities Dive",
+      "home": "https://www.smartcitiesdive.com/",
+      "layers": [
+        "infrastructure"
+      ],
+      "checked_at": "2026-09-10T17:42:06Z",
+      "status": "rejected",
+      "reason": "the homepage answered HTTP 403 twice; never reached a candidate feed"
+    }
+  ]
+}
