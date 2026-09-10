@@ -589,3 +589,20 @@ class CandidateCapTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class GitHelperEncodingTests(unittest.TestCase):
+    """git() must decode UTF-8 regardless of the console code page: the preflight reads the committed
+    ledger through `git show`, and that JSON contains non-cp1252 characters (blocked a session 2026-09-09)."""
+    def test_git_show_of_the_committed_ledger_parses(self):
+        import json as _json
+        data=_json.loads(research.git('show','HEAD:site/data/ledger.json'))
+        self.assertIn('observations',data)
+
+    def test_git_helper_requests_utf8_decoding(self):
+        from unittest.mock import patch as _patch
+        import subprocess as _sp
+        completed=_sp.CompletedProcess(['git'],0,stdout='ok'+chr(10),stderr='')
+        with _patch.object(research.subprocess,'run',return_value=completed) as run:
+            self.assertEqual(research.git('status'),'ok')
+        self.assertEqual(run.call_args.kwargs.get('encoding'),'utf-8');self.assertEqual(run.call_args.kwargs.get('errors'),'replace')

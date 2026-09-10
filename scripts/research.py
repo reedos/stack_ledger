@@ -518,8 +518,10 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
     return accepted
 
 def git(*args):
-    result=subprocess.run(['git',*args],cwd=ROOT,capture_output=True,text=True,check=True,timeout=90)
-    return result.stdout.strip()
+    # git writes UTF-8 (file names and `git show` of the UTF-8 JSON data files); Windows' default
+    # cp1252 decoder crashed the reader thread on a right-quote byte and blocked a session on 2026-09-09.
+    result=subprocess.run(['git',*args],cwd=ROOT,capture_output=True,text=True,encoding='utf-8',errors='replace',check=True,timeout=90)
+    return (result.stdout or '').strip()
 
 def pending_changes():
     """Unstaged edits to publishable files only: deferred monitoring output waiting for the session commit.
