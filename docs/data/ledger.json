@@ -25150,6 +25150,19 @@
       ],
       "license": "Original source rights apply",
       "parent_source": "outlet-www-datacenterdynamics-com-727821"
+    },
+    {
+      "id": "discovered-8063a4e40bb66987",
+      "publisher": "Data Center Knowledge",
+      "title": "Discovered public update · Data Center Knowledge",
+      "url": "https://www.datacenterknowledge.com/energy-power-supply/sunrun-voltus-bring-home-batteries-into-ai-capacity-push",
+      "published": "2026-08-17",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "parent_source": "outlet-www-datacenterknowledge-com-bb714f"
     }
   ],
   "observations": [
@@ -66200,6 +66213,25 @@
       "about": [],
       "quote": "Real estate developer S+B Gruppe has secured planning permission to build a 12MW data center in Bucharest, southern Romania.\nNamed ‘NIMB,’ the firm said that it had received approval for a building permit and a grid connection request for the Tier III facility in the city’s northern office district.\n– S+B Gruppe\nThe data center will provide 36,597 square feet (3,400sqm) of white space and is expected to open in 2028.",
       "confirmation": "unconfirmed"
+    },
+    {
+      "title": "Sunrun Voltus residential battery capacity for AI hyperscale data centers",
+      "summary": "Sunrun will supply Voltus with capacity from residential solar-plus-storage systems in PJM and MISO under an agreement supporting Voltus’ Bring Your Own Capacity programs for AI hyperscale data centers, announced August 17, 2026. The companies did not disclose the capacity, number of participating homes, or specific hyperscaler projects.",
+      "layer": "energy",
+      "kind": "News report",
+      "id": "note-87533d1fd4c2bd40cd88",
+      "source": "discovered-8063a4e40bb66987",
+      "date": "2026-08-17",
+      "method": "automated",
+      "retrieved_at": "2026-09-10T19:16:56Z",
+      "document_sha256": "b7928119c5f35a684c2d2b4ad0155045d45e438bc984dc57411db443faa3fd37",
+      "evidence_sha256": "c71adaaed50518d2046cd7ca772c50e5488d0e6688c68ce764b05431665c56e4",
+      "grade": "C",
+      "outlet": "Data Center Knowledge",
+      "reported_on": "2026-08-17",
+      "about": [],
+      "quote": "Sunrun will supply Voltus with capacity from residential solar-plus-storage systems in PJM and MISO grid operator regions under an agreement supporting Voltus’ “Bring Your Own Capacity” programs for AI hyperscale data centers, the companies said today (August 17).",
+      "confirmation": "unconfirmed"
     }
   ],
   "targets": [
@@ -79327,6 +79359,39 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260910T191557Z-468d30295a09442985145de538bcccb9",
+      "started_at": "2026-09-10T19:15:57Z",
+      "finished_at": "2026-09-10T19:16:12Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T191638Z-b96241f19c6e4a22a8379a34631643c4",
+      "started_at": "2026-09-10T19:16:38Z",
+      "finished_at": "2026-09-10T19:17:05Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -79336,7 +79401,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-10T19:14:32Z",
+    "last_attempt": "2026-09-10T19:17:05Z",
     "last_success": "2026-09-09T00:19:21Z",
     "status": "partial",
     "latest_session": {
