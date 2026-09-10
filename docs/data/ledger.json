@@ -25124,6 +25124,18 @@
       ],
       "license": "Original source rights apply",
       "index": true
+    },
+    {
+      "id": "discovered-7b86b5fc6e6881b9",
+      "publisher": "Fervo Energy",
+      "title": "Discovered public update · Fervo Energy",
+      "url": "https://fervoenergy.gcs-web.com/news-releases/news-release-details/fervo-energy-learning-curve-continues-3rd-generation-well-design",
+      "published": "2026-07-08",
+      "layers": [
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "parent_source": "feed-fervo-37c88d"
     }
   ],
   "observations": [
@@ -66141,6 +66153,20 @@
       "document_sha256": "bbd2b32a827111b8a7aa6c82f310ed27864f34938e3f96ce67b0e99fc6360610",
       "evidence_sha256": "6792c6e09fb92132c43e6afdae2d87678be72026c37a3aa0739b4794d68f96c7",
       "grade": "B"
+    },
+    {
+      "title": "Fervo 3.0 well design drilling pace record at Cape Station Phase II",
+      "summary": "Fervo says it drilled Sawtooth 7, the ninth 3.0 well at Cape Station Phase II, from spud to total depth in 21 days, reaching 19,448 feet measured depth with a 7,500-foot lateral in a 460 degrees Fahrenheit resource. The company says this sets a new company record for drilling pace on its most complex well design to date.",
+      "layer": "energy",
+      "kind": "Company announcement",
+      "id": "note-d13949dbfe3d888c1725",
+      "source": "discovered-7b86b5fc6e6881b9",
+      "date": "2026-07-08",
+      "method": "automated",
+      "retrieved_at": "2026-09-10T19:12:51Z",
+      "document_sha256": "fe0f79a01ddd29382f487560f01d8e6cdb5d07f3c3a62cea61eddab56b621011",
+      "evidence_sha256": "b674f78b22d532a6d6ec2531494fe21a84a2b928cab371509de91f8599e2b931",
+      "grade": "B"
     }
   ],
   "targets": [
@@ -79030,6 +79056,227 @@
       ],
       "model_calls": 0,
       "coverage_layers": []
+    },
+    {
+      "id": "run-20260910T185905Z-455fb863e5c143f8a29f619aebe08235",
+      "started_at": "2026-09-10T18:59:05Z",
+      "finished_at": "2026-09-10T19:00:13Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 12,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T190036Z-10be86978f43452a9b0e95046a6e6941",
+      "started_at": "2026-09-10T19:00:36Z",
+      "finished_at": "2026-09-10T19:01:44Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "eaton-transformers",
+          "reason": "Robots policy unavailable (ConnectionResetError); source skipped"
+        },
+        {
+          "source": "firstsolar-louisiana",
+          "reason": "Robots policy unavailable (TimeoutError); source skipped"
+        }
+      ],
+      "model_calls": 4,
+      "coverage_layers": [
+        "applications"
+      ]
+    },
+    {
+      "id": "run-20260910T190211Z-c6b5d0ef8ff942e1939e49b6d2bc6b56",
+      "started_at": "2026-09-10T19:02:11Z",
+      "finished_at": "2026-09-10T19:02:37Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-alphabet",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 7,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T190302Z-282a4b2817324df68fa505873de00b6c",
+      "started_at": "2026-09-10T19:03:02Z",
+      "finished_at": "2026-09-10T19:03:37Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 10,
+      "coverage_layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "run-20260910T190401Z-d1f7ca934d3b4edeb62efbbc5222bd51",
+      "started_at": "2026-09-10T19:04:01Z",
+      "finished_at": "2026-09-10T19:04:51Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 9,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T190516Z-295db1c1797b4705b4c1c13e62907374",
+      "started_at": "2026-09-10T19:05:16Z",
+      "finished_at": "2026-09-10T19:06:15Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 12,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T190636Z-e02ca92f36d640d1987c379846748b3d",
+      "started_at": "2026-09-10T19:06:36Z",
+      "finished_at": "2026-09-10T19:06:55Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T190716Z-c68d081eef9f4c20967dd556d5764de6",
+      "started_at": "2026-09-10T19:07:16Z",
+      "finished_at": "2026-09-10T19:08:14Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260910T190836Z-6047235199cb4aeba5b59bdcf7ae625c",
+      "started_at": "2026-09-10T19:08:36Z",
+      "finished_at": "2026-09-10T19:09:31Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 6,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T190957Z-848210b7ea2a4159bedb8950098a4af9",
+      "started_at": "2026-09-10T19:09:57Z",
+      "finished_at": "2026-09-10T19:10:44Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 10,
+      "coverage_layers": [
+        "chips"
+      ]
+    },
+    {
+      "id": "run-20260910T191107Z-67adc4f882504406b2500adc81c76791",
+      "started_at": "2026-09-10T19:11:07Z",
+      "finished_at": "2026-09-10T19:11:25Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260910T191147Z-2ac532e386c74e998c0c553d268ddd8f",
+      "started_at": "2026-09-10T19:11:47Z",
+      "finished_at": "2026-09-10T19:12:03Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "energy"
+      ]
+    },
+    {
+      "id": "run-20260910T191227Z-f33123be9bbd492fa3401db03c84f4d1",
+      "started_at": "2026-09-10T19:12:27Z",
+      "finished_at": "2026-09-10T19:12:56Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "energy"
+      ]
     }
   ],
   "runtime": {
@@ -79039,9 +79286,9 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-10T04:00:23Z",
+    "last_attempt": "2026-09-10T19:12:56Z",
     "last_success": "2026-09-09T00:19:21Z",
-    "status": "failed",
+    "status": "partial",
     "latest_session": {
       "started_at": "2026-09-10T03:12:15.411583+00:00",
       "state": "blocked",
