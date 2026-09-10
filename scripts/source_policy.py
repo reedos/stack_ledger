@@ -100,7 +100,29 @@ def discoverable(source, url, policy):
     if any(x in path for x in ('..', '/tag/', '/category/', '/author/', '/page/')):
         return False
     prefixes = policy.get('path_prefixes', [])
-    return bool(prefixes and any(path.startswith(p.lower()) for p in prefixes) and any(t.lower() in path for t in policy.get('topics', [])))
+    if not (prefixes and any(path.startswith(x.lower()) for x in prefixes)):
+        return False
+    return topical(path, policy.get('topics', []))
+
+
+def topical(path, topics):
+    """A topic matches a whole word of the URL path, never a fragment of one.
+
+    Substring matching let 'ai' match 'aim' and 'chain', so a Snapchat feature story passed the
+    filter and cost a model call (measured 2026-09-10). A multi-word topic ('data-center') matches
+    as a phrase across adjacent words, so both /data-center/ and /data_center_news/ still match."""
+    words = [w for w in re.split(r'[^a-z0-9]+', path.lower()) if w]
+    joined = ' '.join(words)
+    for topic in topics or []:
+        parts = [w for w in re.split(r'[^a-z0-9]+', str(topic).lower()) if w]
+        if not parts:
+            continue
+        if len(parts) == 1:
+            if parts[0] in words:
+                return True
+        elif ' '.join(parts) in joined:
+            return True
+    return False
 
 def validate_registry(registry, companies):
     sources = {s['id']:s for s in registry['sources']}
@@ -124,7 +146,12 @@ def validate_registry(registry, companies):
         # official social account (rank 6) may be walked this way.
         require(p['rank']!=5 or not sources[sid].get('index'), 'A rank-5 aggregator cannot be an index/feed source; it must remain a private lead')
         for prefix in p['path_prefixes']:
-            require(prefix.startswith('/') and prefix!='/' and '*' not in prefix and '..' not in prefix, 'Wildcard discovery forbidden')
+            # A feed source's candidate links come from the feed's own entries, not from walking the
+            # site, so a whole-site prefix there means "any article this outlet published" and the
+            # reviewed topic words do the filtering. An ordinary page is still walked for same-host
+            # links, so '/' would be real wildcard discovery and stays forbidden.
+            whole_site=prefix=='/' and sources[sid].get('index')
+            require(prefix.startswith('/') and (prefix!='/' or whole_site) and '*' not in prefix and '..' not in prefix, 'Wildcard discovery forbidden')
         require(not p['path_prefixes'] or p['topics'], 'Discovery needs reviewed topics')
         for topic in p['topics']: text(topic,80)
 

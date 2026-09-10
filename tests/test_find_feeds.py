@@ -182,3 +182,49 @@ class OutletRejectionReasonTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class TopicWordMatchingTests(unittest.TestCase):
+    """A topic matches a whole word of the path. Substring matching let 'ai' match 'aim', so a
+    Snapchat feature story reached the model (measured in the 2026-09-10 session)."""
+    def setUp(self):
+        import source_policy
+        self.topical = source_policy.topical
+        self.topics = ff.TOPICS
+
+    def test_fragments_no_longer_match(self):
+        for path in ['/2026/09/10/snapchat-takes-aim-at-partiful-with-new-event-planning-features/',
+                     '/2026/09/10/the-boring-company-raises-3b-in-round-led-by-uae/',
+                     '/gadgets/2026/09/apple-debuts-129-airpods-5-with-better-noise-cancellation/']:
+            with self.subTest(path=path):
+                self.assertFalse(self.topical(path, self.topics))
+
+    def test_on_thesis_paths_still_match(self):
+        for path in ['/2026/09/09/massachusetts-hits-data-centers-with-new-clean-power-rules/',
+                     '/en/news/s-b-gruppe-to-build-data-center-in-bucharest-romania/',
+                     '/energy-power-supply/pjms-new-deal-for-data-centers-bring-power-or-face-cuts',
+                     '/news/google-bankrolls-pge-virtual-power-plant',
+                     '/articles/63611-federal-board-halts-167-mw-nevada-data-center-approval']:
+            with self.subTest(path=path):
+                self.assertTrue(self.topical(path, self.topics))
+
+    def test_multi_word_topics_match_as_a_phrase_either_spelling(self):
+        self.assertTrue(self.topical('/news/new-data-center-approved/', ['data-center']))
+        self.assertTrue(self.topical('/news/new_data_center_approved/', ['data-center']))
+        self.assertFalse(self.topical('/news/centre-of-data-analysis/', ['data-center']))
+
+    def test_a_feed_source_may_carry_a_whole_site_prefix_but_a_page_may_not(self):
+        # Exercised against the real reviewed registry: every registered news outlet is a feed with
+        # a whole-site prefix, and dropping its index flag must make the same registry invalid.
+        from source_policy import validate_registry
+        real = json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
+        companies = {c['id'] for c in json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']}
+        news = [sid for sid, c in real['collection'].items() if c.get('claim_type') == 'news']
+        self.assertTrue(news)
+        self.assertTrue(all(real['collection'][sid]['path_prefixes'] == ['/'] for sid in news))
+        validate_registry(json.loads(json.dumps(real)), companies)      # a feed may
+        demoted = json.loads(json.dumps(real))
+        for source in demoted['sources']:
+            if source['id'] == news[0]: source.pop('index', None)
+        with self.assertRaises(ValueError):
+            validate_registry(demoted, companies)                       # an ordinary page may not

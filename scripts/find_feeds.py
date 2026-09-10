@@ -35,7 +35,10 @@ from validate import timestamp, text, LAYERS
 ROOT=Path(__file__).resolve().parents[1]
 FEED_TYPES={'application/rss+xml','application/atom+xml','application/xml','text/xml'}
 WELL_KNOWN=['/feed','/rss','/rss.xml','/feed.xml','/atom.xml','/news/rss','/news/rss.xml','/newsroom/rss.xml','/press-releases/rss','/blog/feed','/blog/rss.xml','/rss/news-releases.xml','/rss/pressrelease.aspx','/rss/news-releases']
-TOPICS=['ai','artificial-intelligence','data-center','data-centre','nuclear','annual','report','inference','semiconductor','model','chip','compute','power','intelligence']
+# Reviewed on-thesis words for a news outlet's article slugs. Matched whole-word by
+# source_policy.topical, so 'ai' no longer matches 'aim' or 'chain' (measured 2026-09-10:
+# a Snapchat feature story passed the old substring filter and cost a model call).
+TOPICS=["ai", "artificial-intelligence", "data-center", "data-centre", "datacenter", "datacentre", "semiconductor", "semiconductors", "chip", "chips", "wafer", "fab", "foundry", "gpu", "gpus", "accelerator", "accelerators", "hbm", "packaging", "nuclear", "grid", "power", "energy", "electricity", "utility", "utilities", "interconnection", "transmission", "substation", "turbine", "solar", "geothermal", "battery", "storage", "cooling", "megawatt", "megawatts", "gigawatt", "capacity", "compute", "inference", "training", "model", "models", "cluster", "supercomputer", "fusion", "ppa", "capex", "hyperscaler", "hyperscale"]
 
 # Deliverable 4 (owner decision, September 10, 2026): independent news outlets, probed and
 # registered as rank-4 claim_type: news sources with excerpts: true (grade C -- see
