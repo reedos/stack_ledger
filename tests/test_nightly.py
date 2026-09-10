@@ -224,7 +224,8 @@ class RunOrchestrationTests(unittest.TestCase):
         self.assertEqual(code, 0)
         plan = json.loads(buf.getvalue())
         self.assertEqual(plan['stages'], nightly.STAGES)
-        self.assertIn('epoch', plan['importers_due'])
+        expected = [i['id'] for i in nightly.due_importers(config, datetime.now(timezone.utc).date())]   # not a fixed weekday: the suite runs every day
+        self.assertEqual(plan['importers_due'], expected)
         self.assertTrue(plan['research_ignore_gpu_busy'])
         self.assertFalse((self.root/'.local').exists())
 
