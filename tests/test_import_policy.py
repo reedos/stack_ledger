@@ -29,6 +29,9 @@ LONG_TITLE_DOC = {'document_number': '2026-99999', 'title': 'A' + 'very long fed
                    'html_url': 'https://www.federalregister.gov/documents/2026/08/01/2026-99999/long-title-document'}
 
 
+ANCHORS=["data center","large load","advanced computing","artificial intelligence"]
+
+
 class PolicyTopicsConfigTests(unittest.TestCase):
     def test_reviewed_config_loads_and_validates(self):
         p = ip.policy(ROOT)
@@ -70,20 +73,20 @@ class ParseTests(unittest.TestCase):
 class SelectDocumentsTests(unittest.TestCase):
     def test_dedup_keeps_the_first_matching_querys_layer(self):
         query_results = [('energy', [DOE_DOC]), ('chips', [DOE_DOC])]   # same document from two queries
-        candidates, chosen = ip.select_documents(query_results, 20)
+        candidates, chosen, leads = ip.select_documents(query_results, 20, ANCHORS)
         self.assertEqual(len(candidates), 1)
         doc, layer = candidates['2026-18370']
         self.assertEqual(layer, 'energy')   # first query wins
 
     def test_sorts_newest_first_and_caps_at_max_documents(self):
         query_results = [('energy', [DOE_DOC, FERC_DOC]), ('chips', [BIS_DOC])]
-        candidates, chosen = ip.select_documents(query_results, 2)
+        candidates, chosen, leads = ip.select_documents(query_results, 2)   # sorting/capping only: no anchor filter
         self.assertEqual(len(candidates), 3)
         self.assertEqual(len(chosen), 2)
         self.assertEqual([n for n, _ in chosen], ['2026-18370', '2026-18151'])   # 09-09, 09-04 beat 06-01
 
     def test_missing_document_number_is_skipped(self):
-        candidates, chosen = ip.select_documents([('energy', [{'title': 'no number'}])], 20)
+        candidates, chosen, leads = ip.select_documents([('energy', [{'title': 'no number'}])], 20, ANCHORS)
         self.assertEqual(candidates, {})
 
 
@@ -147,3 +150,28 @@ class DocumentMappingTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class AnchorTests(unittest.TestCase):
+    """A published government action must be about the buildout in its own title or abstract.
+    The first live run published a Wyoming regional-haze plan, an Alaska hydro permit and three
+    'Combined Notice of Filings' digests, all full-text matches (checked 2026-09-10)."""
+    def docs(self):
+        return [('energy', [
+            {'document_number': '1', 'title': 'Combined Notice of Filings #1', 'publication_date': '2026-08-19'},
+            {'document_number': '2', 'title': 'Regional Haze Federal Implementation Plan; Wyoming', 'publication_date': '2026-06-08', 'abstract': 'Air quality plan.'},
+            {'document_number': '3', 'title': 'Large Load Interconnection Reform', 'publication_date': '2026-09-01'},
+            {'document_number': '4', 'title': 'Notice of Proposed Rulemaking', 'publication_date': '2026-09-02',
+             'abstract': 'Addresses electricity demand from data centers in the region.'}]) ]
+
+    def test_only_documents_about_the_buildout_are_published(self):
+        candidates, chosen, leads = ip.select_documents(self.docs(), 20, ANCHORS)
+        self.assertEqual(sorted(n for n, _ in chosen), ['3', '4'])
+        self.assertEqual(sorted(l['document_number'] for l in leads), ['1', '2'])
+        self.assertTrue(all('anchor' in l['reason'] for l in leads))
+
+    def test_anchor_matching_is_whole_word(self):
+        self.assertTrue(ip.mentions('Rules for the data center industry', ANCHORS))
+        self.assertTrue(ip.mentions('DATA CENTERS and load growth', ['data center']))
+        self.assertFalse(ip.mentions('Datacenterless rulemaking', ['data center']))
+        self.assertFalse(ip.mentions('Regional haze plan for Wyoming', ANCHORS))

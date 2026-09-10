@@ -50,14 +50,14 @@ from validate import text, timestamp, LAYERS
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOTS = ROOT/'research/policy'
 API_BASE = 'https://www.federalregister.gov/api/v1/documents.json'
-FIELDS = ['document_number', 'title', 'publication_date', 'agencies', 'html_url', 'docket_ids', 'type']
+FIELDS = ['document_number', 'title', 'publication_date', 'agencies', 'html_url', 'docket_ids', 'type', 'abstract']
 MAX_BYTES = 5_000_000
 CONTROL_OR_MARKUP_RE = re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1f<>]')
 
 
 def policy(root=ROOT):
     p = json.loads((root/'research/policy-topics.json').read_text(encoding='utf-8'))
-    required = {'version', 'reviewed_at', 'owner_decision', 'api_base', 'lookback_days', 'max_documents_per_run', 'agencies', 'queries'}
+    required = {'version', 'reviewed_at', 'owner_decision', 'api_base', 'lookback_days', 'max_documents_per_run', 'agencies', 'queries', 'anchors'}
     require(set(p) == required and p['version'] == 1, 'Unexpected policy-topics shape')
     timestamp(p['reviewed_at']); text(p['owner_decision'], 1200)
     require(p['api_base'] == API_BASE, 'Reviewed Federal Register API base changed')
@@ -81,6 +81,38 @@ def since_date(lookback_days, today=None):
     today = today or datetime.now(timezone.utc).date()
     return (today - timedelta(days=lookback_days)).isoformat()
 
+
+
+# The abstract is the document's own summary and rarely exceeds a few thousand characters; the
+# UAE export rule names 'advanced computing items' only in its last sentence, so read all of it.
+ANCHOR_LIMIT = 4000
+
+
+def mentions(text_value, anchors):
+    """An anchor phrase appears as whole words in the document's own words."""
+    words = ' '.join(re.split(r'[^a-z0-9]+', (text_value or '').lower())).strip()
+    for anchor in anchors or []:
+        parts = [w for w in re.split(r'[^a-z0-9]+', str(anchor).lower()) if w]
+        if not parts:
+            continue
+        # A trailing plural is the same phrase: "data centers" matches the anchor "data center".
+        pattern = r'(?:^| )'+re.escape(' '.join(parts[:-1])+' ' if parts[:-1] else '')+re.escape(parts[-1])+r's?(?: |$)'
+        if re.search(pattern, words):
+            return True
+    return False
+
+
+def on_topic(doc, anchors):
+    """Publish only a document whose own title or abstract is about the buildout.
+
+    The Federal Register's `conditions[term]` searches full text, so a query for "data center"
+    electricity also returned a Wyoming regional-haze plan, an Alaska hydro preliminary permit and
+    three "Combined Notice of Filings" digests (checked 2026-09-10). Those are real matches deep in a
+    document and useless to a reader as an event, so they stay private leads instead.
+    """
+    if not anchors:
+        return True   # no reviewed anchors configured: nothing to filter on
+    return mentions(doc.get('title'), anchors) or mentions((doc.get('abstract') or '')[:ANCHOR_LIMIT], anchors)
 
 def documents_url(term, agency_slugs, since, per_page=20):
     parts = [f'conditions[term]={quote(term, safe="")}']
@@ -143,9 +175,10 @@ def document_event(doc, layer, publisher, source_id):
             'kind': 'Government action', 'grade': 'A'}
 
 
-def select_documents(query_results, max_documents):
-    """{document_number: (doc, layer)}, one entry per document -- a document matching more than
-    one reviewed query keeps the FIRST query's layer -- then newest-first, capped."""
+def select_documents(query_results, max_documents, anchors=()):
+    """({document_number: (doc, layer)}, published, leads). A document matching more than one
+    reviewed query keeps the FIRST query's layer. Only a document whose own title or abstract is
+    about the buildout is published; the rest are returned as private leads."""
     candidates = {}
     for layer, results in query_results:
         for doc in results:
@@ -154,7 +187,12 @@ def select_documents(query_results, max_documents):
                 continue
             candidates[number] = (doc, layer)
     ordered = sorted(candidates.items(), key=lambda kv: (kv[1][0].get('publication_date') or '', kv[0]), reverse=True)
-    return candidates, ordered[:max_documents]
+    published = [(n, v) for n, v in ordered if on_topic(v[0], anchors)]
+    leads = [{'document_number': n, 'title': v[0].get('title'), 'url': v[0].get('html_url'),
+              'publication_date': v[0].get('publication_date'), 'layer': v[1],
+              'reason': 'full-text match only: no reviewed anchor phrase in the title or abstract'}
+             for n, v in ordered if not on_topic(v[0], anchors)]
+    return candidates, published[:max_documents], leads
 
 
 def run(apply=False, today=None):
@@ -184,7 +222,10 @@ def run(apply=False, today=None):
         if i < len(p['queries']) - 1:
             time.sleep(1)   # one request per second per host
 
-    candidates, chosen = select_documents(query_results, p['max_documents_per_run'])
+    candidates, chosen, leads = select_documents(query_results, p['max_documents_per_run'], p['anchors'])
+    # A full-text-only match is retained privately: real, but not something a reader would
+    # recognise as an event about the buildout.
+    save(research.LOCAL/'policy-leads'/f'leads-{retrieved[:10]}.json', {'retrieved_at': retrieved, 'leads': leads})
 
     registry = load(ROOT/'research/sources.json')
     existing_source_ids = {s['id'] for s in registry['sources']}
