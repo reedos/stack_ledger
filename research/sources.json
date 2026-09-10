@@ -6031,6 +6031,21 @@
         "applications"
       ],
       "license": "Public domain (U.S. government work)"
+    },
+    {
+      "id": "sec-xbrl-companyfacts",
+      "publisher": "U.S. Securities and Exchange Commission",
+      "title": "SEC EDGAR XBRL Company Facts API",
+      "url": "https://www.sec.gov/edgar/sec-api-documentation",
+      "published": null,
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure",
+        "models",
+        "applications"
+      ],
+      "license": "Public domain (U.S. government work)"
     }
   ],
   "discovery_keywords": [
@@ -6182,7 +6197,8 @@
         "feed-recursion-4114ef",
         "bls-qcew-open-data",
         "census-qwi-api",
-        "census-btos-data"
+        "census-btos-data",
+        "sec-xbrl-companyfacts"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -12267,6 +12283,17 @@
       "region_book": "united-states",
       "company_id": null,
       "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "sec-xbrl-companyfacts": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "financial",
       "cadence": "manual",
       "weekday": 0,
       "path_prefixes": [],

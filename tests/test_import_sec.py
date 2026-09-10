@@ -168,3 +168,12 @@ class SecImportTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class SeriesStartTests(unittest.TestCase):
+    def test_frames_before_the_reviewed_series_start_are_skipped(self):
+        import import_sec as isec
+        frames={'CY2015': {'val': 1e9, 'form': '10-K', 'filed': '2016-02-01', 'accn': 'a'}, 'CY2024': {'val': 2e9, 'form': '10-K', 'filed': '2025-02-01', 'accn': 'b'}}
+        metrics, obs = isec.records_for('nvidia', 'chips', 'revenue', 'us-gaap:Revenues', frames, '2026-09-09T00:00:00Z', 'NVIDIA', 10000)
+        self.assertEqual([o['year'] for o in obs], [2024])
+        self.assertEqual(metrics['sec-revenue-nvidia-annual']['series_start_year'], isec.START_YEAR)

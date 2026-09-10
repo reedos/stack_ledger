@@ -132,7 +132,8 @@
         "feed-recursion-4114ef",
         "bls-qcew-open-data",
         "census-qwi-api",
-        "census-btos-data"
+        "census-btos-data",
+        "sec-xbrl-companyfacts"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -6217,6 +6218,17 @@
       "region_book": "united-states",
       "company_id": null,
       "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "sec-xbrl-companyfacts": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "financial",
       "cadence": "manual",
       "weekday": 0,
       "path_prefixes": [],

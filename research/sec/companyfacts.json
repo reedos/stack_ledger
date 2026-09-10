@@ -1,7 +1,7 @@
 {
   "dataset": "SEC XBRL company facts",
   "source_id": "sec-xbrl-companyfacts",
-  "retrieved_at": "2026-09-10T06:48:17Z",
+  "retrieved_at": "2026-09-10T06:50:12Z",
   "company_tickers_sha256": "4082b0e6fc5ecc91715b5a1ec6a8dcbdaf83add9e920b97b25c4f3c2548c3d6d",
   "companies": {
     "alphabet": {
@@ -9,7 +9,7 @@
       "cik": 1652044,
       "sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
       "metrics": 4,
-      "records": 72,
+      "records": 37,
       "latest_quarter": "2026-Q2",
       "latest_annual": "CY2025"
     },
@@ -18,7 +18,7 @@
       "cik": 2488,
       "sha256": "21a29c75076d90fced568785d855fc427a15c7458bc0bb153a9dedd88ad3349e",
       "metrics": 3,
-      "records": 37,
+      "records": 15,
       "latest_quarter": "2026-Q1",
       "latest_annual": "CY2025"
     },
@@ -36,7 +36,7 @@
       "cik": 50863,
       "sha256": "70056711b8b04d3a27e4a42b6d86e26f85ddaa3d59e480039d66ccfb353eb0b8",
       "metrics": 4,
-      "records": 73,
+      "records": 45,
       "latest_quarter": "2026-Q2",
       "latest_annual": "CY2025"
     },
@@ -54,7 +54,7 @@
       "cik": 310158,
       "sha256": "de2e92301923703e6aee247c42c0cf2f1b741118ebca221fbaa5dc0e47644bd7",
       "metrics": 4,
-      "records": 57,
+      "records": 39,
       "latest_quarter": "2026-Q2",
       "latest_annual": "CY2025"
     },
@@ -63,7 +63,7 @@
       "cik": 1326801,
       "sha256": "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e",
       "metrics": 4,
-      "records": 62,
+      "records": 15,
       "latest_quarter": "2026-Q1",
       "latest_annual": "CY2025"
     },
@@ -72,7 +72,7 @@
       "cik": 723125,
       "sha256": "a8b088c2111daef36536e53c81fef4c0f01220c64933e126a665b00a9257f882",
       "metrics": 4,
-      "records": 44,
+      "records": 14,
       "latest_quarter": "2025-Q4",
       "latest_annual": "CY2025"
     },
@@ -81,7 +81,7 @@
       "cik": 789019,
       "sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
       "metrics": 4,
-      "records": 86,
+      "records": 29,
       "latest_quarter": "2026-Q1",
       "latest_annual": "CY2026"
     },
@@ -90,7 +90,7 @@
       "cik": 1682852,
       "sha256": "12a0739e5dd00db86b0090739fb41774c5eebf2739f333839f0b619541a28262",
       "metrics": 4,
-      "records": 49,
+      "records": 34,
       "latest_quarter": "2026-Q1",
       "latest_annual": "CY2025"
     },
@@ -99,7 +99,7 @@
       "cik": 1045810,
       "sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
       "metrics": 4,
-      "records": 95,
+      "records": 32,
       "latest_quarter": "2026-Q2",
       "latest_annual": "CY2025"
     },
@@ -117,7 +117,7 @@
       "cik": 1318605,
       "sha256": "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204",
       "metrics": 4,
-      "records": 105,
+      "records": 47,
       "latest_quarter": "2026-Q2",
       "latest_annual": "CY2025"
     }
@@ -277,6 +277,6 @@
     "sec-revenue-tesla-annual",
     "sec-revenue-tesla-quarterly"
   ],
-  "records": 797,
+  "records": 424,
   "license": "Public domain (U.S. government work)"
 }

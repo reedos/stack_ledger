@@ -17607,6 +17607,1189 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "BTOS AI-use tracking begins with the survey supplement in this catalog (late 2025). Earlier periods are not estimated. Missing biweekly periods are not zero."
+    },
+    {
+      "id": "sec-capex-alphabet-annual",
+      "layer": "infrastructure",
+      "title": "Alphabet / Google · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Alphabet / Google's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "alphabet",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-alphabet-quarterly",
+      "layer": "infrastructure",
+      "title": "Alphabet / Google · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Alphabet / Google's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "alphabet",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-amd-annual",
+      "layer": "chips",
+      "title": "AMD · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "AMD's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "amd",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-amd-quarterly",
+      "layer": "chips",
+      "title": "AMD · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "AMD's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "amd",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-constellation-annual",
+      "layer": "energy",
+      "title": "Constellation Energy · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Constellation Energy's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "constellation",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-constellation-quarterly",
+      "layer": "energy",
+      "title": "Constellation Energy · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Constellation Energy's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "constellation",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-intel-annual",
+      "layer": "chips",
+      "title": "Intel · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Intel's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "intel",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-intel-quarterly",
+      "layer": "chips",
+      "title": "Intel · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Intel's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "intel",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-marvell-annual",
+      "layer": "chips",
+      "title": "Marvell · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Marvell's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "marvell",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-marvell-quarterly",
+      "layer": "chips",
+      "title": "Marvell · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Marvell's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "marvell",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-merck-annual",
+      "layer": "applications",
+      "title": "Merck · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Merck's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "merck",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-merck-quarterly",
+      "layer": "applications",
+      "title": "Merck · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Merck's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "merck",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-meta-annual",
+      "layer": "models",
+      "title": "Meta · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Meta's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "meta",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-meta-quarterly",
+      "layer": "models",
+      "title": "Meta · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Meta's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "meta",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-micron-annual",
+      "layer": "chips",
+      "title": "Micron · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Micron's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "micron",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-micron-quarterly",
+      "layer": "chips",
+      "title": "Micron · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Micron's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "micron",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-microsoft-annual",
+      "layer": "infrastructure",
+      "title": "Microsoft · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Microsoft's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "microsoft",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-microsoft-quarterly",
+      "layer": "infrastructure",
+      "title": "Microsoft · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Microsoft's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "microsoft",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-moderna-annual",
+      "layer": "applications",
+      "title": "Moderna · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Moderna's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "moderna",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-moderna-quarterly",
+      "layer": "applications",
+      "title": "Moderna · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Moderna's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "moderna",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-nvidia-quarterly",
+      "layer": "chips",
+      "title": "NVIDIA · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "NVIDIA's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "nvidia",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-recursion-annual",
+      "layer": "applications",
+      "title": "Recursion · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Recursion's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "recursion",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-recursion-quarterly",
+      "layer": "applications",
+      "title": "Recursion · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Recursion's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "recursion",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-tesla-annual",
+      "layer": "chips",
+      "title": "Tesla · capital expenditure, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Tesla's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "tesla",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-capex-tesla-quarterly",
+      "layer": "chips",
+      "title": "Tesla · capital expenditure, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Tesla's own reported capital expenditure, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "tesla",
+      "measurement_type": "sec_capex_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-alphabet-annual",
+      "layer": "infrastructure",
+      "title": "Alphabet / Google · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Alphabet / Google's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "alphabet",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-alphabet-quarterly",
+      "layer": "infrastructure",
+      "title": "Alphabet / Google · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Alphabet / Google's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "alphabet",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-constellation-annual",
+      "layer": "energy",
+      "title": "Constellation Energy · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Constellation Energy's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "constellation",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-constellation-quarterly",
+      "layer": "energy",
+      "title": "Constellation Energy · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Constellation Energy's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "constellation",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-intel-annual",
+      "layer": "chips",
+      "title": "Intel · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Intel's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "intel",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-intel-quarterly",
+      "layer": "chips",
+      "title": "Intel · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Intel's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "intel",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-marvell-annual",
+      "layer": "chips",
+      "title": "Marvell · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Marvell's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "marvell",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-marvell-quarterly",
+      "layer": "chips",
+      "title": "Marvell · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Marvell's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "marvell",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-merck-annual",
+      "layer": "applications",
+      "title": "Merck · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Merck's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "merck",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-merck-quarterly",
+      "layer": "applications",
+      "title": "Merck · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Merck's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "merck",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-moderna-annual",
+      "layer": "applications",
+      "title": "Moderna · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Moderna's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "moderna",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-moderna-quarterly",
+      "layer": "applications",
+      "title": "Moderna · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Moderna's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "moderna",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-nvidia-annual",
+      "layer": "chips",
+      "title": "NVIDIA · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "NVIDIA's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "nvidia",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-nvidia-quarterly",
+      "layer": "chips",
+      "title": "NVIDIA · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "NVIDIA's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "nvidia",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-recursion-annual",
+      "layer": "applications",
+      "title": "Recursion · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Recursion's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "recursion",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-recursion-quarterly",
+      "layer": "applications",
+      "title": "Recursion · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Recursion's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "recursion",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-tesla-annual",
+      "layer": "chips",
+      "title": "Tesla · revenue, annual (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Tesla's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "tesla",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier years exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
+    },
+    {
+      "id": "sec-revenue-tesla-quarterly",
+      "layer": "chips",
+      "title": "Tesla · revenue, quarterly (SEC XBRL)",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Tesla's own reported revenue, from SEC XBRL company-facts filings (Form 10-K/10-Q), taken from SEC's deduplicated, period-aligned 'frame' value for each period. These are calendar-quarter SEC XBRL frames (e.g. CY2025Q4), the periods SEC itself deduplicates facts onto; a company's own fiscal quarters can fall on different dates. A new addition, not a replacement for this company's existing curated annual revenue record.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.",
+      "source_ids": [
+        "sec-xbrl-companyfacts"
+      ],
+      "company": "tesla",
+      "measurement_type": "sec_revenue_usd_bn",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins with the earliest 10-K/10-Q frame this importer finds; earlier quarters exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."
     }
   ],
   "targets": [

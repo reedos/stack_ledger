@@ -57,6 +57,7 @@ CAPEX_CONCEPTS = ['PaymentsToAcquirePropertyPlantAndEquipment']
 KINDS = [('revenue', REVENUE_CONCEPTS, 10_000), ('capex', CAPEX_CONCEPTS, 2_000)]
 
 FORMS = {'10-K', '10-Q'}
+START_YEAR = 2019   # the site's reviewed history start; older frames are not backfilled without review
 QUARTER_FRAME = re.compile(r'^CY(20\d\d)Q([1-4])$')
 ANNUAL_FRAME = re.compile(r'^CY(20\d\d)$')
 
@@ -147,7 +148,7 @@ def metric_definition(company_id, layer, kind, quarterly, display_name, unit_max
             'note': 'SEC EDGAR XBRL company facts, public domain. Additions only; each import appends newly published frames and never rewrites earlier ones.',
             'source_ids': [SOURCE_ID], 'company': company_id, 'measurement_type': f'sec_{kind}_usd_bn', 'project': None,
             'allowed_statuses': ['observation'], **({'period_basis': 'quarter'} if quarterly else {}),
-            'geography_code': None, 'series_start_year': 2020, 'chart_default_start': 2020, 'chart_default_end': 2027,
+            'geography_code': None, 'series_start_year': START_YEAR, 'chart_default_start': START_YEAR, 'chart_default_end': 2027,
             'definition_stable': True,
             'pre_period_note': f"Series begins with the earliest 10-K/10-Q frame this importer finds; earlier {'quarters' if quarterly else 'years'} "
                                 f"exist in SEC filings and can be imported on review. Missing periods are unpublished, not zero."}
@@ -165,6 +166,8 @@ def records_for(company_id, layer, kind, concept, frames, retrieved_at, display_
         if mid not in metrics:
             metrics[mid] = metric_definition(company_id, layer, kind, quarterly, display_name, unit_max)
         year = int(qm.group(1)) if quarterly else int(am.group(1))
+        if year < START_YEAR:
+            continue   # older frames stay in the SEC archive; the ledger's series start is a reviewed choice
         period = f'{year}-Q{qm.group(2)}' if quarterly else f'CY{year}'
         val = fact.get('val')
         if not isinstance(val, (int, float)):
