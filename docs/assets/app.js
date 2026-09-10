@@ -188,7 +188,7 @@ function sortedEvents(){const replaced=new Set(data.events.map(e=>e.correction_o
 // homepage headline -- only ever this event list. Mirrors reports.effective_confirmation and
 // reports.grade_for/source_policy.grade_for; keep both in sync if either changes.
 const REPORT_KINDS=new Set(['News report','Social post']);
-const GRADE_LABEL={A:'Official statistics or filings',B:'Company statement',C:'News report',D:'Unverified secondary or social claim'};
+const GRADE_LABEL={A:'Official statistics or filings',B:'Company statement',C:'News report or independent analysis',D:'Unverified secondary or social claim'};
 const gradeBadge=e=>`<span class="grade-badge grade-${esc(e.grade)}" title="Grade ${esc(e.grade)}: ${esc(GRADE_LABEL[e.grade]||'')}">Grade ${esc(e.grade)}</span>`;
 const effectiveConfirmation=e=>{
  const c=e.confirmation;

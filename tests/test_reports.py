@@ -40,13 +40,25 @@ class GradeDerivationTests(unittest.TestCase):
             ({'rank': 5, 'claim_type': 'news'}, 'C'),
             ({'rank': 6, 'claim_type': 'other'}, 'B'),         # official social account
             ({'rank': 7, 'claim_type': 'other'}, 'D'),         # outside the reviewed 1-6 range
-            (None, 'D'),
-            ({}, 'D'),
+            # No collection policy at all: an evidence-only citation the runner never collects. It is
+            # graded by its publisher, not called an unverified social claim (corrected 2026-09-10,
+            # when 64 curated company press releases were badged "Grade D" on the public site).
+            (None, 'C'),
+            ({}, 'C'),
         ]
         for policy, expected in cases:
             with self.subTest(policy=policy):
                 self.assertEqual(grade_for(policy), expected)
 
+
+    def test_an_evidence_only_citation_is_graded_by_its_publisher(self):
+        companies = [{'name': 'Marvell', 'ir_url': 'https://investor.marvell.com/', 'blog_urls': []}]
+        company_page = {'id': 'astra-marvell-optics', 'url': 'https://investor.marvell.com/news/x', 'publisher': 'Marvell'}
+        independent = {'id': 'someone-else', 'url': 'https://example.org/analysis', 'publisher': 'Example Institute'}
+        self.assertEqual(grade_for(None, company_page, companies), 'B')
+        self.assertEqual(grade_for(None, independent, companies), 'C')
+        self.assertEqual(grade_for(None, company_page, []), 'C')       # no company records: independent, never D
+        self.assertEqual(grade_for({'rank': 7}, company_page, companies), 'D')   # a registered rank outside 1-6 stays D
     def test_every_registered_source_grades_to_a_known_value(self):
         r = registry()
         for sid, policy in r['collection'].items():

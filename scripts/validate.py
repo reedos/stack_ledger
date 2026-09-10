@@ -243,6 +243,10 @@ def validate(data):
             require(type(m.get('definition_break_year')) is int and m['series_start_year']<=m['definition_break_year']<=m['chart_default_end'],'Missing methodology break marker')
     ids=set(); periods=set()
     from source_policy import collection_for, grade_for
+    # Company records let an evidence-only citation be graded by its publisher rather than by a
+    # collection rank it does not have; a missing ecosystem file simply grades those independent.
+    try:companies=json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
+    except (OSError,ValueError,KeyError):companies=[]
     for o in data['observations']:
         observation_valid(o,metrics,sources)
         require(o['id'] not in ids,'Duplicate observation ID');ids.add(o['id'])
@@ -250,7 +254,7 @@ def validate(data):
         if not o.get('superseded_by'):
             require(key not in periods,'Duplicate metric period/status');periods.add(key)
         if o.get('method')=='automated':
-            require(o['grade']==grade_for(collection_for(registry,sources[o['source']])),'Observation grade does not match deterministic derivation from its source')
+            require(o['grade']==grade_for(collection_for(registry,sources[o['source']]),sources[o['source']],companies),'Observation grade does not match deterministic derivation from its source')
     by_id={o['id']:o for o in data['observations']}
     for o in data['observations']:
         if 'superseded_by' in o:
@@ -261,7 +265,7 @@ def validate(data):
             require(old is not None and old.get('superseded_by')==o['id'],'Broken correction ancestry')
     for event in data['events']:
         event_valid(event,sources)
-        require(event['grade']==grade_for(collection_for(registry,sources[event['source']])),'Event grade does not match deterministic derivation from its source')
+        require(event['grade']==grade_for(collection_for(registry,sources[event['source']]),sources[event['source']],companies),'Event grade does not match deterministic derivation from its source')
     require(len({e['id'] for e in data['events']})==len(data['events']),'Duplicate event IDs')
     validate_event_corrections(data['events'])
     run_ids=set()

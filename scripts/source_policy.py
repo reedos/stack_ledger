@@ -1,4 +1,5 @@
 """Reviewed collection boundaries and append-only public evidence excerpts."""
+import re
 from urllib.parse import urlparse, unquote
 from validate import require, text, timestamp, LAYERS, STATUSES
 
@@ -22,9 +23,33 @@ def collection_for(registry, source):
 # account" in the owner decision verbatim); rank 5 is third-party trade/analyst reporting (C);
 # anything else -- no policy, or a rank outside the reviewed 1-6 range -- fails closed to D,
 # the most conservative grade, rather than silently promoting an unrecognized source.
-def grade_for(policy):
-    if not policy or not isinstance(policy, dict):
-        return 'D'
+def first_party(source, companies=()):
+    """The source is published by one of the tracked companies: its host is that company's own
+    investor-relations or blog host, or its publisher name is the company name."""
+    if not source:
+        return False
+    host = (urlparse(source.get('url', '')).hostname or '').lower().removeprefix('www.')
+    publisher = re.sub(r'[^a-z0-9]+', ' ', str(source.get('publisher', '')).lower()).strip()
+    for company in companies or ():
+        name = re.sub(r'[^a-z0-9]+', ' ', str(company.get('name', '')).lower()).strip()
+        if name and (publisher == name or publisher.startswith(name+' ')):
+            return True
+        for url in [company.get('ir_url')] + list(company.get('blog_urls') or []):
+            owned = (urlparse(url or '').hostname or '').lower().removeprefix('www.')
+            if owned and (host == owned or host.endswith('.'+owned)):
+                return True
+    return False
+
+
+def grade_for(policy, source=None, companies=()):
+    """Deterministic provenance grade: A official statistics or filings, B company statement,
+    C news report or independent analysis, D unverified secondary or social claim.
+
+    Rank is a collection priority, not a provenance claim, so a source the runner never collects
+    (an evidence-only citation with no policy at all) is graded by who published it: a tracked
+    company's own page is a company statement, anything else is an independent publication.
+    Grading those D would call a curated company press release an unverified social claim."""
+    policy = policy if isinstance(policy, dict) else {}
     rank = policy.get('rank')
     if rank == 1:
         return 'A'
@@ -34,7 +59,9 @@ def grade_for(policy):
         return 'B'
     if rank == 5:
         return 'C'
-    return 'D'
+    if policy:
+        return 'D'
+    return 'B' if first_party(source, companies) else 'C'
 
 # A daily source unchanged for this many consecutive checks is worth checking less often.
 # Promotion only ever loosens a *registered daily* cadence; weekly and manual sources are

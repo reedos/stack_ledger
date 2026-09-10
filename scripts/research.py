@@ -186,6 +186,11 @@ def stale_task_outcomes(stale_tasks,met_metrics,quarantined_metrics):
             for t in stale_tasks]
 
 
+def tracked_companies():
+    """The reviewed company records, for grading a source with no collection policy by its publisher."""
+    try:return load(ROOT/'research/ecosystem.json')['companies']
+    except (OSError,ValueError,KeyError):return []
+
 def coverage_context(root, source):
     """Reviewed local context only; external documents cannot supply instructions.
 
@@ -522,7 +527,7 @@ def extract_note(config,source,document,existing_events,run,quarantine,collectio
             # deliverable 3's own quote/attribution/reviewer-pass rules -- the same ones below,
             # just carrying the outlet, the outlet's own date and an unconfirmed state until a
             # later official record covers the same metric/period.
-            event['grade']=grade_for(policy)
+            event['grade']=grade_for(policy,source,tracked_companies())
             if event['grade'] in ('C','D'):
                 event['kind']=report_kind(policy)
                 event['outlet']=source['publisher']
@@ -580,7 +585,7 @@ def candidate_record(c,source,document,metrics,all_sources,existing=(),policy=No
     # Deliverable 1 hard rule: grade C/D evidence never enters a numeric series. A source
     # whose derived grade is C or D cannot mint a numeric observation at all here; that
     # evidence still reaches readers, honestly labeled, only through the report lane above.
-    grade=grade_for(policy)
+    grade=grade_for(policy,source,tracked_companies())
     require(grade in ('A','B'),f'Grade {grade} evidence cannot become a numeric observation; publish as a report instead')
     record['grade']=grade
     observation_valid(record,metrics,all_sources)
