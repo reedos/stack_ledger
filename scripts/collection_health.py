@@ -44,5 +44,11 @@ class Health:
     def failure(self,kind,target,error,minimum=900):
         previous=self.get(kind,target);failures=previous.get('failures',0)+1
         detail=error_details(error)
-        seconds=max(minimum,min(21600,900*2**min(failures-1,5)),detail.get('retry_after_seconds',0))
+        # A host that refuses the crawler (401/403/406/451 or a robots block) will not change by the next
+        # batch: back off up to three days instead of six hours, so blocked reference pages stop filling
+        # every batch's due list (90 such failures in one session on 2026-09-09).
+        refused=detail.get('http_status') in (401,403,406,451) or 'robots' in str(error).lower()
+        if refused:detail['refused']=True
+        ceiling=259200 if refused else 21600
+        seconds=max(minimum,min(ceiling,900*2**min(failures-1,8 if refused else 5)),detail.get('retry_after_seconds',0))
         self.put(kind,target,dict(status='unavailable',failures=failures,next_attempt=time.time()+seconds,**detail))

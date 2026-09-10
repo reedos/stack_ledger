@@ -127,3 +127,20 @@ class CollectionTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class RefusedHostBackoffTests(unittest.TestCase):
+    def test_403_backs_off_for_days_while_transient_errors_keep_the_six_hour_ceiling(self):
+        import time as _time
+        from urllib.error import HTTPError
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        h = health.Health(Path(temp.name)/'health.json')
+        for _ in range(9): h.failure('source', 'https://blocked.example/page', HTTPError('https://blocked.example/page', 403, 'Forbidden', None, None))
+        refused = h.get('source', 'https://blocked.example/page')
+        self.assertTrue(refused['refused']); self.assertGreater(refused['next_attempt']-_time.time(), 6*3600)
+        self.assertLessEqual(refused['next_attempt']-_time.time(), 3*86400+5)
+        for _ in range(9): h.failure('source', 'https://flaky.example/page', TimeoutError('timed out'))
+        flaky = h.get('source', 'https://flaky.example/page')
+        self.assertNotIn('refused', flaky); self.assertLessEqual(flaky['next_attempt']-_time.time(), 6*3600+5)
+        h.failure('source', 'https://robots.example/page', ValueError('Blocked by robots policy'))
+        self.assertTrue(h.get('source', 'https://robots.example/page')['refused'])

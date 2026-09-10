@@ -824,7 +824,11 @@ def main():
             return 0 if discovery_receipt and discovery_receipt.get('units_used') else 2
         run['quarantined']=len(quarantine)
         run['coverage_layers']=sorted(coverage)
-        run['status']='failed' if model_failed or not run['documents_reviewed'] else ('partial' if run['source_failures'] or coverage!=set(LAYERS) else 'success')
+        # A batch whose every due source was unreachable is not a research failure: it is recorded as
+        # partial and exits 2 so the session pauses and keeps its failure counter (three such batches in a
+        # row stopped a session on 2026-09-09 when the tail of the due list was all blocked hosts).
+        unreachable_only=not model_failed and not run['documents_reviewed'] and bool(run['source_failures'])
+        run['status']='failed' if model_failed or (not run['documents_reviewed'] and not unreachable_only) else ('partial' if run['source_failures'] or coverage!=set(LAYERS) else 'success')
         run['finished_at']=now()
         data['runs'].append(run)
         data['runtime'].update(last_attempt=run['finished_at'],status=run['status'])
@@ -867,7 +871,8 @@ def main():
         from catalog_recommender import materialize
         materialize(ROOT,config['model'])
         print(json.dumps(run,indent=2),flush=True)
-        return 1 if run['status']=='failed' else 0
+        if run['status']=='failed':return 1
+        return 2 if not run['documents_reviewed'] else 0   # 2: nothing reachable this batch; the session pauses, no failure counted
 
 if __name__=='__main__':
     try:sys.exit(main())
