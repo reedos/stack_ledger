@@ -19,6 +19,12 @@ from evidence_text import numeric_tokens, select_windows, context_text, contains
 from editorial_review import queue, locked, append_event, events, channel_fields
 
 ROOT = Path(__file__).resolve().parents[1]
+# The search channel answered 7 of 268 discovery topics between 2026-09-08 and 2026-09-11
+# (HTTP 429 and rejected query syntax), and a six-hour cooldown put it back in front of every
+# batch to fail again. Past this many consecutive failures it is reported broken in the receipt
+# and the digest and probed once a day, so a dead channel is visible instead of merely quiet.
+SEARCH_BROKEN_FAILURES = 5
+SEARCH_BROKEN_PROBE_SECONDS = 86400
 KINDS = ['company', 'project', 'source', 'metric', 'occupation', 'topic']
 BASES = ['actual', 'historical-estimate', 'forecast', 'commitment', 'unknown']
 FIELDS = {'layer', 'kind', 'subject', 'claim', 'evidence', 'basis', 'why_track', 'next_question'}
@@ -175,9 +181,15 @@ def search(fetcher, context, limit):
     endpoint = 'https://api.gdeltproject.org/api/v2/doc/doc?'+urlencode({
         'query':context['query'],'mode':'ArtList','format':'json','maxrecords':limit,'timespan':'1month','sort':'DateDesc'})
     body = fetcher.fetch_json(endpoint)
-    require(isinstance(body,dict) and isinstance(body.get('articles'),list), 'Search returned no valid article list')
+    require(isinstance(body,dict), 'Search returned no valid article list')
+    # A topic with no matching news comes back as {} with no 'articles' key at all. Raising
+    # there billed the whole channel for a failure and took it offline for hours: 259 of 268
+    # discovery topics were left 'source_inaccessible' by 2026-09-11. Zero matches is an
+    # answer, not an outage.
+    articles = body.get('articles',[])
+    require(isinstance(articles,list), 'Search returned no valid article list')
     # Enforce our budget even if the provider returns more than maxrecords.
-    return [a['url'] for a in body['articles'][:limit] if isinstance(a,dict) and isinstance(a.get('url'),str)]
+    return [a['url'] for a in articles[:limit] if isinstance(a,dict) and isinstance(a.get('url'),str)]
 
 
 def screen(root, config, p, lead, document, receipt, deadline):
@@ -249,6 +261,9 @@ def digest_text(root, receipt, s):
              f"Searches: {receipt['search_calls']}; pages fetched: {receipt['documents_fetched']}; model calls: {receipt['model_calls']}; new review proposals: {receipt['proposals_queued']}.",
              f"Retained leads: {len(s['leads'])}; this run's errors: {len(receipt['errors'])}.",
              'A fetch count is not coverage, a proposal is not verified novelty, and no findings is a legitimate outcome.','']
+    if receipt.get('search_channel')=='broken':
+        lines[3:3]=[f"SEARCH CHANNEL BROKEN after {receipt.get('search_provider',{}).get('failures',0)} consecutive failures: probing once a day, not once a batch. "
+                    'Nothing outside the registered source list is being found until it is repaired or replaced.','']
     latest = {}
     for event in events(root):
         if event.get('kind')=='coverage_expansion':latest[event['id']]=event
@@ -317,6 +332,7 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     fresh = set()
     # With a one-unit batch alternate search and follow-up so neither can starve.
     do_search = units>=2 or s['lead_turn']%2==0 or not s['leads']
+    broken = health.get('provider',provider).get('failures',0)>=SEARCH_BROKEN_FAILURES
     if do_search and health.due('provider',provider) and (not previous or previous['next_attempt']<=at) and time.monotonic()<deadline and not stopped(root,config.get('_session_id')):
         s['cursor']+=1;receipt['units_used']+=1;receipt['search_calls']+=1
         s['searches'][search_key]={'next_attempt':(datetime.fromisoformat(at.replace('Z','+00:00'))+timedelta(hours=p['search_cooldown_hours'])).isoformat(),'status':'attempting'}
@@ -330,16 +346,21 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
             health.success('provider',provider,60)
         except Exception as error:
             # Never echo arbitrary remote text or credentials into logs/digests.
+            # A search that returned nothing must not also spend the work unit a reachable
+            # lead could have used: 263 of 270 calls since 2026-09-08 failed, each one taking
+            # a unit out of a two-unit discovery budget on its way out.
+            receipt['units_used']-=1
             s['searches'][search_key]['status']='source_inaccessible'
             receipt['errors'].append({'stage':'search','outcome':'source_inaccessible',**error_details(error)})
             if isinstance(error,QueryRejected):health.success('provider',provider,60)
-            else:health.failure('provider',provider,error)
+            else:health.failure('provider',provider,error,minimum=SEARCH_BROKEN_PROBE_SECONDS if broken else 900)
     elif do_search and not health.due('provider',provider):
-        receipt['search_skipped']='provider_cooldown'
+        receipt['search_skipped']='provider_broken' if broken else 'provider_cooldown'
         s['cursor']+=1
     elif do_search and previous and previous['next_attempt']>at:
         s['cursor']+=1  # Advance past cooling topics rather than freeze the rotation.
     receipt['search_provider']=health.get('provider',provider)
+    receipt['search_channel']='broken' if health.get('provider',provider).get('failures',0)>=SEARCH_BROKEN_FAILURES else 'available'
     # Primary indexes complement search, even when the news provider is healthy.
     seeded=0
     for source in load(root/'research/sources.json')['sources']:
