@@ -27566,6 +27566,20 @@
       ],
       "license": "Original source rights apply",
       "parent_source": "outlet-www-datacenterdynamics-com-727821"
+    },
+    {
+      "id": "discovered-ae9ac799acf2088e",
+      "publisher": "Data Center Dynamics",
+      "title": "Discovered public update · Data Center Dynamics",
+      "url": "https://www.datacenterdynamics.com/en/news/oracle-delivered-300000-gpus-in-q1-fy2027/",
+      "published": "2026-09-11",
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "parent_source": "outlet-www-datacenterdynamics-com-727821"
     }
   ],
   "observations": [
@@ -87457,6 +87471,25 @@
       "about": [],
       "quote": "The Nostrum Evergreen Data Center project , developed by Data Riocaya at the Badajoz Logistics Platform, has received preliminary administrative authorization for the electrical infrastructure required for its development.\nThe authorization, published in the Official Gazette of Extremadura, covers the 220-kV field of the interconnection substation and the underground route of the power lines that will supply electricity to the future data center. The project is designed as a computing and artificial intelligence infrastructure with a grid connection capacity of up to 300MW.",
       "confirmation": "unconfirmed"
+    },
+    {
+      "title": "Oracle Q1 FY2027 GPU delivery and data center capacity",
+      "summary": "Oracle says it delivered more than 300,000 GPUs and 850MW of data center capacity to customers during Q1 of fiscal year 2027, revealed during the earnings call on September 10, 2026.",
+      "layer": "infrastructure",
+      "kind": "News report",
+      "id": "note-b26a7868f00c04379dde",
+      "source": "discovered-ae9ac799acf2088e",
+      "date": "2026-09-11",
+      "method": "automated",
+      "retrieved_at": "2026-09-11T11:03:44Z",
+      "document_sha256": "26e9c66fc69a486a56b22f7088c2d6711d55b5bdee67906ad8193657e459c843",
+      "evidence_sha256": "bc866f98ea3c108f0e75bb657be60bfde215b9d0d9f68afeabd10ad1766346fe",
+      "grade": "C",
+      "outlet": "Data Center Dynamics",
+      "reported_on": "2026-09-11",
+      "about": [],
+      "quote": "Have your say\nOracle delivered more than 300,000 GPUs and 850MW of data center capacity to customers during Q1 of fiscal year 2027.\nRevealed during the company's earnings call on September 10, 2026, co-CEO Clay Magouyrk noted that this was \"almost three times what we delivered in all of Q4, and 73 percent of the total capacity delivered last fiscal year.\"",
+      "confirmation": "unconfirmed"
     }
   ],
   "targets": [
@@ -87510,330 +87543,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20260909T001804Z-33f63a3aac0e4cc7bdc6f09279d62701",
-      "started_at": "2026-09-09T00:18:04Z",
-      "finished_at": "2026-09-09T00:18:22Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "energy",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T001859Z-606a59da1c0549678cde14c86070a19a",
-      "started_at": "2026-09-09T00:18:59Z",
-      "finished_at": "2026-09-09T00:19:21Z",
-      "status": "success",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "applications",
-        "chips",
-        "energy",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260909T001959Z-cfa4ea0f256345249f695217721dca07",
-      "started_at": "2026-09-09T00:19:59Z",
-      "finished_at": "2026-09-09T00:20:39Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "samsung-hbm4-shipping",
-          "reason": "ConnectionResetError"
-        },
-        {
-          "source": "eia-output-aug-2026",
-          "reason": "HTTPError"
-        },
-        {
-          "source": "marvell-optics",
-          "reason": "Source exceeds size cap"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "energy",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260909T002114Z-a640c8aaa8e14b2ba3210f910fa5808e",
-      "started_at": "2026-09-09T00:21:14Z",
-      "finished_at": "2026-09-09T00:21:19Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "marvell-celestial",
-          "reason": "Robots policy unavailable; source skipped"
-        },
-        {
-          "source": "cisco-silicon",
-          "reason": "URLError"
-        },
-        {
-          "source": "cisco-optics",
-          "reason": "URLError"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T002154Z-1ef63d7f0d09460d8928aef3e7ab1c95",
-      "started_at": "2026-09-09T00:21:54Z",
-      "finished_at": "2026-09-09T00:22:11Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "amphenol-interconnect",
-          "reason": "Robots policy unavailable; source skipped"
-        },
-        {
-          "source": "corning-meta",
-          "reason": "Robots policy unavailable; source skipped"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T002249Z-56bc18dd460740e8b0054df1778da17c",
-      "started_at": "2026-09-09T00:22:49Z",
-      "finished_at": "2026-09-09T00:23:53Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "bls-electricians-2026",
-          "reason": "Robots policy unavailable; source skipped"
-        },
-        {
-          "source": "eaton-transformers",
-          "reason": "TimeoutError"
-        },
-        {
-          "source": "firstsolar-louisiana",
-          "reason": "TimeoutError"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "energy",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T002429Z-934d1f6a102e43e0b6ebccc14b07c4bf",
-      "started_at": "2026-09-09T00:24:29Z",
-      "finished_at": "2026-09-09T00:24:56Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T002534Z-aa4f10b4c21b41bf9c16f74a173e4971",
-      "started_at": "2026-09-09T00:25:34Z",
-      "finished_at": "2026-09-09T00:26:19Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T002654Z-f1413d72507d4d8aacc4231060d6812c",
-      "started_at": "2026-09-09T00:26:54Z",
-      "finished_at": "2026-09-09T00:27:44Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "company-eaton",
-          "reason": "TimeoutError"
-        },
-        {
-          "source": "company-first-solar",
-          "reason": "Insufficient readable source content"
-        },
-        {
-          "source": "ciena-optics",
-          "reason": "Robots policy unavailable; source skipped"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "energy",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T002819Z-1f90540737a1434ba82d6da8cec81388",
-      "started_at": "2026-09-09T00:28:19Z",
-      "finished_at": "2026-09-09T00:29:29Z",
-      "status": "partial",
-      "documents_fetched": 5,
-      "documents_reviewed": 5,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "spacex-terafab-2026",
-          "reason": "gaierror"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T003004Z-ba78ee0b8e074c579367faed9fc63ad4",
-      "started_at": "2026-09-09T00:30:04Z",
-      "finished_at": "2026-09-09T00:30:20Z",
-      "status": "partial",
-      "documents_fetched": 2,
-      "documents_reviewed": 2,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "tesla-q2-2026",
-          "reason": "Robots policy unavailable; source skipped"
-        },
-        {
-          "source": "tesla-fsd-safety",
-          "reason": "Robots policy unavailable; source skipped"
-        },
-        {
-          "source": "mlgw-may-2025",
-          "reason": "Unsupported source content type"
-        },
-        {
-          "source": "colossus-southaven-complaint",
-          "reason": "Unsupported source content type"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "applications",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260909T003055Z-bc19885cde8d4ea7a8337c0a297c92d2",
-      "started_at": "2026-09-09T00:30:55Z",
-      "finished_at": "2026-09-09T00:31:17Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "iea-2026",
-          "reason": "Robots policy unavailable; source skipped"
-        },
-        {
-          "source": "tsmc-2025",
-          "reason": "Robots policy unavailable; source skipped"
-        }
-      ],
-      "model_calls": 2,
-      "coverage_layers": [
-        "applications",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260909T003155Z-1926cc9d19c54662a9c845d889da7cf6",
-      "started_at": "2026-09-09T00:31:55Z",
-      "finished_at": "2026-09-09T00:32:01Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260909T003235Z-670b5123c7284a2a83f4e2a8681a5e4c",
-      "started_at": "2026-09-09T00:32:35Z",
-      "finished_at": "2026-09-09T00:32:43Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 5,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
     {
       "id": "run-20260909T003320Z-42f845e8a5294fbf8187813db797fd46",
       "started_at": "2026-09-09T00:33:20Z",
@@ -92631,6 +92340,238 @@
         "energy",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20260911T104222Z-a3e536abda7842738da1069aad39d178",
+      "started_at": "2026-09-11T10:42:22Z",
+      "finished_at": "2026-09-11T10:42:27Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 4,
+      "coverage_layers": [
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260911T104252Z-5dd9b66eca1f4f928582d26cfe8f5fc4",
+      "started_at": "2026-09-11T10:42:52Z",
+      "finished_at": "2026-09-11T10:42:56Z",
+      "status": "partial",
+      "documents_fetched": 1,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "discovered-d00a688e4d42d754",
+          "reason": "Source exceeds size cap"
+        },
+        {
+          "source": "discovered-2770fee19cb106e9",
+          "reason": "Source exceeds size cap"
+        },
+        {
+          "source": "discovered-6cc17a59489923ec",
+          "reason": "Source exceeds size cap"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T104502Z-17a91f6db30644ed9d17ab35288b729f",
+      "started_at": "2026-09-11T10:45:02Z",
+      "finished_at": "2026-09-11T10:45:05Z",
+      "status": "partial",
+      "documents_fetched": 0,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-openai",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "company-tsmc",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "tsmc-arizona",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "stargate-delivery-2026",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "openai-stargate-michigan",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T104707Z-0aa79bf226084a70ab0e8323b44f26c4",
+      "started_at": "2026-09-11T10:47:07Z",
+      "finished_at": "2026-09-11T10:47:09Z",
+      "status": "partial",
+      "documents_fetched": 2,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T104912Z-3d3e9dc818f34fbd9f527153a43a3ab5",
+      "started_at": "2026-09-11T10:49:12Z",
+      "finished_at": "2026-09-11T10:49:23Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 3,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260911T104948Z-4aa2632c00d64793a950a3219b0dde57",
+      "started_at": "2026-09-11T10:49:48Z",
+      "finished_at": "2026-09-11T10:50:00Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260911T105023Z-59c92978a70f4cef9aaa844f472da46d",
+      "started_at": "2026-09-11T10:50:23Z",
+      "finished_at": "2026-09-11T10:50:25Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T105228Z-e22ada196fff4ed489007da753c9d85c",
+      "started_at": "2026-09-11T10:52:28Z",
+      "finished_at": "2026-09-11T10:52:30Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T105433Z-163c3c23fc23493986e48497846175d0",
+      "started_at": "2026-09-11T10:54:33Z",
+      "finished_at": "2026-09-11T10:54:35Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T105638Z-97afa6f8aed44f3b9fd93d705b770b19",
+      "started_at": "2026-09-11T10:56:38Z",
+      "finished_at": "2026-09-11T10:56:41Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T105844Z-e8d49f31e5004fe29596cc93819f159a",
+      "started_at": "2026-09-11T10:58:44Z",
+      "finished_at": "2026-09-11T10:58:47Z",
+      "status": "partial",
+      "documents_fetched": 1,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T110054Z-0ec3904c65214fa69520c32b3dbda8c1",
+      "started_at": "2026-09-11T11:00:54Z",
+      "finished_at": "2026-09-11T11:01:09Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 3,
+      "coverage_layers": [
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260911T110134Z-6b5ceb94021c4b1db6c3de9b7b19686e",
+      "started_at": "2026-09-11T11:01:34Z",
+      "finished_at": "2026-09-11T11:01:36Z",
+      "status": "partial",
+      "documents_fetched": 1,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260911T110339Z-98cef9b751fd48ff8050eda630fbfc38",
+      "started_at": "2026-09-11T11:03:39Z",
+      "finished_at": "2026-09-11T11:03:49Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 2,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 4,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -92640,7 +92581,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-11T10:40:32Z",
+    "last_attempt": "2026-09-11T11:03:49Z",
     "last_success": "2026-09-10T19:29:47Z",
     "status": "partial",
     "latest_session": {
