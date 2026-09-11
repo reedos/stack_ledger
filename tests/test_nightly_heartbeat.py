@@ -16,6 +16,7 @@ import json
 import os
 import sqlite3
 import sys
+import tempfile
 import threading
 import time
 import unittest
@@ -111,7 +112,19 @@ class MarginTests(unittest.TestCase):
 
 class WiringTests(unittest.TestCase):
     """A heartbeat nothing starts is worth nothing, so this drives the real run() instead of
-    reading the source: a stage that is busy and silent must still keep stdout alive."""
+    reading the source: a stage that is busy and silent must still keep stdout alive.
+
+    run() is given a throwaway root, never the repository. Pointed at the real one it performs
+    real lock recovery and overwrites .local/nightly/<date>/locks.json -- and the publish preflight
+    runs this suite, so on 2026-09-11 the nightly run's own locks receipt was replaced at 07:01 by
+    a test, six hours after the stage it was supposed to describe.
+    """
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        (self.root/'.local').mkdir()
+
     def slow_locks(self, root):
         time.sleep(0.4)
         return {'status': 'ok', 'locks': [], 'research_blocked': False,
@@ -121,7 +134,7 @@ class WiringTests(unittest.TestCase):
         out = io.StringIO()
         with patch.object(nightly, 'HEARTBEAT_SECONDS', 0.05), \
              patch.object(nightly, 'stage_locks', self.slow_locks), redirect_stdout(out):
-            nightly.run(ROOT, only='locks')
+            nightly.run(self.root, only='locks')
         lines = [l for l in out.getvalue().splitlines() if l.strip()]
         self.assertGreaterEqual(len(lines), 4, 'run() went silent during a busy stage: %r' % lines)
         self.assertTrue(any('nightly: locks' in l for l in lines),
@@ -132,7 +145,7 @@ class WiringTests(unittest.TestCase):
         with patch.object(nightly, 'stage_locks', lambda root: {
                 'status': 'ok', 'locks': [], 'research_blocked': False,
                 'editorial_blocked': False, 'stop_research_present': False}), redirect_stdout(out):
-            nightly.run(ROOT, only='locks')
+            nightly.run(self.root, only='locks')
         first = out.getvalue().splitlines()[0]
         self.assertIn('nightly: started', first)
 
@@ -140,7 +153,7 @@ class WiringTests(unittest.TestCase):
         out = io.StringIO()
         with patch.object(nightly, 'HEARTBEAT_SECONDS', 0.05), \
              patch.object(nightly, 'stage_locks', self.slow_locks), redirect_stdout(out):
-            nightly.run(ROOT, only='locks')
+            nightly.run(self.root, only='locks')
             settled = out.getvalue()
             time.sleep(0.25)
             self.assertEqual(out.getvalue(), settled,
