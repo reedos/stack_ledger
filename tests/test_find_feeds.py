@@ -147,17 +147,29 @@ class OutletRegistrationShapeTests(unittest.TestCase):
 
 
 class GradeInvariantTests(unittest.TestCase):
-    """Deliverable 3: every claim_type: news source grades C and carries excerpts + index."""
-    def test_every_news_source_grades_c_with_excerpts_and_index(self):
+    """Every claim_type: news source carries excerpts and index, and is never the authoritative
+    record. It is not always grade C: a registered outlet feed may turn out to be a company's own
+    blog (Hugging Face), an analyst shop (SemiAnalysis) or one person's newsletter (Import AI), and
+    since 2026-09-10 the reviewed provenance says which, rather than the crawl rank guessing."""
+    def test_every_news_source_carries_excerpts_index_and_a_non_official_grade(self):
         registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
         by_id={s['id']:s for s in registry['sources']}
         news=[sid for sid,p in registry['collection'].items() if p['claim_type']=='news']
         self.assertGreaterEqual(len(news),4)
         for sid in news:
             p=registry['collection'][sid]
-            self.assertEqual(grade_for(p),'C',sid)
+            self.assertNotEqual(grade_for(p,by_id[sid]),'A',sid)
             self.assertTrue(p['excerpts'],sid)
             self.assertTrue(by_id[sid]['index'],sid)
+
+    def test_the_outlets_actually_registered_are_mostly_news(self):
+        registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
+        by_id={s['id']:s for s in registry['sources']}
+        outlets=[by_id[sid] for sid,p in registry['collection'].items() if p['claim_type']=='news']
+        reporting=[s for s in outlets if s['provenance']=='news']
+        self.assertGreater(len(reporting),len(outlets)//2,
+                           'the outlet list should be mostly news reporting: %s'
+                           % sorted({s['provenance'] for s in outlets}))
 
 
 class OutletRejectionReasonTests(unittest.TestCase):

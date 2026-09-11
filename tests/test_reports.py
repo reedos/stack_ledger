@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT/'scripts'))
 import research
 import reports as rp
 import find_feeds as ff
+import source_policy as sp
 import validate as validate_module
 from source_policy import grade_for, collection_for
 from validate import event_valid, observation_valid, validate, GRADES, REPORT_KINDS
@@ -25,58 +26,69 @@ def registry():
 
 
 class GradeDerivationTests(unittest.TestCase):
-    """The deterministic table: rank 1 -> A; a registered news outlet -> C regardless of rank;
-    every other rank 2/3/4/6 -> B (company statement, incl. official social account); rank 5
-    (trade/analyst) -> C; anything unrecognized fails closed to D."""
+    """Since 2026-09-10 the grade comes from each source's own REVIEWED provenance, not from its
+    crawl rank. Rank scheduled fetches; asking it to also say who published a thing put Epoch AI's
+    dataset at A and the page rendering a row of that dataset at C, and badged Stanford HAI
+    "Official statistics or filings"."""
     def test_derivation_table(self):
         cases = [
-            ({'rank': 1, 'claim_type': 'other'}, 'A'),
-            ({'rank': 1, 'claim_type': 'news'}, 'A'),          # rank 1 wins regardless of claim_type
-            ({'rank': 2, 'claim_type': 'financial'}, 'B'),
-            ({'rank': 3, 'claim_type': 'other'}, 'B'),
-            ({'rank': 4, 'claim_type': 'other'}, 'B'),
-            ({'rank': 4, 'claim_type': 'news'}, 'C'),
-            ({'rank': 5, 'claim_type': 'other'}, 'C'),
-            ({'rank': 5, 'claim_type': 'news'}, 'C'),
-            ({'rank': 6, 'claim_type': 'other'}, 'B'),         # official social account
-            ({'rank': 7, 'claim_type': 'other'}, 'D'),         # outside the reviewed 1-6 range
-            # No collection policy at all: an evidence-only citation the runner never collects. It is
-            # graded by its publisher, not called an unverified social claim (corrected 2026-09-10,
-            # when 64 curated company press releases were badged "Grade D" on the public site).
-            (None, 'C'),
-            ({}, 'C'),
+            ('official', 'A'),              # a statistical agency, regulator, central bank or IGO
+            ('regulated-filing', 'A'),      # the company authored it, under a regulatory regime
+            ('company-channel', 'B'),       # a company speaking for itself
+            ('independent-research', 'B'),  # a research body publishing its own dataset
+            ('analyst', 'C'),               # a third party estimating someone else's numbers
+            ('news', 'C'),                  # an outlet reporting on someone else
+            ('social', 'D'),                # a person, or an unverified account
         ]
-        for policy, expected in cases:
-            with self.subTest(policy=policy):
-                self.assertEqual(grade_for(policy), expected)
+        for provenance, expected in cases:
+            with self.subTest(provenance=provenance):
+                self.assertEqual(grade_for(None, {'id': 's', 'provenance': provenance}), expected)
 
+    def test_every_provenance_has_a_grade_and_a_reader_facing_label(self):
+        self.assertEqual(set(sp.PROVENANCE_GRADE), set(sp.PROVENANCE_LABEL))
+        self.assertEqual(set(sp.PROVENANCE_GRADE.values()), GRADES)
 
-    def test_an_evidence_only_citation_is_graded_by_its_publisher(self):
-        companies = [{'name': 'Marvell', 'ir_url': 'https://investor.marvell.com/', 'blog_urls': []}]
-        company_page = {'id': 'astra-marvell-optics', 'url': 'https://investor.marvell.com/news/x', 'publisher': 'Marvell'}
-        independent = {'id': 'someone-else', 'url': 'https://example.org/analysis', 'publisher': 'Example Institute'}
-        self.assertEqual(grade_for(None, company_page, companies), 'B')
-        self.assertEqual(grade_for(None, independent, companies), 'C')
-        self.assertEqual(grade_for(None, company_page, []), 'C')       # no company records: independent, never D
-        self.assertEqual(grade_for({'rank': 7}, company_page, companies), 'D')   # a registered rank outside 1-6 stays D
-    def test_every_registered_source_grades_to_a_known_value(self):
+    def test_an_unrecognized_or_missing_provenance_fails_closed_to_d(self):
+        for source in [{'id': 's'}, {'id': 's', 'provenance': None},
+                       {'id': 's', 'provenance': 'invented'}, {}, None]:
+            with self.subTest(source=source):
+                self.assertEqual(grade_for(None, source), 'D')
+
+    def test_rank_no_longer_influences_the_grade(self):
+        # The whole point of the change: the same source grades the same at any crawl priority.
+        source = {'id': 'epoch-page', 'provenance': 'independent-research'}
+        for rank in (1, 2, 3, 4, 5, 6, 7):
+            with self.subTest(rank=rank):
+                self.assertEqual(grade_for({'rank': rank, 'claim_type': 'other'}, source), 'B')
+        self.assertEqual(grade_for({'rank': 4, 'claim_type': 'news'}, source), 'B')
+
+    def test_every_registered_source_carries_a_reviewed_provenance(self):
+        for source in registry()['sources']:
+            with self.subTest(source=source['id']):
+                self.assertIn(source.get('provenance'), sp.PROVENANCE)
+                self.assertIn(grade_for(None, source), GRADES)
+
+    def test_one_publisher_does_not_get_two_provenances_for_the_same_kind_of_work(self):
+        """Epoch AI at both A and C is the defect that prompted this. A company may legitimately
+        file with a regulator AND run a blog; nothing else may split."""
+        import collections
+        by_publisher = collections.defaultdict(set)
+        for source in registry()['sources']:
+            by_publisher[source['publisher']].add(source['provenance'])
+        split = {name: sorted(kinds) for name, kinds in by_publisher.items() if len(kinds) > 1}
+        self.assertTrue(all(set(kinds) == {'company-channel', 'regulated-filing'}
+                            for kinds in split.values()),
+                        'a publisher split across unrelated provenances: %s' % split)
+
+    def test_a_registered_news_outlet_is_never_the_authoritative_record(self):
         r = registry()
-        for sid, policy in r['collection'].items():
-            with self.subTest(source=sid):
-                self.assertIn(grade_for(policy), GRADES)
-
-    def test_registered_news_outlets_are_grade_c_with_excerpts(self):
-        r = registry()
+        sources = {s['id']: s for s in r['sources']}
         outlets = [sid for sid, p in r['collection'].items() if p['claim_type'] == 'news']
         self.assertTrue(outlets, 'deliverable 4 should have registered at least one news outlet')
         for sid in outlets:
-            p = r['collection'][sid]
-            self.assertEqual(p['rank'], 4)
-            self.assertTrue(p['excerpts'])
-            self.assertEqual(grade_for(p), 'C')
-
-    def test_rank_one_always_wins_as_a_even_with_news_claim_type(self):
-        self.assertEqual(grade_for({'rank': 1, 'claim_type': 'news'}), 'A')
+            with self.subTest(source=sid):
+                self.assertTrue(r['collection'][sid]['excerpts'])
+                self.assertNotEqual(grade_for(None, sources[sid]), 'A')
 
 
 class ReportEventSchemaTests(unittest.TestCase):
@@ -205,10 +217,9 @@ class NumericSeriesGuardTests(unittest.TestCase):
         self.sources = {s['id']: s for s in self.data['sources']}
 
     def test_grade_c_registered_news_source_cannot_mint_an_observation(self):
-        sid = next(s for s, p in self.registry['collection'].items() if p['claim_type'] == 'news')
-        source = next(s for s in self.registry['sources'] if s['id'] == sid)
+        source = next(s for s in self.registry['sources'] if s.get('provenance') == 'news')
         policy = collection_for(self.registry, source)
-        self.assertEqual(grade_for(policy), 'C')
+        self.assertEqual(grade_for(policy, source), 'C')
         candidate = {'metric': 'ai-adoption', 'year': 2026, 'period': '2026', 'value': 50, 'upper': None,
                      'status': 'observation', 'precision': 'eq', 'note': '',
                      'evidence': 'The report states 50 percent adoption in 2026.'}
@@ -217,11 +228,19 @@ class NumericSeriesGuardTests(unittest.TestCase):
                                        [], policy)
 
     def test_grade_a_source_still_mints_an_observation(self):
-        source = self.sources['stanford-2026']
+        # Chosen by provenance rather than by id: stanford-2026 was reclassified from "official
+        # statistics" to independent research on 2026-09-10 and is correctly grade B now.
+        metric, source = next(
+            (m, self.sources[sid])
+            for m in self.data['metrics'] if not m.get('period_basis')
+            and 'observation' in (m.get('allowed_statuses') or ['observation'])
+            for sid in m['source_ids']
+            if self.sources.get(sid, {}).get('provenance') == 'official')
         policy = collection_for(self.registry, source)
-        candidate = {'metric': 'ai-adoption', 'year': 2026, 'period': '2026', 'value': 90, 'upper': None,
-                     'status': 'observation', 'precision': 'eq', 'note': '',
-                     'evidence': 'In 2026, 90 percent of surveyed organizations reported AI use.'}
+        value = round((metric['min']+metric['max'])/2)
+        candidate = {'metric': metric['id'], 'year': 2026, 'period': '2026', 'value': value,
+                     'upper': None, 'status': 'observation', 'precision': 'eq', 'note': '',
+                     'evidence': f'The agency reported {value} for 2026.'}
         record = research.candidate_record(candidate, source, candidate['evidence'], self.metrics,
                                             self.sources, [], policy)
         self.assertEqual(record['grade'], 'A')
@@ -233,7 +252,7 @@ class ReportPublicationTests(unittest.TestCase):
     def test_discovered_news_source_note_becomes_a_report(self):
         source = {'id': 'discovered-abc', 'url': 'https://news.example/2026/09/article',
                    'layers': ['chips'], 'publisher': 'Test News', 'published': '2026-09-01',
-                   'parent_source': 'outlet-test'}
+                   'provenance': 'news', 'parent_source': 'outlet-test'}
         policy = {'rank': 4, 'claim_type': 'news', 'region_book': 'global', 'company_id': None,
                    'cadence': 'daily', 'weekday': 0, 'path_prefixes': ['/2026/'], 'topics': ['ai'],
                    'excerpts': True}
@@ -254,11 +273,12 @@ class ReportPublicationTests(unittest.TestCase):
         event_valid(event, {source['id']: source})
 
     def test_official_social_account_note_stays_a_normal_announcement_not_a_report(self):
-        # rank 6 (official social account) grades B, same as any other company channel: it
-        # never enters the reports lane, it keeps the model's own six-value kind choice.
+        # A company's OWN account is the company speaking (provenance company-channel,
+        # grade B), not a social post by a person: it never enters the reports lane and keeps
+        # the model's own six-value kind choice.
         source = {'id': 'discovered-social', 'url': 'https://bsky.app/profile/x/post/1',
                    'layers': ['chips'], 'publisher': 'Company X', 'published': '2026-09-01',
-                   'parent_source': 'social-x'}
+                   'provenance': 'company-channel', 'parent_source': 'social-x'}
         policy = {'rank': 6, 'claim_type': 'other', 'region_book': 'global', 'company_id': 'company-x',
                    'cadence': 'daily', 'weekday': 0, 'path_prefixes': ['/profile/'], 'topics': ['ai'],
                    'excerpts': False}
@@ -497,7 +517,9 @@ class RegistryAdditionsValidTests(unittest.TestCase):
                 self.assertEqual(policy['rank'], 4)
                 self.assertEqual(policy['claim_type'], 'news')
                 self.assertTrue(policy['excerpts'])
-                self.assertEqual(grade_for(policy), 'C')
+                registered = next(x for x in r['sources'] if x['id'] == added[0])
+                self.assertEqual(registered['provenance'], 'news')
+                self.assertEqual(grade_for(policy, registered), 'C')
                 ledger = json.loads((Path(tmp)/'site/data/ledger.json').read_text(encoding='utf-8'))
                 validate(ledger)
 
@@ -586,7 +608,9 @@ class RegistryAdditionsValidTests(unittest.TestCase):
                 r = json.loads((Path(tmp)/'research/sources.json').read_text(encoding='utf-8'))
                 policy = r['collection'][added[0]]
                 self.assertEqual(policy['rank'], 6)
-                self.assertEqual(grade_for(policy), 'B')
+                registered = next(x for x in r['sources'] if x['id'] == added[0])
+                self.assertEqual(registered['provenance'], 'company-channel')
+                self.assertEqual(grade_for(policy, registered), 'B')
                 ledger = json.loads((Path(tmp)/'site/data/ledger.json').read_text(encoding='utf-8'))
                 validate(ledger)
 

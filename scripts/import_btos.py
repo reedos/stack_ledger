@@ -38,7 +38,7 @@ from research import load, save, now, require, UA, allowed_url
 ROOT=Path(__file__).resolve().parents[1]
 SNAPSHOTS=ROOT/'research/btos'
 SOURCE_ID='census-btos-data'
-SOURCE={'id':SOURCE_ID,'publisher':'U.S. Census Bureau','title':'Business Trends and Outlook Survey · AI use supplement','url':'https://www.census.gov/hfp/btos/data','published':None,'layers':['applications'],'license':'Public domain (U.S. government work)'}
+SOURCE={'id':SOURCE_ID,'publisher':'U.S. Census Bureau','title':'Business Trends and Outlook Survey · AI use supplement','url':'https://www.census.gov/hfp/btos/data','published':None,'layers':['applications'],'license':'Public domain (U.S. government work)','provenance':'official'}
 NATIONAL_URL='https://www.census.gov/hfp/btos/ai_national.json'
 SECTOR_URL='https://www.census.gov/hfp/btos/AI_sector.json'
 SERIES_TAG='Current AI Use (Last Two Weeks)'

@@ -24,7 +24,7 @@ CONFIG_PATH=ROOT/'research/chip-capacity.json'
 MIRROR_PATH=ROOT/'site/data/chip-capacity.json'
 
 WHITEPAPER_SOURCE_ID='nvidia-hopper-whitepaper'
-WHITEPAPER_SOURCE={'id':WHITEPAPER_SOURCE_ID,'publisher':'NVIDIA','title':'NVIDIA H100 Tensor Core GPU Architecture whitepaper','url':'https://resources.nvidia.com/en-us-tensor-core/gtc22-whitepaper-hopper','published':'2022-03-22','layers':['chips'],'license':'NVIDIA publication; cited for the GH100 die area'}
+WHITEPAPER_SOURCE={'id':WHITEPAPER_SOURCE_ID,'publisher':'NVIDIA','title':'NVIDIA H100 Tensor Core GPU Architecture whitepaper','url':'https://resources.nvidia.com/en-us-tensor-core/gtc22-whitepaper-hopper','published':'2022-03-22','layers':['chips'],'license':'NVIDIA publication; cited for the GH100 die area','provenance':'company-channel'}
 
 ALLOWED_STATUSES=['observation','estimate','company-commitment']
 PRE_PERIOD_NOTE='Starts at the earliest reviewed disclosure or measurement period. No pre-project history is inferred; commitments are not operating capacity.'

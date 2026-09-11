@@ -377,7 +377,7 @@ class ReportPromotePanelTests(unittest.TestCase):
         ledger = json.loads((self.root/'site/data/ledger.json').read_text(encoding='utf-8'))
         self.source = {'id': 'discovered-fixture-panel', 'publisher': 'Fixture Wire',
             'title': 'Discovered public update — Fixture Wire', 'url': 'https://fixturewire.example/2026/09/fixture-site',
-            'published': '2026-09-09', 'layers': ['infrastructure'], 'license': 'Original source rights apply',
+            'published': '2026-09-09', 'layers': ['infrastructure'], 'license': 'Original source rights apply', 'provenance': 'news',
             'parent_source': 'outlet-fixture-panel'}
         ledger['sources'].append(self.source)
         self.report_id = 'note-' + 'p'*20

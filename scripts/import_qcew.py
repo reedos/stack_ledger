@@ -34,7 +34,7 @@ from research import load, save, now, require, UA, allowed_url
 ROOT=Path(__file__).resolve().parents[1]
 SNAPSHOTS=ROOT/'research/qcew'
 SOURCE_ID='bls-qcew-open-data'
-SOURCE={'id':SOURCE_ID,'publisher':'U.S. Bureau of Labor Statistics','title':'Quarterly Census of Employment and Wages · open data files','url':'https://www.bls.gov/cew/additional-resources/open-data/','published':None,'layers':['infrastructure','energy'],'license':'Public domain (U.S. government work)'}
+SOURCE={'id':SOURCE_ID,'publisher':'U.S. Bureau of Labor Statistics','title':'Quarterly Census of Employment and Wages · open data files','url':'https://www.bls.gov/cew/additional-resources/open-data/','published':None,'layers':['infrastructure','energy'],'license':'Public domain (U.S. government work)','provenance':'official'}
 INDUSTRIES={'518210':('Data processing, hosting and related services','infrastructure'),'23821':('Electrical contractors and other wiring installation contractors','infrastructure')}
 # QCEW aggregation levels by NAICS depth: (county, national). 6-digit files carry 78/18, 5-digit files 77/17.
 AGGLVL={6:('78','18'),5:('77','17'),4:('76','16')}

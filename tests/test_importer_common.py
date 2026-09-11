@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RUNNER = ROOT/'tests/_importer_common_runner.py'
 
 FIXTURE_SOURCE = {'id': 'test-importer-common-source', 'publisher': 'Test Publisher', 'title': 'Test dataset',
-                  'url': 'https://example.gov/data', 'published': None, 'layers': ['infrastructure'], 'license': 'Public domain (U.S. government work)'}
+                  'url': 'https://example.gov/data', 'published': None, 'layers': ['infrastructure'], 'license': 'Public domain (U.S. government work)', 'provenance': 'official'}
 FIXTURE_COLLECTION = {'test-importer-common-source': {'rank': 1, 'region_book': 'united-states', 'company_id': None, 'claim_type': 'other', 'cadence': 'manual', 'weekday': 0, 'path_prefixes': [], 'topics': [], 'excerpts': False}}
 
 

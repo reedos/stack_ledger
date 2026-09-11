@@ -481,7 +481,7 @@ class IdleTopUpTests(unittest.TestCase):
             path=Path(tmp);RunnerTests().fixture(path)
             registry=research.load(path/'research/sources.json')
             feed={'id':'test-feed','publisher':'Test','title':'Test feed','url':'https://feed.example/rss',
-                  'published':None,'layers':['energy'],'license':'x','index':True}
+                  'published':None,'layers':['energy'],'license':'x','provenance':'news','index':True}
             policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily',
                     'weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
             registry['sources'].append(feed);registry['collection']['test-feed']=policy
@@ -678,12 +678,12 @@ class DiscoveryCapTests(unittest.TestCase):
             receipt=research.load(sorted((path/'.local/runs').glob('*.json'))[0])
             return receipt['collection']['documents']
     def test_feed_source_discovers_up_to_the_per_feed_cap(self):
-        source={'id':'test-feed','publisher':'Test','title':'Test feed','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x','index':True}
+        source={'id':'test-feed','publisher':'Test','title':'Test feed','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x','provenance':'news','index':True}
         policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
         documents=self.run_with_source(source,policy,max_discovered_per_feed=3)
         self.assertEqual(len(documents),1+3)  # the feed itself, plus exactly 3 discovered entries
     def test_ordinary_page_still_discovers_only_one(self):
-        source={'id':'test-page','publisher':'Test','title':'Test page','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x'}
+        source={'id':'test-page','publisher':'Test','title':'Test page','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x','provenance':'news'}
         policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
         documents=self.run_with_source(source,policy)
         self.assertEqual(len(documents),1+1)  # the page itself, plus max_discovered_per_source (1)

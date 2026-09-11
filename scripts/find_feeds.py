@@ -202,7 +202,7 @@ def register(payload):
         # Engineering, research and product publishing is collected narrowly: rank 3, weekly.
         technical=bool(re.search(r'research|blog|developer|engineering|docs|resources',r['host']+urlparse(r['feed_url']).path+(r.get('top_prefix') or ''),re.I))
         sid='feed-'+re.sub(r'[^a-z0-9]+','-',c['id'].lower()).strip('-')+'-'+digest(r['feed_url'])[:6]
-        source={'id':sid,'publisher':c['name'],'title':f"{c['name']} official feed · {r['host']}",'url':r['feed_url'],'published':None,'layers':c['layers'],'license':'Original source rights apply','index':True}
+        source={'id':sid,'publisher':c['name'],'title':f"{c['name']} official feed · {r['host']}",'url':r['feed_url'],'published':None,'layers':c['layers'],'license':'Original source rights apply','provenance':'company-channel','index':True}
         policy={'rank':3 if technical else 4,'region_book':c.get('region_book','unknown') if c.get('region_book') in registry['region_books'] else 'unknown','company_id':c['id'],'claim_type':'other','cadence':'weekly' if technical else 'daily','weekday':hash(sid)%7 if technical else 0,'path_prefixes':[r['top_prefix']],'topics':TOPICS,'excerpts':False}
         hosts_done.add(r['host'])
         registry['sources'].append(source);registry['collection'][sid]=policy;ledger['sources'].append(dict(source))
@@ -401,7 +401,7 @@ def register_outlets(payload):
             outcomes[host]=('rejected',{'reason':outlet_rejection_reason(rows)})
             continue
         sid='outlet-'+re.sub(r'[^a-z0-9]+','-',r['host'].lower()).strip('-')+'-'+digest(r['feed_url'])[:6]
-        source={'id':sid,'publisher':r['publisher'],'title':f"{r['publisher']} feed · {r['host']}",'url':r['feed_url'],'published':None,'layers':r['layers'],'license':'Original source rights apply','index':True}
+        source={'id':sid,'publisher':r['publisher'],'title':f"{r['publisher']} feed · {r['host']}",'url':r['feed_url'],'published':None,'layers':r['layers'],'license':'Original source rights apply','provenance':'news','index':True}
         policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'news','cadence':'daily','weekday':0,'path_prefixes':[r['top_prefix']],'topics':TOPICS,'excerpts':True}
         hosts_done.add(r['host'])
         registry['sources'].append(source);registry['collection'][sid]=policy;ledger['sources'].append(dict(source))
@@ -480,7 +480,7 @@ def register_social(payload):
         if not r.get('eligible') or r['feed_url'] in existing:continue
         c=ecosystem[r['company_id']]
         sid='social-'+re.sub(r'[^a-z0-9]+','-',c['id'].lower()).strip('-')+'-'+digest(r['feed_url'])[:6]
-        source={'id':sid,'publisher':c['name'],'title':f"{c['name']} official Bluesky · @{r['handle']}",'url':r['feed_url'],'published':None,'layers':c['layers'],'license':'Original source rights apply','index':True}
+        source={'id':sid,'publisher':c['name'],'title':f"{c['name']} official Bluesky · @{r['handle']}",'url':r['feed_url'],'published':None,'layers':c['layers'],'license':'Original source rights apply','provenance':'company-channel','index':True}
         policy={'rank':6,'region_book':c.get('region_book','unknown') if c.get('region_book') in registry['region_books'] else 'unknown','company_id':c['id'],'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/profile/'],'topics':TOPICS,'excerpts':False}
         registry['sources'].append(source);registry['collection'][sid]=policy;ledger['sources'].append(dict(source))
         registry['region_books'][policy['region_book']]['sources'].append(sid)

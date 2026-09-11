@@ -45,7 +45,7 @@ SNAPSHOTS = ROOT/'research/sec'
 SOURCE_ID = 'sec-xbrl-companyfacts'
 SOURCE = {'id': SOURCE_ID, 'publisher': 'U.S. Securities and Exchange Commission', 'title': 'SEC EDGAR XBRL Company Facts API',
           'url': 'https://www.sec.gov/edgar/sec-api-documentation', 'published': None,
-          'layers': ['energy', 'chips', 'infrastructure', 'models', 'applications'], 'license': 'Public domain (U.S. government work)'}
+          'layers': ['energy', 'chips', 'infrastructure', 'models', 'applications'], 'license': 'Public domain (U.S. government work)', 'provenance': 'regulated-filing'}
 
 TICKERS_URL = 'https://www.sec.gov/files/company_tickers.json'
 COMPANYFACTS_URL = 'https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json'
