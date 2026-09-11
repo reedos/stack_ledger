@@ -100,8 +100,22 @@ def source_queue(registry, day, selected=None, attempted=None):
     # only ever hit 35 of the 245 possible offsets and silently stopped reaching the rest.
     # Stepping by 1 has gcd 1 with any length, so it cannot resonate like that again.
     offset=day.toordinal()%len(daily) if daily else 0
-    weekly_offset=((day.toordinal()//7)*7)%len(weekly) if weekly else 0
-    queue=[approved[i] for i in order if i in approved]+weekly[weekly_offset:]+weekly[:weekly_offset]+daily[offset:]+daily[:offset]
+    # Same reasoning as the daily stride above, and the same trap: this stepped by 7 per week,
+    # which was coprime with the 155 weekly sources Monday used to hold but shares a factor of 7
+    # with the 21 that Thursday holds now, so only 3 of its 21 offsets were ever reachable and six
+    # sources were never read. day.toordinal()//7 already advances by exactly 1 per week.
+    weekly_offset=(day.toordinal()//7)%len(weekly) if weekly else 0
+    # Weekly and daily alternate at the head rather than weekly taking it whole. Weekly sources
+    # used to be piled onto Monday, so on four nights a week there were none due and daily sources
+    # led the queue. Spreading them across the week (2026-09-11) put some weekly source in every
+    # night's list, and a weekly-first block would then push all 198 daily sources -- the news
+    # outlets and company feeds, the fastest-changing things in the registry -- behind them every
+    # single night. Alternating keeps both kinds reachable from the first batch.
+    rotated_weekly=weekly[weekly_offset:]+weekly[:weekly_offset]
+    rotated_daily=daily[offset:]+daily[:offset]
+    paired=[s for pair in zip(rotated_weekly,rotated_daily) for s in pair]
+    shared=min(len(rotated_weekly),len(rotated_daily))
+    queue=[approved[i] for i in order if i in approved]+paired+rotated_weekly[shared:]+rotated_daily[shared:]
     if attempted is not None:
         # Never-attempted and oldest-attempted sources first across repeated sessions --
         # this breadth guarantee is primary. A feed/index source only wins a tie (most

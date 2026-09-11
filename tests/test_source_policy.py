@@ -2,7 +2,7 @@ import copy
 import json
 import sys
 import unittest
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
@@ -29,9 +29,13 @@ class SourcePolicyTests(unittest.TestCase):
             r=copy.deepcopy(self.registry);r['collection'][self.source['id']].update(change)
             with self.assertRaises(ValueError):validate_registry(r,self.companies)
     def test_weekly_technical_queue(self):
-        monday=date(2026,9,7);tuesday=date(2026,9,8)
-        self.assertTrue(due(self.policy,monday));self.assertFalse(due(self.policy,tuesday))
-        self.assertNotIn(self.source['id'],[s['id'] for s in source_queue(self.registry,tuesday)])
+        # The night is the source's own reviewed weekday, not Monday: weekly sources are spread
+        # across the week so that no night carries the whole corpus and none carries nothing.
+        monday=date(2026,9,7)
+        its_night=monday+timedelta(days=self.policy['weekday'])
+        other_night=monday+timedelta(days=(self.policy['weekday']+1)%7)
+        self.assertTrue(due(self.policy,its_night));self.assertFalse(due(self.policy,other_night))
+        self.assertNotIn(self.source['id'],[s['id'] for s in source_queue(self.registry,other_night)])
     def test_manual_archives_never_enter_monitoring(self):
         manual={sid for sid,p in self.registry['collection'].items() if p['cadence']=='manual'}
         self.assertIn('epoch-eci-dataset',manual)

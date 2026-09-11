@@ -138,7 +138,8 @@ class OutletRegistrationShapeTests(unittest.TestCase):
             self.assertEqual(p['claim_type'],'news',s['id'])
             self.assertTrue(p['excerpts'],s['id'])
             self.assertEqual(p['cadence'],'daily',s['id'])
-            self.assertEqual(p['weekday'],0,s['id'])
+            # Spread stably by source id: a weekday-0 default piled the whole corpus onto Monday.
+            self.assertEqual(p['weekday'],ff.spread_weekday(s['id']),s['id'])
             self.assertTrue(s['index'],s['id'])
             self.assertEqual(len(p['path_prefixes']),1,s['id'])
             self.assertEqual(p['topics'],ff.TOPICS,s['id'])

@@ -542,7 +542,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -553,7 +553,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -564,7 +564,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -586,7 +586,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -597,7 +597,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -636,7 +636,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [
         "/blog/"
       ],
@@ -692,7 +692,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/blog/"
       ],
@@ -720,7 +720,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/news/"
       ],
@@ -748,7 +748,7 @@
       "company_id": "nextera",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -770,7 +770,7 @@
       "company_id": "schneider",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -781,7 +781,7 @@
       "company_id": "nvidia",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -792,7 +792,7 @@
       "company_id": "amd",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -814,7 +814,7 @@
       "company_id": "tsmc",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -825,7 +825,7 @@
       "company_id": "samsung",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -836,7 +836,7 @@
       "company_id": "intel",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -847,7 +847,7 @@
       "company_id": "sk-hynix",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -858,7 +858,7 @@
       "company_id": "micron",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -869,7 +869,7 @@
       "company_id": "asml",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -880,7 +880,7 @@
       "company_id": "vertiv",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -891,7 +891,7 @@
       "company_id": "microsoft",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -902,7 +902,7 @@
       "company_id": "aws",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -913,7 +913,7 @@
       "company_id": "alphabet",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -924,7 +924,7 @@
       "company_id": "meta",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -935,7 +935,7 @@
       "company_id": "openai",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -946,7 +946,7 @@
       "company_id": "anthropic",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -957,7 +957,7 @@
       "company_id": "salesforce",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -968,7 +968,7 @@
       "company_id": "palantir",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1001,7 +1001,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1023,7 +1023,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1045,7 +1045,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1067,7 +1067,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1100,7 +1100,7 @@
       "company_id": "constellation",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1111,7 +1111,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1122,7 +1122,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1133,7 +1133,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1144,7 +1144,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1155,7 +1155,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1177,7 +1177,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1188,7 +1188,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1210,7 +1210,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1221,7 +1221,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1232,7 +1232,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1254,7 +1254,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1265,7 +1265,7 @@
       "company_id": "ercot",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1287,7 +1287,7 @@
       "company_id": "marvell",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1298,7 +1298,7 @@
       "company_id": "credo",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1309,7 +1309,7 @@
       "company_id": "broadcom",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1320,7 +1320,7 @@
       "company_id": "coherent",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1331,7 +1331,7 @@
       "company_id": "lumentum",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1342,7 +1342,7 @@
       "company_id": "cisco",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1353,7 +1353,7 @@
       "company_id": "cisco",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1364,7 +1364,7 @@
       "company_id": "amphenol",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1375,7 +1375,7 @@
       "company_id": "corning",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1386,7 +1386,7 @@
       "company_id": "lightmatter",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1397,7 +1397,7 @@
       "company_id": "ayar",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1408,7 +1408,7 @@
       "company_id": "innolight",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1419,7 +1419,7 @@
       "company_id": "eoptolink",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1430,7 +1430,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1441,7 +1441,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1452,7 +1452,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1463,7 +1463,7 @@
       "company_id": "eaton",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1474,7 +1474,7 @@
       "company_id": "first-solar",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1485,7 +1485,7 @@
       "company_id": "qcells",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1496,7 +1496,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1507,7 +1507,7 @@
       "company_id": "marvell",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1518,7 +1518,7 @@
       "company_id": "credo",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1529,7 +1529,7 @@
       "company_id": "astera",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1540,7 +1540,7 @@
       "company_id": "coherent",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1551,7 +1551,7 @@
       "company_id": "lumentum",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1573,7 +1573,7 @@
       "company_id": "fabrinet",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1584,7 +1584,7 @@
       "company_id": "corning",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1606,7 +1606,7 @@
       "company_id": "arista",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1628,7 +1628,7 @@
       "company_id": "celestica",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1650,7 +1650,7 @@
       "company_id": "quanta",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1661,7 +1661,7 @@
       "company_id": "emcor",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1683,7 +1683,7 @@
       "company_id": "ciena",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1694,7 +1694,7 @@
       "company_id": "ciena",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1705,7 +1705,7 @@
       "company_id": "semtech",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1716,7 +1716,7 @@
       "company_id": "semtech",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1727,7 +1727,7 @@
       "company_id": "macom",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1738,7 +1738,7 @@
       "company_id": "macom",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1749,7 +1749,7 @@
       "company_id": "spacex",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1760,7 +1760,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1782,7 +1782,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1793,7 +1793,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1804,7 +1804,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1837,7 +1837,7 @@
       "company_id": "spacexai",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1859,7 +1859,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -1881,7 +1881,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1892,7 +1892,7 @@
       "company_id": "oracle",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1903,7 +1903,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1914,7 +1914,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1925,7 +1925,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1936,7 +1936,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1947,7 +1947,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1958,7 +1958,7 @@
       "company_id": "vantage",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1969,7 +1969,7 @@
       "company_id": "softbank",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1980,7 +1980,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -1991,7 +1991,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2002,7 +2002,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2024,7 +2024,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2046,7 +2046,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2057,7 +2057,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2068,7 +2068,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2079,7 +2079,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2090,7 +2090,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2112,7 +2112,7 @@
       "company_id": "coreweave",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2123,7 +2123,7 @@
       "company_id": "nebius",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2134,7 +2134,7 @@
       "company_id": "supermicro",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2145,7 +2145,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2178,7 +2178,7 @@
       "company_id": "foxconn",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2189,7 +2189,7 @@
       "company_id": "quanta-computer",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2200,7 +2200,7 @@
       "company_id": "wiwynn",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2211,7 +2211,7 @@
       "company_id": "nvent",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2233,7 +2233,7 @@
       "company_id": "johnson-controls",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2255,7 +2255,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2277,7 +2277,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2288,7 +2288,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2299,7 +2299,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2332,7 +2332,7 @@
       "company_id": "cognition",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2343,7 +2343,7 @@
       "company_id": "openclaw",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2376,7 +2376,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2387,7 +2387,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2398,7 +2398,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2409,7 +2409,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2431,7 +2431,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2442,7 +2442,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2464,7 +2464,7 @@
       "company_id": "turner",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2475,7 +2475,7 @@
       "company_id": "mortenson",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2486,7 +2486,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2497,7 +2497,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2508,7 +2508,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2519,7 +2519,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2530,7 +2530,7 @@
       "company_id": "marvell",
       "claim_type": "architecture",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2541,7 +2541,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2552,7 +2552,7 @@
       "company_id": "cursor",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2563,7 +2563,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2574,7 +2574,7 @@
       "company_id": "deepseek",
       "claim_type": "architecture",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2596,7 +2596,7 @@
       "company_id": "moderna",
       "claim_type": "clinical",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2607,7 +2607,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2618,7 +2618,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [
         "/news/"
       ],
@@ -2646,7 +2646,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/news/"
       ],
@@ -2674,7 +2674,7 @@
       "company_id": "alphabet",
       "claim_type": "architecture",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2696,7 +2696,7 @@
       "company_id": "isomorphic",
       "claim_type": "financial",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2707,7 +2707,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2718,7 +2718,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2729,7 +2729,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2740,7 +2740,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2751,7 +2751,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2762,7 +2762,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2773,7 +2773,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2861,7 +2861,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2872,7 +2872,7 @@
       "company_id": "anthropic",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2883,7 +2883,7 @@
       "company_id": "anthropic",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2894,7 +2894,7 @@
       "company_id": "anthropic",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2905,7 +2905,7 @@
       "company_id": "anthropic",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2916,7 +2916,7 @@
       "company_id": "openai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2927,7 +2927,7 @@
       "company_id": "openai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2938,7 +2938,7 @@
       "company_id": "anthropic",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2960,7 +2960,7 @@
       "company_id": "spacexai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2971,7 +2971,7 @@
       "company_id": "spacexai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -2982,7 +2982,7 @@
       "company_id": "spacexai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -2993,7 +2993,7 @@
       "company_id": "spacexai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -3004,7 +3004,7 @@
       "company_id": "spacexai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -3026,7 +3026,7 @@
       "company_id": "nvidia",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3041,7 +3041,7 @@
       "company_id": "amd",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3056,7 +3056,7 @@
       "company_id": "broadcom",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3071,7 +3071,7 @@
       "company_id": "microsoft",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3086,7 +3086,7 @@
       "company_id": "alphabet",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3101,7 +3101,7 @@
       "company_id": "meta",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3116,7 +3116,7 @@
       "company_id": "tsmc",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3146,7 +3146,7 @@
       "company_id": "ge-vernova",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3161,7 +3161,7 @@
       "company_id": "intel",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3176,7 +3176,7 @@
       "company_id": "micron",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3191,7 +3191,7 @@
       "company_id": "vertiv",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3206,7 +3206,7 @@
       "company_id": "salesforce",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3221,7 +3221,7 @@
       "company_id": "palantir",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3251,7 +3251,7 @@
       "company_id": "credo",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3266,7 +3266,7 @@
       "company_id": "astera",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3281,7 +3281,7 @@
       "company_id": "coherent",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3296,7 +3296,7 @@
       "company_id": "lumentum",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3326,7 +3326,7 @@
       "company_id": "fabrinet",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3341,7 +3341,7 @@
       "company_id": "corning",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3356,7 +3356,7 @@
       "company_id": "amphenol",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3371,7 +3371,7 @@
       "company_id": "arista",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3401,7 +3401,7 @@
       "company_id": "celestica",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3416,7 +3416,7 @@
       "company_id": "eaton",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3431,7 +3431,7 @@
       "company_id": "quanta",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3446,7 +3446,7 @@
       "company_id": "emcor",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3461,7 +3461,7 @@
       "company_id": "first-solar",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3506,7 +3506,7 @@
       "company_id": "macom",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3521,7 +3521,7 @@
       "company_id": "tesla",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3536,7 +3536,7 @@
       "company_id": "oracle",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3551,7 +3551,7 @@
       "company_id": "coreweave",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3566,7 +3566,7 @@
       "company_id": "nebius",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3581,7 +3581,7 @@
       "company_id": "amkor",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3611,7 +3611,7 @@
       "company_id": "constellation",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3626,7 +3626,7 @@
       "company_id": "dell",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3656,7 +3656,7 @@
       "company_id": "johnson-controls",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3671,7 +3671,7 @@
       "company_id": "merck",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3686,7 +3686,7 @@
       "company_id": "moderna",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3716,7 +3716,7 @@
       "company_id": "recursion",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3731,7 +3731,7 @@
       "company_id": "asml",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3746,7 +3746,7 @@
       "company_id": "samsung",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3761,7 +3761,7 @@
       "company_id": "sk-hynix",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3776,7 +3776,7 @@
       "company_id": "schneider",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3791,7 +3791,7 @@
       "company_id": "foxconn",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3806,7 +3806,7 @@
       "company_id": "quanta-computer",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3836,7 +3836,7 @@
       "company_id": "softbank",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3851,7 +3851,7 @@
       "company_id": "innolight",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3866,7 +3866,7 @@
       "company_id": "eoptolink",
       "claim_type": "financial",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [
         "revenue",
@@ -3911,7 +3911,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -3933,7 +3933,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -3944,7 +3944,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -3966,7 +3966,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -3977,7 +3977,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -3988,7 +3988,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -3999,7 +3999,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4010,7 +4010,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4021,7 +4021,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4032,7 +4032,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4043,7 +4043,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4054,7 +4054,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4076,7 +4076,7 @@
       "company_id": null,
       "claim_type": "labor",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4087,7 +4087,7 @@
       "company_id": null,
       "claim_type": "labor",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4098,7 +4098,7 @@
       "company_id": null,
       "claim_type": "labor",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4109,7 +4109,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4120,7 +4120,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4131,7 +4131,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4142,7 +4142,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4164,7 +4164,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4175,7 +4175,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4186,7 +4186,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4197,7 +4197,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4208,7 +4208,7 @@
       "company_id": null,
       "claim_type": "architecture",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4219,7 +4219,7 @@
       "company_id": null,
       "claim_type": "architecture",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4230,7 +4230,7 @@
       "company_id": null,
       "claim_type": "architecture",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4241,7 +4241,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4252,7 +4252,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4274,7 +4274,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4285,7 +4285,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4296,7 +4296,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4307,7 +4307,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4318,7 +4318,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4329,7 +4329,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4340,7 +4340,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4351,7 +4351,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4362,7 +4362,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4373,7 +4373,7 @@
       "company_id": null,
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
@@ -4384,7 +4384,7 @@
       "company_id": "mistral",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4406,7 +4406,7 @@
       "company_id": "ibm",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4417,7 +4417,7 @@
       "company_id": "arm",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4428,7 +4428,7 @@
       "company_id": "applied-materials",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4439,7 +4439,7 @@
       "company_id": "lam-research",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4450,7 +4450,7 @@
       "company_id": "synopsys",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4472,7 +4472,7 @@
       "company_id": "siemens-energy",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4483,7 +4483,7 @@
       "company_id": "microsoft",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4494,7 +4494,7 @@
       "company_id": "aws",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4505,7 +4505,7 @@
       "company_id": "meta",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4516,7 +4516,7 @@
       "company_id": "spacexai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4527,7 +4527,7 @@
       "company_id": "moonshot",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4538,7 +4538,7 @@
       "company_id": "minimax",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4549,7 +4549,7 @@
       "company_id": "z-ai",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4560,7 +4560,7 @@
       "company_id": "nvidia",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -4571,7 +4571,7 @@
       "company_id": null,
       "claim_type": "labor",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/experts/",
         "/get-paid-to-record-tasks"
@@ -4588,7 +4588,7 @@
       "company_id": null,
       "claim_type": "labor",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/experts/",
         "/get-paid-to-record-tasks"
@@ -4616,7 +4616,7 @@
       "company_id": null,
       "claim_type": "labor",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [],
       "topics": [],
       "excerpts": true
@@ -5650,7 +5650,7 @@
       "company_id": "nextera",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/stock-information/"
       ],
@@ -5706,7 +5706,7 @@
       "company_id": "amd",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/news-events/"
       ],
@@ -5734,7 +5734,7 @@
       "company_id": "broadcom",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -5762,7 +5762,7 @@
       "company_id": "intel",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [
         "/news-events/"
       ],
@@ -5790,7 +5790,7 @@
       "company_id": "sk-hynix",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/en/"
       ],
@@ -5818,7 +5818,7 @@
       "company_id": "aws",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [
         "/news/"
       ],
@@ -5846,7 +5846,7 @@
       "company_id": "astera",
       "claim_type": "other",
       "cadence": "weekly",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/resources/"
       ],
@@ -5874,7 +5874,7 @@
       "company_id": "coherent",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -5902,7 +5902,7 @@
       "company_id": "applied-opto",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -5930,7 +5930,7 @@
       "company_id": "fabrinet",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -5958,7 +5958,7 @@
       "company_id": "celestica",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -5986,7 +5986,7 @@
       "company_id": "quanta",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [
         "/news-events/"
       ],
@@ -6098,7 +6098,7 @@
       "company_id": "macom",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -6126,7 +6126,7 @@
       "company_id": "amkor",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -6154,7 +6154,7 @@
       "company_id": "constellation",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -6182,7 +6182,7 @@
       "company_id": "fervo",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -6210,7 +6210,7 @@
       "company_id": "recursion",
       "claim_type": "other",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [
         "/news-releases/"
       ],
@@ -6315,7 +6315,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [
         "/"
       ],
@@ -6380,7 +6380,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [
         "/"
       ],
@@ -6445,7 +6445,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [
         "/"
       ],
@@ -6575,7 +6575,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [
         "/"
       ],
@@ -6640,7 +6640,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [
         "/"
       ],
@@ -6705,7 +6705,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [
         "/"
       ],
@@ -6770,7 +6770,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/"
       ],
@@ -6835,7 +6835,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 3,
       "path_prefixes": [
         "/"
       ],
@@ -6900,7 +6900,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/"
       ],
@@ -6965,7 +6965,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [
         "/"
       ],
@@ -7030,7 +7030,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/"
       ],
@@ -7095,7 +7095,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 5,
       "path_prefixes": [
         "/"
       ],
@@ -7160,7 +7160,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [
         "/"
       ],
@@ -7290,7 +7290,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 1,
       "path_prefixes": [
         "/"
       ],
@@ -7355,7 +7355,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 2,
       "path_prefixes": [
         "/"
       ],
@@ -7420,7 +7420,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 4,
       "path_prefixes": [
         "/"
       ],
@@ -7550,7 +7550,7 @@
       "company_id": null,
       "claim_type": "news",
       "cadence": "daily",
-      "weekday": 0,
+      "weekday": 6,
       "path_prefixes": [
         "/"
       ],

@@ -1,4 +1,5 @@
 """Reviewed collection boundaries and append-only public evidence excerpts."""
+import hashlib
 import re
 from urllib.parse import urlparse, unquote
 from validate import require, text, timestamp, LAYERS, STATUSES
@@ -6,6 +7,20 @@ from validate import require, text, timestamp, LAYERS, STATUSES
 REGIONS = {'united-states','taiwan','korea','japan','china','europe','middle-east','india','canada-latam-africa-anz','global','unknown'}
 CLAIMS = {'architecture','shipment','financial','roadmap','safety','clinical','labor','other','news'}
 GRADES = {'A','B','C','D'}
+
+def spread_weekday(source_id):
+    """The night of the week a source is checked, spread evenly and stably by its id.
+
+    `due()` treats a weekly source as due only on this weekday and defaults it to 0, so on
+    2026-09-11 155 of 176 weekly sources came due on Monday and Friday, Saturday and Sunday nights
+    had none at all. Every daily source sat at the default too, which would have piled them onto
+    Monday the moment adaptive promotion made them weekly.
+
+    sha256 rather than hash(): Python randomises string hashing per process, so the same source
+    would otherwise land on a different night every time it was registered.
+    """
+    return int(hashlib.sha256(str(source_id).encode('utf-8')).hexdigest(), 16) % 7
+
 
 def collection_for(registry, source):
     return registry.get('collection', {}).get(source.get('parent_source', source['id']), {})
