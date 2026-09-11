@@ -86,6 +86,14 @@ def overlap_notice(root):
     except Exception:print('Could not deliver overlap notification; research remains skipped',flush=True)
 
 
+def overlap_since(root,at):
+    """The skip notice a run started at `at` wrote, or None: an overlap exits 0 (RESEARCH_SESSIONS.md),
+    so this is the only way a caller can tell a skipped night from a researched one."""
+    try:notice=json.loads((root/'.local/schedule-overlap.json').read_text(encoding='utf-8'))
+    except (OSError,ValueError):return None
+    return notice if notice.get('status')=='skipped' and str(notice.get('at',''))>=at else None
+
+
 def latest_batch_status(folder):
     """The 'status' field of the most recently written batch receipt, or None.
 

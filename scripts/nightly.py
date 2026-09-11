@@ -3,9 +3,11 @@ automatic publication, a health/stale-figure report, preview pruning and a diges
 
 The OpenClaw job calls this script alone at 01:30 Pacific. Each stage gets its own timeout and
 writes a receipt to `.local/nightly/<date>/<stage>.json`; a failed stage is recorded and skipped,
-never fatal to the rest of the night. Pre-stages (locks, importers) get at most 25 minutes so the
-model research session still starts by 02:00; the session itself keeps its own 2-7 AM Pacific
-window; post-stages (policy, health, prune, digest) run after it, inside the 6-hour cron ceiling.
+never fatal to the rest of the night, but the run then exits non-zero so the supervisor and the
+cron watchdog see the night the way its receipts do. Pre-stages (locks, importers) get at most
+25 minutes so the model research session still starts by 02:00; the session itself keeps its own
+2-7 AM Pacific window; post-stages (policy, health, prune, digest) run after it, inside the
+6-hour cron ceiling.
 
     python scripts/nightly.py               # run every stage
     python scripts/nightly.py --dry-run      # print the plan; nothing runs, nothing is written
@@ -36,6 +38,7 @@ PRE_STAGE_BUDGET_SECONDS = 25*60      # pre-stages must clear by 02:00 so the se
 TOTAL_CEILING_SECONDS = 6*3600        # matches the cron job's own timeout (schedule.py)
 POST_STAGE_RESERVE_SECONDS = 10*60    # left for policy/health/prune/digest after the session returns
 STAGE_TIMEOUTS = {'locks': 60, 'policy': 600, 'health': 120, 'prune': 120, 'digest': 120}
+FAILED_STATUSES = ('failed', 'timeout')   # any one of these makes the whole run exit non-zero
 # The OpenClaw job that runs this file carries noOutputTimeoutSeconds 420 and re-arms that timer
 # only on this process's own stdout/stderr; when it fires, Windows gets taskkill /PID <pid> /T /F
 # on the whole tree. Every stage captures its children, so until 2026-09-10 this process printed
@@ -213,6 +216,14 @@ def research_ignore_gpu_busy(root):
 # -------------------------------------------------------------- research
 
 WINDOW_POLL_SECONDS = 60
+WINDOW_PROBE_FAILURES = 5      # a flaky Pacific-time probe must not cost the night's research
+
+
+def window_state(at):
+    """(inside, past) for a moment, through research_loop's own Pacific rules."""
+    import research_loop as loop
+    if loop.overnight_seconds(at) > 0: return True, False
+    return False, loop.pacific(at).hour >= 7
 
 
 def wait_for_window(root, budget_seconds, *, sleep=time.sleep, clock=time.monotonic, now=None):
@@ -223,41 +234,70 @@ def wait_for_window(root, budget_seconds, *, sleep=time.sleep, clock=time.monoto
     outside 2-7 AM Pacific. On 2026-09-10 it launched at 01:30:23, exited in 0.2s with "Outside the
     2-7 AM Pacific window; no research started", and the night produced no research at all.
     Re-checking every minute rather than computing one sleep keeps this correct across the two DST
-    nights, when the local clock itself jumps inside the window."""
-    import research_loop as loop
+    nights, when the local clock itself jumps inside the window.
+
+    This machine has no IANA tzdata, so every poll resolves Pacific time by spawning PowerShell:
+    about 60 spawns per 01:30-02:00 wait. One of them failing used to raise out of the stage and
+    cost the whole session, so a failed probe is logged and retried and only WINDOW_PROBE_FAILURES
+    in a row gives up."""
     clock_at = now or (lambda: datetime.now(timezone.utc))
-    deadline = clock()+max(0, budget_seconds); waited = 0
+    deadline = clock()+max(0, budget_seconds); waited = 0; failures = 0
     while True:
-        at = clock_at()
-        if loop.overnight_seconds(at) > 0: return True, waited, None
-        if loop.pacific(at).hour >= 7: return False, waited, 'the 2-7 AM Pacific research window has already passed today'
+        try:
+            inside, past = window_state(clock_at())
+            failures = 0
+        except (OSError, ValueError, subprocess.SubprocessError) as e:
+            failures += 1; inside = past = False
+            print(f'nightly: Pacific-time probe failed ({type(e).__name__}), {failures} in a row', flush=True)
+            if failures >= WINDOW_PROBE_FAILURES:
+                return False, waited, f'the Pacific-time probe failed {failures} times in a row ({type(e).__name__})'
+        if inside: return True, waited, None
+        if past: return False, waited, 'the 2-7 AM Pacific research window has already passed today'
         if clock() >= deadline: return False, waited, 'the research window did not open within this stage budget'
         sleep(WINDOW_POLL_SECONDS); waited += WINDOW_POLL_SECONDS
+
+
+def blocking_research_lock(root):
+    """The reason research cannot start right now, or None."""
+    for rel in ('.local/research.lock', '.local/research-session.lock'):
+        status = lock_status(root/rel)
+        if status['blocking']:
+            return f"{status['path']} held by live pid {status.get('pid')}: another research session is running"
+    return None
 
 
 def stage_research(root, budget_seconds):
     if (root/'.local/stop-research-loop').exists():
         return {'status': 'skipped', 'reason': '.local/stop-research-loop present'}
-    for rel in ('.local/research.lock', '.local/research-session.lock'):
-        status = lock_status(root/rel)
-        if status['blocking']:
-            return {'status': 'skipped', 'reason': f"{status['path']} held by live pid {status.get('pid')}"}
+    blocked = blocking_research_lock(root)
+    if blocked: return {'status': 'skipped', 'reason': blocked}
     ready, waited, reason = wait_for_window(root, budget_seconds)
     if not ready:
         return {'status': 'skipped', 'reason': reason, 'waited_seconds': waited}
+    # The lock check above is up to 30 minutes old by now; a manual session started inside the wait
+    # is the ordinary case, not a race.
+    blocked = blocking_research_lock(root)
+    if blocked: return {'status': 'skipped', 'reason': blocked, 'waited_seconds': waited}
     command = [sys.executable, str(root/'scripts/research_loop.py'), '--start', '--publish', '--minutes', '300', '--overnight', '--keep-awake']
     if research_ignore_gpu_busy(root): command.append('--ignore-gpu-busy')
     timeout = max(60, budget_seconds-waited)
+    launched_at = datetime.now(timezone.utc).isoformat()
     try:
         result = subprocess.run(command, cwd=root, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout, env=dict(os.environ, PYTHONIOENCODING='utf-8'))
     except subprocess.TimeoutExpired as e:
         return {'status': 'failed', 'error': 'timeout', 'timeout_seconds': timeout, 'stdout_tail': (e.stdout or '')[-3000:]}
+    import research_loop as loop
     # A clean exit that started nothing is not a successful research stage: say so in the digest.
-    started = 'no research started' not in (result.stdout or '')
+    # research_loop exits 0 when another session holds a lock (RESEARCH_SESSIONS.md) and says so
+    # only in its own overlap notice, so until 2026-09-11 a night that researched nothing at all
+    # because a manual session was running reported "research: ok".
+    overlap = loop.overlap_since(root, launched_at)
+    started = 'no research started' not in (result.stdout or '') and not overlap
     status = 'ok' if result.returncode == 0 and started else ('skipped' if result.returncode == 0 else 'failed')
     outcome = {'status': status, 'returncode': result.returncode, 'waited_seconds': waited,
                'stdout_tail': result.stdout[-4000:], 'stderr_tail': result.stderr[-2000:]}
-    if status == 'skipped': outcome['reason'] = 'the session runner started no research; see stdout_tail'
+    if status == 'skipped':
+        outcome['reason'] = (overlap or {}).get('reason') or 'the session runner started no research; see stdout_tail'
     return outcome
 
 
@@ -303,9 +343,6 @@ def stage_policy(root):
 
 # ---------------------------------------------------------------- health
 
-CADENCE_DAYS = {'quarter': 120, 'snapshot': 60, 'month': 45, None: 400}
-
-
 def read_json(path):
     return json.loads(path.read_text(encoding='utf-8'))
 
@@ -324,27 +361,29 @@ def collection_summary(root):
 
 
 def stale_figures(root):
+    """Metrics whose latest reading has aged past their own cadence, oldest period first.
+
+    Until 2026-09-11 this aged each metric by its observation's `retrieved_at`, so a Q1-2024
+    figure fetched last night counted as fresh: 4,184 observations, 0 overdue, every night.
+    research.py already owns this measurement for its stale tasks -- same anchor date, same
+    thresholds, same latest-observation rule -- so the health report borrows it rather than
+    keeping a second copy that can disagree with what the session actually chases."""
+    import research
     data = read_json(root/'site/data/ledger.json')
-    metrics = {m['id']: m for m in data['metrics']}
-    latest = {}
-    for o in data['observations']:
-        if o.get('superseded_by'): continue
-        current = latest.get(o['metric'])
-        if current is None or o['retrieved_at'] > current['retrieved_at']: latest[o['metric']] = o
-    now = datetime.now(timezone.utc)
+    today = datetime.now(timezone.utc).date()
     overdue = []
-    for mid, o in latest.items():
-        m = metrics.get(mid)
-        if not m: continue
-        days = CADENCE_DAYS.get(m.get('period_basis'), CADENCE_DAYS[None])
-        try: retrieved = datetime.fromisoformat(o['retrieved_at'].replace('Z', '+00:00'))
-        except ValueError: continue
-        age_days = (now-retrieved).total_seconds()/86400
-        if age_days > days:
-            overdue.append({'metric': mid, 'source': o['source'], 'age_days': round(age_days, 1),
-                             'threshold_days': days, 'period_basis': m.get('period_basis') or 'yearly', 'latest_period': o['period']})
+    for m in data['metrics']:
+        o = research.latest_non_superseded(data['observations'], m['id'])
+        if o is None: continue
+        days = research.STALE_THRESHOLD_DAYS.get(m.get('period_basis'), research.STALE_DEFAULT_THRESHOLD_DAYS)
+        age_days = (today-research.observation_anchor_date(m, o)).days
+        if age_days <= days: continue
+        overdue.append({'metric': m['id'], 'source': o.get('source'), 'age_days': age_days, 'threshold_days': days,
+                        'period_basis': m.get('period_basis') or 'yearly', 'latest_period': o.get('period'),
+                        'refresh_expected': research.refresh_expected(m, data['observations'])})
     overdue.sort(key=lambda r: -r['age_days'])
-    return {'overdue_count': len(overdue), 'most_overdue': overdue[:20]}
+    return {'overdue_count': len(overdue), 'refreshable_count': sum(r['refresh_expected'] for r in overdue),
+            'most_overdue': overdue[:20]}
 
 
 def disk_usage_top(root, n=8):
@@ -406,6 +445,19 @@ def load_receipt(root, date, name):
     except (OSError, ValueError): return None
 
 
+def stage_line(receipt):
+    """A stage's status with the reason the receipt already holds.
+
+    "research: skipped" is what the owner saw on 2026-09-11; the sentence explaining that another
+    session held the lock was sitting unread in the same receipt."""
+    if not receipt: return 'no receipt'
+    status = receipt.get('status', 'unknown')
+    detail = receipt.get('reason') or ': '.join(str(receipt[k]) for k in ('error', 'message') if receipt.get(k))
+    failed = [f"{r.get('id')} {r.get('status')}" for r in receipt.get('results') or [] if r.get('status') != 'ok']
+    if failed: detail = (detail+'; ' if detail else '')+', '.join(failed)
+    return f'{status}, {detail[:300]}' if detail else status
+
+
 def stage_health(root, date):
     result = {'status': 'ok'}
     for key, fn in [('collection_health', collection_summary), ('stale_figures', stale_figures),
@@ -415,7 +467,7 @@ def stage_health(root, date):
             result[key] = {'error': f'{type(e).__name__}: {str(e)[:200]}'}; result['status'] = 'partial'
     history = {name: load_receipt(root, date, name) for name in ('locks', 'importers', 'research', 'policy')}
     result['locks_recovered'] = [l for l in (history.get('locks') or {}).get('locks', []) if str(l.get('action', '')).startswith('removed')]
-    result['stage_outcomes'] = {k: (v.get('status') if v else 'no receipt') for k, v in history.items()}
+    result['stage_outcomes'] = {k: stage_line(v) for k, v in history.items()}
     return result
 
 
@@ -452,16 +504,35 @@ def site_changes(root, date):
         return []
 
 
+TELEGRAM_LIMIT = 3500
+
+
 def render_digest_markdown(body):
-    lines = [f"# Nightly digest - {body['date']}", '', '## Applied automatically']
+    """Stage outcomes first, the health dump last.
+
+    Telegram gets a truncated copy (TELEGRAM_LIMIT), and the nights with the most to report are
+    exactly the nights whose health JSON is longest -- so with outcomes last, the section naming
+    what broke was the one being cut off."""
+    lines = [f"# Nightly digest - {body['date']}", '', '## Stage outcomes']
+    lines += [f"- {k}: {v}" for k, v in body['stage_receipts'].items()]
+    lines += ['', '## Applied automatically']
     lines += [f"- {row['kind']}: " + ' '.join(f'{k}={v}' for k, v in row.items() if k != 'kind') for row in body['applied']] or ['- Nothing applied automatically tonight.']
     lines += ['', '## Needs a decision']
     lines += [f"- {k.replace('_', ' ')}: {v}" for k, v in body['needs_decision'].items()] or ['- Nothing pending.']
-    lines += ['', '## Health', '```json', json.dumps(body['health'], indent=2), '```', '', '## Site changes']
+    lines += ['', '## Site changes']
     lines += ['- '+c for c in body['site_changes']] or ['- No commits recorded tonight.']
-    lines += ['', '## Stage outcomes']
-    lines += [f"- {k}: {v}" for k, v in body['stage_receipts'].items()]
+    stale = (body['health'].get('stale_figures') or {})
+    lines += ['', '## Health', f"- figures overdue for a refresh: {stale.get('overdue_count', 'unknown')}"
+              + (f" ({stale['refreshable_count']} a source can restate)" if 'refreshable_count' in stale else ''),
+              '```json', json.dumps(body['health'], indent=2), '```']
     return '\n'.join(lines)+'\n'
+
+
+def for_telegram(markdown, date, limit=TELEGRAM_LIMIT):
+    """Cut on a line boundary and say the message was cut, rather than slicing mid-word in silence."""
+    if len(markdown) <= limit: return markdown
+    notice = f'\n[truncated; full digest in .local/digest/{date}.md]\n'
+    return markdown[:limit-len(notice)].rsplit('\n', 1)[0]+notice
 
 
 def stage_digest(root, date):
@@ -478,7 +549,7 @@ def stage_digest(root, date):
     body = {'date': date, 'applied': applied, 'needs_decision': health.get('pending_decisions') or {},
             'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health')},
             'site_changes': site_changes(root, date),
-            'stage_receipts': {k: (v.get('status') if v else 'no receipt') for k, v in receipts.items()}}
+            'stage_receipts': {k: stage_line(v) for k, v in receipts.items()}}
     save(root/'.local/digest'/(date+'.json'), body)
     markdown = render_digest_markdown(body)
     digest_dir = root/'.local/digest'; digest_dir.mkdir(parents=True, exist_ok=True)
@@ -487,9 +558,17 @@ def stage_digest(root, date):
     body['unpushed_commits'] = ahead; body['final_push'] = push
     save(root/'.local/digest'/(date+'.json'), body)
     from research_notify import send_text
-    notice = send_text(root, markdown[:3500], tag='nightly-digest')
-    return {'status': 'ok' if not push or push['pushed'] else 'partial', 'applied_count': len(applied), 'needs_decision': body['needs_decision'],
-            'notification': notice.get('status'), 'unpushed_commits': ahead, 'final_push': push}
+    notice = send_text(root, for_telegram(markdown, date), tag='nightly-digest')
+    receipt = {'status': 'ok', 'applied_count': len(applied), 'needs_decision': body['needs_decision'],
+               'notification': notice.get('status'), 'unpushed_commits': ahead, 'final_push': push}
+    if push and not push['pushed']:
+        receipt.update(status='partial', reason='the final push failed: '+str(push.get('error', ''))[:200])
+    # The digest is the owner's only view of an unattended night: a send that failed is a failed
+    # stage, not an ok one with a quiet field. Until 2026-09-11 the channel could go dark for good
+    # and every receipt still said the night succeeded.
+    if notice.get('status') == 'failed':
+        receipt.update(status='failed', reason='the digest was not delivered: '+str(notice.get('error_type') or 'send failed'))
+    return receipt
 
 
 # ------------------------------------------------------------- the runner
@@ -588,8 +667,12 @@ def run(root, dry_run=False, only=None):
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['prune'], lambda r=root: stage_prune(r))
             elif name == 'digest':
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['digest'], lambda r=root, d=date: stage_digest(r, d))
-        final = receipts.get('digest')
-        return 1 if final and final['status'] in ('failed', 'timeout') else 0
+        # Exit code = did the night work, not just did the digest write. Until 2026-09-11 only the
+        # digest stage counted, so the supervisor's run log and the external cron watchdog recorded
+        # a night whose research, importers or policy stage had failed as a clean success.
+        failed = [name for name, receipt in receipts.items() if receipt.get('status') in FAILED_STATUSES]
+        if failed: print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: failed stages: {', '.join(failed)}", flush=True)
+        return 1 if failed else 0
     finally:
         stop_heartbeat.set()
         if awake and os.name == 'nt':
