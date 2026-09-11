@@ -70,13 +70,16 @@ async function send(action,value){
   const r=await fetch(action,{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':key},body:JSON.stringify(value)});
   const data=await r.json();if(!r.ok)throw new Error(data.error||'Request failed');return data;
 }
+// Starting and stopping a session are mutations like any other, so they report through the toast as
+// well as the form line: on a phone the form line is off-screen behind the tab bar (2026-09-11).
+function sessionReport(text,kind){$('message').textContent=text;notify(text,kind);}
 $('session-form').addEventListener('submit',async event=>{
   event.preventDefault();$('start').disabled=true;
   const checked=name=>Array.from(document.querySelectorAll(`input[name="${name}"]:checked`),e=>e.value);
-  try{await send('start',{minutes:Number($('minutes').value),direction:$('direction').value,layers:checked('layers'),source_kinds:checked('source_kinds'),publish:$('publish').checked,idle_only:$('idle').checked,keep_awake:$('awake').checked});$('message').textContent='Session requested. The controller will report startup below.';}
-  catch(e){$('message').textContent=e.message;$('start').disabled=false;}
+  try{await send('start',{minutes:Number($('minutes').value),direction:$('direction').value,layers:checked('layers'),source_kinds:checked('source_kinds'),publish:$('publish').checked,idle_only:$('idle').checked,keep_awake:$('awake').checked});sessionReport('Session requested. The controller will report startup below.','ok');}
+  catch(e){sessionReport(e.message,'error');$('start').disabled=false;}
 });
-$('stop').addEventListener('click',async()=>{try{await send('stop',{});$('message').textContent='Stop requested. Current work will finish safely.';}catch(e){$('message').textContent=e.message;}});
+$('stop').addEventListener('click',async()=>{try{await send('stop',{});sessionReport('Stop requested. Current work will finish safely.','ok');}catch(e){sessionReport(e.message,'error');}});
 async function poll(){
   try{
     const r=await fetch('status');if(!r.ok)throw new Error();const d=await r.json(),s=d.session||{};
