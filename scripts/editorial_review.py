@@ -102,8 +102,17 @@ def monitoring(root):
         if body.get('url') in by_url and body.get('retrieved_at'):
             # Retrieval alone is not an assertion that content is unchanged.
             record(by_url[body['url']], body['retrieved_at'], 'retrieved_change_unknown')
-    for run in ledger['runs']:
-        for failure in run['source_failures']:
+    # The ledger publishes only the recent run window (runtime.json published_run_limit), so the
+    # failure history is read from .local/runs, which keeps every batch receipt. A weekly-cadence
+    # source fails at most once a week and would otherwise drop out of the window unreviewed.
+    runs = list(ledger['runs']); seen = {r['id'] for r in runs}
+    for path in sorted((root/'.local/runs').glob('*.json')):
+        try: receipt = (ed.read(path) or {}).get('receipt') or {}
+        except (ValueError, OSError): continue
+        if receipt.get('id') not in seen and receipt.get('finished_at') and receipt.get('source_failures'):
+            seen.add(receipt['id']); runs.append(receipt)
+    for run in runs:
+        for failure in run.get('source_failures', []):
             record(failure['source'], run['finished_at'], 'source_inaccessible')
     return result
 

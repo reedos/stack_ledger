@@ -782,6 +782,23 @@ def preflight(config):
         validate_monitoring_delta(json.loads(git('show','HEAD^:site/data/ledger.json')),load(ROOT/'site/data/ledger.json'),json.loads(git('show','HEAD^:site/data/excerpts.json')),load(ROOT/'site/data/excerpts.json'))
         git('push','origin','HEAD:'+config['branch'])
 
+def trim_published_runs(runs,limit):
+    """The bounded window of batch runs the ledger publishes; .local/runs keeps every receipt.
+
+    A session appends one run per batch, so the four days to 2026-09-10 published 623 of them
+    (0.28 MB of a 3.65 MB ledger, growing without bound) while the site has only ever displayed
+    the most recent 30. The most recent successful run is pinned into the window even when it
+    falls outside it, because runtime.last_success names it and validate checks that claim
+    against this list.
+    """
+    if not limit or limit<2 or len(runs)<=limit:return runs
+    kept=runs[-limit:]
+    successes=[r for r in runs if r['status']=='success']
+    if successes and successes[-1]['id'] not in {r['id'] for r in kept}:
+        kept=[successes[-1]]+kept[1:]
+    return kept
+
+
 def validate_monitoring_delta(before,after,old_excerpts,new_excerpts):
     """Daily publication may append monitoring records, never editorial corrections."""
     if before['runtime'].get('latest_session')!=after['runtime'].get('latest_session'):
@@ -791,7 +808,18 @@ def validate_monitoring_delta(before,after,old_excerpts,new_excerpts):
         require(before[key]==after[key],'Monitoring changed reviewed ledger configuration')
     for key in ['sources','observations','events','runs']:
         old={r['id']:r for r in before[key]};new={r['id']:r for r in after[key]}
-        if key=='events':
+        if key=='runs':
+            # The published run history is a bounded window (runtime.json published_run_limit).
+            # A batch may retire the oldest runs from it -- their receipts stay in .local/runs --
+            # but may never rewrite, reorder or invent one, and may only drop while the window is
+            # full, so an accidental truncation cannot pass as routine monitoring.
+            require(all(new[rid]==record for rid,record in old.items() if rid in new),'Monitoring rewrote existing runs')
+            retained=[r['id'] for r in before[key] if r['id'] in new]
+            require([r['id'] for r in after[key]][:len(retained)]==retained,'Monitoring reordered the published run history')
+            if len(retained)<len(old):
+                limit=json.loads((ROOT/'research/runtime.json').read_text(encoding='utf-8')).get('published_run_limit')
+                require(limit and len(after[key])>=limit,'Monitoring dropped runs without a full window')
+        elif key=='events':
             # Deliverable 2's own authorized exception: an unattended run may flip a pending
             # report's confirmation field to confirmed_by/contradicted_by, and nothing else,
             # on an already-published report -- never a value, source, grade or retraction.
@@ -1172,6 +1200,7 @@ def main():
         run['status']='failed' if model_failed else ('partial' if not run['documents_reviewed'] or run['source_failures'] or coverage!=set(LAYERS) else 'success')
         run['finished_at']=now()
         data['runs'].append(run)
+        data['runs']=trim_published_runs(data['runs'],config.get('published_run_limit'))
         data['runtime'].update(last_attempt=run['finished_at'],status=run['status'])
         if run['status']=='success':data['runtime']['last_success']=run['finished_at']
         # Deliverable 2: a pending report becomes confirmed_by/contradicted_by the moment an

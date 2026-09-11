@@ -288,6 +288,11 @@ def validate(data):
         validate_receipt(r['latest_session'])
     config=json.loads((ROOT/'research/runtime.json').read_text(encoding='utf-8'))
     for k in ['display_model','model','hardware','timezone']:require(r[k]==config[k],'Runtime identity changed')
+    # One run per batch: the four days to 2026-09-10 published 623. Only this window is
+    # downloaded by every reader; research.trim_published_runs keeps it inside the limit and
+    # .local/runs keeps every receipt.
+    limit=config.get('published_run_limit')
+    if limit is not None:require(len(data['runs'])<=limit,'Published run history exceeds the reviewed window')
     if data['runs']:
         last=data['runs'][-1]
         require(r['last_attempt']==last['finished_at'] and r['status']==last['status'],'Runtime does not match latest run')

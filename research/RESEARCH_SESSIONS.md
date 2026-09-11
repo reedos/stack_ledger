@@ -141,6 +141,22 @@ The note lane now runs for every model document, not only discovered pages and e
 Since September 10, 2026 (deliverable 10), each batch also queues up to `max_stale_tasks_per_batch` (runtime.json, default 20) overdue metrics ahead of the ordinary due list — a metric whose latest non-superseded reading has aged past its own cadence (quarter/month/snapshot/yearly thresholds; see OPERATING_GUIDE.md), skipping anything marked `definition_stable: false` or backed only by manual/refused sources. Their own registered sources are checked even when not otherwise due that day. The batch and session receipts record how many were queued and how many were met (a genuinely newer reading found); this answers "why hasn't this stale figure been rechecked" without waiting for its ordinary cadence to come back around.
 
 Each completed session also retains `research-progress.md` and `research-progress.json` beside its summary. These group recorded discovery attempts by question and link existing proposals; existing human editorial question decisions remain separate. Older runs without per-attempt question metadata cannot be assigned invented progress. The live discovery digest exposes partial text coverage, empty/rejected outcomes and unsupported-document pointers. These diagnostics remain local and do not change public runtime presentation.
+## Published run history
+
+Every batch appends a run to the ledger, so the four days to September 10, 2026 published 623 of
+them while the site has only ever displayed the most recent 30. The published history is therefore
+a bounded window: `published_run_limit` (runtime.json, default 250) caps `ledger.runs`, and
+`research.trim_published_runs` retires the oldest entries as each batch appends a new one. The most
+recent successful run is pinned into the window even when it ages out of it, because the runtime's
+`last_success` timestamp names that run and validation checks the claim against this list.
+
+Nothing is lost. `.local/runs/<run-id>.json` still holds every batch receipt, quarantine and
+collection record, and the editorial review reads its source-failure history from that archive
+rather than from the published window, so a weekly-cadence source that failed once cannot drop out
+of review unnoticed. Publication treats retiring and rewriting as different acts:
+`validate_monitoring_delta` allows a batch to drop the oldest runs only while the window is full,
+and still refuses any change to a retained run, any reordering, and any invented one.
+
 ## Catalog updates after research
 
 The Review findings tab includes evidence-linked catalog packages and isolated site previews. See [CATALOG_FEEDBACK_LOOP.md](CATALOG_FEEDBACK_LOOP.md). Applying and publishing a reviewed package waits for research to finish rather than refusing outright: the background publish job polls for the research/session lock to clear (see "One tap" above). Opening the inbox or preview does not interrupt a run. The monitoring-publication checkbox does not approve catalog changes.
