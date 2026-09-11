@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
-from render_claims import survey_value
+from render_claims import survey_value, survey_value_html
 
 
 def survey():
@@ -78,6 +78,40 @@ class PrecisionRenderingTests(unittest.TestCase):
         data['employment_context']['survey']['points'][0]['footnote'] = 'smuggled'
         with self.assertRaisesRegex(ValueError, 'survey point'):
             check(data, sources)
+
+
+class BarFigureLayoutTests(unittest.TestCase):
+    """At the bar's 24px type, "more than 33%" wrapped and made that row twice the height of its
+    neighbours. The number stays the large element; the qualifier rides in front of it, small."""
+    def test_the_qualifier_is_a_separate_small_element(self):
+        html = survey_value_html({'label': 'x', 'value': 33, 'precision': 'gt'})
+        self.assertEqual(html, '<span class="qualifier">more than</span>33%')
+
+    def test_a_plain_figure_carries_no_extra_markup(self):
+        self.assertEqual(survey_value_html({'label': 'x', 'value': 15}), '15%')
+        self.assertEqual(survey_value_html({'label': 'x', 'value': 15, 'precision': 'eq'}), '15%')
+
+    def test_the_figure_is_still_read_as_one_phrase(self):
+        import re
+        html = survey_value_html({'label': 'x', 'value': 33, 'precision': 'gt'})
+        self.assertEqual(re.sub(r'<[^>]+>', ' ', html).split(), ['more', 'than', '33%'])
+
+    def test_the_stylesheet_keeps_the_figure_on_one_line_and_the_qualifier_small(self):
+        css = (ROOT/'site/assets/claims.css').read_text(encoding='utf-8')
+        self.assertIn('.evidence-bar-row strong{', css)
+        rule = css.split('.evidence-bar-row strong{', 1)[1].split('}', 1)[0]
+        self.assertIn('white-space:nowrap', rule, 'the figure must never wrap')
+        self.assertIn('.evidence-bar-row strong .qualifier{', css)
+        qualifier = css.split('.evidence-bar-row strong .qualifier{', 1)[1].split('}', 1)[0]
+        self.assertIn('font-size:11px', qualifier)
+
+    def test_the_published_stylesheet_matches_the_source(self):
+        self.assertEqual((ROOT/'site/assets/claims.css').read_text(encoding='utf-8'),
+                         (ROOT/'docs/assets/claims.css').read_text(encoding='utf-8'))
+
+    def test_the_table_cell_stays_plain_text(self):
+        html = (ROOT/'docs/claims/index.html').read_text(encoding='utf-8')
+        self.assertIn('<td>more than 33%</td>', html, 'the accessible table needs no markup')
 
 
 @unittest.skipUnless(shutil.which('node'), 'node is not installed')
