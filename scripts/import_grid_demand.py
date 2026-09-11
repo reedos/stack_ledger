@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import research
 from research import load, save, now, require, UA
 import api_access
-from importer_common import apply_changes
+from importer_common import apply_changes, redacted_body
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOTS = ROOT/'research/grid'
@@ -145,7 +145,7 @@ def run(apply=False):
         rows, offset, total = [], 0, None
         while total is None or offset < total:
             try:
-                body = api_access.fetch(data_url(respondent, timezone, offset), UA)
+                body = redacted_body(api_access.fetch(data_url(respondent, timezone, offset), UA))
             except Exception as e:
                 calls.append({'operator': slug, 'offset': offset, 'status': type(e).__name__}); break
             sha = hashlib.sha256(body).hexdigest()
@@ -167,15 +167,20 @@ def run(apply=False):
                 'license': 'Public domain (U.S. government work)', 'key': 'owner-registered, not recorded'}
     save(SNAPSHOTS/'demand.json', snapshot)
     ledger = load(ROOT/'site/data/ledger.json'); catalog = load(ROOT/'research/catalog.json')
+    from importer_common import check_floors, report_drift
+    counts = {'operators:with-rows': len({c['operator'] for c in calls if c['status'] == 'ok' and c.get('rows')}),
+              'rows': sum(c.get('rows', 0) for c in calls), 'records': len(all_obs)}
+    failures = check_floors(ROOT, 'grid-demand', counts)
+    drift = report_drift(ROOT, 'grid-demand', all_obs, ledger['observations'])
     known = {m['id'] for m in catalog['metrics']}; existing = {o['id'] for o in ledger['observations']}
     new_metrics = [m for mid, m in sorted(all_metrics.items()) if mid not in known]
     new_obs = [o for o in all_obs if o['id'] not in existing]
     ok = sum(1 for c in calls if c['status'] == 'ok')
     latest = max((o['period'] for o in all_obs), default=None)
     print(f'operators {len(OPERATORS)} · api calls ok {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · '
-          f'records {len(all_obs)} ({len(new_obs)} new) · latest complete month {latest}', flush=True)
+          f'records {len(all_obs)} ({len(new_obs)} new) · drift {len(drift)} · latest complete month {latest}', flush=True)
     if not apply:
-        return {'metrics': new_metrics, 'records': new_obs}
+        return {'metrics': new_metrics, 'records': new_obs, 'floor_failures': failures, 'drift': drift}
     registry = load(ROOT/'research/sources.json')
     apply_changes(ROOT, importer_id='grid-demand',
                   new_sources=[SOURCE] if SOURCE_ID not in {s['id'] for s in registry['sources']} else (),
@@ -184,12 +189,12 @@ def run(apply=False):
                                                    'path_prefixes': [], 'topics': [], 'excerpts': False}},
                   region_book='united-states', new_metrics=new_metrics, new_observations=new_obs,
                   snapshot=snapshot)
-    return {'metrics': new_metrics, 'records': new_obs}
+    return {'metrics': new_metrics, 'records': new_obs, 'floor_failures': failures, 'drift': drift}
 
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); run(apply=a.apply); return 0
+    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__':

@@ -251,11 +251,14 @@ def run(apply=False, today=None):
                 'document_numbers': [n for n, _ in chosen], 'license': 'Public domain (U.S. government work)'}
     save(SNAPSHOTS/'policy.json', snapshot)
 
+    from importer_common import check_floors
+    failures = check_floors(ROOT, 'policy', {'calls:ok': sum(1 for c in calls if c['status'] == 'ok'),
+                                             'results': sum(c.get('results', 0) for c in calls)})
     ok = sum(1 for c in calls if c['status'] == 'ok')
     print(f"api calls ok {ok}/{len(calls)} · candidates matched {len(candidates)} · documents selected {len(chosen)} "
           f"({new_count} new sources) · lookback since {since}", flush=True)
-    result = {'status': 'ok', 'sources': new_sources, 'events': new_events, 'calls': calls,
-              'candidates_matched': len(candidates), 'rows': report_rows}
+    result = {'status': 'failed' if failures else 'ok', 'sources': new_sources, 'events': new_events, 'calls': calls,
+              'candidates_matched': len(candidates), 'rows': report_rows, 'floor_failures': failures}
     if not apply:
         return result
     from importer_common import apply_changes
@@ -267,7 +270,7 @@ def run(apply=False, today=None):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); run(apply=a.apply); return 0
+    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

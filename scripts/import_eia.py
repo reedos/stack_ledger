@@ -36,9 +36,17 @@ CONFIRM AGAINST A LIVE PULL BEFORE THE FIRST --apply ONCE A KEY EXISTS:
     conventions but are not confirmed against this project's own live response.
   * STEO_SERIES_ID is a placeholder ("ELGEN"); the real total-generation series id in the
     ELGEN family must be read from a live `/v2/steo/data/facet/seriesId` call.
-  * Whether `operating-generator-capacity` returns planned (not-yet-operating) generators at
-    all, or only already-operating ones, is unconfirmed; "additions" here means generators
-    whose `operating-year-month` equals the queried period.
+  * `operating-generator-capacity` is NOT confirmed to be usable as an additions feed. The
+    2026-09-10 response retained under `.local/eia/capacity-additions-*.json` is EIA's whole
+    operable-generator inventory, one row per generator per month, 4,808,947 rows, of which the
+    request took the first 5,000 -- all of them 2008-01 -- and not one carried an
+    `operating-year-month` field, because EIA returns only the `data[]` columns a request names.
+    Both defects are fixed in `capacity_url()` (the column is requested, the window starts at
+    SERIES_START_YEAR), but neither the column name nor a viable way to read one month of a
+    4.8-million-row inventory inside EIA's 5,000-row JSON cap has been confirmed against a live
+    response. Until it is, `capacity_failures()` makes the run fail with the reason instead of
+    reporting ok -- which is how five advertised capacity metrics reached 2026-09 with zero
+    observations and zero catalog entries.
   * Retail-sales facets: this module assumes `facets[stateid][]` (two-letter state code, plus
     `US` for the national row) and `facets[sectorid][]` (`RES` residential, `ALL` all sectors)
     and a `data[0]=price` column named `price` in cents/kWh on the response rows, following EIA
@@ -75,6 +83,7 @@ NET_GENERATION_ROUTE = 'https://api.eia.gov/v2/electricity/electric-power-operat
 CAPACITY_ROUTE = 'https://api.eia.gov/v2/electricity/operating-generator-capacity/data/'
 STEO_ROUTE = 'https://api.eia.gov/v2/steo/data/'
 RETAIL_PRICE_ROUTE = 'https://api.eia.gov/v2/electricity/retail-sales/data/'
+PAGE_LIMIT = 5000          # EIA API v2's JSON row cap; a response at the cap is a truncated page
 RETAIL_START_YEAR = 2019   # the site's reviewed history start; EIA publishes back to 2001
 SERIES_START_YEAR = 2019   # the same start for every EIA series, so no record precedes its metric
 
@@ -114,7 +123,11 @@ def net_generation_url():
 
 
 def capacity_url():
-    return f'{CAPACITY_ROUTE}?frequency=monthly&data[0]=nameplate-capacity-mw&sort[0][column]=period&sort[0][direction]=asc'
+    # 2026-09-10 response: 5,000 rows of 4,808,947, every one 2008-01 and none carrying
+    # operating-year-month, so capacity_addition_records discarded all of them. EIA returns only
+    # the data[] columns a request names, and an unwindowed request starts at the series start.
+    return (f'{CAPACITY_ROUTE}?frequency=monthly&data[0]=nameplate-capacity-mw&data[1]=operating-year-month'
+            f'&start={SERIES_START_YEAR}-01&sort[0][column]=period&sort[0][direction]=asc')
 
 
 def steo_url():
@@ -147,10 +160,29 @@ def retail_price_url(codes, sector):
             f'&facets[sectorid][]={sector}&start={RETAIL_START_YEAR}&sort[0][column]=period&sort[0][direction]=asc')
 
 
-def parse_rows(body):
+def response_meta(body):
+    """(rows, truncated, total). EIA caps a JSON response at PAGE_LIMIT rows and says so in
+    `warnings`; a truncated page silently answers a different question from the one asked."""
     payload = json.loads(body.decode('utf-8'))
     require(isinstance(payload, dict) and isinstance((payload.get('response') or {}).get('data'), list), 'Unexpected EIA API v2 response shape')
-    return payload['response']['data']
+    rows = payload['response']['data']
+    warnings = [str((w or {}).get('warning', '')) for w in (payload.get('warnings') or [])]
+    return rows, bool(any('incomplete return' in w for w in warnings) or len(rows) >= PAGE_LIMIT), payload['response'].get('total')
+
+
+def capacity_failures(rows, call):
+    """Why the capacity route produces nothing, in the words of the response itself. Read off the
+    retained 2026-09-10 pull; both conditions must be gone before this route can be trusted."""
+    out = []
+    if call.get('truncated'):
+        out.append(f"capacity-additions returned a truncated page ({call.get('rows')} rows of {call.get('total')}). "
+                    "operating-generator-capacity is the whole operable-generator inventory, one row per generator per "
+                    "month, so an additions figure cannot be read off an unwindowed request; window or page it against "
+                    "a live pull before trusting this route.")
+    if rows and not any('operating-year-month' in r for r in rows):
+        out.append("capacity-additions rows carry no 'operating-year-month' field, so no generator can be dated to the "
+                    "month it came online and every row is discarded. Confirm the column name against a live pull.")
+    return out
 
 
 def net_generation_metric():
@@ -216,6 +248,8 @@ def capacity_metric(slug, label):
 def capacity_addition_records(rows, retrieved_at):
     """Sum nameplate MW of generators whose operating-year-month equals the row's own period,
     grouped by energy source, for the five tracked sources. Rows for other sources are ignored.
+    Metrics are keyed by metric id, like retail_price_records: keyed by slug they never matched
+    run()'s `mid in with_records` filter, so even a working route could not have registered one.
     """
     metrics = {}
     totals = {}   # (slug, period) -> MW
@@ -239,7 +273,7 @@ def capacity_addition_records(rows, retrieved_at):
             continue
         slug, label = slug_by_code[code]
         totals[(slug, period)] = totals.get((slug, period), 0.0) + mw
-        metrics.setdefault(slug, capacity_metric(slug, label))
+        metrics.setdefault(f'eia-operating-capacity-additions-monthly-{slug}', capacity_metric(slug, label))
     observations = []
     for (slug, period), mw in sorted(totals.items()):
         mid = f'eia-operating-capacity-additions-monthly-{slug}'
@@ -351,22 +385,23 @@ def run(apply=False, today=None):
         print(message, flush=True)
         return {'status': 'no_key', 'registration_url': REGISTRATION_URL}
 
+    from importer_common import apply_changes, check_floors, redacted_body, report_drift
     retrieved = now()
     private = research.LOCAL/'eia'; private.mkdir(parents=True, exist_ok=True)
     calls = []
 
     def pull(name, url):
         try:
-            body = api_access.fetch(url, UA)
+            body = redacted_body(api_access.fetch(url, UA))
         except Exception as e:
             calls.append({'call': name, 'status': type(e).__name__}); return []
         sha = hashlib.sha256(body).hexdigest()
         (private/f'{name}-{sha[:12]}.json').write_bytes(body)
         try:
-            rows = parse_rows(body)
+            rows, truncated, total = response_meta(body)
         except ValueError:
             calls.append({'call': name, 'status': 'unparseable'}); return []
-        calls.append({'call': name, 'status': 'ok', 'sha256': sha, 'rows': len(rows)})
+        calls.append({'call': name, 'status': 'ok', 'sha256': sha, 'rows': len(rows), 'truncated': truncated, 'total': total})
         return rows
 
     gen_rows = pull('net-generation', net_generation_url())
@@ -397,15 +432,25 @@ def run(apply=False, today=None):
         all_metrics['eia-steo-generation-outlook'] = steo_metric()
         all_obs += steo_obs
     retail_states = dict(states, US='United States')
+    retail_obs_count = 0
     for sector, _ in RETAIL_SECTORS:
         retail_metrics, retail_obs = retail_price_records(retail_rows[sector], retrieved, retail_states)
-        all_metrics.update(retail_metrics); all_obs += retail_obs
+        all_metrics.update(retail_metrics); all_obs += retail_obs; retail_obs_count += len(retail_obs)
+
+    counts = {'rows:net-generation': len(gen_rows), 'records:net-generation': len(gen_obs),
+              'rows:capacity-additions': len(cap_rows), 'records:capacity-additions': len(cap_obs),
+              'rows:steo': len(steo_rows), 'records:steo': len(steo_obs),
+              'rows:retail-price': sum(len(r) for r in retail_rows.values()), 'records:retail-price': retail_obs_count}
+    failures = capacity_failures(cap_rows, next((c for c in calls if c['call'] == 'capacity-additions'), {}))
+    for failure in failures:
+        print('ROUTE '+failure, file=sys.stderr, flush=True)
+    failures += check_floors(ROOT, 'eia', counts)
 
     SNAPSHOTS.mkdir(exist_ok=True)
     snapshot = {'dataset': 'EIA API v2 electricity data', 'source_id': SOURCE_ID, 'retrieved_at': retrieved, 'calls': calls,
                 'metrics': sorted(all_metrics), 'records': len(all_obs), 'license': 'Public domain (U.S. government work)',
                 'key': 'owner-registered, not recorded', 'steo_series_id_placeholder': STEO_SERIES_ID,
-                'retail_price_states': sorted(retail_states)}
+                'retail_price_states': sorted(retail_states), 'counts': counts, 'failures': failures}
     save(SNAPSHOTS/'eia.json', snapshot)
 
     registry = load(ROOT/'research/sources.json'); ledger = load(ROOT/'site/data/ledger.json'); catalog = load(ROOT/'research/catalog.json')
@@ -414,13 +459,16 @@ def run(apply=False, today=None):
     with_records = {o['metric'] for o in all_obs}
     known = {m['id'] for m in catalog['metrics']}
     new_metrics = [m for mid, m in sorted(all_metrics.items()) if mid not in known and mid in with_records]
+    drift = report_drift(ROOT, 'eia', all_obs, ledger['observations'])
 
     ok = sum(1 for c in calls if c['status'] == 'ok')
-    print(f"api calls ok {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new)", flush=True)
-    result = {'status': 'ok', 'metrics': new_metrics, 'records': new_obs, 'calls': calls}
+    print(f"api calls ok {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · drift {len(drift)}", flush=True)
+    result = {'status': 'failed' if failures else 'ok', 'metrics': new_metrics, 'records': new_obs, 'calls': calls,
+              'floor_failures': failures, 'drift': drift}
     if not apply:
         return result
-    from importer_common import apply_changes
+    # The records that were built are still valid records, so they land; the run reports failure
+    # afterwards rather than throwing away the routes that worked.
     collection_entries = {SOURCE_ID: {'rank': 1, 'region_book': 'united-states', 'company_id': None, 'claim_type': 'other', 'cadence': 'manual', 'weekday': 0, 'path_prefixes': [], 'topics': [], 'excerpts': False}}
     apply_changes(ROOT, importer_id='eia', new_sources=[SOURCE] if SOURCE_ID not in {s['id'] for s in registry['sources']} else (),
                   collection_entries=collection_entries, region_book='united-states',
@@ -431,7 +479,7 @@ def run(apply=False, today=None):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); run(apply=a.apply); return 0
+    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

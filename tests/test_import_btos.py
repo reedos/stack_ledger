@@ -1,6 +1,8 @@
 import json
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,6 +60,41 @@ class BtosImportTests(unittest.TestCase):
         self.assertEqual(ib.SOURCE['layers'], ['applications'])
         self.assertTrue(ib.NATIONAL_URL.startswith('https://www.census.gov/'))
         self.assertTrue(ib.SECTOR_URL.startswith('https://www.census.gov/'))
+
+
+class BtosEmptySeriesTests(unittest.TestCase):
+    """Every other importer filters new metrics to the ones that actually got a record; this one
+    registered the metric whatever came back, so a sector label renamed upstream would have
+    published an empty series, and an empty series reads as zero."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        private = Path(self.temp.name)
+        # A third sector whose label Census does not publish: its series comes back empty.
+        sectors = list(ib.SECTORS)+[('52', 'Finance and Insurance (renamed upstream)', 'Finance and insurance')]
+        for p in [patch.object(ib, 'SNAPSHOTS', private/'snapshots'), patch.object(ib.research, 'LOCAL', private/'local'),
+                   patch.object(ib, 'SECTORS', sectors), patch.object(ib, 'fetch', self.fetch)]:
+            p.start(); self.addCleanup(p.stop)
+
+    def dates(self):
+        # days 01 and 15: BTOS reference periods never end on either, so nothing here collides
+        # with a published record and the run reports no drift.
+        return [f'2026-{month:02d}-01' for month in range(1, 13)]+[f'2025-{month:02d}-15' for month in range(1, 13)]
+
+    def fetch(self, url):
+        if url == ib.NATIONAL_URL:
+            return json.dumps([{'xmltag': ib.SERIES_TAG, 'Estimate': 20.0, 'Date': d} for d in self.dates()]).encode('utf-8')
+        rows = []
+        for label in ('Information', 'Professional, Scientific, and Technical Services'):
+            rows += [{'xmltag': ib.SERIES_TAG, 'NAICS': label, 'Estimate': 40.0, 'Date': d} for d in self.dates()]
+        return json.dumps(rows).encode('utf-8')
+
+    def test_a_series_with_no_observations_is_not_registered_as_a_metric(self):
+        result = ib.run(apply=False)
+        ids = [m['id'] for m in result['metrics']]
+        self.assertNotIn('btos-ai-use-share-naics-52', ids)
+        self.assertEqual(result['floor_failures'], [])
+        self.assertEqual(result['drift'], [])
 
 
 if __name__ == '__main__':

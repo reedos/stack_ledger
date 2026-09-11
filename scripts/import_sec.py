@@ -237,6 +237,10 @@ def run(apply=False):
                 'metrics': sorted(all_metrics), 'records': len(all_obs), 'license': 'Public domain (U.S. government work)'}
     save(SNAPSHOTS/'companyfacts.json', snapshot)
 
+    from importer_common import check_floors, report_drift
+    counts = {'companies:ok': sum(1 for c in calls if c['status'] == 'ok'), 'records': len(all_obs)}
+    failures = check_floors(ROOT, 'sec', counts)
+    drift = report_drift(ROOT, 'sec', all_obs, ledger['observations'])
     existing_ids = {o['id'] for o in ledger['observations']}
     new_obs = [o for o in all_obs if o['id'] not in existing_ids]
     with_records = {o['metric'] for o in all_obs}
@@ -244,13 +248,14 @@ def run(apply=False):
     new_metrics = [m for mid, m in sorted(all_metrics.items()) if mid not in known and mid in with_records]
 
     ok = sum(1 for c in calls if c['status'] == 'ok')
-    print(f"companies {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new)", flush=True)
+    print(f"companies {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · drift {len(drift)}", flush=True)
     for cid, info in sorted(per_company.items()):
         print(f"  {cid}: latest quarter {info['latest_quarter']}, latest annual {info['latest_annual']}", flush=True)
     print(f"  skipped foreign filers (Form 20-F): {', '.join(sorted(SKIPPED['foreign_filers']))}", flush=True)
     print(f"  skipped aws: {SKIPPED['aws']}", flush=True)
 
-    result = {'metrics': new_metrics, 'records': new_obs, 'per_company': per_company, 'skipped': SKIPPED, 'calls': calls}
+    result = {'metrics': new_metrics, 'records': new_obs, 'per_company': per_company, 'skipped': SKIPPED, 'calls': calls,
+              'floor_failures': failures, 'drift': drift}
     if not apply:
         return result
     from importer_common import apply_changes
@@ -264,7 +269,7 @@ def run(apply=False):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); run(apply=a.apply); return 0
+    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

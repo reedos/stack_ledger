@@ -183,6 +183,17 @@ def validate_event_corrections(events):
             require(ancestor['id'] not in seen,'Cyclic note correction');seen.add(ancestor['id'])
             ancestor=by_id.get(ancestor.get('correction_of'))
 
+def importer_expect(expect):
+    """A reviewed floor for what a healthy run of this importer returns, per named route: rows a
+    route returned and records a route produced, never records newly added, since re-importing
+    unchanged data legitimately adds nothing. importer_common.floor_failures reads it."""
+    require(set(expect) == {'minimums', 'note'}, 'Unexpected importer expect shape')
+    require(isinstance(expect['minimums'], dict) and expect['minimums'], 'Importer expect.minimums must name at least one count')
+    for name, floor in expect['minimums'].items():
+        text(name, 60)
+        require(type(floor) is int and 0 <= floor <= 10_000_000, 'Importer floor out of bounds')
+    text(expect['note'], 1500)
+
 def validate_importers(root=ROOT):
     p = json.loads((root/'research/importers.json').read_text(encoding='utf-8'))
     required = {'version', 'reviewed_at', 'importers'}
@@ -193,7 +204,7 @@ def validate_importers(root=ROOT):
     ids = set()
     for imp in p['importers']:
         fields = {'id', 'command', 'cadence', 'timeout_seconds'}
-        require(fields <= set(imp) <= fields | {'weekday'}, 'Unexpected importer fields')
+        require(fields <= set(imp) <= fields | {'weekday', 'expect'}, 'Unexpected importer fields')
         text(imp['id'], 60)
         require(imp['id'] not in ids, 'Duplicate importer id'); ids.add(imp['id'])
         require(isinstance(imp['command'], list) and imp['command'] and all(isinstance(x, str) and x for x in imp['command']), 'Invalid importer command')
@@ -203,6 +214,7 @@ def validate_importers(root=ROOT):
         if imp['cadence'] == 'weekly': require(type(imp.get('weekday')) is int and 0 <= imp['weekday'] <= 6, 'Weekly importer needs weekday 0-6')
         else: require('weekday' not in imp, 'Daily importer must not set weekday')
         require(type(imp['timeout_seconds']) is int and 30 <= imp['timeout_seconds'] <= 3600, 'Importer timeout out of bounds')
+        if 'expect' in imp: importer_expect(imp['expect'])
     return p
 
 

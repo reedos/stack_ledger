@@ -1,5 +1,7 @@
 import json
+import re
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 from datetime import date
@@ -71,7 +73,8 @@ class EiaRecordTests(unittest.TestCase):
 
     def test_capacity_additions_group_by_source_and_only_count_the_online_month(self):
         metrics, observations = ie.capacity_addition_records(CAPACITY_ROWS, '2026-09-09T12:00:00Z')
-        self.assertEqual(sorted(metrics), ['nuclear', 'solar'])   # wind excluded (wrong month), coal excluded (untracked)
+        # keyed by metric id, the key run() filters new metrics on; wind excluded (wrong month), coal excluded (untracked)
+        self.assertEqual(sorted(metrics), ['eia-operating-capacity-additions-monthly-nuclear', 'eia-operating-capacity-additions-monthly-solar'])
         by_id = {o['id']: o for o in observations}
         self.assertEqual(by_id['eia-operating-capacity-additions-monthly-solar-2026-06']['value'], 200.5)
         self.assertEqual(by_id['eia-operating-capacity-additions-monthly-nuclear-2026-07']['value'], 1100.0)
@@ -96,10 +99,7 @@ class EiaRecordTests(unittest.TestCase):
         self.assertTrue(steo_metric['measurement_type'] in ve.TYPES and steo_metric['measurement_type'] in ve.PUBLIC_TYPES)
         self.assertNotIn(steo_metric['measurement_type'], ve.HISTORICAL_ONLY)   # mixes observation and forecast
         self.assertEqual(steo_metric['allowed_statuses'], ['observation', 'forecast'])
-        metrics = {'eia-net-generation-monthly': gen_metric, **cap_metrics, 'eia-steo-generation-outlook': steo_metric}
-        # capacity_addition_records keys metrics by slug; re-key by metric id for observation_valid.
-        metrics_by_id = {'eia-net-generation-monthly': gen_metric, 'eia-steo-generation-outlook': steo_metric}
-        metrics_by_id.update({f'eia-operating-capacity-additions-monthly-{slug}': m for slug, m in cap_metrics.items()})
+        metrics_by_id = {'eia-net-generation-monthly': gen_metric, 'eia-steo-generation-outlook': steo_metric, **cap_metrics}
         sources = {ie.SOURCE_ID: ie.SOURCE}
         for o in ie.net_generation_records(NET_GEN_ROWS, '2026-09-09T12:00:00Z'):
             observation_valid(o, metrics_by_id, sources)
@@ -200,3 +200,68 @@ class LiveShapeRegressionTests(unittest.TestCase):
         url = ie.retail_price_url(['TX'], 'ALL')
         self.assertEqual(url.count('facets[stateid][]='), 1)
         self.assertIn('facets[stateid][]=TX', url)
+
+
+class CapacityRouteTests(unittest.TestCase):
+    """The capacity route advertised five metrics and produced not one record from the day it was
+    written, and the weekly run still reported ok. The 2026-09-10 response retained under
+    .local/eia/capacity-additions-*.json says why: EIA's operable-generator inventory, 5,000 rows
+    of 4,808,947, every one of them 2008-01, and no operating-year-month field because the request
+    never asked for that column. Periods here are 2027 onward so nothing collides with a published
+    record."""
+
+    def setUp(self):
+        self.capacity_healthy = False
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        private = Path(self.temp.name)
+        for p in [patch.object(ie, 'SNAPSHOTS', private/'snapshots'), patch.object(ie.research, 'LOCAL', private/'local'),
+                   patch.object(ie.api_access, 'key', return_value='test-key'), patch.object(api_access, 'fetch', self.fetch)]:
+            p.start(); self.addCleanup(p.stop)
+
+    def body(self, rows, warnings=(), total=None):
+        return json.dumps({'warnings': [{'warning': w} for w in warnings],
+                            'response': {'total': len(rows) if total is None else total, 'data': rows}}).encode('utf-8')
+
+    def fetch(self, url, agent):
+        if 'operating-generator-capacity' in url:
+            if self.capacity_healthy:
+                return self.body([{'period': '2027-03', 'energy_source_code': 'SUN', 'operating-year-month': '2027-03', 'nameplate-capacity-mw': '120.5'},
+                                   {'period': '2027-03', 'energy_source_code': 'NUC', 'operating-year-month': '2026-11', 'nameplate-capacity-mw': '900'}])
+            live = {'period': '2008-01', 'stateid': 'AL', 'sector': 'electric-utility', 'energy_source_code': 'NG',
+                    'status': 'OP', 'nameplate-capacity-mw': '153.1'}
+            return self.body([live]*ie.PAGE_LIMIT, warnings=['incomplete return'], total=4_808_947)
+        if 'electric-power-operational-data' in url:
+            months = [f'{year}-{month:02d}' for year in range(2027, 2035) for month in range(1, 13)][:90]
+            return self.body([{'period': m, 'location': 'US', 'fueltypeid': 'ALL', 'generation': '350000'} for m in months])
+        if '/steo/' in url:
+            return self.body([{'period': '2027', 'seriesId': ie.STEO_SERIES_ID, 'value': '4600.0'}])
+        state = re.search(r'facets\[stateid\]\[\]=(\w+)', url).group(1)
+        sector = re.search(r'facets\[sectorid\]\[\]=(\w+)', url).group(1)
+        return self.body([{'period': str(year), 'stateid': state, 'sectorid': sector, 'price': '15.0'} for year in range(2027, 2034)])
+
+    def test_capacity_url_requests_the_online_month_column_and_windows_the_series(self):
+        url = ie.capacity_url()
+        self.assertIn('data[1]=operating-year-month', url)
+        self.assertIn(f'start={ie.SERIES_START_YEAR}-01', url)
+
+    def test_a_route_that_returns_rows_and_no_record_fails_instead_of_reporting_ok(self):
+        result = ie.run(apply=False)
+        self.assertEqual(result['status'], 'failed')
+        reasons = ' | '.join(result['floor_failures'])
+        self.assertIn('operating-year-month', reasons)
+        self.assertIn('truncated page', reasons)
+        self.assertIn("'records:capacity-additions' returned 0", reasons)
+        # the routes that did answer are not blamed
+        self.assertNotIn('net-generation', reasons)
+        self.assertNotIn('retail-price', reasons)
+
+    def test_main_exits_non_zero_on_the_dead_route(self):
+        self.assertEqual(ie.main([]), 1)
+
+    def test_a_route_that_answers_properly_reports_ok_and_registers_its_metrics(self):
+        self.capacity_healthy = True
+        result = ie.run(apply=False)
+        self.assertEqual(result['floor_failures'], [])
+        self.assertEqual(result['status'], 'ok')
+        self.assertIn('eia-operating-capacity-additions-monthly-solar', [m['id'] for m in result['metrics']])
+        self.assertEqual(ie.main([]), 0)
