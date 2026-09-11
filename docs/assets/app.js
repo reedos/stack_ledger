@@ -95,7 +95,18 @@ function chart(metricId, compact=false) {
  const chartTitle=m.chart_comparison_title||m.title;
  const showAll=historyWindows.has(metricId),end=Math.max(m.chart_default_end,...all.map(o=>o.year));
  const obs=all.filter(o=>showAll||o.year>=m.chart_default_start);
- const years=[...new Set(obs.map(o=>o.year))].sort((a,b)=>a-b);
+ // A metric with a sub-annual period_basis holds several readings inside one year, and keying
+ // the axis on the year alone stacked every one of them in a single slot. On 2026-09-11 a phone
+ // showed six monthly readings of U.S. data-centre construction drawn as overlapping bars with
+ // overlapping value labels; the grid-demand series put twelve months in one slot. 204 metrics
+ // were affected. A reading's slot is its own period whenever the metric defines one.
+ const subAnnual=['month','quarter','snapshot'].includes(m.period_basis);
+ const slotOf=o=>subAnnual?o.period:o.year;
+ // Every sub-annual format the validator allows -- 2026-03, 2024-Q1, 2025-11-30 -- sorts correctly
+ // as text. A yearly axis keeps its numeric sort, so nothing about year-keyed charts changes.
+ const slots=subAnnual?[...new Set(obs.map(o=>o.period))].sort()
+                      :[...new Set(obs.map(o=>o.year))].sort((a,b)=>a-b);
+ const slotIndex=o=>slots.indexOf(slotOf(o));
  const span=list=>{const values=[...new Set(list)].sort((a,b)=>a-b);return values.length>1?`${values[0]}–${values.at(-1)}`:String(values[0]);};
  const groupVintage=rows=>{const dates=[...new Set(rows.map(o=>sourceOf(o.source).published).filter(Boolean))].sort();return dates.length?(dates.length>1?`${dateLabel(dates[0])}–${dateLabel(dates.at(-1))}`:dateLabel(dates[0])):'date unlisted';};
  const byLabel=new Map();
@@ -107,9 +118,9 @@ function chart(metricId, compact=false) {
  if(!obs.length)return `<div class="chart-wrap" data-metric="${esc(metricId)}"><h3>${esc(chartTitle)}</h3><p class="empty">No reviewed observation yet.</p>${historyChrome}<p class="chart-footnote">${esc(m.scope)} Approved sources: ${m.source_ids.map(sourceLink).join(" · ")}</p></div>`;
  const uid=`chart-${metricId}-${++chartSequence}`;
  const narrow=window.innerWidth<600;
- const stepSize = compact ? 70 : 88;
+ const stepSize = slots.length>24 ? 34 : (compact ? 70 : 88);
  const widthMin = narrow ? 360 : (compact ? 520 : 640);
- const width = m.chart_type==='line'?(narrow?Math.max(240,window.innerWidth-82):Math.max(960,years.length*45)):Math.max(widthMin, years.length * stepSize + 75), height=m.chart_type==='line'?(narrow?360:340):275, left=narrow?(m.chart_type==='line'?60:44):62, right=m.chart_type==='line'&&narrow?22:65, top=m.chart_type==='line'&&narrow?58:40, bottom=48;
+ const width = m.chart_type==='line'?(narrow?Math.max(240,window.innerWidth-82):Math.max(960,slots.length*45)):Math.max(widthMin, slots.length * stepSize + 75), height=m.chart_type==='line'?(narrow?360:340):275, left=narrow?(m.chart_type==='line'?60:44):62, right=m.chart_type==='line'&&narrow?22:65, top=m.chart_type==='line'&&narrow?58:40, bottom=48;
  const ceiling=m.chart_type==='line'?Math.ceil(Math.max(...obs.map(o=>o.value))/250)*250+250:Math.max(...obs.flatMap(o=>[Math.abs(o.value),Math.abs(o.upper??o.value)]),1)*1.2;
  const floor=m.chart_type==='line'?Math.floor((Math.min(...obs.map(o=>o.value))-150)/250)*250:obs.some(o=>o.value<0)?-ceiling:0;
  const plotH=height-top-bottom, plotW=width-left-right;
@@ -117,17 +128,20 @@ function chart(metricId, compact=false) {
  let content='';
  for(let i=0;i<=4;i++){const val=floor+(ceiling-floor)*i/4,y=scale(val);content+=`<path d="M${left} ${y}H${width-right}" stroke="#364231" stroke-dasharray="${val?'2 5':'0'}"/><text x="${left-12}" y="${y+4}" text-anchor="end">${number(Math.abs(val)<2?+val.toFixed(2):Math.round(val))}</text>`;}
  content+=`<path class="zero-baseline" d="M${left} ${scale(m.chart_type==='line'?floor:0)}H${width-right}" stroke="#7b8f6d"/>`;
- const step=plotW/Math.max(years.length,1),bw=Math.min(76,step*.45),xOf=year=>left+step*(years.indexOf(year)+.5);
+ const step=plotW/Math.max(slots.length,1),bw=Math.min(76,step*.45),xOf=slot=>left+step*(slots.indexOf(slot)+.5);
+ // A value label is only drawn where it fits. Six monthly bars on a phone fit; ninety-one do not,
+ // and printing them anyway is what produced the overlapping numbers.
+ const slotLabels=step>=(narrow?52:44);
  const pointTitle=o=>`${esc(metricOf(o.metric).title)} · ${esc(o.period)}: ${esc(chartValue(o))} ${esc(m.unit)} · ${attributionLabel(o)}${futureStatus(o.status)?` · published ${vintageLabel(sourceOf(o.source).published)}`:''} · ${esc(sourceOf(o.source).publisher)}`;
  if(m.chart_type==='line'){
-  const labeled=new Set([years[0],years.at(-1)]);
+  const labeled=new Set([slots[0],slots.at(-1)]);
   const drawSeries=(rows,color,dash,cls,showLabels)=>{
-   const pts=rows.slice().sort((a,b)=>a.year-b.year).map(o=>({o,x:xOf(o.year),y:scale(o.value)}));
+   const pts=rows.slice().sort((a,b)=>slotIndex(a)-slotIndex(b)).map(o=>({o,x:xOf(slotOf(o)),y:scale(o.value)}));
    if(!pts.length)return;
    let d='',prev=null;
-   pts.forEach(p=>{d+=(prev&&p.o.year===prev.o.year+1?'L':'M')+p.x+' '+p.y;prev=p;});
+   pts.forEach(p=>{d+=(prev&&slotIndex(p.o)===slotIndex(prev.o)+1?'L':'M')+p.x+' '+p.y;prev=p;});
    content+=`<path class="chart-line ${cls}" d="${d}" fill="none" stroke="${color}" stroke-width="${cls==='overlay-line'?3:2.4}" stroke-linecap="round" stroke-linejoin="round"${dash?` stroke-dasharray="${cls==='overlay-line'?'2 5':'8 5'}"`:''}/>`;
-   pts.forEach(p=>{const estimatePoint=p.o.status==='estimate';content+=`<g class="line-point ${cls}${estimatePoint?' estimate-point':''}" data-series="${esc(p.o.metric)}"><title>${pointTitle(p.o)}</title><circle cx="${p.x}" cy="${p.y}" r="${narrow?2.5:4}" fill="${color}" fill-opacity="${estimatePoint?'.45':'1'}" stroke="#101511" stroke-width="1.2"${estimatePoint?' stroke-dasharray="2 1.4"':''}/>${showLabels&&labeled.has(p.o.year)?`<text class="chart-value" x="${p.x}" y="${p.y+(cls==='companion-line'?24:-14)}" text-anchor="${narrow?(p.o.year===years[0]?'start':'end'):'middle'}">${esc(chartValue(p.o))}</text>`:''}</g>`;});
+   pts.forEach(p=>{const estimatePoint=p.o.status==='estimate';content+=`<g class="line-point ${cls}${estimatePoint?' estimate-point':''}" data-series="${esc(p.o.metric)}"><title>${pointTitle(p.o)}</title><circle cx="${p.x}" cy="${p.y}" r="${narrow?2.5:4}" fill="${color}" fill-opacity="${estimatePoint?'.45':'1'}" stroke="#101511" stroke-width="1.2"${estimatePoint?' stroke-dasharray="2 1.4"':''}/>${showLabels&&labeled.has(slotOf(p.o))?`<text class="chart-value" x="${p.x}" y="${p.y+(cls==='companion-line'?24:-14)}" text-anchor="${narrow?(slotOf(p.o)===slots[0]?'start':'end'):'middle'}">${esc(chartValue(p.o))}</text>`:''}</g>`;});
   };
   const primary=obs.filter(o=>o.metric===metricId);
   const reported=primary.filter(o=>!futureStatus(o.status)).sort((a,b)=>a.year-b.year);
@@ -143,7 +157,8 @@ function chart(metricId, compact=false) {
   }
   if(companion)drawSeries(obs.filter(o=>o.metric===companion.id),'#efc77b',true,'companion-line',true);
   if(overlayM)drawSeries(obs.filter(o=>o.metric===overlayM.id),'#78d9ef',true,'overlay-line',true);
-  years.filter(year=>!narrow||year%5===0).forEach(year=>{content+=`<text class="chart-year" x="${xOf(year)}" y="${height-23}" text-anchor="middle">${year}</text>`;});
+  const tickEvery=Math.max(1,Math.ceil(slots.length/(narrow?6:12)));
+  slots.filter((slot,i)=>!narrow||(subAnnual?i%tickEvery===0:slot%5===0)).forEach(slot=>{content+=`<text class="chart-year" x="${xOf(slot)}" y="${height-23}" text-anchor="middle">${slot}</text>`;});
  }else{
   const drawBar=(o,xPos,barW,label)=>{
    const comparison=companion&&o.metric===companion.id, overlayBar=overlayM&&o.metric===overlayM.id;
@@ -151,24 +166,25 @@ function chart(metricId, compact=false) {
    const fill=future||overlayBar?`url(#${uid}-${overlayBar||comparison?'comparison':'hatch'})`:estimateBar?`url(#${uid}-estimate)`:(comparison?'#efc77b':l.color);
    return `<g class="bar${overlayBar?' overlay':''}${estimateBar?' estimate-bar':''}" data-series="${esc(o.metric)}"><title>${pointTitle(o)}</title><rect x="${xPos-barW/2}" y="${Math.min(y,scale(0))}" width="${barW}" height="${Math.max(1,Math.abs(scale(0)-y))}" rx="3" fill="${fill}" ${future||overlayBar?`stroke="${overlayBar?'#efc77b':l.color}" stroke-opacity=".75"`:estimateBar?`stroke="${l.color}" stroke-opacity=".55" stroke-dasharray="2 2"`:''}/>${o.upper!=null?`<path d="M${xPos} ${scale(o.upper)}V${y}m-9 0h18m-18 ${scale(o.upper)-y}h18" stroke="${l.color}" stroke-width="2"/>`:''}${label?`<text class="chart-value" x="${xPos}" y="${scale(o.upper??o.value)-12}" text-anchor="middle">${esc(chartValue(o))}</text>`:''}</g>`;
   };
-  years.forEach((year,i)=>{
-   const items=obs.filter(o=>o.year===year);
+  slots.forEach((slot,i)=>{
+   const items=obs.filter(o=>slotOf(o)===slot);
    const over=overlayM?items.filter(o=>o.metric===overlayM.id):[];
    const rest=items.filter(o=>!overlayM||o.metric!==overlayM.id);
    const x=left+step*(i+.5);
-   over.forEach(o=>{content+=drawBar(o,x,rest.length?bw*1.45:bw,!rest.length);});
-   if(rest.length>1) rest.forEach((o,j)=>{const offset=(j-(rest.length-1)/2)*(bw*.9);content+=drawBar(o,x+offset,bw*.72,true);});
-   else rest.forEach(o=>{content+=drawBar(o,x,bw,true);});
+   over.forEach(o=>{content+=drawBar(o,x,rest.length?bw*1.45:bw,slotLabels&&!rest.length);});
+   if(rest.length>1) rest.forEach((o,j)=>{const offset=(j-(rest.length-1)/2)*(bw*.9);content+=drawBar(o,x+offset,bw*.72,slotLabels);});
+   else rest.forEach(o=>{content+=drawBar(o,x,bw,slotLabels);});
    const label=rest[0]||over[0];
-   content+=`<text x="${x}" y="${height-23}" text-anchor="middle">${esc(label && label.period.length<=(narrow?12:20)?label.period:String(year))}</text>`;
+   if(!narrow||slots.length<=12||i%Math.max(1,Math.ceil(slots.length/6))===0)
+    content+=`<text x="${x}" y="${height-23}" text-anchor="middle">${esc(label && label.period.length<=(narrow?12:20)?label.period:String(slot))}</text>`;
   });
  }
  if(companion){
-  const yi=years.findIndex(year=>obs.some(o=>o.year===year&&o.metric===companion.id));
+  const yi=slots.findIndex(slot=>obs.some(o=>slotOf(o)===slot&&o.metric===companion.id));
   if(yi>=0){const x=left+step*(yi+.5);content+=`<g class="scope-break-marker"><path d="M${x} ${top-12}V${height-bottom}" stroke="#efc77b" stroke-width="2" stroke-dasharray="5 4"/><text x="${narrow&&m.chart_type==='line'?width-right:x+6}" y="${top-22}" text-anchor="${narrow&&m.chart_type==='line'?'end':'start'}">${narrow&&m.chart_type==='line'?'2028: scope change':esc(m.chart_comparison_label||"Broader AEO scope")+' →'}</text></g>`;}
  }
  if(!m.definition_stable){
-  const yi=years.findIndex(year=>year>=m.definition_break_year);
+  const yi=slots.findIndex(slot=>(subAnnual?+String(slot).slice(0,4):slot)>=m.definition_break_year);
   if(yi>=0){const x=left+step*(yi+.5);content+=`<g class="definition-break-marker"><path d="M${x} ${top-15}V${height-bottom}" stroke="#efc77b" stroke-width="2" stroke-dasharray="5 4"/><text x="${x+6}" y="${top-23}">${m.definition_break_year} method break</text></g>`;}
  }
  const sourceIds=[...new Set(obs.map(o=>o.source))];
