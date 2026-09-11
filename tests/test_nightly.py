@@ -241,7 +241,10 @@ class RunOrchestrationTests(unittest.TestCase):
             self.assertEqual(nightly.main(['--dry-run']), 0)
         fake.assert_called_once_with(nightly.ROOT, dry_run=True, only=None)
 
-    def test_failed_stage_is_recorded_and_skipped_digest_reports_it_exit_zero(self):
+    def test_failed_stage_is_recorded_the_night_continues_and_the_run_exits_nonzero(self):
+        """The supervisor and the external cron watchdog see only the exit code. While it came
+        from the digest stage alone, a night whose research, importers or health stage had failed
+        was recorded as a clean success."""
         calls = []
         def fake(name, value):
             def inner(*_a):
@@ -255,16 +258,19 @@ class RunOrchestrationTests(unittest.TestCase):
              patch.object(nightly, 'stage_policy', fake('policy', {'status': 'skipped', 'reason': 'test'})), \
              patch.object(nightly, 'stage_health', fake('health', None)), \
              patch.object(nightly, 'stage_prune', fake('prune', {'status': 'ok', 'deleted': [], 'bytes_freed': 0, 'count': 0, 'dry_run': False})):
-            code = nightly.run(self.root, dry_run=False, only=None)
-        self.assertEqual(code, 0)  # only a failed digest itself would return 1
-        self.assertEqual(calls, ['locks', 'importers', 'research', 'policy', 'health', 'prune'])
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                code = nightly.run(self.root, dry_run=False, only=None)
+        self.assertEqual(code, 1, 'a failed stage was reported to the supervisor as a successful night')
+        self.assertIn('failed stages: health', buf.getvalue())
+        self.assertEqual(calls, ['locks', 'importers', 'research', 'policy', 'health', 'prune'])   # still never fatal to the rest
         health_receipt = json.loads((self.root/'.local/nightly'/self.date/'health.json').read_text(encoding='utf-8'))
         self.assertEqual(health_receipt['status'], 'failed')
         digest = json.loads((self.root/'.local/digest'/(self.date+'.json')).read_text(encoding='utf-8'))
-        self.assertEqual(digest['stage_receipts']['health'], 'failed')
+        self.assertEqual(digest['stage_receipts']['health'], 'failed, RuntimeError: collection host unreachable')
         self.assertEqual(digest['stage_receipts']['locks'], 'ok')
         markdown = (self.root/'.local/digest'/(self.date+'.md')).read_text(encoding='utf-8')
-        self.assertIn('health: failed', markdown)
+        self.assertIn('health: failed, RuntimeError: collection host unreachable', markdown)
 
     def test_only_runs_a_single_stage(self):
         with patch.object(nightly, 'stage_health', return_value={'status': 'ok', 'marker': True}) as fake_health, \
@@ -508,3 +514,147 @@ class ResearchWindowTests(unittest.TestCase):
              patch.object(nightly.subprocess, 'run', return_value=completed):
             receipt = nightly.stage_research(self.root, 600)
         self.assertEqual(receipt['status'], 'skipped'); self.assertIn('started no research', receipt['reason'])
+
+    def test_a_transient_pacific_probe_failure_is_retried_not_fatal(self):
+        """No IANA tzdata here, so each poll spawns PowerShell: ~60 spawns per 01:30-02:00 wait,
+        any one of which used to raise out of the stage and cost the night's research."""
+        state, sleep, mono, now = self.clocks(datetime(2026, 9, 10, 8, 30, tzinfo=timezone.utc), None)
+        probes = []
+        def probe(at):
+            probes.append(at)
+            if len(probes) == 1: raise subprocess.CalledProcessError(1, 'powershell.exe')
+            return 3600
+        with patch('research_loop.overnight_seconds', side_effect=probe), contextlib.redirect_stdout(io.StringIO()):
+            ready, waited, reason = nightly.wait_for_window(self.root, 3600, sleep=sleep, clock=mono, now=now)
+        self.assertTrue(ready, 'one transient PowerShell failure aborted the wait: %s' % reason)
+        self.assertIsNone(reason); self.assertEqual(waited, 60)
+
+    def test_a_probe_that_keeps_failing_gives_up_with_a_reason(self):
+        state, sleep, mono, now = self.clocks(datetime(2026, 9, 10, 8, 30, tzinfo=timezone.utc), None)
+        with patch('research_loop.overnight_seconds', side_effect=OSError('powershell.exe missing')), \
+             contextlib.redirect_stdout(io.StringIO()):
+            ready, waited, reason = nightly.wait_for_window(self.root, 3600, sleep=sleep, clock=mono, now=now)
+        self.assertFalse(ready); self.assertIn('probe failed', reason); self.assertIn('OSError', reason)
+        self.assertEqual(state['slept'], (nightly.WINDOW_PROBE_FAILURES-1)*nightly.WINDOW_POLL_SECONDS)
+
+
+class ResearchSkippedByAnotherSessionTests(unittest.TestCase):
+    """research_loop exits 0 when another session holds a lock and says so only in its own overlap
+    notice, so the stage recorded 'ok' for a night that researched nothing at all."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+        (self.root/'.local').mkdir()
+
+    def overlap_notice(self, at):
+        return {'status': 'skipped', 'at': at,
+                'reason': 'Scheduled research skipped: another research session or batch is active.'}
+
+    def test_an_overlap_skip_is_reported_skipped_with_its_reason(self):
+        def run(*_a, **_k):
+            notice = self.overlap_notice(datetime.now(timezone.utc).isoformat())
+            (self.root/'.local/schedule-overlap.json').write_text(json.dumps(notice), encoding='utf-8')
+            return SimpleNamespace(returncode=0, stdout=json.dumps(notice)+'\n', stderr='')
+        with patch.object(nightly, 'wait_for_window', return_value=(True, 0, None)), \
+             patch.object(nightly.subprocess, 'run', side_effect=run):
+            receipt = nightly.stage_research(self.root, 600)
+        self.assertEqual(receipt['status'], 'skipped', 'a session that never started was reported ok')
+        self.assertIn('another research session', receipt['reason'])
+
+    def test_an_earlier_nights_overlap_notice_does_not_mark_a_real_session_skipped(self):
+        stale = self.overlap_notice((datetime.now(timezone.utc)-timedelta(days=1)).isoformat())
+        (self.root/'.local/schedule-overlap.json').write_text(json.dumps(stale), encoding='utf-8')
+        completed = SimpleNamespace(returncode=0, stdout='Session 1234: batch 1; 60s elapsed\n', stderr='')
+        with patch.object(nightly, 'wait_for_window', return_value=(True, 0, None)), \
+             patch.object(nightly.subprocess, 'run', return_value=completed):
+            receipt = nightly.stage_research(self.root, 600)
+        self.assertEqual(receipt['status'], 'ok')
+
+    def test_a_lock_taken_during_the_wait_stops_the_launch(self):
+        def wait(root, _budget, **_kw):
+            (root/'.local/research.lock').write_text(json.dumps({'pid': os.getpid()}), encoding='utf-8')
+            return True, 1800, None
+        with patch.object(nightly, 'wait_for_window', side_effect=wait), \
+             patch.object(nightly.subprocess, 'run') as spawn:
+            receipt = nightly.stage_research(self.root, 600)
+        spawn.assert_not_called()
+        self.assertEqual(receipt['status'], 'skipped'); self.assertIn('research.lock', receipt['reason'])
+
+
+class DigestReportingTests(unittest.TestCase):
+    """The digest is the owner's only view of an unattended night."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+        self.date = '2026-09-11'
+        self.write('research', {'status': 'skipped', 'reason': 'research-session.lock held by live pid 4242: another research session is running'})
+        self.write('health', {'status': 'ok', 'pending_decisions': {'questions_pending': 2},
+                              'stale_figures': {'overdue_count': 476, 'refreshable_count': 461, 'most_overdue': []}})
+
+    def write(self, name, payload):
+        path = self.root/'.local/nightly'/self.date/(name+'.json'); path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({'stage': name, **payload}), encoding='utf-8')
+
+    def digest(self, notification):
+        sent = []
+        def send(root, text, tag='note'): sent.append(text); return notification
+        with patch('research_notify.send_text', send), patch.object(nightly, 'commits_ahead', return_value=0):
+            receipt = nightly.stage_digest(self.root, self.date)
+        return receipt, (sent[0] if sent else '')
+
+    def test_a_failed_telegram_send_is_a_failed_stage(self):
+        receipt, _ = self.digest({'status': 'failed', 'error_type': 'TimeoutError'})
+        self.assertEqual(receipt['status'], 'failed', 'the one reporting channel went dark and the night still read as ok')
+        self.assertIn('not delivered', receipt['reason']); self.assertIn('TimeoutError', receipt['reason'])
+
+    def test_an_unconfigured_route_is_not_a_failure(self):
+        receipt, _ = self.digest({'status': 'disabled'})
+        self.assertEqual(receipt['status'], 'ok'); self.assertNotIn('reason', receipt)
+
+    def test_every_stage_line_carries_the_reason_its_receipt_already_holds(self):
+        _, sent = self.digest({'status': 'sent'})
+        self.assertIn('research: skipped, research-session.lock held by live pid 4242', sent)
+
+    def test_what_broke_survives_the_telegram_limit(self):
+        self.write('health', {'status': 'ok', 'pending_decisions': {},
+                              'stale_figures': {'overdue_count': 476, 'refreshable_count': 461,
+                                                'most_overdue': [{'metric': 'sec-capex-metric-%d' % i, 'source': 'sec-xbrl-companyfacts',
+                                                                  'age_days': 2445, 'threshold_days': 120, 'period_basis': 'quarter',
+                                                                  'latest_period': '2020-Q1', 'refresh_expected': True} for i in range(20)]}})
+        _, sent = self.digest({'status': 'sent'})
+        self.assertLessEqual(len(sent), nightly.TELEGRAM_LIMIT)
+        self.assertIn('research: skipped, research-session.lock held by live pid 4242', sent)
+        self.assertIn('truncated', sent)
+        markdown = (self.root/'.local/digest'/(self.date+'.md')).read_text(encoding='utf-8')
+        self.assertGreater(len(markdown), nightly.TELEGRAM_LIMIT)   # the full night is still on disk
+        self.assertIn('sec-capex-metric-19', markdown)
+
+
+class StaleFigureTests(unittest.TestCase):
+    """A figure fetched last night about Q1 2024 is not fresh. Ageing each metric by its
+    observation's retrieved_at made the report structurally empty: measured against the real
+    ledger on 2026-09-11, 0 overdue of 4,184 observations by that rule and 476 by this one."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+
+    def ledger(self, metrics, observations):
+        path = self.root/'site/data/ledger.json'; path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({'metrics': metrics, 'observations': observations}), encoding='utf-8')
+
+    def test_a_long_past_period_fetched_last_night_is_overdue(self):
+        today = datetime.now(timezone.utc).date()
+        self.ledger([{'id': 'quarterly-capex', 'period_basis': 'quarter', 'source_ids': ['sec']}],
+                    [{'metric': 'quarterly-capex', 'year': today.year-3, 'period': f'{today.year-3}-Q1', 'value': 1,
+                      'source': 'sec', 'retrieved_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')}])
+        result = nightly.stale_figures(self.root)
+        self.assertEqual(result['overdue_count'], 1, 'a three-year-old quarter fetched tonight counted as fresh')
+        row = result['most_overdue'][0]
+        self.assertEqual(row['latest_period'], f'{today.year-3}-Q1')
+        self.assertGreater(row['age_days'], 900); self.assertEqual(row['threshold_days'], 120)
+        self.assertTrue(row['refresh_expected']); self.assertEqual(result['refreshable_count'], 1)
+
+    def test_a_current_period_fetched_long_ago_is_not_overdue(self):
+        today = datetime.now(timezone.utc).date()
+        self.ledger([{'id': 'fleet-snapshot', 'period_basis': 'snapshot', 'source_ids': ['epoch']}],
+                    [{'metric': 'fleet-snapshot', 'year': today.year, 'period': today.isoformat(), 'value': 1, 'source': 'epoch',
+                      'retrieved_at': (datetime.now(timezone.utc)-timedelta(days=730)).isoformat().replace('+00:00', 'Z')}])
+        self.assertEqual(nightly.stale_figures(self.root)['overdue_count'], 0,
+                         'a reading about today was called stale because the fetch was old')
