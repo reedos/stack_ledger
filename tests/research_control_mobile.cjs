@@ -99,12 +99,14 @@ async function tapTargetSizes(page){
     assert.equal(await page.locator('#decision-feed .finding-card').count(),2,'Decisions feed merges the pending finding and catalog package');
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'no horizontal overflow on the Decisions tab at 390px');
 
-    // A pending card without a finished validation shows "Validating..." and no approve/validate button.
+    // A pending card without a finished validation shows "Validating..." and offers no second
+    // validation run; approval waits for the preview, but Defer and Reject never needed one and stay.
     const catalogCard=page.locator('#decision-feed article').filter({hasText:'Fixture catalog package'});
     await catalogCard.waitFor();
     assert.match(await catalogCard.innerText(),/Validating…/);
-    assert.equal(await catalogCard.getByRole('button',{name:'Approve and publish',exact:true}).count(),0,'no approve button while validation is in flight');
     assert.equal(await catalogCard.getByRole('button',{name:'Validate preview',exact:true}).count(),0,'no manual re-run button while a validation job is already queued/running');
+    assert.equal(await catalogCard.getByRole('button',{name:'Approve and publish',exact:true}).isDisabled(),true,'approval waits for a passing preview');
+    assert.equal(await catalogCard.getByRole('button',{name:'Record decision',exact:true}).isDisabled(),false,'Defer and Reject stay usable while a validation job runs');
 
     // The job finishes: a validated card shows the compact change table and no Validate button.
     state.catalog.job=null;

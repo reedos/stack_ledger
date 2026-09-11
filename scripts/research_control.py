@@ -1,6 +1,7 @@
 """Research control panel: loopback always, plus an optional Tailscale Serve tailnet mount. Opening it never starts inference."""
 import argparse
 import csv
+import hashlib
 import json
 import os
 import re
@@ -146,6 +147,35 @@ def tailnet_config(path):
     return t
 
 
+def token_path(root):
+    """Per-user, per-checkout home for the panel session token, deliberately outside the repository.
+
+    %LOCALAPPDATA% (Windows) / $XDG_STATE_HOME (POSIX) are per-account trees, so nothing here is
+    world-readable; keeping it out of the checkout also keeps it out of git, out of the isolated
+    preview copies catalog_review.preview makes of scripts/site/tests/tools, and out of docs/.
+    Keyed by the checkout path so a second worktree never inherits the live panel's URL."""
+    base=os.environ.get('LOCALAPPDATA') if os.name=='nt' else os.environ.get('XDG_STATE_HOME')
+    folder=Path(base) if base else Path.home()/('AppData/Local' if os.name=='nt' else '.local/state')
+    return folder/'stack-ledger'/('panel-token-'+hashlib.sha256(str(Path(root).resolve()).encode()).hexdigest()[:16]+'.txt')
+
+
+def session_token(root):
+    """A token that survives a panel restart, so a bookmarked phone URL keeps working. The panel is
+    started by hand and has no autostart, so a per-process token meant every saved link 403'd. This
+    changes only which URL is valid, never who may use it: identity() and the reviewer mapping still
+    run on every request, so the token alone authorizes nothing."""
+    path=token_path(root)
+    try:
+        saved=path.read_text(encoding='utf-8').strip()
+        if re.fullmatch('[A-Za-z0-9_-]{43}',saved):return saved
+    except OSError:pass
+    value=secrets.token_urlsafe(32)
+    path.parent.mkdir(parents=True,exist_ok=True)
+    # 0o600 is honoured on POSIX and ignored on Windows, where LOCALAPPDATA is already per-account.
+    with os.fdopen(os.open(path,os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600),'w',encoding='utf-8') as f:f.write(value)
+    return value
+
+
 def identity(handler):
     """{'channel':'loopback'|'tailnet','login':str|None} or None. Duplicated headers refuse, never merge."""
     server=handler.server;config=getattr(server,'tailnet',None)
@@ -162,11 +192,12 @@ def identity(handler):
     return None
 
 
-def server(root=ROOT,*,config=None,asset_root=None):
-    """root: live checkout for status/locks/launches. asset_root: checkout serving panel code (defaults to root)."""
+def server(root=ROOT,*,config=None,asset_root=None,token=None):
+    """root: live checkout for status/locks/launches. asset_root: checkout serving panel code (defaults to root).
+    token: the saved session token; omitted (tests, --ephemeral) means a throwaway one for this process."""
     asset_root=asset_root or root
     import catalog_jobs
-    token=secrets.token_urlsafe(32);controller=Controller(root);gpu=GpuSampler();jobs=catalog_jobs.Queue(root)
+    token=token or secrets.token_urlsafe(32);controller=Controller(root);gpu=GpuSampler();jobs=catalog_jobs.Queue(root)
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
         def send(self,code,body,kind='application/json',preview=False):
@@ -421,7 +452,7 @@ def install_tailnet(root,config,run):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--open',action='store_true')
-    parser.add_argument('--ephemeral',action='store_true',help='Do not replace the saved panel URL (for isolated UI tests)')
+    parser.add_argument('--ephemeral',action='store_true',help='Throwaway token, and do not replace the saved panel URL (for isolated UI tests)')
     parser.add_argument('--research-root',type=Path,default=None,help='Live checkout for status/locks/launches; panel assets still come from this checkout')
     parser.add_argument('--config',type=Path,default=None,help='Path to research-control.json (default: <research-root>/.local/research-control.json)')
     parser.add_argument('--install-startup',action='store_true',help='Print (with --yes, write) a Startup-folder launcher that starts the panel hidden at logon')
@@ -453,7 +484,7 @@ def main():
             except Exception:ok=False
             if ok:
                 print('Research control (already running): '+live,flush=True);webbrowser.open(live);return
-    http,url=server(live_root,config=cfg,asset_root=ROOT)
+    http,url=server(live_root,config=cfg,asset_root=ROOT,token=None if args.ephemeral else session_token(live_root))
     if not args.ephemeral:
         (live_root/'.local').mkdir(exist_ok=True)
         (live_root/'.local/research-control-url.txt').write_text(url,encoding='utf-8')

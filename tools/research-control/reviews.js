@@ -155,8 +155,68 @@
   }
   const STATUS_LABELS={pending_review:'Needs review',deferred:'Deferred',approved:'Approved, not yet applied',deployment_pending:'Pushed · awaiting deployment check',rejected:'Rejected',applied:'Applied'};
   async function latestPackage(id){const r=await fetch('findings');const d=await r.json();return (d.catalog_packages||[]).find(q=>q.id===id);}
+  // Everything from validPreview to buildCatalogCard is DOM-free: the bulk bar and the Publishing
+  // strip decide here, and tests/control_decisions.cjs evaluates exactly this span.
   function validPreview(p){return !!(p.validation&&p.validation.passed&&p.validation.proposal_hash===p.proposal_hash);}
   function activeJob(p,kind){return p.job&&p.job.kind===kind&&(p.job.status==='queued'||p.job.status==='running')?p.job:null;}
+  function publishState(p){
+    const job=p.job&&p.job.kind==='publish'?p.job:null;
+    if(job&&(job.status==='queued'||job.status==='running'))return job.status;
+    // An applied package is the success case: catalog_review.mark_deployed records 'applied' the
+    // moment the live data matches the pushed commit, and that is the only confirmation there is.
+    if(p.status==='applied')return 'deployed';
+    if(job&&job.status==='failed')return 'failed';
+    if(p.display_status==='deployment_pending')return 'pending';
+    if(job&&job.status==='done')return (job.result&&job.result.status==='deployed')?'deployed':'pending';
+    return 'unpublished';
+  }
+  function publishStatusText(p,state){
+    const job=p.job,commit=((job&&job.result&&job.result.commit)||(p.publication_receipt&&p.publication_receipt.commit)||'').slice(0,10);
+    return {queued:'queued',running:(job&&job.step)||'applying',failed:'failed: '+((job&&job.error)||'unknown error'),
+      deployed:'live ✓'+(commit?' · commit '+commit:''),pending:'pushed, waiting for the live site'+(commit?' · commit '+commit:''),
+      unpublished:'approved, not yet published'}[state];
+  }
+  // An applied package used to drop out of this strip on the very poll that proved publication had
+  // worked, so 'live' was unreachable and a published package vanished from every surface. It now
+  // stays for as long as its publish job is retained (catalog_jobs keeps 24h), then leaves on its own.
+  function publishingPackages(all){
+    return (all||[]).filter(p=>{
+      const published=!!(p.job&&p.job.kind==='publish');
+      if(p.status==='rejected')return false;
+      if(p.status==='applied')return published;
+      return p.status==='approved'||p.display_status==='deployment_pending'||published;
+    });
+  }
+  function bulkSummary(kind,done,queued,total){
+    if(kind==='validate')return `Validation queued for ${queued} of ${total} packages; each card updates when its preview finishes.`;
+    if(kind==='record')return `Decision recorded for ${done} of ${total} packages.`;
+    return `Approved and queued publication for ${done} of ${total}.`+(queued?` ${queued} had no validated preview yet and ${queued===1?'is':'are'} queued for validation now; approve once the card shows a passing preview.`:'');
+  }
+  // Bulk actions enqueue and stop there; they never read job state back to decide. Reading it back
+  // one request later always found the job it had just created still 'queued', so every bulk tap died
+  // on a false "Preview failed" before touching a single package (2026-09-11). Defer/Reject need no
+  // preview at all, so they run first and are never diverted into validation.
+  async function runBulk(kind,ctx){
+    const {ids,post,latest,report}=ctx;
+    if(!ids.length){report('Select at least one package.');return {done:0,queued:0,error:'No package selected'};}
+    if(kind==='record'&&(!ctx.rationale.trim()||!ctx.confirmed)){const m='A reason and the confirmation are required.';report(m);return {done:0,queued:0,error:m};}
+    let done=0,queued=0;
+    try{
+      for(const id of ids){
+        let q=await latest(id);
+        if(!q)throw new Error(`${id} is no longer in the queue`);
+        report(`${done+queued+1}/${ids.length}: ${q.title}`);
+        if(kind==='record'){await post('catalog-review',{id,decision:ctx.decision,rationale:ctx.rationale,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:true});done++;continue;}
+        if(kind==='validate'||!validPreview(q)){await post('catalog-preview',{id});queued++;continue;}
+        await post('catalog-review',{id,decision:'approved',rationale:ctx.rationale.trim()||q.title,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:true});
+        q=await latest(id);
+        await post('catalog-publish',{id,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:true});
+        done++;
+      }
+    }catch(e){report(`Stopped after ${done+queued} of ${ids.length}: ${e.message}`);return {done,queued,error:e.message};}
+    report(bulkSummary(kind,done,queued,ids.length));
+    return {done,queued};
+  }
   function buildCatalogCard(p,{selectable,boxes,selected,count}={}){
     const card=node('article',null,'finding-card');
     const display=p.display_status||p.status;
@@ -190,11 +250,10 @@
     }
     const needsDecision=p.status!=='applied';   // pending_review/deferred are the common case; a rejected or
     const validating=activeJob(p,'validate');   // already-approved package can still be reconsidered at any time.
-    if(validating){
-      msg.className='card-status';msg.textContent='Validating…'+(validating.step?' '+validating.step:'');
-      return card;
-    }
-    if(!validPreview(p)){
+    // Defer and Reject need no preview, so a queued or running validation hides only the button that
+    // would start a second one -- it used to return early and strip the card of every control.
+    if(validating){msg.className='card-status';msg.textContent='Validating…'+(validating.step?' '+validating.step:'');}
+    else if(!validPreview(p)){
       const preview=node('button','Validate preview');preview.disabled=!owner;preview.onclick=async()=>{preview.disabled=true;msg.className='card-status';msg.textContent='Building and testing the isolated preview (about a minute)…';notify(`Validating "${p.title}"…`,'ok');try{await catalogPost('catalog-preview',{id:p.id});await refresh();notify(`Validating "${p.title}"; the card updates once it finishes.`,'ok');}catch(e){msg.className='card-status error';msg.textContent=e.message;notify(e.message,'error');preview.disabled=false;}};card.append(preview);
     }
     if(!needsDecision)return card;
@@ -252,30 +311,16 @@
    const bValidate=node('button','Validate selected previews','secondary'),bApprovePublish=node('button','Approve and publish selected'),bRecord=node('button','Record decision for selected','secondary');
    for(const b of [bValidate,bApprovePublish,bRecord])b.disabled=!owner;
    const count=()=>{progress.textContent=`${selected.size} selected.`;};
-   async function latest(id){const r=await fetch('findings');const d=await r.json();return (d.catalog_packages||[]).find(q=>q.id===id);}
-   async function runBulk(kind){
-     if(!selected.size){progress.textContent='Select at least one package.';return;}
-     for(const b of [bValidate,bApprovePublish,bRecord])b.disabled=true;
-     const ids=[...selected];let done=0;
-     try{
-       for(const id of ids){
-         let q=await latest(id);if(!q){throw new Error(`${id} is no longer in the queue`);}
-         progress.textContent=`${kind} ${done+1}/${ids.length}: ${q.title}`;
-         if(kind==='validate'||(kind==='approve_publish'&&!q.validation?.passed)){await catalogPost('catalog-preview',{id});q=await latest(id);if(!q.validation?.passed)throw new Error(`Preview failed for ${q.title}; left for individual review`);}
-         if(kind==='record'){if(!reason.value.trim()||!confirm.checked)throw new Error('A reason and the confirmation are required.');await catalogPost('catalog-review',{id,decision:decision.value,rationale:reason.value,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:confirm.checked});}
-         if(kind==='approve_publish'){
-           // Sequential, but each package only enqueues -- the queue itself serialises actual
-           // publication, so the reviewer never waits for one to finish before moving to the next.
-           await catalogPost('catalog-review',{id,decision:'approved',rationale:reason.value||q.title,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:true});
-           q=await latest(id);
-           await catalogPost('catalog-publish',{id,proposal_hash:q.proposal_hash,review_hash:q.review_hash,confirmed:true});
-         }
-         done++;
-       }
-       progress.textContent=`${kind}: ${done}/${ids.length} completed.`;await refresh();el('review-message').textContent=`Bulk ${kind}: ${done} package${done===1?'':'s'}. `+el('review-message').textContent;
-     }catch(e){progress.textContent=`Stopped after ${done}/${ids.length}: ${e.message}`;notify(progress.textContent,'error');for(const b of [bValidate,bApprovePublish,bRecord])b.disabled=!owner;}
+   const buttons=[bValidate,bApprovePublish,bRecord];
+   async function runSelected(kind){
+     for(const b of buttons)b.disabled=true;
+     const outcome=await runBulk(kind,{ids:[...selected],post:catalogPost,latest:latestPackage,report:text=>{progress.textContent=text;},
+       rationale:reason.value,confirmed:confirm.checked,decision:decision.value});
+     notify(progress.textContent,outcome.error?'error':'ok');
+     for(const b of buttons)b.disabled=!owner;
+     if(outcome.done||outcome.queued)await refresh();
    }
-   bValidate.onclick=()=>runBulk('validate');bApprovePublish.onclick=()=>runBulk('approve_publish');bRecord.onclick=()=>runBulk('record');
+   bValidate.onclick=()=>runSelected('validate');bApprovePublish.onclick=()=>runSelected('approve_publish');bRecord.onclick=()=>runSelected('record');
    const row=node('div',null,'bulk-actions');row.append(bApprovePublish,bValidate,decision,bRecord);
    bulk.append(node('h3','Bulk actions for selected packages'),selectAll,
      node('p','One reason, used by "Approve and publish selected" (falls back to each package\'s own title) and by "Record decision for selected" with the status chosen alongside it.','hint'),
@@ -288,25 +333,8 @@
    const feedable=all.filter(p=>p.status==='pending_review'||p.status==='deferred');
    window.__pending.catalog=feedable.map(p=>({rank:20,created_at:p.created_at,el:buildCatalogCard(p,{})}));
   }
-  // Publishing strip: approved-but-not-published and pushed-but-unconfirmed packages, with live status.
-  // Finished ones (applied or rejected) simply stop matching this filter on the next poll.
-  function publishState(p){
-    const job=p.job;
-    if(job&&job.kind==='publish'){
-      if(job.status==='queued')return 'queued';
-      if(job.status==='running')return 'running';
-      if(job.status==='failed')return 'failed';
-      if(job.status==='done')return (job.result&&job.result.status==='deployed')?'deployed':'pending';
-    }
-    if(p.display_status==='deployment_pending')return 'pending';
-    return 'unpublished';
-  }
-  function publishStatusText(p,state){
-    const job=p.job,commit=((job&&job.result&&job.result.commit)||(p.publication_receipt&&p.publication_receipt.commit)||'').slice(0,10);
-    return {queued:'queued',running:(job&&job.step)||'applying',failed:'failed: '+((job&&job.error)||'unknown error'),
-      deployed:'live ✓'+(commit?' · commit '+commit:''),pending:'pushed, waiting for the live site'+(commit?' · commit '+commit:''),
-      unpublished:'approved, not yet published'}[state];
-  }
+  // Publishing strip: approved-but-not-published, pushed-but-unconfirmed and just-published packages,
+  // with live status. See publishingPackages for when a finished one stops matching.
   function buildStripItem(p){
     const state=publishState(p);
     const item=node('article',null,'strip-item');
@@ -320,7 +348,7 @@
   }
   function drawPublishingStrip(data){
     const box=el('publishing-strip');if(!box)return;
-    const items=(data.catalog_packages||[]).filter(p=>p.status!=='applied'&&p.status!=='rejected'&&(p.status==='approved'||p.display_status==='deployment_pending'||(p.job&&p.job.kind==='publish')));
+    const items=publishingPackages(data.catalog_packages);
     box.replaceChildren();
     if(!items.length){box.hidden=true;return;}
     box.hidden=false;

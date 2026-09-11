@@ -6,6 +6,7 @@ commands are only constructed and inspected, never executed with --yes.
 import email.message
 import http.client
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -357,6 +358,74 @@ class SessionKeyTests(unittest.TestCase):
             path = ROOT/'tools/research-control'/name
             if path.exists():
                 self.assertNotIn("location.pathname.split('/')[1]", path.read_text(encoding='utf-8'), name)
+
+
+class SessionTokenTests(unittest.TestCase):
+    """A bookmarked panel URL must survive a restart, and the token must never live in the checkout."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.state = Path(self.temp.name)/'state'
+        self.root = Path(self.temp.name)/'checkout'; self.root.mkdir()
+        env = patch.dict(control.os.environ, {'LOCALAPPDATA': str(self.state), 'XDG_STATE_HOME': str(self.state)})
+        env.start(); self.addCleanup(env.stop)
+
+    def test_token_is_stable_and_unique_per_checkout(self):
+        first = control.session_token(self.root)
+        self.assertRegex(first, '^[A-Za-z0-9_-]{43}$')
+        self.assertEqual(control.session_token(self.root), first)
+        other = Path(self.temp.name)/'other'; other.mkdir()
+        self.assertNotEqual(control.session_token(other), first)
+
+    def test_token_lives_outside_the_checkout_and_is_not_world_readable(self):
+        control.session_token(self.root)
+        self.assertEqual(list(self.root.rglob('*')), [], 'the token must not be written into the repository')
+        path = control.token_path(self.root)
+        self.assertIn(self.state, path.parents)
+        if os.name != 'nt': self.assertEqual(path.stat().st_mode & 0o777, 0o600)
+
+    def test_unusable_saved_token_is_replaced(self):
+        path = control.token_path(self.root); path.parent.mkdir(parents=True)
+        path.write_text('not-a-token', encoding='utf-8')
+        self.assertRegex(control.session_token(self.root), '^[A-Za-z0-9_-]{43}$')
+
+    def url_from_one_panel_start(self, *extra):
+        child = subprocess.Popen([sys.executable, str(ROOT/'scripts/research_control.py'), '--research-root', str(self.root), *extra],
+            cwd=ROOT, stdout=subprocess.PIPE, text=True, encoding='utf-8',
+            env=dict(os.environ, LOCALAPPDATA=str(self.state), XDG_STATE_HOME=str(self.state), PYTHONIOENCODING='utf-8'))
+        try:
+            line = child.stdout.readline().strip()
+        finally:
+            child.terminate(); child.wait(timeout=15); child.stdout.close()
+        self.assertTrue(line.startswith('Research control: http://127.0.0.1:'), line)
+        return line.rsplit('/', 2)[-2]
+
+    def test_a_saved_link_still_works_after_the_panel_is_restarted(self):
+        self.assertEqual(self.url_from_one_panel_start(), self.url_from_one_panel_start())
+
+    def test_ephemeral_panels_never_reuse_the_saved_token(self):
+        saved = self.url_from_one_panel_start()
+        self.assertNotEqual(self.url_from_one_panel_start('--ephemeral'), saved)
+
+
+class PanelScriptTests(unittest.TestCase):
+    """Node unit tests over the panel scripts: bulk/publishing decisions, per-card controls, session feedback."""
+
+    def run_node(self, name):
+        import shutil
+        node = shutil.which('node')
+        if not node: self.skipTest('node is not installed')
+        result = subprocess.run([node, '--test', 'tests/'+name], cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_bulk_and_publishing_decisions(self):
+        self.run_node('control_decisions.cjs')
+
+    def test_catalog_card_controls(self):
+        self.run_node('control_cards.cjs')
+
+    def test_session_start_and_stop_feedback(self):
+        self.run_node('control_session.cjs')
 
 
 class ReportPromotePanelTests(unittest.TestCase):
