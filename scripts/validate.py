@@ -241,6 +241,11 @@ def validate(data):
         text(m.get('pre_period_note'),1000)
         if not m['definition_stable']:
             require(type(m.get('definition_break_year')) is int and m['series_start_year']<=m['definition_break_year']<=m['chart_default_end'],'Missing methodology break marker')
+        # Deliverable 1 (2026-09-10): a reviewed override of research.refresh_expected()'s
+        # derivation -- optional, so most metrics say nothing and let the derivation decide;
+        # present, it must be an explicit bool, never a truthy/falsy stand-in.
+        if 'refresh_expected' in m:
+            require(type(m['refresh_expected']) is bool,'Invalid refresh_expected flag')
     ids=set(); periods=set()
     from source_policy import collection_for, grade_for
     # Company records let an evidence-only citation be graded by its publisher rather than by a

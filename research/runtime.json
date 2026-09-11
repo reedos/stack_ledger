@@ -17,6 +17,7 @@
   "max_discovered_per_source": 1,
   "max_discovered_per_feed": 12,
   "max_stale_tasks_per_batch": 20,
+  "stale_retry_batches": 12,
   "model_timeout_seconds": 300,
   "max_candidates_per_document": 8,
   "document_window_chars": 60000,

@@ -12,7 +12,13 @@ def summary(folder):
                 finding_pushes=0,monitoring_only_pushes=0,search_calls=0,search_errors=0,
                 discovery_screened=0,model_documents=0,cooldown_skips=0,idle_checks=0,private_notes=0,
                 unchanged_304=0,text_unchanged=0,already_reviewed=0,nothing_new_batches=0,
-                stale_tasks_queued=0,stale_tasks_met=0,empty_reasons={},
+                # Deliverable 3 (2026-09-10): offered/attempted/met/skipped/backed-off, not a
+                # single cumulative "queued" count -- see the 2026-09-10 measured problem
+                # (20 offered every batch of a 103-batch session summed to a meaningless 2,060,
+                # since nothing was ever met). refresh_expected() and the session back-off state
+                # keep each of these small and honest to sum across a whole session's batches.
+                stale_tasks_offered=0,stale_tasks_attempted=0,stale_tasks_met=0,
+                stale_tasks_skipped_not_refresh_expected=0,stale_tasks_backed_off=0,empty_reasons={},
                 # Deliverable 4 (2026-09-10): feed reach and idle-pass top-up, across the batches
                 # a session actually ran -- so a quiet night can say whether nothing was
                 # published or nothing was reachable, not just how many batches were quiet.
@@ -37,11 +43,14 @@ def summary(folder):
         totals['search_errors']+=sum(e.get('stage')=='search' for e in private.get('errors',[]))
         totals['discovery_screened']+=private.get('documents_screened',0)
         stats=item.get('collection',{})
-        for key in ['model_documents','cooldown_skips','private_notes','unchanged_304','text_unchanged','already_reviewed','stale_tasks_queued',
+        for key in ['model_documents','cooldown_skips','private_notes','unchanged_304','text_unchanged','already_reviewed','stale_tasks_offered',
+                    'stale_tasks_skipped_not_refresh_expected','stale_tasks_backed_off',
                     'feeds_polled','feed_entries_new','feed_entries_already_reviewed','idle_feeds_polled','idle_stale_tasks_run']:
             totals[key]+=stats.get(key,0)
         for reason,count in stats.get('empty_reasons',{}).items():totals['empty_reasons'][reason]=totals['empty_reasons'].get(reason,0)+count
-        totals['stale_tasks_met']+=sum(t.get('outcome')=='met' for t in stats.get('stale_tasks',[]))
+        stale=stats.get('stale_tasks',[])
+        totals['stale_tasks_met']+=sum(t.get('outcome')=='met' for t in stale)
+        totals['stale_tasks_attempted']+=sum(t.get('outcome')!='not_attempted' for t in stale)
         totals['cooldown_skips']+=private.get('cooldown_skips',0)
         totals['idle_checks']+=item.get('status')=='nothing_new'
         totals['nothing_new_batches']+=item.get('status')=='nothing_new'
@@ -77,7 +86,10 @@ def message(report,totals):
         (f"Monitoring: {totals['model_documents']} model-reviewed, {totals.get('already_reviewed',0)} already reviewed (ledger), {totals.get('unchanged_304',0)} 304 unchanged, {totals.get('text_unchanged',0)} text-unchanged, {totals['cooldown_skips']} cooldown skips"
          if totals.get('collection_detail_available') else 'Older receipts lack unique-document/cache detail.'),
         f"Monitoring records accepted: {totals['accepted']} | Quarantined: {totals['quarantined']}"+(f" | Top empty reasons: {top_empty}" if top_empty else ''),
-        (f"Stale-metric tasks queued: {totals.get('stale_tasks_queued',0)} (met: {totals.get('stale_tasks_met',0)})" if totals.get('stale_tasks_queued',0) else 'No stale-metric tasks queued this session.'),
+        (f"Stale-metric tasks: {totals.get('stale_tasks_offered',0)} offered, {totals.get('stale_tasks_attempted',0)} attempted, {totals.get('stale_tasks_met',0)} met"
+         f" ({totals.get('stale_tasks_skipped_not_refresh_expected',0)} skipped as not refresh-expected, {totals.get('stale_tasks_backed_off',0)} backed off from an earlier unmet attempt)"
+         if totals.get('stale_tasks_offered',0) or totals.get('stale_tasks_skipped_not_refresh_expected',0) or totals.get('stale_tasks_backed_off',0)
+         else 'No stale-metric tasks offered this session.'),
         f"Feeds polled: {totals.get('feeds_polled',0)} ({totals.get('feed_entries_new',0)} new entries seen, {totals.get('feed_entries_already_reviewed',0)} already in the review ledger)",
         (f"Idle passes (batch found nothing due, so it force-repolled feeds and retried stale-metric sources before conceding): {report.get('idle_passes',0)}"
          + (f" -- {totals.get('idle_feeds_polled',0)} extra feed checks, {totals.get('idle_stale_tasks_run',0)} extra stale-task retries" if totals.get('idle_batches',0) else '')),
