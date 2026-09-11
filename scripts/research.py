@@ -1148,6 +1148,10 @@ def main():
                     stale_forced_urls.add(registry_by_id[sid]['url'])
         collection['stale_tasks_offered']=len(stale_tasks)
         stale_metric_ids={t['metric'] for t in stale_tasks}
+        stale_metrics_by_source={}
+        for task in stale_tasks:
+            for sid in task['source_ids']:
+                stale_metrics_by_source.setdefault(sid,set()).add(task['metric'])
         stale_metrics_met=set();stale_metrics_quarantined=set();stale_metrics_attempted=set()
         # Deliverable 2 (2026-09-10): a feed/index source becomes due again after
         # feed_poll_minutes (runtime.json, default 20) instead of the registered cadence, so
@@ -1161,6 +1165,11 @@ def main():
             responsible for every due/cooldown/dedup decision; this always attempts."""
             nonlocal attempts,model_failed,private_calls
             cadence_policy=collection_for(registry,source)
+            # Reaching the source is the attempt, whether or not its text turns out to have
+            # changed. Counting only documents that reached extraction meant an unchanged page
+            # read as 'not_attempted', which is exempt from the back-off, so the task came back
+            # every batch for the rest of the night (2026-09-11).
+            stale_metrics_attempted.update(stale_metrics_by_source.get(source['id'],()))
             seen.add(source['url']);attempts+=1
             attempt_log.append({'source':source['id'],'url':source['url'],'attempted_at':now(),
                 'effective_cadence':effective_cadence(cadence_policy,fetcher.fetch_state.get('page',source['url']))})
@@ -1326,7 +1335,13 @@ def main():
             source=queue.pop(0)
             if source['url'] in seen:continue
             is_feed=bool(source.get('index'))
-            if not fetcher.due(source['url'],args.refresh,feed_poll_seconds if is_feed else None):
+            # A stale task puts its own sources at the front of the queue and then used to let
+            # the six-hour page cooldown skip them: measured 2026-09-11, 3,696 of 3,732 offered
+            # tasks were never attempted, and the same 42 metrics were re-offered every batch --
+            # revenue-aws 189 times in one session. Forcing costs one conditional request, and the
+            # back-off below stops it repeating once the task has been reached.
+            forced_stale=source['url'] in stale_forced_urls
+            if not fetcher.due(source['url'],args.refresh or forced_stale,feed_poll_seconds if is_feed else None):
                 collection['cooldown_skips']+=1;continue
             # Deliverable 4: a registered-daily source unchanged for long enough is checked
             # less often; a stale task (deliverable 10) still forces its own sources through.

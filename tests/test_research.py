@@ -516,7 +516,11 @@ class IdleTopUpTests(unittest.TestCase):
             self.assertGreater(receipt['receipt']['documents_fetched'],0)
             self.assertNotEqual(research.run_summary(receipt)['model_documents'],0)
 
-    def test_idle_pass_retries_a_stale_metrics_source_past_its_ordinary_cooldown(self):
+    def test_a_stale_tasks_own_source_is_reached_in_the_ordinary_pass(self):
+        """The stale front used to be skipped by the six-hour page cooldown before it was ever
+        fetched: 3,696 of 3,732 tasks offered on 2026-09-11 were never attempted, and the same 42
+        metrics came back every batch. The task's own source is now forced past that cooldown in
+        the ordinary pass, so it no longer depends on the batch going idle first."""
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp);RunnerTests().fixture(path)
             registry=research.load(path/'research/sources.json')
@@ -527,8 +531,8 @@ class IdleTopUpTests(unittest.TestCase):
                     'latest_period':'2020','latest_value':1,'overdue_days':999,
                     'definition':{'id':'us-dc-electricity','title':'x','unit':'x','scope':'x','geography':'x'}}]
             def fake_due(url,refresh=False,feed_poll_seconds=None):
-                # Only the idle top-up's forced retry (refresh=True) may reach this source;
-                # the ordinary pass (refresh=args.refresh, false here) never can.
+                # Cooling down: only a forced fetch reaches it. The ordinary pass now forces a
+                # stale task's own source, so it no longer has to wait for the idle top-up.
                 return bool(refresh) and url==doe_url
             document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure progress.</p>')
             with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
@@ -540,10 +544,47 @@ class IdleTopUpTests(unittest.TestCase):
                 research.main()
             receipt=research.load(sorted((path/'.local/runs').glob('*.json'))[-1])
             collection=receipt['collection']
-            self.assertTrue(collection['idle_pass'])
-            self.assertEqual(collection['idle_stale_tasks_run'],1)
-            self.assertEqual(receipt['receipt']['documents_fetched'],1)
+            self.assertEqual(receipt['receipt']['documents_fetched'],1,'the stale source was never fetched')
+            # The distinguishing signal: it was reached in the ORDINARY pass, so the batch never
+            # had to concede and fall through to the idle top-up to get there.
+            self.assertFalse(collection.get('idle_pass'),'the stale source still needed the idle top-up')
+            self.assertEqual(collection.get('idle_stale_tasks_run',0),0)
             self.assertNotEqual(research.run_summary(receipt)['model_documents'],0)
+            # Reaching it counts as the attempt, so the back-off can stop it repeating. Recording
+            # this as 'not_attempted' is what let one metric be re-offered 189 times in a session.
+            outcomes={t['metric']:t['outcome'] for t in collection['stale_tasks']}
+            self.assertEqual(outcomes['us-dc-electricity'],'nothing_newer')
+            self.assertEqual(research.run_summary(receipt)['stale_tasks_attempted'],1)
+
+    def test_reaching_a_stale_source_counts_even_when_its_text_is_unchanged(self):
+        """The batch reaches the source, the review ledger recognises the text, and extraction
+        never runs. That used to record 'not_attempted', which is exempt from the back-off, so the
+        task came back every batch for the rest of the night -- 178 times for revenue-alphabet on
+        2026-09-11."""
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            registry=research.load(path/'research/sources.json')
+            for source in registry['sources']:source.pop('index',None)
+            research.save(path/'research/sources.json',registry)
+            doe_url=next(s for s in registry['sources'] if s['id']=='doe-demand')['url']
+            stale=[{'metric':'us-dc-electricity','source_ids':['doe-demand'],'feed_source_ids':[],
+                    'latest_period':'2020','latest_value':1,'overdue_days':999,
+                    'definition':{'id':'us-dc-electricity','title':'x','unit':'x','scope':'x','geography':'x'}}]
+            def fake_due(url,refresh=False,feed_poll_seconds=None):
+                return bool(refresh) and url==doe_url
+            document=research.ReadableHTML();document.feed('<p>Public report of 2026 AI infrastructure progress.</p>')
+            # Every document reads as already reviewed, so extraction never runs: the batch
+            # reaches the source and learns nothing, which is the case that used to record
+            # 'not_attempted'.
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),                  patch.object(research,'select_stale_tasks',return_value=stale),                  patch.object(research,'already_reviewed',return_value=True),                  patch.object(research.Fetcher,'due',side_effect=fake_due),                  patch.object(research.Fetcher,'fetch',return_value=document),                  patch.object(research,'ollama',side_effect=empty_model),                  patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            second=research.load(sorted((path/'.local/runs').glob('*.json'))[-1])
+            collection=second['collection']
+            self.assertGreater(collection.get('already_reviewed',0),0,'the second read should recognise the text')
+            outcomes={t['metric']:t['outcome'] for t in collection['stale_tasks']}
+            self.assertNotEqual(outcomes['us-dc-electricity'],'not_attempted',
+                                'reaching the source is the attempt, even when nothing changed')
+            self.assertEqual(research.run_summary(second)['stale_tasks_attempted'],1)
 
     def test_a_focused_sources_run_never_gets_the_idle_top_up(self):
         with tempfile.TemporaryDirectory() as tmp:
