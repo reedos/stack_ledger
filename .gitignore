@@ -5,3 +5,6 @@ __pycache__/
 .env
 node_modules/
 test-results/
+# Keys belong in .local/api-keys.json, already ignored above. This catches a vault written to the
+# wrong directory, which is the only way one of them could reach a commit (2026-09-11).
+api-keys.json
