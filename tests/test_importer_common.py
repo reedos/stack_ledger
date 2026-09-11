@@ -304,7 +304,10 @@ class ImporterWiringTests(unittest.TestCase):
         for imp in validate_importers(ROOT)['importers']:
             source = (ROOT/imp['command'][0]).read_text(encoding='utf-8')
             self.assertIn('check_floors(', source, f"{imp['id']} reports ok whatever its routes return")
-            self.assertIn('return 1 if', source, f"{imp['id']} exits 0 even when a reviewed floor is breached")
+            # DEGRADED_EXIT (3), not 1: nightly restores research/, site/ and docs/ on any other
+            # non-zero exit, which would throw away the records the working routes did produce.
+            self.assertIn('return DEGRADED_EXIT if', source, f"{imp['id']} exits 0 even when a reviewed floor is breached")
+            self.assertNotIn('return 1 if run(', source, f"{imp['id']} would have its good records rolled back by nightly")
 
     def test_every_importer_that_lands_observations_reports_drift(self):
         for name in self.LANDS_OBSERVATIONS:

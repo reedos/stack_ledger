@@ -44,6 +44,8 @@ from urllib.request import Request, build_opener, ProxyHandler
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import research
+from importer_common import DEGRADED_EXIT
+
 from research import load, save, now, require, UA, allowed_url
 from validate import text, timestamp, LAYERS
 
@@ -251,7 +253,7 @@ def run(apply=False, today=None):
                 'document_numbers': [n for n, _ in chosen], 'license': 'Public domain (U.S. government work)'}
     save(SNAPSHOTS/'policy.json', snapshot)
 
-    from importer_common import check_floors
+    from importer_common import check_floors, DEGRADED_EXIT
     failures = check_floors(ROOT, 'policy', {'calls:ok': sum(1 for c in calls if c['status'] == 'ok'),
                                              'results': sum(c.get('results', 0) for c in calls)})
     ok = sum(1 for c in calls if c['status'] == 'ok')
@@ -270,7 +272,7 @@ def run(apply=False, today=None):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
+    a = p.parse_args(argv); return DEGRADED_EXIT if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

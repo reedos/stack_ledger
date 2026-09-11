@@ -67,6 +67,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import research
+from importer_common import DEGRADED_EXIT
+
 from research import load, save, now, require, UA
 import api_access
 
@@ -385,7 +387,7 @@ def run(apply=False, today=None):
         print(message, flush=True)
         return {'status': 'no_key', 'registration_url': REGISTRATION_URL}
 
-    from importer_common import apply_changes, check_floors, redacted_body, report_drift
+    from importer_common import apply_changes, check_floors, redacted_body, report_drift, DEGRADED_EXIT
     retrieved = now()
     private = research.LOCAL/'eia'; private.mkdir(parents=True, exist_ok=True)
     calls = []
@@ -479,7 +481,7 @@ def run(apply=False, today=None):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
+    a = p.parse_args(argv); return DEGRADED_EXIT if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

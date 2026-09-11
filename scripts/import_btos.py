@@ -33,6 +33,8 @@ from urllib.request import Request, build_opener, ProxyHandler
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import research
+from importer_common import DEGRADED_EXIT
+
 from research import load, save, now, require, UA, allowed_url
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -119,7 +121,7 @@ def run(apply=False):
     # fetchable and that one series empty, and an empty series reads as zero.
     with_records={o['metric'] for o in observations}
     known_metrics={m['id'] for m in catalog['metrics']};new_metrics=[m for mid,m in sorted(metrics.items()) if mid not in known_metrics and mid in with_records]
-    from importer_common import apply_changes,check_floors,report_drift
+    from importer_common import apply_changes,check_floors,report_drift, DEGRADED_EXIT
     counts={'rows:national':len(national_rows),'rows:sector':len(sector_rows),**{f'records:{mid}':n for mid,n in per_metric.items()}}
     failures=check_floors(ROOT,'btos',counts)
     drift=report_drift(ROOT,'btos',observations,ledger['observations'])
@@ -135,7 +137,7 @@ def run(apply=False):
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__.splitlines()[0]);p.add_argument('--apply',action='store_true')
-    a=p.parse_args(argv);return 1 if run(apply=a.apply).get('floor_failures') else 0
+    a=p.parse_args(argv);return DEGRADED_EXIT if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__=='__main__':sys.exit(main())

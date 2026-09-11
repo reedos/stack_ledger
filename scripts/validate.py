@@ -28,7 +28,11 @@ def require(condition, message):
 def text(value, maximum=500):
     require(isinstance(value,str) and 0<len(value)<=maximum,'Invalid text length/type')
     require(not re.search(r'[<>\x00-\x08\x0b\x0c\x0e-\x1f]',value),'Markup/control characters are not allowed')
-    require(not re.search(r'(?i)(gh[pousr]_[A-Za-z0-9]{15,}|sk-[a-z0-9]{20,}|[a-z]:\\users\\|bearer\s+\S+)',value),'Potential secret or local path')
+    # The registered statistical-API keys (bls, census, eia) matched none of the patterns above, so
+    # a key pasted into any reviewed string would have published. Both shapes one could take are
+    # covered: a query parameter and a JSON field. Measured 2026-09-11 against every string in the
+    # reviewed files: zero false positives.
+    require(not re.search(r'(?i)(gh[pousr]_[A-Za-z0-9]{15,}|sk-[a-z0-9]{20,}|[a-z]:\\users\\|bearer\s+\S+|(api[_-]?key|registrationkey)[\x22\x27\s:=]{1,4}[A-Za-z0-9]{16,}|[?&]key=[A-Za-z0-9]{16,})',value),'Potential secret or local path')
 
 def timestamp(value):
     require(isinstance(value,str),'Timestamp must be a string')

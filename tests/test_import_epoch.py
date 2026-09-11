@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 import import_epoch as ie
+import importer_common
 from validate import observation_valid
 
 
@@ -205,7 +206,9 @@ class EpochPerDatasetIsolationTests(unittest.TestCase):
         stderr=io.StringIO()
         with contextlib.redirect_stderr(stderr):
             code=ie.main(['all','--offline'])
-        self.assertEqual(code,1)
+        # DEGRADED_EXIT (3), not 1: a dead dataset must not make nightly roll back the
+        # datasets that downloaded and applied cleanly.
+        self.assertEqual(code,importer_common.DEGRADED_EXIT)
         self.assertIn('gpu-clusters',stderr.getvalue())
         # the datasets that were fine still got all the way through the run
         self.assertTrue(list(self.snapshots.glob('RECONCILIATION-*.md')),'the companies cross-check never ran')

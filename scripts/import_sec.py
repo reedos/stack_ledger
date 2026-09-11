@@ -37,6 +37,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import research
+from importer_common import DEGRADED_EXIT
+
 from research import load, save, now, require, UA
 import api_access
 
@@ -237,7 +239,7 @@ def run(apply=False):
                 'metrics': sorted(all_metrics), 'records': len(all_obs), 'license': 'Public domain (U.S. government work)'}
     save(SNAPSHOTS/'companyfacts.json', snapshot)
 
-    from importer_common import check_floors, report_drift
+    from importer_common import check_floors, report_drift, DEGRADED_EXIT
     counts = {'companies:ok': sum(1 for c in calls if c['status'] == 'ok'), 'records': len(all_obs)}
     failures = check_floors(ROOT, 'sec', counts)
     drift = report_drift(ROOT, 'sec', all_obs, ledger['observations'])
@@ -269,7 +271,7 @@ def run(apply=False):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
+    a = p.parse_args(argv); return DEGRADED_EXIT if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

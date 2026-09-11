@@ -32,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import research
 from research import load, save, now, require, UA
 import api_access
-from importer_common import apply_changes, redacted_body
+from importer_common import apply_changes, redacted_body, DEGRADED_EXIT
 
 ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOTS = ROOT/'research/grid'
@@ -194,7 +194,7 @@ def run(apply=False):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
+    a = p.parse_args(argv); return DEGRADED_EXIT if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__':

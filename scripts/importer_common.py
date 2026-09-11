@@ -51,6 +51,12 @@ def redacted_body(body):
     return json.dumps(payload).encode('utf-8')
 
 
+# A floor breach is not a crash. The importer has already applied the records the routes that DID
+# work produced, and nightly.run_importer restores research/, site/ and docs/ on any non-zero exit --
+# so exiting 1 here would throw away the good data the importer deliberately kept (2026-09-11).
+DEGRADED_EXIT = 3
+
+
 def reviewed_expectations(root, importer_id):
     """The importer's reviewed floor block from research/importers.json. Absent is an error, never
     a default: without a floor a dead route is indistinguishable from a quiet week (2026-09-11

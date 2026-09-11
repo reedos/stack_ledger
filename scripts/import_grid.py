@@ -25,6 +25,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from research import load, now, require
 from validate import text, timestamp
 
+from importer_common import DEGRADED_EXIT
+
 ROOT = Path(__file__).resolve().parents[1]
 STATUSES = {'needs_reviewed_import', 'imported'}
 
@@ -74,7 +76,7 @@ def run(apply=False):
           f"· sources to register {len(new_sources)}", flush=True)
     for o in waiting:
         print(f"  WAITING {o['id']}: {o['format']} only -- {o['note'][:140]}", flush=True)
-    from importer_common import check_floors
+    from importer_common import check_floors, DEGRADED_EXIT
     failures = check_floors(ROOT, 'grid', {'operators': len(p['operators'])})
     result = {'status': 'failed' if failures else 'ok', 'waiting': [o['id'] for o in waiting], 'imported': [o['id'] for o in imported],
               'sources': new_sources, 'floor_failures': failures}
@@ -89,7 +91,7 @@ def run(apply=False):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
+    a = p.parse_args(argv); return DEGRADED_EXIT if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

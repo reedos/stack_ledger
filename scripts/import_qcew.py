@@ -29,6 +29,8 @@ from urllib.request import Request, build_opener, ProxyHandler
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import research
+from importer_common import DEGRADED_EXIT
+
 from research import load, save, now, require, UA, allowed_url
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -131,7 +133,7 @@ def run(apply=False,today=None):
     snapshot={'dataset':'BLS QCEW open data','source_id':SOURCE_ID,'retrieved_at':retrieved,'industries':INDUSTRIES,'counties':counties,'files':files,'quarters_available':available,'suppressed':all_supp,
               'metrics':sorted(all_metrics),'records':len(all_obs),'license':'Public domain (U.S. government work)'}
     save(SNAPSHOTS/'qcew.json',snapshot)
-    from importer_common import check_floors,report_drift
+    from importer_common import check_floors,report_drift, DEGRADED_EXIT
     counts={'files:ok':sum(1 for f in files if f['status']=='ok'),'rows:kept':sum(f.get('rows_kept',0) for f in files),'records':len(all_obs)}
     failures=check_floors(ROOT,'qcew',counts)
     drift=report_drift(ROOT,'qcew',all_obs,ledger['observations'])
@@ -153,7 +155,7 @@ def run(apply=False,today=None):
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__.splitlines()[0]);p.add_argument('--apply',action='store_true')
-    a=p.parse_args(argv);return 1 if run(apply=a.apply).get('floor_failures') else 0
+    a=p.parse_args(argv);return DEGRADED_EXIT if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__=='__main__':sys.exit(main())

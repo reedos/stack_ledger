@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
 import import_eia as ie
+import importer_common
 import api_access
 import validate_expansion as ve
 from validate import observation_valid
@@ -256,7 +257,9 @@ class CapacityRouteTests(unittest.TestCase):
         self.assertNotIn('retail-price', reasons)
 
     def test_main_exits_non_zero_on_the_dead_route(self):
-        self.assertEqual(ie.main([]), 1)
+        # DEGRADED_EXIT, not 1: nightly rolls back research/, site/ and docs/ on any other non-zero
+        # exit, discarding the records the routes that did answer produced.
+        self.assertEqual(ie.main([]), importer_common.DEGRADED_EXIT)
 
     def test_a_route_that_answers_properly_reports_ok_and_registers_its_metrics(self):
         self.capacity_healthy = True

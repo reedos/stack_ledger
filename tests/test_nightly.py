@@ -26,7 +26,7 @@ mode = sys.argv[1] if len(sys.argv) > 1 else 'ok'
 target = Path('research/imported.json')
 target.parent.mkdir(parents=True, exist_ok=True)
 target.write_text('{"ok": true}', encoding='utf-8')
-sys.exit(0 if mode == 'ok' else 1)
+sys.exit(0 if mode == 'ok' else 3 if mode == 'degraded' else 1)
 """
 
 
@@ -418,6 +418,27 @@ class ImporterGitRollbackTests(unittest.TestCase):
         outcome = nightly.run_importer(self.root, {'id': 'fake', 'command': ['tools/fake_importer.py', 'fail'], 'timeout_seconds': 30})
         self.assertEqual(outcome['status'], 'failed')
         self.assertEqual(git(self.root, 'status', '--porcelain').stdout.strip(), '')
+        self.assertFalse((self.root/'research/imported.json').exists())
+
+    def test_a_reviewed_floor_breach_keeps_the_records_that_did_land(self):
+        """An importer that applied what its working routes produced and then reported a dead route
+        exits 3, not 1. Exiting 1 made nightly restore research/, site/ and docs/, throwing away
+        exactly the records the importer kept on purpose. EIA's capacity route is dead and EIA runs
+        on Saturdays, so this would have discarded a whole night of EIA data (2026-09-11)."""
+        outcome = nightly.run_importer(self.root, {'id': 'fake', 'command': ['tools/fake_importer.py', 'degraded'], 'timeout_seconds': 30})
+        self.assertEqual(outcome['status'], 'degraded')
+        self.assertTrue(outcome['committed'], 'the records that landed are committed like any other')
+        self.assertTrue((self.root/'research/imported.json').exists(), 'the good data must survive')
+        self.assertEqual(git(self.root, 'status', '--porcelain').stdout.strip(), '')
+
+    def test_a_degraded_importer_leaves_the_stage_partial_rather_than_failed(self):
+        from unittest.mock import patch
+        with patch.object(nightly, 'due_importers', return_value=[{'id': 'a', 'command': ['x'], 'timeout_seconds': 1}]),              patch.object(nightly, 'validate_importers', return_value={}),              patch.object(nightly, 'run_importer', return_value={'id': 'a', 'status': 'degraded', 'committed': False}):
+            self.assertEqual(nightly.stage_importers(self.root, 60)['status'], 'partial')
+
+    def test_a_real_failure_still_rolls_the_tree_back(self):
+        outcome = nightly.run_importer(self.root, {'id': 'fake', 'command': ['tools/fake_importer.py', 'fail'], 'timeout_seconds': 30})
+        self.assertEqual(outcome['status'], 'failed')
         self.assertFalse((self.root/'research/imported.json').exists())
 
     def test_no_changes_is_ok_without_a_commit(self):

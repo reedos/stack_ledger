@@ -35,6 +35,7 @@ from urllib.request import Request, build_opener, ProxyHandler
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import research
+from importer_common import DEGRADED_EXIT
 from research import load, save, now, require, digest, UA, allowed_url
 from validate import observation_valid
 
@@ -785,7 +786,7 @@ def main(argv=None):
                 print(f"registered source {d['source_id']}",flush=True)
             registry=load(ROOT/'research/sources.json');ledger=load(ROOT/'site/data/ledger.json');catalog=load(ROOT/'research/catalog.json')
         print('catalog, registry and ledger updated; site rebuilt',flush=True)
-    return 1 if failures else 0
+    return DEGRADED_EXIT if failures else 0
 
 
 if __name__=='__main__':sys.exit(main())

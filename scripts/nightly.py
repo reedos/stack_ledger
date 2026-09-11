@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import importer_common
 from atomic_json import save
 from validate import validate_importers
 
@@ -166,7 +167,11 @@ def run_importer(root, imp):
         restore_importer_paths(root)
         return {'id': imp['id'], 'status': 'failed', 'error': 'timeout', 'timeout_seconds': imp['timeout_seconds']}
     outcome = {'id': imp['id'], 'returncode': result.returncode, 'stdout_tail': result.stdout[-3000:], 'stderr_tail': result.stderr[-2000:]}
-    if result.returncode != 0:
+    # Exit 3 means the importer applied what the working routes produced and then reported a
+    # reviewed floor breach. Restoring here would discard exactly the records it kept on purpose,
+    # so the changes stand and the stage says the route is gone (2026-09-11).
+    degraded = result.returncode == importer_common.DEGRADED_EXIT
+    if result.returncode != 0 and not degraded:
         restore_importer_paths(root)
         outcome['status'] = 'failed'
         return outcome
@@ -176,14 +181,14 @@ def run_importer(root, imp):
         outcome['status'] = 'failed'; outcome['error'] = 'git status failed: '+str(e)[:200]
         return outcome
     if not changed:
-        outcome['status'] = 'ok'; outcome['committed'] = False
+        outcome['status'] = 'degraded' if degraded else 'ok'; outcome['committed'] = False
         return outcome
     try:
         subprocess.run(['git', 'add', '--', *changed], cwd=root, check=True, capture_output=True, text=True, timeout=60)
         summary = next((line for line in reversed(outcome['stdout_tail'].strip().splitlines()) if line.strip()), 'update')[:200]
         subprocess.run(['git', 'commit', '-m', f"nightly(import:{imp['id']}): {summary}"], cwd=root, check=True, capture_output=True, text=True, timeout=60)
         head = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=root, check=True, capture_output=True, text=True, timeout=30).stdout.strip()
-        outcome.update(status='ok', committed=True, commit=head, changed_paths=changed)
+        outcome.update(status='degraded' if degraded else 'ok', committed=True, commit=head, changed_paths=changed)
     except subprocess.CalledProcessError as e:
         restore_importer_paths(root)
         outcome['status'] = 'failed'; outcome['error'] = 'git commit failed: '+str(e.stderr or e)[:300]
@@ -200,7 +205,13 @@ def stage_importers(root, soft_budget_seconds):
             continue
         results.append(run_importer(root, imp))
     statuses = {r['status'] for r in results}
-    status = 'ok' if not due or statuses == {'ok'} else ('skipped' if statuses <= {'skipped'} else ('partial' if 'ok' in statuses else 'failed'))
+    # 'degraded' is an importer that applied what its working routes produced and then reported a
+    # reviewed floor breach. It worked, partly, so it reads as partial rather than failed: calling
+    # the stage failed would hide the records that did land (2026-09-11).
+    worked = statuses & {'ok', 'degraded'}
+    status = ('ok' if not due or statuses == {'ok'}
+              else 'skipped' if statuses <= {'skipped'}
+              else 'partial' if worked else 'failed')
     push = push_origin(root) if any(r.get('committed') for r in results) else None
     if push and not push['pushed'] and status == 'ok': status = 'partial'   # commits are local until the next push succeeds
     return {'status': status, 'due': [i['id'] for i in due], 'results': results, 'push': push}
