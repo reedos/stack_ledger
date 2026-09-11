@@ -268,6 +268,11 @@ def validate(data):
         # present, it must be an explicit bool, never a truthy/falsy stand-in.
         if 'refresh_expected' in m:
             require(type(m['refresh_expected']) is bool,'Invalid refresh_expected flag')
+        # How long after a period closes this publisher actually reports it. Reviewed per metric
+        # because the default is a rule of thumb: Census QWI lands a quarter about eight months
+        # late, and the 120-day default called ~120 of its metrics overdue months early.
+        if 'publication_lag_days' in m:
+            require(type(m['publication_lag_days']) is int and 0<m['publication_lag_days']<=1000,'Invalid publication lag')
     ids=set(); periods=set()
     from source_policy import collection_for, grade_for
     # Company records let an evidence-only citation be graded by its publisher rather than by a

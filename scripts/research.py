@@ -169,7 +169,13 @@ def next_reading_possible(metric,observation):
     """
     basis=metric.get('period_basis')
     period=str(observation.get('period') or '')
-    lag=timedelta(days=PUBLICATION_LAG_DAYS.get(basis,DEFAULT_PUBLICATION_LAG_DAYS))
+    # A reviewed per-metric lag wins: these defaults are a rule of thumb and some publishers are
+    # far slower. Census QWI lands a quarter about eight months late, so the 120-day default put
+    # ~120 of its metrics on the overdue list months before Census could possibly have published
+    # them (measured 2026-09-12).
+    reviewed=metric.get('publication_lag_days')
+    lag=timedelta(days=reviewed if isinstance(reviewed,int) and reviewed>0
+                  else PUBLICATION_LAG_DAYS.get(basis,DEFAULT_PUBLICATION_LAG_DAYS))
     if basis=='month' and re.fullmatch(r'\d{4}-\d{2}',period):
         year,month=int(period[:4]),int(period[5:7])
         year,month=(year+1,1) if month==12 else (year,month+1)

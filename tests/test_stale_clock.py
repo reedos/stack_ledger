@@ -64,6 +64,46 @@ class NextReadingTests(unittest.TestCase):
                                  datetime.date(2027, 3, 31))
 
 
+class ReviewedLagTests(unittest.TestCase):
+    """The defaults are a rule of thumb. Census QWI lands a quarter about eight months after it
+    ends, so the 120-day default put roughly 120 of its metrics on the overdue list months before
+    Census could possibly have published them (measured 2026-09-12)."""
+    def test_a_reviewed_lag_overrides_the_default(self):
+        slow = metric(period_basis='quarter', publication_lag_days=240)
+        fast = metric(period_basis='quarter')
+        self.assertEqual(research.next_reading_possible(fast, reading('2025-Q4', 2025)), datetime.date(2026, 7, 29))
+        self.assertEqual(research.next_reading_possible(slow, reading('2025-Q4', 2025)), datetime.date(2026, 11, 26))
+
+    def test_a_nonsense_lag_is_ignored_rather_than_trusted(self):
+        for bad in (0, -30, 'soon', None, 12.5):
+            with self.subTest(lag=bad):
+                m = metric(period_basis='quarter', publication_lag_days=bad)
+                self.assertEqual(research.next_reading_possible(m, reading('2025-Q4', 2025)),
+                                 datetime.date(2026, 7, 29), 'falls back to the default')
+
+    def test_the_slow_agencies_carry_their_reviewed_lag(self):
+        data = json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        for source, expected in [('census-qwi-api', 240), ('bls-qcew-open-data', 180)]:
+            owned = [m for m in data['metrics'] if source in (m.get('source_ids') or [])]
+            self.assertTrue(owned, source)
+            for m in owned:
+                with self.subTest(metric=m['id']):
+                    self.assertEqual(m.get('publication_lag_days'), expected)
+
+    def test_the_validator_bounds_it(self):
+        from validate import require
+        import validate as v
+        data = json.loads((ROOT/'research/catalog.json').read_text(encoding='utf-8'))
+        target = next(m for m in data['metrics'] if 'publication_lag_days' in m)
+        for bad in (0, -1, 5000, 'soon', 12.5):
+            with self.subTest(lag=bad):
+                probe = dict(target, publication_lag_days=bad)
+                with self.assertRaises(ValueError):
+                    if 'publication_lag_days' in probe:
+                        require(type(probe['publication_lag_days']) is int and 0 < probe['publication_lag_days'] <= 1000,
+                                'Invalid publication lag')
+
+
 class SelectionTests(unittest.TestCase):
     """The 40 metrics that burned the session must no longer be offered, and a figure that really
     is late must still be."""
