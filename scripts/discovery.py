@@ -389,7 +389,7 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
                         from research import ollama
                         source={'id':'proposed-'+body_hash[:16],'publisher':urlparse(lead['url']).hostname,
                             'title':result['finding']['subject'],'url':lead['url'],'published':published,
-                            'layers':[result['finding']['layer']],'license':'Public source; paraphrase and attribute.'}
+                            'layers':[result['finding']['layer']],'license':'Public source; paraphrase and attribute.','provenance':'news'}
                         bounded=dict(config,model_timeout_seconds=max(1,min(config['model_timeout_seconds'],int(deadline-time.monotonic()))))
                         draft(root,bounded,source,body,{'id':rid,'title':result['finding']['subject'],
                             'summary':result['finding']['claim']},receipt,ollama)

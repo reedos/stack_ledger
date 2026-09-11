@@ -10,7 +10,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "official"
     },
     {
       "id": "iea-2025",
@@ -21,7 +22,8 @@
       "layers": [
         "energy"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "official"
     },
     {
       "id": "stanford-2026",
@@ -34,7 +36,8 @@
         "applications",
         "infrastructure"
       ],
-      "license": "Original source rights apply"
+      "license": "Original source rights apply",
+      "provenance": "independent-research"
     },
     {
       "id": "stanford-2025",
@@ -46,7 +49,8 @@
         "applications",
         "models"
       ],
-      "license": "Original source rights apply"
+      "license": "Original source rights apply",
+      "provenance": "independent-research"
     },
     {
       "id": "stanford-cost",
@@ -57,7 +61,8 @@
       "layers": [
         "models"
       ],
-      "license": "Original source rights apply"
+      "license": "Original source rights apply",
+      "provenance": "independent-research"
     },
     {
       "id": "doe-demand",
@@ -68,7 +73,8 @@
       "layers": [
         "energy"
       ],
-      "license": "See original source"
+      "license": "See original source",
+      "provenance": "official"
     },
     {
       "id": "doe-nuclear",
@@ -79,7 +85,8 @@
       "layers": [
         "energy"
       ],
-      "license": "See original source"
+      "license": "See original source",
+      "provenance": "official"
     },
     {
       "id": "tsmc-2025",
@@ -90,7 +97,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Original source rights apply"
+      "license": "Original source rights apply",
+      "provenance": "regulated-filing"
     },
     {
       "id": "msft-wisconsin",
@@ -101,7 +109,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Original source rights apply"
+      "license": "Original source rights apply",
+      "provenance": "company-channel"
     },
     {
       "id": "nvidia-framework",
@@ -110,7 +119,8 @@
       "url": "https://blogs.nvidia.com/blog/ai-5-layer-cake/",
       "published": "2026-03-10",
       "layers": [],
-      "license": "Original source rights apply"
+      "license": "Original source rights apply",
+      "provenance": "company-channel"
     },
     {
       "id": "doe-news",
@@ -122,7 +132,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "official"
     },
     {
       "id": "nvidia-news",
@@ -135,7 +146,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "microsoft-news",
@@ -148,7 +160,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "google-research",
@@ -161,7 +174,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "stanford-news",
@@ -174,7 +188,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "independent-research"
     },
     {
       "id": "company-nextera",
@@ -185,7 +200,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-ge-vernova",
@@ -196,7 +212,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-schneider",
@@ -208,7 +225,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-nvidia",
@@ -220,7 +238,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-amd",
@@ -231,7 +250,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-broadcom",
@@ -243,7 +263,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-tsmc",
@@ -254,7 +275,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "company-samsung",
@@ -265,7 +287,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-intel",
@@ -276,7 +299,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "company-sk-hynix",
@@ -287,7 +311,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-micron",
@@ -298,7 +323,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-asml",
@@ -309,7 +335,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-vertiv",
@@ -320,7 +347,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-microsoft",
@@ -333,7 +361,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-aws",
@@ -346,7 +375,8 @@
         "chips",
         "models"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-alphabet",
@@ -360,7 +390,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "company-meta",
@@ -372,7 +403,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-openai",
@@ -384,7 +416,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-anthropic",
@@ -396,7 +429,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-salesforce",
@@ -407,7 +441,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-palantir",
@@ -418,7 +453,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "semi-advanced-2025",
@@ -429,7 +465,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "semi-memory-2026",
@@ -440,7 +477,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "tsmc-arizona",
@@ -451,7 +489,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "micron-ny-2026",
@@ -462,7 +501,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "ge-us-jobs-2025",
@@ -473,7 +513,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "bls-aug-2026",
@@ -488,7 +529,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "eia-additions-2026",
@@ -499,7 +541,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "lbl-queues-2026",
@@ -510,7 +553,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "gemini-operating",
@@ -521,7 +565,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "chpe-operating",
@@ -532,7 +577,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "fervo-q2-2026",
@@ -543,7 +589,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "crane-plan-2024",
@@ -554,7 +601,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "crane-q2-2026",
@@ -565,7 +613,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "fairwater-operating",
@@ -576,7 +625,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "aws-delivery-2026",
@@ -588,7 +638,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "abilene-plan-2025",
@@ -599,7 +650,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "stargate-delivery-2026",
@@ -610,7 +662,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "hyperion-plan-2026",
@@ -622,7 +675,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "metr-horizons-2026",
@@ -633,7 +687,8 @@
       "layers": [
         "models"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "mlperf-inference-2026",
@@ -645,7 +700,8 @@
         "chips",
         "models"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "alphagenome-research",
@@ -657,7 +713,8 @@
         "applications",
         "models"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "productivity-field-study",
@@ -668,7 +725,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "samsung-hbm4-shipping",
@@ -679,7 +737,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "amkor-arizona-2026",
@@ -690,7 +749,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "eia-output-aug-2026",
@@ -701,7 +761,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "inference-price-research-2026",
@@ -712,7 +773,8 @@
       "layers": [
         "models"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "ercot-queue-review-2026",
@@ -724,7 +786,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "marvell-optics",
@@ -736,7 +799,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "marvell-celestial",
@@ -748,7 +812,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "credo-dsp",
@@ -760,7 +825,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "broadcom-cpo",
@@ -772,7 +838,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "coherent-cpo",
@@ -784,7 +851,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "lumentum-cpo",
@@ -796,7 +864,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "cisco-silicon",
@@ -808,7 +877,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "cisco-optics",
@@ -820,7 +890,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "amphenol-interconnect",
@@ -831,7 +902,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "corning-meta",
@@ -842,7 +914,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "lightmatter-passage",
@@ -854,7 +927,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "ayar-optics",
@@ -866,7 +940,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "innolight-modules",
@@ -877,7 +952,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "eoptolink-modules",
@@ -888,7 +964,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "bls-electricians-2026",
@@ -900,7 +977,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "ibew-datacenters",
@@ -911,7 +989,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "wh-aug-jobs-2026",
@@ -922,7 +1001,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "eaton-transformers",
@@ -934,7 +1014,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "firstsolar-louisiana",
@@ -946,7 +1027,8 @@
         "energy",
         "applications"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "qcells-cartersville",
@@ -957,7 +1039,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "qcells-investment",
@@ -968,7 +1051,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-marvell",
@@ -980,7 +1064,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-credo",
@@ -992,7 +1077,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-astera",
@@ -1004,7 +1090,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-coherent",
@@ -1016,7 +1103,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-lumentum",
@@ -1028,7 +1116,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-applied-opto",
@@ -1040,7 +1129,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-fabrinet",
@@ -1051,7 +1141,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-corning",
@@ -1062,7 +1153,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-amphenol",
@@ -1073,7 +1165,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-arista",
@@ -1084,7 +1177,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-cisco",
@@ -1096,7 +1190,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-celestica",
@@ -1107,7 +1202,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-eaton",
@@ -1119,7 +1215,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-quanta",
@@ -1131,7 +1228,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-emcor",
@@ -1142,7 +1240,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-first-solar",
@@ -1153,7 +1252,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-ciena",
@@ -1165,7 +1265,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "ciena-optics",
@@ -1177,7 +1278,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-semtech",
@@ -1189,7 +1291,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "semtech-optics",
@@ -1201,7 +1304,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "company-macom",
@@ -1213,7 +1317,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "macom-optics",
@@ -1225,7 +1330,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Source material retains original rights"
+      "license": "Source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "spacex-terafab-2026",
@@ -1238,7 +1344,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "texas-terafab-2026",
@@ -1249,7 +1356,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "tesla-q2-2026",
@@ -1263,7 +1371,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "tesla-fsd-safety",
@@ -1274,7 +1383,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "waymo-q1-2026",
@@ -1286,7 +1396,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "waymo-rider-only-2026",
@@ -1297,7 +1408,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "waymo-fleet-2025",
@@ -1308,7 +1420,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "waymo-growth-2026",
@@ -1319,7 +1432,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "anthropic-colossus-contract",
@@ -1331,7 +1445,8 @@
         "infrastructure",
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "mlgw-may-2025",
@@ -1343,7 +1458,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "colossus-southaven-complaint",
@@ -1355,7 +1471,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "epoch-colossus-1",
@@ -1366,7 +1483,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-colossus-2",
@@ -1377,7 +1495,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-openai-stargate-abilene",
@@ -1388,7 +1507,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-anthropic-amazon-new-carlisle",
@@ -1399,7 +1519,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-microsoft-fairwater-wisconsin",
@@ -1410,7 +1531,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-openai-stargate-new-mexico",
@@ -1421,7 +1543,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-openai-stargate-wisconsin",
@@ -1432,7 +1555,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-openai-stargate-michigan",
@@ -1443,7 +1567,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-openai-stargate-shackelford",
@@ -1454,7 +1579,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-openai-stargate-milam",
@@ -1465,7 +1591,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-components-method",
@@ -1476,7 +1603,8 @@
       "layers": [
         "chips"
       ],
-      "license": "CC BY; attributed dataset estimates"
+      "license": "CC BY; attributed dataset estimates",
+      "provenance": "independent-research"
     },
     {
       "id": "hynix-indiana-2026",
@@ -1487,7 +1615,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "hynix-indiana-plan",
@@ -1498,7 +1627,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "amkor-arizona-2025",
@@ -1509,7 +1639,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "intel-ohio-delay",
@@ -1520,7 +1651,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "intel-fab52-18a",
@@ -1531,7 +1663,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "samsung-taylor-schedule",
@@ -1542,7 +1675,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "sonnet46-launch",
@@ -1553,7 +1687,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "codex53-pricing",
@@ -1564,7 +1699,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "codex-product-plans",
@@ -1575,7 +1711,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "agility-gxo-totes",
@@ -1586,7 +1723,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "agility-commercial-2026",
@@ -1597,7 +1735,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "coreweave-fy2025",
@@ -1608,7 +1747,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "nebius-msft-contract",
@@ -1619,7 +1759,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "supermicro-fy2026",
@@ -1630,7 +1771,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "openai-stargate-sites",
@@ -1641,7 +1783,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "openai-stargate-michigan",
@@ -1652,7 +1795,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "dell-role",
@@ -1663,7 +1807,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "foxconn-role",
@@ -1674,7 +1819,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "quanta-computer-role",
@@ -1685,7 +1831,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "wiwynn-role",
@@ -1696,7 +1843,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "nvent-role",
@@ -1707,7 +1855,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "coolit-role",
@@ -1718,7 +1867,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "johnson-controls-role",
@@ -1729,7 +1879,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "spacexai-power-july",
@@ -1741,7 +1892,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "southaven-stateline-permit",
@@ -1752,7 +1904,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "spacex-prospectus-2026",
@@ -1763,7 +1916,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "chatgpt-agent-product",
@@ -1775,7 +1929,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "gemini-agent-product",
@@ -1787,7 +1942,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "github-copilot-product",
@@ -1799,7 +1955,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "cursor-product",
@@ -1811,7 +1968,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "devin-product",
@@ -1823,7 +1981,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "windsurf-product",
@@ -1835,7 +1994,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "openclaw-product",
@@ -1847,7 +2007,8 @@
         "models",
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "nebius-msft-6k-2025",
@@ -1858,7 +2019,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public filing; original material retains its rights"
+      "license": "Attributed public filing; original material retains its rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "waymo-paid-march-2026",
@@ -1869,7 +2031,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "social"
     },
     {
       "id": "waymo-paid-march-post",
@@ -1880,7 +2043,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "waymo-end2026-target",
@@ -1891,7 +2055,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "tesla-cybercab-speech-2026",
@@ -1902,7 +2067,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "social"
     },
     {
       "id": "census-dc-saar-july2026",
@@ -1913,7 +2079,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "indeed-dc-hiring-2026",
@@ -1924,7 +2091,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "google-eta-training",
@@ -1936,7 +2104,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "meta-awa-funding",
@@ -1947,7 +2116,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "meta-awa-graduates",
@@ -1958,7 +2128,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "turner-jeffersonville",
@@ -1969,7 +2140,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "mortenson-richland",
@@ -1980,7 +2152,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "talen-amazon-ppa-2025",
@@ -1991,7 +2164,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "google-kairos-2024",
@@ -2002,7 +2176,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "sk-hynix-hbm4-ready",
@@ -2013,7 +2188,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "micron-hbm4-production",
@@ -2024,7 +2200,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "marvell-cpo-architecture",
@@ -2036,7 +2213,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "claude-harness-pricing",
@@ -2047,7 +2225,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "cursor-harness-pricing",
@@ -2058,7 +2237,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "copilot-harness-pricing",
@@ -2069,7 +2249,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "deepseek-r1-license",
@@ -2080,7 +2261,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "qwen3-32b-license",
@@ -2091,7 +2273,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "merck-interpath001-phase3",
@@ -2102,7 +2285,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "ecmwf-aifs-operations",
@@ -2113,7 +2297,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "neso-source-book",
@@ -2125,7 +2310,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "official"
     },
     {
       "id": "marvell-ir-book",
@@ -2137,7 +2323,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "gemini-cli-repository",
@@ -2148,7 +2335,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "recursion-tupelo-dec2025",
@@ -2159,7 +2347,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "isomorphic-may2026",
@@ -2170,7 +2359,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "eia-generation-history-2024",
@@ -2181,7 +2371,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "bls-electricians-may-2019",
@@ -2192,7 +2383,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "bls-electricians-may-2020",
@@ -2203,7 +2395,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "bls-electricians-may-2021",
@@ -2214,7 +2407,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "bls-electricians-may-2022",
@@ -2225,7 +2419,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "bls-electricians-may-2023",
@@ -2236,7 +2431,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "bls-oews-method-2021",
@@ -2247,7 +2443,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "tsmc-annual-history-2019",
@@ -2258,7 +2455,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "tsmc-annual-history-2021",
@@ -2269,7 +2467,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "tsmc-annual-history-2022",
@@ -2280,7 +2479,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "tsmc-annual-history-2023",
@@ -2291,7 +2491,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "tsmc-annual-history-2024",
@@ -2302,7 +2503,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "regulated-filing"
     },
     {
       "id": "iea-demand-scenarios-2025",
@@ -2313,7 +2515,8 @@
       "layers": [
         "energy"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "official"
     },
     {
       "id": "eia-steo-aug2026-generation",
@@ -2324,7 +2527,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "eia-aeo2026-generation",
@@ -2335,7 +2539,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "anthropic-opus5",
@@ -2346,7 +2551,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "anthropic-fable5",
@@ -2357,7 +2563,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "anthropic-fable51",
@@ -2368,7 +2575,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "anthropic-fable-current",
@@ -2379,7 +2587,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "openai-astra-model",
@@ -2390,7 +2599,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "openai-current-model-access",
@@ -2401,7 +2611,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "claude-max-plan-guide",
@@ -2412,7 +2623,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "grok46-api-model",
@@ -2423,7 +2635,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "grok46-launch",
@@ -2434,7 +2647,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "grok-current-plans",
@@ -2445,7 +2659,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "grok-bot-overview",
@@ -2456,7 +2671,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "grok-bot-plan-expansion",
@@ -2467,7 +2683,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "grok-release-notes",
@@ -2478,7 +2695,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "claude-current-api-pricing",
@@ -2489,7 +2707,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "finance-nvidia-consensus-20260907",
@@ -2501,7 +2720,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-amd-consensus-20260907",
@@ -2512,7 +2732,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-broadcom-consensus-20260907",
@@ -2524,7 +2745,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-microsoft-consensus-20260907",
@@ -2537,7 +2759,8 @@
         "models",
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-alphabet-consensus-20260907",
@@ -2551,7 +2774,8 @@
         "models",
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-meta-consensus-20260907",
@@ -2563,7 +2787,8 @@
         "models",
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-tsmc-consensus-20260907",
@@ -2574,7 +2799,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-nextera-consensus-20260907",
@@ -2585,7 +2811,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-ge-vernova-consensus-20260907",
@@ -2596,7 +2823,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-intel-consensus-20260907",
@@ -2607,7 +2835,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-micron-consensus-20260907",
@@ -2618,7 +2847,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-vertiv-consensus-20260907",
@@ -2629,7 +2859,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-salesforce-consensus-20260907",
@@ -2640,7 +2871,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-palantir-consensus-20260907",
@@ -2651,7 +2883,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-marvell-consensus-20260907",
@@ -2663,7 +2896,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-credo-consensus-20260907",
@@ -2675,7 +2909,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-astera-consensus-20260907",
@@ -2687,7 +2922,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-coherent-consensus-20260907",
@@ -2699,7 +2935,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-lumentum-consensus-20260907",
@@ -2711,7 +2948,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-applied-opto-consensus-20260907",
@@ -2723,7 +2961,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-fabrinet-consensus-20260907",
@@ -2734,7 +2973,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-corning-consensus-20260907",
@@ -2745,7 +2985,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-amphenol-consensus-20260907",
@@ -2756,7 +2997,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-arista-consensus-20260907",
@@ -2767,7 +3009,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-cisco-consensus-20260907",
@@ -2779,7 +3022,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-celestica-consensus-20260907",
@@ -2790,7 +3034,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-eaton-consensus-20260907",
@@ -2802,7 +3047,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-quanta-consensus-20260907",
@@ -2814,7 +3060,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-emcor-consensus-20260907",
@@ -2825,7 +3072,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-first-solar-consensus-20260907",
@@ -2836,7 +3084,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-ciena-consensus-20260907",
@@ -2848,7 +3097,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-semtech-consensus-20260907",
@@ -2860,7 +3110,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-macom-consensus-20260907",
@@ -2872,7 +3123,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-tesla-consensus-20260907",
@@ -2885,7 +3137,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-oracle-consensus-20260907",
@@ -2896,7 +3149,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-coreweave-consensus-20260907",
@@ -2907,7 +3161,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-nebius-consensus-20260907",
@@ -2918,7 +3173,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-amkor-consensus-20260907",
@@ -2929,7 +3185,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-supermicro-consensus-20260907",
@@ -2940,7 +3197,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-constellation-consensus-20260907",
@@ -2951,7 +3209,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-dell-consensus-20260907",
@@ -2962,7 +3221,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-nvent-consensus-20260907",
@@ -2973,7 +3233,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-johnson-controls-consensus-20260907",
@@ -2984,7 +3245,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-merck-consensus-20260907",
@@ -2995,7 +3257,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-moderna-consensus-20260907",
@@ -3006,7 +3269,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-alibaba-consensus-20260907",
@@ -3018,7 +3282,8 @@
         "models",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-recursion-consensus-20260907",
@@ -3029,7 +3294,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-asml-consensus-20260907",
@@ -3040,7 +3306,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-samsung-consensus-20260907",
@@ -3051,7 +3318,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-sk-hynix-consensus-20260907",
@@ -3062,7 +3330,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-schneider-consensus-20260907",
@@ -3074,7 +3343,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-foxconn-consensus-20260907",
@@ -3085,7 +3355,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-quanta-computer-consensus-20260907",
@@ -3096,7 +3367,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-wiwynn-consensus-20260907",
@@ -3107,7 +3379,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-softbank-consensus-20260907",
@@ -3118,7 +3391,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-innolight-consensus-20260907",
@@ -3129,7 +3403,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "finance-eoptolink-consensus-20260907",
@@ -3140,7 +3415,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "analyst"
     },
     {
       "id": "asml-2030-revenue-scenario",
@@ -3151,7 +3427,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "company-channel"
     },
     {
       "id": "aws-annual-history-2024",
@@ -3164,7 +3441,8 @@
         "chips",
         "models"
       ],
-      "license": "Public financial facts; linked paraphrase and numeric extraction only."
+      "license": "Public financial facts; linked paraphrase and numeric extraction only.",
+      "provenance": "company-channel"
     },
     {
       "id": "eia-aeo2026-high-growth",
@@ -3175,7 +3453,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "official"
     },
     {
       "id": "iihs-waymo-crash-2026",
@@ -3186,7 +3465,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "independent-research"
     },
     {
       "id": "github-copilot-reviews-2026",
@@ -3197,7 +3477,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-mistral",
@@ -3208,7 +3489,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-cohere",
@@ -3219,7 +3501,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-ibm",
@@ -3230,7 +3513,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-arm",
@@ -3241,7 +3525,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-applied-materials",
@@ -3252,7 +3537,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-lam-research",
@@ -3263,7 +3549,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-synopsys",
@@ -3274,7 +3561,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-cadence",
@@ -3285,7 +3573,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-siemens-energy",
@@ -3296,7 +3585,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-microsoft",
@@ -3307,7 +3597,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-aws",
@@ -3318,7 +3609,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-meta",
@@ -3329,7 +3621,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-spacexai",
@@ -3340,7 +3633,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-moonshot",
@@ -3351,7 +3645,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-minimax",
@@ -3362,7 +3657,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-z-ai",
@@ -3373,7 +3669,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "builder-role-nvidia",
@@ -3384,7 +3681,8 @@
       "layers": [
         "models"
       ],
-      "license": "Attributed public facts; source material retains original rights"
+      "license": "Attributed public facts; source material retains original rights",
+      "provenance": "company-channel"
     },
     {
       "id": "claims-jlarc",
@@ -3397,7 +3695,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-loudoun-story",
@@ -3410,7 +3709,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-loudoun-tax",
@@ -3423,7 +3723,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-ohio",
@@ -3436,7 +3737,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-dallas",
@@ -3449,7 +3751,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-doe",
@@ -3462,7 +3765,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-ms-water",
@@ -3475,7 +3779,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "claims-iea-supply",
@@ -3488,7 +3793,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "official"
     },
     {
       "id": "claims-stanford-labor",
@@ -3501,7 +3807,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "claims-bls-aug",
@@ -3514,7 +3821,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-metr-study",
@@ -3527,7 +3835,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "claims-metr-update",
@@ -3540,7 +3849,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "claims-biznews",
@@ -3553,7 +3863,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "news"
     },
     {
       "id": "claims-bls-projections",
@@ -3565,7 +3876,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-linkedin",
@@ -3577,7 +3889,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "claims-challenger",
@@ -3588,7 +3901,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "analyst"
     },
     {
       "id": "water-almond",
@@ -3600,7 +3914,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "water-altman",
@@ -3612,7 +3927,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "social"
     },
     {
       "id": "water-lbnl",
@@ -3624,7 +3940,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "water-golf",
@@ -3636,7 +3953,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "claims-e3",
@@ -3648,7 +3966,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "analyst"
     },
     {
       "id": "claims-ferc-rosner",
@@ -3660,7 +3979,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-ferc-facts",
@@ -3672,7 +3992,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-scc",
@@ -3684,7 +4005,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "loudoun-adopted-2027",
@@ -3695,7 +4017,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "diagram-asml",
@@ -3706,7 +4029,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "diagram-factory",
@@ -3717,7 +4041,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "diagram-agents",
@@ -3729,7 +4054,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "alphafold-nobel",
@@ -3741,7 +4067,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "alphafold-db",
@@ -3753,7 +4080,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "alphafold-taar1",
@@ -3765,7 +4093,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "alphafold-three",
@@ -3777,7 +4106,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "claims-nyfed-ai-work",
@@ -3788,7 +4118,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "official"
     },
     {
       "id": "claims-yale-labor",
@@ -3799,7 +4130,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "open-hf-hub",
@@ -3811,7 +4143,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "open-hf-smollm",
@@ -3822,7 +4155,8 @@
       "layers": [
         "models"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "open-ai2-docs",
@@ -3833,7 +4167,8 @@
       "layers": [
         "models"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "physical-omniverse",
@@ -3845,7 +4180,8 @@
         "infrastructure",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "physical-cosmos-three",
@@ -3857,7 +4193,8 @@
         "models",
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "physical-omniverse-license",
@@ -3868,7 +4205,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "micro1-trade-training",
@@ -3881,7 +4219,8 @@
         "applications",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "micro1-opportunities",
@@ -3895,7 +4234,8 @@
         "infrastructure"
       ],
       "license": "Source material retains its original rights; facts paraphrased with attribution.",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "micro1-generalist",
@@ -3908,7 +4248,8 @@
         "applications",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "micro1-video-annotation",
@@ -3921,7 +4262,8 @@
         "applications",
         "infrastructure"
       ],
-      "license": "Source material retains its original rights; facts paraphrased with attribution."
+      "license": "Source material retains its original rights; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-marvell-optics-20260312",
@@ -3933,7 +4275,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-marvell-memory-20260804",
@@ -3945,7 +4288,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-marvell-t100-20260601",
@@ -3957,7 +4301,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-marvell-coherent-20260305",
@@ -3969,7 +4314,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-astera-q2-20260804",
@@ -3981,7 +4327,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-broadcom-th6-20260312",
@@ -3993,7 +4340,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-lumentum-ofc-20260317",
@@ -4005,7 +4353,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-credo-span",
@@ -4017,7 +4366,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-palisades-20260830",
@@ -4028,7 +4378,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-hermes2-20260417",
@@ -4039,7 +4390,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-natrium-permit-20260304",
@@ -4050,7 +4402,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-ormat-google-20260217",
@@ -4061,7 +4414,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-fervo-red-20231128",
@@ -4072,7 +4426,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-meta-temple-20260722",
@@ -4083,7 +4438,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-aws-louisiana-20260818",
@@ -4095,7 +4451,8 @@
         "infrastructure",
         "energy"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-google-pineisland-20260224",
@@ -4107,7 +4464,8 @@
         "infrastructure",
         "energy"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-meta-tulsa-20260421",
@@ -4118,7 +4476,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-meta-sturgeon-20260708",
@@ -4129,7 +4488,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-micron-ny-20260709",
@@ -4140,7 +4500,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-hynix-fabs-20260807",
@@ -4151,7 +4512,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-micron-singapore-20250108",
@@ -4162,7 +4524,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-nebius-finland-20260331",
@@ -4173,7 +4536,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-coreweave-lancaster-20250715",
@@ -4184,7 +4548,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-microchip-retimers-20260602",
@@ -4196,7 +4561,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-samtec-cpx-20260324",
@@ -4208,7 +4574,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-seagate-mozaic4-20260303",
@@ -4219,7 +4586,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-rambus-hbm4e-20260304",
@@ -4230,7 +4598,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-tel-prexa-20260416",
@@ -4241,7 +4610,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-hitachi-800v-20251013",
@@ -4253,7 +4623,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-ddn-rubin-20260105",
@@ -4264,7 +4635,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-netapp-afx",
@@ -4275,7 +4647,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-nvidia-rubin-20260531",
@@ -4287,7 +4660,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-amd-q2-20260804",
@@ -4299,7 +4673,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "astra-cisco-g300-20260210",
@@ -4311,7 +4686,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-seagate-2026",
@@ -4323,7 +4699,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-seagate-2025",
@@ -4335,7 +4712,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-seagate-2023",
@@ -4347,7 +4725,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-seagate-2022",
@@ -4359,7 +4738,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-netapp-2026",
@@ -4371,7 +4751,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-netapp-2024",
@@ -4383,7 +4764,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-netapp-2027-outlook",
@@ -4395,7 +4777,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-rambus-2025",
@@ -4407,7 +4790,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-rambus-2023",
@@ -4419,7 +4803,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-rambus-2022",
@@ -4431,7 +4816,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-finance-microchip-2026",
@@ -4443,7 +4829,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "astra-finance-microchip-2024",
@@ -4455,7 +4842,8 @@
         "chips",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "astra-samsung-hbm4e-20260529",
@@ -4466,7 +4854,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-ase-panel-20260827",
@@ -4477,7 +4866,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-ase-kaohsiung-20260311",
@@ -4488,7 +4878,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-ase-wus-20260508",
@@ -4499,7 +4890,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-ai2-olmo3-20251120",
@@ -4510,7 +4902,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "independent-research"
     },
     {
       "id": "astra-ai2-molmobot-20260311",
@@ -4522,7 +4915,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "independent-research"
     },
     {
       "id": "astra-hf-lerobot060-20260707",
@@ -4534,7 +4928,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-coding-shipping-20260621",
@@ -4545,7 +4940,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "independent-research"
     },
     {
       "id": "astra-anthropic-expertise-20260616",
@@ -4557,7 +4953,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-fervo-google-20260901",
@@ -4569,7 +4966,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-amkor-land-20260519",
@@ -4580,7 +4978,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-weathernext-cyclones-20260806",
@@ -4592,7 +4991,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-isodde-20260210",
@@ -4604,7 +5004,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-primary-care-rct-20260626",
@@ -4615,7 +5016,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "independent-research"
     },
     {
       "id": "astra-qwen-coder-next-20260228",
@@ -4627,7 +5029,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-mistral-changelog",
@@ -4639,7 +5042,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-mistral-leanstral15-20260702",
@@ -4651,7 +5055,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "astra-mistral-robostral",
@@ -4663,7 +5068,8 @@
         "models",
         "applications"
       ],
-      "license": "Public source; paraphrase and attribute."
+      "license": "Public source; paraphrase and attribute.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-aws-2022",
@@ -4674,7 +5080,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-aws-2025",
@@ -4685,7 +5092,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "capital-alphabet-2023",
@@ -4696,7 +5104,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "capital-alphabet-2025",
@@ -4707,7 +5116,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "capital-meta-2023",
@@ -4718,7 +5128,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "capital-meta-2025",
@@ -4729,7 +5140,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "capital-microsoft-2023",
@@ -4740,7 +5152,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-microsoft-2025",
@@ -4751,7 +5164,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-oracle-2022",
@@ -4762,7 +5176,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-oracle-2024",
@@ -4773,7 +5188,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-oracle-2026",
@@ -4784,7 +5200,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-meta-outlook",
@@ -4795,7 +5212,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-msft-outlook",
@@ -4806,7 +5224,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-ap-outlook",
@@ -4817,7 +5236,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "news"
     },
     {
       "id": "epoch-eci-dataset",
@@ -4828,7 +5248,8 @@
       "layers": [
         "models"
       ],
-      "license": "Epoch AI data: Creative Commons Attribution; credit Epoch AI and original dataset authors."
+      "license": "Epoch AI data: Creative Commons Attribution; credit Epoch AI and original dataset authors.",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-eci-method",
@@ -4839,7 +5260,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "census-map-places",
@@ -4854,7 +5276,8 @@
         "models",
         "applications"
       ],
-      "license": "U.S. government geographic data."
+      "license": "U.S. government geographic data.",
+      "provenance": "official"
     },
     {
       "id": "census-map-counties",
@@ -4869,7 +5292,8 @@
         "models",
         "applications"
       ],
-      "license": "U.S. government geographic data."
+      "license": "U.S. government geographic data.",
+      "provenance": "official"
     },
     {
       "id": "geonames-map",
@@ -4884,7 +5308,8 @@
         "models",
         "applications"
       ],
-      "license": "GeoNames geographical data · CC BY 4.0."
+      "license": "GeoNames geographical data · CC BY 4.0.",
+      "provenance": "independent-research"
     },
     {
       "id": "map-google-directory",
@@ -4895,7 +5320,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-vogtle",
@@ -4906,7 +5332,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-lumina",
@@ -4917,7 +5344,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-cvow",
@@ -4928,7 +5356,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-tsmc-fabs",
@@ -4939,7 +5368,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-gf-singapore",
@@ -4950,7 +5380,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-apertus",
@@ -4961,7 +5392,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "map-olmo-lumi",
@@ -4972,7 +5404,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "map-lumi-location",
@@ -4983,7 +5416,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "map-bmw-robots",
@@ -4994,7 +5428,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-waymo-mesa",
@@ -5005,7 +5440,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "capital-apollo-2026-outlook",
@@ -5016,7 +5452,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "analyst"
     },
     {
       "id": "map-waymo-service",
@@ -5027,7 +5464,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-tesla-service",
@@ -5038,7 +5476,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-openai",
@@ -5049,7 +5488,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-anthropic",
@@ -5060,7 +5500,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-cohere",
@@ -5071,7 +5512,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-mistral",
@@ -5082,7 +5524,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-ai2",
@@ -5093,7 +5536,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "independent-research"
     },
     {
       "id": "map-office-nvidia",
@@ -5104,7 +5548,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-deepmind",
@@ -5115,7 +5560,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-spacexai",
@@ -5126,7 +5572,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-microsoft",
@@ -5137,7 +5584,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "map-office-meta",
@@ -5148,7 +5596,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "map-office-aws",
@@ -5159,7 +5608,8 @@
       "layers": [
         "models"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "regulated-filing"
     },
     {
       "id": "audit-meta-singapore",
@@ -5170,7 +5620,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-odense",
@@ -5181,7 +5632,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-clonee",
@@ -5192,7 +5644,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-lule",
@@ -5203,7 +5656,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-huntsville",
@@ -5214,7 +5668,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-montgomery",
@@ -5225,7 +5680,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-mesa",
@@ -5236,7 +5692,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-stanton-springs",
@@ -5247,7 +5704,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-kuna",
@@ -5258,7 +5716,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-dekalb",
@@ -5269,7 +5728,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-jeffersonville",
@@ -5280,7 +5740,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-lebanon",
@@ -5291,7 +5752,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-altoona",
@@ -5302,7 +5764,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-rosemount",
@@ -5313,7 +5776,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-kansas-city",
@@ -5324,7 +5788,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-sarpy",
@@ -5335,7 +5800,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-los-lunas",
@@ -5346,7 +5812,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-forest-city",
@@ -5357,7 +5824,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-bowling-green",
@@ -5368,7 +5836,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-new-albany",
@@ -5379,7 +5848,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-prineville",
@@ -5390,7 +5860,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-aiken",
@@ -5401,7 +5872,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-gallatin",
@@ -5412,7 +5884,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-el-paso",
@@ -5423,7 +5896,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-fort-worth",
@@ -5434,7 +5908,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-eagle-mountain",
@@ -5445,7 +5920,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-henrico",
@@ -5456,7 +5932,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-beaver-dam",
@@ -5467,7 +5944,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-cheyenne",
@@ -5478,7 +5956,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-prometheus-bag",
@@ -5489,7 +5968,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-lebanon-groundbreaking",
@@ -5500,7 +5980,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-meta-el-paso-venture",
@@ -5511,7 +5992,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-crusoe-microsoft-abilene",
@@ -5522,7 +6004,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-monarch",
@@ -5533,7 +6016,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-fairwater-atlanta",
@@ -5544,7 +6028,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-narvik-microsoft",
@@ -5555,7 +6040,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-stargate-uae",
@@ -5566,7 +6052,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-aws-pennsylvania",
@@ -5577,7 +6064,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-aws-richmond",
@@ -5588,7 +6076,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-aws-georgia",
@@ -5599,7 +6088,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-aws-mississippi",
@@ -5610,7 +6100,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-helios-delivery",
@@ -5621,7 +6112,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-google-vizag",
@@ -5632,7 +6124,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-nextdc-s7",
@@ -5643,7 +6136,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "audit-vantage-frontier",
@@ -5654,7 +6148,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "Public disclosure; facts paraphrased with attribution."
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
     },
     {
       "id": "epoch-data-centers-dataset",
@@ -5665,7 +6160,8 @@
       "layers": [
         "infrastructure"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-gpu-clusters-dataset",
@@ -5677,7 +6173,8 @@
         "infrastructure",
         "chips"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-chip-components-dataset",
@@ -5688,7 +6185,8 @@
       "layers": [
         "chips"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "independent-research"
     },
     {
       "id": "epoch-companies-dataset",
@@ -5700,7 +6198,8 @@
         "models",
         "applications"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "independent-research"
     },
     {
       "id": "feed-nextera-52099b",
@@ -5712,7 +6211,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-ge-vernova-b069da",
@@ -5724,7 +6224,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-amd-0e2d3d",
@@ -5736,7 +6237,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-broadcom-15d1e6",
@@ -5749,7 +6251,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-intel-5205c9",
@@ -5761,7 +6264,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-sk-hynix-94639e",
@@ -5773,7 +6277,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-aws-d0c96b",
@@ -5787,7 +6292,8 @@
         "models"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-astera-4207e1",
@@ -5800,7 +6306,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-coherent-67bd90",
@@ -5813,7 +6320,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-applied-opto-62bc91",
@@ -5826,7 +6334,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-fabrinet-50482e",
@@ -5838,7 +6347,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-celestica-e1fda5",
@@ -5850,7 +6360,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-quanta-fd93ef",
@@ -5863,7 +6374,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-lightmatter-a0b265",
@@ -5876,7 +6388,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-ayar-fa2fc5",
@@ -5889,7 +6402,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-qcells-e75c5c",
@@ -5901,7 +6415,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-macom-7663e5",
@@ -5914,7 +6429,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-amkor-6ff800",
@@ -5926,7 +6442,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-constellation-3252f6",
@@ -5938,7 +6455,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-fervo-37c88d",
@@ -5950,7 +6468,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "feed-recursion-4114ef",
@@ -5962,7 +6481,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "epoch-chip-sales-dataset",
@@ -5973,7 +6493,8 @@
       "layers": [
         "chips"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "independent-research"
     },
     {
       "id": "bls-qcew-open-data",
@@ -5985,7 +6506,8 @@
         "infrastructure",
         "energy"
       ],
-      "license": "Public domain (U.S. government work)"
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
     },
     {
       "id": "census-qwi-api",
@@ -5997,7 +6519,8 @@
         "infrastructure",
         "energy"
       ],
-      "license": "Public domain (U.S. government work)"
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
     },
     {
       "id": "nvidia-hopper-whitepaper",
@@ -6008,7 +6531,8 @@
       "layers": [
         "chips"
       ],
-      "license": "NVIDIA publication; cited for the GH100 die area"
+      "license": "NVIDIA publication; cited for the GH100 die area",
+      "provenance": "company-channel"
     },
     {
       "id": "epoch-notable-models-dataset",
@@ -6019,7 +6543,8 @@
       "layers": [
         "models"
       ],
-      "license": "CC BY 4.0"
+      "license": "CC BY 4.0",
+      "provenance": "independent-research"
     },
     {
       "id": "census-btos-data",
@@ -6030,7 +6555,8 @@
       "layers": [
         "applications"
       ],
-      "license": "Public domain (U.S. government work)"
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
     },
     {
       "id": "sec-xbrl-companyfacts",
@@ -6045,7 +6571,8 @@
         "models",
         "applications"
       ],
-      "license": "Public domain (U.S. government work)"
+      "license": "Public domain (U.S. government work)",
+      "provenance": "regulated-filing"
     },
     {
       "id": "outlet-www-datacenterdynamics-com-727821",
@@ -6059,7 +6586,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-semiengineering-com-234e4a",
@@ -6071,7 +6599,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-techcrunch-com-f84187",
@@ -6085,7 +6614,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-arstechnica-com-48cf4d",
@@ -6100,7 +6630,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-datacenterfrontier-com-1b7366",
@@ -6113,7 +6644,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-datacenterknowledge-com-bb714f",
@@ -6126,7 +6658,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-latitudemedia-com-072d3a",
@@ -6138,7 +6671,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-heatmap-news-94f854",
@@ -6150,7 +6684,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-powermag-com-03cb73",
@@ -6162,7 +6697,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-utilitydive-com-f0fb32",
@@ -6174,7 +6710,8 @@
         "energy"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-semianalysis-com-60a43a",
@@ -6186,7 +6723,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "analyst"
     },
     {
       "id": "outlet-www-tomshardware-com-92686c",
@@ -6199,7 +6737,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-spectrum-ieee-org-9ab67a",
@@ -6212,7 +6751,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-servethehome-com-104967",
@@ -6225,7 +6765,8 @@
         "chips"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-theverge-com-8c3d9d",
@@ -6238,7 +6779,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-zdnet-com-8dad9f",
@@ -6252,7 +6794,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-importai-substack-com-0f90c1",
@@ -6264,7 +6807,8 @@
         "models"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "social"
     },
     {
       "id": "outlet-huggingface-co-61d314",
@@ -6276,7 +6820,8 @@
         "models"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "company-channel"
     },
     {
       "id": "outlet-www-technologyreview-com-abb25a",
@@ -6289,7 +6834,8 @@
         "applications"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "outlet-www-enr-com-a22a7c",
@@ -6301,7 +6847,8 @@
         "infrastructure"
       ],
       "license": "Original source rights apply",
-      "index": true
+      "index": true,
+      "provenance": "news"
     },
     {
       "id": "federal-register-2026-14132",
@@ -6312,7 +6859,8 @@
       "layers": [
         "chips"
       ],
-      "license": "Public domain (U.S. government work)"
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
     },
     {
       "id": "eia-api-v2-electricity",
@@ -6323,7 +6871,8 @@
       "layers": [
         "energy"
       ],
-      "license": "Public domain (U.S. government work)"
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
     },
     {
       "id": "eia-930-demand",
@@ -6335,7 +6884,8 @@
         "energy",
         "infrastructure"
       ],
-      "license": "Public domain (U.S. government work)"
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
     }
   ],
   "discovery_keywords": [

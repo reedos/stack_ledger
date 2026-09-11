@@ -744,7 +744,7 @@ def main(argv=None):
             d=DATASETS[name]
             source=None
             if d['source_id'] not in {s['id'] for s in registry['sources']}:
-                source={'id':d['source_id'],'publisher':'Epoch AI','title':d['title'],'url':d['url'],'published':None,'layers':d['layers'],'license':LICENSE}
+                source={'id':d['source_id'],'publisher':'Epoch AI','title':d['title'],'url':d['url'],'published':None,'layers':d['layers'],'license':LICENSE,'provenance':'independent-research'}
             if name=='eci':
                 result=update_capabilities(ROOT,records[name])
                 print(f"eci: capabilities snapshot {result['rows_before']} -> {result['rows_after']} rows" if result else 'eci: capabilities snapshot left as-is (not a mechanical extension this run)',flush=True)

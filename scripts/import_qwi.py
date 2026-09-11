@@ -29,7 +29,7 @@ import api_access
 ROOT=Path(__file__).resolve().parents[1]
 SNAPSHOTS=ROOT/'research/qwi'
 SOURCE_ID='census-qwi-api'
-SOURCE={'id':SOURCE_ID,'publisher':'U.S. Census Bureau','title':'Quarterly Workforce Indicators (LEHD) · Census Data API','url':'https://www.census.gov/data/developers/data-sets/qwi.html','published':None,'layers':['infrastructure','energy'],'license':'Public domain (U.S. government work)'}
+SOURCE={'id':SOURCE_ID,'publisher':'U.S. Census Bureau','title':'Quarterly Workforce Indicators (LEHD) · Census Data API','url':'https://www.census.gov/data/developers/data-sets/qwi.html','published':None,'layers':['infrastructure','energy'],'license':'Public domain (U.S. government work)','provenance':'official'}
 INDUSTRIES={'5182':('Data processing, hosting and related services','infrastructure'),'2382':('Building equipment contractors (electrical, plumbing, HVAC)','infrastructure')}
 SERIES=[('hires','HirA','county_industry_hires','hires in quarter','hires (all workers)',500_000,'Census QWI stable hires (HirA): workers who began a job in the quarter and were employed at the end of it, private ownership, county by 4-digit NAICS. Cells Census suppresses or leaves empty are omitted; omission is not zero.'),
         ('earnings','EarnS','county_industry_avg_monthly_earnings','USD / month (average, stable jobs)','average monthly earnings',100_000,'Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.')]

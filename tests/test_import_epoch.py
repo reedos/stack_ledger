@@ -49,7 +49,7 @@ class EpochImportTests(unittest.TestCase):
         record={'vintage':'2026-07','sha256':'a'*64,'retrieved_at':'2026-09-08T10:00:00Z','tables':{
             'supply_denominators.csv':[{'Quarter':'Q1 2024','CoWoS supply (5th percentile)':'51000','CoWoS supply (median)':'58500.0','CoWoS supply (95th percentile)':'66000','Logic supply (5th percentile)':'1','Logic supply (median)':'2','Logic supply (95th percentile)':'3','HBM supply (USD) (5th percentile)':'1','HBM supply (USD) (median)':'2','HBM supply (USD) (95th percentile)':'3'}],
             'quarterly_by_designer.csv':[{'Quarter':'Q1 2024','Designer':'NVIDIA','CoWoS wafers (5th percentile)':'40000','CoWoS wafers (median)':'45000','CoWoS wafers (95th percentile)':'50000'},{'Quarter':'Q1 2024','Designer':'AMD','CoWoS wafers (5th percentile)':'1','CoWoS wafers (median)':'2','CoWoS wafers (95th percentile)':'3'}]}}
-        catalog={'metrics':[]};source={'id':ie.DATASETS['chip-components']['source_id'],'publisher':'Epoch AI','title':'t','url':ie.DATASETS['chip-components']['url'],'published':None,'layers':['chips'],'license':'CC BY 4.0'}
+        catalog={'metrics':[]};source={'id':ie.DATASETS['chip-components']['source_id'],'publisher':'Epoch AI','title':'t','url':ie.DATASETS['chip-components']['url'],'published':None,'layers':['chips'],'license':'CC BY 4.0','provenance':'independent-research'}
         ledger={'observations':[{'id':'stale','metric':'epoch-cowos-supply-quarterly','source':source['id'],'year':2023,'period':'2023-Q4','value':1}],'metrics':[],'sources':[source]}
         added,records=ie.promote('chip-components',record,catalog,ledger,{})
         self.assertEqual(len(added),4);self.assertEqual(len(records),4)

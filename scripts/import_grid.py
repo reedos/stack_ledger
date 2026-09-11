@@ -52,7 +52,7 @@ def operator_source(o):
     """A citation-only source for an operator's reviewed load-forecast report: zero metrics,
     zero observations, registered so it is linkable and reviewable, never a numeric claim."""
     return {'id': f"grid-operator-{o['id']}", 'publisher': o['name'], 'title': o['source_title'], 'url': o['source_url'],
-            'published': None, 'layers': ['energy'], 'license': 'Source material retains its original rights; facts paraphrased with attribution.'}
+            'published': None, 'layers': ['energy'], 'license': 'Source material retains its original rights; facts paraphrased with attribution.', 'provenance': 'company-channel'}
 
 
 def collection_entry():

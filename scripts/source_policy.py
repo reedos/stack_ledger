@@ -25,22 +25,48 @@ def spread_weekday(source_id):
 def collection_for(registry, source):
     return registry.get('collection', {}).get(source.get('parent_source', source['id']), {})
 
-# Owner decision, September 9, 2026 (exploratory intake with graded evidence): every published
-# event/note and every automated observation carries a grade derived only from the registry's
-# own reviewed rank and claim_type -- never chosen by the model. Rank already carries an
-# established meaning (session_options.SOURCE_KINDS): 1 official data/filings, 2 earnings & IR,
-# 3 technical/product publishing, 4 press releases & newsrooms, 5 news & analyst leads, 6
-# official social accounts. claim_type 'news' marks a registered independent news outlet's own
-# feed (deliverable 4 registers those at rank 4, so rank alone cannot tell them apart from an
-# ordinary company newsroom feed at the same rank). Total and order-sensitive: rank 1 always
-# wins as A; 'news' always reads as a third-party report (C) whatever its rank; every other
-# rank 2/3/4/6 source is the company's own channel (B, matching "company statement... official
-# account" in the owner decision verbatim); rank 5 is third-party trade/analyst reporting (C);
-# anything else -- no policy, or a rank outside the reviewed 1-6 range -- fails closed to D,
-# the most conservative grade, rather than silently promoting an unrecognized source.
+# Owner decision, September 10, 2026: provenance is a REVIEWED property of each source, no longer
+# derived from its collection rank. Rank is a crawl priority -- it schedules fetches, drives the
+# discovery walk and gates unattended auto-apply -- and one integer could not also carry "who
+# published this". Deriving from it put Epoch AI's own dataset at grade A and the page rendering a
+# row of that same dataset at C, badged Stanford HAI "Official statistics or filings", badged FERC
+# and two Federal Reserve banks "Company statement", and left grade D unreachable while three
+# social sources read as company statements.
+#
+# The letter is a coarse solidity scale over the provenance; the site shows the provenance itself,
+# so a reader sees "Independent research" rather than a letter standing in for it. The organising
+# question is who is speaking, and about whom: A is the authoritative record, B a primary publisher
+# speaking about its own work, C a third party characterising someone else's numbers, D unverified.
+PROVENANCE_GRADE = {
+    'official': 'A',              # statistical agency, regulator, court, central bank, IGO
+    'regulated-filing': 'A',      # a company's own disclosure made under a regulatory regime
+    'company-channel': 'B',       # a company speaking for itself outside regulation
+    'independent-research': 'B',  # a research body publishing its own primary dataset or study
+    'analyst': 'C',               # third-party consensus, trade or market analysis
+    'news': 'C',                  # a news outlet reporting on someone else
+    'social': 'D',                # a person, or an unverified account
+}
+PROVENANCE = set(PROVENANCE_GRADE)
+# What the reader is shown. The letter alone was the thing that misled: "Grade C: News report"
+# on an Epoch AI dataset page is false in a way "Independent research" is not.
+PROVENANCE_LABEL = {
+    'official': 'Official statistics or regulator',
+    'regulated-filing': 'Regulated filing',
+    'company-channel': 'Company statement',
+    'independent-research': 'Independent research',
+    'analyst': 'Analyst or trade estimate',
+    'news': 'News report',
+    'social': 'Social post',
+}
+
+
 def first_party(source, companies=()):
     """The source is published by one of the tracked companies: its host is that company's own
-    investor-relations or blog host, or its publisher name is the company name."""
+    investor-relations or blog host, or its publisher name is the company name.
+
+    No longer part of grade derivation -- provenance is reviewed, not inferred -- but still the
+    check a reviewer uses when deciding whether a page is that company's own channel.
+    """
     if not source:
         return False
     host = (urlparse(source.get('url', '')).hostname or '').lower().removeprefix('www.')
@@ -56,27 +82,22 @@ def first_party(source, companies=()):
     return False
 
 
-def grade_for(policy, source=None, companies=()):
-    """Deterministic provenance grade: A official statistics or filings, B company statement,
-    C news report or independent analysis, D unverified secondary or social claim.
+def provenance_of(source):
+    """The source's reviewed provenance, or None when it carries nothing recognized."""
+    value = (source or {}).get('provenance')
+    return value if value in PROVENANCE else None
 
-    Rank is a collection priority, not a provenance claim, so a source the runner never collects
-    (an evidence-only citation with no policy at all) is graded by who published it: a tracked
-    company's own page is a company statement, anything else is an independent publication.
-    Grading those D would call a curated company press release an unverified social claim."""
-    policy = policy if isinstance(policy, dict) else {}
-    rank = policy.get('rank')
-    if rank == 1:
-        return 'A'
-    if policy.get('claim_type') == 'news':
-        return 'C'
-    if rank in (2, 3, 4, 6):
-        return 'B'
-    if rank == 5:
-        return 'C'
-    if policy:
-        return 'D'
-    return 'B' if first_party(source, companies) else 'C'
+
+def grade_for(policy=None, source=None, companies=()):
+    """Deterministic evidence grade, from the source's own reviewed provenance.
+
+    `policy` and `companies` are accepted and ignored: every call site already has them in hand,
+    and keeping the signature means the change is one function rather than a sweep. A source with
+    no recognized provenance fails closed to D rather than being promoted by silence; validation
+    (source_valid) refuses to publish one at all, so that branch is a backstop, not a path.
+    """
+    provenance = provenance_of(source)
+    return PROVENANCE_GRADE[provenance] if provenance else 'D'
 
 # A daily source unchanged for this many consecutive checks is worth checking less often.
 # Promotion only ever loosens a *registered daily* cadence; weekly and manual sources are

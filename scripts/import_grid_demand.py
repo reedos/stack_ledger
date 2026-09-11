@@ -41,7 +41,7 @@ SOURCE_ID = 'eia-930-demand'
 SOURCE = {'id': SOURCE_ID, 'publisher': 'U.S. Energy Information Administration',
           'title': 'Hourly and daily electric grid monitor (EIA-930) · demand by balancing authority',
           'url': 'https://www.eia.gov/electricity/gridmonitor/', 'published': None,
-          'layers': ['energy', 'infrastructure'], 'license': 'Public domain (U.S. government work)'}
+          'layers': ['energy', 'infrastructure'], 'license': 'Public domain (U.S. government work)', 'provenance': 'official'}
 START_YEAR = 2019
 # (EIA respondent code, our slug, display name, the timezone facet that covers the operator's own
 # footprint; EIA reports a row per local timezone, so one facet per operator counts each day once)

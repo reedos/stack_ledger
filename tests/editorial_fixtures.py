@@ -32,7 +32,7 @@ def fixture():
                                  'source': 'fixture-source', 'retrieved_at': '2026-09-07T00:00:00Z',
                                  'method': 'curated', 'note': ''})
     source = {'id': 'fixture-source', 'publisher': 'Synthetic test publisher', 'title': 'Synthetic test evidence',
-              'url': 'https://example.org/fixture', 'published': '2026-01-01', 'layers': layers, 'license': 'Fixture only'}
+              'url': 'https://example.org/fixture', 'published': '2026-01-01', 'layers': layers, 'license': 'Fixture only', 'provenance': 'official'}
     ledger = {'layers': [{'id': l, 'headline_metric': l+'-metric'} for l in layers], 'metrics': metrics,
               'sources': [source], 'observations': observations, 'runs': [], 'events': [], 'seed_date': '2026-09-07'}
     config = {'version': 1, 'reviewed_at': '2026-09-07T00:00:00Z',

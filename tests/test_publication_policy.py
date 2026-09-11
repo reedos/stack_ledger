@@ -89,7 +89,7 @@ class PublicationPolicyTests(unittest.TestCase):
         self.assertIn('Policy import (maintainer tool)', self.policy['auto_apply']['authors'])
         source_after = {'id': 'federal-register-2026-18370', 'publisher': 'U.S. Department of Energy',
                          'title': 'Securing the United States Bulk-Power System', 'url': 'https://www.federalregister.gov/documents/2026/09/09/2026-18370/x',
-                         'published': '2026-09-09', 'layers': ['energy'], 'license': 'Public domain (U.S. government work)'}
+                         'published': '2026-09-09', 'layers': ['energy'], 'license': 'Public domain (U.S. government work)', 'provenance': 'official'}
         note_after = {'id': 'policy-2026-18370', 'layer': 'energy', 'date': '2026-09-09', 'title': 'Securing the United States Bulk-Power System',
                       'summary': 'Notice from U.S. Department of Energy.', 'source': 'federal-register-2026-18370', 'kind': 'Government action', 'grade': 'A'}
         package = {'author': 'Policy import (maintainer tool)',

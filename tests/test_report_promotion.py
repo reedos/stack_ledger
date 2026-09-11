@@ -59,7 +59,7 @@ class PromotionTests(unittest.TestCase):
         ledger = c.read(self.root/'site/data/ledger.json')
         self.source = {'id': 'discovered-fixture-1', 'publisher': 'Fixture Wire',
             'title': 'Discovered public update — Fixture Wire', 'url': 'https://fixturewire.example/2026/09/fixture-site',
-            'published': '2026-09-09', 'layers': ['infrastructure'], 'license': 'Original source rights apply',
+            'published': '2026-09-09', 'layers': ['infrastructure'], 'license': 'Original source rights apply', 'provenance': 'news',
             'parent_source': 'outlet-fixture-news'}
         ledger['sources'].append(self.source)
         self.report_id = 'note-' + 'a'*20

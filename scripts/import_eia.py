@@ -67,7 +67,7 @@ SNAPSHOTS = ROOT/'research/eia'
 SOURCE_ID = 'eia-api-v2-electricity'
 SOURCE = {'id': SOURCE_ID, 'publisher': 'U.S. Energy Information Administration', 'title': 'EIA API v2 · electricity data',
           'url': 'https://www.eia.gov/opendata/documentation.php', 'published': None, 'layers': ['energy'],
-          'license': 'Public domain (U.S. government work)'}
+          'license': 'Public domain (U.S. government work)', 'provenance': 'official'}
 
 REGISTRATION_URL = 'https://www.eia.gov/opendata/register.php'
 

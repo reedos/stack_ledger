@@ -10,10 +10,12 @@ ROOT = Path(__file__).resolve().parents[1]
 STATUSES = {'observation','estimate','forecast','government-target','company-commitment'}
 PRECISIONS = {'eq','approx','gt','lt','range'}
 LAYERS = ['energy','chips','infrastructure','models','applications']
-# Owner decision, September 9, 2026: A official statistics/filings; B company statement (press
-# release, IR page, official account); C news report citing named sources/documents; D
-# unverified secondary or social claim. See source_policy.grade_for for the deterministic
-# derivation from a source's reviewed rank/claim_type.
+# Owner decision, September 10, 2026: the grade is a coarse solidity scale derived from each
+# source's own REVIEWED provenance (source_policy.PROVENANCE_GRADE), not from its crawl rank.
+# A the authoritative record (official statistics, a regulator, or a company's regulated filing);
+# B a primary publisher speaking about its own work (a company's own channel, or a research body's
+# own dataset); C a third party characterising someone else's numbers (analyst, trade or news);
+# D unverified or social. The site displays the provenance itself, not the bare letter.
 GRADES = {'A','B','C','D'}
 REPORT_KINDS = {'News report','Social post'}
 # Reviewed per-metric period bases. Without one, a metric holds one value per year and a second
@@ -36,8 +38,12 @@ def timestamp(value):
     return dt
 
 def source_valid(source, approved):
-    required={'id','publisher','title','url','published','layers','license'}
+    required={'id','publisher','title','url','published','layers','license','provenance'}
     require(required <= source.keys() and source.keys() <= required|{'parent_source','index'},'Unknown/missing source fields')
+    # Reviewed per source since 2026-09-10, never inferred: it is what every published number is
+    # labelled with, so a source that cannot say who published it cannot be published from.
+    from source_policy import PROVENANCE
+    require(source['provenance'] in PROVENANCE,'Unknown source provenance')
     for k in ['id','publisher','title','url','license']:text(source[k],2000 if k=='url' else 250)
     u=urlparse(source['url'])
     require(u.scheme=='https' and u.hostname and not u.username and not u.password and u.port in (None,443),'Source must be public HTTPS')

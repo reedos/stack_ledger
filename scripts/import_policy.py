@@ -162,7 +162,7 @@ def publisher_for(doc, publisher_by_slug, fallback):
 def document_source(doc, layer, publisher):
     return {'id': f"federal-register-{doc['document_number'].lower()}", 'publisher': sanitize(publisher, 250),
             'title': sanitize(doc.get('title'), 250), 'url': doc['html_url'], 'published': doc['publication_date'],
-            'layers': [layer], 'license': 'Public domain (U.S. government work)'}
+            'layers': [layer], 'license': 'Public domain (U.S. government work)', 'provenance': 'official'}
 
 
 def document_event(doc, layer, publisher, source_id):
