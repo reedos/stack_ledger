@@ -891,6 +891,9 @@ def run_summary(receipt):
     return {'documents':run.get('documents_fetched',0),'model_calls':run.get('model_calls',0),
             'accepted':run.get('accepted',0),'quarantined':run.get('quarantined',len(quarantine)),
             'quarantined_by_reason':reasons,'private_notes':collection.get('private_notes',0),
+            # What the private note lane cost and what it declined to pay for (2026-09-11).
+            'private_note_calls':collection.get('private_note_calls',0),
+            'private_note_budget_skips':collection.get('private_note_budget_skips',0),
             'empty_reasons':dict(collection.get('empty_reasons',{})),
             # Deliverable 8: why the model was or wasn't called this batch.
             'unchanged_304':collection.get('unchanged_304',0),'text_unchanged':collection.get('text_unchanged',0),
@@ -908,6 +911,7 @@ def run_summary(receipt):
             # Deliverable 4 (2026-09-10): feed reach and idle-pass top-up, so a quiet night can
             # say whether nothing was published or nothing was reachable.
             'feeds_polled':collection.get('feeds_polled',0),'feed_entries_new':collection.get('feed_entries_new',0),
+            'feed_entries_requeued':collection.get('feed_entries_requeued',0),
             'feed_entries_already_reviewed':collection.get('feed_entries_already_reviewed',0),
             'idle_pass':bool(collection.get('idle_pass',False)),
             'idle_feeds_polled':collection.get('idle_feeds_polled',0),'idle_stale_tasks_run':collection.get('idle_stale_tasks_run',0)}
@@ -1119,11 +1123,18 @@ def main():
         # session-less invocation has no way to know a "previous batch" exists in the first
         # place. `current_batch` mirrors session_receipt.py's own receipts_recorded count.
         stale_attempts_path=None;stale_attempts={};current_batch=1
+        # The note lane's budget for documents that can only ever produce a private review
+        # candidate, remembered the same way and in the same place as the back-off state above:
+        # a per-batch cap is no cap at all across the 189 batches of an overnight session.
+        private_calls_path=None;private_calls=0
+        private_call_budget=config.get('max_private_note_calls_per_session',12)
         if args.session_id and not (args.sources or question):
             session_folder=LOCAL/'sessions'/args.session_id
             stale_attempts_path=session_folder/'stale-attempts.json'
             stale_attempts=load(stale_attempts_path) if stale_attempts_path.exists() else {}
             current_batch=len(list((session_folder/'batches').glob('*.json')))+1
+            private_calls_path=session_folder/'private-note-calls.json'
+            private_calls=load(private_calls_path)['calls'] if private_calls_path.exists() else 0
         stale_tasks=[] if (args.sources or question) else select_stale_tasks(data,registry,ecosystem,fetcher.health,today,
             config.get('max_stale_tasks_per_batch',20),stale_attempts,current_batch,config.get('stale_retry_batches',12),collection)
         stale_targets_by_source={}
@@ -1148,7 +1159,7 @@ def main():
             """Fetch, extract and record one already-due, not-yet-seen source. Shared by the
             ordinary due-list pass and deliverable 3's idle top-up below -- the caller is
             responsible for every due/cooldown/dedup decision; this always attempts."""
-            nonlocal attempts,model_failed
+            nonlocal attempts,model_failed,private_calls
             cadence_policy=collection_for(registry,source)
             seen.add(source['url']);attempts+=1
             attempt_log.append({'source':source['id'],'url':source['url'],'attempted_at':now(),
@@ -1187,7 +1198,7 @@ def main():
                     # Retained as a lead for primary-source follow-up; the page is still read below, privately.
                     save(LOCAL/'discovery-leads'/f'{h}-secondary.json',{'source':source['id'],'url':source['url'],'retrieved_at':now(),'review_required':True,'reason':'Secondary evidence retained for primary-source follow-up; not automatically published.'})
                 if 'parent_source' not in source:
-                    found=0
+                    found=0;first_seen=0
                     # A feed/index page reads every new entry since last run, bounded by
                     # max_discovered_per_feed (default 12); an ordinary page still discovers
                     # at most max_discovered_per_source (default 1). An entry already in the
@@ -1202,7 +1213,13 @@ def main():
                         child=dict(source,id='discovered-'+digest(url)[:16],url=url,published=None,parent_source=source['id'],title='Discovered public update · '+source['publisher'])
                         child.pop('index',None)
                         queue.insert(0,child)
-                        if source.get('index'):feed_child_urls.add(child['url'])
+                        if source.get('index'):
+                            # An entry is new when this collection has never fetched it, not
+                            # when it was queued again: a feed re-polled every 20 minutes
+                            # re-lists the same dozen links, which reported 1798 "new entries"
+                            # against 1253 documents actually fetched (2026-09-08..11).
+                            if url not in feed_child_urls and not fetcher.fetch_state.get('page',url):first_seen+=1
+                            feed_child_urls.add(child['url'])
                         found+=1
                         if found>=cap:break
                     if source.get('index'):
@@ -1210,7 +1227,8 @@ def main():
                         # so a quiet night can say whether nothing was published or nothing
                         # was reachable.
                         collection['feeds_polled']=collection.get('feeds_polled',0)+1
-                        collection['feed_entries_new']=collection.get('feed_entries_new',0)+found
+                        collection['feed_entries_new']=collection.get('feed_entries_new',0)+first_seen
+                        collection['feed_entries_requeued']=collection.get('feed_entries_requeued',0)+(found-first_seen)
                 if source.get('index'):return
                 related=[m for m in metrics.values() if source.get('parent_source',source['id']) in m['source_ids']]
                 related_ids=[m['id'] for m in related]
@@ -1224,19 +1242,28 @@ def main():
                 metrics_entry=None if (args.refresh or metrics_key is None) else already_reviewed(reviews,metrics_key)
                 note_done=note_entry is not None
                 metrics_done=metrics_key is None or metrics_entry is not None
-                if note_done and metrics_done:
-                    collection['already_reviewed']+=1
-                    if source['url'] in feed_child_urls:
-                        collection['feed_entries_already_reviewed']=collection.get('feed_entries_already_reviewed',0)+1
+                # Only a discovered page or an excerpt-permitted source can publish a note. From
+                # any other source the note lane's one possible output is a private review
+                # candidate, and those are capped -- but the cap counted candidates *saved*, so
+                # the model call was paid for first and its note dropped afterwards. 369 of the
+                # 791 non-index documents read since 2026-09-08 were in that class and yielded
+                # 20 private candidates. Charge a budget at the call instead; which notes may
+                # publish is unchanged, since a publishable source never consults it.
+                publishable=bool(source.get('parent_source') or policy.get('excerpts'))
+                note_lane=not note_done and (publishable or private_calls<private_call_budget)
+                if not note_done and not note_lane:
+                    collection['private_note_budget_skips']=collection.get('private_note_budget_skips',0)+1
+                if not note_lane and metrics_done:
+                    if note_done:
+                        collection['already_reviewed']+=1
+                        if source['url'] in feed_child_urls:
+                            collection['feed_entries_already_reviewed']=collection.get('feed_entries_already_reviewed',0)+1
                     run['documents_reviewed']+=1;coverage.update(source['layers']);return
                 collection['model_documents']+=1
-                # Every due, not-already-reviewed source is read, and every such document gets
-                # a note-lane attempt. Only discovered pages and excerpt-permitted sources may
-                # publish a note; the rest keep it private for human review, capped per run so
-                # a bad night cannot flood the review queue.
-                publishable=bool(source.get('parent_source') or policy.get('excerpts'))
                 note=None
-                if not note_done:
+                if note_lane:
+                    if not publishable:
+                        private_calls+=1;collection['private_note_calls']=collection.get('private_note_calls',0)+1
                     quarantine_before=len(quarantine)
                     try:
                         config['_document_windows']=collection.setdefault('document_windows',[])
@@ -1332,7 +1359,13 @@ def main():
                 while queue and attempts<limit and time.monotonic()<deadline and not stopped(ROOT,args.session_id):
                     child=queue.pop(0)
                     if child['url'] in seen:continue
-                    if not fetcher.due(child['url'],args.refresh):
+                    # The feed itself was forced past its poll gate; its children were not, so
+                    # the ordinary six-hour page cooldown skipped every one of them: 85 of the
+                    # 96 idle passes since 2026-09-08 fetched nothing but the feed pages. Force
+                    # them the same way the stale-task top-up below does -- a failure cooldown,
+                    # a robots block and the batch's own document limit all still apply, and an
+                    # unchanged child costs a 304 and no model call.
+                    if not fetcher.due(child['url'],True):
                         collection['cooldown_skips']+=1;continue
                     process(child)
             for task in stale_tasks:
@@ -1367,6 +1400,7 @@ def main():
                     state['last_attempt_batch']=current_batch
                     if state['unmet_count']>=3:state['dropped']=True
             save(stale_attempts_path,stale_attempts)
+        if private_calls_path is not None:save(private_calls_path,{'calls':private_calls})
         # Deliverable 7: every due source this batch turned out unchanged or already
         # reviewed -- no fresh model call happened, so there is nothing new to publish either,
         # even though documents were read. Never counted as a failure.
@@ -1421,11 +1455,16 @@ def main():
                     else:
                         batch_receipt['publication']='deferred'
                     if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),batch_receipt)
-                save(LOCAL/'reviews.json',reviews)
             except Exception as error:
                 if not args.publish:raise
                 print(f'Publication blocked; saved evidence retained: {type(error).__name__}: {error}',file=sys.stderr)
                 return 3
+            finally:
+                # The model calls behind these reviews are already spent, and the evidence they
+                # reviewed is saved above whatever the push does. Writing the ledger only on the
+                # success path threw away every review in the batch each time a publish failed,
+                # and the next batch paid for all of them again.
+                save(LOCAL/'reviews.json',reviews)
         from catalog_recommender import materialize
         materialize(ROOT,config['model'])
         print(json.dumps(run,indent=2),flush=True)

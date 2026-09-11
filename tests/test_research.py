@@ -557,6 +557,122 @@ class IdleTopUpTests(unittest.TestCase):
             # (the pre-existing not-attempts path); the idle top-up must not have run either.
             self.assertIsNone(receipt)
 
+class IntakeEconomicsTests(unittest.TestCase):
+    """What a batch pays for, and what it may honestly claim it found (2026-09-11)."""
+    def feed_source(self,path):
+        registry=research.load(path/'research/sources.json')
+        for source in registry['sources']:source.pop('index',None)  # one feed only, so the counts are unambiguous
+        feed={'id':'test-feed','publisher':'Test','title':'Test feed','url':'https://feed.example/rss',
+              'published':None,'layers':['energy'],'license':'x','provenance':'news','index':True}
+        registry['sources'].append(feed)
+        registry['collection']['test-feed']={'rank':4,'region_book':'global','company_id':None,'claim_type':'other',
+            'cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
+        research.save(path/'research/sources.json',registry)
+        return feed
+    def listing(self,*stories):
+        def fetch(url):
+            d=research.ReadableHTML()
+            if url.endswith('/rss'):d.feed('<p>Filler content.</p>'+''.join(f'<a href="{s}">Story</a>' for s in stories))
+            else:d.feed(f'<p>Public report of 2026 AI infrastructure progress at {url}.</p>')
+            return d
+        return fetch
+    def last_receipt(self,path):
+        return research.load(sorted((path/'.local/runs').glob('*.json'))[-1])
+
+    def test_feed_entries_new_counts_entries_never_fetched_not_links_requeued(self):
+        from collection_health import Health
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            feed=self.feed_source(path)
+            # An earlier batch already fetched this story; the feed still lists it. Counting
+            # it again as new is what overstated a night's discovery about four-fold.
+            Health(path/'.local/fetch-state.json').put('page','https://feed.example/story/1-ai',
+                {'text_sha256':'x','checked_at':'2026-09-10T00:00:00Z'})
+            def fake_due(url,refresh=False,feed_poll_seconds=None):return url==feed['url']
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'due',side_effect=fake_due), \
+                 patch.object(research.Fetcher,'fetch',side_effect=self.listing('https://feed.example/story/1-ai','https://feed.example/story/2-ai')), \
+                 patch.object(research,'ollama',side_effect=empty_model), \
+                 patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            collection=self.last_receipt(path)['collection']
+            self.assertEqual(collection['feeds_polled'],1)
+            self.assertEqual(collection['feed_entries_new'],1,'only the story this collection has never fetched is new')
+            self.assertEqual(collection['feed_entries_requeued'],1)
+
+    def test_idle_top_up_follows_the_children_of_the_feed_it_forced(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            feed=self.feed_source(path)
+            story='https://feed.example/story/1-ai'
+            def fake_due(url,refresh=False,feed_poll_seconds=None):
+                # The feed is reachable only by the idle top-up's forced re-poll, and the story
+                # only by a forced fetch -- its ordinary page cooldown has not expired. Neither
+                # can be reached by the normal due-list walk.
+                if url==feed['url']:return feed_poll_seconds==0
+                return url==story and bool(refresh)
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'due',side_effect=fake_due), \
+                 patch.object(research.Fetcher,'fetch',side_effect=self.listing(story)), \
+                 patch.object(research,'ollama',side_effect=empty_model), \
+                 patch.object(sys,'argv',['research.py','--max-documents','5']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            receipt=self.last_receipt(path);collection=receipt['collection']
+            self.assertTrue(collection['idle_pass'])
+            self.assertEqual(collection['idle_feeds_polled'],1)
+            self.assertEqual(receipt['receipt']['documents_fetched'],2,'the forced feed poll must reach the story it lists')
+            self.assertEqual([d['url'] for d in collection['documents']][-1],story)
+            self.assertNotEqual(collection['model_documents'],0)
+
+    def test_the_note_lane_stops_paying_for_documents_that_can_never_publish(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path)
+            config=research.load(path/'research/runtime.json')
+            config['max_private_note_calls_per_session']=1
+            research.save(path/'research/runtime.json',config)
+            note_calls=[]
+            def fake_model(cfg,system,prompt,schema):
+                if schema==research.NOTE_SCHEMA:note_calls.append(json.loads(prompt)['allowed_layers'])
+                return empty_model(cfg,system,prompt,schema)
+            def fake_fetch(url):
+                # Distinct text per URL: the note identity is keyed on document text, so
+                # identical documents would skip the lane for their own reason.
+                d=research.ReadableHTML();d.feed(f'<p>Public report of 2026 AI infrastructure progress at {url}.</p>')
+                return d
+            # Three sources with a linked metric, no excerpt permission and no parent: their
+            # note can only ever be a private review candidate. micron-ny-2026 has excerpt
+            # permission, so its note lane must run whatever the private budget has left.
+            private=['doe-demand','company-nvidia','msft-wisconsin']
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research.Fetcher,'fetch',side_effect=fake_fetch),patch.object(research,'ollama',side_effect=fake_model), \
+                 patch.object(sys,'argv',['research.py','--sources',*private,'micron-ny-2026']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            receipt=self.last_receipt(path);collection=receipt['collection']
+            self.assertEqual(receipt['receipt']['documents_fetched'],4,'every due document is still read')
+            self.assertEqual(collection['private_note_calls'],1)
+            self.assertEqual(collection['private_note_budget_skips'],2)
+            self.assertEqual(len(note_calls),2,'one budgeted private call plus the excerpt-permitted source')
+            self.assertIn(['chips'],note_calls,'excerpt permission must still buy a note-lane call')
+
+    def test_a_blocked_publish_keeps_the_batchs_review_ledger(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path);sid='f'*32
+            def fake_fetch(url):
+                d=research.ReadableHTML();d.feed(f'<p>Public report of 2026 AI infrastructure progress at {url}.</p>')
+                return d
+            def fake_build():
+                (path/'docs/data').mkdir(parents=True,exist_ok=True);(path/'docs/data/ledger.json').write_bytes((path/'site/data/ledger.json').read_bytes())
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'),patch.object(research,'preflight'), \
+                 patch.object(research,'build',side_effect=fake_build),patch.object(research.Fetcher,'fetch',side_effect=fake_fetch), \
+                 patch.object(research,'ollama',side_effect=empty_model),patch.object(research,'publish',side_effect=RuntimeError('remote rejected the push')), \
+                 patch.object(sys,'argv',['research.py','--publish','--flush','--session-id',sid,'--sources','doe-demand','company-nvidia']), \
+                 patch('sys.stdout',new=io.StringIO()),patch('sys.stderr',new=io.StringIO()):
+                self.assertEqual(research.main(),3)
+            reviews=research.load_reviews(path/'.local/reviews.json')
+            notes=[e for e in reviews.values() if e['lane']=='note']
+            self.assertEqual(len(notes),2,'a blocked push must not throw away the reviews the batch already paid for')
+            self.assertEqual({e['source'] for e in notes},{'doe-demand','company-nvidia'})
+
 class VerdictChecklistTests(unittest.TestCase):
     def checklist(self,**over):
         v={'index':0,'numbers_in_evidence':True,'scope_matches':True,'basis_correct':True,'attribution_correct':True,'defect':'none','reason':'ok'}
@@ -717,11 +833,12 @@ class RunSummaryTests(unittest.TestCase):
     def test_missing_pieces_read_as_zero_or_empty(self):
         self.assertEqual(research.run_summary({}),
                           {'documents':0,'model_calls':0,'accepted':0,'quarantined':0,
-                           'quarantined_by_reason':{},'private_notes':0,'empty_reasons':{},
+                           'quarantined_by_reason':{},'private_notes':0,'private_note_calls':0,
+                           'private_note_budget_skips':0,'empty_reasons':{},
                            'unchanged_304':0,'text_unchanged':0,'already_reviewed':0,'model_documents':0,
                            'stale_tasks':0,'stale_tasks_attempted':0,'stale_tasks_met':0,
                            'stale_tasks_skipped_not_refresh_expected':0,'stale_tasks_backed_off':0,
-                           'feeds_polled':0,'feed_entries_new':0,'feed_entries_already_reviewed':0,
+                           'feeds_polled':0,'feed_entries_new':0,'feed_entries_requeued':0,'feed_entries_already_reviewed':0,
                            'idle_pass':False,'idle_feeds_polled':0,'idle_stale_tasks_run':0})
     def test_deliverable_8_reports_why_the_model_was_or_was_not_called(self):
         receipt={'receipt':{'documents_fetched':9},'quarantine':[],

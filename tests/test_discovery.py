@@ -192,6 +192,47 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(result['proposals_queued'],0)
         self.assertEqual(result['errors'][0]['stage'],'search')
 
+    def test_topic_with_no_matching_news_is_an_answer_not_a_channel_outage(self):
+        # GDELT answers a zero-match query with {} and no 'articles' key at all. Billing that
+        # to the channel left 259 of 268 topics 'source_inaccessible' by 2026-09-11.
+        import collection_health
+        self.fetcher.fetch_json.return_value={}
+        with patch.object(collection_health.time,'time',return_value=1000),\
+             patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
+            receipt=self.run_slice(rid='no-matches')
+        self.assertEqual(receipt['errors'],[])
+        self.assertEqual(receipt['search_provider']['status'],'available')
+        self.assertEqual(receipt['search_channel'],'available')
+        self.assertEqual({v['status'] for v in d.state(self.root)['searches'].values()},{'no_new_eligible_leads'})
+
+    def test_a_failed_search_leaves_the_batchs_work_units_for_the_backlog(self):
+        self.seed();self.seed('https://other-builder.example/news/permit')
+        self.fetcher.fetch_json.side_effect=OSError('provider unavailable')
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
+            result=self.run_slice(units=2,rid='failed-search')
+        self.assertEqual(result['search_calls'],1)
+        self.assertEqual(result['units_used'],2,'both units belong to the leads the failed search did not reach')
+        self.assertEqual(result['documents_fetched'],2)
+
+    def test_a_channel_failing_every_batch_is_reported_broken_and_stops_being_retried(self):
+        import collection_health
+        self.fetcher.fetch_json.side_effect=OSError('provider unavailable')
+        clock=[1000]
+        with patch.object(collection_health.time,'time',lambda:clock[0]),\
+             patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
+            for attempt in range(d.SEARCH_BROKEN_FAILURES+1):
+                receipt=self.run_slice(rid=f'fail-{attempt}')
+                clock[0]+=100000  # past every cooldown, so each batch really does retry
+            self.assertEqual(receipt['search_channel'],'broken')
+            calls=self.fetcher.fetch_json.call_count
+            clock[0]-=100000-21700  # only the old six-hour ceiling has passed since that failure
+            skipped=self.run_slice(rid='six-hours-later')
+        self.assertEqual(skipped['search_skipped'],'provider_broken')
+        self.assertEqual(skipped['search_channel'],'broken')
+        self.assertEqual(skipped['units_used'],0)
+        self.assertEqual(self.fetcher.fetch_json.call_count,calls,'a broken channel is not retried every batch')
+        self.assertIn('SEARCH CHANNEL BROKEN',(self.root/'.local/discovery/digest.md').read_text(encoding='utf-8'))
+
     def test_model_failure_is_not_cached_or_classified_as_access_failure(self):
         with patch.object(r,'ollama',side_effect=TimeoutError):result=self.run_slice()
         self.assertEqual(result['errors'][0]['outcome'],'screen_failed')
