@@ -1012,18 +1012,20 @@ class StaleFigureTaskTests(unittest.TestCase):
         def obs(mid,period,value,year):
             return {'metric':mid,'period':period,'value':value,'year':year}
         self.metrics=[
-            metric('m-quarter-stale','quarter'),       # 2025-Q1, 497 days overdue
+            metric('m-quarter-stale','quarter'),       # 2025-Q1; Q2 closed long ago
             metric('m-quarter-fresh','quarter'),        # 2026-Q3, not overdue
-            metric('m-month-stale','month'),            # 2026-06, 56 days overdue
+            metric('m-month-stale','month'),            # 2026-04; May closed, its figure is late
+            metric('m-yearly-unclosed',None),           # 2025; no FY2026 figure can exist yet
             metric('m-snapshot-fresh','snapshot'),       # 2026-08-01, not overdue
-            metric('m-yearly-stale',None),               # 2020, 2044 days overdue
+            metric('m-yearly-stale',None),               # 2020; years of closed years since
             metric('m-unstable-stale','quarter',definition_stable=False),  # would be overdue, but excluded
             metric('m-manual-only','quarter'),           # overdue, but its only source is manual
             metric('m-refused-only','quarter'),          # overdue, but its only source is refused+cooling
         ]
         self.observations=[
             obs('m-quarter-stale','2025-Q1',1,2025),obs('m-quarter-fresh','2026-Q3',1,2026),
-            obs('m-month-stale','2026-06',1,2026),obs('m-snapshot-fresh','2026-08-01',1,2026),
+            obs('m-month-stale','2026-04',1,2026),obs('m-snapshot-fresh','2026-08-01',1,2026),
+            obs('m-yearly-unclosed','FY2025',1,2025),
             obs('m-yearly-stale','2020',1,2020),obs('m-unstable-stale','2025-Q1',1,2025),
             obs('m-manual-only','2025-Q1',1,2025),obs('m-refused-only','2025-Q1',1,2025),
             # A superseded reading close to today must never mask the real (overdue) latest one.
@@ -1046,8 +1048,19 @@ class StaleFigureTaskTests(unittest.TestCase):
         ids=[t['metric'] for t in tasks]
         self.assertEqual(ids,['m-yearly-stale','m-quarter-stale','m-month-stale'])
         by_id={t['metric']:t for t in tasks}
-        self.assertEqual(by_id['m-quarter-stale']['overdue_days'],497)
-        self.assertEqual(by_id['m-month-stale']['overdue_days'],56)
+        # Days since a newer reading became possible: Q2 2025 closed 30 June 2025, plus the
+        # 120-day publication lag, is 28 October 2025 -- 317 days before 10 September 2026.
+        self.assertEqual(by_id['m-quarter-stale']['overdue_days'],317)
+        # May 2026 closed 31 May, plus the 45-day lag, is 15 July -- 57 days before 10 September.
+        self.assertEqual(by_id['m-month-stale']['overdue_days'],57)
+    def test_a_year_that_has_not_closed_yet_is_never_offered(self):
+        """The whole point: an FY2025 figure is not overdue in September 2026, because no fiscal
+        year has closed to produce an FY2026 one. Chasing these spent 116 fetch-and-model cycles
+        in a two-hour session on 2026-09-11 and every one correctly returned nothing newer."""
+        offered={t['metric'] for t in research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,20)}
+        self.assertNotIn('m-yearly-unclosed',offered)
+        self.assertIn('m-yearly-stale',offered,'a genuinely late annual figure is still chased')
+
     def test_limit_bounds_the_returned_list(self):
         tasks=research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,2)
         self.assertEqual(len(tasks),2)
@@ -1057,7 +1070,7 @@ class StaleFigureTaskTests(unittest.TestCase):
         self.assertEqual(task['latest_period'],'2025-Q1')
     def test_task_carries_the_metric_definition_and_latest_reading(self):
         task=next(t for t in research.select_stale_tasks(self.data,self.registry,self.ecosystem,self.health,self.today,20) if t['metric']=='m-month-stale')
-        self.assertEqual(task['latest_period'],'2026-06');self.assertEqual(task['latest_value'],1)
+        self.assertEqual(task['latest_period'],'2026-04');self.assertEqual(task['latest_value'],1)
         self.assertEqual(task['definition']['id'],'m-month-stale')
         self.assertEqual(task['source_ids'],['src-m-month-stale'])
 
@@ -1159,7 +1172,9 @@ class SelectStaleTasksRefreshExpectedAndBackoffTests(unittest.TestCase):
         ]
         self.observations=[
             {'metric':'m-periodic','period':'2025-Q1','value':1,'year':2025,'status':'observation'},
-            {'metric':'m-one-time','period':'2025','value':1,'year':2025,'status':'estimate'},
+            # 2020, so the clock lets it through and the refresh_expected check is what skips
+            # it -- a 2025 figure would be filtered earlier for having no possible successor yet.
+            {'metric':'m-one-time','period':'2020','value':1,'year':2020,'status':'estimate'},
         ]
         self.data={'metrics':self.metrics,'observations':self.observations}
         self.registry={'sources':[{'id':f'src-{m["id"]}','url':f'https://example.org/{m["id"]}'} for m in self.metrics],

@@ -5,6 +5,7 @@ Default: fetch, extract, validate and write a private proposal.
 --publish: apply, validate, build, test, commit and fast-forward push.
 """
 import argparse
+import calendar
 import contextlib
 import hashlib
 import ipaddress
@@ -16,7 +17,7 @@ import subprocess
 import sys
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.error import HTTPError
@@ -143,6 +144,47 @@ def observation_anchor_date(metric,observation):
             year,q=period.split('-Q');return datetime(int(year),(int(q)-1)*3+1,1).date()
     except ValueError:pass
     return datetime(observation.get('year') or 1970,1,1).date()
+
+# How long after a period closes its figure can reasonably be expected to be published. These are
+# the old staleness thresholds, reused for what they were always really describing.
+PUBLICATION_LAG_DAYS={'month':45,'quarter':120,'snapshot':60}
+DEFAULT_PUBLICATION_LAG_DAYS=90   # an annual figure: the fiscal year closes, then the filing follows
+
+
+def _month_end(year,month):
+    return date(year,month,calendar.monthrange(year,month)[1])
+
+
+def next_reading_possible(metric,observation):
+    """The earliest date a reading NEWER than this one could exist.
+
+    Ageing a figure by how long we have held it asks the wrong question. Measured 2026-09-11: a
+    session spent 116 of its fetch-and-model cycles on 39 annual company revenues whose newest
+    held figure was FY2025. It was September 2026, those fiscal years had not closed, and no
+    source anywhere had a newer number -- every one correctly answered 'nothing newer'. A figure
+    is not overdue until the period after it has closed and its publisher has had time to report.
+
+    Snapshot series are irregular by nature (a fortnightly business survey has no next period to
+    compute), so those keep ageing from their own date.
+    """
+    basis=metric.get('period_basis')
+    period=str(observation.get('period') or '')
+    lag=timedelta(days=PUBLICATION_LAG_DAYS.get(basis,DEFAULT_PUBLICATION_LAG_DAYS))
+    if basis=='month' and re.fullmatch(r'\d{4}-\d{2}',period):
+        year,month=int(period[:4]),int(period[5:7])
+        year,month=(year+1,1) if month==12 else (year,month+1)
+        return _month_end(year,month)+lag
+    if basis=='quarter' and re.fullmatch(r'\d{4}-Q[1-4]',period):
+        year,quarter=int(period[:4]),int(period[-1])
+        year,quarter=(year+1,1) if quarter==4 else (year,quarter+1)
+        return _month_end(year,quarter*3)+lag
+    if basis=='snapshot':
+        return observation_anchor_date(metric,observation)+lag
+    # Yearly, or no reviewed basis at all: the next annual figure cannot exist until the year
+    # after the one we hold has ended. Calendar year-end approximates a fiscal one closely enough
+    # for scheduling a re-check.
+    return date((observation.get('year') or 1970)+1,12,31)+lag
+
 
 def latest_non_superseded(observations,metric_id):
     candidates=[o for o in observations if o['metric']==metric_id and not o.get('superseded_by')]
@@ -278,9 +320,8 @@ def select_stale_tasks(data,registry,ecosystem,health,today,limit,stale_attempts
         if metric.get('definition_stable') is False:continue
         latest=latest_non_superseded(data['observations'],metric['id'])
         if latest is None:continue
-        threshold=STALE_THRESHOLD_DAYS.get(metric.get('period_basis'),STALE_DEFAULT_THRESHOLD_DAYS)
-        age=(today-observation_anchor_date(metric,latest)).days
-        if age<=threshold:continue
+        possible=next_reading_possible(metric,latest)
+        if today<possible:continue
         usable=[sid for sid in metric.get('source_ids',[]) if source_usable_for_stale_task(registry,health,sid)]
         if not usable:continue
         if not refresh_expected(metric,data['observations']):
@@ -291,7 +332,7 @@ def select_stale_tasks(data,registry,ecosystem,health,today,limit,stale_attempts
         company=companies.get(metric.get('company'))
         tasks.append({'metric':metric['id'],'source_ids':usable,
             'feed_source_ids':feeds_by_company.get(company['id'],[]) if company else [],
-            'latest_period':latest['period'],'latest_value':latest['value'],'overdue_days':age-threshold,
+            'latest_period':latest['period'],'latest_value':latest['value'],'overdue_days':(today-possible).days,
             'definition':{k:metric[k] for k in ('id','title','unit','scope','geography') if k in metric}})
     tasks.sort(key=lambda t:(-t['overdue_days'],t['metric']))
     if collection is not None:

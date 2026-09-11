@@ -669,7 +669,10 @@ class StaleFigureTests(unittest.TestCase):
         self.assertEqual(result['overdue_count'], 1, 'a three-year-old quarter fetched tonight counted as fresh')
         row = result['most_overdue'][0]
         self.assertEqual(row['latest_period'], f'{today.year-3}-Q1')
-        self.assertGreater(row['age_days'], 900); self.assertEqual(row['threshold_days'], 120)
+        # Days since a newer reading became possible, not days since we fetched this one:
+        # the quarter after a three-year-old Q1 closed long ago, plus the 120-day lag.
+        self.assertGreater(row['overdue_days'], 900)
+        self.assertLess(row['newer_reading_possible_from'], today.isoformat())
         self.assertTrue(row['refresh_expected']); self.assertEqual(result['refreshable_count'], 1)
 
     def test_a_current_period_fetched_long_ago_is_not_overdue(self):

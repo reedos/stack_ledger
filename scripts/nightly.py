@@ -376,9 +376,11 @@ def stale_figures(root):
 
     Until 2026-09-11 this aged each metric by its observation's `retrieved_at`, so a Q1-2024
     figure fetched last night counted as fresh: 4,184 observations, 0 overdue, every night.
-    research.py already owns this measurement for its stale tasks -- same anchor date, same
-    thresholds, same latest-observation rule -- so the health report borrows it rather than
-    keeping a second copy that can disagree with what the session actually chases."""
+    research.py already owns this measurement for its stale tasks, so the health report borrows it
+    rather than keeping a second copy that can disagree with what the session actually chases. As
+    of 2026-09-11 that measurement is "could a newer reading exist yet", not "how long have we
+    held this one": an FY2025 figure is not overdue in September 2026 because no fiscal year has
+    closed to produce an FY2026 one."""
     import research
     data = read_json(root/'site/data/ledger.json')
     today = datetime.now(timezone.utc).date()
@@ -386,13 +388,13 @@ def stale_figures(root):
     for m in data['metrics']:
         o = research.latest_non_superseded(data['observations'], m['id'])
         if o is None: continue
-        days = research.STALE_THRESHOLD_DAYS.get(m.get('period_basis'), research.STALE_DEFAULT_THRESHOLD_DAYS)
-        age_days = (today-research.observation_anchor_date(m, o)).days
-        if age_days <= days: continue
-        overdue.append({'metric': m['id'], 'source': o.get('source'), 'age_days': age_days, 'threshold_days': days,
+        possible = research.next_reading_possible(m, o)
+        if today < possible: continue
+        overdue.append({'metric': m['id'], 'source': o.get('source'), 'overdue_days': (today-possible).days,
+                        'newer_reading_possible_from': possible.isoformat(),
                         'period_basis': m.get('period_basis') or 'yearly', 'latest_period': o.get('period'),
                         'refresh_expected': research.refresh_expected(m, data['observations'])})
-    overdue.sort(key=lambda r: -r['age_days'])
+    overdue.sort(key=lambda r: -r['overdue_days'])
     return {'overdue_count': len(overdue), 'refreshable_count': sum(r['refresh_expected'] for r in overdue),
             'most_overdue': overdue[:20]}
 
