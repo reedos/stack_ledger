@@ -25,6 +25,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHand
 from urllib.robotparser import RobotFileParser
 
 from validate import validate, observation_valid, event_valid, require, STATUSES, PRECISIONS, LAYERS, PERIOD_FORMATS, REPORT_KINDS
+from validate_expansion import FUTURE_ONLY, EPOCH_SITE, LABOR_MARKET, GRID_DEMAND, GRID_TYPES, SEC_TYPES, EIA_TYPES, EPOCH_MODELS
 from build import build
 from source_policy import collection_for, due, effective_cadence, discoverable, append_excerpt, validate_excerpts, grade_for
 from reports import about_ids, report_kind, reconcile_confirmations, confirmation_only_change
@@ -144,11 +145,113 @@ def source_usable_for_stale_task(registry,health,source_id):
     record=health.get('page',source['url'])
     return not (record.get('status')=='unavailable' and record.get('refused') and not health.due('page',source['url']))
 
-def select_stale_tasks(data,registry,ecosystem,health,today,limit):
+# Deliverable 1 (2026-09-10): which measurement-type families describe a source that can
+# plausibly publish a newer reading, versus one that reports a single milestone, plan or study
+# and will never be "refreshed" -- see refresh_expected() below. The 2026-09-10 session queued
+# crane-restart (a restart plan announced once), the Gemini nameplate-capacity trio, the fixed
+# 2021-2024 IIHS crash-rate study, a Stanford AI Index research-report figure and three one-time
+# facility announcements 2,060 times across 103 batches without ever meeting one, because none
+# of them are periodic series at all.
+#
+# Built from validate_expansion's own reviewed families rather than guessed by substring,
+# because those families mix the two: FUTURE_ONLY holds both one-time pledges (a specific
+# program/plan, announced once) and a grid operator's, or a company's, own recurring forecast
+# reissued every cycle, so the split below is per measurement type, not per source family.
+_RECURRING_FUTURE={'annual_revenue_forecast','capex_announced_usd'}|GRID_TYPES
+
+ONE_TIME_MEASUREMENT_TYPES=(FUTURE_ONLY-_RECURRING_FUTURE)|{
+    'crash_involvements_per_million_miles',              # a fixed 2021-2024 IIHS study window
+    'clinical_trial_enrollment','clinical_endpoint_change',  # a fixed trial window
+    'demand_flexibility_mw_contracted',                  # a contracted-capacity commitment
+    # A single named site/project disclosure -- "Only a dated direct disclosure for this named
+    # site. No observation currently verified" is catalog.json's own scope text for several of
+    # these -- a groundbreaking, an inauguration, a headcount snapshot; not an institution
+    # restating a figure on a schedule.
+    'construction_workers_peak','construction_workers_cumulative','contractor_fte',
+    'permanent_jobs_reported','on_site_full_time_employees','local_procurement_usd',
+    'hbm_stack_capacity','site_facility_mw','site_compute_mw_reported',
+    'onsite_generation_mw_temporary','onsite_generation_mw_permanent',
+    'interconnection_mw_energized','wafer_starts_per_month','cowos_or_advanced_packaging_wspm',
+    # A single company's own milestone claim ("10x usage growth since launch"; "cumulative
+    # milestone" per its own note), not an institutional recurring series.
+    'cumulative_reviews','normalized_usage_index',
+    # A product "as of <date>" press moment (a mileage total, a fleet/metro footprint, a weekly
+    # trip or user count at one disclosure), restated only when the company next chooses to
+    # publish one -- never on a schedule a source can be re-checked against.
+    'completed_totes','humanoid_units_in_production_use','operating_vehicle_count',
+    'operating_metro_count','supervised_driver_miles','unsupervised_or_rider_only_miles',
+    'paid_trips_per_week','autonomous_trips_per_week','weekly_paid_agent_or_seat_users',
+    'hours_automated','published_task_success_rate',
+}
+
+PERIODIC_MEASUREMENT_TYPES={
+    # revenue / capex: a company's own recurring filing or earnings-call cadence
+    'annual_revenue_usd','annual_revenue_reported','annual_revenue_forecast','capex_recognized_usd',
+}|SEC_TYPES|{
+    # price
+    'token_price_input_usd_per_m','token_price_output_usd_per_m','harness_list_price',
+}|{
+    # employment / hires / earnings: institutional labor-market statistics, plus a company's own
+    # recurring company-wide headcount disclosure (a single site's headcount is one-time -- see
+    # permanent_jobs_reported/on_site_full_time_employees above)
+    'company_headcount',
+}|LABOR_MARKET|GRID_DEMAND|GRID_TYPES|{
+    # supply: Epoch's own continuously revised quarterly/per-site tracking program
+    'estimated_cowos_supply_wafers_quarterly','estimated_logic_supply_wafers_quarterly',
+    'estimated_hbm_supply_usd_quarterly','estimated_cowos_consumption_wafers_quarterly',
+}|EPOCH_SITE|{'site_it_mw_operating'}|{
+    # shipments
+    'accelerator_units_installed',
+    # cumulative series: Epoch's own recurring cumulative compute/chip-count series (a single
+    # company's cumulative milestone post is one-time -- see cumulative_reviews above)
+    'estimated_cumulative_ai_chips','estimated_cumulative_ai_compute_h100e',
+}|EPOCH_MODELS|{
+    # recurring published indices/surveys (Census, Indeed) -- same periodic character as the
+    # families above even though the spec's shorthand list doesn't name "index" itself
+    'business_ai_use_share','job_postings_index','job_postings_share','construction_spending_saar',
+}|EIA_TYPES
+
+def refresh_expected(metric,observations):
+    """Whether metric's own registered source(s) can plausibly publish a newer reading.
+
+    An explicit reviewed `refresh_expected` on the metric always wins. Absent that: True when
+    the metric holds a periodic `period_basis`, or its measurement_type is one of
+    PERIODIC_MEASUREMENT_TYPES; False when its measurement_type is one of
+    ONE_TIME_MEASUREMENT_TYPES, or when every one of its own recorded observations is a
+    company-commitment/government-target (a pledge with nothing else on file -- crane-restart,
+    eaton-jonesville-investment). capex_announced_usd is the one FUTURE_ONLY type this catalog
+    uses two ways: allowed_statuses==['forecast'] alone is a reissued guidance/consensus figure
+    (capital-guidance-aws and friends, a new vintage every quarter, same treatment as
+    annual_revenue_forecast); anything broader is a specific program pledge, announced once.
+    Everything else defaults True -- absence of a periodic signal is not evidence of a one-time
+    figure, and an untyped legacy metric keeps today's behavior unless explicitly reviewed.
+    """
+    if isinstance(metric.get('refresh_expected'),bool):return metric['refresh_expected']
+    if metric.get('period_basis') in {'month','quarter','snapshot'}:return True
+    measurement_type=metric.get('measurement_type')
+    if measurement_type=='capex_announced_usd':return metric.get('allowed_statuses')==['forecast']
+    if measurement_type in ONE_TIME_MEASUREMENT_TYPES:return False
+    if measurement_type in PERIODIC_MEASUREMENT_TYPES:return True
+    records=[o for o in observations if o['metric']==metric['id']]
+    if records and all(o.get('status') in {'company-commitment','government-target'} for o in records):return False
+    return True
+
+def select_stale_tasks(data,registry,ecosystem,health,today,limit,stale_attempts=None,current_batch=0,stale_retry_batches=12,collection=None):
     """Metrics whose latest reading has aged past their own cadence, most-overdue first.
 
     Deliverable 10: skips a metric explicitly marked definition_stable: false, and a metric
     with no usable source (every source_id manual or a refused host still cooling down).
+
+    Deliverable 1/2 (2026-09-10): a metric that is not refresh_expected() is never offered --
+    chasing a milestone or a fixed study wastes a session's document budget on a figure no
+    source will restate. `stale_attempts` is this session's own private back-off state (keyed
+    by metric id: {'unmet_count','last_attempt_batch','dropped'}, see main()); a metric with an
+    unmet attempt still inside its `stale_retry_batches` cooldown, or three unmet attempts this
+    session (`dropped`), is withheld too. Both exclusions are counted only among metrics that
+    are otherwise overdue with a usable source -- i.e. would have been offered under the older
+    rule -- and, when `collection` (the batch's private receipt dict) is given, are recorded as
+    `stale_tasks_skipped_not_refresh_expected`/`stale_tasks_backed_off` so the digest can say
+    why 20 candidates became fewer than 20 offered.
     """
     companies={c['id']:c for c in ecosystem.get('companies',[])}
     by_id={s['id']:s for s in registry['sources']}
@@ -156,7 +259,8 @@ def select_stale_tasks(data,registry,ecosystem,health,today,limit):
     for sid,policy in registry.get('collection',{}).items():
         if policy.get('company_id') and by_id.get(sid,{}).get('index'):
             feeds_by_company.setdefault(policy['company_id'],[]).append(sid)
-    tasks=[]
+    stale_attempts=stale_attempts or {}
+    tasks=[];skipped_not_refresh_expected=0;backed_off=0
     for metric in data['metrics']:
         if metric.get('definition_stable') is False:continue
         latest=latest_non_superseded(data['observations'],metric['id'])
@@ -166,24 +270,46 @@ def select_stale_tasks(data,registry,ecosystem,health,today,limit):
         if age<=threshold:continue
         usable=[sid for sid in metric.get('source_ids',[]) if source_usable_for_stale_task(registry,health,sid)]
         if not usable:continue
+        if not refresh_expected(metric,data['observations']):
+            skipped_not_refresh_expected+=1;continue
+        state=stale_attempts.get(metric['id'])
+        if state and (state.get('dropped') or current_batch-state.get('last_attempt_batch',-10**9)<stale_retry_batches):
+            backed_off+=1;continue
         company=companies.get(metric.get('company'))
         tasks.append({'metric':metric['id'],'source_ids':usable,
             'feed_source_ids':feeds_by_company.get(company['id'],[]) if company else [],
             'latest_period':latest['period'],'latest_value':latest['value'],'overdue_days':age-threshold,
             'definition':{k:metric[k] for k in ('id','title','unit','scope','geography') if k in metric}})
     tasks.sort(key=lambda t:(-t['overdue_days'],t['metric']))
+    if collection is not None:
+        collection['stale_tasks_skipped_not_refresh_expected']=skipped_not_refresh_expected
+        collection['stale_tasks_backed_off']=backed_off
     return tasks[:limit]
 
-def stale_task_outcomes(stale_tasks,met_metrics,quarantined_metrics):
-    """Per-task outcome for the batch receipt and digest: met, quarantined or nothing_newer.
+def stale_task_outcomes(stale_tasks,met_metrics,quarantined_metrics,attempted_metrics=None):
+    """Per-task outcome for the batch receipt, digest and session-level back-off: met,
+    quarantined, nothing_newer or not_attempted.
 
     `met_metrics`/`quarantined_metrics` are the metric ids that received a genuinely new
     accepted record, or a fresh quarantine, anywhere in this batch (duplicate_or_conflict
     already keeps a same-period repeat from ever counting as an accepted record).
+    `attempted_metrics` (deliverable 2) is the metric ids whose own source(s) actually reached
+    the metrics-extraction lane this batch, whether via the ordinary due list or the idle
+    top-up; omitted (or None), every offered task is treated as attempted, matching this
+    function's behavior before the back-off deliverable. A task attempted but neither met nor
+    quarantined is `nothing_newer` -- the only outcome that counts toward the back-off rule in
+    main(); one merely offered but never reached this batch (document/time budget ran out
+    first) is `not_attempted` and never counts against it, since nothing was learned either way.
     """
-    return [{'metric':t['metric'],'overdue_days':t['overdue_days'],
-             'outcome':'met' if t['metric'] in met_metrics else ('quarantined' if t['metric'] in quarantined_metrics else 'nothing_newer')}
-            for t in stale_tasks]
+    attempted=set(attempted_metrics) if attempted_metrics is not None else {t['metric'] for t in stale_tasks}
+    outcomes=[]
+    for t in stale_tasks:
+        if t['metric'] in met_metrics:outcome='met'
+        elif t['metric'] in quarantined_metrics:outcome='quarantined'
+        elif t['metric'] in attempted:outcome='nothing_newer'
+        else:outcome='not_attempted'
+        outcomes.append({'metric':t['metric'],'overdue_days':t['overdue_days'],'outcome':outcome})
+    return outcomes
 
 
 def tracked_companies():
@@ -756,8 +882,16 @@ def run_summary(receipt):
             # Deliverable 8: why the model was or wasn't called this batch.
             'unchanged_304':collection.get('unchanged_304',0),'text_unchanged':collection.get('text_unchanged',0),
             'already_reviewed':collection.get('already_reviewed',0),'model_documents':collection.get('model_documents',0),
-            # Deliverable 10: overdue-metric tasking, from the same private receipt.
-            'stale_tasks':len(stale),'stale_tasks_met':sum(t.get('outcome')=='met' for t in stale),
+            # Deliverable 10: overdue-metric tasking, from the same private receipt. 'stale_tasks'
+            # is the number offered this batch (deliverable 1/2, 2026-09-10: after skipping a
+            # non-refresh-expected metric and one still backed off from an earlier unmet attempt
+            # this session -- see stale_tasks_skipped_not_refresh_expected/stale_tasks_backed_off
+            # below, which count those exclusions rather than folding them in silently).
+            'stale_tasks':len(stale),
+            'stale_tasks_attempted':sum(t.get('outcome')!='not_attempted' for t in stale),
+            'stale_tasks_met':sum(t.get('outcome')=='met' for t in stale),
+            'stale_tasks_skipped_not_refresh_expected':collection.get('stale_tasks_skipped_not_refresh_expected',0),
+            'stale_tasks_backed_off':collection.get('stale_tasks_backed_off',0),
             # Deliverable 4 (2026-09-10): feed reach and idle-pass top-up, so a quiet night can
             # say whether nothing was published or nothing was reachable.
             'feeds_polled':collection.get('feeds_polled',0),'feed_entries_new':collection.get('feed_entries_new',0),
@@ -936,7 +1070,21 @@ def main():
         # is untouched by this -- only today's batch queue order changes.
         ecosystem=load(ROOT/'research/ecosystem.json')
         today=datetime.now(timezone.utc).date()
-        stale_tasks=[] if (args.sources or question) else select_stale_tasks(data,registry,ecosystem,fetcher.health,today,config.get('max_stale_tasks_per_batch',20))
+        # Deliverable 2 (2026-09-10): this session's own private back-off state, beside its
+        # batch receipts. Without a session id (or in a focused --sources/--question run,
+        # which never queues stale tasks at all) there is nowhere to persist across separate
+        # `research.py` invocations, so state falls back to an empty dict scoped to this one
+        # call -- correct, if unable to remember anything past this single batch, since a
+        # session-less invocation has no way to know a "previous batch" exists in the first
+        # place. `current_batch` mirrors session_receipt.py's own receipts_recorded count.
+        stale_attempts_path=None;stale_attempts={};current_batch=1
+        if args.session_id and not (args.sources or question):
+            session_folder=LOCAL/'sessions'/args.session_id
+            stale_attempts_path=session_folder/'stale-attempts.json'
+            stale_attempts=load(stale_attempts_path) if stale_attempts_path.exists() else {}
+            current_batch=len(list((session_folder/'batches').glob('*.json')))+1
+        stale_tasks=[] if (args.sources or question) else select_stale_tasks(data,registry,ecosystem,fetcher.health,today,
+            config.get('max_stale_tasks_per_batch',20),stale_attempts,current_batch,config.get('stale_retry_batches',12),collection)
         stale_targets_by_source={}
         stale_front=[];stale_front_ids=set();stale_forced_urls=set()
         for task in stale_tasks:
@@ -946,9 +1094,9 @@ def main():
                 if sid in registry_by_id and sid not in stale_front_ids:
                     stale_front.append(registry_by_id[sid]);stale_front_ids.add(sid)
                     stale_forced_urls.add(registry_by_id[sid]['url'])
-        collection['stale_tasks_queued']=len(stale_tasks)
+        collection['stale_tasks_offered']=len(stale_tasks)
         stale_metric_ids={t['metric'] for t in stale_tasks}
-        stale_metrics_met=set();stale_metrics_quarantined=set()
+        stale_metrics_met=set();stale_metrics_quarantined=set();stale_metrics_attempted=set()
         # Deliverable 2 (2026-09-10): a feed/index source becomes due again after
         # feed_poll_minutes (runtime.json, default 20) instead of the registered cadence, so
         # stories published during a multi-hour session are picked up in that same session.
@@ -1088,6 +1236,10 @@ def main():
                         model_failed=True;raise
                     record_review(reviews,metrics_key,'metrics',source['id'],'accepted' if accepted_now else ('quarantined' if len(quarantine)>quarantine_before else 'empty'))
                     if stale_metric_ids:
+                        # Deliverable 2: a genuine metrics-lane attempt happened for every stale
+                        # metric this document could report, whether or not it found anything --
+                        # the back-off rule in main() only ever fires on a real, reached attempt.
+                        stale_metrics_attempted.update(m for m in related_ids if m in stale_metric_ids)
                         stale_metrics_met.update(o['metric'] for o in accepted_now if o['metric'] in stale_metric_ids)
                         stale_metrics_quarantined.update(q['candidate'].get('metric') for q in quarantine[quarantine_before:] if isinstance(q.get('candidate'),dict) and q['candidate'].get('metric') in stale_metric_ids)
                 run['documents_reviewed']+=1;coverage.update(source['layers'])
@@ -1157,7 +1309,23 @@ def main():
             return 0 if discovery_receipt and discovery_receipt.get('units_used') else 2
         run['quarantined']=len(quarantine)
         run['coverage_layers']=sorted(coverage)
-        collection['stale_tasks']=stale_task_outcomes(stale_tasks,stale_metrics_met,stale_metrics_quarantined)
+        collection['stale_tasks']=stale_task_outcomes(stale_tasks,stale_metrics_met,stale_metrics_quarantined,stale_metrics_attempted)
+        if stale_attempts_path is not None:
+            # Deliverable 2: a genuinely attempted-but-unmet task backs off for
+            # stale_retry_batches batches (state persisted here); met clears any prior back-off
+            # state outright, since the metric's own age just reset. A merely offered-but-never-
+            # reached ('not_attempted') or quarantined outcome leaves existing state untouched --
+            # nothing was learned either way, so neither extends nor resets the cooldown.
+            for outcome in collection['stale_tasks']:
+                mid=outcome['metric']
+                if outcome['outcome']=='met':
+                    stale_attempts.pop(mid,None)
+                elif outcome['outcome']=='nothing_newer':
+                    state=stale_attempts.setdefault(mid,{'unmet_count':0})
+                    state['unmet_count']=state.get('unmet_count',0)+1
+                    state['last_attempt_batch']=current_batch
+                    if state['unmet_count']>=3:state['dropped']=True
+            save(stale_attempts_path,stale_attempts)
         # Deliverable 7: every due source this batch turned out unchanged or already
         # reviewed -- no fresh model call happened, so there is nothing new to publish either,
         # even though documents were read. Never counted as a failure.

@@ -719,7 +719,8 @@ class RunSummaryTests(unittest.TestCase):
                           {'documents':0,'model_calls':0,'accepted':0,'quarantined':0,
                            'quarantined_by_reason':{},'private_notes':0,'empty_reasons':{},
                            'unchanged_304':0,'text_unchanged':0,'already_reviewed':0,'model_documents':0,
-                           'stale_tasks':0,'stale_tasks_met':0,
+                           'stale_tasks':0,'stale_tasks_attempted':0,'stale_tasks_met':0,
+                           'stale_tasks_skipped_not_refresh_expected':0,'stale_tasks_backed_off':0,
                            'feeds_polled':0,'feed_entries_new':0,'feed_entries_already_reviewed':0,
                            'idle_pass':False,'idle_feeds_polled':0,'idle_stale_tasks_run':0})
     def test_deliverable_8_reports_why_the_model_was_or_was_not_called(self):
@@ -931,6 +932,183 @@ class StaleFigureTaskTests(unittest.TestCase):
         self.assertEqual(outcomes['b']['outcome'],'quarantined')
         self.assertEqual(outcomes['c']['outcome'],'nothing_newer')
         self.assertEqual(outcomes['a']['overdue_days'],10)
+    def test_receipt_distinguishes_never_reached_from_genuinely_unmet(self):
+        # Deliverable 2 (2026-09-10): an offered task the batch never actually reached (document
+        # budget ran out first) must not read the same as one that was tried and taught nothing --
+        # only the latter should ever count toward the session back-off rule.
+        tasks=[{'metric':'a','overdue_days':10},{'metric':'b','overdue_days':5}]
+        outcomes={o['metric']:o for o in research.stale_task_outcomes(tasks,met_metrics=set(),quarantined_metrics=set(),attempted_metrics={'a'})}
+        self.assertEqual(outcomes['a']['outcome'],'nothing_newer')
+        self.assertEqual(outcomes['b']['outcome'],'not_attempted')
+
+
+class RefreshExpectedTests(unittest.TestCase):
+    """Deliverable 1 (2026-09-10): a reviewed refresh expectation, derived or explicit, so
+    select_stale_tasks stops chasing a milestone, plan or fixed study no source will restate."""
+    def metric(self,mid='m',**over):
+        m={'id':mid,'source_ids':['s']};m.update(over);return m
+    def obs(self,mid,status,year=2025):
+        return {'metric':mid,'year':year,'period':str(year),'value':1,'status':status}
+    def test_explicit_field_always_wins(self):
+        self.assertFalse(research.refresh_expected(self.metric(refresh_expected=False,period_basis='quarter'),[]))
+        self.assertTrue(research.refresh_expected(self.metric(refresh_expected=True,measurement_type='crash_involvements_per_million_miles'),[]))
+    def test_periodic_period_basis_wins_over_an_unset_measurement_type(self):
+        for basis in ['month','quarter','snapshot']:
+            with self.subTest(basis=basis):
+                self.assertTrue(research.refresh_expected(self.metric(period_basis=basis),[]))
+    def test_a_quarterly_employment_metric_is_refresh_expected(self):
+        m=self.metric('county-employment',measurement_type='county_industry_employment')
+        self.assertTrue(research.refresh_expected(m,[self.obs('county-employment','observation')]))
+    def test_a_crash_rate_study_is_not_refresh_expected(self):
+        m=self.metric('crash-rate',measurement_type='crash_involvements_per_million_miles')
+        self.assertFalse(research.refresh_expected(m,[self.obs('crash-rate','estimate')]))
+    def test_an_announced_investment_is_not_refresh_expected(self):
+        m=self.metric('announced-capital',measurement_type='capex_announced_usd',allowed_statuses=['forecast','company-commitment','government-target'])
+        self.assertFalse(research.refresh_expected(m,[self.obs('announced-capital','company-commitment')]))
+    def test_capex_guidance_reissued_every_quarter_is_refresh_expected(self):
+        # The one FUTURE_ONLY type this catalog uses two ways: allowed_statuses restricted to
+        # ['forecast'] alone is a reissued guidance/consensus figure (capital-guidance-aws and
+        # friends), not the one-time program pledge the broader status set above represents.
+        m=self.metric('capex-guidance',measurement_type='capex_announced_usd',allowed_statuses=['forecast'])
+        self.assertTrue(research.refresh_expected(m,[self.obs('capex-guidance','forecast')]))
+    def test_a_metric_with_only_commitment_or_target_records_is_not_refresh_expected(self):
+        # No measurement_type at all -- crane-restart/eaton-jonesville-investment's own shape --
+        # still falls back correctly using the actual recorded history.
+        m=self.metric('pledge-only')
+        self.assertFalse(research.refresh_expected(m,[self.obs('pledge-only','company-commitment')]))
+        m2=self.metric('target-only')
+        self.assertFalse(research.refresh_expected(m2,[self.obs('target-only','government-target')]))
+    def test_an_untyped_metric_with_an_ordinary_observation_defaults_true(self):
+        # Absence of a periodic signal is not by itself evidence of a one-time figure --
+        # gemini-solar and inference-cost derive True here and need the reviewed catalog
+        # override (deliverable 4) precisely because this default preserves today's behavior
+        # for every other untyped legacy metric.
+        m=self.metric('untyped-observed')
+        self.assertTrue(research.refresh_expected(m,[self.obs('untyped-observed','observation')]))
+    def test_a_metric_with_no_recorded_observations_defaults_true(self):
+        self.assertTrue(research.refresh_expected(self.metric('no-history'),[]))
+
+
+class SelectStaleTasksRefreshExpectedAndBackoffTests(unittest.TestCase):
+    """select_stale_tasks (deliverable 1/2, 2026-09-10) skips a non-refresh-expected metric
+    outright, and withholds one still inside its session back-off window -- both counted into
+    the `collection` dict passed in, distinct from the metrics actually offered."""
+    def setUp(self):
+        self.today=date(2026,9,10)
+        self.metrics=[
+            {'id':'m-periodic','period_basis':'quarter','source_ids':['src-m-periodic'],'definition_stable':True},
+            {'id':'m-one-time','measurement_type':'crash_involvements_per_million_miles','source_ids':['src-m-one-time'],'definition_stable':True},
+        ]
+        self.observations=[
+            {'metric':'m-periodic','period':'2025-Q1','value':1,'year':2025,'status':'observation'},
+            {'metric':'m-one-time','period':'2025','value':1,'year':2025,'status':'estimate'},
+        ]
+        self.data={'metrics':self.metrics,'observations':self.observations}
+        self.registry={'sources':[{'id':f'src-{m["id"]}','url':f'https://example.org/{m["id"]}'} for m in self.metrics],
+                       'collection':{f'src-{m["id"]}':{'cadence':'daily'} for m in self.metrics}}
+        self.ecosystem={'companies':[]}
+    def select(self,**kwargs):
+        collection={}
+        tasks=research.select_stale_tasks(self.data,self.registry,self.ecosystem,None,self.today,20,collection=collection,**kwargs)
+        return tasks,collection
+    def test_a_one_time_measurement_type_is_skipped_and_counted(self):
+        tasks,collection=self.select()
+        ids=[t['metric'] for t in tasks]
+        self.assertIn('m-periodic',ids);self.assertNotIn('m-one-time',ids)
+        self.assertEqual(collection['stale_tasks_skipped_not_refresh_expected'],1)
+        self.assertEqual(collection['stale_tasks_backed_off'],0)
+    def test_a_metric_inside_its_retry_window_is_withheld(self):
+        attempts={'m-periodic':{'unmet_count':1,'last_attempt_batch':5}}
+        tasks,collection=self.select(stale_attempts=attempts,current_batch=6,stale_retry_batches=12)
+        self.assertEqual([t['metric'] for t in tasks],[])
+        self.assertEqual(collection['stale_tasks_backed_off'],1)
+    def test_a_metric_past_its_retry_window_is_offered_again(self):
+        attempts={'m-periodic':{'unmet_count':1,'last_attempt_batch':1}}
+        tasks,collection=self.select(stale_attempts=attempts,current_batch=13,stale_retry_batches=12)
+        self.assertEqual([t['metric'] for t in tasks],['m-periodic'])
+        self.assertEqual(collection['stale_tasks_backed_off'],0)
+    def test_a_dropped_metric_is_withheld_regardless_of_batches_elapsed(self):
+        attempts={'m-periodic':{'unmet_count':3,'last_attempt_batch':1,'dropped':True}}
+        tasks,_=self.select(stale_attempts=attempts,current_batch=999,stale_retry_batches=12)
+        self.assertEqual([t['metric'] for t in tasks],[])
+    def test_no_backoff_state_offers_normally(self):
+        tasks,collection=self.select(stale_attempts={},current_batch=1)
+        self.assertEqual([t['metric'] for t in tasks],['m-periodic'])
+        self.assertEqual(collection['stale_tasks_backed_off'],0)
+
+
+class StaleTaskSessionBackoffStateTests(unittest.TestCase):
+    """Deliverable 2 (2026-09-10) end to end through main(): the session's own
+    .local/sessions/<id>/stale-attempts.json accumulates unmet attempts, drops a metric after
+    three, resets on a met outcome, and is never touched by a focused --sources run."""
+    def setUp(self):
+        self.stanford_url='https://hai.stanford.edu/ai-index/2026-ai-index-report'
+        self.document=research.ReadableHTML();self.document.feed('<p>Public report of 2026 AI infrastructure and progress.</p>')
+        self.task={'metric':'ai-adoption','source_ids':['stanford-2026'],'feed_source_ids':[],
+            'latest_period':'2025','latest_value':88,'overdue_days':500,
+            'definition':{'id':'ai-adoption','title':'AI adoption','unit':'%','scope':'s','geography':'g'}}
+    def fake_due(self,url,refresh=False,feed_poll_seconds=None):return url==self.stanford_url
+    def run_batch(self,path,sid,select_stale_tasks_mock,model=empty_model,document=None):
+        with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+             patch.object(research,'select_stale_tasks',side_effect=select_stale_tasks_mock), \
+             patch.object(research.Fetcher,'due',side_effect=self.fake_due), \
+             patch.object(research.Fetcher,'fetch',return_value=document or self.document), \
+             patch.object(research,'ollama',side_effect=model), \
+             patch.object(sys,'argv',['research.py','--session-id',sid,'--refresh']),patch('sys.stdout',new=io.StringIO()):
+            return research.main()
+    def test_an_unmet_attempt_backs_off_for_the_configured_retry_window(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path);sid='a'*32
+            calls=[]
+            def fake_select(*args,**kwargs):
+                # main() mutates the same stale_attempts dict object in place later in this
+                # same batch (persisting the outcome) -- capture a snapshot, not the reference.
+                calls.append((copy.deepcopy(args[6]),args[7]));return [dict(self.task)]
+            self.run_batch(path,sid,fake_select)
+            state_path=path/'.local/sessions'/sid/'stale-attempts.json'
+            self.assertEqual(research.load(state_path),{'ai-adoption':{'unmet_count':1,'last_attempt_batch':1}})
+            self.run_batch(path,sid,fake_select)
+            # main() must read batch 1's saved state back and advance the batch counter --
+            # select_stale_tasks itself already enforces the window (tested directly above).
+            self.assertEqual(calls[1],({'ai-adoption':{'unmet_count':1,'last_attempt_batch':1}},2))
+            self.assertEqual(research.load(state_path),{'ai-adoption':{'unmet_count':2,'last_attempt_batch':2}})
+    def test_three_unmet_attempts_drop_the_metric_for_the_session(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path);sid='b'*32
+            def fake_select(*args,**kwargs):return [dict(self.task)]
+            for _ in range(3):self.run_batch(path,sid,fake_select)
+            state=research.load(path/'.local/sessions'/sid/'stale-attempts.json')
+            self.assertEqual(state['ai-adoption'],{'unmet_count':3,'last_attempt_batch':3,'dropped':True})
+    def test_a_met_outcome_clears_prior_backoff_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path);sid='c'*32
+            session_folder=path/'.local/sessions'/sid
+            research.save(session_folder/'stale-attempts.json',{'ai-adoption':{'unmet_count':2,'last_attempt_batch':1}})
+            evidence='In 2026, 91 percent of surveyed organizations reported AI use.'
+            document=research.ReadableHTML();document.feed(f'<p>{evidence}</p>')
+            candidate={'metric':'ai-adoption','year':2026,'period':'2026','value':91,'upper':None,'status':'observation','precision':'eq','note':'','evidence':evidence}
+            def fake_model(cfg,system,prompt,schema):
+                if schema==research.NOTE_SCHEMA:return {'notes':[]}
+                if schema==research.VERDICT_SCHEMA:return {'verdicts':[{'index':0,'supported':True,'reason':'Direct support'}]}
+                return {'observations':[candidate]}
+            def fake_select(*args,**kwargs):return [dict(self.task)]
+            self.run_batch(path,sid,fake_select,model=fake_model,document=document)
+            state=research.load(session_folder/'stale-attempts.json')
+            self.assertNotIn('ai-adoption',state)
+    def test_a_focused_sources_run_never_touches_backoff_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);RunnerTests().fixture(path);sid='d'*32
+            with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
+                 patch.object(research,'select_stale_tasks') as mock_select, \
+                 patch.object(research.Fetcher,'fetch',return_value=self.document), \
+                 patch.object(research,'ollama',side_effect=empty_model), \
+                 patch.object(sys,'argv',['research.py','--session-id',sid,'--sources','doe-demand']),patch('sys.stdout',new=io.StringIO()):
+                research.main()
+            mock_select.assert_not_called()
+            self.assertFalse((path/'.local/sessions'/sid/'stale-attempts.json').exists())
+            receipts=list((path/'.local/sessions'/sid/'batches').glob('*.json'))
+            receipt=research.load(receipts[0])
+            self.assertEqual(receipt['collection'].get('stale_tasks_offered',0),0)
 
 
 if __name__=='__main__':unittest.main()
