@@ -138,5 +138,37 @@ class ConsistencyTests(unittest.TestCase):
         self.assertEqual(offenders, [], 'source dicts with no provenance: %s' % offenders)
 
 
+class BrowserMirrorTests(unittest.TestCase):
+    """The static page is rendered in Python and then replaced by app.js in the browser. If the two
+    disagree about a grade, the label changes under the reader between paint and hydrate."""
+    def js_table(self, name, path='site/assets/app.js'):
+        body = (ROOT/path).read_text(encoding='utf-8')
+        match = re.search(r'const %s=\{(.*?)\};' % name, body, re.S)
+        self.assertIsNotNone(match, '%s missing from %s' % (name, path))
+        return dict(re.findall(r"'([^']+)'\s*:\s*'([^']*)'", match.group(1)))
+
+    def test_the_grade_table_matches_python(self):
+        self.assertEqual(self.js_table('PROVENANCE_GRADE'), sp.PROVENANCE_GRADE)
+
+    def test_the_reader_facing_labels_match_python(self):
+        self.assertEqual(self.js_table('PROVENANCE_LABEL'), sp.PROVENANCE_LABEL)
+
+    def test_the_published_copy_of_the_script_matches_the_source_copy(self):
+        self.assertEqual((ROOT/'site/assets/app.js').read_text(encoding='utf-8'),
+                         (ROOT/'docs/assets/app.js').read_text(encoding='utf-8'),
+                         'docs/assets/app.js is what the public site serves; rebuild after editing site/')
+
+    def test_the_browser_fails_closed_the_same_way_python_does(self):
+        body = (ROOT/'site/assets/app.js').read_text(encoding='utf-8')
+        self.assertIn("PROVENANCE_GRADE[s.provenance]) || 'D'", body)
+        self.assertEqual(grade_for(None, {'id': 'x', 'provenance': 'nonsense'}), 'D')
+
+    def test_every_published_source_reaches_the_browser_with_its_provenance(self):
+        """app.js derives the grade from the ledger's own sources array, so the field has to be
+        there: source-books.json carries only collection policies."""
+        for source in ledger()['sources']:
+            self.assertIn('provenance', source, source['id'])
+
+
 if __name__ == '__main__':
     unittest.main()
