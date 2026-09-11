@@ -2,12 +2,25 @@
 from html import escape as e
 
 
+PRECISION_PREFIX = {'eq': '', 'approx': 'about ', 'gt': 'more than '}
+
+
+def survey_value(point):
+    """A survey answer the source states loosely stays loose on the page.
+
+    The New York Fed reports "just over a third of service firms" retrained workers and gives no
+    exact percentage in its text, so the bar is drawn at its floor and labelled "more than 33%".
+    Printing 34% would invent a digit the source never published.
+    """
+    return f"{PRECISION_PREFIX.get(point.get('precision', 'eq'), '')}{point['value']:g}%"
+
+
 def employment_feature(data, citations):
     cards=''.join(f'<article class="employment-card"><div class="eyebrow">{e(c["title"])}</div><h3>{e(c["headline"])}</h3><p class="claim-scope">{e(c["scope"])}</p><p>{e(c["body"])}</p>{citations(c["sources"])}</article>' for c in data['cards'])
     s=data['survey']
     # A common 0–100% scale measures firms, never jobs or net employment.
-    bars=''.join(f'<div class="evidence-bar-row"><div><span>{e(p["label"])}</span><strong>{p["value"]:g}%</strong></div><div class="evidence-bar-track"><span class="evidence-bar" style="width:{p["value"]:g}%"></span></div></div>' for p in s['points'])
-    rows=''.join(f'<tr><th scope="row">{e(p["label"])}</th><td>{p["value"]:g}%</td></tr>' for p in s['points'])
+    bars=''.join(f'<div class="evidence-bar-row"><div><span>{e(p["label"])}</span><strong>{survey_value(p)}</strong></div><div class="evidence-bar-track"><span class="evidence-bar" style="width:{p["value"]:g}%"></span></div></div>' for p in s['points'])
+    rows=''.join(f'<tr><th scope="row">{e(p["label"])}</th><td>{survey_value(p)}</td></tr>' for p in s['points'])
     return f'''<section class="section employment-feature" id="ai-employment"><div class="eyebrow">AI & JOBS / THE EVIDENCE SO FAR</div><h2>Is AI causing mass unemployment?</h2><p class="employment-verdict">{e(data['verdict'])}</p><p class="section-intro">{e(data['summary'])}</p><div class="employment-grid">{cards}</div><div class="employment-detail"><figure class="evidence-graphic"><h3>{e(s['title'])}</h3><p>{e(s['scope'])}</p><p class="evidence-unit">{e(s['unit'])} · Reported {e(s['status'])}</p><div aria-hidden="true">{bars}<div class="employment-axis"><span>0%</span><span>50%</span><span>100%</span></div></div><details><summary>Data & scope</summary><table><caption>{e(s['unit'])}</caption><thead><tr><th>Reported action</th><th>Share</th></tr></thead><tbody>{rows}</tbody></table></details><figcaption>{e(s['note'])}</figcaption>{citations([s['source']])}</figure><div class="employment-reading"><h3>What these numbers can establish</h3><p><strong>Some displacement can happen without mass unemployment.</strong> Reduced entry-level hiring can matter before layoffs or unemployment rise. Different samples, exposure measures and time windows can produce different findings.</p><p><strong>Layoff announcements are a separate signal.</strong> Employer references to AI do not independently establish causation, actual separations or economy-wide net losses. See the <a href="#article-review">Challenger reconciliation and jobs-article audit</a>.</p><p><strong>The buildout creates demand for work.</strong> The construction and recruiting evidence below helps document that opportunity. Job postings are not filled jobs; construction roles and displaced office roles are not automatically interchangeable. We cannot subtract these different datasets into a net AI jobs total.</p><h3>What would change the assessment?</h3><p>{e(data['future'])}</p><a class="source-inline" href="#young-workers">Examine the entry-level study and its limits →</a></div></div></section>'''
 
 

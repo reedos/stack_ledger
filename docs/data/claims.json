@@ -614,26 +614,31 @@
       }
     ],
     "survey": {
-      "title": "How AI-using service firms changed staffing",
+      "title": "How AI-using service firms adjusted their workforces",
       "scope": "New York and Northern New Jersey / August 2026 survey / reported actions over the previous six months",
       "unit": "Percent of surveyed service firms using AI",
       "status": "observation",
       "source": "claims-nyfed-ai-work",
       "points": [
         {
-          "label": "Laid off workers due to AI",
-          "value": 4
+          "label": "Retrained workers to use AI",
+          "value": 33,
+          "precision": "gt"
+        },
+        {
+          "label": "Hired fewer workers than otherwise",
+          "value": 15
         },
         {
           "label": "Hired more workers due to AI",
           "value": 13
         },
         {
-          "label": "Hired fewer workers than otherwise",
-          "value": 15
+          "label": "Laid off workers due to AI",
+          "value": 4
         }
       ],
-      "note": "Employer self-reports; shares of firms, not shares of workers. Categories need not be mutually exclusive and cannot be added or subtracted into a net jobs estimate. Regional findings are not nationally representative. More than a third of AI-using service firms reported retraining workers."
+      "note": "Employer self-reports; shares of firms, not shares of workers. Categories need not be mutually exclusive and cannot be added or subtracted into a net jobs estimate. Regional findings are not nationally representative. The survey reports retraining as \"just over a third\" of AI-using service firms and gives no exact figure, so it is shown as a floor."
     },
     "future": "For future buildouts, track actual construction and operating hires, local wages, apprentices completing training and moving into paid work. For AI adoption, follow hiring, separations, hours, pay and unemployment duration by occupation, age and AI exposure, using comparable groups and accounting for economic conditions. Review adverse evidence as carefully as benefits."
   }

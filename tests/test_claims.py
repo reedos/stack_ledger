@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from validate_claims import validate_claims, validate_files
-from render_claims import render_claims, water_values, resident_values
+from render_claims import render_claims, survey_value, water_values, resident_values
 
 
 class ClaimsTests(unittest.TestCase):
@@ -72,8 +72,10 @@ class ClaimsTests(unittest.TestCase):
         html=render_claims(self.data,self.sources)
         self.assertIn('id="ai-employment"',html)
         for point in self.data['employment_context']['survey']['points']:
+            # The bar is always drawn at the stated value; the printed figure carries the source's
+            # own precision, so a survey answer reported as "just over a third" reads as a floor.
             self.assertIn(f'width:{point["value"]:g}%',html)
-            self.assertIn(f'<td>{point["value"]:g}%</td>',html)
+            self.assertIn(f'<td>{survey_value(point)}</td>',html)
         self.assertIn('shares of firms, not shares of workers',html)
         self.assertIn('cannot be added or subtracted',html)
         self.assertIn('0%</span><span>50%</span><span>100%',html)

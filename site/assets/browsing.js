@@ -37,7 +37,13 @@ function paginateResearch(container,selector,size,label,{search=false}={}){
 function disclosureAround(nodes,title){
  const list=nodes.filter(Boolean);if(!list.length)return;
  const details=document.createElement('details');details.className='browse-disclosure';
- const summary=document.createElement('summary');summary.textContent=title;details.append(summary);
+ const summary=document.createElement('summary');
+ // A heading given here is MOVED into the summary, never copied. Copying its text left the same
+ // title rendered twice on the page -- once as the disclosure label, once as the heading still
+ // sitting inside the panel it opens -- which is what a phone showed for every builder group and
+ // every collapsed agenda section (reported 2026-09-11).
+ if(title&&title.nodeType===1)summary.append(title);else summary.textContent=title;
+ details.append(summary);
  list[0].before(details);list.forEach(el=>details.append(el));return details;
 }
 function compactCompanies(){
@@ -107,12 +113,12 @@ function organizeResearch(){
   if(repeated)disclosureAround([repeated],'Context: how this layer connects to useful work');
   main.querySelectorAll('.signal-list').forEach(el=>paginateResearch(el,':scope > .signal-row',5,'Layer research notes'));
   main.querySelectorAll('.builder-group').forEach((group,i)=>{
-   const details=disclosureAround([group],group.querySelector('h3').textContent.trim());details.classList.add('builder-disclosure');details.open=i===0;
+   const details=disclosureAround([group],group.querySelector('h3'));details.classList.add('builder-disclosure');details.open=i===0;
   });
   // Detailed topic cards remain addressable; headline evidence stays expanded.
   main.querySelectorAll(':scope > .agenda-section').forEach(section=>{
    if(priority.includes(section.id)||section.querySelector('.agenda-chart'))return;
-   disclosureAround([section],section.querySelector('h2').textContent.trim());
+   disclosureAround([section],section.querySelector('h2'));
   });
  }
  if(page==='industry'){

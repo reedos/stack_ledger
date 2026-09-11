@@ -34,7 +34,10 @@ def validate_claims(data, sources):
     require(isinstance(survey['points'],list) and len(survey['points'])>=2,'Missing survey comparison')
     labels=set()
     for point in survey['points']:
-        require(set(point)=={'label','value'},'Invalid survey point')
+        require(set(point)<={'label','value','precision'} and {'label','value'}<=set(point),'Invalid survey point')
+        # Optional, and only the reviewed vocabulary: a source that says "just over a third" may
+        # not be published as a precise reading (see render_claims.survey_value).
+        require(point.get('precision','eq') in {'eq','approx','gt'},'Invalid survey precision')
         text(point['label'],200)
         require(point['label'] not in labels,'Duplicate survey category');labels.add(point['label'])
         require(type(point['value']) in (int,float) and math.isfinite(point['value']) and 0<=point['value']<=100,'Invalid survey percentage')
