@@ -165,10 +165,17 @@ class Queue:
             except Exception as e:
                 self._update(job_id, status='failed', finished_at=now(), step='Failed', error=(str(e) or type(e).__name__)[:600])
 
-    def close(self):
+    def close(self, timeout=15):
+        """Stop the worker and WAIT for it. A caller that tears down the root directory needs the
+        writes to have stopped, not merely been asked to: the panel tests delete a temporary tree
+        in tearDown, and a worker still saving job state raced them into "Directory not empty" on
+        roughly half of CI runs (2026-09-11)."""
         with self.guard:
             self.stopped = True
             self.wake.notify_all()
+        worker = self.worker
+        if worker and worker is not threading.current_thread():
+            worker.join(timeout)
 
 
 def auto_validate(root, queue, packages):

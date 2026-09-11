@@ -194,7 +194,7 @@ class ServerTests(unittest.TestCase):
         self.worker = threading.Thread(target=self.http.serve_forever, daemon=True); self.worker.start()
 
     def tearDown(self):
-        self.http.shutdown(); self.http.server_close(); self.worker.join()
+        self.http.jobs.close(); self.http.shutdown(); self.http.server_close(); self.worker.join()
 
     def get(self, path, extra_headers):
         req = urllib.request.Request(f'http://127.0.0.1:{self.http.server_port}{path}', headers=extra_headers)
@@ -298,7 +298,7 @@ class ReviewerAttributionTests(unittest.TestCase):
         self.worker = threading.Thread(target=self.http.serve_forever, daemon=True); self.worker.start()
 
     def tearDown(self):
-        self.http.shutdown(); self.http.server_close(); self.worker.join()
+        self.http.jobs.close(); self.http.shutdown(); self.http.server_close(); self.worker.join()
 
     def test_tailnet_review_records_channel_and_login(self):
         import findings_review
@@ -396,7 +396,7 @@ class ReportPromotePanelTests(unittest.TestCase):
         self.worker = threading.Thread(target=self.http.serve_forever, daemon=True); self.worker.start()
 
     def tearDown(self):
-        self.http.shutdown(); self.http.server_close(); self.worker.join()
+        self.http.jobs.close(); self.http.shutdown(); self.http.server_close(); self.worker.join()
 
     def post(self, route, body, origin=None, login='reedosaki@gmail.com'):
         req = urllib.request.Request(

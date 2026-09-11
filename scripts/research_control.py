@@ -340,6 +340,7 @@ def server(root=ROOT,*,config=None,asset_root=None):
             except (OSError,subprocess.SubprocessError):self.send(503,{'error':'Catalog operation failed; saved evidence and publication receipts are retained. Check the local repository and retry.'})
     http=ThreadingHTTPServer(('127.0.0.1',config['port'] if config else 0),Handler)
     http.tailnet=config
+    http.jobs=jobs   # the caller that stops the server must be able to stop the worker too
     return http,f'http://127.0.0.1:{http.server_port}/{token}/'
 
 

@@ -145,6 +145,14 @@ def validate_registry(registry, companies):
         # source is walked for discovered child pages, which auto-publish; only rank <=4 or an
         # official social account (rank 6) may be walked this way.
         require(p['rank']!=5 or not sources[sid].get('index'), 'A rank-5 aggregator cannot be an index/feed source; it must remain a private lead')
+        # An index/feed source exists to be walked for child pages, and discoverable() requires
+        # BOTH a matching path prefix and a topic match. One with either list empty is therefore
+        # re-fetched every cycle and can never yield a child. Measured 2026-09-11: nvidia-news,
+        # microsoft-news and google-research were the three most-read documents of a 189-batch
+        # overnight session -- 103 of its 600 fetches -- and produced nothing, because the index
+        # page itself went to the model, which correctly called it out of scope.
+        if sources[sid].get('index'):
+            require(p['path_prefixes'] and p['topics'], 'An index source with no path prefixes or no topics can never discover a child page')
         for prefix in p['path_prefixes']:
             # A feed source's candidate links come from the feed's own entries, not from walking the
             # site, so a whole-site prefix there means "any article this outlet published" and the
