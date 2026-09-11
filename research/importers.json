@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T20:00:00Z",
+  "reviewed_at": "2026-09-11T00:00:00Z",
   "research_ignore_gpu_busy": true,
   "importers": [
     {
@@ -13,7 +13,19 @@
       ],
       "cadence": "weekly",
       "weekday": 2,
-      "timeout_seconds": 900
+      "timeout_seconds": 900,
+      "expect": {
+        "minimums": {
+          "rows:data-centers": 400,
+          "rows:gpu-clusters": 200,
+          "rows:chip-components": 100,
+          "rows:chip-sales": 200,
+          "rows:companies": 100,
+          "rows:notable-models": 400,
+          "rows:eci": 1000
+        },
+        "note": "CSV rows across each dataset archive, floored near half of the 2026-09 vintage retained under research/epoch/ (data-centers 1496, gpu-clusters 482, chip-components 306, chip-sales 521, companies 236, notable-models 1062, eci ~10000). Epoch republishes a whole vintage, so a dataset that suddenly returns a fraction of its rows is a broken download, not a quiet week. Only the datasets a run actually requests are checked."
+      }
     },
     {
       "id": "qcew",
@@ -23,7 +35,15 @@
       ],
       "cadence": "weekly",
       "weekday": 3,
-      "timeout_seconds": 600
+      "timeout_seconds": 600,
+      "expect": {
+        "minimums": {
+          "files:ok": 8,
+          "rows:kept": 200,
+          "records": 200
+        },
+        "note": "The 2026-09 run fetched 18 of 22 quarter files (4 quarters are simply not published yet), kept 569 county rows and built 431 records. Floors sit near half: BLS publishing one fewer quarter is normal, the CSV route going away is not."
+      }
     },
     {
       "id": "qwi",
@@ -33,7 +53,15 @@
       ],
       "cadence": "weekly",
       "weekday": 4,
-      "timeout_seconds": 600
+      "timeout_seconds": 600,
+      "expect": {
+        "minimums": {
+          "calls:ok": 30,
+          "rows": 200,
+          "records": 300
+        },
+        "note": "The 2026-09 run made 70 county/industry calls, 62 parseable (8 are legitimately suppressed cells), 488 rows, 868 records. Floors near half absorb suppression and a shrinking project map; a dead key or renamed route drops all of them to zero."
+      }
     },
     {
       "id": "btos",
@@ -43,7 +71,17 @@
       ],
       "cadence": "weekly",
       "weekday": 0,
-      "timeout_seconds": 600
+      "timeout_seconds": 600,
+      "expect": {
+        "minimums": {
+          "rows:national": 20,
+          "rows:sector": 20,
+          "records:btos-ai-use-share": 15,
+          "records:btos-ai-use-share-naics-51": 15,
+          "records:btos-ai-use-share-naics-54": 15
+        },
+        "note": "Census publishes a biweekly point per series and never withdraws the history, so each of the three metrics held 20 records on 2026-09-09. A floor per metric is what catches the real failure mode here: Census renaming a sector label leaves the file fetchable and that one series empty."
+      }
     },
     {
       "id": "sec",
@@ -53,7 +91,14 @@
       ],
       "cadence": "weekly",
       "weekday": 1,
-      "timeout_seconds": 900
+      "timeout_seconds": 900,
+      "expect": {
+        "minimums": {
+          "companies:ok": 10,
+          "records": 250
+        },
+        "note": "All 13 reviewed domestic filers returned company facts on 2026-09-09 for 424 records. 10 tolerates a couple of transient EDGAR failures; below that the route, the user agent or the ticker map is broken."
+      }
     },
     {
       "id": "eia",
@@ -63,7 +108,20 @@
       ],
       "cadence": "weekly",
       "weekday": 5,
-      "timeout_seconds": 600
+      "timeout_seconds": 600,
+      "expect": {
+        "minimums": {
+          "rows:net-generation": 60,
+          "records:net-generation": 60,
+          "rows:capacity-additions": 1,
+          "records:capacity-additions": 1,
+          "rows:steo": 1,
+          "records:steo": 1,
+          "rows:retail-price": 200,
+          "records:retail-price": 200
+        },
+        "note": "From the 2026-09-10 pull (research/eia/eia.json): net-generation 90 rows/90 records, retail-price 518 rows/518 records, capacity-additions 5000 rows and ZERO records, steo 0 rows. The last two are the reason this block exists -- a route that returns rows and produces no record is a parse break, and a route that returns no row at all is a dead query; neither is a quiet week, and both reported ok for as long as this importer has existed."
+      }
     },
     {
       "id": "policy",
@@ -73,7 +131,14 @@
       ],
       "cadence": "weekly",
       "weekday": 6,
-      "timeout_seconds": 300
+      "timeout_seconds": 300,
+      "expect": {
+        "minimums": {
+          "calls:ok": 4,
+          "results": 1
+        },
+        "note": "One call per reviewed query term, all 4 parseable on 2026-09-10. Selecting zero documents is an ordinary quiet week and is not floored; the Federal Register search returning nothing at all for every term over a 120-day lookback is not."
+      }
     },
     {
       "id": "grid",
@@ -83,7 +148,13 @@
       ],
       "cadence": "weekly",
       "weekday": 2,
-      "timeout_seconds": 300
+      "timeout_seconds": 300,
+      "expect": {
+        "minimums": {
+          "operators": 5
+        },
+        "note": "Citation-only: this importer fetches nothing, it registers the reviewed operator sources in research/grid-operators.json (5 on 2026-09-10). The floor guards the reviewed config being emptied, which is the only way this run can silently do nothing."
+      }
     },
     {
       "id": "grid-demand",
@@ -93,7 +164,15 @@
       ],
       "cadence": "weekly",
       "weekday": 6,
-      "timeout_seconds": 900
+      "timeout_seconds": 900,
+      "expect": {
+        "minimums": {
+          "operators:with-rows": 4,
+          "rows": 4000,
+          "records": 400
+        },
+        "note": "EIA-930 returned 11234 daily rows for all 4 balancing authorities on 2026-09-10, giving 732 monthly records. Every operator must come back with rows: one respondent code going stale is exactly the failure that otherwise looks like a quiet week."
+      }
     }
   ]
 }

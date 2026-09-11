@@ -704,12 +704,20 @@ def main(argv=None):
     p.add_argument('--reject',action='append',default=[],metavar='EPOCH_NAME',help='Record an Epoch site name as a reviewed non-match')
     a=p.parse_args(argv)
     names=list(DATASETS) if a.dataset=='all' else [a.dataset]
-    records={}
+    records={};failures=[]
     for name in names:
         if a.offline and (SNAPSHOTS/f'{name}.json').exists():records[name]=load(SNAPSHOTS/f'{name}.json');continue
-        blob=fetch(DATASETS[name]['url']);tabs,readme=tables(name,blob)
+        try:
+            blob=fetch(DATASETS[name]['url']);tabs,readme=tables(name,blob)
+        except Exception as e:
+            # One dataset per try: an unreachable or reshaped download used to abort the whole
+            # weekly `all --apply` run and discard the six datasets that were fine.
+            failures.append(f'{name}: {type(e).__name__}: {str(e)[:200]}')
+            print('FAILED '+failures[-1],file=sys.stderr,flush=True);continue
         records[name]=snapshot(name,blob,tabs,readme)
         print(f"{name}: vintage {records[name]['vintage']} · {records[name]['row_counts']} · leads {export_leads(name,records[name])}",flush=True)
+    from importer_common import check_floors
+    failures+=check_floors(ROOT,'epoch',{f'rows:{n}':sum(r['row_counts'].values()) for n,r in records.items()},keys={f'rows:{n}' for n in names})
     registry=load(ROOT/'research/sources.json');ledger=load(ROOT/'site/data/ledger.json');catalog=load(ROOT/'research/catalog.json')
     report=[]
     if 'data-centers' in records and 'gpu-clusters' in records:
@@ -740,7 +748,7 @@ def main(argv=None):
         # registration/metrics/observations are independent, so a validation failure on one
         # dataset never blocks or rolls back another that already landed cleanly. Registry,
         # catalog and ledger are reloaded between datasets so each call sees the last one's result.
-        for name in names:
+        for name in [n for n in names if n in records]:
             d=DATASETS[name]
             source=None
             if d['source_id'] not in {s['id'] for s in registry['sources']}:
@@ -777,7 +785,7 @@ def main(argv=None):
                 print(f"registered source {d['source_id']}",flush=True)
             registry=load(ROOT/'research/sources.json');ledger=load(ROOT/'site/data/ledger.json');catalog=load(ROOT/'research/catalog.json')
         print('catalog, registry and ledger updated; site rebuilt',flush=True)
-    return 0
+    return 1 if failures else 0
 
 
 if __name__=='__main__':sys.exit(main())

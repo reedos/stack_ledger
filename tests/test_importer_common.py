@@ -8,6 +8,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNNER = ROOT/'tests/_importer_common_runner.py'
+sys.path.insert(0, str(ROOT/'scripts'))
+import importer_common as ic
+from validate import importer_expect, validate_importers
 
 FIXTURE_SOURCE = {'id': 'test-importer-common-source', 'publisher': 'Test Publisher', 'title': 'Test dataset',
                   'url': 'https://example.gov/data', 'published': None, 'layers': ['infrastructure'], 'license': 'Public domain (U.S. government work)', 'provenance': 'official'}
@@ -186,6 +189,157 @@ class ImporterCommonEndToEndTests(unittest.TestCase):
         events_path = self.root/'.local/review-candidates/editorial-events.jsonl'
         events = [json.loads(line) for line in events_path.read_text(encoding='utf-8').splitlines()] if events_path.exists() else []
         self.assertFalse(any(e.get('kind') == 'importer_apply' for e in events))
+
+
+class FloorTests(unittest.TestCase):
+    """Until 2026-09-11 no importer asserted a minimum expected result, so a dead route and a quiet
+    week were the same run: EIA's capacity route returned 5,000 rows, produced zero records, and
+    reported ok every week."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name); (self.root/'research').mkdir()
+        self.write_config({'rows:one': 10, 'records:one': 1})
+
+    def write_config(self, minimums):
+        (self.root/'research/importers.json').write_text(json.dumps(
+            {'version': 1, 'reviewed_at': '2026-09-11T00:00:00Z',
+             'importers': [{'id': 'x', 'command': ['scripts/import_x.py'], 'cadence': 'weekly', 'weekday': 2,
+                            'timeout_seconds': 300, 'expect': {'minimums': minimums, 'note': 'Test fixture floor.'}}]}), encoding='utf-8')
+
+    def test_a_route_that_returns_rows_and_no_record_fails(self):
+        failures = ic.floor_failures(self.root, 'x', {'rows:one': 5000, 'records:one': 0})
+        self.assertEqual(len(failures), 1)
+        self.assertIn("'records:one' returned 0", failures[0])
+        self.assertIn('not a quiet week', failures[0])
+
+    def test_a_healthy_run_that_adds_no_new_record_still_passes(self):
+        # Re-importing unchanged data legitimately adds nothing; the floor is what came back.
+        self.assertEqual(ic.floor_failures(self.root, 'x', {'rows:one': 12, 'records:one': 40}), [])
+
+    def test_a_renamed_route_fails_rather_than_going_unchecked(self):
+        failures = ic.floor_failures(self.root, 'x', {'rows:one': 12})
+        self.assertEqual(len(failures), 1)
+        self.assertIn('records:one', failures[0])
+
+    def test_keys_limits_the_check_to_the_part_of_the_run_that_happened(self):
+        self.assertEqual(ic.floor_failures(self.root, 'x', {'rows:one': 12}, keys={'rows:one'}), [])
+
+    def test_an_importer_with_no_reviewed_floor_is_an_error(self):
+        value = json.loads((self.root/'research/importers.json').read_text(encoding='utf-8'))
+        del value['importers'][0]['expect']
+        (self.root/'research/importers.json').write_text(json.dumps(value), encoding='utf-8')
+        with self.assertRaises(ValueError):
+            ic.floor_failures(self.root, 'x', {'rows:one': 12, 'records:one': 4})
+
+    def test_every_scheduled_importer_has_a_reviewed_floor(self):
+        for imp in validate_importers(ROOT)['importers']:
+            self.assertTrue(ic.reviewed_expectations(ROOT, imp['id'])['minimums'], imp['id'])
+
+
+class DriftTests(unittest.TestCase):
+    """Six of seven importers skip an id the ledger already holds, so a figure restated by the
+    agency stayed frozen at whatever the first import saw, with nothing reported."""
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def held(self):
+        return [{'id': 'm-2025', 'metric': 'm', 'period': '2025', 'value': 10.0, 'upper': None, 'status': 'observation'}]
+
+    def test_a_restated_figure_is_reported_and_queued_without_rewriting_the_ledger(self):
+        held = self.held()
+        fresh = [{'id': 'm-2025', 'metric': 'm', 'period': '2025', 'value': 11.5, 'upper': None, 'status': 'observation'},
+                 {'id': 'm-2026', 'metric': 'm', 'period': '2026', 'value': 12.0, 'upper': None, 'status': 'observation'}]
+        rows = ic.report_drift(self.root, 'qcew', fresh, held)
+        self.assertEqual([r['id'] for r in rows], ['m-2025'])
+        self.assertEqual(rows[0]['changed']['value'], {'ledger': 10.0, 'source': 11.5})
+        self.assertEqual(held[0]['value'], 10.0)   # reported, never rewritten by an import
+        queued = sorted((self.root/'.local/review-candidates').glob('importer-drift-qcew-*.json'))
+        self.assertEqual(len(queued), 1)
+        payload = json.loads(queued[0].read_text(encoding='utf-8'))
+        self.assertEqual(payload['kind'], 'importer_drift')
+        self.assertTrue(payload['review_required'])
+        self.assertEqual([r['id'] for r in payload['records']], ['m-2025'])
+
+    def test_an_unchanged_reimport_reports_nothing(self):
+        held = self.held()
+        self.assertEqual(ic.report_drift(self.root, 'qcew', [dict(held[0])], held), [])
+        self.assertFalse((self.root/'.local/review-candidates').exists())
+
+    def test_a_status_restatement_is_drift_too(self):
+        held = self.held()
+        fresh = [dict(held[0], status='estimate')]
+        rows = ic.report_drift(self.root, 'qcew', fresh, held)
+        self.assertEqual(rows[0]['changed']['status'], {'ledger': 'observation', 'source': 'estimate'})
+
+
+class SnapshotRedactionTests(unittest.TestCase):
+    """EIA echoes the request back with api_key in it, so every response retained under .local/eia
+    and .local/grid held the owner's key in plaintext (checked 2026-09-11)."""
+
+    def test_the_key_is_stripped_before_a_response_is_retained(self):
+        body = json.dumps({'request': {'command': '/v2/x', 'params': {'frequency': 'monthly', 'api_key': 'SECRETKEY123'}},
+                            'response': {'total': 1, 'data': [{'period': '2026-01'}]}}).encode('utf-8')
+        out = ic.redacted_body(body)
+        self.assertNotIn(b'SECRETKEY123', out)
+        self.assertEqual(json.loads(out)['response'], json.loads(body)['response'])
+        self.assertEqual(json.loads(out)['request']['params']['api_key'], 'redacted')
+
+    def test_a_response_with_no_echoed_key_is_left_alone(self):
+        body = b'[{"period": "2026-01"}]'
+        self.assertIs(ic.redacted_body(body), body)
+
+    def test_both_eia_importers_redact_before_retaining(self):
+        for name in ('import_eia', 'import_grid_demand'):
+            source = (ROOT/'scripts'/f'{name}.py').read_text(encoding='utf-8')
+            self.assertIn('redacted_body(', source, f"{name} writes the owner's API key into .local/")
+
+
+class ImporterWiringTests(unittest.TestCase):
+    LANDS_OBSERVATIONS = ('import_eia', 'import_btos', 'import_qcew', 'import_qwi', 'import_sec', 'import_grid_demand')
+
+    def test_every_scheduled_importer_checks_its_floor_and_can_exit_non_zero(self):
+        for imp in validate_importers(ROOT)['importers']:
+            source = (ROOT/imp['command'][0]).read_text(encoding='utf-8')
+            self.assertIn('check_floors(', source, f"{imp['id']} reports ok whatever its routes return")
+            self.assertIn('return 1 if', source, f"{imp['id']} exits 0 even when a reviewed floor is breached")
+
+    def test_every_importer_that_lands_observations_reports_drift(self):
+        for name in self.LANDS_OBSERVATIONS:
+            source = (ROOT/'scripts'/f'{name}.py').read_text(encoding='utf-8')
+            self.assertIn('report_drift(', source, f'{name} never compares what the source says now with what the ledger holds')
+
+
+class ImporterExpectValidationTests(unittest.TestCase):
+    def test_reviewed_floor_shape_is_checked(self):
+        importer_expect({'minimums': {'rows:one': 10}, 'note': 'Grounded in the retained snapshot.'})
+        for bad in ({'minimums': {}, 'note': 'why'},
+                     {'minimums': {'rows:one': -1}, 'note': 'why'},
+                     {'minimums': {'rows:one': 1.5}, 'note': 'why'},
+                     {'minimums': {'rows:one': 1}},
+                     {'minimums': {'rows:one': 1}, 'note': 'why', 'extra': True}):
+            with self.assertRaises(ValueError):
+                importer_expect(bad)
+
+    def test_validate_importers_rejects_a_scheduled_importer_whose_floor_is_malformed(self):
+        temp = tempfile.TemporaryDirectory(); self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        (root/'scripts').mkdir(); (root/'scripts/import_x.py').write_text('', encoding='utf-8'); (root/'research').mkdir()
+        config = {'version': 1, 'reviewed_at': '2026-09-11T00:00:00Z',
+                  'importers': [{'id': 'x', 'command': ['scripts/import_x.py'], 'cadence': 'weekly', 'weekday': 2,
+                                 'timeout_seconds': 300, 'expect': {'minimums': {'rows:one': 10}, 'note': 'Reviewed floor.'}}]}
+        (root/'research/importers.json').write_text(json.dumps(config), encoding='utf-8')
+        self.assertEqual(validate_importers(root)['importers'][0]['expect']['minimums'], {'rows:one': 10})
+        config['importers'][0]['expect'] = {'minimums': {'rows:one': 'lots'}, 'note': 'Reviewed floor.'}
+        (root/'research/importers.json').write_text(json.dumps(config), encoding='utf-8')
+        with self.assertRaises(ValueError):
+            validate_importers(root)
+
+    def test_the_real_file_carries_a_reviewed_floor_and_a_note_for_every_importer(self):
+        for imp in validate_importers(ROOT)['importers']:
+            self.assertTrue(imp['expect']['minimums'] and imp['expect']['note'], imp['id'])
 
 
 if __name__ == '__main__':

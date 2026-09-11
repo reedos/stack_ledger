@@ -74,7 +74,10 @@ def run(apply=False):
           f"· sources to register {len(new_sources)}", flush=True)
     for o in waiting:
         print(f"  WAITING {o['id']}: {o['format']} only -- {o['note'][:140]}", flush=True)
-    result = {'status': 'ok', 'waiting': [o['id'] for o in waiting], 'imported': [o['id'] for o in imported], 'sources': new_sources}
+    from importer_common import check_floors
+    failures = check_floors(ROOT, 'grid', {'operators': len(p['operators'])})
+    result = {'status': 'failed' if failures else 'ok', 'waiting': [o['id'] for o in waiting], 'imported': [o['id'] for o in imported],
+              'sources': new_sources, 'floor_failures': failures}
     if not apply:
         return result
     from importer_common import apply_changes
@@ -86,7 +89,7 @@ def run(apply=False):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0]); p.add_argument('--apply', action='store_true')
-    a = p.parse_args(argv); run(apply=a.apply); return 0
+    a = p.parse_args(argv); return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__ == '__main__': sys.exit(main())

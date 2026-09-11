@@ -131,25 +131,29 @@ def run(apply=False,today=None):
     snapshot={'dataset':'BLS QCEW open data','source_id':SOURCE_ID,'retrieved_at':retrieved,'industries':INDUSTRIES,'counties':counties,'files':files,'quarters_available':available,'suppressed':all_supp,
               'metrics':sorted(all_metrics),'records':len(all_obs),'license':'Public domain (U.S. government work)'}
     save(SNAPSHOTS/'qcew.json',snapshot)
+    from importer_common import check_floors,report_drift
+    counts={'files:ok':sum(1 for f in files if f['status']=='ok'),'rows:kept':sum(f.get('rows_kept',0) for f in files),'records':len(all_obs)}
+    failures=check_floors(ROOT,'qcew',counts)
+    drift=report_drift(ROOT,'qcew',all_obs,ledger['observations'])
     existing_ids={o['id'] for o in ledger['observations']}
     new_obs=[o for o in all_obs if o['id'] not in existing_ids]
     # A county whose every quarter is suppressed gets no metric: an empty series would read as zero.
     with_records={o['metric'] for o in all_obs}
     known={m['id'] for m in catalog['metrics']};new_metrics=[m for mid,m in sorted(all_metrics.items()) if mid not in known and mid in with_records]
-    print(f"counties {len(counties)} · quarters available {sorted(set((y,q) for _,y,q in available))[-1] if available else None} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · suppressed county-quarters {len(all_supp)}",flush=True)
-    if not apply:return {'metrics':new_metrics,'records':new_obs,'suppressed':all_supp}
+    print(f"counties {len(counties)} · quarters available {sorted(set((y,q) for _,y,q in available))[-1] if available else None} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · drift {len(drift)} · suppressed county-quarters {len(all_supp)}",flush=True)
+    if not apply:return {'metrics':new_metrics,'records':new_obs,'suppressed':all_supp,'floor_failures':failures,'drift':drift}
     from importer_common import apply_changes
     collection_entries={SOURCE_ID:{'rank':1,'region_book':'united-states','company_id':None,'claim_type':'labor','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}}
     apply_changes(ROOT,importer_id='qcew',new_sources=[SOURCE] if SOURCE_ID not in {s['id'] for s in registry['sources']} else (),
                   collection_entries=collection_entries,region_book='united-states',
                   new_metrics=new_metrics,new_observations=new_obs,snapshot=snapshot)
     print('catalog, registry and ledger updated; site rebuilt',flush=True)
-    return {'metrics':new_metrics,'records':new_obs,'suppressed':all_supp}
+    return {'metrics':new_metrics,'records':new_obs,'suppressed':all_supp,'floor_failures':failures,'drift':drift}
 
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__.splitlines()[0]);p.add_argument('--apply',action='store_true')
-    a=p.parse_args(argv);run(apply=a.apply);return 0
+    a=p.parse_args(argv);return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__=='__main__':sys.exit(main())

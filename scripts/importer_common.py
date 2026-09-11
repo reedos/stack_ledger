@@ -23,16 +23,100 @@ catalog_review.enqueue for human review).
 """
 import getpass
 import hashlib
+import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from research import load, save, now
+from research import load, save, now, require
 from validate import validate, observation_valid, event_valid
 from source_policy import validate_registry
 from editorial_review import append_event, locked
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def redacted_body(body):
+    """A response with the owner's API key removed from the request EIA echoes back. Every EIA
+    response retained under .local/eia and .local/grid held the key in plaintext until 2026-09-11.
+    The caller hashes what this returns, so the recorded sha256 identifies the retained file."""
+    try:
+        payload = json.loads(body.decode('utf-8'))
+    except (ValueError, UnicodeDecodeError):
+        return body
+    params = (payload.get('request') or {}).get('params') if isinstance(payload, dict) else None
+    if not isinstance(params, dict) or 'api_key' not in params:
+        return body
+    params['api_key'] = 'redacted'
+    return json.dumps(payload).encode('utf-8')
+
+
+def reviewed_expectations(root, importer_id):
+    """The importer's reviewed floor block from research/importers.json. Absent is an error, never
+    a default: without a floor a dead route is indistinguishable from a quiet week (2026-09-11
+    audit -- EIA's capacity route had produced zero records since the day it was written and every
+    weekly run still reported ok)."""
+    entry = next((i for i in load(root/'research/importers.json')['importers'] if i['id'] == importer_id), None)
+    require(entry is not None, f'{importer_id} is not configured in research/importers.json')
+    expect = entry.get('expect')
+    require(isinstance(expect, dict) and expect.get('minimums'),
+            f'{importer_id} has no reviewed expect.minimums in research/importers.json; a run with no floor cannot report a dead route')
+    return expect
+
+
+def floor_failures(root, importer_id, counts, keys=None):
+    """Reviewed-floor breaches as specific messages. counts is {reviewed name: how many this run
+    returned} -- rows a route returned and records a route produced, never records newly added,
+    since re-importing unchanged data legitimately adds nothing. keys restricts the check to part
+    of the reviewed set (import_epoch runs one dataset at a time). A reviewed name missing from
+    counts is itself a breach: a renamed or dropped route must not quietly stop being checked."""
+    minimums = reviewed_expectations(root, importer_id)['minimums']
+    out = []
+    for name, floor in sorted(minimums.items()):
+        if keys is not None and name not in keys:
+            continue
+        got = counts.get(name)
+        if got is None:
+            out.append(f"{importer_id}: nothing reported for '{name}' (reviewed floor {floor}) -- the route it names is gone or renamed")
+        elif got < floor:
+            out.append(f"{importer_id}: '{name}' returned {got}, below the reviewed floor of {floor} -- a broken route, not a quiet week")
+    return out
+
+
+def check_floors(root, importer_id, counts, keys=None):
+    """floor_failures() on stderr, so nightly's stderr_tail carries the reason a run failed.
+    Callers exit non-zero when the returned list is non-empty."""
+    failures = floor_failures(root, importer_id, counts, keys)
+    for failure in failures:
+        print('FLOOR '+failure, file=sys.stderr, flush=True)
+    return failures
+
+
+def report_drift(root, importer_id, observations, ledger_observations):
+    """Published records whose value the source now states differently, written to the private
+    review queue and printed. Every importer but import_epoch skips an id the ledger already
+    holds, so an agency restating a figure has been invisible since these importers were written
+    (2026-09-11 audit). Visible, never rewritten: changing a published figure is a reviewed
+    correction, not an import."""
+    held = {o['id']: o for o in ledger_observations}
+    rows = []
+    for o in observations:
+        prior = held.get(o['id'])
+        if prior is None:
+            continue
+        changed = {k: {'ledger': prior.get(k), 'source': o.get(k)} for k in ('value', 'upper', 'status') if prior.get(k) != o.get(k)}
+        if changed:
+            rows.append({'id': o['id'], 'metric': o['metric'], 'period': o.get('period'), 'changed': changed})
+    if rows:
+        at = now()
+        save(root/'.local/review-candidates'/f'importer-drift-{importer_id}-{at[:10]}.json',
+             {'kind': 'importer_drift', 'importer_id': importer_id, 'created_at': at, 'review_required': True, 'records': rows})
+        print(f'DRIFT {len(rows)} published record(s) no longer match the source; queued for review, nothing rewritten', file=sys.stderr, flush=True)
+        for r in rows[:5]:
+            value = r['changed'].get('value')
+            detail = f"value {value['ledger']} -> {value['source']}" if value else ', '.join(sorted(r['changed']))
+            print(f"  DRIFT {r['id']}: {detail}", file=sys.stderr, flush=True)
+    return rows
 
 
 def _snapshot_sha256s(snapshot):

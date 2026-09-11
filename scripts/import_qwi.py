@@ -101,24 +101,28 @@ def run(apply=False,today=None):
     SNAPSHOTS.mkdir(exist_ok=True)
     snapshot={'dataset':'Census QWI via Census Data API','source_id':SOURCE_ID,'retrieved_at':retrieved,'industries':INDUSTRIES,'counties':counties,'calls':calls,'metrics':sorted(all_metrics),'records':len(all_obs),'license':'Public domain (U.S. government work)','key':'owner-registered, not recorded'}
     save(SNAPSHOTS/'qwi.json',snapshot)
+    from importer_common import check_floors,report_drift
+    counts={'calls:ok':sum(1 for c in calls if c['status']=='ok'),'rows':sum(c.get('rows',0) for c in calls),'records':len(all_obs)}
+    failures=check_floors(ROOT,'qwi',counts)
+    drift=report_drift(ROOT,'qwi',all_obs,ledger['observations'])
     existing={o['id'] for o in ledger['observations']};new_obs=[o for o in all_obs if o['id'] not in existing]
     with_records={o['metric'] for o in all_obs};known={m['id'] for m in catalog['metrics']}
     new_metrics=[m for mid,m in sorted(all_metrics.items()) if mid not in known and mid in with_records]
     ok=sum(1 for c in calls if c['status']=='ok')
-    print(f"counties {len(counties)} · api calls ok {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · latest period {max((o['period'] for o in all_obs),default=None)}",flush=True)
-    if not apply:return {'metrics':new_metrics,'records':new_obs}
+    print(f"counties {len(counties)} · api calls ok {ok}/{len(calls)} · metrics {len(all_metrics)} ({len(new_metrics)} new) · records {len(all_obs)} ({len(new_obs)} new) · drift {len(drift)} · latest period {max((o['period'] for o in all_obs),default=None)}",flush=True)
+    if not apply:return {'metrics':new_metrics,'records':new_obs,'floor_failures':failures,'drift':drift}
     from importer_common import apply_changes
     collection_entries={SOURCE_ID:{'rank':1,'region_book':'united-states','company_id':None,'claim_type':'labor','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}}
     apply_changes(ROOT,importer_id='qwi',new_sources=[SOURCE] if SOURCE_ID not in {s['id'] for s in registry['sources']} else (),
                   collection_entries=collection_entries,region_book='united-states',
                   new_metrics=new_metrics,new_observations=new_obs,snapshot=snapshot)
     print('catalog, registry and ledger updated; site rebuilt',flush=True)
-    return {'metrics':new_metrics,'records':new_obs}
+    return {'metrics':new_metrics,'records':new_obs,'floor_failures':failures,'drift':drift}
 
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__.splitlines()[0]);p.add_argument('--apply',action='store_true')
-    a=p.parse_args(argv);run(apply=a.apply);return 0
+    a=p.parse_args(argv);return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__=='__main__':sys.exit(main())

@@ -96,14 +96,16 @@ def run(apply=False):
     (private/f'sector-{sector_sha[:12]}.json').write_bytes(sector_body)
     national_rows=parse(national_body);sector_rows=parse(sector_body)
 
-    metrics={};observations=[]
+    metrics={};observations=[];per_metric={}
     metrics['btos-ai-use-share']=metric_definition('btos-ai-use-share','Share of U.S. businesses currently using AI (Census BTOS)','United States')
-    observations+=records_for(national_rows,'btos-ai-use-share',retrieved,national_sha)
+    national_obs=records_for(national_rows,'btos-ai-use-share',retrieved,national_sha)
+    per_metric['btos-ai-use-share']=len(national_obs);observations+=national_obs
     for naics,census_label,title_label in SECTORS:
         mid=f'btos-ai-use-share-naics-{naics}'
         metrics[mid]=metric_definition(mid,f'Share of U.S. businesses currently using AI · {title_label} (NAICS {naics}, Census BTOS)',f'United States, {title_label.lower()} (NAICS {naics})',naics=naics)
         rows=[r for r in sector_rows if r.get('NAICS')==census_label]
-        observations+=records_for(rows,mid,retrieved,sector_sha)
+        sector_obs=records_for(rows,mid,retrieved,sector_sha)
+        per_metric[mid]=len(sector_obs);observations+=sector_obs
 
     SNAPSHOTS.mkdir(exist_ok=True)
     snapshot={'dataset':'Census BTOS AI-use supplement','source_id':SOURCE_ID,'retrieved_at':retrieved,
@@ -113,21 +115,27 @@ def run(apply=False):
 
     ledger=load(ROOT/'site/data/ledger.json');catalog=load(ROOT/'research/catalog.json');registry=load(ROOT/'research/sources.json')
     existing_obs={o['id'] for o in ledger['observations']};new_obs=[o for o in observations if o['id'] not in existing_obs]
-    known_metrics={m['id'] for m in catalog['metrics']};new_metrics=[m for mid,m in sorted(metrics.items()) if mid not in known_metrics]
-    print(f"national periods {len({o['period'] for o in observations if o['metric']=='btos-ai-use-share'})} · metrics {len(metrics)} ({len(new_metrics)} new) · records {len(observations)} ({len(new_obs)} new) · latest period {max((o['period'] for o in observations),default=None)}",flush=True)
-    if not apply:return {'metrics':new_metrics,'records':new_obs}
-    from importer_common import apply_changes
+    # A series with no observations gets no metric: Census renaming a sector label leaves the file
+    # fetchable and that one series empty, and an empty series reads as zero.
+    with_records={o['metric'] for o in observations}
+    known_metrics={m['id'] for m in catalog['metrics']};new_metrics=[m for mid,m in sorted(metrics.items()) if mid not in known_metrics and mid in with_records]
+    from importer_common import apply_changes,check_floors,report_drift
+    counts={'rows:national':len(national_rows),'rows:sector':len(sector_rows),**{f'records:{mid}':n for mid,n in per_metric.items()}}
+    failures=check_floors(ROOT,'btos',counts)
+    drift=report_drift(ROOT,'btos',observations,ledger['observations'])
+    print(f"national periods {len({o['period'] for o in observations if o['metric']=='btos-ai-use-share'})} · metrics {len(metrics)} ({len(new_metrics)} new) · records {len(observations)} ({len(new_obs)} new) · drift {len(drift)} · latest period {max((o['period'] for o in observations),default=None)}",flush=True)
+    if not apply:return {'metrics':new_metrics,'records':new_obs,'floor_failures':failures,'drift':drift}
     collection_entries={SOURCE_ID:{'rank':1,'region_book':'united-states','company_id':None,'claim_type':'other','cadence':'manual','weekday':0,'path_prefixes':[],'topics':[],'excerpts':False}}
     apply_changes(ROOT,importer_id='btos',new_sources=[SOURCE] if SOURCE_ID not in {s['id'] for s in registry['sources']} else (),
                   collection_entries=collection_entries,region_book='united-states',
                   new_metrics=new_metrics,new_observations=new_obs,snapshot=snapshot)
     print('catalog, registry and ledger updated; site rebuilt',flush=True)
-    return {'metrics':new_metrics,'records':new_obs}
+    return {'metrics':new_metrics,'records':new_obs,'floor_failures':failures,'drift':drift}
 
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__.splitlines()[0]);p.add_argument('--apply',action='store_true')
-    a=p.parse_args(argv);run(apply=a.apply);return 0
+    a=p.parse_args(argv);return 1 if run(apply=a.apply).get('floor_failures') else 0
 
 
 if __name__=='__main__':sys.exit(main())

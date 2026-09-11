@@ -1,7 +1,12 @@
+import contextlib
 import copy
+import io
 import json
+import shutil
 import sys
+import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -178,6 +183,32 @@ class EpochImportTests(unittest.TestCase):
         self.assertEqual((closed['access'],closed['score'],closed['low'],closed['high']),('Closed weights',150.25,145.1,155.4))
         opened=next(r for r in out if r['name']=='Open-Test')
         self.assertEqual((opened['access'],opened['low'],opened['high']),('Open weights',None,None))
+
+
+class EpochPerDatasetIsolationTests(unittest.TestCase):
+    """One unreachable download used to end the whole weekly `all --apply` run: fetch was outside
+    any try, so six good datasets were discarded with the seventh."""
+
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        base=Path(self.temp.name);self.snapshots=base/'epoch';self.snapshots.mkdir(parents=True)
+        datasets={k:ie.DATASETS[k] for k in ('data-centers','gpu-clusters','companies')}
+        for name in datasets:
+            if name=='gpu-clusters':continue   # no retained snapshot, so --offline falls through to the download
+            shutil.copyfile(ROOT/f'research/epoch/{name}.json',self.snapshots/f'{name}.json')
+        def boom(url):raise OSError('epoch.ai unreachable')
+        for p in [patch.object(ie,'DATASETS',datasets),patch.object(ie,'SNAPSHOTS',self.snapshots),
+                  patch.object(ie.research,'LOCAL',base/'local'),patch.object(ie,'fetch',boom)]:
+            p.start();self.addCleanup(p.stop)
+
+    def test_one_dead_download_neither_aborts_the_run_nor_passes_silently(self):
+        stderr=io.StringIO()
+        with contextlib.redirect_stderr(stderr):
+            code=ie.main(['all','--offline'])
+        self.assertEqual(code,1)
+        self.assertIn('gpu-clusters',stderr.getvalue())
+        # the datasets that were fine still got all the way through the run
+        self.assertTrue(list(self.snapshots.glob('RECONCILIATION-*.md')),'the companies cross-check never ran')
 
 
 if __name__=='__main__':unittest.main()
