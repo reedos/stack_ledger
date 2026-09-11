@@ -157,32 +157,31 @@ def source_usable_for_stale_task(registry,health,source_id):
 # because those families mix the two: FUTURE_ONLY holds both one-time pledges (a specific
 # program/plan, announced once) and a grid operator's, or a company's, own recurring forecast
 # reissued every cycle, so the split below is per measurement type, not per source family.
-_RECURRING_FUTURE={'annual_revenue_forecast','capex_announced_usd'}|GRID_TYPES
+# site_it_mw_planned_endstate is a named project's planned end-state capacity, which Epoch's
+# frontier-data-centre hub revises as a project is expanded or rescoped -- a live figure about the
+# buildout this ledger exists to follow, not a pledge made once.
+_RECURRING_FUTURE={'annual_revenue_forecast','capex_announced_usd','site_it_mw_planned_endstate'}|GRID_TYPES
 
+# Reserved for figures that are logically CLOSED: no source can publish a newer value because the
+# thing being measured has finished. Everything else -- including a capacity or an activity count
+# that a company restates only when it feels like it -- stays refresh-expected and is protected
+# from waste by the in-session back-off instead (deliverable 2), because the two errors are not
+# symmetric: re-checking a quiet figure now costs at most three attempts in a session, while
+# freezing a live one ages the public site silently and forever. Verified against this catalog's
+# own history on 2026-09-10: no metric of any type below has ever recorded two distinct
+# non-pledge readings, while cowos_or_advanced_packaging_wspm, paid_trips_per_week and
+# normalized_usage_index each have, which is why they are not here.
 ONE_TIME_MEASUREMENT_TYPES=(FUTURE_ONLY-_RECURRING_FUTURE)|{
     'crash_involvements_per_million_miles',              # a fixed 2021-2024 IIHS study window
     'clinical_trial_enrollment','clinical_endpoint_change',  # a fixed trial window
     'demand_flexibility_mw_contracted',                  # a contracted-capacity commitment
-    # A single named site/project disclosure -- "Only a dated direct disclosure for this named
-    # site. No observation currently verified" is catalog.json's own scope text for several of
-    # these -- a groundbreaking, an inauguration, a headcount snapshot; not an institution
-    # restating a figure on a schedule.
+    # Construction-phase site facts: a headcount or a spend that belongs to a build that ends.
+    # A groundbreaking, an inauguration, a peak-workforce snapshot -- the phase closes and the
+    # number stops existing, unlike the plant's capacity, which keeps being restated.
     'construction_workers_peak','construction_workers_cumulative','contractor_fte',
     'permanent_jobs_reported','on_site_full_time_employees','local_procurement_usd',
-    'hbm_stack_capacity','site_facility_mw','site_compute_mw_reported',
-    'onsite_generation_mw_temporary','onsite_generation_mw_permanent',
-    'interconnection_mw_energized','wafer_starts_per_month','cowos_or_advanced_packaging_wspm',
-    # A single company's own milestone claim ("10x usage growth since launch"; "cumulative
-    # milestone" per its own note), not an institutional recurring series.
-    'cumulative_reviews','normalized_usage_index',
-    # A product "as of <date>" press moment (a mileage total, a fleet/metro footprint, a weekly
-    # trip or user count at one disclosure), restated only when the company next chooses to
-    # publish one -- never on a schedule a source can be re-checked against.
-    'completed_totes','humanoid_units_in_production_use','operating_vehicle_count',
-    'operating_metro_count','supervised_driver_miles','unsupervised_or_rider_only_miles',
-    'paid_trips_per_week','autonomous_trips_per_week','weekly_paid_agent_or_seat_users',
-    'hours_automated','published_task_success_rate',
 }
+
 
 PERIODIC_MEASUREMENT_TYPES={
     # revenue / capex: a company's own recurring filing or earnings-call cadence
