@@ -36,6 +36,15 @@ PRE_STAGE_BUDGET_SECONDS = 25*60      # pre-stages must clear by 02:00 so the se
 TOTAL_CEILING_SECONDS = 6*3600        # matches the cron job's own timeout (schedule.py)
 POST_STAGE_RESERVE_SECONDS = 10*60    # left for policy/health/prune/digest after the session returns
 STAGE_TIMEOUTS = {'locks': 60, 'policy': 600, 'health': 120, 'prune': 120, 'digest': 120}
+# The OpenClaw job that runs this file carries noOutputTimeoutSeconds 420 and re-arms that timer
+# only on this process's own stdout/stderr; when it fires, Windows gets taskkill /PID <pid> /T /F
+# on the whole tree. Every stage captures its children, so until 2026-09-10 this process printed
+# nothing at all outside --dry-run and survived only because research kept returning in under a
+# second ("command ok with no output", 31.7 s, in the job's own run log). wait_for_window now
+# holds 01:30 to 02:00 and the research session runs for hours, both in silence, so the first
+# genuinely working night would have been killed at 01:37. A line every two minutes keeps the
+# timer re-armed with 3.5x margin and makes the run log say what the night is doing.
+HEARTBEAT_SECONDS = 120
 
 
 # ---------------------------------------------------------------- locks
@@ -532,6 +541,12 @@ def dry_run_plan(root, only, date):
     return plan
 
 
+def heartbeat(stage, stop, seconds=HEARTBEAT_SECONDS):
+    """Keep printing while the night runs: to this job's supervisor, silence means dead."""
+    while not stop.wait(seconds):
+        print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: {stage['name']}", flush=True)
+
+
 def run(root, dry_run=False, only=None):
     date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     if dry_run:
@@ -541,12 +556,17 @@ def run(root, dry_run=False, only=None):
     pre_deadline = job_start+PRE_STAGE_BUDGET_SECONDS
     overall_deadline = job_start+TOTAL_CEILING_SECONDS
     awake = False
+    stage = {'name': 'starting'}
+    stop_heartbeat = threading.Event()
+    print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: started", flush=True)
+    threading.Thread(target=heartbeat, args=(stage, stop_heartbeat, HEARTBEAT_SECONDS), daemon=True).start()
     try:
         if os.name == 'nt':
             awake = bool(ctypes.windll.kernel32.SetThreadExecutionState(0x80000001))  # ES_CONTINUOUS|ES_SYSTEM_REQUIRED
         receipts = {}
         for name in STAGES:
             if only and name != only: continue
+            stage['name'] = name
             if name == 'locks':
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['locks'], lambda r=root: stage_locks(r))
             elif name == 'importers':
@@ -571,6 +591,7 @@ def run(root, dry_run=False, only=None):
         final = receipts.get('digest')
         return 1 if final and final['status'] in ('failed', 'timeout') else 0
     finally:
+        stop_heartbeat.set()
         if awake and os.name == 'nt':
             ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)  # ES_CONTINUOUS
 
