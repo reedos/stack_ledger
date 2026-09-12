@@ -389,7 +389,13 @@
         "outlet-www-enr-com-a22a7c",
         "outlet-www-eetimes-com-df3041",
         "outlet-www-constructiondive-com-8e39c3",
-        "outlet-www-smartcitiesdive-com-f65947"
+        "outlet-www-smartcitiesdive-com-f65947",
+        "spacexai-news-index",
+        "openai-news-index",
+        "anthropic-news-index",
+        "claude-blog-index",
+        "ibm-research-blog-index",
+        "ibm-think-news-index"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -8158,6 +8164,84 @@
       "path_prefixes": [],
       "topics": [],
       "excerpts": false
+    },
+    "spacexai-news-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "spacexai",
+      "path_prefixes": [
+        "/news/"
+      ]
+    },
+    "openai-news-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "openai",
+      "path_prefixes": [
+        "/index/"
+      ]
+    },
+    "anthropic-news-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 5,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "anthropic",
+      "path_prefixes": [
+        "/news/"
+      ]
+    },
+    "claude-blog-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "anthropic",
+      "path_prefixes": [
+        "/blog/"
+      ]
+    },
+    "ibm-research-blog-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 2,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "ibm",
+      "path_prefixes": [
+        "/blog/"
+      ]
+    },
+    "ibm-think-news-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 6,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "ibm",
+      "path_prefixes": [
+        "/think/news/"
+      ]
     }
   }
 }

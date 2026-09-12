@@ -28466,6 +28466,89 @@
       ],
       "license": "Original source rights apply",
       "provenance": "company-channel"
+    },
+    {
+      "id": "spacexai-news-index",
+      "publisher": "SpaceXAI",
+      "title": "xAI news · launch and product announcements",
+      "url": "https://x.ai/news",
+      "published": null,
+      "layers": [
+        "models",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "openai-news-index",
+      "publisher": "OpenAI",
+      "title": "OpenAI news · research and company announcements",
+      "url": "https://openai.com/news/",
+      "published": null,
+      "layers": [
+        "models",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "anthropic-news-index",
+      "publisher": "Anthropic",
+      "title": "Anthropic news · model and policy announcements",
+      "url": "https://www.anthropic.com/news",
+      "published": null,
+      "layers": [
+        "models"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "claude-blog-index",
+      "publisher": "Anthropic",
+      "title": "Claude blog · product announcements",
+      "url": "https://claude.com/blog",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "ibm-research-blog-index",
+      "publisher": "IBM",
+      "title": "IBM Research blog · model, chip and quantum announcements",
+      "url": "https://research.ibm.com/blog",
+      "published": null,
+      "layers": [
+        "models",
+        "chips"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "ibm-think-news-index",
+      "publisher": "IBM",
+      "title": "IBM Think · news desk",
+      "url": "https://www.ibm.com/think",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
     }
   ],
   "observations": [
