@@ -6372,5 +6372,8 @@
     "Verify operational MW and actual electricity output instead of treating spending, signed contracts or queued projects as delivered supply.",
     "Preserve phased schedules and unknown capacity; do not sum generation, storage, transmission and data-center ratings.",
     "Hyperscale coverage is incomplete. Reconcile operator directories, campus aliases, new announcements and permitting records worldwide; directory-listed locations with unverified stages are neither operating nor construction evidence."
-  ]
+  ],
+  "layer_notes": {
+    "models": "This tracker maps physical delivery, so every project needs a documented location. Frontier developers do not publish where their models are trained, which leaves only programs that name their own training site: Apertus on Alps at CSCS, and OLMo on LUMI. A short list here reflects what is disclosed about training locality, not the scale of model building."
+  }
 }

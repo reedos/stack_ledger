@@ -3,13 +3,22 @@ import json
 import re
 from datetime import datetime,timezone
 from pathlib import Path
-from validate import require,text,timestamp
+from validate import LAYERS,require,text,timestamp
 ROOT=Path(__file__).resolve().parents[1]
 STAGES={'operating','partly-operating','commissioning','construction','permitting',
         'announced','site-selected','equipment-move-in','production-ramp','pilot','delayed','status-unverified'}
 
 def validate_delivery(d,ledger):
-    require(set(d)=={'version','reviewed_at','projects','context_metrics','assessment','gaps'},'Unexpected delivery shape')
+    require(set(d)=={'version','reviewed_at','projects','context_metrics','assessment','gaps','layer_notes'},'Unexpected delivery shape')
+    # Reviewed copy explaining why a layer's list looks the way it does. Models carries two
+    # projects because the register maps physical delivery and frontier labs do not publish
+    # training localities -- a reader seeing two entries should be told that, not left to
+    # conclude nobody looked. Keyed by layer so it can never attach to a layer that is absent.
+    require(isinstance(d['layer_notes'],dict),'Unexpected layer notes')
+    for layer,note in d['layer_notes'].items():
+        require(layer in LAYERS,'Unknown layer note')
+        require(any(p['layer']==layer for p in d['projects']),'Layer note for a layer with no projects')
+        text(note,900)
     require(d['version']==1,'Unsupported delivery version');reviewed=timestamp(d['reviewed_at'])
     sources={s['id']:s for s in ledger['sources']};obs={o['id']:o for o in ledger['observations']};metrics={m['id']:m for m in ledger['metrics']}
     require(set(d['context_metrics'])<=metrics.keys(),'Unknown delivery context metric')
