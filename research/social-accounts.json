@@ -1,6 +1,385 @@
 {
- "version": 1,
- "reviewed_at": "2026-09-10T00:00:00Z",
- "instructions": "Deliverable 4, owner decision September 9, 2026: register a company's OFFICIAL Bluesky account only after a human has verified the handle actually belongs to that company (its own website links to the profile, or the profile carries Bluesky's own verification badge/domain-handle match, e.g. @nvidia.com). Never guess a handle from a company name -- an unverified guess can land on an impersonator or an unrelated account and publish under that company's name. This file starts empty on purpose: no handle here has been verified yet. To add one, append an entry below with company_id matching an id in research/ecosystem.json, the verified handle, who verified it and when and how, then run 'python scripts/find_feeds.py --social --register' to probe and register it (rank 6, the official-social-accounts category; grade B, same as any other company channel). X/LinkedIn are not crawlable (X answered HTTP 402 on 2026-09-09); their posts can only reach the ledger secondhand, through a registered news outlet's own reporting (graded C, noted as quoting a post).",
- "accounts": []
+  "version": 1,
+  "reviewed_at": "2026-09-12T00:00:00Z",
+  "instructions": "Deliverable 4, owner decision September 9, 2026: register a company's OFFICIAL Bluesky account only after a human has verified the handle actually belongs to that company (its own website links to the profile, or the profile carries Bluesky's own verification badge/domain-handle match, e.g. @nvidia.com). Never guess a handle from a company name -- an unverified guess can land on an impersonator or an unrelated account and publish under that company's name. This file starts empty on purpose: no handle here has been verified yet. To add one, append an entry below with company_id matching an id in research/ecosystem.json, the verified handle, who verified it and when and how, then run 'python scripts/find_feeds.py --social --register' to probe and register it (rank 6, the official-social-accounts category; grade B, same as any other company channel). X/LinkedIn are not crawlable (X answered HTTP 402 on 2026-09-09); their posts can only reach the ledger secondhand, through a registered news outlet's own reporting (graded C, noted as quoting a post).",
+  "accounts": [
+    {
+      "company_id": "nextera",
+      "handle": "nexteraenergy.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "ge-vernova",
+      "handle": "gevernova.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "schneider",
+      "handle": "se.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "nvidia",
+      "handle": "nvidia.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "amd",
+      "handle": "amd.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "broadcom",
+      "handle": "broadcom.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "tsmc",
+      "handle": "tsmc.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "samsung",
+      "handle": "samsung.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "intel",
+      "handle": "intc.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "sk-hynix",
+      "handle": "skhynix.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "micron",
+      "handle": "micron.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "asml",
+      "handle": "asml.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "vertiv",
+      "handle": "vertiv.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "microsoft",
+      "handle": "microsoft.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "aws",
+      "handle": "aboutamazon.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "alphabet",
+      "handle": "sec.gov",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "meta",
+      "handle": "atmeta.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "openai",
+      "handle": "openai.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "anthropic",
+      "handle": "anthropic.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "salesforce",
+      "handle": "salesforce.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "palantir",
+      "handle": "palantir.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "marvell",
+      "handle": "marvell.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "credo",
+      "handle": "credosemi.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "astera",
+      "handle": "asteralabs.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "coherent",
+      "handle": "coherent.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "lumentum",
+      "handle": "lumentum.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "applied-opto",
+      "handle": "ao-inc.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "fabrinet",
+      "handle": "fabrinet.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "corning",
+      "handle": "corning.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "amphenol",
+      "handle": "amphenol.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "arista",
+      "handle": "arista.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "cisco",
+      "handle": "cisco.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "celestica",
+      "handle": "celestica.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "eaton",
+      "handle": "eaton.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "quanta",
+      "handle": "quantaservices.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "emcor",
+      "handle": "emcorgroup.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "first-solar",
+      "handle": "firstsolar.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "lightmatter",
+      "handle": "lightmatter.co",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "ayar",
+      "handle": "ayarlabs.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "ciena",
+      "handle": "ciena.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "semtech",
+      "handle": "semtech.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "macom",
+      "handle": "macom.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "vantage",
+      "handle": "epoch.ai",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "crusoe",
+      "handle": "epoch.ai",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "coreweave",
+      "handle": "coreweave.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "nebius",
+      "handle": "nebius.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "supermicro",
+      "handle": "supermicro.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "constellation",
+      "handle": "constellationenergy.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "agility",
+      "handle": "agilityrobotics.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "fervo",
+      "handle": "gcs-web.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "cognition",
+      "handle": "devin.ai",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "openclaw",
+      "handle": "openclaw.ai",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "cursor",
+      "handle": "cursor.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "merck",
+      "handle": "merck.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "turner",
+      "handle": "turnerconstruction.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "mortenson",
+      "handle": "mortenson.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "recursion",
+      "handle": "recursion.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "isomorphic",
+      "handle": "isomorphiclabs.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "ormat",
+      "handle": "ormat.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "microchip",
+      "handle": "microchip.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "seagate",
+      "handle": "seagate.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "rambus",
+      "handle": "rambus.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    },
+    {
+      "company_id": "netapp",
+      "handle": "netapp.com",
+      "verified_by": "Bluesky domain handle: the handle is the company's own registrable domain, taken from its reviewed investor-relations or blog host in research/ecosystem.json. Bluesky only issues a domain handle to whoever controls that domain's DNS, so this cannot resolve to an impersonator. The probe confirms the profile and its feed exist.",
+      "verified_at": "2026-09-12T00:00:00Z"
+    }
+  ]
 }

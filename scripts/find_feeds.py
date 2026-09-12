@@ -437,6 +437,18 @@ def register_outlets(payload):
     return added
 
 
+# A company's own domain is a safe Bluesky handle: Bluesky only issues one to whoever controls
+# that domain's DNS, so it cannot resolve to an impersonator. A THIRD-PARTY platform's domain is
+# not, and deriving a handle from a company's reviewed blog host walks straight into one --
+# DeepSeek publishes on github.com, and the probe found github.com's real, working Bluesky feed
+# and called it eligible as DeepSeek's official account (2026-09-12).
+PLATFORM_HOSTS = {
+    'github.com', 'gitlab.com', 'substack.com', 'medium.com', 'wordpress.com', 'blogspot.com',
+    'notion.site', 'notion.so', 'x.com', 'twitter.com', 'linkedin.com', 'youtube.com', 'bsky.app',
+    'huggingface.co', 'arxiv.org', 'googleblog.com', 'wixsite.com', 'squarespace.com', 'webflow.io',
+}
+
+
 def social_accounts(root=ROOT):
     """research/social-accounts.json: a reviewed, human-verified list of company Bluesky
     handles. Deliverable 4 explicitly forbids guessing handles; an empty accounts list (with
@@ -458,6 +470,12 @@ def run_social(accounts=None,out=None):
         company=ecosystem.get(account['company_id'])
         if company is None:
             results.append({'company_id':account['company_id'],'handle':account['handle'],'status':'unknown_company','eligible':False});continue
+        if account['handle'].lower() in PLATFORM_HOSTS:
+            results.append({'company_id':account['company_id'],'company':company['name'],'handle':account['handle'],
+                            'status':'platform_handle','eligible':False,
+                            'detail':'a third-party platform domain is not this company own account'})
+            print(f"{'platform_handle':19s} {company['name'][:28]:28s} {account['handle']}",flush=True)
+            continue
         checkpoint()
         url=f"https://bsky.app/profile/{account['handle']}/rss"
         record={'company_id':company['id'],'company':company['name'],'layers':company['layers'],'region_book':company.get('region_book','unknown'),'handle':account['handle'],'host':'bsky.app','feed_url':url,'checked_at':now()}

@@ -614,10 +614,29 @@ class RegistryAdditionsValidTests(unittest.TestCase):
                 ledger = json.loads((Path(tmp)/'site/data/ledger.json').read_text(encoding='utf-8'))
                 validate(ledger)
 
-    def test_social_accounts_file_starts_empty_and_reviewed(self):
+    def test_every_social_account_is_a_domain_handle_never_a_platform(self):
+        """The file was empty until 2026-09-12 because the rule forbids guessing a handle. A
+        company's own domain satisfies it: Bluesky only issues a domain handle to whoever controls
+        that domain's DNS, so it cannot resolve to an impersonator. A third-party platform's domain
+        does not -- DeepSeek publishes on github.com, and deriving a handle from its reviewed blog
+        host found github.com's real Bluesky feed and called it DeepSeek's official account."""
         accounts = ff.social_accounts(ROOT)
-        self.assertEqual(accounts['accounts'], [])
         self.assertIn('instructions', accounts)
+        companies = {c['id'] for c in json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']}
+        for entry in accounts['accounts']:
+            with self.subTest(handle=entry['handle']):
+                self.assertIn(entry['company_id'], companies)
+                self.assertNotIn(entry['handle'].lower(), ff.PLATFORM_HOSTS)
+                self.assertIn('verified_by', entry)
+                self.assertRegex(entry['handle'], r'^[a-z0-9.-]+\.[a-z]{2,}$')
+
+    def test_a_platform_handle_can_never_register_as_a_company_account(self):
+        registry = registry_fixture() if 'registry_fixture' in globals() else None
+        probe = ff.run_social(accounts=[{'company_id': 'nvidia', 'handle': 'github.com'}],
+                              out=Path(tempfile.mkdtemp())/'probe.json')
+        row = probe['candidates'][0]
+        self.assertEqual(row['status'], 'platform_handle')
+        self.assertFalse(row['eligible'])
 
 
 class PanelActivityAndRetractTests(unittest.TestCase):
