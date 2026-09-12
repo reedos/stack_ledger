@@ -7023,6 +7023,19 @@
       "license": "Original source rights apply",
       "provenance": "company-channel",
       "index": true
+    },
+    {
+      "id": "google-datacenters-page",
+      "publisher": "Google",
+      "title": "Google data centers · locations and operations",
+      "url": "https://datacenters.google/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel"
     }
   ],
   "discovery_keywords": [
@@ -15224,6 +15237,17 @@
       "path_prefixes": [
         "/trust-center/data-center/"
       ],
+      "topics": [],
+      "excerpts": false
+    },
+    "google-datacenters-page": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "alphabet",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "path_prefixes": [],
       "topics": [],
       "excerpts": false
     }
