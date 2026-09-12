@@ -38,7 +38,11 @@ WELL_KNOWN=['/feed','/rss','/rss.xml','/feed.xml','/atom.xml','/news/rss','/news
 # Reviewed on-thesis words for a news outlet's article slugs. Matched whole-word by
 # source_policy.topical, so 'ai' no longer matches 'aim' or 'chain' (measured 2026-09-10:
 # a Snapchat feature story passed the old substring filter and cost a model call).
-TOPICS=["ai", "artificial-intelligence", "data-center", "data-centre", "datacenter", "datacentre", "semiconductor", "semiconductors", "chip", "chips", "wafer", "fab", "foundry", "gpu", "gpus", "accelerator", "accelerators", "hbm", "packaging", "nuclear", "grid", "power", "energy", "electricity", "utility", "utilities", "interconnection", "transmission", "substation", "turbine", "solar", "geothermal", "battery", "storage", "cooling", "megawatt", "megawatts", "gigawatt", "capacity", "compute", "inference", "training", "model", "models", "cluster", "supercomputer", "fusion", "ppa", "capex", "hyperscaler", "hyperscale"]
+# The applications layer had no vocabulary of its own. Every topic below described energy, chips
+# or compute, so a robotaxi story could not match a single word -- measured 2026-09-12, paths like
+# /2026/09/zoox-robotaxi-expands-to-atlanta/ and /news/waymo-doubles-weekly-paid-rides/ were both
+# rejected, and Waymo is a tracked company. News intake therefore could not reach the layer at all.
+TOPICS=["ai", "artificial-intelligence", "data-center", "data-centre", "datacenter", "datacentre", "semiconductor", "semiconductors", "chip", "chips", "wafer", "fab", "foundry", "gpu", "gpus", "accelerator", "accelerators", "hbm", "packaging", "nuclear", "grid", "power", "energy", "electricity", "utility", "utilities", "interconnection", "transmission", "substation", "turbine", "solar", "geothermal", "battery", "storage", "cooling", "megawatt", "megawatts", "gigawatt", "capacity", "compute", "inference", "training", "model", "models", "cluster", "supercomputer", "fusion", "ppa", "capex", "hyperscaler", "hyperscale", "robotaxi", "robotaxis", "autonomous", "self-driving", "driverless", "waymo", "zoox"]
 
 # Deliverable 4 (owner decision, September 10, 2026): independent news outlets, probed and
 # registered as rank-4 claim_type: news sources with excerpts: true (grade C -- see

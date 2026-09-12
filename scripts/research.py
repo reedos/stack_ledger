@@ -891,10 +891,15 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             else:quarantine.append({'source':source['id'],'candidate':candidate,'reason':(f"{verdict['defect']}: {verdict['reason']}" if not verdict['supported'] else 'Conflicting proposal'),'evidence_shrunk':shrunk})
     return accepted
 
+# The same lesson as PREFLIGHT_TEST_TIMEOUT_SECONDS: publish() pushes 123 rebuilt pages every
+# night, and a push that outlasts its budget blocks publication exactly as a slow suite does.
+GIT_TIMEOUT_SECONDS=300
+
+
 def git(*args):
     # git writes UTF-8 (file names and `git show` of the UTF-8 JSON data files); Windows' default
     # cp1252 decoder crashed the reader thread on a right-quote byte and blocked a session on 2026-09-09.
-    result=subprocess.run(['git',*args],cwd=ROOT,capture_output=True,text=True,encoding='utf-8',errors='replace',check=True,timeout=90)
+    result=subprocess.run(['git',*args],cwd=ROOT,capture_output=True,text=True,encoding='utf-8',errors='replace',check=True,timeout=GIT_TIMEOUT_SECONDS)
     return (result.stdout or '').strip()
 
 def pending_changes():
@@ -1037,13 +1042,22 @@ def validate_monitoring_delta(before,after,old_excerpts,new_excerpts):
     require(all('correction_history' not in r for url,r in new.items() if url not in old),'Monitoring cannot append excerpt corrections')
 
 
+# The publish preflight runs the whole test suite. On 2026-09-12 that budget was 90 seconds and
+# the suite took 88 on an idle machine: under the load of the live research session it crossed the
+# line, raised TimeoutExpired, and research_loop recorded "Publication blocked; saved evidence
+# retained" and stopped the session 3.4 hours into a 5-hour window. One accepted observation and
+# 147 new feed entries went unpublished. The budget exists to catch a hung suite, not to race a
+# growing one, so it is now generous enough that only a real hang trips it.
+PREFLIGHT_TEST_TIMEOUT_SECONDS=600
+
+
 def publish(config):
     changed=set(git('diff','--name-only').splitlines())
     require(changed and changed<=ALLOWED_CHANGES,'Daily build changed unapproved files')
     require(not git('ls-files','--others','--exclude-standard'),'Unexpected untracked files')
     require(not git('diff','--cached','--name-only'),'Unexpected staged changes')
     validate_monitoring_delta(json.loads(git('show','HEAD:site/data/ledger.json')),load(ROOT/'site/data/ledger.json'),json.loads(git('show','HEAD:site/data/excerpts.json')),load(ROOT/'site/data/excerpts.json'))
-    subprocess.run([sys.executable,'-m','unittest','discover','-s','tests'],cwd=ROOT,check=True,timeout=90)
+    subprocess.run([sys.executable,'-m','unittest','discover','-s','tests'],cwd=ROOT,check=True,timeout=PREFLIGHT_TEST_TIMEOUT_SECONDS)
     git('add','--',*sorted(changed))
     require(set(git('diff','--cached','--name-only').splitlines())==changed,'Staged file set changed')
     git('commit','-m','research: daily ledger '+datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%MZ'))
