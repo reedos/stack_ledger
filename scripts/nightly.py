@@ -28,6 +28,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import importer_common
+import source_policy
 from atomic_json import save
 from validate import validate_importers
 
@@ -517,6 +518,60 @@ def site_changes(root, date):
         return []
 
 
+def published_observations(root, date):
+    """New observations published today, grouped by the evidence grade they are labelled with.
+
+    From 2026-09-12 a grade C or D reading may enter a numeric series, on the condition that its
+    sourcing is stated. The digest is the only thing the owner reads after an unattended night, so
+    the night has to say which grades it published rather than only that it committed something.
+
+    Diffs the ledger against its state before the day's first commit. Returns empty on any git or
+    parse failure: a digest that cannot measure this still has a night to report.
+    """
+    import collections
+    try:
+        # encoding is explicit: the ledger carries non-ASCII (period separators, company names),
+        # and text=True decodes with the Windows ANSI codepage, which raised UnicodeDecodeError
+        # and left this reporting an empty night (2026-09-12).
+        first = subprocess.run(['git', 'log', '--since', date+' 00:00:00', '--format=%H', '--reverse'],
+                                cwd=root, capture_output=True, text=True, encoding='utf-8',
+                                timeout=30, check=True).stdout.split()
+        if not first: return {}
+        # A day that contains the repository's own first commit has nothing before it to diff
+        # against, so everything published that day is new. Checked explicitly rather than by
+        # catching the failure, so a git error for any other reason still reports nothing rather
+        # than announcing the whole ledger as tonight's work.
+        parent = subprocess.run(['git', 'rev-parse', '--verify', '--quiet', first[0]+'^'],
+                                 cwd=root, capture_output=True, text=True, encoding='utf-8', timeout=30)
+        if parent.returncode == 0:
+            before = json.loads(subprocess.run(['git', 'show', first[0]+'^:site/data/ledger.json'],
+                                                cwd=root, capture_output=True, text=True, encoding='utf-8',
+                                                timeout=60, check=True).stdout)
+        else:
+            before = {'observations': []}
+        after = json.loads((root/'site/data/ledger.json').read_text(encoding='utf-8'))
+    except Exception:
+        return {}
+    known = {o['id'] for o in before['observations']}
+    sources = {s['id']: s for s in after['sources']}
+    metrics = {m['id']: m for m in after['metrics']}
+    fresh = [o for o in after['observations'] if o['id'] not in known]
+    by_grade = collections.Counter()
+    rows = []
+    for o in fresh:
+        source = sources.get(o['source']) or {}
+        grade = o.get('grade') or source_policy.PROVENANCE_GRADE.get(source.get('provenance'), '?')
+        by_grade[grade] += 1
+        if grade in ('C', 'D'):
+            rows.append({'observation': o['id'], 'metric': o['metric'],
+                         'title': (metrics.get(o['metric']) or {}).get('title', o['metric']),
+                         'period': o['period'], 'value': o['value'], 'grade': grade,
+                         'label': source_policy.PROVENANCE_LABEL.get(source.get('provenance'), 'Unverified source'),
+                         'publisher': source.get('publisher', 'unknown')})
+    return {'new_observations': len(fresh), 'by_grade': dict(sorted(by_grade.items())),
+            'low_grade': sorted(rows, key=lambda r: (r['grade'], r['metric']))}
+
+
 TELEGRAM_LIMIT = 3500
 
 
@@ -534,6 +589,14 @@ def render_digest_markdown(body):
     lines += [f"- {k.replace('_', ' ')}: {v}" for k, v in body['needs_decision'].items()] or ['- Nothing pending.']
     lines += ['', '## Site changes']
     lines += ['- '+c for c in body['site_changes']] or ['- No commits recorded tonight.']
+    published = body.get('published_observations') or {}
+    if published.get('new_observations'):
+        grades = ', '.join(f'{n} grade {g}' for g, n in published['by_grade'].items())
+        lines += ['', '## Published observations', f"- {published['new_observations']} new: {grades}"]
+        # Named individually because these are the readings a reader could not have had before
+        # tonight, and the ones the owner most likely wants to glance at.
+        lines += [f"- {r['grade']}: {r['title']} {r['period']} = {r['value']} ({r['label']}, {r['publisher']})"
+                  for r in published.get('low_grade', [])]
     stale = (body['health'].get('stale_figures') or {})
     lines += ['', '## Health', f"- figures overdue for a refresh: {stale.get('overdue_count', 'unknown')}"
               + (f" ({stale['refreshable_count']} a source can restate)" if 'refreshable_count' in stale else ''),
@@ -562,6 +625,7 @@ def stage_digest(root, date):
     body = {'date': date, 'applied': applied, 'needs_decision': health.get('pending_decisions') or {},
             'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health')},
             'site_changes': site_changes(root, date),
+            'published_observations': published_observations(root, date),
             'stage_receipts': {k: stage_line(v) for k, v in receipts.items()}}
     save(root/'.local/digest'/(date+'.json'), body)
     markdown = render_digest_markdown(body)
