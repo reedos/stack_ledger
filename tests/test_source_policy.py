@@ -107,8 +107,12 @@ class AdaptiveCadenceTests(unittest.TestCase):
         # effective_cadence reads that state fresh every time, with no memory of its own.
         self.assertEqual(effective_cadence(self.daily,{'unchanged_streak':0}),'daily')
         self.assertTrue(due(self.daily,self.thursday,{'unchanged_streak':0}))
-    def test_promotion_never_applies_to_weekly_or_manual_sources(self):
-        self.assertEqual(effective_cadence(self.weekly,{'unchanged_streak':99}),'weekly')
+    def test_weekly_promotes_to_monthly_and_manual_never_promotes(self):
+        # Reversed 2026-09-12: weekly was exempt outright, so 169 fixed pages could never back
+        # off. Four unchanged weekly checks now promote to monthly; manual is still untouched.
+        self.assertEqual(effective_cadence(self.weekly,{'unchanged_streak':3}),'weekly')
+        self.assertEqual(effective_cadence(self.weekly,{'unchanged_streak':4}),'monthly')
+        self.assertEqual(effective_cadence(self.weekly,{'unchanged_streak':99}),'monthly')
         self.assertEqual(effective_cadence({'cadence':'manual'},{'unchanged_streak':99}),'manual')
     def test_state_missing_or_not_a_mapping_reads_as_unpromoted(self):
         # A Mock (or any non-dict) fetch-state stand-in must never crash cadence math.

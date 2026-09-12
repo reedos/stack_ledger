@@ -99,11 +99,18 @@ def grade_for(policy=None, source=None, companies=()):
     provenance = provenance_of(source)
     return PROVENANCE_GRADE[provenance] if provenance else 'D'
 
-# A daily source unchanged for this many consecutive checks is worth checking less often.
-# Promotion only ever loosens a *registered daily* cadence; weekly and manual sources are
-# never promoted, and research/sources.json's own registered cadence never changes for it.
-PROMOTE_TO_WEEKLY_STREAK = 7
-PROMOTE_TO_MONTHLY_STREAK = PROMOTE_TO_WEEKLY_STREAK + 6
+# A source unchanged for this many consecutive checks is worth checking less often. Promotion
+# only ever loosens the registered cadence in memory; research/sources.json never changes.
+#
+# Until 2026-09-12 only a registered-daily source could be promoted. Measured that day: 325 of
+# the 393 fetchable sources were fixed pages, 169 of them registered weekly, and not one of the
+# 325 was backed off -- weekly was exempt by rule, and the streak counts checks rather than
+# days, so a weekly page would have needed seven weeks of identical text to earn what a daily
+# page earns in seven days. The weekly threshold below is in weeks. Indexes are never promoted
+# here: the queue polls them on feed_poll_minutes and skips this rule for them.
+PROMOTE_TO_WEEKLY_STREAK = 7                              # daily: seven unchanged days
+PROMOTE_TO_MONTHLY_STREAK = PROMOTE_TO_WEEKLY_STREAK + 6  # daily: thirteen unchanged days
+PROMOTE_WEEKLY_TO_MONTHLY_STREAK = 4                      # weekly: four unchanged weeks
 
 def effective_cadence(policy, state=None):
     """The cadence actually checked today, given private per-source fetch state.
@@ -114,9 +121,11 @@ def effective_cadence(policy, state=None):
     reverts here to the registered cadence -- nothing here is itself persisted.
     """
     cadence = policy.get('cadence')
-    if cadence != 'daily' or not isinstance(state, dict) or not state:
+    if cadence not in ('daily', 'weekly') or not isinstance(state, dict) or not state:
         return cadence
     streak = state.get('unchanged_streak', 0)
+    if cadence == 'weekly':
+        return 'monthly' if streak >= PROMOTE_WEEKLY_TO_MONTHLY_STREAK else 'weekly'
     if streak >= PROMOTE_TO_MONTHLY_STREAK: return 'monthly'
     if streak >= PROMOTE_TO_WEEKLY_STREAK: return 'weekly'
     return 'daily'

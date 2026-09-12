@@ -1261,8 +1261,11 @@ def main():
             # every batch for the rest of the night (2026-09-11).
             stale_metrics_attempted.update(stale_metrics_by_source.get(source['id'],()))
             seen.add(source['url']);attempts+=1
+            # An index is polled on feed_poll_minutes and never promoted (see the gate below), so
+            # its logged cadence is the registered one. Logging the promoted value here made 33
+            # live feeds read as 'monthly' in the plan record on 2026-09-12 when none was.
             attempt_log.append({'source':source['id'],'url':source['url'],'attempted_at':now(),
-                'effective_cadence':effective_cadence(cadence_policy,fetcher.fetch_state.get('page',source['url']))})
+                'effective_cadence':effective_cadence(cadence_policy,None if source.get('index') else fetcher.fetch_state.get('page',source['url']))})
             if not source.get('parent_source'):attempted[source['id']]=now()
             config['_coverage']=coverage_context(ROOT,source)
             print(f'[{attempts}/{limit}] Checking {source["id"]}',flush=True)
@@ -1435,14 +1438,22 @@ def main():
             forced_stale=source['url'] in stale_forced_urls
             if not fetcher.due(source['url'],args.refresh or forced_stale,feed_poll_seconds if is_feed else None):
                 collection['cooldown_skips']+=1;continue
-            # Deliverable 4: a registered-daily source unchanged for long enough is checked
-            # less often; a stale task (deliverable 10) still forces its own sources through.
+            # Deliverable 4: a registered daily or weekly source unchanged for long enough is
+            # checked less often; a stale task (deliverable 10) still forces its own sources
+            # through. Weekly joined on 2026-09-12: this gate said =='daily', so the 169 weekly
+            # fixed pages were re-read on their weekday forever whatever their streak said.
             # A feed/index source's due-ness above already used feed_poll_minutes instead of
             # the registered cadence (deliverable 2), so it is exempt from this adaptive
             # daily/weekly/monthly promotion check too -- that check is for non-feed sources.
             cadence_policy=collection_for(registry,source)
-            if cadence_policy.get('cadence')=='daily' and not is_feed and source['url'] not in stale_forced_urls \
-                    and not due(cadence_policy,today,fetcher.fetch_state.get('page',source['url'])):
+            page_state=fetcher.fetch_state.get('page',source['url'])
+            # Only a PROMOTED source is re-judged here. A weekly source can be queued off its
+            # weekday on purpose -- never attempted, or overdue, via the attempted clause in
+            # select_sources -- and asking due() again would re-check the weekday and drop it.
+            # For an unpromoted daily source due() is True anyway, so daily behaviour is unchanged.
+            if cadence_policy.get('cadence') in ('daily','weekly') and not is_feed and source['url'] not in stale_forced_urls \
+                    and effective_cadence(cadence_policy,page_state)!=cadence_policy.get('cadence') \
+                    and not due(cadence_policy,today,page_state):
                 collection['cooldown_skips']+=1;continue
             process(source)
         # Deliverable 3 (2026-09-10): before conceding a batch nothing_new, spend the
