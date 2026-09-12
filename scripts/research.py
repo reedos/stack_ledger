@@ -78,6 +78,21 @@ def already_reviewed(reviews,key):
     on <date>: <outcome>' instead of re-calling the model."""
     return reviews.get(key)
 
+def empty_reasons_by_source(reviews):
+    """{source_id: {reason: count}} over every recorded empty review, most wasteful source first.
+
+    The question this answers: which registered sources keep costing a model call and giving
+    nothing back, and for what reason. 'document outside scope' names a targeting mistake in the
+    registry; 'duplicate of existing record' names a page being re-read after it stopped changing.
+    """
+    by={}
+    for entry in (reviews.values() if isinstance(reviews,dict) else reviews):
+        if not isinstance(entry,dict) or not entry.get('empty_reason'):continue
+        counts=by.setdefault(entry.get('source_id') or entry.get('source') or '?',{})
+        counts[entry['empty_reason']]=counts.get(entry['empty_reason'],0)+1
+    return dict(sorted(by.items(),key=lambda kv:-sum(kv[1].values())))
+
+
 def record_review(reviews,key,lane,source_id,outcome,empty_reason=None):
     entry={'lane':lane,'source':source_id,'outcome':outcome,'reviewed_at':now()}
     if empty_reason:entry['empty_reason']=empty_reason
@@ -706,6 +721,11 @@ def extract_note(config,source,document,existing_events,run,quarantine,collectio
         entry['empty_reason']=empty_reason
         if collection is not None:
             hist=collection.setdefault('empty_reasons',{});hist[empty_reason]=hist.get(empty_reason,0)+1
+            # Handed to record_review by the caller, so reviews.json can say WHICH source wasted
+            # the call. Until 2026-09-12 the reason survived only in this per-run histogram:
+            # 1,173 empty calls were 53% "document outside scope", and nothing could name one
+            # offending source. The caller clears this before every call and pops it after.
+            collection['_last_empty_reason']=empty_reason
     for c in proposal['notes']:
         shrunk=False
         try:
@@ -856,6 +876,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
     if not proposal['observations'] and empty_reason:
         entry['empty_reason']=empty_reason
         hist=collection.setdefault('empty_reasons',{});hist[empty_reason]=hist.get(empty_reason,0)+1
+        collection['_last_empty_reason']=empty_reason   # see extract_note
     checked=[]
     for candidate in proposal['observations']:
         shrunk=False
@@ -1345,10 +1366,11 @@ def main():
                     quarantine_before=len(quarantine)
                     try:
                         config['_document_windows']=collection.setdefault('document_windows',[])
+                        collection.pop('_last_empty_reason',None)
                         note=extract_note(config,source,full_text,data['events'],run,quarantine,collection,policy)
                     except Exception:
                         model_failed=True;raise RuntimeError('Model note extraction or review failed')
-                    record_review(reviews,note_key,'note',source['id'],'accepted' if note else ('quarantined' if len(quarantine)>quarantine_before else 'empty'))
+                    record_review(reviews,note_key,'note',source['id'],'accepted' if note else ('quarantined' if len(quarantine)>quarantine_before else 'empty'),empty_reason=collection.pop('_last_empty_reason',None))
                 if note and not publishable:
                     if collection.get('private_notes',0)<config.get('max_private_notes_per_run',12):
                         collection['private_notes']=collection.get('private_notes',0)+1
@@ -1377,10 +1399,11 @@ def main():
                     quarantine_before=len(quarantine)
                     try:
                         stale_targets=stale_targets_by_source.get(source.get('parent_source',source['id']))
+                        collection.pop('_last_empty_reason',None)
                         accepted_now=extract_observations(config,source,full_text,related,data,metrics,sources,run,quarantine,collection,stale_targets,policy)
                     except Exception:
                         model_failed=True;raise
-                    record_review(reviews,metrics_key,'metrics',source['id'],'accepted' if accepted_now else ('quarantined' if len(quarantine)>quarantine_before else 'empty'))
+                    record_review(reviews,metrics_key,'metrics',source['id'],'accepted' if accepted_now else ('quarantined' if len(quarantine)>quarantine_before else 'empty'),empty_reason=collection.pop('_last_empty_reason',None))
                     if stale_metric_ids:
                         # Deliverable 2: a genuine metrics-lane attempt happened for every stale
                         # metric this document could report, whether or not it found anything --
