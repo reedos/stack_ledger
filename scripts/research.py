@@ -786,12 +786,20 @@ def candidate_record(c,source,document,metrics,all_sources,existing=(),policy=No
     if fragments:record['note']=(record['note']+' ' if record['note'] else '')+'; '.join(fragments)
     identity=json.dumps([record[k] for k in ['metric','year','period','value','upper','status','precision']],separators=(',',':'))
     record.update(id='auto-'+digest(identity)[:20],source=source['id'],retrieved_at=now(),method='automated',document_sha256=digest(document),evidence_sha256=digest(evidence))
-    # Deliverable 1 hard rule: grade C/D evidence never enters a numeric series. A source
-    # whose derived grade is C or D cannot mint a numeric observation at all here; that
-    # evidence still reaches readers, honestly labeled, only through the report lane above.
-    grade=grade_for(policy,source,tracked_companies())
-    require(grade in ('A','B'),f'Grade {grade} evidence cannot become a numeric observation; publish as a report instead')
-    record['grade']=grade
+    # Any grade may become a numeric record, on the owner's decision (2026-09-11/12): news and
+    # social claims belong on charts and headlines "as long as we are honest about sourcing".
+    # Honesty here is structural, not a promise. The grade is derived from the registered
+    # source's reviewed provenance rather than chosen by the model or the candidate; validate
+    # re-derives it independently and refuses the record if the two disagree; and every surface
+    # that shows the number -- chart point, legend, accessibility description, data table,
+    # record row and CSV export -- reads that same provenance.
+    #
+    # Two properties of the monitoring lane make a low grade additive rather than corrosive: it
+    # may never issue a correction or supersede (see publish's monitoring delta check), so a C
+    # or D reading can only extend a series and can never displace a better one; and a value
+    # that contradicts a published reading for the same metric and period is a conflict, which
+    # is quarantined for review instead of published.
+    record['grade']=grade_for(policy,source,tracked_companies())
     observation_valid(record,metrics,all_sources)
     return record
 

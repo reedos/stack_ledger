@@ -99,9 +99,11 @@ def observation_valid(o,metrics,sources):
     if o['note']:text(o['note'],300)
     if o['method']=='automated':
         for k in ['document_sha256','evidence_sha256']:require(re.fullmatch(r'[0-9a-f]{64}',o.get(k,'')) is not None,'Missing evidence hash')
-        # Deliverable 1: a grade C or D item never enters a numeric series -- an automated
-        # numeric observation must already be official-statistics or company-statement grade.
-        require(o.get('grade') in {'A','B'},'Automated observation needs grade A or B; C/D evidence stays a report, never a numeric record')
+        # Every grade may enter a numeric series, but only while carrying the label it will be
+        # shown with. The letter must be present, and the whole-ledger pass re-derives it from
+        # the source's reviewed provenance and rejects any mismatch -- so a C or D number cannot
+        # reach a chart wearing no label, or someone else's.
+        require(o.get('grade') in GRADES,'An automated observation must carry the evidence grade it is labelled with')
     elif 'grade' in o:
         require(o['grade'] in GRADES,'Invalid evidence grade')
     if 'correction_of' in o: text(o.get('correction_reason',''),500)

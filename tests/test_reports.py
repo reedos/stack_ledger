@@ -186,17 +186,27 @@ class AutomatedObservationGradeTests(unittest.TestCase):
         base.update(overrides)
         return base
 
-    def test_automated_observation_requires_grade_a_or_b(self):
-        with self.assertRaisesRegex(ValueError, 'grade A or B'):
+    def test_automated_observation_must_carry_a_grade(self):
+        # The grade is no longer a threshold to clear, but it is still mandatory: it is the label
+        # the value is drawn with, and an unlabelled C or D on a chart is the thing to avoid.
+        with self.assertRaisesRegex(ValueError, 'grade'):
             observation_valid(self.observation(), self.metrics, self.sources)
 
     def test_grade_a_automated_observation_passes(self):
         observation_valid(self.observation(grade='A'), self.metrics, self.sources)
 
-    def test_grade_c_or_d_automated_observation_rejected(self):
+    def test_grade_c_or_d_automated_observation_is_now_accepted(self):
+        # Reversed by owner decision 2026-09-11/12: news and social claims may be numeric records
+        # as long as the sourcing is stated. See tests/test_low_grade_numerics.py for the labels
+        # that make it honest, and tests/low_grade_labels.cjs for the chart surfaces.
         for g in ('C', 'D'):
             with self.subTest(grade=g):
-                with self.assertRaisesRegex(ValueError, 'grade A or B'):
+                observation_valid(self.observation(grade=g), self.metrics, self.sources)
+
+    def test_a_grade_outside_the_vocabulary_is_still_refused(self):
+        for g in ('E', 'b', ''):
+            with self.subTest(grade=g):
+                with self.assertRaises(ValueError):
                     observation_valid(self.observation(grade=g), self.metrics, self.sources)
 
     def test_curated_observation_never_requires_grade(self):
@@ -208,24 +218,38 @@ class AutomatedObservationGradeTests(unittest.TestCase):
 
 
 class NumericSeriesGuardTests(unittest.TestCase):
-    """Deliverable 1's hard rule enforced where a numeric record is actually minted: a grade
-    C/D source cannot produce an observation at all -- extraction fails closed, not silently."""
+    """Where a numeric record is minted, the grade is stamped rather than screened.
+
+    Until 2026-09-12 a grade C or D source could not mint an observation at all. The owner
+    reversed that: such a reading may enter a series as long as we are honest about sourcing, so
+    candidate_record now derives the grade from the source and attaches it instead of refusing."""
     def setUp(self):
         self.data = json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
         self.registry = registry()
         self.metrics = {m['id']: m for m in self.data['metrics']}
         self.sources = {s['id']: s for s in self.data['sources']}
 
-    def test_grade_c_registered_news_source_cannot_mint_an_observation(self):
-        source = next(s for s in self.registry['sources'] if s.get('provenance') == 'news')
+    def test_grade_c_registered_news_source_now_mints_a_labelled_observation(self):
+        # Picked from a real mapping: an unmapped source fails earlier, on the metric/source rule,
+        # which would pass this test for the wrong reason.
+        pair = next(((m, self.sources[sid])
+                     for m in self.data['metrics'] if not m.get('period_basis')
+                     and 'observation' in (m.get('allowed_statuses') or ['observation'])
+                     for sid in m['source_ids']
+                     if self.sources.get(sid, {}).get('provenance') in ('news', 'social')), None)
+        if pair is None:
+            self.skipTest('no metric is mapped to a news or social source')
+        metric, source = pair
         policy = collection_for(self.registry, source)
-        self.assertEqual(grade_for(policy, source), 'C')
-        candidate = {'metric': 'ai-adoption', 'year': 2026, 'period': '2026', 'value': 50, 'upper': None,
-                     'status': 'observation', 'precision': 'eq', 'note': '',
-                     'evidence': 'The report states 50 percent adoption in 2026.'}
-        with self.assertRaisesRegex(ValueError, 'Grade C evidence cannot become a numeric observation'):
-            research.candidate_record(candidate, source, candidate['evidence'], self.metrics, self.sources,
-                                       [], policy)
+        self.assertIn(grade_for(policy, source), ('C', 'D'))
+        value = round((metric['min']+metric['max'])/2)
+        candidate = {'metric': metric['id'], 'year': 2026, 'period': '2026', 'value': value,
+                     'upper': None, 'status': 'observation', 'precision': 'eq', 'note': '',
+                     'evidence': f'The outlet reported {value} for 2026.'}
+        record = research.candidate_record(candidate, source, candidate['evidence'], self.metrics,
+                                            self.sources, [], policy)
+        self.assertEqual(record['grade'], grade_for(policy, source),
+                         'the record must carry the grade derived from its own source')
 
     def test_grade_a_source_still_mints_an_observation(self):
         # Chosen by provenance rather than by id: stanford-2026 was reclassified from "official
