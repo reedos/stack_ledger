@@ -793,7 +793,8 @@
       "max": 10000,
       "note": "Historical run-rate disclosure. It is not an audited annual revenue total or a current September 2026 estimate.",
       "source_ids": [
-        "company-openai"
+        "company-openai",
+        "openai-news-index"
       ],
       "series_start_year": 2025,
       "chart_default_start": 2025,
@@ -818,7 +819,8 @@
       "max": 10000,
       "note": "Historical company disclosure from May 2026. Funding raised and valuation are separate from revenue.",
       "source_ids": [
-        "company-anthropic"
+        "company-anthropic",
+        "anthropic-news-index"
       ],
       "series_start_year": 2026,
       "chart_default_start": 2026,
@@ -2067,7 +2069,8 @@
       "max": 100000,
       "note": "Anthropic access within May 2026. IT-versus-facility basis unspecified; not interchangeable with Epoch IT MW.",
       "source_ids": [
-        "anthropic-colossus-contract"
+        "anthropic-colossus-contract",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "compute_mw_contracted",
@@ -2095,7 +2098,8 @@
       "max": 1000000000,
       "note": "Contracted access; not an installed-GPU census or H100-equivalent conversion.",
       "source_ids": [
-        "anthropic-colossus-contract"
+        "anthropic-colossus-contract",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "accelerator_units_contracted",
@@ -2963,7 +2967,8 @@
       "max": 1000000000,
       "note": "Company-reported service run-rate; this disclosure says fully autonomous rides, not explicitly paid trips. Not waitlist users.",
       "source_ids": [
-        "waymo-q1-2026"
+        "waymo-q1-2026",
+        "google-blog-index"
       ],
       "company": "waymo",
       "measurement_type": "autonomous_trips_per_week",
@@ -3073,7 +3078,8 @@
       "max": 1000000000,
       "note": "Alphabet calls these major cities, not a standardized metro-area statistical count. Geography follows the disclosure.",
       "source_ids": [
-        "waymo-q1-2026"
+        "waymo-q1-2026",
+        "google-blog-index"
       ],
       "company": "waymo",
       "measurement_type": "operating_metro_count",
@@ -3154,7 +3160,8 @@
       "max": 10000,
       "note": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
       "source_ids": [
-        "sonnet46-launch"
+        "sonnet46-launch",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_input_usd_per_m",
@@ -3181,7 +3188,8 @@
       "max": 10000,
       "note": "Named model API price snapshot; excludes caching, batch discounts, tools, subscription plans and human oversight. Not necessarily the newest model.",
       "source_ids": [
-        "sonnet46-launch"
+        "sonnet46-launch",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_output_usd_per_m",
@@ -3262,7 +3270,8 @@
       "max": 100000,
       "note": "Company-described plant under construction with a March 2026 air permit. Not operating generation, dependable capacity or IT load.",
       "source_ids": [
-        "spacexai-power-july"
+        "spacexai-power-july",
+        "spacexai-news-index"
       ],
       "company": "spacexai",
       "measurement_type": "onsite_generation_mw_permanent",
@@ -3830,7 +3839,8 @@
       "max": 100000,
       "note": "Temporary Southaven generation: require capacity basis and date; turbine count alone is not MW.",
       "source_ids": [
-        "spacexai-power-july"
+        "spacexai-power-july",
+        "spacexai-news-index"
       ],
       "company": "spacexai",
       "measurement_type": "onsite_generation_mw_temporary",
@@ -4049,7 +4059,8 @@
       "max": 10000,
       "note": "Multi-year program commitment, not paid capex or a site-level investment. Overlaps subsequent campus and partner announcements.",
       "source_ids": [
-        "openai-stargate-sites"
+        "openai-stargate-sites",
+        "openai-news-index"
       ],
       "company": "openai",
       "measurement_type": "capex_announced_usd",
@@ -4158,7 +4169,8 @@
       "max": 1000000000000.0,
       "note": "Google-supported etA effort targets training new apprentices; IBEW/NECA partnership. Program ambition, not enrollments or placements; announcement publication day not verified.",
       "source_ids": [
-        "google-eta-training"
+        "google-eta-training",
+        "google-blog-index"
       ],
       "company": "alphabet",
       "measurement_type": "training_seats_committed",
@@ -4236,7 +4248,8 @@
       "max": 1000000000000.0,
       "note": "October 2024 agreement for up to 500 MW; first reactor targeted 2030 and subsequent deployments through 2035. Not operating U.S. SMR capacity.",
       "source_ids": [
-        "google-kairos-2024"
+        "google-kairos-2024",
+        "google-blog-index"
       ],
       "company": "alphabet",
       "measurement_type": "smr_mw_committed",
@@ -4262,7 +4275,8 @@
       "max": 1000000000000.0,
       "note": "September 7, 2026 access snapshot; monthly billing. Plan eligibility, usage limits, taxes and overages apply.",
       "source_ids": [
-        "claude-harness-pricing"
+        "claude-harness-pricing",
+        "claude-blog-index"
       ],
       "company": "anthropic",
       "measurement_type": "harness_list_price",
@@ -4555,7 +4569,8 @@
       "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
       "source_ids": [
         "anthropic-opus5",
-        "claude-current-api-pricing"
+        "claude-current-api-pricing",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_input_usd_per_m",
@@ -4582,7 +4597,8 @@
       "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
       "source_ids": [
         "anthropic-opus5",
-        "claude-current-api-pricing"
+        "claude-current-api-pricing",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_output_usd_per_m",
@@ -4609,7 +4625,8 @@
       "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
       "source_ids": [
         "anthropic-fable5",
-        "claude-current-api-pricing"
+        "claude-current-api-pricing",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_input_usd_per_m",
@@ -4636,7 +4653,8 @@
       "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
       "source_ids": [
         "anthropic-fable5",
-        "claude-current-api-pricing"
+        "claude-current-api-pricing",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_output_usd_per_m",
@@ -4663,7 +4681,8 @@
       "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
       "source_ids": [
         "anthropic-fable51",
-        "claude-current-api-pricing"
+        "claude-current-api-pricing",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_input_usd_per_m",
@@ -4690,7 +4709,8 @@
       "note": "Standard API list rate per million tokens, checked September 7, 2026; not a subscription or cost per completed task. Caching, long-context, speed, region and tool surcharges are separate.",
       "source_ids": [
         "anthropic-fable51",
-        "claude-current-api-pricing"
+        "claude-current-api-pricing",
+        "anthropic-news-index"
       ],
       "company": "anthropic",
       "measurement_type": "token_price_output_usd_per_m",
@@ -4924,7 +4944,8 @@
       "max": 100000,
       "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
       "source_ids": [
-        "grok-current-plans"
+        "grok-current-plans",
+        "spacexai-news-index"
       ],
       "company": "spacexai",
       "measurement_type": "harness_list_price",
@@ -4950,7 +4971,8 @@
       "max": 100000,
       "note": "U.S. individual web-plan list price, monthly billing, checked September 7, 2026. Taxes, regional/app-store pricing, usage limits and overages may differ.",
       "source_ids": [
-        "grok-current-plans"
+        "grok-current-plans",
+        "spacexai-news-index"
       ],
       "company": "spacexai",
       "measurement_type": "harness_list_price",
@@ -7911,7 +7933,8 @@
       "max": 10000000,
       "note": "Keep source vintage and power basis; never sum overlapping campuses or unlike capacity measures.",
       "source_ids": [
-        "audit-stargate-uae"
+        "audit-stargate-uae",
+        "openai-news-index"
       ],
       "series_start_year": 2025,
       "chart_default_start": 2025,
