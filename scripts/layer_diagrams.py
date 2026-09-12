@@ -60,6 +60,12 @@ def icon(kind):
     return shapes[kind]
 
 
+# Reader-facing name for each line kind, in the order the key prints them. Mirrors the marker
+# colours inside render_layer_diagram; an edge kind with no entry here would draw a line the key
+# cannot name, which tests/test_layer_diagram_key.py refuses.
+KEY_LABELS=[('power','Power / energy'),('data','Data / process'),('cooling','Heat removal'),('feedback','Review / feedback')]
+
+
 def render_layer_diagram(layer,sources,color='#c5f277'):
     d=DIAGRAMS[layer];lookup={s['id']:s for s in sources}
     paths=''
@@ -80,5 +86,12 @@ def render_layer_diagram(layer,sources,color='#c5f277'):
         nodes+=f'<a href="#diagram-{layer}-{i}" aria-label="{i}. {e(title)}"><g class="diagram-node" transform="translate({x} {y})"><rect width="220" height="150" rx="15"/><g class="diagram-icon" transform="translate(70 20)">{icon(kind)}</g><circle cx="22" cy="22" r="16"/><text class="diagram-number" x="22" y="29" text-anchor="middle">{i}</text><text class="diagram-label" x="110" y="125" text-anchor="middle">{e(title)}</text></g></a>'
         details+=f'<article id="diagram-{layer}-{i}" class="diagram-explanation" tabindex="-1"><h3><span>{i:02}</span> {e(title)}</h3><p>{e(body)}</p></article>'
     building='<path class="factory-shell" d="M20 330 70 285H890l50 45v225H20Z"/><text class="diagram-label factory-label" x="40" y="350">DATA HALL · CONCEPTUAL CUTAWAY</text>' if layer=='infrastructure' else ''
+    # The key names only the line kinds this diagram actually draws. It printed all four for
+    # every layer: the chips diagram draws one kind and advertised four, energy likewise, and
+    # applications offered a reader "Power / energy" and "Heat removal" swatches for lines that
+    # are nowhere in it (owner report, 2026-09-12). Order is fixed rather than per-layer so a
+    # kind sits in the same place as a reader moves between layers.
+    used={k for _,_,k in d['edges']}
+    key=''.join(f'<span class="key-{k}">{e(label)}</span>' for k,label in KEY_LABELS if k in used)
     refs=' · '.join(f'<a href="{e(lookup[s]["url"],quote=True)}">{e(lookup[s]["publisher"])}: {e(lookup[s]["title"])} ↗</a>' for s in d['sources'])
-    return f'''<section class="section layer-diagram" id="layer-diagram" data-diagram="{layer}" style="--diagram-accent:{e(color,quote=True)}"><div class="eyebrow">INSIDE THE LAYER / HOW IT FITS TOGETHER</div><h2>{e(d['title'])}</h2><p class="section-intro">{e(d['intro'])}</p><div class="diagram-canvas"><svg viewBox="0 0 960 570" role="group" aria-label="{e(d['title'])} Select a numbered component to read its explanation."><defs>{markers}</defs><pattern id="grid-{layer}" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#3c5240"/></pattern><rect width="960" height="570" rx="20" fill="url(#grid-{layer})"/>{building}{paths}{nodes}</svg></div><div class="diagram-key"><span class="key-power">Power / energy</span><span class="key-data">Data / process</span><span class="key-cooling">Heat removal</span><span class="key-feedback">Review / feedback</span></div><p class="chart-footnote">Original conceptual illustration, not a site plan or engineering specification. Arrows show selected relationships, not measured flows or capacity. Numbered components are explained below; select one in the diagram to jump to it.</p><div class="diagram-explanations">{details}</div><p class="chart-footnote">Technical context: {refs}</p></section>'''
+    return f'''<section class="section layer-diagram" id="layer-diagram" data-diagram="{layer}" style="--diagram-accent:{e(color,quote=True)}"><div class="eyebrow">INSIDE THE LAYER / HOW IT FITS TOGETHER</div><h2>{e(d['title'])}</h2><p class="section-intro">{e(d['intro'])}</p><div class="diagram-canvas"><svg viewBox="0 0 960 570" role="group" aria-label="{e(d['title'])} Select a numbered component to read its explanation."><defs>{markers}</defs><pattern id="grid-{layer}" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#3c5240"/></pattern><rect width="960" height="570" rx="20" fill="url(#grid-{layer})"/>{building}{paths}{nodes}</svg></div><div class="diagram-key">{key}</div><p class="chart-footnote">Original conceptual illustration, not a site plan or engineering specification. Arrows show selected relationships, not measured flows or capacity. Numbered components are explained below; select one in the diagram to jump to it.</p><div class="diagram-explanations">{details}</div><p class="chart-footnote">Technical context: {refs}</p></section>'''
