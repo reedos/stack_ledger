@@ -7119,6 +7119,35 @@
       "license": "Original source rights apply",
       "provenance": "company-channel",
       "index": true
+    },
+    {
+      "id": "meta-ai-blog-index",
+      "publisher": "Meta",
+      "title": "Meta AI blog · model and research announcements",
+      "url": "https://ai.meta.com/blog/",
+      "published": null,
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "google-blog-index",
+      "publisher": "Alphabet / Google",
+      "title": "The Keyword · Google AI and infrastructure announcements",
+      "url": "https://blog.google/rss/",
+      "published": null,
+      "layers": [
+        "models",
+        "infrastructure",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
     }
   ],
   "discovery_keywords": [
@@ -7570,7 +7599,9 @@
         "anthropic-news-index",
         "claude-blog-index",
         "ibm-research-blog-index",
-        "ibm-think-news-index"
+        "ibm-think-news-index",
+        "meta-ai-blog-index",
+        "google-blog-index"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -15416,6 +15447,33 @@
       "company_id": "ibm",
       "path_prefixes": [
         "/think/news/"
+      ]
+    },
+    "meta-ai-blog-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "meta",
+      "path_prefixes": [
+        "/blog/"
+      ]
+    },
+    "google-blog-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "alphabet",
+      "path_prefixes": [
+        "/innovation-and-ai/",
+        "/products-and-platforms/"
       ]
     }
   }

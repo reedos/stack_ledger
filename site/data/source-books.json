@@ -395,7 +395,9 @@
         "anthropic-news-index",
         "claude-blog-index",
         "ibm-research-blog-index",
-        "ibm-think-news-index"
+        "ibm-think-news-index",
+        "meta-ai-blog-index",
+        "google-blog-index"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -8241,6 +8243,33 @@
       "company_id": "ibm",
       "path_prefixes": [
         "/think/news/"
+      ]
+    },
+    "meta-ai-blog-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "meta",
+      "path_prefixes": [
+        "/blog/"
+      ]
+    },
+    "google-blog-index": {
+      "rank": 4,
+      "region_book": "global",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 0,
+      "topics": [],
+      "excerpts": false,
+      "company_id": "alphabet",
+      "path_prefixes": [
+        "/innovation-and-ai/",
+        "/products-and-platforms/"
       ]
     }
   }
