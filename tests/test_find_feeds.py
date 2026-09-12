@@ -234,10 +234,15 @@ class TopicWordMatchingTests(unittest.TestCase):
         companies = {c['id'] for c in json.loads((ROOT/'research/ecosystem.json').read_text(encoding='utf-8'))['companies']}
         news = [sid for sid, c in real['collection'].items() if c.get('claim_type') == 'news']
         self.assertTrue(news)
-        self.assertTrue(all(real['collection'][sid]['path_prefixes'] == ['/'] for sid in news))
+        # Every outlet is walkable, but not every one covers the whole site: Construction Dive
+        # and Smart Cities Dive publish articles under /news/, so their reviewed prefix is that
+        # (2026-09-12). What matters is that each has one and that only a feed may claim '/'.
+        self.assertTrue(all(real['collection'][sid]['path_prefixes'] for sid in news))
+        whole_site = [sid for sid in news if real['collection'][sid]['path_prefixes'] == ['/']]
+        self.assertTrue(whole_site, 'at least one outlet feed should cover its whole site')
         validate_registry(json.loads(json.dumps(real)), companies)      # a feed may
         demoted = json.loads(json.dumps(real))
         for source in demoted['sources']:
-            if source['id'] == news[0]: source.pop('index', None)
+            if source['id'] == whole_site[0]: source.pop('index', None)
         with self.assertRaises(ValueError):
             validate_registry(demoted, companies)                       # an ordinary page may not

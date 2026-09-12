@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-10T00:00:00Z",
+  "reviewed_at": "2026-09-12T00:00:00Z",
   "instructions": "Deliverable 4 (owner decision, September 10, 2026): register every trade and general-interest outlet below that publishes a working public feed and permits crawling, so the daily runner sees the day's stories -- every item stays grade C (claim_type: news, source_policy.grade_for) and can never enter a numeric series, chart or headline. 'layers' is the reviewed beat assignment for the outlet's own feed source record, not a topic filter -- discovery still only walks pages matching the registry's own path_prefixes/topics. Run 'python scripts/find_feeds.py --outlets --register' to probe every outlet below that has no 'status' yet (or whose 'status' is 'rejected', to retry it) and register what passes; the script writes 'status'/'reason'/'source_id'/'checked_at' back onto each entry below so a later run does not blindly re-probe a host that already answered. Never guess a feed path by hand into this file -- only the probe's own eligibility check (parses, same-host entries, a stable article path, robots allows it) adds a source_id.",
   "outlets": [
     {
@@ -10,7 +10,7 @@
         "energy",
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-datacenterfrontier-com-1b7366"
     },
@@ -21,7 +21,7 @@
         "energy",
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-datacenterknowledge-com-bb714f"
     },
@@ -33,7 +33,7 @@
         "chips",
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-datacenterdynamics-com-727821"
     },
@@ -43,7 +43,7 @@
       "layers": [
         "energy"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-latitudemedia-com-072d3a"
     },
@@ -53,7 +53,7 @@
       "layers": [
         "energy"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-heatmap-news-94f854"
     },
@@ -63,7 +63,7 @@
       "layers": [
         "energy"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-powermag-com-03cb73"
     },
@@ -73,7 +73,8 @@
       "layers": [
         "energy"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "feed_url": "https://www.rtoinsider.com/feed/",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
       "reason": "probe error (ParseError)"
     },
@@ -83,7 +84,7 @@
       "layers": [
         "energy"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-utilitydive-com-f0fb32"
     },
@@ -93,7 +94,8 @@
       "layers": [
         "energy"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "feed_url": "https://www.canarymedia.com/feed",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
       "reason": "feed fetched but did not parse as a genuine, same-host article feed with a stable path"
     },
@@ -103,7 +105,7 @@
       "layers": [
         "chips"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-semiengineering-com-234e4a"
     },
@@ -113,7 +115,7 @@
       "layers": [
         "chips"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-semianalysis-com-60a43a"
     },
@@ -124,7 +126,7 @@
         "chips",
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-tomshardware-com-92686c"
     },
@@ -135,9 +137,9 @@
         "chips",
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
-      "reason": "robots.txt could not be read as a usable policy (bot-protection challenge page, unreachable, or an off-host redirect); fails closed per RFC 9309"
+      "reason": "the homepage could not be safely fetched (Robots policy unavailable (ValueError); source skipped)"
     },
     {
       "name": "IEEE Spectrum",
@@ -146,7 +148,7 @@
         "chips",
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-spectrum-ieee-org-9ab67a"
     },
@@ -156,9 +158,10 @@
       "layers": [
         "chips"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
-      "status": "rejected",
-      "reason": "network error reaching the homepage twice (TimeoutError); never reached a candidate feed"
+      "feed_url": "https://www.eetimes.com/feed/",
+      "checked_at": "2026-09-12T02:12:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-eetimes-com-df3041"
     },
     {
       "name": "The Next Platform",
@@ -167,7 +170,7 @@
         "chips",
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
       "reason": "robots.txt disallows crawling www.nextplatform.com"
     },
@@ -178,7 +181,7 @@
         "infrastructure",
         "chips"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
       "reason": "robots.txt disallows crawling www.blocksandfiles.com"
     },
@@ -189,7 +192,7 @@
         "infrastructure",
         "chips"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-servethehome-com-104967"
     },
@@ -201,7 +204,7 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-techcrunch-com-f84187"
     },
@@ -214,7 +217,7 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-arstechnica-com-48cf4d"
     },
@@ -225,7 +228,7 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-theverge-com-8c3d9d"
     },
@@ -236,9 +239,10 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "feed_url": "https://venturebeat.com/feed/",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
-      "reason": "the homepage answered HTTP 429 twice; never reached a candidate feed"
+      "reason": "feed answered HTTP 429 twice"
     },
     {
       "name": "ZDNet",
@@ -248,7 +252,7 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-zdnet-com-8dad9f"
     },
@@ -259,9 +263,9 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
-      "reason": "the homepage answered HTTP 403 twice; never reached a candidate feed"
+      "reason": "no feed link discovered on the homepage or well-known feed paths (fetched fine, nothing pointed to a feed)"
     },
     {
       "name": "CNBC",
@@ -270,7 +274,7 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:44:31Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
       "reason": "the homepage could not be safely fetched (Source exceeds size cap)"
     },
@@ -280,7 +284,7 @@
       "layers": [
         "models"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-importai-substack-com-0f90c1"
     },
@@ -290,7 +294,7 @@
       "layers": [
         "models"
       ],
-      "checked_at": "2026-09-10T17:44:31Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
       "reason": "no feed link discovered on the homepage or well-known feed paths (fetched fine, nothing pointed to a feed)"
     },
@@ -300,7 +304,7 @@
       "layers": [
         "models"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-huggingface-co-61d314"
     },
@@ -311,7 +315,7 @@
         "models",
         "applications"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-technologyreview-com-abb25a"
     },
@@ -321,9 +325,10 @@
       "layers": [
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
-      "status": "rejected",
-      "reason": "the homepage answered HTTP 403 twice; never reached a candidate feed"
+      "feed_url": "https://www.constructiondive.com/feeds/news/",
+      "checked_at": "2026-09-12T02:12:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-constructiondive-com-8e39c3"
     },
     {
       "name": "ENR",
@@ -331,7 +336,7 @@
       "layers": [
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-www-enr-com-a22a7c"
     },
@@ -341,9 +346,34 @@
       "layers": [
         "infrastructure"
       ],
-      "checked_at": "2026-09-10T17:42:06Z",
+      "feed_url": "https://www.smartcitiesdive.com/feeds/news/",
+      "checked_at": "2026-09-12T02:12:06Z",
+      "status": "registered",
+      "source_id": "outlet-www-smartcitiesdive-com-f65947"
+    },
+    {
+      "name": "The Register",
+      "home": "https://www.theregister.com/",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "feed_url": "https://www.theregister.com/headlines.atom",
+      "checked_at": "2026-09-12T02:12:06Z",
       "status": "rejected",
-      "reason": "the homepage answered HTTP 403 twice; never reached a candidate feed"
+      "reason": "robots.txt disallows crawling https://www.theregister.com/headlines.atom"
+    },
+    {
+      "name": "HPCwire",
+      "home": "https://www.hpcwire.com/",
+      "layers": [
+        "chips",
+        "infrastructure"
+      ],
+      "feed_url": "https://www.hpcwire.com/feed/",
+      "checked_at": "2026-09-12T02:12:06Z",
+      "status": "rejected",
+      "reason": "feed answered HTTP 403 twice"
     }
   ]
 }

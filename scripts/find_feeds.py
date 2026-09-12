@@ -46,15 +46,23 @@ TOPICS=["ai", "artificial-intelligence", "data-center", "data-centre", "datacent
 # table -- see load_outlets below. Nothing is registered until a candidate's own feed URL
 # answers with a genuine, parseable, same-host feed and robots allows it.
 OUTLET_ENTRY_REQUIRED={'name','home','layers'}
-OUTLET_ENTRY_OPTIONAL=OUTLET_ENTRY_REQUIRED|{'status','reason','source_id','checked_at'}
+OUTLET_ENTRY_OPTIONAL=OUTLET_ENTRY_REQUIRED|{'status','reason','source_id','checked_at','feed_url'}
 
 
 def validate_outlets_file(data):
     """Shape of the reviewed research/news-outlets.json candidate file (deliverable 1/4): a
     human-reviewed list of outlet name/home/layers, each optionally carrying back a prior
     probe's outcome (status/reason/source_id/checked_at) so a later run can see what already
-    answered. No feed URL lives here -- only the probe's own eligibility check ever proposes
-    one, in research/sources.json, never this file."""
+    answered.
+
+    An entry may also name its own `feed_url`, which the probe uses instead of reading the
+    outlet's homepage for feed links. This was forbidden until 2026-09-12, and the rule cost
+    real coverage: CNBC, Axios, VentureBeat, EE Times, RTO Insider, Construction Dive and Smart
+    Cities Dive were all rejected for a homepage that answered 403, 429 or exceeded the size cap,
+    while their feeds were public all along. Nothing is taken on trust -- a declared feed is
+    still fetched through the ordinary collection path, still refused if robots disallows it,
+    still has to parse as a same-host article feed with a stable path prefix, and must live on
+    the same host as the reviewed home so a pasted URL cannot redirect coverage elsewhere."""
     require(isinstance(data,dict) and set(data)>={'version','reviewed_at','outlets'} and set(data)<={'version','reviewed_at','outlets','instructions'} and data['version']==1,'Invalid outlet candidate file')
     timestamp(data['reviewed_at'])
     seen=set()
@@ -64,6 +72,10 @@ def validate_outlets_file(data):
         u=urlparse(o['home'])
         require(u.scheme=='https' and u.hostname and not u.username and not u.password and u.port in (None,443),'Outlet home must be public HTTPS')
         require(u.hostname not in seen,'Duplicate outlet host');seen.add(u.hostname)
+        if 'feed_url' in o:
+            f=urlparse(o['feed_url'])
+            require(f.scheme=='https' and not f.username and not f.password and f.port in (None,443),'Outlet feed must be public HTTPS')
+            require(f.hostname==u.hostname,'Outlet feed must live on the reviewed home host')
         require(bool(o['layers']) and set(o['layers'])<=set(LAYERS),'Outlet needs reviewed layers')
         if 'status' in o:
             require(o['status'] in {'registered','rejected'},'Invalid outlet status')
@@ -264,10 +276,13 @@ def probe_feed(fetcher,url,host):
         return dict(status='error',detail=type(e).__name__,eligible=False,http_status=None,robots=None,entries=0)
 
 
-def probe_host(fetcher,host,publisher,log,existing_urls):
-    """Autodiscover + validate every feed candidate on one host; not tied to a directory company."""
+def probe_host(fetcher,host,publisher,log,existing_urls,feed_url=None):
+    """Autodiscover + validate every feed candidate on one host; not tied to a directory company.
+
+    `feed_url` is a reviewed entry naming its own feed, for an outlet whose homepage blocks the
+    probe. It skips discovery only -- every validation below still applies."""
     rows=[]
-    for url in discover(fetcher,host,log)[:5]:
+    for url in ([feed_url] if feed_url else discover(fetcher,host,log)[:5]):
         if url in existing_urls:continue
         record={'publisher':publisher,'host':host,'feed_url':url,'checked_at':now()}
         record.update(probe_feed(fetcher,url,host))
@@ -315,7 +330,7 @@ def run_outlets(outlets=None,out=None):
             results.append({'publisher':publisher,'host':host,'feed_url':None,'status':'already_registered','eligible':False,'layers':layers})
             print(f"{'already_registered':19s} {publisher[:28]:28s} {host}",flush=True)
             continue
-        for record in probe_host(fetcher,host,publisher,log,existing_urls):
+        for record in probe_host(fetcher,host,publisher,log,existing_urls,o.get('feed_url')):
             results.append(dict(record,layers=layers))
     payload={'generated_at':now(),'complete':True,'errors':log,'candidates':results,
              'note':'Eligible means the feed parsed, its entries link to the same host, and a path prefix exists for discovery. Registration is a reviewed change.'}
