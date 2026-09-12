@@ -1427,7 +1427,13 @@ def main():
                     # them the same way the stale-task top-up below does -- a failure cooldown,
                     # a robots block and the batch's own document limit all still apply, and an
                     # unchanged child costs a 304 and no model call.
-                    if not fetcher.due(child['url'],True):
+                    # Force only a child this collection has NEVER fetched. Forcing every child
+                    # on every idle pass re-read the same pages all night: measured 2026-09-11,
+                    # 71 reads of five NVIDIA URLs in one session, because 48 of its 66 batches
+                    # went idle and each one forced the same four articles again. A child already
+                    # fetched has already been read, so re-forcing it buys a 304 and nothing else.
+                    never_fetched=not fetcher.fetch_state.get('page',child['url'])
+                    if not fetcher.due(child['url'],never_fetched):
                         collection['cooldown_skips']+=1;continue
                     process(child)
             for task in stale_tasks:

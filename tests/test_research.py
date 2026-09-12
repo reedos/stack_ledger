@@ -586,6 +586,26 @@ class IdleTopUpTests(unittest.TestCase):
                                 'reaching the source is the attempt, even when nothing changed')
             self.assertEqual(research.run_summary(second)['stale_tasks_attempted'],1)
 
+    def test_the_idle_top_up_does_not_re_force_a_child_it_has_already_read(self):
+        """48 of one session's 66 batches went idle, and each forced the same feed children past
+        their cooldown again: 71 reads of five NVIDIA URLs in two hours, for no model call, since
+        an already-read page comes back unchanged (measured 2026-09-11)."""
+        forced=[]
+        class State:
+            def __init__(self,known): self.known=known
+            def get(self,lane,url): return {'checked_at':'2026-09-11T00:00:00Z'} if url in self.known else {}
+        fetcher=type('F',(),{})()
+        fetcher.fetch_state=State({'https://example.org/read-already'})
+        def due(url,refresh=False,feed_poll_seconds=None):
+            forced.append((url,bool(refresh)));return bool(refresh)
+        fetcher.due=due
+        for url in ('https://example.org/read-already','https://example.org/brand-new'):
+            never=not fetcher.fetch_state.get('page',url)
+            fetcher.due(url,never)
+        self.assertEqual(forced,[('https://example.org/read-already',False),
+                                  ('https://example.org/brand-new',True)],
+                         'only a child never fetched before may be forced')
+
     def test_a_focused_sources_run_never_gets_the_idle_top_up(self):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp);RunnerTests().fixture(path)
