@@ -21298,6 +21298,34 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "EIA-930 begins in 2019 in this catalog; a missing month is unpublished or incomplete, not zero."
+    },
+    {
+      "id": "eia-operating-capacity-additions-monthly-natural-gas",
+      "layer": "energy",
+      "title": "U.S. natural gas generator capacity additions (EIA, monthly)",
+      "unit": "MW added in month",
+      "geography": "United States",
+      "scope": "Nameplate capacity of natural gas generators newly reporting operating status in the month, from EIA's operating-generator-capacity route (EIA-860M derived). A monthly capacity flow (additions), not a cumulative fleet total.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "EIA API v2, public domain (U.S. government work); requires the owner's registered key, never recorded. Monthly series; each import appends newly published months and never rewrites earlier ones.",
+      "source_ids": [
+        "eia-api-v2-electricity"
+      ],
+      "company": null,
+      "measurement_type": "eia_capacity_additions_mw",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "month",
+      "geography_code": null,
+      "series_start_year": 2019,
+      "chart_default_start": 2019,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; earlier months exist in EIA's API and can be imported on review. Missing months are unpublished, not zero."
     }
   ],
   "sources": [
@@ -87665,6 +87693,20 @@
       "retrieved_at": "2026-09-10T23:48:23Z",
       "method": "curated",
       "note": "EIA-930 Southwest Power Pool demand, 2026-08: peak of 31 published daily values (1,147,701 MWh). Response sha256 c82b47e1d3bb."
+    },
+    {
+      "id": "eia-operating-capacity-additions-monthly-natural-gas-2019-01",
+      "metric": "eia-operating-capacity-additions-monthly-natural-gas",
+      "year": 2019,
+      "period": "2019-01",
+      "value": 77.8,
+      "upper": null,
+      "status": "observation",
+      "source": "eia-api-v2-electricity",
+      "precision": "eq",
+      "retrieved_at": "2026-09-12T08:30:00Z",
+      "method": "curated",
+      "note": "EIA API v2 operating-generator-capacity, generators newly operating 2019-01: 77.8 MW nameplate."
     }
   ],
   "events": [

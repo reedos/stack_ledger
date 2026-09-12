@@ -1,473 +1,628 @@
 {
   "dataset": "EIA API v2 electricity data",
   "source_id": "eia-api-v2-electricity",
-  "retrieved_at": "2026-09-10T23:23:57Z",
+  "retrieved_at": "2026-09-12T08:30:00Z",
   "calls": [
     {
       "call": "net-generation",
       "status": "ok",
-      "sha256": "38d68ecc714a052861ebc069cfad4e7fd9ba6b397070e62b83a8b1766e62f09d",
-      "rows": 90
+      "sha256": "de927bbea8f0e0cdaf91c84bc2f25cd2306f0404d4c2d30919d072ba8da46e8c",
+      "rows": 90,
+      "truncated": false,
+      "total": "90"
     },
     {
       "call": "capacity-additions",
       "status": "ok",
-      "sha256": "5a6f2c439a44bcc449d185e835bd5d23cb7320560ac298a626bd5810d2319aa1",
-      "rows": 5000
+      "sha256": "d4eed9e6b8fcd533527be5c2232460384a34ae77e081f2530fdddd3d69934723",
+      "rows": 5000,
+      "truncated": true,
+      "total": "2260420"
     },
     {
       "call": "steo",
       "status": "ok",
-      "sha256": "de99adba2feec567339b3f17ace609e3ab30908d11c2dbd381190ee3f1d15658",
-      "rows": 0
+      "sha256": "df808b7d587b536df4dfe2756b419e7f999d54260cb42577383735e22cd0cc89",
+      "rows": 0,
+      "truncated": false,
+      "total": "0"
     },
     {
       "call": "retail-price-res-al",
       "status": "ok",
-      "sha256": "f4ddfe9fcea8b86884d43e31edb2503ce0d290b747530e1efd1a2ba3d383f50f",
-      "rows": 7
+      "sha256": "9355c7d5231b7115911dc200e9b1843f1ae50dd4a6ceeb33860ac2d927564417",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-az",
       "status": "ok",
-      "sha256": "025ff998114e899b88aa6dbfef1fda8c94203990dff91cd8b16a60dcde3f4cde",
-      "rows": 7
+      "sha256": "83cbd1e71a3e6a9581e9bb0ee993ecb4b2888089c8cc3b01b4700ff28907bc71",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ca",
       "status": "ok",
-      "sha256": "e7da7d2302c75e387b9998fbc542ff59ac4d083b6ee4d5e2f7f6bf61512b2090",
-      "rows": 7
+      "sha256": "5a463b7eda9ac0445707987dc600d70f535b082b74b2c0e36c89c4612665b63a",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-co",
       "status": "ok",
-      "sha256": "b53b8bea75fa352b1ef141dc8718d7523a1d60eea0142ab122b4ff98bfdb7134",
-      "rows": 7
+      "sha256": "9a4ad6efbabbc8f68c9c9a44303f7c094e0a09219862b691f295ec7f13221f74",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-dc",
       "status": "ok",
-      "sha256": "be4549103e26472ab756df64ab437787b371d9e9b4a32956edf5cec614583344",
-      "rows": 7
+      "sha256": "5e78578d8220666b372f32ac920b893bd95823caf01d1c26eabb3cfed8ed5a61",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-fl",
       "status": "ok",
-      "sha256": "5d32cc190775ef38c58b4445d767e167e2ff833f852ff04157723895d5a636f4",
-      "rows": 7
+      "sha256": "02324ea068fc181519cc2c5f60266e7d0f73779e50145b91a69f930a69dd8741",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ga",
       "status": "ok",
-      "sha256": "5750e27c5b259ac5215f13635de8f1c06b561c59404ed01f6f3883e7ba7852c3",
-      "rows": 7
+      "sha256": "99ba1d66dfc4c11159cb7b5bda12cb8b4efbe94fb74a8ed99d1c68f12b01fb1e",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ia",
       "status": "ok",
-      "sha256": "c671452168723d11dd76669928f30604aada85dc62d8497344dcc8f79f98dbad",
-      "rows": 7
+      "sha256": "13145b28b403837668cb6680b01595928e915937497809684c9dfd4c099cacc6",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-id",
       "status": "ok",
-      "sha256": "ac5886f75e0233b64bd365e02a90ac159f80649a4e193d2e5f25e0465687699f",
-      "rows": 7
+      "sha256": "88395c3388994488b87aa2ec2493829e09340dac35c48c9146cade9a0a05d59e",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-il",
       "status": "ok",
-      "sha256": "3600f3d60e65484b2a5dd437bb953097495d41046fdf239c10c285f9d5432509",
-      "rows": 7
+      "sha256": "5c384f148bdb6d421806e7ad02719348e0cbd1efdbb4eaf3dbabc17a767ef68f",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-in",
       "status": "ok",
-      "sha256": "223dfef397eaa26c9be9ba76c07f59f4d784274e5b19ab875607019a5a975795",
-      "rows": 7
+      "sha256": "1c48d56064e9b54d737f3c82892d7d9a5505b220550e8604babf72213424c0c6",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-la",
       "status": "ok",
-      "sha256": "c5a8a127bd43e42c2a869f171cc3b8f0830aa7111302be4bf78e44ef128884f3",
-      "rows": 7
+      "sha256": "657b1cb3d85d5e039b8f847df89c94286d2180b9cc921757f72573ea74e5571b",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ma",
       "status": "ok",
-      "sha256": "febe8bc1c6d28174e716d6f4e42e77b3bd073db72ad5894171bbef446294c95b",
-      "rows": 7
+      "sha256": "6b827838064925c2510d1fb66aa4d413c2e70893e6689608d0887a38cf872319",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-md",
       "status": "ok",
-      "sha256": "f4e20657757323a5a087e16d714f04303ad30599250e15c5dd2c75865f9d6d9f",
-      "rows": 7
+      "sha256": "b1163613ea8b0794af6765660dab98ce0c885d4e0233aa57d167e486e5612548",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-mi",
       "status": "ok",
-      "sha256": "c542cec38a2d57cfe6961cf69b5d8228ce7c8ae3ed951647a1974785bbb05c87",
-      "rows": 7
+      "sha256": "42ae270f8ef6bb61f8adce1d4219f8386b3e1134c4ccb577439b1ac6d4097be3",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-mn",
       "status": "ok",
-      "sha256": "66c584dad11b001356facb51c61db0ded2d670b3ccb2dc0f927126fb1c26ce64",
-      "rows": 7
+      "sha256": "b75bfbb528b45c5f98678e04521ba03a1c02c34dedde59bf923151e97ab00ec3",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-mo",
       "status": "ok",
-      "sha256": "b0543d32689e844f2b14592afd535a673d5651d57595a97ed9217463422811aa",
-      "rows": 7
+      "sha256": "f6163fbef8dc3c38112ba706cbc4d8f877efe44319f9ffa4d29599d57878fb4f",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ms",
       "status": "ok",
-      "sha256": "aee8fc9bf935ba6a84996118942f19ab2e839ad10bc73aacc488f5922e37c2e7",
-      "rows": 7
+      "sha256": "d714569384d0004ec1604a0cb0d09a20b1e041ebba57b3a6d1e2265b200db8ea",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-nc",
       "status": "ok",
-      "sha256": "fb181b0cc1a551d0c2af27ba496c80d81e2c1d052ee214d16bc896485ef44c13",
-      "rows": 7
+      "sha256": "ea4f3336a715c9de7e34744223f3c657f68118e63af9342ee1b0471267ccf041",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ne",
       "status": "ok",
-      "sha256": "de0ad4ce1a19fd314b4d6988ed64bb45ce5272b4e0102898eb5064e6d1b469ed",
-      "rows": 7
+      "sha256": "38dc987ed9170605b949e36ffe6f68a6d44c40625bfcc6479f2b176b73eded43",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-nm",
       "status": "ok",
-      "sha256": "54956f06a1f76edd413fe5e0a0ebc57a6fd1ef73d2254764061a3d9582a2393e",
-      "rows": 7
+      "sha256": "79ed00d9be034e865b07a1cf1f7a96ae6e852f1af05128f9183bd799bc9f13f6",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-nv",
       "status": "ok",
-      "sha256": "4d1fc9959905605d6f1a4537702c8d83fed0caf2caec8a3029d320f13741bca2",
-      "rows": 7
+      "sha256": "cc17b79d91cc4bd04f6f48e1974b6e5da5dbbcf07474dfccaa43f3aba12a7be7",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ny",
       "status": "ok",
-      "sha256": "dc9fad93c657a8a2ebce12245bd09b0e2edd679e6fba119ef4358f1dcb957e69",
-      "rows": 7
+      "sha256": "cd3f01cb1515282ae8128e50a41880cb8f6a9938deda8c12d8d2b1cfb6e95ac2",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-oh",
       "status": "ok",
-      "sha256": "1bb6132dc09891bf5e68a91cbf80bf50cdafb108b37d353952b4d3cbfde1ec55",
-      "rows": 7
+      "sha256": "117e67d90bf23d626d3c2e929dc47327d30f0ed9194f450670cdb146ddbaf1e6",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ok",
       "status": "ok",
-      "sha256": "a4a163a34ddea8cc4d61dc23e2dcf847f9f55b638dcee405d4bb9460df862d65",
-      "rows": 7
+      "sha256": "6bf4f4dfa52cee124b930fcdab4f24d234e150aa6ecce1ba6f09cc76fca4982f",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-or",
       "status": "ok",
-      "sha256": "ca5c0720fa0277d105b60712acd11cc6c367a7965144cdc7b3df10c475ded146",
-      "rows": 7
+      "sha256": "6ea94ecb58c67572ad03056ef4ab4d1f4589d98b2477e11b31ec4fbd32fe60c4",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-pa",
       "status": "ok",
-      "sha256": "77b41df2679d64b06520e37816682feb20bf6c41ef025b7637c3bbdfe69de1b0",
-      "rows": 7
+      "sha256": "0b2a5ac9854c679357a40ddcd7cd9ef253c5441c992c19ac5ed5ea988bfc05ee",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-sc",
       "status": "ok",
-      "sha256": "d152ed8a9001cfe665a55a5654fe7d782fc324752c54a6503c52385f137e5ac2",
-      "rows": 7
+      "sha256": "4819330ff910bdecba76d2b82df919f702f47968c93f07a023dd3f238cec721e",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-tn",
       "status": "ok",
-      "sha256": "900ca4f111b8d41b4380d73c5cd814e0719820ef8b8bc67812e89bc7f531706d",
-      "rows": 7
+      "sha256": "4a19eb1a781be0557d012e2eb1665811d2add2fbead3aba0716c2ad9c71fefa6",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-tx",
       "status": "ok",
-      "sha256": "552f209bd3a61b94ab392a5ab349ae631f2d89ea80d514c317a4f3e4edc974d0",
-      "rows": 7
+      "sha256": "764487aa74b8d11d9e0631181d5e72a8d824c7681df402edf198c817638c5284",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-ut",
       "status": "ok",
-      "sha256": "e6a8abc8253cc88a02cd93472e4a55ee8dc054ae39cf1721bfef9d9ab99a2816",
-      "rows": 7
+      "sha256": "c430ff0eeb0a275d5f2aaecc51ce332293e4f071622ca3575c8899d8c2b01c74",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-va",
       "status": "ok",
-      "sha256": "4dc29b74042f0163902b4895fa7c4850ca00fe65c1940c521cdd1220d71d4c80",
-      "rows": 7
+      "sha256": "219ce502a4f3a9b9ffd63dbb847406dcbf83d73beaecf1a6feb67e5180dd1778",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-wa",
       "status": "ok",
-      "sha256": "b7a0815c3bf1f7852849631178c45fdc20b1e042d3ad88f01f78c2a25ba92457",
-      "rows": 7
+      "sha256": "5b9ff26143b625c0b58e641e021e543d8d1961c35e53a7ecc27c28a48ce2f5d1",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-wi",
       "status": "ok",
-      "sha256": "fbc161112ecfa55c4f0b220263d2461a86698cdc2043c58a9b7d25990cef587b",
-      "rows": 7
+      "sha256": "a7a7b67c4119e8bee86f5faed6596fa07aadfdd37655e94d0a0f28822a453056",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-wv",
       "status": "ok",
-      "sha256": "7ce45eb786aafaba602a08fb145515b1ba63f3e097a26c17a3885d5796ae09a8",
-      "rows": 7
+      "sha256": "ee2b08c8334973b281a8f14515b29bccc93d6e4fde92b8937ff927b8f52e4e51",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-wy",
       "status": "ok",
-      "sha256": "03f14eb853dfe78053bd6bf877357c12e7a00ce5df911cd1f64aa18e5b7a0f25",
-      "rows": 7
+      "sha256": "e23b6c9a5fb3c8d9fd8a0c15a881129f09b88c4a26383f360a0fa895072e4bb3",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-res-us",
       "status": "ok",
-      "sha256": "0b8fa54908b4ff952325d8bec60d70a0f4c95b38f6a07b53253df98a30acd4d9",
-      "rows": 7
+      "sha256": "3ac9bca201db8a0642bcdca44ae924dbd6d577696756a5c927d3962e551e05f4",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-al",
       "status": "ok",
-      "sha256": "6058114df8cf754066d949a82218a6e5fe3a0324ab182d29c44cb22bf33cecea",
-      "rows": 7
+      "sha256": "4624929e85fd07def7602e2ddf8483252a57349da527febf226ef84709918f40",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-az",
       "status": "ok",
-      "sha256": "70f1bd290568ed43ee6af48c3f16a0423c3559f727a62f72e7a2c088e4372ea0",
-      "rows": 7
+      "sha256": "09a1aa26c5484bdca63133119971a031e1587a7de92b192cc28dd854798c59e4",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ca",
       "status": "ok",
-      "sha256": "10c5fdab6b433899e35ae7ff22cedbcacea2f7af0ab70632485e223aec97b9d4",
-      "rows": 7
+      "sha256": "a57b6b19f7acc2c8578fc09c9952ce07d62e345b7552e8cb2b3f4b9c272fb06c",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-co",
       "status": "ok",
-      "sha256": "ed36e068f9ed86eda397b3608d868827eb8d186f3b38bce91475d10eabd63914",
-      "rows": 7
+      "sha256": "aaa6cf5c221f11f430df069f5b2fac89c136206e5be8bdb27141b9012ee6ff95",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-dc",
       "status": "ok",
-      "sha256": "4cc74f9b7b0c265adfd2519053f6a94ab12bc9b3a0ad125e9e641e62407188fe",
-      "rows": 7
+      "sha256": "a9cd0aee4161d3e8d2159495b17a82e96fb6332729dcd1bb614bd5322e7d88e8",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-fl",
       "status": "ok",
-      "sha256": "c8f77222070b80e434c1ca954cbf63b92d0b4090c7f9ca145e13847242b77f80",
-      "rows": 7
+      "sha256": "72df8181fbd3aef22d18d09846a669207751021a6dd950003b554ca0494501e3",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ga",
       "status": "ok",
-      "sha256": "6997dfd406f24458a2f611bb137de54b0c979168d6b47f3b3336057e6baae7d8",
-      "rows": 7
+      "sha256": "7dcdddac77ed2867ca1f748635d2f8d615cbdf1c170ca2492bb39570fa6ddc08",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ia",
       "status": "ok",
-      "sha256": "e666ce78d32dec18570679ba6ef18221874d55a6703a9fd221d51e86930abcde",
-      "rows": 7
+      "sha256": "cd54d0912714da967b6835a5f08d02b280ba535caf3c25858ba1d4c6254aed12",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-id",
       "status": "ok",
-      "sha256": "02bad8f77a4b6f3bd4b3edb525fdf9d1991fd1f43c8c1a3e03b4a1e4026ec05d",
-      "rows": 7
+      "sha256": "bebbe4297d51984a6146c75e932a420ef732436f21bc46c03c207799e8ea7fe0",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-il",
       "status": "ok",
-      "sha256": "9698307e08ee54c76315828eba8bb885831430110e46b111c427131b7ab309e6",
-      "rows": 7
+      "sha256": "4e0d1b42182d3d6a665173cde10edad7a2fd8a09f9bbf3df4c68b3badf8b2d8f",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-in",
       "status": "ok",
-      "sha256": "c9f7fd6e3ea8ad859b4b3aab11fade1d50dc53f54177e43f8d822403bd67f314",
-      "rows": 7
+      "sha256": "185c578fc947b0fd2459e04a5e7b6d505b9e5b3557a61ba0bec94ac3fd0ef618",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-la",
       "status": "ok",
-      "sha256": "906dfd6ef1c4082bfd48d68de3152519d685a44575bb03c4b870cb9977180344",
-      "rows": 7
+      "sha256": "a60dadcd95242c46c259c66420444a9d9e04f45ee9a0f45665c579531065c689",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ma",
       "status": "ok",
-      "sha256": "ae1755c9eda7e4ed020ee5e25e35f56c343e4a618c60e5441bdd44eefb1099f9",
-      "rows": 7
+      "sha256": "09967ef044bbf3fe86522a63dd6ec9712a185e6f4086e91d163c3b345742b781",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-md",
       "status": "ok",
-      "sha256": "8de73948a705b31c359070386f1adf427bfa24f84910bec284bd437cb0c89bad",
-      "rows": 7
+      "sha256": "2cab667efd4e56faec8f99d35a96ed2f1df6c1f43269d504aa84432241cc5e6e",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-mi",
       "status": "ok",
-      "sha256": "e669f13f2ee5e479e99a298ef540807d688a87d8f189460ca868c92b936c7c8a",
-      "rows": 7
+      "sha256": "5d591ad19d63f2e78fc5865373fa25744507e3c0ec7dd3831f3b01a9e7784a6b",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-mn",
       "status": "ok",
-      "sha256": "615c992de82038b8f8810c74687c6ed8f031c8a937c849153d8d6d01aa60c817",
-      "rows": 7
+      "sha256": "d65c0280b94f0c1886f502691f865bd39139106ffff470721400e94306a39e4c",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-mo",
       "status": "ok",
-      "sha256": "fe3d51738251584a928673eca9ed756cb900f6542f487d5ff1bc0dc003f41487",
-      "rows": 7
+      "sha256": "cf8144e16dee48cd32bb494a6dd0734aebb80adcf34be888f501deeff64fdad3",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ms",
       "status": "ok",
-      "sha256": "3bf583ecdd5696ae0d53651ea5fc566c7b13cfb157391221ceb660e34a05123b",
-      "rows": 7
+      "sha256": "94fa7b9934cf2362a789cc366cea1525d9cf25caf6093d093626ff612d415d80",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-nc",
       "status": "ok",
-      "sha256": "fba1e7f1a170ce97e6a3fc1ed2994ebadadab53ae50045c647d05fde8be7ced8",
-      "rows": 7
+      "sha256": "8d6894dcace98c643ed24149dbf2d31f3e165cd21070afe01d3809bc12faaf85",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ne",
       "status": "ok",
-      "sha256": "9ea75990618887318465e192260e2d7aac472c078b4f5df4769253ab2a6882f3",
-      "rows": 7
+      "sha256": "b1bd32140c825bc9b92b9bbae32a19d341904462a464136eef1f94a6c2abfd8d",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-nm",
       "status": "ok",
-      "sha256": "6ea12907763343db4e2b3a0cdefc1ababb499520554a204be74516f34bab4b52",
-      "rows": 7
+      "sha256": "a1db10a0f1ba09bab204a3a92f431ead72be73b8fc65cdb6b0627471cf6f62ff",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-nv",
       "status": "ok",
-      "sha256": "b190b9592f14d0b4a20af2fbbfbbbeb24004c20a8b915cd83c2e1f591306ea4e",
-      "rows": 7
+      "sha256": "d7319a0821ff1d0474439682c1e7d6535b9d800bd2c1558119e4fb1504612953",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ny",
       "status": "ok",
-      "sha256": "5155b161286884fd825d81caf474a0102666bf9d3cd47f867866b722cfa799a7",
-      "rows": 7
+      "sha256": "9b601e6b303eb281a3fe598f45400fc0591c91755d6eb3d82dde3fd61abca6f2",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-oh",
       "status": "ok",
-      "sha256": "ff0ddf2ac13f2ab778b6d2cca3ab2ab9be7c4fc3493ff544f460ac6a92cd4151",
-      "rows": 7
+      "sha256": "5b395a9773ac0e87b2ca90a56a11b6a0d4ce9cbec85c8597265e87c454c1d53a",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ok",
       "status": "ok",
-      "sha256": "0c2897fc53644840bc46746055290d7e997aa69b29ace7723172f6bfc3f8917b",
-      "rows": 7
+      "sha256": "6e2e29186285991d7ee06728518fdda6022729777b2d5baca186663848fd0a9e",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-or",
       "status": "ok",
-      "sha256": "7dd16b1433098f2a8efa1ebc1fbde01250433b6f36dab18a1ea3f66eef7159c3",
-      "rows": 7
+      "sha256": "8de5b964fa62277d29f2069b0e2338db2149ac81cc4dac13deb913ee670ff201",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-pa",
       "status": "ok",
-      "sha256": "9f2e6bed85570fc53eeb053c9912b8d954fc39d1381cefd5e9efb8c76d1f52c9",
-      "rows": 7
+      "sha256": "c9d4ccaf4f24dd30e0780ef31a8e423c90be4f597ec6bf7eba0789563c768593",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-sc",
       "status": "ok",
-      "sha256": "a2cf90c55c46f01f4bd5e5898eadf31d8b19bf35d5c7bec3b7c27dfb7900c37c",
-      "rows": 7
+      "sha256": "0275a869321eeda9892c1b93ef8456a50406dc023af0447a3e899d51636e0984",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-tn",
       "status": "ok",
-      "sha256": "b888673245856cdb243259aff80073af6b7111dae1cbe2ad1b6ab96b27303794",
-      "rows": 7
+      "sha256": "77a1084b5c31d76f1164d40667194aa33421c5af0f4e2e32b99e54ced8c5d5f3",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-tx",
       "status": "ok",
-      "sha256": "7d5579576b638403103c77c8c979b9d2c0d07a9b7505ec234228ba6c7f71c83b",
-      "rows": 7
+      "sha256": "05765c6dbca00cf6a3b911ff16a5eeeb93655c7f30ef0029d036a0ff35acc9be",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-ut",
       "status": "ok",
-      "sha256": "bc9784c44df5a3b1cfe55ae3630e9fa7bc63eda8dadeec2dba0dd2dd5e2d890e",
-      "rows": 7
+      "sha256": "c52fbc8d6291a746919827d48b380c1ef0ecab5822bae3d07258e30ba66b65cb",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-va",
       "status": "ok",
-      "sha256": "22522803b55809947536ea2f76c6e4ad58326ba562efd16e3c78ccb9225fb247",
-      "rows": 7
+      "sha256": "d1bd96e9b180235e317d28303edaf6832ce663923f0beb5336c65366ecd7bf77",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-wa",
       "status": "ok",
-      "sha256": "9bf2f92705134395cc981216b05dd8958ed1ce4558ebb12eda2f8365ac8d9a00",
-      "rows": 7
+      "sha256": "0e26a17a4eee8bbcfe5d2d8b5a513670acdd1dec84a54003ab0d214974555657",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-wi",
       "status": "ok",
-      "sha256": "d269913a7096f647e0e0d7c4138ad9b57c03775d14b6c6f115c611a7b28a775a",
-      "rows": 7
+      "sha256": "e9971f859f1f769e628394ab0b8746d58f9a496aee82d0a1ee816657eb32216b",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-wv",
       "status": "ok",
-      "sha256": "27e1f5f9d10c587732b648858e43680216e9432200b56aa4fab905005f28febb",
-      "rows": 7
+      "sha256": "77ec224be552b955526e1da0510831bdff6d212c158d6abac3c618828c141557",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-wy",
       "status": "ok",
-      "sha256": "de181349b7adab83037a1e199d0c5bb330bc44132fc6c4dedcb213816add9548",
-      "rows": 7
+      "sha256": "036dad0e13c291aca320d945de708a1334decc3dbdd5c0c0fba6ab858357f4a6",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     },
     {
       "call": "retail-price-all-us",
       "status": "ok",
-      "sha256": "385345e834874f359368e8ae255b27b08e1fba8177b8fd9d5ee9027b67cc2bf0",
-      "rows": 7
+      "sha256": "e7c8f399a1920a91e58f457673ef551ae22da8607cf3004ee27ab47ae4c747c5",
+      "rows": 7,
+      "truncated": false,
+      "total": "7"
     }
   ],
   "metrics": [
     "eia-net-generation-monthly",
+    "eia-operating-capacity-additions-monthly-natural-gas",
     "eia-retail-price-al-all",
     "eia-retail-price-al-residential",
     "eia-retail-price-az-all",
@@ -543,7 +698,7 @@
     "eia-retail-price-wy-all",
     "eia-retail-price-wy-residential"
   ],
-  "records": 608,
+  "records": 609,
   "license": "Public domain (U.S. government work)",
   "key": "owner-registered, not recorded",
   "steo_series_id_placeholder": "ELGEN",
@@ -585,5 +740,20 @@
     "WI",
     "WV",
     "WY"
+  ],
+  "counts": {
+    "rows:net-generation": 90,
+    "records:net-generation": 90,
+    "rows:capacity-additions": 5000,
+    "records:capacity-additions": 1,
+    "rows:steo": 0,
+    "records:steo": 0,
+    "rows:retail-price": 518,
+    "records:retail-price": 518
+  },
+  "failures": [
+    "capacity-additions returned a truncated page (5000 rows of 2260420). operating-generator-capacity is the whole operable-generator inventory, one row per generator per month, so an additions figure cannot be read off an unwindowed request; window or page it against a live pull before trusting this route.",
+    "eia: 'records:steo' returned 0, below the reviewed floor of 1 -- a broken route, not a quiet week",
+    "eia: 'rows:steo' returned 0, below the reviewed floor of 1 -- a broken route, not a quiet week"
   ]
 }
