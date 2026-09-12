@@ -2252,7 +2252,9 @@
       "claim_type": "other",
       "cadence": "daily",
       "weekday": 0,
-      "path_prefixes": [],
+      "path_prefixes": [
+        "/memphis/"
+      ],
       "topics": [],
       "excerpts": false
     },
@@ -8102,6 +8104,48 @@
         "hyperscaler",
         "hyperscale"
       ],
+      "excerpts": false
+    },
+    "meta-datacenters-index": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "meta",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 1,
+      "path_prefixes": [
+        "/2026/",
+        "/asset/",
+        "/blog/"
+      ],
+      "topics": [],
+      "excerpts": false
+    },
+    "microsoft-datacenters-index": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "microsoft",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "path_prefixes": [
+        "/articles/",
+        "/globe/"
+      ],
+      "topics": [],
+      "excerpts": false
+    },
+    "aws-datacenter-trust-index": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "aws",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "path_prefixes": [
+        "/trust-center/data-center/"
+      ],
+      "topics": [],
       "excerpts": false
     }
   }

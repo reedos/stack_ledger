@@ -138,7 +138,17 @@ def discoverable(source, url, policy):
     prefixes = policy.get('path_prefixes', [])
     if not (prefixes and any(path.startswith(x.lower()) for x in prefixes)):
         return False
-    return topical(path, policy.get('topics', []))
+    # An empty topic list means the SECTION is the scope. A company writes its posts as human
+    # slugs -- x.ai/memphis/our-commitment, datacenters.atmeta.com/2026/07/hello-sturgeon-county --
+    # which contain no topic word at all, so matching topics against the URL path silently
+    # excluded every company section page (2026-09-12). A whole-site prefix still needs topics;
+    # validate_registry refuses '/' without them, because that would walk an entire host.
+    topics = policy.get('topics', [])
+    if not topics:
+        # Defence in depth: validate_registry refuses this combination at registration, and
+        # this refuses to act on it if one ever gets through.
+        return all(x.strip() != '/' for x in prefixes)
+    return topical(path, topics)
 
 
 def topical(path, topics):
@@ -188,7 +198,11 @@ def validate_registry(registry, companies):
         # overnight session -- 103 of its 600 fetches -- and produced nothing, because the index
         # page itself went to the model, which correctly called it out of scope.
         if sources[sid].get('index'):
-            require(p['path_prefixes'] and p['topics'], 'An index source with no path prefixes or no topics can never discover a child page')
+            require(p['path_prefixes'], 'An index source with no path prefixes can never discover a child page')
+            # Topics may be empty only when the prefix itself scopes the subject: '/memphis/' is
+            # about one data centre, '/' is the whole host and needs the topic filter to stay
+            # anywhere near the thesis.
+            require(p['topics'] or '/' not in p['path_prefixes'], 'A whole-site index needs topics; only a narrower section may rely on its prefix alone')
         for prefix in p['path_prefixes']:
             # A feed source's candidate links come from the feed's own entries, not from walking the
             # site, so a whole-site prefix there means "any article this outlet published" and the
@@ -196,7 +210,12 @@ def validate_registry(registry, companies):
             # links, so '/' would be real wildcard discovery and stays forbidden.
             whole_site=prefix=='/' and sources[sid].get('index')
             require(prefix.startswith('/') and (prefix!='/' or whole_site) and '*' not in prefix and '..' not in prefix, 'Wildcard discovery forbidden')
-        require(not p['path_prefixes'] or p['topics'], 'Discovery needs reviewed topics')
+        # Topics may be empty only when the prefix itself scopes the subject. A company writes
+        # its posts as human slugs -- x.ai/memphis/our-commitment, /2026/07/hello-sturgeon-county
+        # -- which carry no topic word, so requiring topics excluded every company section page
+        # (2026-09-12). A whole-site prefix still needs them: that is real wildcard discovery.
+        require(not p['path_prefixes'] or p['topics'] or '/' not in p['path_prefixes'],
+                'A whole-site discovery prefix needs reviewed topics; only a narrower section may rely on its prefix alone')
         for topic in p['topics']: text(topic,80)
 
 def validate_excerpts(dataset, ledger, registry):

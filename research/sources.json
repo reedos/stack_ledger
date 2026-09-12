@@ -1893,7 +1893,8 @@
         "infrastructure"
       ],
       "license": "Attributed public facts; source material retains original rights",
-      "provenance": "company-channel"
+      "provenance": "company-channel",
+      "index": true
     },
     {
       "id": "southaven-stateline-permit",
@@ -6980,6 +6981,48 @@
       "license": "Original source rights apply",
       "provenance": "company-channel",
       "index": true
+    },
+    {
+      "id": "meta-datacenters-index",
+      "publisher": "Meta",
+      "title": "Meta data centers · site announcements and location pages",
+      "url": "https://datacenters.atmeta.com/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "microsoft-datacenters-index",
+      "publisher": "Microsoft",
+      "title": "Microsoft datacenters · articles and location pages",
+      "url": "https://datacenters.microsoft.com/",
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "published": null,
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
+    },
+    {
+      "id": "aws-datacenter-trust-index",
+      "publisher": "Amazon Web Services",
+      "title": "AWS Trust Center · data center pages",
+      "url": "https://aws.amazon.com/trust-center/data-center/",
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "published": null,
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "index": true
     }
   ],
   "discovery_keywords": [
@@ -9288,7 +9331,9 @@
       "claim_type": "other",
       "cadence": "daily",
       "weekday": 0,
-      "path_prefixes": [],
+      "path_prefixes": [
+        "/memphis/"
+      ],
       "topics": [],
       "excerpts": false
     },
@@ -15138,6 +15183,48 @@
         "hyperscaler",
         "hyperscale"
       ],
+      "excerpts": false
+    },
+    "meta-datacenters-index": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "meta",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 1,
+      "path_prefixes": [
+        "/2026/",
+        "/asset/",
+        "/blog/"
+      ],
+      "topics": [],
+      "excerpts": false
+    },
+    "microsoft-datacenters-index": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "microsoft",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "path_prefixes": [
+        "/articles/",
+        "/globe/"
+      ],
+      "topics": [],
+      "excerpts": false
+    },
+    "aws-datacenter-trust-index": {
+      "rank": 4,
+      "region_book": "united-states",
+      "company_id": "aws",
+      "claim_type": "other",
+      "cadence": "daily",
+      "weekday": 3,
+      "path_prefixes": [
+        "/trust-center/data-center/"
+      ],
+      "topics": [],
       "excerpts": false
     }
   }
