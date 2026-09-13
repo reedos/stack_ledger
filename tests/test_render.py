@@ -69,9 +69,15 @@ class StaticPresentationTests(unittest.TestCase):
         self.assertEqual(match.group(1), expected_hour, self.data['runtime']['schedule'])
 
     def test_daily_publisher_only_adds_existing_generated_page_paths(self):
-        self.assertEqual(len(render.GENERATED_PAGES), 12 + len(render.COMPANY_IDS))
+        self.assertEqual(len(render.GENERATED_PAGES), 13 + len(render.COMPANY_IDS))
         self.assertTrue(all((ROOT / p).is_file() for p in render.GENERATED_PAGES))
-        self.assertEqual(research.ALLOWED_CHANGES - {'site/data/ledger.json', 'docs/data/ledger.json', 'docs/feed.xml', 'site/data/excerpts.json', 'docs/data/excerpts.json'}, render.GENERATED_PAGES)
+        # The publisher may write the ledger, the excerpt store, the coverage feed (added
+        # 2026-09-13) and the generated pages -- nothing else. Listed rather than derived so a
+        # new writable path has to be added here deliberately.
+        DATA_FILES = {'site/data/ledger.json', 'docs/data/ledger.json', 'docs/feed.xml',
+                      'site/data/excerpts.json', 'docs/data/excerpts.json',
+                      'site/data/coverage.json', 'docs/data/coverage.json'}
+        self.assertEqual(research.ALLOWED_CHANGES - DATA_FILES, render.GENERATED_PAGES)
         for path in ['site/template.html', 'scripts/render.py', 'research/CONSTITUTION.md',
                      'docs/assets/app.js', 'docs/new-page/index.html']:
             self.assertNotIn(path, research.ALLOWED_CHANGES)

@@ -62,6 +62,7 @@ def build():
              ('methodology','methodology/','Research Methodology — Stack Ledger','Open by design. Grounded in evidence.','How Stack Ledger sources, validates and publishes research on the five-layer AI buildout.')]
     pages += [('companies','companies/','Companies — Stack Ledger','Meet the builders.','Companies, capabilities and reported revenue across the five layers of AI.'), ('industry','industry/','Jobs & Industry — Stack Ledger','Intelligence has a physical footprint.','Chip capacity, factory milestones, jobs and evidence of industrial rebuilding.')]
     pages += [('projects','projects/','Delivery Tracker — Stack Ledger','From promise to power.','Track power, AI campuses, fabs and physical applications: sourced stages, capacity, capital and jobs.')]
+    pages += [('latest','latest/','Latest — Stack Ledger','Everything we just read.','A dated feed of every article the nightly crawler read across energy, chips, infrastructure, models and applications, labelled with who published it and how far that source can be trusted.')]
     pages += [('claims','claims/','Claims & Evidence — Stack Ledger','Build more. Know what it delivers.','Evidence on data-center water, electricity bills, jobs, taxes, clean energy and community benefits.')]
     pages += [(l['id'], l['id']+'/', l['name']+' — Stack Ledger', l['tagline'], l['description']) for l in data['layers']]
     companies = json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies']

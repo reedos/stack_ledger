@@ -224,6 +224,24 @@ def validate_importers(root=ROOT):
     return p
 
 
+def validate_coverage(path=None):
+    """The coverage feed: what the crawler read, one row per article, no claim about contents.
+
+    Validated against the same registry as everything else, so a row cannot name a source we do
+    not carry or wear a provenance its source does not have -- the provenance is what the page
+    turns into the trust label a reader sees.
+    """
+    import coverage_feed
+    path = path or ROOT/'site/data/coverage.json'
+    if not path.exists(): return 0
+    data = json.loads(path.read_text(encoding='utf-8'))
+    require(set(data)=={'version','generated_at','rows'},'Unexpected coverage shape')
+    require(data['version']==1,'Unsupported coverage version')
+    timestamp(data['generated_at'])
+    registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
+    return coverage_feed.validate_rows(data['rows'],registry['sources'])
+
+
 def validate(data):
     require(set(data)=={'version','seed_date','layers','metrics','sources','observations','events','targets','runs','runtime'},'Unexpected ledger shape')
     require(data['version']==1,'Unsupported ledger version')

@@ -29,6 +29,7 @@ from validate import validate, observation_valid, event_valid, require, STATUSES
 from validate_expansion import FUTURE_ONLY, EPOCH_SITE, LABOR_MARKET, GRID_DEMAND, GRID_TYPES, SEC_TYPES, EIA_TYPES, EPOCH_MODELS
 from build import build
 from source_policy import collection_for, due, effective_cadence, discoverable, append_excerpt, validate_excerpts, grade_for
+import coverage_feed
 from reports import about_ids, report_kind, reconcile_confirmations, confirmation_only_change
 from atomic_json import save
 from document_formats import as_html, SUPPORTED, CollectionGap, format_gap
@@ -42,7 +43,7 @@ LOCAL=ROOT/'.local'
 UA='StackLedgerBot/1.0 (+https://github.com/reedos/stack_ledger; reedosaki@gmail.com)'
 from render import GENERATED_PAGES
 # Exact build artifacts only; source templates, scripts and policies remain reviewed.
-ALLOWED_CHANGES={'site/data/ledger.json','docs/data/ledger.json','docs/feed.xml','site/data/excerpts.json','docs/data/excerpts.json'} | GENERATED_PAGES
+ALLOWED_CHANGES={'site/data/ledger.json','docs/data/ledger.json','docs/feed.xml','site/data/excerpts.json','docs/data/excerpts.json','site/data/coverage.json','docs/data/coverage.json'} | GENERATED_PAGES
 MAX_BYTES=2_000_000
 
 def now():return datetime.now(timezone.utc).isoformat(timespec='seconds').replace('+00:00','Z')
@@ -1297,7 +1298,14 @@ def main():
                     elif dateline(full_text):
                         source['published']=dateline(full_text);published_basis='dateline'
                 run['documents_fetched']+=1
-                collection['documents'].append({'url':source['url'],'sha256':h,**({'published_basis':published_basis} if published_basis else {})})
+                # The page's own <title> has been parsed on every fetch since ReadableHTML was
+                # written and thrown away by every caller. It is what makes a coverage row
+                # readable without spending a model call on it.
+                page_title=normalize(' '.join(document.title))[:300] if getattr(document,'title',None) else ''
+                collection['documents'].append({'url':source['url'],'sha256':h,'source':source.get('parent_source',source['id']),
+                    'title':page_title,'publisher':source.get('publisher',''),'layers':source.get('layers',[]),
+                    'published':source.get('published'),'read_at':now(),
+                    **({'published_basis':published_basis} if published_basis else {})})
                 save(LOCAL/'evidence'/f'{h}.json',{'url':source['url'],'retrieved_at':now(),'sha256':h,'text':full_text})
                 # Private leads can be investigated under the reviewed discovery policy;
                 # they never widen the public-source allowlist.
@@ -1561,6 +1569,17 @@ def main():
         data['events'],reconciled=reconcile_confirmations(data['events'],data['observations'])
         if reconciled:collection['confirmations_reconciled']=len(reconciled)
         validate(data)
+        # Deliverable: a coverage row for every article this batch read, whatever the model made
+        # of it. No claim beyond "this page exists and this source published it"; the reader's
+        # trust cue is the source's reviewed provenance, exactly as on a ledger record.
+        if args.publish or args.apply:
+            coverage_path=ROOT/'site/data/coverage.json'
+            feed=load(coverage_path) if coverage_path.exists() else {'version':1,'generated_at':now(),'rows':[]}
+            feed['rows'],coverage_counts=coverage_feed.merge(feed['rows'],collection.get('documents',[]),registry_by_id)
+            feed['generated_at']=now()
+            coverage_feed.validate_rows(feed['rows'],registry['sources'])
+            save(coverage_path,feed)
+            collection['coverage']=coverage_counts
         save(LOCAL/'runs'/f'{run_id}.json',{'receipt':run,'quarantine':quarantine,'collection':collection})
         save(LOCAL/'coverage'/f'{run_id}.json',{'attempts':attempt_log,'registered_sources':len(registry['sources']),'attempted_sources':len(attempted),'never_attempted':[s['id'] for s in registry['sources'] if s['id'] not in attempted]})
         save(progress_path,attempted)

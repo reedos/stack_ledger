@@ -3,6 +3,7 @@ const base = document.body.dataset.base;
 const page = document.body.dataset.page;
 const root = document.querySelector('#main');
 let data;
+let coverage;
 let chartSequence=0;
 const historyWindows=new Set();
 let chartResizeTimer,chartViewportWidth=window.innerWidth;
@@ -219,6 +220,59 @@ function chart(metricId, compact=false) {
  return `<div class="chart-wrap" data-metric="${metricId}" data-chart-type="${m.chart_type||'bar'}" data-compact="${compact}" style="--accent:${l.color}"><div class="panel-heading"><div><h3>${esc(chartTitle)}</h3><p>${esc(m.geography)} · ${esc(m.unit)}</p></div><span class="pill">${obs.some(o=>['forecast','company-commitment','government-target'].includes(o.status))?'OUTLOOK':'EVIDENCE'}</span></div>${compact?`<p class="chart-footnote">${esc(ranges)}</p><details class="chart-context"><summary>History & methodology</summary>${historyChrome}</details>`:historyChrome}${m.chart_type==='line'?`<p class="chart-footnote">Axis starts at ${number(floor)} TWh to show change. Dotted bridge at 2028 marks broader coverage, including small on-site generation.</p>`:''}<div class="chart-legend">${legendHtml}${companion?'<span class="comparison-legend baseline-key">'+(m.chart_type==='line'?'┄ ':'▧ ')+esc(m.chart_comparison_legend||'Broader AEO scenario (includes small on-site)')+'</span>':''}${overlayLegend}</div><div class="chart-plot" tabindex="0" role="region" aria-label="${m.chart_type==='line'?'Chart':'Scrollable chart'}: ${esc(m.title)}"><svg class="data-chart" style="min-width:${m.chart_type==='line'?0:(narrow||slots.length>8?width:0)}px" viewBox="0 0 ${width} ${height}" role="img" aria-labelledby="${uid}-title ${uid}-desc"><title id="${uid}-title">${esc(m.title)}</title><desc id="${uid}-desc">${obs.map(o=>`${esc(metricOf(o.metric).title)} ${esc(o.period)}: ${esc(chartValue(o))} ${esc(m.unit)}, ${attributionLabel(o)}${lowGrade(o)?`, ${esc(sourceClassOf(o))}`:''}.`).join(' ')}</desc><defs><pattern id="${uid}-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="7" height="7" fill="${l.color}" fill-opacity=".08"/><path d="M0 0v7" stroke="${l.color}" stroke-width="2" stroke-opacity=".6"/></pattern><pattern id="${uid}-comparison" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="7" height="7" fill="#efc77b" fill-opacity=".08"/><path d="M0 0v7" stroke="#efc77b" stroke-width="2"/></pattern><pattern id="${uid}-estimate" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="${l.color}" fill-opacity=".12"/><circle cx="3" cy="3" r="1.1" fill="${l.color}" fill-opacity=".7"/></pattern></defs>${content}</svg></div><p class="chart-footnote">${esc(m.note)} Sources: ${sourceIds.map(id=>`${sourceLink(id)} — ${esc(sourceOf(id).title)} · ${dateLabel(sourceOf(id).published)}`).join('; ')}.</p><details class="chart-table"><summary>View data & source details</summary><div class="table-scroll"><table><caption class="sr-only">${esc(m.title)} observations and sources</caption><thead><tr><th>Period</th><th>Value (${esc(m.unit)})</th><th>Classification</th><th>Published</th><th>Source / accessed</th></tr></thead><tbody>${obs.map(o=>`<tr><td>${esc(o.period)}</td><td>${esc(chartValue(o))}</td><td>${attributionLabel(o)}${lowGrade(o)?`<br>${esc(sourceClassOf(o))}`:''}${companion||overlayM?`<br>${esc(metricOf(o.metric).title)}`:''}${o.method==='automated'?'<br>Automated extraction':''}</td><td>${vintageLabel(sourceOf(o.source).published)}</td><td>${sourceLink(o.source)}<br>Accessed ${dateLabel(o.retrieved_at)}<br><small>Record: ${esc(o.id)}</small><p>${esc(o.note)}</p></td></tr>`).join('')}</tbody></table></div><p class="chart-footnote">Scope: ${esc(m.scope)}${companion?` Companion: ${esc(companion.scope)}`:''}${overlayM?` Overlay: ${esc(overlayM.scope)}`:''}</p></details></div>`;
 }
 
+// The coverage feed: every article the crawler read, newest first. A row asserts only that the
+// page exists and who published it, so the trust cue is the source's reviewed provenance -- the
+// same badge a ledger value carries. Rendered in pages so a month of rows does not block paint.
+const COVERAGE_PAGE = 100;
+let coverageShown = COVERAGE_PAGE;
+function coverageRows(list) {
+ return list.map(r=>{
+  const g=PROVENANCE_GRADE[r.provenance]||'D', label=PROVENANCE_LABEL[r.provenance]||'Unverified source';
+  const when=r.published?dateLabel(r.published):`read ${dateLabel(r.read_at)}`;
+  const layers=(r.layers||[]).map(id=>{const l=layerOf(id);return l?`<a class="signal-layer" href="${base}${l.id}/" style="--accent:${l.color}"><i></i>${esc(l.name)}</a>`:'';}).join('');
+  return `<article class="coverage-row"><div class="coverage-meta">${layers}</div>`
+   +`<div><h3><a href="${safeUrl(r.url)}" target="_blank" rel="noopener noreferrer">${esc(r.title)} ↗</a></h3>`
+   +`<p>${esc(r.publisher)} <span class="grade-badge grade-${esc(g)}" title="Grade ${esc(g)}: ${esc(label)}">${esc(label)}</span></p></div>`
+   +`<div class="coverage-when">${esc(when)}</div></article>`;
+ }).join('');
+}
+function latestPage() {
+ const rows=(coverage&&coverage.rows)||[];
+ const l={color:'var(--green)'};
+ root.innerHTML=`<section class="page-hero"><div class="eyebrow">WHAT WE JUST READ / EVERY LAYER</div><h1>Latest.</h1>
+  <p>Every article the nightly crawler read, newest first. This is coverage, not the ledger: a row says a page exists and names who published it, nothing more. The badge is that publisher's reviewed provenance, so you can weigh a headline before you open it. Verified figures live in <a class="source-inline" href="${base}ledger/">the ledger</a>.</p></section>
+  <section class="section"><div class="directory-tools">
+   <label for="coverage-search" class="sr-only">Search coverage</label>
+   <input id="coverage-search" class="search" type="search" placeholder="Search headlines, publishers…">
+   <label for="coverage-layer">Layer<select id="coverage-layer" class="select-control"><option value="all">All layers</option>${data.layers.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select></label>
+   <label for="coverage-grade">Source<select id="coverage-grade" class="select-control"><option value="all">Any source</option>${['A','B','C','D'].map(g=>`<option value="${g}">Grade ${g} and better</option>`).join('')}</select></label>
+  </div>
+  <p class="chart-footnote" id="coverage-count"></p>
+  <div id="coverage-results" class="coverage-list"></div>
+  <p style="text-align:center"><button id="coverage-more" class="button outline">Show more</button></p></section>`;
+ const ORDER={A:0,B:1,C:2,D:3};
+ const update=()=>{
+  const q=document.querySelector('#coverage-search').value.toLowerCase().trim();
+  const layer=document.querySelector('#coverage-layer').value, grade=document.querySelector('#coverage-grade').value;
+  const list=rows.filter(r=>(layer==='all'||(r.layers||[]).includes(layer))
+   &&(grade==='all'||ORDER[PROVENANCE_GRADE[r.provenance]||'D']<=ORDER[grade])
+   &&`${r.title} ${r.publisher}`.toLowerCase().includes(q));
+  document.querySelector('#coverage-results').innerHTML=list.length?coverageRows(list.slice(0,coverageShown)):'<p class="empty">Nothing read yet matches these filters.</p>';
+  document.querySelector('#coverage-count').textContent=`${list.length} article${list.length===1?'':'s'} read${list.length>coverageShown?` · showing ${coverageShown}`:''}`;
+  document.querySelector('#coverage-more').hidden=list.length<=coverageShown;
+ };
+ document.querySelector('#coverage-more').addEventListener('click',()=>{coverageShown+=COVERAGE_PAGE;update();});
+ ['#coverage-search','#coverage-layer','#coverage-grade'].forEach(sel=>document.querySelector(sel).addEventListener('input',()=>{coverageShown=COVERAGE_PAGE;update();}));
+ update();
+}
+// On a layer page, the ten most recent rows for that layer, so coverage is useful in context.
+function extendWithCoverage() {
+ if(!layerOf(page)||!coverage)return;
+ const rows=(coverage.rows||[]).filter(r=>(r.layers||[]).includes(page)).slice(0,10);
+ if(!rows.length)return;
+ const html=`<section class="section" id="layer-coverage"><div class="section-top"><div><div class="eyebrow muted">LATEST COVERAGE</div><h2>What we just read.</h2><p>Articles this layer's sources published recently. Coverage, not verified figures.</p></div><a class="section-link" href="${base}latest/?layer=${esc(page)}">All coverage ↗</a></div><div class="coverage-list">${coverageRows(rows)}</div></section>`;
+ root.insertAdjacentHTML('beforeend',html);
+}
 function sortedEvents(){const replaced=new Set(data.events.map(e=>e.correction_of).filter(Boolean));return data.events.filter(e=>!replaced.has(e.id)).sort((a,b)=>(b.retrieved_at || b.date || '').localeCompare(a.retrieved_at || a.date || ''));}
 // Deliverable 1/2: grade is derived from the source, never chosen here; a report (kind News
 // report/Social post) is grade C or D by construction and never enters a numeric series or a
@@ -314,7 +368,7 @@ const stackMenu=document.querySelector('.stack-menu');
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&stackMenu.open){stackMenu.open=false;stackMenu.querySelector('summary').focus();}});
 document.addEventListener('click',event=>{if(!stackMenu.contains(event.target))stackMenu.open=false;});
 
-Promise.all(['ledger','ecosystem','delivery','fabric','expansion','agenda','source-books','excerpts','chip-capacity'].map(name=>fetch(`${base}data/${name}.json?v=${encodeURIComponent(document.body.dataset.build||'')}`).then(r=>{if(!r.ok)throw new Error(`Dataset request returned ${r.status}`);return r.json();}))).then(([d,e,t,f,x,a,b,q,k])=>{data=d;ecosystem=e;delivery=t;fabric=f;expansion=x;chipCapacityConfig=k;if(page==='home')home();else if(page==='ledger')ledger();else if(page==='methodology')methodology();else if(page==='projects')projectsPage();else if(page==='companies')companiesPage();else if(page==='company')companyPage();else if(page==='industry')industryPage();else if(page==='claims'){/* Complete reviewed snapshot is rendered at build time. */}else if(layerOf(page))layerPage(page);else throw new Error('Unknown page');extendWithEcosystem();extendWithDelivery();extendWithFabric();extendWithExpansion();extendWithAgenda(a,b,q);enhanceExplorers();runtime();document.body.dataset.enhanced="true";document.querySelector(`[data-nav="${page==='home'||layerOf(page)?'stack':page==='company'?'companies':page}"]`)?.classList.add('active');if(location.hash)requestAnimationFrame(()=>{document.getElementById(location.hash.slice(1))?.scrollIntoView();const m=/^#?metric-(.+)/.exec(location.hash),select=document.querySelector('#metric-select');if(m&&select&&[...select.options].some(o=>o.value===m[1])){select.value=m[1];document.querySelector('#metric-chart').innerHTML=chart(m[1]);}});}).catch(err=>{root.insertAdjacentHTML('beforeend','<p id="load-status" class="empty" role="status"></p>');document.querySelector('#load-status').textContent='Interactive research could not be loaded. The built snapshot remains available; use the raw dataset or repository for the full record.';console.error(err);});
+Promise.all(['ledger','ecosystem','delivery','fabric','expansion','agenda','source-books','excerpts','chip-capacity','coverage'].map(name=>fetch(`${base}data/${name}.json?v=${encodeURIComponent(document.body.dataset.build||'')}`).then(r=>{if(!r.ok)throw new Error(`Dataset request returned ${r.status}`);return r.json();}))).then(([d,e,t,f,x,a,b,q,k,cov])=>{data=d;ecosystem=e;delivery=t;fabric=f;expansion=x;coverage=cov;chipCapacityConfig=k;if(page==='home')home();else if(page==='ledger')ledger();else if(page==='methodology')methodology();else if(page==='latest')latestPage();else if(page==='projects')projectsPage();else if(page==='companies')companiesPage();else if(page==='company')companyPage();else if(page==='industry')industryPage();else if(page==='claims'){/* Complete reviewed snapshot is rendered at build time. */}else if(layerOf(page))layerPage(page);else throw new Error('Unknown page');extendWithEcosystem();extendWithDelivery();extendWithCoverage();extendWithFabric();extendWithExpansion();extendWithAgenda(a,b,q);enhanceExplorers();runtime();document.body.dataset.enhanced="true";document.querySelector(`[data-nav="${page==='home'||layerOf(page)?'stack':page==='company'?'companies':page}"]`)?.classList.add('active');if(location.hash)requestAnimationFrame(()=>{document.getElementById(location.hash.slice(1))?.scrollIntoView();const m=/^#?metric-(.+)/.exec(location.hash),select=document.querySelector('#metric-select');if(m&&select&&[...select.options].some(o=>o.value===m[1])){select.value=m[1];document.querySelector('#metric-chart').innerHTML=chart(m[1]);}});}).catch(err=>{root.insertAdjacentHTML('beforeend','<p id="load-status" class="empty" role="status"></p>');document.querySelector('#load-status').textContent='Interactive research could not be loaded. The built snapshot remains available; use the raw dataset or repository for the full record.';console.error(err);});
 
 let narrowCharts=window.innerWidth<600;
 window.addEventListener('resize',()=>{const next=window.innerWidth<600;if(data&&next!==narrowCharts){narrowCharts=next;document.querySelectorAll('.chart-wrap').forEach(el=>{el.outerHTML=chart(el.dataset.metric);});}});

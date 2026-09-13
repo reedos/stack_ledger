@@ -8,7 +8,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE_IDS = ('home', 'energy', 'chips', 'infrastructure', 'models', 'applications',
-            'projects', 'companies', 'industry', 'ledger', 'methodology', 'claims')
+            'latest', 'projects', 'companies', 'industry', 'ledger', 'methodology', 'claims')
 GENERATED_PAGES = {'docs/' + ('' if p == 'home' else p + '/') + 'index.html' for p in PAGE_IDS}
 _ECOSYSTEM_COMPANIES = json.loads((ROOT / 'research/ecosystem.json').read_text(encoding='utf-8'))['companies']
 COMPANY_IDS = tuple(c['id'] for c in _ECOSYSTEM_COMPANIES)
