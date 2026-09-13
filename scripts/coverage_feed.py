@@ -30,7 +30,60 @@ RETENTION_DAYS = 90
 MAX_ROWS = 3000
 MAX_TITLE = 300
 
-ROW_FIELDS = {'url', 'title', 'source', 'publisher', 'provenance', 'layers', 'published', 'read_at'}
+ROW_FIELDS = {'url', 'title', 'summary', 'source', 'publisher', 'provenance', 'layers', 'published', 'read_at'}
+MAX_SUMMARY = 400
+
+# Words a headline keeps lowercase unless they open it, and words whose own casing is the point.
+SMALL_WORDS = {'a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'from', 'in', 'into', 'is', 'nor',
+               'of', 'on', 'or', 'the', 'to', 'up', 'v', 'vs', 'via', 'with', 'without'}
+KNOWN_CASING = {'ai': 'AI', 'agi': 'AGI', 'api': 'API', 'apis': 'APIs', 'aws': 'AWS', 'cpo': 'CPO',
+                'cpu': 'CPU', 'cpus': 'CPUs', 'ceo': 'CEO', 'cfo': 'CFO', 'cio': 'CIO', 'dc': 'DC',
+                'ev': 'EV', 'gpu': 'GPU', 'gpus': 'GPUs', 'gw': 'GW', 'hbm': 'HBM', 'hpc': 'HPC',
+                'ipo': 'IPO', 'kwh': 'kWh', 'llm': 'LLM', 'llms': 'LLMs', 'mw': 'MW', 'mwh': 'MWh',
+                'nvidia': 'NVIDIA', 'openai': 'OpenAI', 'ppa': 'PPA', 'ppas': 'PPAs', 'r&d': 'R&D',
+                'smr': 'SMR', 'smrs': 'SMRs', 'tsmc': 'TSMC', 'twh': 'TWh', 'us': 'US', 'uk': 'UK',
+                'usa': 'USA', 'wue': 'WUE', 'pue': 'PUE', 'iea': 'IEA', 'eia': 'EIA', 'doe': 'DOE',
+                'ferc': 'FERC', 'pjm': 'PJM', 'ercot': 'ERCOT', 'miso': 'MISO', 'spp': 'SPP',
+                'hvdc': 'HVDC', 'sk': 'SK', 'ibm': 'IBM', 'amd': 'AMD', 'arm': 'Arm', 'xai': 'xAI',
+                'hbm': 'HBM', 'gpt': 'GPT', 'grok': 'Grok', 'tpu': 'TPU', 'tpus': 'TPUs',
+                'sram': 'SRAM', 'dram': 'DRAM', 'nvlink': 'NVLink', 'cowos': 'CoWoS'}
+
+
+# A title and a description come out of untrusted page markup. An unclosed tag or a stray control
+# byte in either would be refused by validate.text() at publish time -- which is what happened to
+# the 2026-09-13 backfill after it had fetched all 583 pages. Strip them here, where the value is
+# created, rather than discovering it in a validator hundreds of fetches later.
+MARKUP = re.compile(r'<[^>]*>')
+CONTROL = re.compile(r'[<>\x00-\x08\x0b\x0c\x0e-\x1f]')
+
+
+def sanitise(value):
+    return CONTROL.sub('', MARKUP.sub(' ', str(value or ''))).strip()
+
+
+def titlecase(text):
+    """Sentence-style capitals for a headline we derived from a URL slug.
+
+    Only ever applied to a slug-derived title: a headline the publisher wrote is already cased the
+    way they meant it, and "re-capitalising" it would damage real names. Acronyms and product
+    names the ledger uses constantly are restored from KNOWN_CASING, because "Openai Gpu" reads
+    worse than the lowercase it replaced.
+    """
+    words = str(text or '').split()
+    out = []
+    for i, word in enumerate(words):
+        low = word.lower()
+        # A version suffix keeps its acronym: hbm4 -> HBM4, gpt5 -> GPT5, not "Hbm4".
+        stem = re.match(r'^([a-z]+)(\d[\w.]*)$', low)
+        if low in KNOWN_CASING:
+            out.append(KNOWN_CASING[low])
+        elif stem and stem.group(1) in KNOWN_CASING:
+            out.append(KNOWN_CASING[stem.group(1)]+stem.group(2))
+        elif low in SMALL_WORDS and i:
+            out.append(low)
+        else:
+            out.append(low[:1].upper()+low[1:])
+    return ' '.join(out)
 NON_ARTICLE_SUFFIX = re.compile(r'(?i)\.(pdf|xml|json|csv|zip|rss|atom)$')
 FEED_ENDPOINT = re.compile(r'(?i)/(feed|rss|atom|index\.xml)$')
 MIN_SLUG = 12          # "/news/" or "/blog" is a section; a real article slug is longer
@@ -60,6 +113,8 @@ def article(url, index_urls):
 # A slug that carries no meaning once un-hyphenated: "default.aspx" and "index.htm" are the
 # server's filename, not a headline, and a row titled that is noise a reader has to skip past.
 MEANINGLESS_SLUG = re.compile(r'(?i)^(default|index|home|main|page|article|story|view|news|release|\d+)$')
+# A <title> some publishers ship without ever setting: the CMS default, not a headline.
+PLACEHOLDER_TITLE = re.compile(r'(?i)^(document|untitled[\s\w-]*|home\s*page|new\s+page|page\s*\d*)$')
 
 
 def clean_title(value, url):
@@ -74,26 +129,50 @@ def clean_title(value, url):
     and 69 were titled things like "default.aspx" and "empsit 09042026.htm". A row whose headline
     is a filename is worse than no row: this feed exists to be scanned.
     """
-    text = re.sub(r'\s+', ' ', str(value or '')).strip()
+    text = re.sub(r'\s+', ' ', sanitise(value)).strip()
     for separator in ('|', '\\', ' - ', ' — ', ' · '):
         if separator in text:
             head = text.split(separator)[0].strip()
             if len(head) >= 20:
                 text = head
-    if len(text) >= 8:
+    # A publisher's own <title> is held to the same bar as a slug. Backfilling on 2026-09-13
+    # produced rows titled "Document" and "ABOUT-QCT" -- real page titles, and useless as
+    # headlines. Falling through to the slug usually does better, and yields None when it cannot.
+    if len(text) >= MIN_SLUG and not PLACEHOLDER_TITLE.match(text):
         return text[:MAX_TITLE]
     slug = urlparse(url).path.rstrip('/').rsplit('/', 1)[-1]
     slug = re.sub(r'\.[a-z0-9]{2,5}$', '', slug, flags=re.I)      # a file extension is not a word
     words = re.sub(r'[-_%+]+', ' ', slug).strip()
     if len(words) < 12 or MEANINGLESS_SLUG.match(words) or not re.search(r'[a-z]{3}', words, re.I):
         return None
-    return words[:MAX_TITLE]
+    return titlecase(words)[:MAX_TITLE]
+
+
+def clean_summary(value, title):
+    """The publisher's own one-line blurb, trimmed to whole sentences. None when there is none.
+
+    Never a model call and never our words: this lane's promise is that it repeats what the page
+    already said about itself. A blurb that merely restates the headline is dropped, because a
+    row that says the same thing twice is harder to scan than one that says it once.
+    """
+    text = re.sub(r'\s+', ' ', sanitise(value)).strip()
+    if len(text) < 40:
+        return None
+    if text[:MAX_SUMMARY].lower().startswith(str(title or '').lower()[:60]) and len(title or '') > 40:
+        return None
+    if len(text) > MAX_SUMMARY:
+        cut = text[:MAX_SUMMARY]
+        stop = max(cut.rfind('. '), cut.rfind('! '), cut.rfind('? '))
+        text = (cut[:stop+1] if stop > 120 else cut.rsplit(' ', 1)[0]+'…')
+    return text
 
 
 def row_for(document, source):
     """One coverage row from a fetched document and the registered source it came from."""
+    title = clean_title(document.get('title'), document['url'])
     return {'url': document['url'],
-            'title': clean_title(document.get('title'), document['url']),
+            'title': title,
+            'summary': clean_summary(document.get('summary'), title),
             'source': source['id'],
             'publisher': source.get('publisher', ''),
             'provenance': source.get('provenance', 'social'),
@@ -148,6 +227,7 @@ def merge(existing, documents, sources, now=None):
         else:
             # Keep the earliest publication date we ever saw; refresh the rest.
             fresh['published'] = seen.get('published') or fresh['published']
+            fresh['summary'] = fresh['summary'] or seen.get('summary')
             if str(fresh.get('read_at') or '') >= str(seen.get('read_at') or ''):
                 by_url[fresh['url']] = fresh
                 counts['refreshed'] += 1
@@ -184,6 +264,8 @@ def validate_rows(rows, sources):
         require(row['publisher'] == source.get('publisher', ''), 'Coverage publisher does not match its registered source')
         require(list(row['layers']) == list(source.get('layers') or []), 'Coverage layers do not match its registered source')
         text(row['title'], MAX_TITLE)
+        if row['summary'] is not None:
+            text(row['summary'], MAX_SUMMARY + 4)
         for field in ('published', 'read_at'):
             if row[field] is not None:
                 require(isinstance(row[field], str) and len(row[field]) <= 40, 'Invalid coverage %s' % field)

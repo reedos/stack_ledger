@@ -35,9 +35,74 @@ SOURCES = {
 }
 
 
-def doc(url, source='outlet', title='A headline of a reasonable length', read_at=None, published=None):
-    return {'url': url, 'source': source, 'title': title,
+def doc(url, source='outlet', title='A headline of a reasonable length', read_at=None,
+        published=None, summary=None):
+    return {'url': url, 'source': source, 'title': title, 'summary': summary,
             'read_at': (read_at or NOW.isoformat()), 'published': published}
+
+
+class TitleCaseTests(unittest.TestCase):
+    """A slug-derived headline gets sentence capitals. A publisher's own title is never touched."""
+
+    def test_ordinary_words_are_capitalised_and_small_words_are_not(self):
+        self.assertEqual(cf.titlecase('five new stargate sites in the us'), 'Five New Stargate Sites in the US')
+
+    def test_a_leading_small_word_still_capitalises(self):
+        self.assertEqual(cf.titlecase('the next data center moratorium'), 'The Next Data Center Moratorium')
+
+    def test_acronyms_and_product_names_keep_their_own_casing(self):
+        for raw, want in [('openai gpu cluster', 'OpenAI GPU Cluster'),
+                          ('beyond wue assessing water', 'Beyond WUE Assessing Water'),
+                          ('nvidia hbm supply', 'NVIDIA HBM Supply'),
+                          ('tsmc cowos capacity', 'TSMC CoWoS Capacity')]:
+            with self.subTest(raw=raw):
+                self.assertEqual(cf.titlecase(raw), want)
+
+    def test_a_version_suffix_keeps_its_acronym(self):
+        """"Hbm4" reads worse than the lowercase it replaced."""
+        self.assertEqual(cf.titlecase('sk hynix hbm4 ready'), 'SK Hynix HBM4 Ready')
+        self.assertEqual(cf.titlecase('gpt6 astra'), 'GPT6 Astra')
+
+    def test_a_publisher_title_is_returned_unchanged(self):
+        for written in ['Introducing Grok 4.6', 'Why we built Claude Code', 'AI and the grid: a reckoning']:
+            with self.subTest(title=written):
+                self.assertEqual(cf.clean_title(written, 'https://x.example.com/news/a-long-slug-here'), written)
+
+
+class SummaryTests(unittest.TestCase):
+    BLURB = ('Grok 4.6 builds on Grok 4.5 with a particular focus on long-running agents and more '
+             'ambitious interactive and visual work.')
+
+    def test_a_publisher_blurb_is_kept_verbatim(self):
+        self.assertEqual(cf.clean_summary(self.BLURB, 'Introducing Grok 4.6'), self.BLURB)
+
+    def test_no_blurb_means_no_summary(self):
+        for empty in ('', None, '   ', 'Too short.'):
+            with self.subTest(value=empty):
+                self.assertIsNone(cf.clean_summary(empty, 'A title'))
+
+    def test_a_blurb_that_only_repeats_the_headline_is_dropped(self):
+        title = 'Meta announces a one gigawatt data center in Kuna Idaho'
+        self.assertIsNone(cf.clean_summary(title + ' and nothing more besides', title))
+
+    def test_a_long_blurb_is_cut_at_a_sentence_boundary(self):
+        long = ('First sentence that runs on for a while and says something. ' * 12)
+        out = cf.clean_summary(long, 'A title')
+        self.assertLessEqual(len(out), cf.MAX_SUMMARY + 4)
+        self.assertTrue(out.endswith('.') or out.endswith('…'), out[-30:])
+
+    def test_a_row_carries_the_summary_and_validation_allows_none(self):
+        rows, _ = cf.merge([], [doc('https://a.example.com/news/a-long-article-slug/', summary=self.BLURB)], SOURCES, now=NOW)
+        self.assertEqual(rows[0]['summary'], self.BLURB)
+        bare, _ = cf.merge([], [doc('https://b.example.com/news/another-long-slug/')], SOURCES, now=NOW)
+        self.assertIsNone(bare[0]['summary'])
+        cf.validate_rows(rows + bare, list(SOURCES.values()))
+
+    def test_a_summary_once_captured_survives_a_re_read_that_lacks_one(self):
+        url = 'https://a.example.com/news/a-long-article-slug/'
+        first, _ = cf.merge([], [doc(url, summary=self.BLURB)], SOURCES, now=NOW)
+        again, _ = cf.merge(first, [doc(url, read_at='2026-09-13T18:00:00+00:00')], SOURCES, now=NOW)
+        self.assertEqual(again[0]['summary'], self.BLURB)
 
 
 class ShapeFilterTests(unittest.TestCase):
@@ -101,13 +166,22 @@ class TitleTests(unittest.TestCase):
         self.assertEqual(cf.clean_title('Introducing Claude Opus 5 \\ Anthropic', 'https://www.anthropic.com/news/x'),
                          'Introducing Claude Opus 5')
 
-    def test_a_short_title_is_never_truncated_to_nothing(self):
-        """Dropping a suffix must not leave a stub; "AI | Google" keeps its whole text."""
-        self.assertEqual(cf.clean_title('AI | Google', 'https://blog.google/news/a-long-slug-here'), 'AI | Google')
+    def test_a_title_too_short_to_be_a_headline_falls_through_to_the_slug(self):
+        """Dropping a suffix must not leave a stub. The slug is the better headline anyway:
+        "AI | Google" tells a reader nothing that the URL does not say better."""
+        self.assertEqual(cf.clean_title('AI | Google', 'https://blog.google/news/a-long-slug-here'),
+                         'A Long Slug Here')
+
+    def test_a_cms_placeholder_title_is_not_used(self):
+        """Backfilling on 2026-09-13 produced rows titled "Document" and "ABOUT-QCT" -- real page
+        titles, useless as headlines. The slug does better; where it cannot, the row is dropped."""
+        self.assertEqual(cf.clean_title('Document', 'https://example.com/a/qct-company-profile'),
+                         'Qct Company Profile')
+        self.assertIsNone(cf.clean_title('Untitled Document', 'https://example.com/a/view'))
 
     def test_a_missing_title_falls_back_to_a_readable_slug(self):
         self.assertEqual(cf.clean_title('', 'https://example.com/news/meta-breaks-ground-in-kuna/'),
-                         'meta breaks ground in kuna')
+                         'Meta Breaks Ground in Kuna')
 
     def test_a_slug_that_is_only_a_filename_yields_no_title(self):
         """Seeding from receipts produced 69 rows titled "default.aspx" and "empsit 09042026.htm".
@@ -119,7 +193,7 @@ class TitleTests(unittest.TestCase):
 
     def test_a_file_extension_is_never_part_of_a_headline(self):
         self.assertEqual(cf.clean_title('', 'https://www.bls.gov/news.release/empsit_09042026.htm'),
-                         'empsit 09042026')
+                         'Empsit 09042026')
 
     def test_a_title_is_bounded(self):
         self.assertLessEqual(len(cf.clean_title('x'*5000, 'https://example.com/news/slug-here')), cf.MAX_TITLE)
@@ -184,6 +258,7 @@ class MergeTests(unittest.TestCase):
 class ValidationTests(unittest.TestCase):
     def rows(self, **over):
         row = {'url': 'https://www.anthropic.com/news/claude-opus-5', 'title': 'Introducing Claude Opus 5',
+               'summary': 'Opus 5 is a step change improvement for the Opus tier powering long-running agents.',
                'source': 'lab', 'publisher': 'Anthropic', 'provenance': 'company-channel',
                'layers': ['models'], 'published': '2026-09-01', 'read_at': NOW.isoformat()}
         row.update(over)
@@ -216,7 +291,7 @@ class ValidationTests(unittest.TestCase):
             cf.validate_rows(self.rows(url='http://www.anthropic.com/news/x'), list(SOURCES.values()))
 
     def test_unexpected_fields_are_refused(self):
-        row = self.rows()[0]; row['summary'] = 'a claim about what the page says'
+        row = self.rows()[0]; row['verdict'] = 'a claim about what the page says'
         with self.assertRaises(ValueError):
             cf.validate_rows([row], list(SOURCES.values()))
 

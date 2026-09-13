@@ -419,11 +419,16 @@ def coverage_context(root, source):
 
 class ReadableHTML(HTMLParser):
     def __init__(self):
-        super().__init__(convert_charrefs=True);self.parts=[];self.links=[];self.skip=[];self.published=None;self.title=[];self.in_title=False
+        super().__init__(convert_charrefs=True);self.parts=[];self.links=[];self.skip=[];self.published=None;self.title=[];self.in_title=False;self.description=None
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
         if tag in {'script','style','nav','header','footer','noscript','svg'}: self.skip.append(tag)
         if tag=='meta' and a.get('property') in {'article:published_time','og:published_time'}:self.published=a.get('content','')[:10]
+        # The page's own one-line summary, for the coverage feed. og:description is the
+        # publisher's chosen blurb and wins over the plain meta description when both appear.
+        if tag=='meta' and a.get('content'):
+            if a.get('property')=='og:description':self.description=a['content'][:600]
+            elif a.get('name')=='description' and not self.description:self.description=a['content'][:600]
         if tag=='title':self.in_title=True
         if not self.skip and tag=='a' and a.get('href'):self.links.append(a['href'])
         if tag=='link' and a.get('rel')=='alternate' and a.get('type') in {'application/rss+xml','application/atom+xml'} and a.get('href'):self.links.append(a['href'])
@@ -1302,8 +1307,12 @@ def main():
                 # written and thrown away by every caller. It is what makes a coverage row
                 # readable without spending a model call on it.
                 page_title=normalize(' '.join(document.title))[:300] if getattr(document,'title',None) else ''
+                # The publisher's own blurb where they wrote one, else the document's opening
+                # sentences. Never a model call: this lane's promise is that it makes no claim
+                # the page did not already make about itself.
+                page_summary=normalize(getattr(document,'description',None) or full_text[:400])
                 collection['documents'].append({'url':source['url'],'sha256':h,'source':source.get('parent_source',source['id']),
-                    'title':page_title,'publisher':source.get('publisher',''),'layers':source.get('layers',[]),
+                    'title':page_title,'summary':page_summary[:600],'publisher':source.get('publisher',''),'layers':source.get('layers',[]),
                     'published':source.get('published'),'read_at':now(),
                     **({'published_basis':published_basis} if published_basis else {})})
                 save(LOCAL/'evidence'/f'{h}.json',{'url':source['url'],'retrieved_at':now(),'sha256':h,'text':full_text})
