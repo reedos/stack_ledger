@@ -88634,57 +88634,6 @@
   ],
   "runs": [
     {
-      "id": "run-20260911T203554Z-3746e30e03784ddc81b74eb75138b6d2",
-      "started_at": "2026-09-11T20:35:54Z",
-      "finished_at": "2026-09-11T20:36:00Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260911T203805Z-411f6c9450fb46d4ae815653f689c23c",
-      "started_at": "2026-09-11T20:38:05Z",
-      "finished_at": "2026-09-11T20:38:09Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "energy",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260911T204015Z-a735eff96de14c8fa6a832529a66ba1c",
-      "started_at": "2026-09-11T20:40:15Z",
-      "finished_at": "2026-09-11T20:40:35Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "energy",
-        "infrastructure"
-      ]
-    },
-    {
       "id": "run-20260911T204240Z-8474dff828fc43708bc99c47b0cb606c",
       "started_at": "2026-09-11T20:42:40Z",
       "finished_at": "2026-09-11T20:43:06Z",
@@ -93282,6 +93231,112 @@
       ],
       "model_calls": 6,
       "coverage_layers": []
+    },
+    {
+      "id": "run-20260913T090024Z-c89e66c9f0d64712ab8048824b7a214f",
+      "started_at": "2026-09-13T09:00:24Z",
+      "finished_at": "2026-09-13T09:00:38Z",
+      "status": "failed",
+      "documents_fetched": 6,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "stanford-cost",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "finance-lumentum-consensus-20260907",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "builder-role-mistral",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "builder-role-synopsys",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "builder-role-siemens-energy",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "builder-role-moonshot",
+          "reason": "Model note extraction or review failed"
+        }
+      ],
+      "model_calls": 6,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260913T090140Z-74c24686696a4b0c95d89ecfe52b1bcd",
+      "started_at": "2026-09-13T09:01:40Z",
+      "finished_at": "2026-09-13T09:01:59Z",
+      "status": "failed",
+      "documents_fetched": 6,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "builder-role-z-ai",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "claims-jlarc",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "discovered-a21cee4b91bda9f5",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "discovered-8b2ec93c5681d86c",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "discovered-d4c4006fefc6f641",
+          "reason": "Model note extraction or review failed"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260913T090305Z-cc1583a6645e41968c4939dde62c2451",
+      "started_at": "2026-09-13T09:03:05Z",
+      "finished_at": "2026-09-13T09:03:38Z",
+      "status": "failed",
+      "documents_fetched": 4,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-samsung",
+          "reason": "Robots policy unavailable (TimeoutError); source skipped"
+        },
+        {
+          "source": "finance-eaton-consensus-20260907",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "finance-macom-consensus-20260907",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "finance-recursion-consensus-20260907",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "finance-samsung-consensus-20260907",
+          "reason": "Model note extraction or review failed"
+        }
+      ],
+      "model_calls": 4,
+      "coverage_layers": []
     }
   ],
   "runtime": {
@@ -93291,23 +93346,23 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-13T02:24:43Z",
+    "last_attempt": "2026-09-13T09:03:38Z",
     "last_success": "2026-09-12T17:24:57Z",
     "status": "failed",
     "latest_session": {
-      "started_at": "2026-09-13T02:21:59.931239+00:00",
+      "started_at": "2026-09-13T09:00:24.049914+00:00",
       "state": "blocked",
-      "elapsed_seconds": 166,
+      "elapsed_seconds": 196,
       "batches": 3,
       "failed_batches": 3,
-      "reported_at": "2026-09-13T02:24:47.796440+00:00",
+      "reported_at": "2026-09-13T09:03:42.219466+00:00",
       "receipts_recorded": 3,
-      "documents_fetched": 18,
-      "model_calls": 16,
+      "documents_fetched": 20,
+      "model_calls": 15,
       "accepted": 0,
       "quarantined": 0,
-      "source_failures": 17,
-      "discovery_errors": 3
+      "source_failures": 16,
+      "discovery_errors": 6
     }
   }
 }
