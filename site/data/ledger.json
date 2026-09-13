@@ -88634,58 +88634,6 @@
   ],
   "runs": [
     {
-      "id": "run-20260911T203214Z-d2cbf8db35b5412381f3519eba824607",
-      "started_at": "2026-09-11T20:32:14Z",
-      "finished_at": "2026-09-11T20:32:35Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 1,
-      "coverage_layers": [
-        "applications",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260911T203259Z-9562cda317054950b674533454591d1b",
-      "started_at": "2026-09-11T20:32:59Z",
-      "finished_at": "2026-09-11T20:33:11Z",
-      "status": "success",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 1,
-      "coverage_layers": [
-        "applications",
-        "chips",
-        "energy",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260911T203334Z-d85beb223cab4df5ac54faf1c31b269e",
-      "started_at": "2026-09-11T20:33:34Z",
-      "finished_at": "2026-09-11T20:33:49Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "applications",
-        "chips",
-        "energy"
-      ]
-    },
-    {
       "id": "run-20260911T203554Z-3746e30e03784ddc81b74eb75138b6d2",
       "started_at": "2026-09-11T20:35:54Z",
       "finished_at": "2026-09-11T20:36:00Z",
@@ -93221,6 +93169,119 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260913T022200Z-d083b682cc14401b82f3a1f1518bbb96",
+      "started_at": "2026-09-13T02:22:00Z",
+      "finished_at": "2026-09-13T02:22:23Z",
+      "status": "failed",
+      "documents_fetched": 5,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "stanford-cost",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "claims-dallas",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "claims-ms-water",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "claims-stanford-labor",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "claims-bls-aug",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "claims-metr-update",
+          "reason": "Model note extraction or review failed"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260913T022326Z-8cbc4de922ba4a728bde939853206322",
+      "started_at": "2026-09-13T02:23:26Z",
+      "finished_at": "2026-09-13T02:23:34Z",
+      "status": "failed",
+      "documents_fetched": 4,
+      "documents_reviewed": 1,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "claims-linkedin",
+          "reason": "URL outside approved public host"
+        },
+        {
+          "source": "diagram-factory",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "alphafold-nobel",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "open-ai2-docs",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "micro1-opportunities",
+          "reason": "Collection gap: insufficient_static_text"
+        }
+      ],
+      "model_calls": 3,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260913T022436Z-570d12de4a194c6eb318fcd7ce31ad51",
+      "started_at": "2026-09-13T02:24:36Z",
+      "finished_at": "2026-09-13T02:24:43Z",
+      "status": "failed",
+      "documents_fetched": 6,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "cursor-harness-pricing",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "deepseek-r1-license",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "anthropic-opus5",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "grok-bot-overview",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "finance-nvidia-consensus-20260907",
+          "reason": "Model note extraction or review failed"
+        },
+        {
+          "source": "finance-ge-vernova-consensus-20260907",
+          "reason": "Model note extraction or review failed"
+        }
+      ],
+      "model_calls": 6,
+      "coverage_layers": []
     }
   ],
   "runtime": {
@@ -93230,23 +93291,23 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-12T21:39:01Z",
+    "last_attempt": "2026-09-13T02:24:43Z",
     "last_success": "2026-09-12T17:24:57Z",
-    "status": "partial",
+    "status": "failed",
     "latest_session": {
-      "started_at": "2026-09-12T21:20:51.974687+00:00",
-      "state": "completed",
-      "elapsed_seconds": 1200,
-      "batches": 16,
-      "failed_batches": 0,
-      "reported_at": "2026-09-12T21:41:32.369091+00:00",
-      "receipts_recorded": 16,
-      "documents_fetched": 79,
-      "model_calls": 22,
+      "started_at": "2026-09-13T02:21:59.931239+00:00",
+      "state": "blocked",
+      "elapsed_seconds": 166,
+      "batches": 3,
+      "failed_batches": 3,
+      "reported_at": "2026-09-13T02:24:47.796440+00:00",
+      "receipts_recorded": 3,
+      "documents_fetched": 18,
+      "model_calls": 16,
       "accepted": 0,
       "quarantined": 0,
-      "source_failures": 6,
-      "discovery_errors": 5
+      "source_failures": 17,
+      "discovery_errors": 3
     }
   }
 }
