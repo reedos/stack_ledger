@@ -88627,6 +88627,20 @@
       "document_sha256": "52027e614814120a139f9c3af9cb8ae6edcb4071d0ffa43f589e09142b796534",
       "evidence_sha256": "55dfe070a839e6010d2b21c125df569aafc1fbec8d1b68a6605ab53368ce63e1",
       "grade": "B"
+    },
+    {
+      "title": "Lightmatter Passage CPO sampling with Qualcomm",
+      "summary": "Lightmatter announced on March 11, 2026 that it successfully sampled the Passage Co-Packaged Optics chiplet with Qualcomm Technologies, demonstrating 1.6 Tbps throughput per fiber using a 16-wavelength DWDM architecture at 112G per SerDes lane. The company says the integration provides up to 8X more bandwidth per fiber than existing Near-Packaged Optics and CPO solutions and is positioned for hyperscaler deployment.",
+      "layer": "chips",
+      "kind": "Company announcement",
+      "id": "note-73bd356d30d6d1884891",
+      "source": "lightmatter-passage",
+      "date": "2026-03-11",
+      "method": "automated",
+      "retrieved_at": "2026-09-13T10:54:31Z",
+      "document_sha256": "f9b6fc9d2da82920871936e994bc9bbd4d7257274cb18b288758de7d4f6946d8",
+      "evidence_sha256": "0f2bc3ede5bef5ba25812df7a83bab6b081fb12445b419bb2e02c1e74062dcb1",
+      "grade": "B"
     }
   ],
   "targets": [
@@ -88680,101 +88694,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20260911T212030Z-304b33f47d654903bca3fd6d0f85b773",
-      "started_at": "2026-09-11T21:20:30Z",
-      "finished_at": "2026-09-11T21:20:42Z",
-      "status": "partial",
-      "documents_fetched": 5,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 2,
-      "coverage_layers": [
-        "energy"
-      ]
-    },
-    {
-      "id": "run-20260911T212105Z-1f8406c1a91b489292f50fe710c86873",
-      "started_at": "2026-09-11T21:21:05Z",
-      "finished_at": "2026-09-11T21:21:16Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 3,
-      "coverage_layers": [
-        "applications",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260911T212141Z-d11b02709bdf4cc38325e4042e79e29f",
-      "started_at": "2026-09-11T21:21:41Z",
-      "finished_at": "2026-09-11T21:21:44Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20260911T212346Z-a91e0d87e2e04932b24297a82004e4e1",
-      "started_at": "2026-09-11T21:23:46Z",
-      "finished_at": "2026-09-11T21:23:50Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 2,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "marvell-cpo-architecture",
-          "reason": "HTTP 403"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260911T212416Z-b55e963c1cfe412797f7ea7919e9e33b",
-      "started_at": "2026-09-11T21:24:16Z",
-      "finished_at": "2026-09-11T21:24:20Z",
-      "status": "partial",
-      "documents_fetched": 1,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "openai-stargate-sites",
-          "reason": "HTTP 403"
-        },
-        {
-          "source": "discovered-a2e978a3e6f7bce6",
-          "reason": "Source exceeds size cap"
-        },
-        {
-          "source": "discovered-d345208b738f2336",
-          "reason": "Source exceeds size cap"
-        },
-        {
-          "source": "discovered-d5b8f1f505bc88ff",
-          "reason": "Source exceeds size cap"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
     {
       "id": "run-20260911T212626Z-b948de27798b4919ad4b465597374594",
       "started_at": "2026-09-11T21:26:26Z",
@@ -93385,6 +93304,92 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260913T104955Z-1d11df80b9e24179beba47a5ee5ef991",
+      "started_at": "2026-09-13T10:49:55Z",
+      "finished_at": "2026-09-13T10:50:10Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 3,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260913T105035Z-f318f8937ddd48b3a330bc2770862034",
+      "started_at": "2026-09-13T10:50:35Z",
+      "finished_at": "2026-09-13T10:50:57Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 2,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260913T105121Z-8aa3377e316d479c8cd0d97b8d1c05c2",
+      "started_at": "2026-09-13T10:51:21Z",
+      "finished_at": "2026-09-13T10:51:26Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260913T105331Z-e78a41d439da461daf30fa9a7ba4de2d",
+      "started_at": "2026-09-13T10:53:31Z",
+      "finished_at": "2026-09-13T10:53:56Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 4,
+      "coverage_layers": [
+        "chips",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260913T105421Z-5e3c5d26957a4b83a61c7d8366e9cb28",
+      "started_at": "2026-09-13T10:54:21Z",
+      "finished_at": "2026-09-13T10:54:52Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "chips",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -93394,7 +93399,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-13T10:47:50Z",
+    "last_attempt": "2026-09-13T10:54:52Z",
     "last_success": "2026-09-13T10:36:08Z",
     "status": "partial",
     "latest_session": {
