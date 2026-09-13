@@ -660,7 +660,17 @@ def ollama(config,system,prompt,schema):
     require(set(settings)=={'temperature','num_ctx','num_predict','think'} and settings['temperature']==0 and type(settings['num_ctx']) is int and 16384<=settings['num_ctx']<=131072 and settings['think'] is False and type(settings['num_predict']) is int and 1<=settings['num_predict']<=2500,'Unapproved generation settings')
     require(len(system)+len(prompt)<=prompt_budget(settings),f'Prompt of {len(system)+len(prompt)} characters exceeds the {settings["num_ctx"]}-token context budget; the document window must shrink')
     loaded=loaded_context(config)
-    require(loaded is None or loaded>=settings['num_ctx'],f'Model is loaded with a {loaded}-token context, below the required {settings["num_ctx"]}; reload it with a larger context before researching')
+    if loaded is not None and loaded<settings['num_ctx']:
+        # Another caller loaded the model with a smaller context. This used to be a hard refusal,
+        # on the theory that Ollama would silently truncate our prompt to the loaded size. Measured
+        # 2026-09-13 on Ollama 0.33.2: it does not -- a request whose num_ctx exceeds the runner's
+        # makes Ollama reload the runner at the requested size (16384 before one such request,
+        # 32768 after). The refusal therefore turned a self-healing condition into three failed
+        # batches and a blocked session, twice in one night: OpenClaw's tools pin this model with
+        # an infinite keep_alive at 8192 or 16384, and the research window opened onto it both
+        # times. The owner's decision is that research wins the context; the reload evicts the
+        # other caller's runner, which reloads at its own size on its next request.
+        print(f'  Model was loaded at {loaded} tokens by another caller; requesting {settings["num_ctx"]} reloads it',flush=True)
     body={'model':config['model'],'stream':False,'think':False,'format':schema,'keep_alive':'5m',
           'options':{k:settings[k] for k in ['temperature','num_ctx','num_predict']},
           'messages':[{'role':'system','content':system},{'role':'user','content':prompt}]}
@@ -670,6 +680,8 @@ def ollama(config,system,prompt,schema):
         raw=response.read(MAX_BYTES+1)
         require(len(raw)<=MAX_BYTES,'Model response too large')
         result=json.loads(raw)
+    # The call itself is what (re)loads the runner, so the cached size is now what we asked for.
+    _LOADED[config['model']]=(time.monotonic(),settings['num_ctx'])
     require(result.get('done') is True and result.get('done_reason')!='length','Model generation incomplete')
     require(result.get('model')==config['model'],'Unexpected model served')
     # This DFlash model emits a literal end-of-turn token after otherwise valid JSON.

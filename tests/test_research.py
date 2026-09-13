@@ -310,10 +310,25 @@ class ContextBudgetTests(unittest.TestCase):
         with patch.object(research,'loaded_context',return_value=None),patch.object(research,'build_opener') as opener:
             with self.assertRaisesRegex(ValueError,'context budget'):research.ollama(self.config,'x'*200000,'y',{})
             opener.assert_not_called()
-    def test_smaller_loaded_context_fails_closed(self):
+    def test_smaller_loaded_context_is_reloaded_not_refused(self):
+        # Reversed 2026-09-13. This asserted a hard refusal when another caller had loaded the
+        # model with a smaller context, on the theory that Ollama would truncate our prompt.
+        # Measured on 0.33.2: a request whose num_ctx exceeds the runner's makes Ollama reload the
+        # runner, so the refusal turned a self-healing condition into a blocked session -- twice
+        # in one night, because OpenClaw pins this model at 8192/16384 with an infinite keep_alive.
+        # The request must now go out (that is what triggers the reload); the full contract is in
+        # tests/test_loaded_context_reload.py.
+        import json
+        from unittest.mock import MagicMock
+        research._LOADED.pop(self.config['model'],None)
+        resp=MagicMock();resp.__enter__.return_value=resp
+        resp.read.return_value=json.dumps({'done':True,'done_reason':'stop','model':'m','message':{'content':'{}'}}).encode()
         with patch.object(research,'loaded_context',return_value=16384),patch.object(research,'build_opener') as opener:
-            with self.assertRaisesRegex(ValueError,'loaded with a 16384'):research.ollama(self.config,'s','p',{})
-            opener.assert_not_called()
+            opener.return_value.open.return_value=resp
+            self.assertEqual(research.ollama(self.config,'s','p',{}),{})
+            opener.return_value.open.assert_called_once()
+            sent=json.loads(opener.return_value.open.call_args.args[0].data.decode())
+            self.assertEqual(sent['options']['num_ctx'],32768,'the larger request is what makes Ollama reload')
     def test_unapproved_settings_rejected(self):
         for settings in [dict(research.GENERATION,num_ctx=8192),dict(research.GENERATION,temperature=0.2),dict(research.GENERATION,think=True)]:
             with self.subTest(settings=settings),patch.object(research,'loaded_context',return_value=None):
