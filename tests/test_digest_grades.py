@@ -138,6 +138,23 @@ class MeasurementTests(unittest.TestCase):
         self.assertEqual(r['new_observations'], 1)
         self.assertEqual(r['by_grade'], {'C': 1})
 
+    def test_an_evening_run_is_not_reported_as_an_empty_night(self):
+        """The regression that broke this suite at 19:04 Pacific on 2026-09-12, when the UTC date
+        had rolled over to the 13th. `date` is a UTC date, but git reads a bare "YYYY-MM-DD
+        00:00:00" in LOCAL time, so the boundary landed five hours in the future and every commit
+        of the session fell outside it. The 01:30 nightly was unaffected by luck alone."""
+        repo = ThrowawayRepo(ledger([]))
+        self.addCleanup(repo.close)
+        repo.publish(ledger([observation('c1', 'desk', 'C')]))
+        r = nightly.published_observations(repo.root, TODAY)
+        self.assertEqual(r.get('new_observations'), 1,
+                         'a commit made just now must fall inside today, whatever the local offset')
+
+    def test_the_day_boundary_is_an_explicit_utc_instant(self):
+        source = (ROOT/'scripts/nightly.py').read_text(encoding='utf-8')
+        self.assertNotIn("date+' 00:00:00'", source, 'a bare date is read in local time by git')
+        self.assertIn("date+'T00:00:00Z'", source)
+
     def test_a_directory_without_git_history_returns_empty_rather_than_raising(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.assertEqual(nightly.published_observations(Path(tmp), TODAY), {})

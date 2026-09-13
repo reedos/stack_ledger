@@ -511,7 +511,7 @@ def stage_prune(root, dry_run=False):
 
 def site_changes(root, date):
     try:
-        out = subprocess.run(['git', 'log', '--since', date+' 00:00:00', '--until', date+' 23:59:59', '--oneline'],
+        out = subprocess.run(['git', 'log', '--since', date+'T00:00:00Z', '--until', date+'T23:59:59Z', '--oneline'],
                               cwd=root, capture_output=True, text=True, timeout=30, check=True).stdout
         return [line for line in out.splitlines() if line.strip()]
     except Exception:
@@ -533,7 +533,12 @@ def published_observations(root, date):
         # encoding is explicit: the ledger carries non-ASCII (period separators, company names),
         # and text=True decodes with the Windows ANSI codepage, which raised UnicodeDecodeError
         # and left this reporting an empty night (2026-09-12).
-        first = subprocess.run(['git', 'log', '--since', date+' 00:00:00', '--format=%H', '--reverse'],
+        # The day boundary is an explicit UTC instant. `date` is a UTC date, but git reads a bare
+        # "YYYY-MM-DD 00:00:00" in LOCAL time, so between 17:00 and midnight Pacific -- when the UTC
+        # date has already rolled over -- the boundary landed hours in the FUTURE and the report
+        # said the night published nothing. The 01:30 nightly was unaffected by luck: at 08:30 UTC
+        # the local midnight is 90 minutes behind it.
+        first = subprocess.run(['git', 'log', '--since', date+'T00:00:00Z', '--format=%H', '--reverse'],
                                 cwd=root, capture_output=True, text=True, encoding='utf-8',
                                 timeout=30, check=True).stdout.split()
         if not first: return {}

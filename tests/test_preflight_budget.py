@@ -46,6 +46,41 @@ class PreflightBudgetTests(unittest.TestCase):
                                     'a preflight step budgeted %ds sits inside a publish that '
                                     'needs %ds for the suite alone' % (timeout, MEASURED_SUITE_SECONDS))
 
+    def test_every_script_that_runs_the_suite_gives_it_room(self):
+        """The first version of this test read research.py only. catalog_review.py held a second
+        copy of the same pattern at 120 seconds, and on 2026-09-12 that failed every CI push of the
+        day on TimeoutExpired while the suite passed locally.
+
+        Only the budget that actually governs a suite run is checked -- catalog_review also runs
+        validate and build under a 120s budget, which is ample for those and not this test's
+        business. A named constant is required rather than a literal, because a literal is how the
+        old 90 survived the suite growing past it unnoticed.
+        """
+        import importlib, re
+        offenders = []
+        for path in sorted((ROOT/'scripts').glob('*.py')):
+            source = path.read_text(encoding='utf-8')
+            for line in source.splitlines():
+                if 'subprocess.run(' not in line or "'unittest'" not in line:
+                    continue
+                match = re.search(r'timeout=([A-Za-z_][A-Za-z0-9_]*)', line)
+                if not match:
+                    offenders.append('%s: suite run has a literal or no timeout' % path.name); continue
+                module = importlib.import_module(path.stem)
+                budget = getattr(module, match.group(1), None)
+                if not isinstance(budget, int) or budget < MEASURED_SUITE_SECONDS*3:
+                    offenders.append('%s: %s=%s' % (path.name, match.group(1), budget))
+        self.assertEqual(offenders, [],
+                         'these run the whole suite on a budget it can outgrow: %s' % offenders)
+
+    def test_the_suite_runner_in_catalog_review_is_covered(self):
+        """Guards the scan itself: if catalog_review stops matching the pattern above, the test
+        silently checks nothing, which is how the gap existed in the first place."""
+        source = (ROOT/'scripts/catalog_review.py').read_text(encoding='utf-8')
+        self.assertIn('CHECK_TIMEOUT_SECONDS', source)
+        import catalog_review
+        self.assertGreaterEqual(catalog_review.CHECK_TIMEOUT_SECONDS, MEASURED_SUITE_SECONDS*3)
+
 
 if __name__ == '__main__':
     unittest.main()

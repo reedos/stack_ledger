@@ -142,7 +142,16 @@ def check_evidence(root,p):
         f=root/'.local/catalog-evidence'/(e['sha256']+'.txt')
         require(f.exists() and hashlib.sha256(f.read_bytes()).hexdigest()==e['sha256'],'Retained evidence changed')
 
-def run_check(command,cwd,timeout=120):
+# A preview check runs the whole suite in an isolated copy of the checkout, on whatever machine
+# happens to be running it. This was 120 seconds; the suite grew from 964 tests to 1063 on
+# 2026-09-12 and reached ~98s locally, which is slower on a CI runner -- so every push that day
+# failed "Validate reviewed site" on TimeoutExpired while the same suite passed locally. It is the
+# same defect as PREFLIGHT_TEST_TIMEOUT_SECONDS in research.py, in a second copy the first fix did
+# not reach. The budget exists to catch a hung check, not to race a growing suite.
+CHECK_TIMEOUT_SECONDS=600
+
+
+def run_check(command,cwd,timeout=CHECK_TIMEOUT_SECONDS):
     """One preview check as a record. Child output is decoded with replacement and the child is told to
     write UTF-8, so a stray non-UTF-8 byte in a test message can never turn the check into a crash."""
     r=subprocess.run(command,cwd=cwd,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=timeout,env=dict(os.environ,PYTHONIOENCODING='utf-8'))
