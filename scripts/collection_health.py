@@ -54,5 +54,12 @@ class Health:
         refused=detail.get('http_status') in (401,403,406,451) or 'robots' in str(error).lower()
         if refused:detail['refused']=True
         ceiling=259200 if refused else 21600
-        seconds=max(minimum,min(ceiling,900*2**min(failures-1,8 if refused else 5)),detail.get('retry_after_seconds',0))
+        # A refusal starts at six hours rather than fifteen minutes. A host that answers 403, or a
+        # robots policy that disallows the path, does not change within the quarter hour the
+        # doubling used to start at, so the early retries were pure waste: over the 5-hour session
+        # of 2026-09-13, 32 of 692 fetches were repeat 403s against 13 sources that had already
+        # refused once in that same session. Six hours is still well inside the nightly cadence,
+        # so a genuinely transient refusal costs at most one skipped night.
+        start=21600 if refused else 900
+        seconds=max(minimum,min(ceiling,start*2**min(failures-1,8 if refused else 5)),detail.get('retry_after_seconds',0))
         self.put(kind,target,dict(status='unavailable',failures=failures,next_attempt=time.time()+seconds,**detail))

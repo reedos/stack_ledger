@@ -55,6 +55,7 @@ KNOWN_CASING = {'ai': 'AI', 'agi': 'AGI', 'api': 'API', 'apis': 'APIs', 'aws': '
 # created, rather than discovering it in a validator hundreds of fetches later.
 MARKUP = re.compile(r'<[^>]*>')
 CONTROL = re.compile(r'[<>\x00-\x08\x0b\x0c\x0e-\x1f]')
+DAY = re.compile(r'\d{4}-\d{2}-\d{2}')   # a coverage row dates to a calendar day or not at all
 
 
 def sanitise(value):
@@ -269,5 +270,10 @@ def validate_rows(rows, sources):
         for field in ('published', 'read_at'):
             if row[field] is not None:
                 require(isinstance(row[field], str) and len(row[field]) <= 40, 'Invalid coverage %s' % field)
+        # The site sorts on this string, and the page offers "sort by date posted" as a control.
+        # A value in any other shape would sort into the wrong place silently, so a row carries a
+        # calendar day or nothing at all -- never a timestamp, a year or a prose date.
+        if row['published'] is not None:
+            require(DAY.fullmatch(row['published']), 'Coverage published date is not a YYYY-MM-DD day')
     require(len(rows) <= MAX_ROWS, 'Coverage feed above its row cap')
     return len(rows)
