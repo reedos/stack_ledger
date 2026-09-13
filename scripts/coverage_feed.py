@@ -57,12 +57,22 @@ def article(url, index_urls):
     return True, ''
 
 
+# A slug that carries no meaning once un-hyphenated: "default.aspx" and "index.htm" are the
+# server's filename, not a headline, and a row titled that is noise a reader has to skip past.
+MEANINGLESS_SLUG = re.compile(r'(?i)^(default|index|home|main|page|article|story|view|news|release|\d+)$')
+
+
 def clean_title(value, url):
-    """A readable headline, or the slug when a page gives us nothing usable.
+    """A readable headline, or None when the page gives us nothing a reader could scan.
 
     Publishers suffix the site name -- "Introducing Grok 4.6 | SpaceXAI",
     "Introducing Claude Opus 5 \\ Anthropic". The suffix is dropped only when what remains is
     still substantial, so a short title is never truncated to nothing.
+
+    Returning None matters. Seeding this feed from retained receipts on 2026-09-13 -- receipts
+    that predate the title capture -- produced 633 rows of which 98% fell back to the URL slug
+    and 69 were titled things like "default.aspx" and "empsit 09042026.htm". A row whose headline
+    is a filename is worse than no row: this feed exists to be scanned.
     """
     text = re.sub(r'\s+', ' ', str(value or '')).strip()
     for separator in ('|', '\\', ' - ', ' — ', ' · '):
@@ -70,10 +80,14 @@ def clean_title(value, url):
             head = text.split(separator)[0].strip()
             if len(head) >= 20:
                 text = head
-    if len(text) < 8:
-        slug = urlparse(url).path.rstrip('/').rsplit('/', 1)[-1]
-        text = re.sub(r'[-_]+', ' ', slug).strip() or url
-    return text[:MAX_TITLE]
+    if len(text) >= 8:
+        return text[:MAX_TITLE]
+    slug = urlparse(url).path.rstrip('/').rsplit('/', 1)[-1]
+    slug = re.sub(r'\.[a-z0-9]{2,5}$', '', slug, flags=re.I)      # a file extension is not a word
+    words = re.sub(r'[-_%+]+', ' ', slug).strip()
+    if len(words) < 12 or MEANINGLESS_SLUG.match(words) or not re.search(r'[a-z]{3}', words, re.I):
+        return None
+    return words[:MAX_TITLE]
 
 
 def row_for(document, source):
@@ -124,6 +138,9 @@ def merge(existing, documents, sources, now=None):
             dropped[why] = dropped.get(why, 0) + 1
             continue
         fresh = row_for(document, source)
+        if fresh['title'] is None:
+            dropped['no readable headline'] = dropped.get('no readable headline', 0) + 1
+            continue
         seen = by_url.get(fresh['url'])
         if seen is None:
             by_url[fresh['url']] = fresh

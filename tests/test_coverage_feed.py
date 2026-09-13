@@ -105,9 +105,21 @@ class TitleTests(unittest.TestCase):
         """Dropping a suffix must not leave a stub; "AI | Google" keeps its whole text."""
         self.assertEqual(cf.clean_title('AI | Google', 'https://blog.google/news/a-long-slug-here'), 'AI | Google')
 
-    def test_a_missing_title_falls_back_to_the_slug(self):
+    def test_a_missing_title_falls_back_to_a_readable_slug(self):
         self.assertEqual(cf.clean_title('', 'https://example.com/news/meta-breaks-ground-in-kuna/'),
                          'meta breaks ground in kuna')
+
+    def test_a_slug_that_is_only_a_filename_yields_no_title(self):
+        """Seeding from receipts produced 69 rows titled "default.aspx" and "empsit 09042026.htm".
+        A row whose headline is a server filename is noise; the feed exists to be scanned."""
+        for url in ['https://example.com/x/default.aspx', 'https://example.com/news/index.htm',
+                    'https://example.com/news/2026/', 'https://example.com/a/view']:
+            with self.subTest(url=url):
+                self.assertIsNone(cf.clean_title('', url))
+
+    def test_a_file_extension_is_never_part_of_a_headline(self):
+        self.assertEqual(cf.clean_title('', 'https://www.bls.gov/news.release/empsit_09042026.htm'),
+                         'empsit 09042026')
 
     def test_a_title_is_bounded(self):
         self.assertLessEqual(len(cf.clean_title('x'*5000, 'https://example.com/news/slug-here')), cf.MAX_TITLE)
@@ -239,10 +251,20 @@ class PublishedFeedTests(unittest.TestCase):
             with self.subTest(url=row['url']):
                 self.assertIn(row['provenance'], PROVENANCE_LABEL)
 
-    def test_the_published_mirror_matches(self):
+    def test_the_published_mirror_carries_the_same_rows(self):
+        """generated_at differs by design -- build stamps its own -- so compare the rows."""
         docs = ROOT/'docs/data/coverage.json'
         if docs.exists():
-            self.assertEqual(json.loads(docs.read_text(encoding='utf-8')), self.data)
+            self.assertEqual(json.loads(docs.read_text(encoding='utf-8'))['rows'], self.data['rows'])
+
+    def test_no_row_is_titled_with_a_server_filename(self):
+        import re
+        bad = [r['title'] for r in self.rows if re.search(r'\.(htm|html|aspx|php|jsp)$', r['title'])]
+        self.assertEqual(bad, [], 'these read as noise in a scannable feed: %s' % bad[:5])
+
+    def test_every_title_is_long_enough_to_mean_something(self):
+        short = [r['title'] for r in self.rows if len(r['title']) < 12]
+        self.assertEqual(short, [], short[:5])
 
 
 if __name__ == '__main__':
