@@ -49,14 +49,16 @@ def overnight_seconds(at):
         if os.name!='nt':raise
         # Windows Python may lack IANA tzdata. Use the OS-maintained Pacific
         # timezone rules rather than a fixed UTC offset or guessed DST dates.
-        script="$u=[DateTimeOffset]::Parse($env:STACK_LEDGER_WINDOW_TIME); $z=[TimeZoneInfo]::FindSystemTimeZoneById('Pacific Standard Time'); $l=[TimeZoneInfo]::ConvertTime($u,$z); if($l.Hour -lt 2 -or $l.Hour -ge 7){0}else{ $end=[DateTime]::SpecifyKind($l.Date.AddHours(7),[DateTimeKind]::Unspecified); ([TimeZoneInfo]::ConvertTimeToUtc($end,$z)-$u.UtcDateTime).TotalSeconds }"
+        script="$u=[DateTimeOffset]::Parse($env:STACK_LEDGER_WINDOW_TIME); $z=[TimeZoneInfo]::FindSystemTimeZoneById('Pacific Standard Time'); $l=[TimeZoneInfo]::ConvertTime($u,$z); $end=[DateTime]::SpecifyKind($l.Date.AddHours(6).AddMinutes(30),[DateTimeKind]::Unspecified); if($l.Hour -lt 2 -or $l.DateTime -ge $end){0}else{ ([TimeZoneInfo]::ConvertTimeToUtc($end,$z)-$u.UtcDateTime).TotalSeconds }"
         result=subprocess.run(['powershell.exe','-NoProfile','-NonInteractive','-Command',script],
             capture_output=True,text=True,check=True,timeout=15,
             env=dict(os.environ,STACK_LEDGER_WINDOW_TIME=at.isoformat()))
         remaining=float(result.stdout.strip())
         return max(0,remaining)
-    if not 2<=local.hour<7:return 0
-    end=local.replace(hour=7,minute=0,second=0,microsecond=0)
+    # Ends 06:30, not 07:00: the OpenClaw morning jobs (briefing, feed, study note) start
+    # at 07:00 and share the one model; overlapping them reloads it every turn.
+    end=local.replace(hour=6,minute=30,second=0,microsecond=0)
+    if local.hour<2 or local>=end:return 0
     return (end.astimezone(timezone.utc)-at.astimezone(timezone.utc)).total_seconds()
 
 
