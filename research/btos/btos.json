@@ -1,11 +1,11 @@
 {
   "dataset": "Census BTOS AI-use supplement",
   "source_id": "census-btos-data",
-  "retrieved_at": "2026-09-09T17:27:42Z",
+  "retrieved_at": "2026-09-14T08:30:00Z",
   "national_url": "https://www.census.gov/hfp/btos/ai_national.json",
-  "national_sha256": "fe749ebc695b171c820200015c2b8be00a0d95b0786736f381561777071fcc99",
+  "national_sha256": "57d3e6d7b4e413c826dd36171123ae8fdefde9bbcbb59ab0666c22fcaaf92f92",
   "sector_url": "https://www.census.gov/hfp/btos/AI_sector.json",
-  "sector_sha256": "6e3284cbdd85244370b415a090f44862ea629010922a7c0e546095ed1519b1cd",
+  "sector_sha256": "1e6cd156c4d3e91ee41cfb8b6f49afc231801e4cb6ba6580875e8fbed153bdfd",
   "sectors": {
     "51": "Information",
     "54": "Professional, Scientific, and Technical Services"
@@ -15,6 +15,6 @@
     "btos-ai-use-share-naics-51",
     "btos-ai-use-share-naics-54"
   ],
-  "records": 60,
+  "records": 63,
   "license": "Public domain (U.S. government work)"
 }

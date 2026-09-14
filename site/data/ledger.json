@@ -92501,6 +92501,48 @@
       "retrieved_at": "2026-09-14T05:40:50Z",
       "method": "curated",
       "note": "QSS 5415T revenue $194,939M for 2026-Q2, annualised, over CES employment of 2,368,300 in the same quarter."
+    },
+    {
+      "id": "btos-ai-use-share-2026-09-06",
+      "metric": "btos-ai-use-share",
+      "year": 2026,
+      "period": "2026-09-06",
+      "value": 23.2,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-09-14T08:30:00Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-09-06. Response file sha256 57d3e6d7b4e4."
+    },
+    {
+      "id": "btos-ai-use-share-naics-51-2026-09-06",
+      "metric": "btos-ai-use-share-naics-51",
+      "year": 2026,
+      "period": "2026-09-06",
+      "value": 43.5,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-09-14T08:30:00Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-09-06. Response file sha256 1e6cd156c4d3."
+    },
+    {
+      "id": "btos-ai-use-share-naics-54-2026-09-06",
+      "metric": "btos-ai-use-share-naics-54",
+      "year": 2026,
+      "period": "2026-09-06",
+      "value": 43.3,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-09-14T08:30:00Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-09-06. Response file sha256 1e6cd156c4d3."
     }
   ],
   "events": [
