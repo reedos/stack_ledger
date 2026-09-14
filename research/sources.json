@@ -7148,6 +7148,32 @@
       "license": "Original source rights apply",
       "provenance": "company-channel",
       "index": true
+    },
+    {
+      "id": "bls-ces-employment",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "title": "Current Employment Statistics · national industry employment",
+      "url": "https://www.bls.gov/ces/",
+      "published": null,
+      "layers": [
+        "applications",
+        "models"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "census-qss-api",
+      "publisher": "U.S. Census Bureau",
+      "title": "Quarterly Services Survey · time series API",
+      "url": "https://www.census.gov/data/developers/data-sets/qss.html",
+      "published": null,
+      "layers": [
+        "applications",
+        "models"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
     }
   ],
   "discovery_keywords": [
@@ -7348,7 +7374,9 @@
         "federal-register-2026-14132",
         "eia-api-v2-electricity",
         "eia-930-demand",
-        "social-microsoft-c0eff6"
+        "social-microsoft-c0eff6",
+        "bls-ces-employment",
+        "census-qss-api"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -15670,6 +15698,28 @@
       "path_prefixes": [
         "/innovation-and-ai/"
       ]
+    },
+    "bls-ces-employment": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "census-qss-api": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
     }
   }
 }

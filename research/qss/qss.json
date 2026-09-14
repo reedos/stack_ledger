@@ -1,0 +1,18 @@
+{
+  "dataset": "Census Quarterly Services Survey",
+  "source_id": "census-qss-api",
+  "retrieved_at": "2026-09-14T05:40:50Z",
+  "categories": {
+    "5112T": "qss-us-software-publishers-revenue",
+    "5415T": "qss-us-computer-systems-design-revenue"
+  },
+  "first_year": 2015,
+  "routes": {
+    "rows:5112T": 46,
+    "ratio:5112T": 46,
+    "rows:5415T": 46,
+    "ratio:5415T": 46
+  },
+  "records": 184,
+  "license": "Public domain (U.S. government work)"
+}

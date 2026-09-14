@@ -46,6 +46,45 @@
       }
     },
     {
+      "id": "ces",
+      "command": [
+        "scripts/import_ces.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 3,
+      "timeout_seconds": 300,
+      "expect": {
+        "minimums": {
+          "rows:5132": 20,
+          "rows:5415": 20,
+          "rows:50": 20,
+          "records": 60
+        },
+        "note": "The 2026-09-13 run returned 46 quarter-end points per series from 2015 and built 138 records. Floors sit near half: BLS holding back one quarter is normal, a series id retired or the API path moving is not. Each series is floored separately so one dead route cannot hide behind the other two."
+      }
+    },
+    {
+      "id": "qss",
+      "command": [
+        "scripts/import_qss.py",
+        "--apply"
+      ],
+      "cadence": "weekly",
+      "weekday": 3,
+      "timeout_seconds": 300,
+      "expect": {
+        "minimums": {
+          "rows:5112T": 20,
+          "rows:5415T": 20,
+          "ratio:5112T": 20,
+          "ratio:5415T": 20,
+          "records": 120
+        },
+        "note": "The 2026-09-13 run returned 46 seasonally adjusted quarters per category from 2015, all 46 matched by a CES employment quarter, and built 184 records. Floors sit near half: Census suppressing a quarter or holding one back is normal, a category code retiring or the ratio losing its employment series is not."
+      }
+    },
+    {
       "id": "qwi",
       "command": [
         "scripts/import_qwi.py",

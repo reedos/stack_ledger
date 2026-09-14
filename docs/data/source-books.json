@@ -137,7 +137,9 @@
         "federal-register-2026-14132",
         "eia-api-v2-electricity",
         "eia-930-demand",
-        "social-microsoft-c0eff6"
+        "social-microsoft-c0eff6",
+        "bls-ces-employment",
+        "census-qss-api"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -8459,6 +8461,28 @@
       "path_prefixes": [
         "/innovation-and-ai/"
       ]
+    },
+    "bls-ces-employment": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "census-qss-api": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "labor",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
     }
   }
 }

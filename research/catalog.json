@@ -21347,6 +21347,202 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Series begins once the owner registers an EIA API key and the first live import runs; earlier months exist in EIA's API and can be imported on review. Missing months are unpublished, not zero."
+    },
+    {
+      "id": "ces-us-computer-systems-design-employment",
+      "layer": "applications",
+      "title": "United States · employment, Computer Systems Design and Related Services (NAICS 5415)",
+      "unit": "jobs (seasonally adjusted)",
+      "geography": "United States",
+      "scope": "BLS Current Employment Statistics, all employees on nonfarm payrolls in NAICS 5415 (Computer Systems Design and Related Services), seasonally adjusted, sampled at the third month of each quarter. An establishment survey of payroll records covering U.S. employees only, counting jobs rather than people: someone holding two payroll jobs is counted twice. Read alongside the other two CES industries in this catalog, since one industry alone cannot distinguish software employment stopping from software employment moving.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "BLS Current Employment Statistics, public domain. CES revises the two most recent months with each release and rebenchmarks annually, so recent quarters can change; each import replaces a quarter it already holds rather than appending a second reading. History is published on the current NAICS basis, so the 5112-to-5132 renumbering is not a break in this series.",
+      "source_ids": [
+        "bls-ces-employment"
+      ],
+      "company": null,
+      "measurement_type": "ces_industry_employment",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2015,
+      "chart_default_start": 2015,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2015 in this catalog; CES publishes this industry back to 1990 and earlier quarters can be imported on review."
+    },
+    {
+      "id": "ces-us-information-employment",
+      "layer": "applications",
+      "title": "United States · employment, Information supersector",
+      "unit": "jobs (seasonally adjusted)",
+      "geography": "United States",
+      "scope": "BLS Current Employment Statistics, all employees on nonfarm payrolls in the Information supersector, seasonally adjusted, sampled at the third month of each quarter. An establishment survey of payroll records covering U.S. employees only, counting jobs rather than people: someone holding two payroll jobs is counted twice. Read alongside the other two CES industries in this catalog, since one industry alone cannot distinguish software employment stopping from software employment moving.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "BLS Current Employment Statistics, public domain. CES revises the two most recent months with each release and rebenchmarks annually, so recent quarters can change; each import replaces a quarter it already holds rather than appending a second reading. History is published on the current NAICS basis, so the 5112-to-5132 renumbering is not a break in this series.",
+      "source_ids": [
+        "bls-ces-employment"
+      ],
+      "company": null,
+      "measurement_type": "ces_industry_employment",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2015,
+      "chart_default_start": 2015,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2015 in this catalog; CES publishes this industry back to 1990 and earlier quarters can be imported on review."
+    },
+    {
+      "id": "ces-us-software-publishers-employment",
+      "layer": "applications",
+      "title": "United States · employment, Software Publishers (NAICS 5132)",
+      "unit": "jobs (seasonally adjusted)",
+      "geography": "United States",
+      "scope": "BLS Current Employment Statistics, all employees on nonfarm payrolls in NAICS 5132 (Software Publishers), seasonally adjusted, sampled at the third month of each quarter. An establishment survey of payroll records covering U.S. employees only, counting jobs rather than people: someone holding two payroll jobs is counted twice. Read alongside the other two CES industries in this catalog, since one industry alone cannot distinguish software employment stopping from software employment moving.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000000,
+      "note": "BLS Current Employment Statistics, public domain. CES revises the two most recent months with each release and rebenchmarks annually, so recent quarters can change; each import replaces a quarter it already holds rather than appending a second reading. History is published on the current NAICS basis, so the 5112-to-5132 renumbering is not a break in this series.",
+      "source_ids": [
+        "bls-ces-employment"
+      ],
+      "company": null,
+      "measurement_type": "ces_industry_employment",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2015,
+      "chart_default_start": 2015,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2015 in this catalog; CES publishes this industry back to 1990 and earlier quarters can be imported on review."
+    },
+    {
+      "id": "qss-us-computer-systems-design-revenue",
+      "layer": "applications",
+      "title": "United States · quarterly operating revenue, Computer Systems Design and Related Services",
+      "unit": "USD millions per quarter",
+      "geography": "United States",
+      "scope": "Census Quarterly Services Survey estimated quarterly operating revenue for employer firms in Computer Systems Design and Related Services (QSS category 5415T), seasonally adjusted. A sample survey of U.S. employer firms, so every point carries sampling error; Census publishes a standard error alongside each estimate. Quarters Census suppresses are omitted, never recorded as zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000000,
+      "note": "Census Quarterly Services Survey, public domain. QSS revises earlier quarters as later responses arrive and rebenchmarks annually, so a quarter already held is replaced on each import rather than appended twice.",
+      "source_ids": [
+        "census-qss-api"
+      ],
+      "company": null,
+      "measurement_type": "qss_industry_revenue_usd_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2015,
+      "chart_default_start": 2015,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2015 in this catalog; QSS publishes this industry earlier and those quarters can be imported on review."
+    },
+    {
+      "id": "qss-us-computer-systems-design-revenue-per-employee",
+      "layer": "applications",
+      "title": "United States · revenue per employee, Computer Systems Design and Related Services",
+      "unit": "USD per employee per year",
+      "geography": "United States",
+      "scope": "Census QSS quarterly operating revenue for Computer Systems Design and Related Services (5415T), annualised by multiplying by four, divided by BLS CES employment in the same industry for the same quarter (ces-us-computer-systems-design-employment). Both are official U.S. establishment measures of the same named industry, so this is one population divided by itself. Computed only for quarters where both series publish a value.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Derived from two public-domain federal series, each recorded separately in this catalog. Read the TREND, not the level: QSS still codes this industry under the NAICS 2017 number (5112) while CES codes it under NAICS 2022 (5132), which moved some software-as-a-service providers in from data processing, so the two populations may not be identical even though each is internally consistent across the window. Annualising one quarter assumes the other three resemble it, which seasonal adjustment makes reasonable but does not guarantee.",
+      "source_ids": [
+        "census-qss-api"
+      ],
+      "company": null,
+      "measurement_type": "industry_revenue_per_employee_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2015,
+      "chart_default_start": 2015,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2015 in this catalog, bounded by the CES and QSS quarters imported here rather than by either survey."
+    },
+    {
+      "id": "qss-us-software-publishers-revenue",
+      "layer": "applications",
+      "title": "United States · quarterly operating revenue, Software Publishers",
+      "unit": "USD millions per quarter",
+      "geography": "United States",
+      "scope": "Census Quarterly Services Survey estimated quarterly operating revenue for employer firms in Software Publishers (QSS category 5112T), seasonally adjusted. A sample survey of U.S. employer firms, so every point carries sampling error; Census publishes a standard error alongside each estimate. Quarters Census suppresses are omitted, never recorded as zero.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000000,
+      "note": "Census Quarterly Services Survey, public domain. QSS revises earlier quarters as later responses arrive and rebenchmarks annually, so a quarter already held is replaced on each import rather than appended twice.",
+      "source_ids": [
+        "census-qss-api"
+      ],
+      "company": null,
+      "measurement_type": "qss_industry_revenue_usd_m",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2015,
+      "chart_default_start": 2015,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2015 in this catalog; QSS publishes this industry earlier and those quarters can be imported on review."
+    },
+    {
+      "id": "qss-us-software-publishers-revenue-per-employee",
+      "layer": "applications",
+      "title": "United States · revenue per employee, Software Publishers",
+      "unit": "USD per employee per year",
+      "geography": "United States",
+      "scope": "Census QSS quarterly operating revenue for Software Publishers (5112T), annualised by multiplying by four, divided by BLS CES employment in the same industry for the same quarter (ces-us-software-publishers-employment). Both are official U.S. establishment measures of the same named industry, so this is one population divided by itself. Computed only for quarters where both series publish a value.",
+      "direction": "context",
+      "min": 0,
+      "max": 5000000,
+      "note": "Derived from two public-domain federal series, each recorded separately in this catalog. Read the TREND, not the level: QSS still codes this industry under the NAICS 2017 number (5112) while CES codes it under NAICS 2022 (5132), which moved some software-as-a-service providers in from data processing, so the two populations may not be identical even though each is internally consistent across the window. Annualising one quarter assumes the other three resemble it, which seasonal adjustment makes reasonable but does not guarantee.",
+      "source_ids": [
+        "census-qss-api"
+      ],
+      "company": null,
+      "measurement_type": "industry_revenue_per_employee_usd",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": null,
+      "series_start_year": 2015,
+      "chart_default_start": 2015,
+      "chart_default_end": 2026,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2015 in this catalog, bounded by the CES and QSS quarters imported here rather than by either survey."
     }
   ],
   "targets": [

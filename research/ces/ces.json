@@ -1,0 +1,18 @@
+{
+  "dataset": "BLS Current Employment Statistics",
+  "source_id": "bls-ces-employment",
+  "retrieved_at": "2026-09-14T05:32:25Z",
+  "series": {
+    "CES5051320001": "ces-us-software-publishers-employment",
+    "CES6054150001": "ces-us-computer-systems-design-employment",
+    "CES5000000001": "ces-us-information-employment"
+  },
+  "first_year": 2015,
+  "routes": {
+    "rows:50": 46,
+    "rows:5132": 46,
+    "rows:5415": 46
+  },
+  "records": 138,
+  "license": "Public domain (U.S. government work)"
+}

@@ -40,6 +40,14 @@ EPOCH_DESIGNER={'estimated_cumulative_ai_chips', 'estimated_cumulative_ai_comput
 # monthly points from EIA's own published daily values. Measured, never a forecast, no company.
 GRID_DEMAND={'grid_monthly_average_daily_demand_mwh','grid_monthly_max_daily_demand_mwh'}
 LABOR_MARKET={'county_industry_employment','county_industry_hires','county_industry_avg_monthly_earnings'}
+# BLS Current Employment Statistics national industry employment (scripts/import_ces.py, public
+# domain): the payroll survey's own count of jobs in an industry. Industry-wide, so no company.
+LABOR_MARKET|={'ces_industry_employment'}
+# Census Quarterly Services Survey industry revenue, and revenue per employee derived from it and
+# the CES series above (scripts/import_qss.py, public domain). Both industry-wide, so no company.
+# The ratio is the matched replacement for a licensed S&P-1500-over-BLS construction: QSS and CES
+# measure the same named U.S. industry, so it divides a population by itself.
+LABOR_MARKET|={'qss_industry_revenue_usd_m','industry_revenue_per_employee_usd'}
 PUBLIC_TYPES |= EPOCH_AGGREGATE | EPOCH_SITE | LABOR_MARKET | GRID_DEMAND
 TYPES |= EPOCH_SITE | EPOCH_DESIGNER | LABOR_MARKET | GRID_DEMAND
 TYPES |= EPOCH_AGGREGATE | {'estimated_cowos_consumption_wafers_quarterly'}
@@ -70,7 +78,12 @@ HISTORICAL_ONLY = {'grid_monthly_average_daily_demand_mwh', 'grid_monthly_max_da
                    'supervised_driver_miles', 'unsupervised_or_rider_only_miles',
                    'operating_vehicle_count', 'operating_metro_count',
                    'humanoid_units_in_production_use', 'completed_totes',
-                   'crash_involvements_per_million_miles'}
+                   'crash_involvements_per_million_miles',
+                   # A payroll count of a quarter that has ended. CES revises it, but never
+                   # publishes it ahead of the quarter.
+                   'ces_industry_employment',
+                   # Likewise a survey of revenue already earned, and the ratio built from the two.
+                   'qss_industry_revenue_usd_m', 'industry_revenue_per_employee_usd'}
 HISTORICAL_ONLY |= SEC_TYPES | {'eia_net_generation_twh', 'eia_capacity_additions_mw', 'retail_electricity_price_cents_kwh'}
 # Grid-interface tracking (owner-approved 2026-09-10): each grid operator's own published
 # peak-load and, where disclosed separately, large-load/data-centre load forecast -- yearly,
