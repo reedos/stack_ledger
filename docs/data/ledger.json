@@ -93441,6 +93441,20 @@
       "document_sha256": "2be4d6f702a1de24f3147bd2b70f0298c3be604f902dfb2360572938b2f6be0a",
       "evidence_sha256": "83f76f8970dd297e624285fa0af8c3994e7f7e91d339da85231a0e1ac03cd095",
       "grade": "B"
+    },
+    {
+      "title": "AlphaGenome API preview launch",
+      "summary": "Google DeepMind says it is introducing AlphaGenome, a new AI tool that predicts how single variants or mutations in human DNA sequences impact biological processes regulating genes, and is making it available in preview via the AlphaGenome API for non-commercial research.",
+      "layer": "applications",
+      "kind": "Company announcement",
+      "id": "note-27b46765cd1eece38c87",
+      "source": "alphagenome-research",
+      "date": "2025-06-25",
+      "method": "automated",
+      "retrieved_at": "2026-09-14T09:03:24Z",
+      "document_sha256": "9652a462665bb7cbfa669cd88010c9ced23ff37ff7dd7009ff79d78232a1333d",
+      "evidence_sha256": "41cae64ca0aa7a5eaeda9801566c705a014dbbddfaf7aa3d901b566777d1c53c",
+      "grade": "B"
     }
   ],
   "targets": [
@@ -93494,76 +93508,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20260912T171011Z-4751f3a18dd14dea88603440a92b86fa",
-      "started_at": "2026-09-12T17:10:11Z",
-      "finished_at": "2026-09-12T17:10:25Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 2,
-      "coverage_layers": [
-        "chips",
-        "energy",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20260912T171051Z-69848d9a05e2457fbcdc7efe9f272e00",
-      "started_at": "2026-09-12T17:10:51Z",
-      "finished_at": "2026-09-12T17:11:06Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "applications",
-        "chips",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260912T171311Z-3e8ee5c5bbaf4ad6ba7da21edd8e53b9",
-      "started_at": "2026-09-12T17:13:11Z",
-      "finished_at": "2026-09-12T17:13:35Z",
-      "status": "success",
-      "documents_fetched": 4,
-      "documents_reviewed": 4,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "applications",
-        "chips",
-        "energy",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20260912T171541Z-a451f462a1b94dc19274510a34afcb01",
-      "started_at": "2026-09-12T17:15:41Z",
-      "finished_at": "2026-09-12T17:15:55Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "chips",
-        "infrastructure"
-      ]
-    },
     {
       "id": "run-20260912T171802Z-1bf371877d594f6ba609338c5cc7a2e8",
       "started_at": "2026-09-12T17:18:02Z",
@@ -97851,6 +97795,107 @@
       "coverage_layers": [
         "chips"
       ]
+    },
+    {
+      "id": "run-20260914T090014Z-0a4d1bd346164c1d8cf7c46b3d2c49bf",
+      "started_at": "2026-09-14T09:00:14Z",
+      "finished_at": "2026-09-14T09:01:00Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "claims-iea-supply",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 4,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260914T090124Z-89767a42489e423ab78b0a18f19da0dd",
+      "started_at": "2026-09-14T09:01:24Z",
+      "finished_at": "2026-09-14T09:01:44Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "claims-bls-projections",
+          "reason": "HTTP 403"
+        },
+        {
+          "source": "water-almond",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        },
+        {
+          "source": "water-lbnl",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        }
+      ],
+      "model_calls": 3,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260914T090210Z-433dd25bde674ad3a41f68aaa99761ae",
+      "started_at": "2026-09-14T09:02:10Z",
+      "finished_at": "2026-09-14T09:02:24Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "claims-scc",
+          "reason": "Blocked by robots policy"
+        },
+        {
+          "source": "alphafold-db",
+          "reason": "Collection gap: insufficient_static_text"
+        },
+        {
+          "source": "alphafold-taar1",
+          "reason": "Collection gap: insufficient_static_text"
+        }
+      ],
+      "model_calls": 3,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260914T090250Z-7bbabd4339d948c6815b5799b7c3bdd4",
+      "started_at": "2026-09-14T09:02:50Z",
+      "finished_at": "2026-09-14T09:03:27Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 7,
+      "coverage_layers": [
+        "applications",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -97860,7 +97905,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-13T15:05:47Z",
+    "last_attempt": "2026-09-14T09:03:27Z",
     "last_success": "2026-09-13T10:36:08Z",
     "status": "partial",
     "latest_session": {
