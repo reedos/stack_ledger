@@ -12,6 +12,18 @@ import schedule
 
 
 class NotificationTests(unittest.TestCase):
+    def test_matrix_route_uses_ara_and_preserves_receipt_dedup(self):
+        import os
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t);route=root/'team.json';route.write_text('{}')
+            research.save(root/'.local/telegram-notifications.json',{'enabled':True,'channel':'matrix','account':'default','target':'12345'})
+            team=Mock();team.route.return_value={'account':'default'};team.send.return_value='$event'
+            with patch.dict(os.environ,ARA_NOTIFICATION_ROUTES=str(route)),patch.dict(sys.modules,team_notifications=team),patch.object(notify.subprocess,'run') as legacy:
+                result=notify.deliver(root,'Fixture summary',root/'receipt.json')
+                self.assertEqual(result['channel'],'matrix');self.assertEqual(result['message_id'],'$event')
+                self.assertEqual(notify.deliver(root,'Fixture summary',root/'receipt.json')['status'],'already_attempted')
+                team.send.assert_called_once_with('ara','Fixture summary');legacy.assert_not_called()
+
     def test_summary_distinguishes_private_discovery_and_confirmed_pushes(self):
         with tempfile.TemporaryDirectory() as t:
             folder=Path(t)

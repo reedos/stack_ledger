@@ -2,6 +2,8 @@
 import json
 import re
 import subprocess
+import os
+import sys
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -116,6 +118,20 @@ def deliver(root,text,receipt_path):
     receipt={'status':'attempting','at':datetime.now(timezone.utc).isoformat()}
     atomic(receipt_path,receipt)
     try:
+        # Owner-selected Matrix team route takes precedence over legacy Telegram
+        # destinations. Invalid/unconfirmed Matrix delivery never falls back.
+        route_path=Path(os.environ.get('ARA_NOTIFICATION_ROUTES',Path.home()/'.openclaw/notification-routes.json'))
+        team=None
+        if config.get('channel')=='matrix':
+            module=Path.home()/'projects/ara-matrix'
+            if str(module) not in sys.path:sys.path.insert(0,str(module))
+            import team_notifications
+            if not route_path.exists() or not team_notifications.route('ara'):raise ValueError('Matrix notification route is unavailable')
+            team=team_notifications
+        if team:
+            receipt.update(status='sent',channel='matrix',account='default',message_id=team.send('ara',text))
+            atomic(receipt_path,receipt)
+            return receipt
         if set(config)!={'enabled','account','target'} or not re.fullmatch(r'[0-9]{1,20}',config['target']) or not re.fullmatch(r'[a-zA-Z0-9_-]{1,64}',config['account']):raise ValueError('Invalid local notification route')
         from schedule import cli
         args=cli()+['message','send','--channel','telegram','--account',config['account'],'--target',config['target'],'--message',text,'--json']
