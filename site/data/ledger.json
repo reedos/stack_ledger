@@ -28906,6 +28906,20 @@
       "license": "Original source rights apply",
       "provenance": "company-channel",
       "parent_source": "spacexai-news-index"
+    },
+    {
+      "id": "discovered-68b35e002c3bf55c",
+      "publisher": "Anthropic",
+      "title": "Discovered public update · Anthropic",
+      "url": "https://claude.com/blog/claude-in-chrome-generally-available",
+      "published": "2026-08-26",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "parent_source": "claude-blog-index"
     }
   ],
   "observations": [
@@ -93483,6 +93497,20 @@
       "document_sha256": "216afc62dd77ce78380632e49084e37a4ad0f8ac178e182066f8e7af38fc5d76",
       "evidence_sha256": "cc7ada8a1bdbdb79ced2cee706fe4e0cb76e02a4238c89e6322922055e5ef2c6",
       "grade": "B"
+    },
+    {
+      "title": "Claude in Chrome generally available",
+      "summary": "Anthropic says Claude in Chrome is now generally available on every paid Claude plan, with autonomous browser actions validated by a safety classifier before execution.",
+      "layer": "applications",
+      "kind": "Company announcement",
+      "id": "note-535ac8ca0a4b08064d5a",
+      "source": "discovered-68b35e002c3bf55c",
+      "date": "2026-08-26",
+      "method": "automated",
+      "retrieved_at": "2026-09-15T10:12:09Z",
+      "document_sha256": "eb1780f819c584c318a65f5dc0d275c415f61e6f57c5021038111584b826e0be",
+      "evidence_sha256": "4b5ed07f3cd16e126c5e5f2132b75dc4836e699b661a8c16929100dc2a7f7e3c",
+      "grade": "B"
     }
   ],
   "targets": [
@@ -93536,54 +93564,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20260913T142525Z-70a019655cc5404bb93649b8b2bfc59b",
-      "started_at": "2026-09-13T14:25:25Z",
-      "finished_at": "2026-09-13T14:25:28Z",
-      "status": "partial",
-      "documents_fetched": 5,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20260913T142735Z-3247bd6e62eb4b97abd9b5a611753eba",
-      "started_at": "2026-09-13T14:27:35Z",
-      "finished_at": "2026-09-13T14:27:37Z",
-      "status": "partial",
-      "documents_fetched": 1,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20260913T142940Z-9b6b2d4b1bde46998f0252a151dcddb2",
-      "started_at": "2026-09-13T14:29:40Z",
-      "finished_at": "2026-09-13T14:29:43Z",
-      "status": "partial",
-      "documents_fetched": 1,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "claims-bls-aug",
-          "reason": "HTTP 403"
-        },
-        {
-          "source": "discovered-2da150c582c9317f",
-          "reason": "Source exceeds size cap"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
     {
       "id": "run-20260913T143145Z-c7b971fa2df545bc9f2457ffa3ee7c5f",
       "started_at": "2026-09-13T14:31:45Z",
@@ -97858,6 +97838,92 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260915T100856Z-992944fe6f074766a908254a702f9b9f",
+      "started_at": "2026-09-15T10:08:56Z",
+      "finished_at": "2026-09-15T10:09:14Z",
+      "status": "partial",
+      "documents_fetched": 0,
+      "documents_reviewed": 0,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "company-first-solar",
+          "reason": "Collection gap: insufficient_static_text"
+        },
+        {
+          "source": "company-nextera",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        },
+        {
+          "source": "company-palantir",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        },
+        {
+          "source": "company-schneider",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        },
+        {
+          "source": "census-dc-saar-july2026",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        },
+        {
+          "source": "astra-broadcom-th6-20260312",
+          "reason": "Collection gap: insufficient_static_text"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": []
+    },
+    {
+      "id": "run-20260915T101117Z-d982ac3a67c943a4a272fab96dc6a263",
+      "started_at": "2026-09-15T10:11:17Z",
+      "finished_at": "2026-09-15T10:11:33Z",
+      "status": "partial",
+      "documents_fetched": 2,
+      "documents_reviewed": 1,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "astra-finance-microchip-2024",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        },
+        {
+          "source": "astra-primary-care-rct-20260626",
+          "reason": "URL outside approved public host"
+        },
+        {
+          "source": "tesla-cybercab-speech-2026",
+          "reason": "Collection gap: insufficient_static_text"
+        },
+        {
+          "source": "colossus-southaven-complaint",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260915T101157Z-c637ee92a4854f87b4826352e85354ce",
+      "started_at": "2026-09-15T10:11:57Z",
+      "finished_at": "2026-09-15T10:12:22Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 10,
+      "coverage_layers": [
+        "applications",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -97867,7 +97933,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-15T10:04:42Z",
+    "last_attempt": "2026-09-15T10:12:22Z",
     "last_success": "2026-09-15T09:34:14Z",
     "status": "partial",
     "latest_session": {

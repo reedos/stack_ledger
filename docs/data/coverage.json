@@ -1,7 +1,20 @@
 {
   "version": 1,
-  "generated_at": "2026-09-15T10:04:42Z",
+  "generated_at": "2026-09-15T10:12:22Z",
   "rows": [
+    {
+      "url": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals",
+      "title": "Investigating three incidents in our cybersecurity evaluations",
+      "summary": "We found three cases where a Claude model reached the internet from an evaluation environment and accessed real systems. We share what happened and what we're changing.",
+      "source": "anthropic-news-index",
+      "publisher": "Anthropic",
+      "provenance": "company-channel",
+      "layers": [
+        "models"
+      ],
+      "published": null,
+      "read_at": "2026-09-15T10:11:33Z"
+    },
     {
       "url": "https://hai.stanford.edu/news/open-weight-models-arent-enough-we-need-truly-open-source-ai-models-for-science-and-society",
       "title": "Open-Weight Models Aren’t Enough. We Need Truly Open Source AI Models for Science and Society.",
@@ -425,19 +438,6 @@
       ],
       "published": null,
       "read_at": "2026-09-14T10:10:36Z"
-    },
-    {
-      "url": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals",
-      "title": "Investigating three incidents in our cybersecurity evaluations",
-      "summary": "We found three cases where a Claude model reached the internet from an evaluation environment and accessed real systems. We share what happened and what we're changing.",
-      "source": "anthropic-news-index",
-      "publisher": "Anthropic",
-      "provenance": "company-channel",
-      "layers": [
-        "models"
-      ],
-      "published": null,
-      "read_at": "2026-09-14T10:10:35Z"
     },
     {
       "url": "https://openai.com/index/gpt-6-astra-next-generation-work/",
@@ -4526,6 +4526,34 @@
       "summary": null
     },
     {
+      "url": "https://claude.com/blog/claude-in-chrome-generally-available",
+      "title": "Claude in Chrome is generally available",
+      "summary": "Claude in Chrome is now available on every paid plan and can work through browser tasks without approving each step, with a safety check on every action. Here's how we tested it against prompt injection.",
+      "source": "claude-blog-index",
+      "publisher": "Anthropic",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "published": "2026-08-26",
+      "read_at": "2026-09-15T10:12:07Z"
+    },
+    {
+      "url": "https://claude.com/blog/cowork-built-in-browser",
+      "title": "Claude Cowork gets a built-in browser: nothing to install",
+      "summary": "Claude now has its own browser inside the Cowork desktop app. It opens sites, reads pages, and works in them while you keep working. No extension, and your own tabs and logins stay out of it.",
+      "source": "claude-blog-index",
+      "publisher": "Anthropic",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "published": "2026-08-26",
+      "read_at": "2026-09-15T10:11:58Z"
+    },
+    {
       "url": "https://x.ai/news/grok-bot-more-plans",
       "title": "Grok Bot is now included with more plans",
       "summary": "Grok Bot is now available for SuperGrok, Cursor Pro, and all Cursor Teams plans.",
@@ -4537,34 +4565,6 @@
       ],
       "published": "2026-08-26",
       "read_at": "2026-09-14T09:09:29Z"
-    },
-    {
-      "url": "https://claude.com/blog/claude-in-chrome-generally-available",
-      "title": "Claude in Chrome Generally Available",
-      "source": "claude-blog-index",
-      "publisher": "Anthropic",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "applications"
-      ],
-      "published": "2026-08-26",
-      "read_at": "2026-09-13T11:20:54Z",
-      "summary": null
-    },
-    {
-      "url": "https://claude.com/blog/cowork-built-in-browser",
-      "title": "Cowork Built in Browser",
-      "source": "claude-blog-index",
-      "publisher": "Anthropic",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "applications"
-      ],
-      "published": "2026-08-26",
-      "read_at": "2026-09-13T11:20:51Z",
-      "summary": null
     },
     {
       "url": "https://research.google/blog/glucofm-foundation-model-for-continuous-glucose-monitoring/",
@@ -7320,7 +7320,8 @@
     },
     {
       "url": "https://claude.com/blog/claude-managed-agents-memory",
-      "title": "Claude Managed Agents Memory",
+      "title": "Memory for Claude Managed Agents: agents that learn across sessions",
+      "summary": "Memory for Claude Managed Agents is a built-in memory layer that lets agents learn across sessions, improve over time, and share what they've learned.",
       "source": "claude-blog-index",
       "publisher": "Anthropic",
       "provenance": "company-channel",
@@ -7329,8 +7330,7 @@
         "applications"
       ],
       "published": "2026-04-23",
-      "read_at": "2026-09-13T11:21:03Z",
-      "summary": null
+      "read_at": "2026-09-15T10:12:19Z"
     },
     {
       "url": "https://ir.macom.com/news-releases/news-release-details/macom-report-second-quarter-2026-financial-results-may-7-2026",
@@ -7401,7 +7401,8 @@
     },
     {
       "url": "https://claude.com/blog/claude-code-desktop-redesign",
-      "title": "Claude Code Desktop Redesign",
+      "title": "Redesigning Claude Code on desktop for parallel agents",
+      "summary": "Today, we're releasing a redesign of the Claude Code desktop app, built to help you run more Claude Code tasks at once.",
       "source": "claude-blog-index",
       "publisher": "Anthropic",
       "provenance": "company-channel",
@@ -7410,12 +7411,12 @@
         "applications"
       ],
       "published": "2026-04-14",
-      "read_at": "2026-09-13T11:21:01Z",
-      "summary": null
+      "read_at": "2026-09-15T10:12:16Z"
     },
     {
       "url": "https://claude.com/blog/preparing-your-security-program-for-ai-accelerated-offense",
-      "title": "Preparing Your Security Program for AI Accelerated Offense",
+      "title": "Preparing your security program for AI-accelerated offense",
+      "summary": "We share our initial set of recommendations to shore up your defenses based on our own findings and security practices.",
       "source": "claude-blog-index",
       "publisher": "Anthropic",
       "provenance": "company-channel",
@@ -7424,8 +7425,7 @@
         "applications"
       ],
       "published": "2026-04-10",
-      "read_at": "2026-09-13T11:20:57Z",
-      "summary": null
+      "read_at": "2026-09-15T10:12:15Z"
     },
     {
       "url": "https://mlcommons.org/2026/04/mlperf-inference-v6-0-results/",
