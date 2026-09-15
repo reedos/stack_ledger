@@ -1,7 +1,21 @@
 {
   "version": 1,
-  "generated_at": "2026-09-15T10:12:22Z",
+  "generated_at": "2026-09-15T10:36:29Z",
   "rows": [
+    {
+      "url": "https://hai.stanford.edu/news/ai-companions-may-worsen-loneliness-for-vulnerable-users-stanford-study-finds",
+      "title": "AI Companions May Worsen Loneliness for Vulnerable Users, Stanford Study Finds",
+      "summary": "Stanford research finds that users with limited social networks who seek emotional support from AI companions experience lower well-being.",
+      "source": "stanford-news",
+      "publisher": "Stanford HAI",
+      "provenance": "independent-research",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "published": null,
+      "read_at": "2026-09-15T10:27:07Z"
+    },
     {
       "url": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals",
       "title": "Investigating three incidents in our cybersecurity evaluations",
@@ -149,6 +163,51 @@
       ],
       "published": null,
       "read_at": "2026-09-15T09:13:35Z"
+    },
+    {
+      "url": "https://www.datacenterdynamics.com/en/opinions/why-coolant-health-is-becoming-an-uptime-issue-for-ai-data-centers/",
+      "title": "Why coolant health is becoming an uptime issue for AI data centers",
+      "summary": null,
+      "source": "outlet-www-datacenterdynamics-com-727821",
+      "publisher": "Data Center Dynamics",
+      "provenance": "news",
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure"
+      ],
+      "published": "2026-09-14",
+      "read_at": "2026-09-15T10:24:36Z"
+    },
+    {
+      "url": "https://www.datacenterdynamics.com/en/news/thor-equities-submits-plans-for-150mw-data-center-in-georgia-us/",
+      "title": "Thor Equities submits plans for 150MW data center in Georgia, US",
+      "summary": null,
+      "source": "outlet-www-datacenterdynamics-com-727821",
+      "publisher": "Data Center Dynamics",
+      "provenance": "news",
+      "layers": [
+        "energy",
+        "chips",
+        "infrastructure"
+      ],
+      "published": "2026-09-14",
+      "read_at": "2026-09-15T10:24:34Z"
+    },
+    {
+      "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/global-network/lea-county-new-mexico/",
+      "title": "We’re exploring a potential data center in Lea County, New Mexico.",
+      "summary": "Google is exploring a new data center project in Lea County, New Mexico. While discussions are ongoing, we recognize residents are asking questions about data center dev…",
+      "source": "google-blog-index",
+      "publisher": "Alphabet / Google",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "infrastructure",
+        "applications"
+      ],
+      "published": "2026-09-14",
+      "read_at": "2026-09-15T10:18:02Z"
     },
     {
       "url": "https://www.datacenterknowledge.com/servers/increase-data-center-density-without-new-construction",
@@ -452,20 +511,6 @@
       ],
       "published": null,
       "read_at": "2026-09-14T10:10:09Z"
-    },
-    {
-      "url": "https://hai.stanford.edu/news/ai-companions-may-worsen-loneliness-for-vulnerable-users-stanford-study-finds",
-      "title": "AI Companions May Worsen Loneliness for Vulnerable Users, Stanford Study Finds",
-      "summary": "Stanford research finds that users with limited social networks who seek emotional support from AI companions experience lower well-being.",
-      "source": "stanford-news",
-      "publisher": "Stanford HAI",
-      "provenance": "independent-research",
-      "layers": [
-        "models",
-        "applications"
-      ],
-      "published": null,
-      "read_at": "2026-09-14T09:56:31Z"
     },
     {
       "url": "https://developers.openai.com/api/docs/models/gpt-5.3-codex",
@@ -1346,6 +1391,21 @@
       "summary": null
     },
     {
+      "url": "https://blog.google/innovation-and-ai/technology/xr-ar/three-google-supported-projects-premiere-during-the-83rd-venice-international-film-festival/",
+      "title": "Google at this year’s Venice Film Festival",
+      "summary": "Google shares details on three projects that use technology to push the boundaries of human creativity that premiered during the 83rd Venice Film Festival.",
+      "source": "google-blog-index",
+      "publisher": "Alphabet / Google",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "infrastructure",
+        "applications"
+      ],
+      "published": "2026-09-11",
+      "read_at": "2026-09-15T10:18:01Z"
+    },
+    {
       "url": "https://www.datacenterknowledge.com/networking/how-ai-is-reshaping-subsea-and-terrestrial-networks",
       "title": "How AI Is Reshaping Subsea and Terrestrial Networks",
       "summary": "AI and hyperscalers are reshaping subsea networks with SDM, 800G pluggables, C+L backhaul, and optical pass-through linking data centers.",
@@ -1388,21 +1448,6 @@
       ],
       "published": "2026-09-11",
       "read_at": "2026-09-15T09:42:29Z"
-    },
-    {
-      "url": "https://blog.google/innovation-and-ai/technology/xr-ar/three-google-supported-projects-premiere-during-the-83rd-venice-international-film-festival/",
-      "title": "Google at this year’s Venice Film Festival",
-      "summary": "Google shares details on three projects that use technology to push the boundaries of human creativity that premiered during the 83rd Venice Film Festival.",
-      "source": "google-blog-index",
-      "publisher": "Alphabet / Google",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "infrastructure",
-        "applications"
-      ],
-      "published": "2026-09-11",
-      "read_at": "2026-09-14T13:41:10Z"
     },
     {
       "url": "https://techcrunch.com/2026/09/11/mecka-ai-nears-500m-valuation-in-sequoia-led-deal-amid-rush-for-robot-training-data/",
@@ -1899,6 +1944,35 @@
       "summary": null
     },
     {
+      "url": "https://www.datacenterfrontier.com/hyperscale/article/55402883/nvidia-pushes-dsx-deeper-into-data-center-infrastructure",
+      "title": "NVIDIA Pushes DSX Deeper Into Data Center Infrastructure",
+      "summary": "New partnerships with Lancium, Cloverleaf, Trane and Eaton show NVIDIA extending DSX deeper into data center infrastructure, linking site development, power, cooling and operations...",
+      "source": "outlet-www-datacenterfrontier-com-1b7366",
+      "publisher": "Data Center Frontier",
+      "provenance": "news",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "published": "2026-09-10",
+      "read_at": "2026-09-15T10:22:58Z"
+    },
+    {
+      "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/dreambeans-expansion-september-2026/",
+      "title": "Dreambeans is now available across the U.S.",
+      "summary": "In June, Google Labs introduced Dreambeans, an experiment that creates personalized daily collections of stories. Now, Dreambeans is available to all accounts in the U.S…",
+      "source": "google-blog-index",
+      "publisher": "Alphabet / Google",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "infrastructure",
+        "applications"
+      ],
+      "published": "2026-09-10",
+      "read_at": "2026-09-15T10:18:00Z"
+    },
+    {
       "url": "https://heatmap.news/energy/renewables-cost-convincing",
       "title": "Why ‘Clean Is Cheap, Cheap Is Clean’ Isn’t Breaking Through",
       "summary": "New polling by Heatmap and Embold Research shows where one of climate advocates’ favorite arguments for renewables is falling short.",
@@ -1982,21 +2056,6 @@
       "read_at": "2026-09-15T09:41:13Z"
     },
     {
-      "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/dreambeans-expansion-september-2026/",
-      "title": "Dreambeans is now available across the U.S.",
-      "summary": "In June, Google Labs introduced Dreambeans, an experiment that creates personalized daily collections of stories. Now, Dreambeans is available to all accounts in the U.S…",
-      "source": "google-blog-index",
-      "publisher": "Alphabet / Google",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "infrastructure",
-        "applications"
-      ],
-      "published": "2026-09-10",
-      "read_at": "2026-09-14T13:41:09Z"
-    },
-    {
       "url": "https://www.enr.com/articles/63636-ai-powered-preconstruction-analysis-platform-wyre-raises-5m-in-funding",
       "title": "AI-Powered Preconstruction Analysis Platform Wyre Raises $5M in Funding",
       "summary": "Pype founder raised $5 million for artificial intelligence-powered construction documents platform Wyre, which aims to replace hours of document review with AI-delivered scopes and checking.",
@@ -2035,20 +2094,6 @@
       ],
       "published": "2026-09-10",
       "read_at": "2026-09-14T11:34:41Z"
-    },
-    {
-      "url": "https://www.datacenterfrontier.com/hyperscale/article/55402883/nvidia-pushes-dsx-deeper-into-data-center-infrastructure",
-      "title": "NVIDIA Pushes DSX Deeper Into Data Center Infrastructure",
-      "summary": "New partnerships with Lancium, Cloverleaf, Trane and Eaton show NVIDIA extending DSX deeper into data center infrastructure, linking site development, power, cooling and operations...",
-      "source": "outlet-www-datacenterfrontier-com-1b7366",
-      "publisher": "Data Center Frontier",
-      "provenance": "news",
-      "layers": [
-        "energy",
-        "infrastructure"
-      ],
-      "published": "2026-09-10",
-      "read_at": "2026-09-14T11:32:05Z"
     },
     {
       "url": "https://openai.com/index/using-codex-chatgpt-to-search-for-new-antimicrobials/",
@@ -2873,6 +2918,20 @@
       "summary": null
     },
     {
+      "url": "https://www.datacenterfrontier.com/energy/article/55403280/power-first-ai-data-centers-become-energy-systems",
+      "title": "Power First: AI Data Centers Become Energy Systems",
+      "summary": "At Data Center Frontier Trends Summit 2026, industry leaders examined how behind-the-meter generation is moving from backup to permanent infrastructure as AI developers combine...",
+      "source": "outlet-www-datacenterfrontier-com-1b7366",
+      "publisher": "Data Center Frontier",
+      "provenance": "news",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "published": "2026-09-09",
+      "read_at": "2026-09-15T10:22:56Z"
+    },
+    {
       "url": "https://www.enr.com/articles/63637-nyc-invalidates-2-000-construction-safety-cards-tied-to-alleged-training-fraud",
       "title": "NYC Invalidates 2,000 Construction Safety Cards Tied to Alleged Training Fraud",
       "summary": "Auditors found a required class never occurred, yet a company called RedCode issued a completion certificate, adding to earlier New York City safety-training enforcement cases involving other providers.",
@@ -2897,20 +2956,6 @@
       ],
       "published": "2026-09-09",
       "read_at": "2026-09-15T09:57:28Z"
-    },
-    {
-      "url": "https://www.datacenterfrontier.com/energy/article/55403280/power-first-ai-data-centers-become-energy-systems",
-      "title": "Power First: AI Data Centers Become Energy Systems",
-      "summary": "At Data Center Frontier Trends Summit 2026, industry leaders examined how behind-the-meter generation is moving from backup to permanent infrastructure as AI developers combine...",
-      "source": "outlet-www-datacenterfrontier-com-1b7366",
-      "publisher": "Data Center Frontier",
-      "provenance": "news",
-      "layers": [
-        "energy",
-        "infrastructure"
-      ],
-      "published": "2026-09-09",
-      "read_at": "2026-09-14T11:32:03Z"
     },
     {
       "url": "https://www.datacenterknowledge.com/cooling/beyond-wue-assessing-data-center-water-resilience",
@@ -3292,6 +3337,20 @@
       "summary": null
     },
     {
+      "url": "https://www.datacenterfrontier.com/edge-computing/podcast/55403337/ai-puts-fiber-on-the-critical-path",
+      "title": "AI Puts Fiber on the Critical Path",
+      "summary": "As AI campuses chase power at unprecedented scale, DC Blox CTO Jeff Wabik says connectivity can increasingly be built to the site. The harder problem is making fiber, permits,...",
+      "source": "outlet-www-datacenterfrontier-com-1b7366",
+      "publisher": "Data Center Frontier",
+      "provenance": "news",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "published": "2026-09-08",
+      "read_at": "2026-09-15T10:22:54Z"
+    },
+    {
       "url": "https://www.enr.com/articles/63630-19b-federal-loan-backs-nexteras-duane-arnold-nuclear-plant-restart",
       "title": "$1.9B Federal Loan Backs NextEra’s Duane Arnold Nuclear Plant Restart",
       "summary": "Shuttered Iowa reactor set to return 615 MW to the grid as data-center demand drives another federal investment in existing nuclear plant, with no responses from developer or feds on timing of announced funding.",
@@ -3330,20 +3389,6 @@
       ],
       "published": "2026-09-08",
       "read_at": "2026-09-15T09:47:57Z"
-    },
-    {
-      "url": "https://www.datacenterfrontier.com/edge-computing/podcast/55403337/ai-puts-fiber-on-the-critical-path",
-      "title": "AI Puts Fiber on the Critical Path",
-      "summary": "As AI campuses chase power at unprecedented scale, DC Blox CTO Jeff Wabik says connectivity can increasingly be built to the site. The harder problem is making fiber, permits,...",
-      "source": "outlet-www-datacenterfrontier-com-1b7366",
-      "publisher": "Data Center Frontier",
-      "provenance": "news",
-      "layers": [
-        "energy",
-        "infrastructure"
-      ],
-      "published": "2026-09-08",
-      "read_at": "2026-09-14T11:31:55Z"
     },
     {
       "url": "https://www.datacenterknowledge.com/data-center-construction/the-ai-data-center-boom-is-here-can-contractor-safety-keep-pace-",
@@ -3579,6 +3624,20 @@
       "summary": null
     },
     {
+      "url": "https://www.datacenterfrontier.com/machine-learning/article/55403120/pwc-maps-316-trillion-ai-data-center-buildout-through-2050",
+      "title": "PwC Maps $31.6 Trillion AI Data Center Buildout Through 2050",
+      "summary": "PwC’s inaugural Global Data Centre Outlook projects a multi-decade infrastructure cycle increasingly dominated by recurring GPU and server investment, with power availability,...",
+      "source": "outlet-www-datacenterfrontier-com-1b7366",
+      "publisher": "Data Center Frontier",
+      "provenance": "news",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "published": "2026-09-04",
+      "read_at": "2026-09-15T10:22:52Z"
+    },
+    {
       "url": "https://heatmap.news/plus/the-fight/qa/how-building-transmission-could-lower-electricity-costs",
       "title": "How Building Transmission Could Lower Electricity Costs",
       "summary": "Talking with National Grid’s Matthew Satterwhite about his new report with S&P; Global.",
@@ -3617,20 +3676,6 @@
       ],
       "published": "2026-09-04",
       "read_at": "2026-09-15T09:14:05Z"
-    },
-    {
-      "url": "https://www.datacenterfrontier.com/machine-learning/article/55403120/pwc-maps-316-trillion-ai-data-center-buildout-through-2050",
-      "title": "PwC Maps $31.6 Trillion AI Data Center Buildout Through 2050",
-      "summary": "PwC’s inaugural Global Data Centre Outlook projects a multi-decade infrastructure cycle increasingly dominated by recurring GPU and server investment, with power availability,...",
-      "source": "outlet-www-datacenterfrontier-com-1b7366",
-      "publisher": "Data Center Frontier",
-      "provenance": "news",
-      "layers": [
-        "energy",
-        "infrastructure"
-      ],
-      "published": "2026-09-04",
-      "read_at": "2026-09-14T11:08:49Z"
     },
     {
       "url": "https://www.datacenterknowledge.com/ai-data-centers/self-improving-ai-could-drive-innovation-but-strain-data-centers",
@@ -3767,19 +3812,6 @@
       "summary": "Read about the ecosystem of optical fiber-to-chip connectors that are powering NPO and CPO solutions for AI scale-up."
     },
     {
-      "url": "https://epoch.ai/data/ai-data-centers/directory/anthropic-amazon-new-carlisle",
-      "title": "Anthropic-Amazon New Carlisle",
-      "summary": "Anthropic-Amazon New Carlisle is an operational AI data center with AI chips owned by Amazon and used by Anthropic. It hosts an estimated 686k H100-equivalents of compute, supported by 910 MW of IT po",
-      "source": "epoch-anthropic-amazon-new-carlisle",
-      "publisher": "Epoch AI",
-      "provenance": "independent-research",
-      "layers": [
-        "infrastructure"
-      ],
-      "published": "2026-09-03",
-      "read_at": "2026-09-15T09:38:55Z"
-    },
-    {
       "url": "https://www.datacenterfrontier.com/hyperscale/article/55399604/how-states-are-rewriting-the-rules-for-data-center-growth",
       "title": "How States Are Rewriting the Rules for Data Center Growth",
       "summary": "New policies in Pennsylvania and other states reflect a move toward more proof-driven development, requiring data centers to demonstrate credible power, financing, environmental...",
@@ -3791,7 +3823,20 @@
         "infrastructure"
       ],
       "published": "2026-09-03",
-      "read_at": "2026-09-14T10:43:57Z"
+      "read_at": "2026-09-15T10:22:50Z"
+    },
+    {
+      "url": "https://epoch.ai/data/ai-data-centers/directory/anthropic-amazon-new-carlisle",
+      "title": "Anthropic-Amazon New Carlisle",
+      "summary": "Anthropic-Amazon New Carlisle is an operational AI data center with AI chips owned by Amazon and used by Anthropic. It hosts an estimated 686k H100-equivalents of compute, supported by 910 MW of IT po",
+      "source": "epoch-anthropic-amazon-new-carlisle",
+      "publisher": "Epoch AI",
+      "provenance": "independent-research",
+      "layers": [
+        "infrastructure"
+      ],
+      "published": "2026-09-03",
+      "read_at": "2026-09-15T09:38:55Z"
     },
     {
       "url": "https://datacenters.atmeta.com/2026/09/kuna-we-are-online/",
@@ -4717,7 +4762,7 @@
         "applications"
       ],
       "published": "2026-08-21",
-      "read_at": "2026-09-14T10:12:58Z"
+      "read_at": "2026-09-15T10:14:37Z"
     },
     {
       "url": "https://www.ibm.com/think/news/when-ai-test-became-real-world-breach",
@@ -4731,7 +4776,7 @@
         "applications"
       ],
       "published": "2026-08-21",
-      "read_at": "2026-09-14T10:12:56Z"
+      "read_at": "2026-09-15T10:14:36Z"
     },
     {
       "url": "https://research.google/blog/an-ai-tool-for-prioritizing-candidate-biomarkers-from-wearable-sensor-data/",
@@ -4829,6 +4874,20 @@
       "summary": "IRVINE, CA – August 19, 2026 – Artificial intelligence is creating a new challenge for the electric grid: how to add computing capacity without shifting costs"
     },
     {
+      "url": "https://www.ibm.com/think/news/how-to-manage-AI-agents",
+      "title": "How to manage AI agents without wrecking your business",
+      "summary": "The more capable AI agents become, the more important human judgment gets; here's how organizations can apply oversight, accountability and governance effectively.",
+      "source": "ibm-think-news-index",
+      "publisher": "IBM",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "published": "2026-08-18",
+      "read_at": "2026-09-15T10:14:38Z"
+    },
+    {
       "url": "https://datacenters.atmeta.com/2026/08/supporting-our-ohio-neighbors-meta-commits-10-million-to-aeps-neighbor-to-neighbor-program/",
       "title": "Supporting our Ohio neighbors – Meta commits $10 million to AEP’s Neighbor to Neighbor Program",
       "summary": "We’re proud to call the communities where we have data centers home, and more than the jobs and businesses our data centers support, we want to be good neighbors and community partners. Today, we’re proud to announce our support to AEP Ohio’s Neighbor to Neighbor program with a $10 million donation to help more Ohioans […]",
@@ -4855,20 +4914,6 @@
       ],
       "published": "2026-08-18",
       "read_at": "2026-09-15T09:10:59Z"
-    },
-    {
-      "url": "https://www.ibm.com/think/news/how-to-manage-AI-agents",
-      "title": "How to manage AI agents without wrecking your business",
-      "summary": "The more capable AI agents become, the more important human judgment gets; here's how organizations can apply oversight, accountability and governance effectively.",
-      "source": "ibm-think-news-index",
-      "publisher": "IBM",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "applications"
-      ],
-      "published": "2026-08-18",
-      "read_at": "2026-09-14T10:13:00Z"
     },
     {
       "url": "https://about.fb.com/news/2026/08/americas-workforce-academy-meta-skilled-trade-training-program/",
@@ -5190,6 +5235,20 @@
       "summary": "New research from Synergy Research, JLL and Uptime Institute shows AI demand, construction and capital still accelerating as power, workforce, community and operational constraints..."
     },
     {
+      "url": "https://www.ibm.com/think/news/what-anthropic-j-space-research-means-future-ai",
+      "title": "What Anthropic’s J-space research means for the future of AI",
+      "summary": "The latest breakthrough in large language model research lets us understand how they “think”—and when we can trust them. It could transform how we train LLMs.",
+      "source": "ibm-think-news-index",
+      "publisher": "IBM",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "published": "2026-08-11",
+      "read_at": "2026-09-15T10:14:35Z"
+    },
+    {
       "url": "https://ir.supermicro.com/news/news-details/2026/Supermicro-Announces-Fourth-Quarter-and-Full-Fiscal-Year-2026-Financial-Results/default.aspx",
       "title": "Super Micro Computer, Inc.",
       "summary": "Super Micro Computer, Inc. (NASDAQ: SMCI) (“Supermicro” or the “Company”), a Total IT Solution Provider for AI, Cloud, Storage, and 5G/Edge, today announced unaudited financial results for its fourth quarter and full fiscal year ended June 30, 2026. Fourth Quarter Fiscal Year 2026 Highlights Net sales of $11.1 billion versus $10.2 billion in Q3'26 and $5.8 billion in Q4'25.",
@@ -5215,20 +5274,6 @@
       ],
       "published": "2026-08-11",
       "read_at": "2026-09-15T09:35:33Z"
-    },
-    {
-      "url": "https://www.ibm.com/think/news/what-anthropic-j-space-research-means-future-ai",
-      "title": "What Anthropic’s J-space research means for the future of AI",
-      "summary": "The latest breakthrough in large language model research lets us understand how they “think”—and when we can trust them. It could transform how we train LLMs.",
-      "source": "ibm-think-news-index",
-      "publisher": "IBM",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "applications"
-      ],
-      "published": "2026-08-11",
-      "read_at": "2026-09-14T10:12:47Z"
     },
     {
       "url": "https://investor.fabrinet.com/news-releases/news-release-details/fabrinet-present-rosenblatt-6th-annual-age-ai-technology-summit",
@@ -5556,6 +5601,48 @@
       "summary": "Salt Lake City, UT, July 31, 2026 (GLOBE NEWSWIRE) -- Recursion (Nasdaq: RXRX), a leading clinical stage TechBio company decoding biology to radically improve lives, announced that on July 27, 2026, the Compensation Committee of Recursion's Board of Directors approved the grant of inducement"
     },
     {
+      "url": "https://x.ai/news/grok-4-6-vertex-ai",
+      "title": "Grok 4.6 on Gemini Enterprise Agent Platform",
+      "summary": "Grok 4.6 is now available via Gemini Enterprise Agent Platform.",
+      "source": "spacexai-news-index",
+      "publisher": "SpaceXAI",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "infrastructure"
+      ],
+      "published": "2026-07-30",
+      "read_at": "2026-09-15T10:36:23Z"
+    },
+    {
+      "url": "https://x.ai/news/grok-4-6-amazon-bedrock",
+      "title": "Grok 4.6 on Amazon Bedrock",
+      "summary": "Grok 4.6 is now available via Amazon Bedrock.",
+      "source": "spacexai-news-index",
+      "publisher": "SpaceXAI",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "infrastructure"
+      ],
+      "published": "2026-07-30",
+      "read_at": "2026-09-15T10:36:16Z"
+    },
+    {
+      "url": "https://x.ai/news/grok-build-for-everyone",
+      "title": "Grok Build on web and mobile",
+      "summary": "Grok Build is now available on every plan, on the web and on mobile.",
+      "source": "spacexai-news-index",
+      "publisher": "SpaceXAI",
+      "provenance": "company-channel",
+      "layers": [
+        "models",
+        "infrastructure"
+      ],
+      "published": "2026-07-30",
+      "read_at": "2026-09-15T10:36:07Z"
+    },
+    {
       "url": "https://x.ai/news/grok-4-6-github-copilot",
       "title": "Grok 4.6 in GitHub Copilot",
       "summary": "Grok 4.6, our latest coding model, is now available in GitHub Copilot.",
@@ -5680,48 +5767,6 @@
       ],
       "published": "2026-07-30",
       "read_at": "2026-09-14T10:35:17Z"
-    },
-    {
-      "url": "https://x.ai/news/grok-4-6-vertex-ai",
-      "title": "Grok 4.6 on Gemini Enterprise Agent Platform",
-      "summary": "Grok 4.6 is now available via Gemini Enterprise Agent Platform.",
-      "source": "spacexai-news-index",
-      "publisher": "SpaceXAI",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "infrastructure"
-      ],
-      "published": "2026-07-30",
-      "read_at": "2026-09-14T10:35:16Z"
-    },
-    {
-      "url": "https://x.ai/news/grok-4-6-amazon-bedrock",
-      "title": "Grok 4.6 on Amazon Bedrock",
-      "summary": "Grok 4.6 is now available via Amazon Bedrock.",
-      "source": "spacexai-news-index",
-      "publisher": "SpaceXAI",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "infrastructure"
-      ],
-      "published": "2026-07-30",
-      "read_at": "2026-09-14T10:35:15Z"
-    },
-    {
-      "url": "https://x.ai/news/grok-build-for-everyone",
-      "title": "Grok Build on web and mobile",
-      "summary": "Grok Build is now available on every plan, on the web and on mobile.",
-      "source": "spacexai-news-index",
-      "publisher": "SpaceXAI",
-      "provenance": "company-channel",
-      "layers": [
-        "models",
-        "infrastructure"
-      ],
-      "published": "2026-07-30",
-      "read_at": "2026-09-14T10:35:14Z"
     },
     {
       "url": "https://investors.quantaservices.com/news-events/press-releases/detail/402/quanta-services-reports-second-quarter-2026-results",
@@ -5859,7 +5904,7 @@
         "applications"
       ],
       "published": "2026-07-27",
-      "read_at": "2026-09-14T10:13:30Z"
+      "read_at": "2026-09-15T10:16:51Z"
     },
     {
       "url": "https://importai.substack.com/p/import-ai-466-the-bitter-lesson-for",
@@ -6030,7 +6075,7 @@
         "applications"
       ],
       "published": "2026-07-21",
-      "read_at": "2026-09-14T10:13:29Z"
+      "read_at": "2026-09-15T10:16:49Z"
     },
     {
       "url": "https://investors.quantaservices.com/news-events/press-releases/detail/401/quanta-services-named-2026-top-u-s-solar-solutions-provider-by-solar-power-world",
@@ -6097,7 +6142,7 @@
         "applications"
       ],
       "published": "2026-07-16",
-      "read_at": "2026-09-14T10:38:06Z"
+      "read_at": "2026-09-15T10:14:39Z"
     },
     {
       "url": "https://budgetlab.yale.edu/research/tracking-impact-ai-labor-market",
@@ -6249,6 +6294,20 @@
       "summary": null
     },
     {
+      "url": "https://hai.stanford.edu/news/how-ai-is-accelerating-scientific-discovery",
+      "title": "How AI Is Accelerating Scientific Discovery",
+      "summary": "New AI tools generate hypotheses, design experiments, and find patterns in data—transforming how scientists make discoveries across every field.",
+      "source": "stanford-news",
+      "publisher": "Stanford HAI",
+      "provenance": "independent-research",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "published": "2026-07-08",
+      "read_at": "2026-09-15T10:27:09Z"
+    },
+    {
       "url": "https://mistral.ai/news/robostral-navigate/",
       "title": "Robostral Navigate: single-camera AI navigation",
       "summary": "Introducing Robostral Navigate: 8B model achieving 76.6% on R2R-CE with just a single RGB camera. No depth sensors, LiDAR, or multiple cameras needed.",
@@ -6261,20 +6320,6 @@
       ],
       "published": "2026-07-08",
       "read_at": "2026-09-15T09:27:30Z"
-    },
-    {
-      "url": "https://hai.stanford.edu/news/how-ai-is-accelerating-scientific-discovery",
-      "title": "How AI Is Accelerating Scientific Discovery",
-      "summary": "New AI tools generate hypotheses, design experiments, and find patterns in data—transforming how scientists make discoveries across every field.",
-      "source": "stanford-news",
-      "publisher": "Stanford HAI",
-      "provenance": "independent-research",
-      "layers": [
-        "models",
-        "applications"
-      ],
-      "published": "2026-07-08",
-      "read_at": "2026-09-14T10:26:13Z"
     },
     {
       "url": "https://datacenters.atmeta.com/2026/07/hello-sturgeon-county/",
@@ -6434,7 +6479,7 @@
         "applications"
       ],
       "published": "2026-06-29",
-      "read_at": "2026-09-14T10:13:27Z"
+      "read_at": "2026-09-15T10:16:46Z"
     },
     {
       "url": "https://importai.substack.com/p/import-ai-463-self-improving-robots",
@@ -7456,7 +7501,8 @@
     },
     {
       "url": "https://blog.samtec.com/post/innovations-in-co-packaged-interconnects-for-224-gbps-pam4-and-beyond/",
-      "title": "Innovations in Co Packaged Interconnects for 224 Gbps Pam4 and Beyond",
+      "title": "Innovations in Co-Packaged Interconnects for 224 Gbps PAM4 and Beyond",
+      "summary": null,
       "source": "astra-samtec-cpx-20260324",
       "publisher": "Samtec",
       "provenance": "company-channel",
@@ -7465,8 +7511,7 @@
         "infrastructure"
       ],
       "published": "2026-03-24",
-      "read_at": "2026-09-13T13:03:11Z",
-      "summary": null
+      "read_at": "2026-09-15T10:17:21Z"
     },
     {
       "url": "https://investor.lumentum.com/financial-news-releases/news-details/2026/Lumentum-Demonstrates-Industry-Leading-Technologies-and-Products-for-Scale-Out-Scale-Up-and-Scale-Across-AI-Infrastructure-at-OFC-2026/default.aspx",
@@ -8902,6 +8947,7 @@
     {
       "url": "https://www.intersect.com/historical-releases/intersect-power-lumina-solar-project-reaches-commercial-operation",
       "title": "Intersect | Intersect's 828 MWp Lumina Solar Project in Texas Reaches… Intersect",
+      "summary": "Intersect delivers the fastest, cheapest, cleanest, most reliable energy and data center infrastructure solutions for the inevitable scale of what's next.",
       "source": "map-lumina",
       "publisher": "Intersect",
       "provenance": "company-channel",
@@ -8909,8 +8955,7 @@
         "energy"
       ],
       "published": "2024-01-03",
-      "read_at": "2026-09-10T03:13:49Z",
-      "summary": "Intersect delivers the fastest, cheapest, cleanest, most reliable energy and data center infrastructure solutions for the inevitable scale of what's next."
+      "read_at": "2026-09-15T10:17:21Z"
     },
     {
       "url": "https://blog.google/company-news/outreach-and-initiatives/sustainability/google-fervo-geothermal-energy-partnership/",
