@@ -24,9 +24,9 @@
 #gpu-charts{display:none}#gpu-charts.shown{display:block}#gpu-toggle{display:none}
 @media(min-width:720px){#gpu-charts{display:block}}
 @media(max-width:720px){
-  body{padding-bottom:76px}
+  body{--panel-dock-bottom:max(14px,env(safe-area-inset-bottom,0px));padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(86px + var(--panel-dock-bottom));padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
   .intro{display:none}.intro-compact{display:block}
-  .panel-tabs{position:fixed;left:0;right:0;bottom:0;margin:0;z-index:20;background:var(--panel);border-top:1px solid var(--line);border-bottom:0;padding:8px max(8px,env(safe-area-inset-bottom,0))8px;justify-content:space-around;gap:8px}
+  .panel-tabs{position:fixed;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:var(--panel-dock-bottom);margin:0;z-index:20;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px;justify-content:space-around;gap:6px;box-shadow:0 8px 26px #0005}
   .panel-tabs button{flex:1;min-height:44px;padding:12px 8px}
   #gpu-toggle{display:inline-block;width:auto;min-height:44px}
   .choices label,.toggle-chip,.select-chip{min-height:44px;display:flex;align-items:center}
