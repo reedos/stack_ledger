@@ -126,10 +126,12 @@ def deliver(root,text,receipt_path):
             module=Path.home()/'projects/ara-matrix'
             if str(module) not in sys.path:sys.path.insert(0,str(module))
             import team_notifications
-            if not route_path.exists() or not team_notifications.route('ara'):raise ValueError('Matrix notification route is unavailable')
+            role=config.get('role','ara')
+            if role not in {'ara','sage','eli'}:raise ValueError('Invalid research notification role')
+            if not route_path.exists() or not team_notifications.route(role):raise ValueError('Matrix notification route is unavailable')
             team=team_notifications
         if team:
-            receipt.update(status='sent',channel='matrix',account='default',message_id=team.send('ara',text))
+            receipt.update(status='sent',channel='matrix',account=team.route(role)['account'],message_id=team.send(role,text))
             atomic(receipt_path,receipt)
             return receipt
         if set(config)!={'enabled','account','target'} or not re.fullmatch(r'[0-9]{1,20}',config['target']) or not re.fullmatch(r'[a-zA-Z0-9_-]{1,64}',config['account']):raise ValueError('Invalid local notification route')
@@ -149,7 +151,13 @@ def send_text(root,text,tag='note'):
 
     No source text, credentials or new routing: same config file, same deliver(), a fresh receipt path.
     """
-    receipt_path=root/'.local/notifications'/(tag+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')+'.json')
+    # Dated briefs have stable receipts: rerunning the digest does not send another copy.
+    dated=bool(re.fullmatch(r'nightly-brief-\d{4}-\d{2}-\d{2}',tag))
+    receipt_path=root/'.local/notifications'/((tag if dated else tag+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S'))+'.json')
+    if dated and receipt_path.exists():
+        previous=json.loads(receipt_path.read_text(encoding='utf-8'))
+        if previous.get('status')!='sent':
+            return {'status':'failed','error_type':'PreviousDeliveryUnconfirmed'}
     return deliver(root,text,receipt_path)
 
 
@@ -164,6 +172,9 @@ def notify_session(root,report,folder):
         from session_receipt import finalize
         publication=finalize(root,report,folder,totals)
         report['session_summary_publication']=publication['status']
+        if os.environ.get('STACK_LEDGER_COMBINED_BRIEF')=='1':
+            atomic(folder/'notification.json',{'status':'deferred','reason':'Included in the overnight briefing after all stages finish'})
+            return {'status':'deferred'}
         return deliver(root,message(report,totals),folder/'notification.json')
     except Exception as error:
         return {'status':'failed','error_type':type(error).__name__}

@@ -84,7 +84,9 @@ def overlap_notice(root):
     print(json.dumps(notice),flush=True)
     from research_notify import deliver
     from research_notify import message
-    try:deliver(root,message(notice,{}),root/'.local/notifications'/('overlap-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')+'.json'))
+    try:
+        if os.environ.get('STACK_LEDGER_COMBINED_BRIEF')!='1':
+            deliver(root,message(notice,{}),root/'.local/notifications'/('overlap-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S')+'.json'))
     except Exception:print('Could not deliver overlap notification; research remains skipped',flush=True)
 
 

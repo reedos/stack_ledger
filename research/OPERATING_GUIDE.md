@@ -187,3 +187,40 @@ Reviewed archive sources use collection cadence `manual`: they remain valid cita
 
 
 The capex chart's total is now an explicitly reviewed simple sum. Preserve the full five-company cohort, the fiscal-year-end convention, mixed-basis 2026 outlook labeling and the separate September 2025 analyst vintage through 2029. Missing members block a year's total. Seek newer comparable full-cohort annual estimates, including 2030 and beyond; do not invent an extrapolation or alter an archived forecast's vintage. ECI imports now require the source's country-of-organization metadata as well as scores, dates and intervals. The developer-size filter and color/group controls affect presentation only. Model-program map locations require documented training/deployment evidence, not an assumed headquarters pin.
+
+## Integrated overnight review · September 15th, 2026
+
+The private panel now opens on **Overnight**, with a persistent dated route
+`https://<configured-tailnet-host>/research/#run=YYYY-MM-DD`. The root bookmark
+shows the latest night. Dates come from the retained nightly receipt keys (UTC,
+which matches the Pacific overnight window); source publication dates remain separate.
+The view reads actual stage/session/batch receipts, deduplicates fetched document
+versions, lists matched published article findings, separates the total pending
+inbox from new findings, and puts technical counts behind disclosure controls.
+It preserves all existing tailnet identity, loopback token and CSRF checks.
+
+`research_briefing.py` builds the read-only review without model calls. New digests
+retain a frozen `.local/briefings/<date>.json` plus a compact `-brief.md` beside the
+full original digest. Old nights are reconstructed within their recorded research
+stage interval; missing/skipped sessions are disclosed. The Latest link opens
+`https://reedos.github.io/stack_ledger/latest/`; it is the public all-site reading
+feed, whereas the private run review is restricted to that specific night.
+
+With `briefing:true` and `role:"sage"` in the private Matrix notification config,
+Sage sends one compact briefing after all overnight stages finish. The research
+subprocess defers its completion/overlap message; manual research keeps its existing
+receipt. A date-specific send receipt prevents duplicate overnight messages and
+unconfirmed delivery stays a failure. No Telegram fallback is enabled. Eli's existing
+failed-job alerts remain responsible for execution failures. Ara's Team stand-up
+contains only a dated review pointer. Source dates, source attribution and grades
+remain visible, including older announcements first read during this run.
+
+`research_dashboard.ensure()` probes and, if needed, starts the existing loopback
+panel when the nightly job begins. It never starts research. Startup at Windows
+sign-in uses the existing hidden VBS launcher. `.local/nightly/<date>/live.json`
+tracks the current stage and PID; a dead process is not shown as live. No research
+window, publication permission, source policy, or paid service changed.
+
+Validation: `python -m unittest discover -s tests`; mobile acceptance:
+`node tests/overnight_mobile.cjs` with `PLAYWRIGHT_MODULE` configured and the local
+panel running (read-only; no chat messages or research started).

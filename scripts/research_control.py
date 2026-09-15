@@ -251,6 +251,12 @@ def server(root=ROOT,*,config=None,asset_root=None,token=None):
             route=path.split('/')[-1]
             if route=='status':self.send(200,controller.status());return
             if route=='gpu':self.send(200,gpu.snapshot());return
+            if path.startswith('/'+token+'/night/'):
+                from research_briefing import snapshot
+                try:self.send(200,snapshot(root,route))
+                except ValueError:self.send(400,{'error':'Invalid run date'})
+                except (OSError,TypeError,KeyError):self.send(503,{'error':'Run receipts are temporarily unavailable'})
+                return
             if route=='findings':
                 from findings_review import inbox
                 try:
@@ -260,7 +266,8 @@ def server(root=ROOT,*,config=None,asset_root=None,token=None):
                 except (OSError,ValueError):self.send(503,{'error':'Review queue is unavailable; try again shortly'})
                 return
             assets={'':('index.html','text/html'),'control.js':('control.js','text/javascript'),'control.css':('control.css','text/css'),
-                    'reviews.js':('reviews.js','text/javascript'),'visuals.js':('visuals.js','text/javascript'),'activity.js':('activity.js','text/javascript')}
+                    'reviews.js':('reviews.js','text/javascript'),'visuals.js':('visuals.js','text/javascript'),'activity.js':('activity.js','text/javascript'),
+                    'overnight.js':('overnight.js','text/javascript')}
             if route=='visuals':
                 from visual_review import inbox
                 from findings_review import reviewer

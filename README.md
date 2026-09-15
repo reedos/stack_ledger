@@ -194,3 +194,7 @@ GoatCounter integration is controlled by `site/analytics.json`. `goatcounter_sit
 Use a separate site under the existing GoatCounter login via **Settings → Sites**, so Stack Ledger traffic stays distinct from other projects. See [multiple-site setup](https://www.goatcounter.com/help/domains) and [tracking setup](https://www.goatcounter.com/help/start). View results in that site's GoatCounter dashboard after deployment.
 
 The loader runs only on `reedos.github.io/stack_ledger/`, loads asynchronously and disables automatic click-event tracking. Existing canonical URLs keep filter/search query strings out of the page paths. Local previews and browser tests do not load GoatCounter. Blocking analytics does not block site rendering. Verify configuration with the Python tests and the loader with `node tests/analytics.cjs`. Enabling analytics does not run local-model research or alter the runtime block.
+
+## Morning research review
+
+Sage delivers one concise Matrix briefing after the overnight workflow: useful findings, collection problems, the pending review inbox, and direct links to that night in the private Research Control dashboard and the public [Latest feed](https://reedos.github.io/stack_ledger/latest/). Ara includes only the review link in the Team stand-up; Eli receives job failures. The dashboard starts at sign-in and is checked again by the nightly job. See [operation and receipts](research/RESEARCH_SESSIONS.md#integrated-overnight-review--september-15th-2026).

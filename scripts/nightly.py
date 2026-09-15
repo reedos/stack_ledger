@@ -295,7 +295,7 @@ def stage_research(root, budget_seconds):
     timeout = max(60, budget_seconds-waited)
     launched_at = datetime.now(timezone.utc).isoformat()
     try:
-        result = subprocess.run(command, cwd=root, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout, env=dict(os.environ, PYTHONIOENCODING='utf-8'))
+        result = subprocess.run(command, cwd=root, capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=timeout, env=dict(os.environ, PYTHONIOENCODING='utf-8', STACK_LEDGER_COMBINED_BRIEF='1'))
     except subprocess.TimeoutExpired as e:
         return {'status': 'failed', 'error': 'timeout', 'timeout_seconds': timeout, 'stdout_tail': (e.stdout or '')[-3000:]}
     import research_loop as loop
@@ -308,6 +308,10 @@ def stage_research(root, budget_seconds):
     status = 'ok' if result.returncode == 0 and started else ('skipped' if result.returncode == 0 else 'failed')
     outcome = {'status': status, 'returncode': result.returncode, 'waited_seconds': waited,
                'stdout_tail': result.stdout[-4000:], 'stderr_tail': result.stderr[-2000:]}
+    from research_briefing import read as read_optional
+    session = read_optional(root/'.local/session-status.json', {})
+    if session.get('started_at','') >= launched_at and session.get('session_id'):
+        outcome['session_id'] = session['session_id']
     if status == 'skipped':
         outcome['reason'] = (overlap or {}).get('reason') or 'the session runner started no research; see stdout_tail'
     return outcome
@@ -640,7 +644,17 @@ def stage_digest(root, date):
     body['unpushed_commits'] = ahead; body['final_push'] = push
     save(root/'.local/digest'/(date+'.json'), body)
     from research_notify import send_text
-    notice = send_text(root, for_telegram(markdown, date), tag='nightly-digest')
+    from research_briefing import read as read_optional
+    config = read_optional(root/'.local/telegram-notifications.json', {})
+    if config.get('briefing') is True:
+        from research_briefing import snapshot, render
+        review = snapshot(root, date, body)
+        save(root/'.local/briefings'/(date+'.json'), review)
+        brief = render(review)
+        (digest_dir/(date+'-brief.md')).write_text(brief+'\n', encoding='utf-8')
+        notice = send_text(root, brief, tag='nightly-brief-'+date)
+    else:
+        notice = send_text(root, for_telegram(markdown, date), tag='nightly-digest')
     receipt = {'status': 'ok', 'applied_count': len(applied), 'needs_decision': body['needs_decision'],
                'notification': notice.get('status'), 'unpushed_commits': ahead, 'final_push': push}
     if push and not push['pushed']:
@@ -724,10 +738,15 @@ def run(root, dry_run=False, only=None):
     try:
         if os.name == 'nt':
             awake = bool(ctypes.windll.kernel32.SetThreadExecutionState(0x80000001))  # ES_CONTINUOUS|ES_SYSTEM_REQUIRED
+        from research_dashboard import ensure
+        try: dashboard = ensure(root)
+        except Exception as error: dashboard = {'status':'unavailable', 'reason':type(error).__name__}
+        save(root/'.local/nightly'/date/'dashboard.json', dashboard)
         receipts = {}
         for name in STAGES:
             if only and name != only: continue
             stage['name'] = name
+            save(root/'.local/nightly'/date/'live.json', {'pid':os.getpid(), 'stage':name, 'updated_at':datetime.now(timezone.utc).isoformat()})
             if name == 'locks':
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['locks'], lambda r=root: stage_locks(r))
             elif name == 'importers':
@@ -757,6 +776,7 @@ def run(root, dry_run=False, only=None):
         return 1 if failed else 0
     finally:
         stop_heartbeat.set()
+        save(root/'.local/nightly'/date/'live.json', {'pid':os.getpid(), 'stage':'finished', 'finished_at':datetime.now(timezone.utc).isoformat()})
         if awake and os.name == 'nt':
             ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)  # ES_CONTINUOUS
 

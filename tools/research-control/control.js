@@ -12,8 +12,8 @@ function notify(text,kind){
   let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.setAttribute('role','alert');document.body.append(t);}
   t.textContent=text;t.className='toast '+(kind||'ok');t.hidden=false;clearTimeout(notify.timer);notify.timer=setTimeout(()=>{t.hidden=true;},kind==='error'?14000:8000);
 }
-const PANELS=['decisions-panel','session-panel','activity-panel'];
-const TABS={'decisions-tab':'decisions-panel','session-tab':'session-panel','activity-tab':'activity-panel'};
+const PANELS=['overnight-panel','decisions-panel','session-panel','activity-panel'];
+const TABS={'overnight-tab':'overnight-panel','decisions-tab':'decisions-panel','session-tab':'session-panel','activity-tab':'activity-panel'};
 function showPanel(id){
   for(const p of PANELS)$(p).hidden=(p!==id);
   for(const [tab,panel] of Object.entries(TABS))$(tab).setAttribute('aria-pressed',String(panel===id));
@@ -94,7 +94,7 @@ async function poll(){
     $('diagnostics').textContent=d.controller_log||'No controller diagnostics.';
     const q=d.discovery||{};$('discovery').textContent=q.id?`Latest discovery batch: ${q.status}; ${q.documents_screened||0} documents screened; ${q.proposals_queued||0} proposals. ${q.started_at||''}`:'';
     $('schedule-notice').textContent=d.schedule_notice?`${d.schedule_notice.at}: ${d.schedule_notice.reason}`:'';
-    if(d.notification)$('schedule-notice').textContent+=` Telegram completion summary: ${d.notification.status}.`;
+    if(d.notification)$('schedule-notice').textContent+=` Completion briefing: ${d.notification.status}.`;
     if(d.visual_assessment)$('schedule-notice').textContent+=` Visual recommendations: ${d.visual_assessment.state}${d.visual_assessment.state==='assessing'?' (private review, graphics unchanged)':''}.`;
   }catch(e){$('connection').textContent='Connection unavailable';}
   setTimeout(poll,document.hidden?10000:2000);

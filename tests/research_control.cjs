@@ -5,7 +5,7 @@ const path=require('node:path'),fs=require('node:fs'),assert=require('node:asser
 const root=path.resolve(__dirname,'..');
 const savedURL=path.join(root,'.local/research-control-url.txt');
 const previousURL=fs.existsSync(savedURL)?fs.readFileSync(savedURL,'utf8'):null;
-const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:root,windowsHide:true});
+const child=spawn('python',['scripts/research_control.py','--ephemeral','--config',path.join(require('node:os').tmpdir(),'panel-no-tailnet-'+process.pid+'.json')],{cwd:root,windowsHide:true});
 (async()=>{
  let browser;
  try{
@@ -17,11 +17,11 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
   browser=await chromium.launch({headless:true});
   assert.equal(fs.existsSync(savedURL)?fs.readFileSync(savedURL,'utf8'):null,previousURL,'UI tests must not replace the live panel URL');
 
-  // Stale-server fallback: Decisions is the default-visible tab, so a script that fails to load must be
+  // Stale-server fallback: The Decisions deep link opens that tab, so a script that fails to load must be
   // caught by the timeout watcher (not just a click handler) and explained rather than left blank.
   const stale=await browser.newPage();
   await stale.route('**/reviews.js',route=>route.fulfill({status:404,contentType:'application/json',body:'{}'}));
-  await stale.goto(url);
+  await stale.goto(url+'#decisions');
   await stale.waitForFunction(()=>document.querySelector('#review-message').textContent.includes('Decisions could not load'),{timeout:6000});
   await stale.locator('#session-tab').click();await stale.locator('#session-panel').waitFor();
   await stale.unroute('**/reviews.js');
@@ -83,8 +83,8 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:ro
   await page.route('**/catalog-review',route=>{decisionBody=route.request().postDataJSON();catalogStatus='approved';return route.fulfill({contentType:'application/json',body:'{"status":"approved","published":false}'});});
   await page.route('**/catalog-publish',route=>{publishBody=route.request().postDataJSON();catalogJob={id:'job-publish-1',rid:catalog.id,kind:'publish',status:'running',step:'Publishing: validating, building, committing and pushing…',error:null,result:null};return route.fulfill({contentType:'application/json',body:JSON.stringify({job:catalogJob,status:'running'})});});
 
-  await page.goto(url);await page.waitForFunction(()=>document.querySelector('#connection').textContent==='Connected locally');
-  // Decisions is the default-visible tab; both the finding and the catalog package are pending, so both
+  await page.goto(url+'#decisions');await page.waitForFunction(()=>document.querySelector('#connection').textContent==='Connected locally');
+  // The Decisions deep link opens that tab; both the finding and the catalog package are pending, so both
   // land in the merged, ranked #decision-feed without any click.
   await page.locator('#decisions-panel').waitFor();
   assert.equal(await page.locator('#session-panel').isHidden(),true);

@@ -7,7 +7,7 @@ const {spawn}=require('node:child_process');
 const path=require('node:path'),fs=require('node:fs'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..');
 const shots=process.env.PANEL_SHOTS_DIR||path.resolve(__dirname,'..','.local/browser');
-const child=spawn('python',['scripts/research_control.py','--ephemeral'],{cwd:root,windowsHide:true});
+const child=spawn('python',['scripts/research_control.py','--ephemeral','--config',path.join(require('node:os').tmpdir(),'panel-no-tailnet-'+process.pid+'.json')],{cwd:root,windowsHide:true});
 
 function makeState(){
   const finding={id:'discovery-'+'a'.repeat(24),layer:'energy',url:'https://example.org/primary-source',
@@ -91,10 +91,10 @@ async function tapTargetSizes(page){
     // (deliverable 2/7): no Validate button, no approve button, just a status line, until it finishes.
     state.catalog.job={id:'job-validate-1',rid:state.catalog.id,kind:'validate',status:'running',step:'Building and testing the isolated preview…',error:null,result:null};
     await mockPanel(page,state);
-    await page.goto(url);
+    await page.goto(url+'#decisions');
     await page.waitForFunction(()=>document.querySelector('#connection').textContent==='Connected locally');
 
-    // Decisions is the default-visible tab; the merged feed carries both the pending finding and the pending catalog package.
+    // The Decisions deep link opens that tab; the merged feed carries both the pending finding and the pending catalog package.
     await page.locator('#decision-feed .finding-card').first().waitFor();
     assert.equal(await page.locator('#decision-feed .finding-card').count(),2,'Decisions feed merges the pending finding and catalog package');
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'no horizontal overflow on the Decisions tab at 390px');
@@ -106,7 +106,7 @@ async function tapTargetSizes(page){
     assert.match(await catalogCard.innerText(),/Validating…/);
     assert.equal(await catalogCard.getByRole('button',{name:'Validate preview',exact:true}).count(),0,'no manual re-run button while a validation job is already queued/running');
     assert.equal(await catalogCard.getByRole('button',{name:'Approve and publish',exact:true}).isDisabled(),true,'approval waits for a passing preview');
-    assert.equal(await catalogCard.getByRole('button',{name:'Record decision',exact:true}).isDisabled(),false,'Defer and Reject stay usable while a validation job runs');
+    assert.equal(await catalogCard.getByRole('button',{name:'Record decision',exact:true,includeHidden:true}).isDisabled(),false,'Defer and Reject stay usable while a validation job runs');
 
     // The job finishes: a validated card shows the compact change table and no Validate button.
     state.catalog.job=null;
@@ -117,6 +117,7 @@ async function tapTargetSizes(page){
     assert.equal(await catalogCard.getByRole('button',{name:'Validate preview',exact:true}).count(),0,'Validate is hidden once a passing validation exists');
     const approveButton=catalogCard.getByRole('button',{name:'Approve and publish',exact:true});
     await approveButton.waitFor();
+    await page.waitForFunction(()=>[...document.querySelectorAll("#decision-feed button.primary-action")].some(b=>!b.disabled));
     assert.equal(await approveButton.isDisabled(),false);
     const approveBox=await approveButton.boundingBox();
     assert.ok(approveBox.height>=48,'primary action is at least 48px tall: '+approveBox.height);
@@ -191,7 +192,7 @@ async function tapTargetSizes(page){
     const desktop=await browser.newContext({viewport:{width:1280,height:900}});
     const dpage=await desktop.newPage();
     await mockPanel(dpage,makeState());
-    await dpage.goto(url);
+    await dpage.goto(url+'#decisions');
     await dpage.waitForFunction(()=>document.querySelector('#connection').textContent==='Connected locally');
     await dpage.locator('#decision-feed .finding-card').first().waitFor();
     await dpage.screenshot({path:path.join(shots,'panel-v2-decisions-1280.png'),fullPage:false});
