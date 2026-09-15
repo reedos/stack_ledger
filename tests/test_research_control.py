@@ -229,6 +229,29 @@ class ServerTests(unittest.TestCase):
         code, body = self.get(f'/{self.token}/status', self.loopback_headers())
         self.assertEqual(code, 200)
 
+    def test_app_manifest_and_icons_work_under_private_mobile_mount(self):
+        prefix = f'/research/{self.token}/'
+        headers = list(self.tailnet_headers().items())
+        status, response_headers, body = self.raw('GET', prefix+'research-v1.webmanifest', headers)
+        self.assertEqual(status, 200)
+        self.assertTrue(response_headers['Content-Type'].startswith('application/manifest+json'))
+        manifest = json.loads(body)
+        self.assertEqual(manifest['start_url'], './')
+        self.assertEqual(manifest['scope'], './')
+        for size in (32, 180, 192, 512):
+            name = f'research-icon-v1-{size}.png'
+            status, response_headers, body = self.raw('GET', prefix+name, headers)
+            self.assertEqual(status, 200)
+            self.assertEqual(response_headers['Content-Type'], 'image/png')
+            self.assertEqual(body[:8], b'\x89PNG\r\n\x1a\n')
+            self.assertEqual(int.from_bytes(body[16:20], 'big'), size)
+            self.assertEqual(int.from_bytes(body[20:24], 'big'), size)
+        for name in ('research-v1.webmanifest', 'research-icon-v1-180.png'):
+            status, _ = self.get(prefix+name, self.tailnet_headers(login='stranger@example.org'))
+            self.assertEqual(status, 403)
+            status, _ = self.get('/research/'+name, self.tailnet_headers())
+            self.assertEqual(status, 403)
+
     def test_mount_stripped_and_not_stripped_route_identically(self):
         # As if Serve already stripped the /research prefix (matches what this repo's live probe observed):
         code1, body1 = self.get(f'/{self.token}/status', self.tailnet_headers())

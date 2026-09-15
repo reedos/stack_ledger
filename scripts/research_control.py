@@ -202,7 +202,7 @@ def server(root=ROOT,*,config=None,asset_root=None,token=None):
         def log_message(self,*args):pass
         def send(self,code,body,kind='application/json',preview=False):
             raw=body if isinstance(body,bytes) else body.encode('utf-8') if isinstance(body,str) else json.dumps(body).encode('utf-8')
-            self.send_response(code);self.send_header('Content-Type',kind+'; charset=utf-8')
+            self.send_response(code);self.send_header('Content-Type',kind if kind.startswith('image/') else kind+'; charset=utf-8')
             self.send_header('Content-Length',str(len(raw)));self.send_header('Cache-Control','no-store')
             # Site previews may be framed by the panel itself (same origin, same session token) so a
             # reviewer sees the proposed change in place; everything else refuses framing.
@@ -267,7 +267,10 @@ def server(root=ROOT,*,config=None,asset_root=None,token=None):
                 return
             assets={'':('index.html','text/html'),'control.js':('control.js','text/javascript'),'control.css':('control.css','text/css'),
                     'reviews.js':('reviews.js','text/javascript'),'visuals.js':('visuals.js','text/javascript'),'activity.js':('activity.js','text/javascript'),
-                    'overnight.js':('overnight.js','text/javascript')}
+                    'overnight.js':('overnight.js','text/javascript'),
+                    'research-v1.webmanifest':('research-v1.webmanifest','application/manifest+json'),
+                    'research-icon-v1.png':('research-icon-v1.png','image/png'),
+                    **{f'research-icon-v1-{size}.png':(f'research-icon-v1-{size}.png','image/png') for size in (32,180,192,512)}}
             if route=='visuals':
                 from visual_review import inbox
                 from findings_review import reviewer
@@ -291,7 +294,7 @@ def server(root=ROOT,*,config=None,asset_root=None,token=None):
                 except (ValueError,OSError,KeyError):self.send(404,{'error':'Preview unavailable'})
                 return
             if route not in assets:self.send(404,{});return
-            name,kind=assets[route];self.send(200,(asset_root/'tools/research-control'/name).read_text(encoding='utf-8'),kind)
+            name,kind=assets[route];self.send(200,(asset_root/'tools/research-control'/name).read_bytes(),kind)
         def do_POST(self):
             path=self.normalized_path();ident=self.valid()
             expected_origin='https://'+config['hostname'] if (ident and ident['channel']=='tailnet') else f'http://127.0.0.1:{self.server.server_port}'
