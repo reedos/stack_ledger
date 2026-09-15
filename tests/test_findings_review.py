@@ -49,6 +49,29 @@ class FindingsTests(unittest.TestCase):
                 with self.assertRaises(ValueError):review.review(self.root,dict(self.payload(),**extra))
         self.assertEqual(editorial_review.events(self.root),[])
 
+    def test_acceptance_is_audited_kept_in_history_and_not_published(self):
+        with patch.object(review.getpass,'getuser',return_value='fixture-human'):
+            payload=dict(self.payload(),decision='accepted',rationale='')
+            result=review.review(self.root,payload)
+            self.assertFalse(result['published'])
+            rows=review.inbox(self.root)['findings']
+            self.assertEqual(rows[0]['status'],'accepted')
+            self.assertEqual(sum(r['status']=='pending_review' for r in rows),0)
+            self.assertIn('No further investigation requested',rows[0]['last_review']['rationale'])
+            self.assertEqual(rows[0]['proposal_hash'],payload['proposal_hash'])
+            self.assertFalse((self.root/'site').exists())
+            with self.assertRaisesRegex(ValueError,'Review changed'):review.review(self.root,payload)
+            review.review(self.root,dict(self.payload(),decision='investigate'))
+            self.assertEqual(review.inbox(self.root)['findings'][0]['status'],'investigate')
+
+    def test_acceptance_still_requires_confirmation_and_authorized_identity(self):
+        with patch.object(review.getpass,'getuser',return_value='fixture-human'):
+            payload=dict(self.payload(),decision='accepted',rationale='',confirmed=False)
+            with self.assertRaises(ValueError):review.review(self.root,payload)
+        with patch.object(review.getpass,'getuser',return_value='outsider'):
+            with self.assertRaises(ValueError):review.review(self.root,dict(payload,confirmed=True))
+        self.assertEqual(editorial_review.events(self.root),[])
+
     def test_stale_evidence_and_concurrent_review_are_rejected(self):
         with patch.object(review.getpass,'getuser',return_value='fixture-human'):
             payload=self.payload()

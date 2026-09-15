@@ -85,12 +85,15 @@ def review(root,value,identity=None):
     fields={'id','decision','rationale','proposal_hash','review_hash','confirmed'}
     if not isinstance(value,dict) or set(value)!=fields:raise ValueError('Invalid review fields')
     if not isinstance(value['id'],str) or not RID.fullmatch(value['id']):raise ValueError('Invalid finding ID')
-    if value['decision'] not in ('investigate','deferred','rejected'):raise ValueError('Choose Investigate, Defer or Reject')
-    if not isinstance(value['rationale'],str) or not 1<=len(value['rationale'].strip())<=1200:raise ValueError('Give a review reason (up to 1200 characters)')
+    if value['decision'] not in ('accepted','investigate','deferred','rejected'):raise ValueError('Choose Accept, Investigate, Defer or Reject')
+    if not isinstance(value['rationale'],str) or len(value['rationale'].strip())>1200:raise ValueError('Give a review reason (up to 1200 characters)')
+    rationale=value['rationale'].strip()
+    if not rationale and value['decision']=='accepted':rationale='Reviewed and accepted as useful. No further investigation requested.'
+    if not rationale:raise ValueError('Give a review reason (up to 1200 characters)')
     if value['confirmed'] is not True:raise ValueError('Confirm that you reviewed this finding')
     if any(not isinstance(value[k],str) or not re.fullmatch('[a-f0-9]{64}',value[k]) for k in ['proposal_hash','review_hash']):raise ValueError('Reload the finding before reviewing')
     owner=reviewer(root,identity)
     if owner is None:raise ValueError('This local account is not an authorized reviewer')
-    record_review(root,value['id'],value['decision'],owner,value['rationale'].strip(),now(),human_confirm=True,
+    record_review(root,value['id'],value['decision'],owner,rationale,now(),human_confirm=True,
                   expected_hash=value['proposal_hash'],expected_review=value['review_hash'],identity=identity)
     return {'saved':True,'reviewer':owner,'status':value['decision'],'published':False}

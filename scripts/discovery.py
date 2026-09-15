@@ -270,7 +270,7 @@ def digest_text(root, receipt, s):
     for layer in LAYERS:
         rows = [e for e in latest.values() if e.get('layer')==layer]
         leads = [v for v in s['leads'].values() if v['context']['layer']==layer]
-        counts = {status:sum(e['status']==status for e in rows) for status in ['pending_review','investigate','deferred','rejected']}
+        counts = {status:sum(e['status']==status for e in rows) for status in ['pending_review','accepted','investigate','deferred','rejected']}
         lines.append(f"- {layer}: {sum(v['attempts']>0 for v in leads)} unique URLs attempted; "
                      f"{sum('processing_identity' in v for v in leads)} with a completed screen; "+
                      ', '.join(f'{k}={v}' for k,v in counts.items()))
@@ -370,6 +370,9 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     due = [(k,v) for k,v in s['leads'].items() if v['next_attempt']<=at and (not layers or v['context']['layer'] in layers)]
     prefer_fresh = s['lead_turn']%2==0
     reviewed={e['id']:e['status'] for e in events(root) if e.get('kind')=='coverage_expansion'}
+    # Acceptance closes this finding's investigation. Registered source monitoring is separate.
+    # Choosing Investigate later reopens it under the existing eligibility/cadence limits.
+    due=[(k,v) for k,v in due if reviewed.get(v.get('proposal_id'))!='accepted']
     due.sort(key=lambda kv: (0 if reviewed.get(kv[1].get('proposal_id'))=='investigate' else 1,
                             0 if prefer_fresh and kv[0] in fresh else 1,kv[1]['last_attempt'] or '',kv[0]))
     s['lead_turn']+=1
@@ -460,7 +463,7 @@ def record_review(root, rid, decision, reviewer, rationale, at, *, human_confirm
     require(re.fullmatch(r'discovery-[0-9a-f]{24}',rid), 'Invalid discovery ID')
     p=load(root/'research/editorial-policy.json')
     require(human_confirm is True and reviewer in p['reviewers'] and rationale.strip(), 'Human discovery review required')
-    require(decision in {'investigate','deferred','rejected'}, 'Discovery cannot approve publication')
+    require(decision in {'accepted','investigate','deferred','rejected'}, 'Discovery cannot approve publication')
     with locked(root):
         item=load(queue(root)/(rid+'.json'))
         require(item['kind']=='coverage_expansion' and item['id']==rid,'Invalid coverage proposal')

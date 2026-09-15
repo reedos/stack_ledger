@@ -65,7 +65,7 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral','--confi
     changes:[{target:'project',id:'fixture-project',before:null,after:{id:'fixture-project',name:'<img src=x onerror=alert(1)>',next_evidence:'x'.repeat(400)}}],
     evidence:[{id:'fixture-source',url:'javascript:alert(1)',published_at:null,retrieved_at:'2026-09-08T00:00:00Z',summary:'Fixture evidence.',source_rank:3}]};
   async function findingsPayload(){
-    return {findings:[{...finding,status:reviewed?'investigate':'pending_review'}],reviewer:'reedos',invalid_files:0,unreadable_events:0,
+    return {findings:[{...finding,status:reviewed?'accepted':'pending_review'}],reviewer:'reedos',invalid_files:0,unreadable_events:0,
       catalog_packages:[{...catalog,status:catalogStatus,display_status:catalogStatus,validation:previewed?{passed:true,checks:[],proposal_hash:catalog.proposal_hash}:null,publication_receipt:null,job:catalogJob}],
       handoffs:[],jobs:catalogJob?[catalogJob]:[]};
   }
@@ -78,7 +78,7 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral','--confi
     promotions={...promotions,[promoteBody.id]:{package_id:'catalog-'+'n'.repeat(24),status:'pending_review'}};
     return route.fulfill({contentType:'application/json',body:JSON.stringify({package_id:promotions[promoteBody.id].package_id,already_promoted:false,job:{status:'queued'},status:'queued'})});
   });
-  await page.route('**/review',route=>{reviewRequest=route.request().postDataJSON();reviewed=true;return route.fulfill({contentType:'application/json',body:'{"saved":true,"reviewer":"reedos","status":"investigate","published":false}'});});
+  await page.route('**/review',route=>{reviewRequest=route.request().postDataJSON();reviewed=true;return route.fulfill({contentType:'application/json',body:'{"saved":true,"reviewer":"reedos","status":"accepted","published":false}'});});
   await page.route('**/catalog-preview',route=>{previewed=true;catalogJob={id:'job-validate-1',rid:catalog.id,kind:'validate',status:'done',step:'Done',error:null,result:{passed:true}};return route.fulfill({contentType:'application/json',body:JSON.stringify({job:catalogJob,status:'done'})});});
   await page.route('**/catalog-review',route=>{decisionBody=route.request().postDataJSON();catalogStatus='approved';return route.fulfill({contentType:'application/json',body:'{"status":"approved","published":false}'});});
   await page.route('**/catalog-publish',route=>{publishBody=route.request().postDataJSON();catalogJob={id:'job-publish-1',rid:catalog.id,kind:'publish',status:'running',step:'Publishing: validating, building, committing and pushing…',error:null,result:null};return route.fulfill({contentType:'application/json',body:JSON.stringify({job:catalogJob,status:'running'})});});
@@ -108,12 +108,15 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral','--confi
   // Record the finding decision from the feed card.
   const findingCard=page.locator('#decision-feed .finding-card').filter({hasText:'Fixture geothermal project'});
   await findingCard.locator('.finding-review button').click();assert.equal(reviewRequest,undefined);
-  await findingCard.locator('.finding-review textarea').fill('Verify the grid-operator record before adoption.');
+  assert.equal(await findingCard.locator('.finding-review select').inputValue(),'accepted');
+  assert.equal(await findingCard.locator('.finding-review textarea').getAttribute('required'),null);
+  assert.match(await findingCard.locator('.finding-review button').innerText(),/Looks good/);
   await findingCard.locator('.finding-review input[type=checkbox]').check();
   await findingCard.locator('.finding-review button').click();
   await page.waitForFunction(()=>document.querySelector('#review-message').textContent.includes('Nothing published'));
   assert.equal(reviewRequest.confirmed,true);assert.equal(reviewRequest.proposal_hash,finding.proposal_hash);
-  // Investigated findings are no longer pending, so only the catalog card remains in the feed.
+  assert.equal(reviewRequest.decision,'accepted');assert.equal(reviewRequest.rationale,'');
+  // Accepted findings are no longer pending, so only the catalog card remains in the feed.
   assert.equal(await page.locator('#decision-feed .finding-card').count(),1);
 
   // Catalog workflow through the feed card: the compact change table is visible immediately (no
@@ -137,10 +140,10 @@ const child=spawn('python',['scripts/research_control.py','--ephemeral','--confi
   assert.match(await page.locator('#publishing-strip').innerText(),/Fixture catalog package/);
   assert.match(await page.locator('#publishing-strip').innerText(),/Publishing: validating, building/);
 
-  // History fold: the approved package and the investigated finding are still browsable, collapsed by default.
+  // History fold: the approved package and the accepted finding are still browsable, collapsed by default.
   assert.equal(await page.locator('.decision-history').getAttribute('open'),null);
   await page.locator('.decision-history').locator(':scope > summary').click();
-  await page.locator('#review-status').selectOption('investigate');
+  await page.locator('#review-status').selectOption('accepted');
   assert.equal(await page.locator('.finding-card').filter({hasText:'Fixture geothermal project'}).count(),1);
   await page.locator('.decision-history').locator(':scope > summary').click();
 

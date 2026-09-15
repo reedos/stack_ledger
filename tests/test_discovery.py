@@ -314,6 +314,24 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn('investigate=1',(self.root/'.local/discovery/digest.md').read_text(encoding='utf-8'))
         with self.assertRaises(ValueError):er.apply(self.root,rid)
 
+    def test_accepted_finding_stops_followup_until_reopened(self):
+        with patch.object(r,'ollama',side_effect=self.model):self.run_slice()
+        rid=r.load(next(er.queue(self.root).glob('discovery-*.json')))['id']
+        d.record_review(self.root,rid,'accepted','reedos','Useful finding; keep it.',r.now(),human_confirm=True)
+        self.assertIn('accepted=1',(self.root/'.local/discovery/digest.md').read_text(encoding='utf-8'))
+        state=d.state(self.root)
+        for v in state['leads'].values():v['next_attempt']='2000-01-01T00:00:00Z'
+        r.save(self.root/'.local/discovery/state.json',state)
+        with patch.object(r,'ollama',side_effect=self.model) as model:
+            result=self.run_slice(rid='accepted-followup',refresh=True)
+            self.assertEqual(result['documents_fetched'],0)
+            model.assert_not_called()
+        d.record_review(self.root,rid,'investigate','reedos','Reopen to check the permit.',r.now(),human_confirm=True)
+        with patch.object(r,'ollama',side_effect=self.model):
+            result=self.run_slice(rid='reopened-followup',refresh=True)
+            self.assertGreater(result['documents_fetched'],0)
+        with self.assertRaises(ValueError):er.apply(self.root,rid)
+
     def test_single_unit_batches_alternate_search_and_follow_up(self):
         with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):
             first=self.run_slice(1,'one');second=self.run_slice(1,'two')

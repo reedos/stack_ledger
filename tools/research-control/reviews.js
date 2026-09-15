@@ -30,18 +30,26 @@
   function findingForm(f){
     const form=node('form',null,'finding-review');
     const label=node('label','Decision'),select=node('select');select.setAttribute('aria-label','Decision for '+f.finding.subject);
-    for(const [value,text] of [['investigate','Investigate'],['deferred','Defer'],['rejected','Reject']]){const option=node('option',text);option.value=value;select.append(option);}label.append(select);
-    const reasonLabel=node('label','Reason for your decision'),reason=node('textarea');reason.required=true;reason.maxLength=1200;reason.rows=3;reasonLabel.append(reason);
-    const confirmLabel=node('label',null,'toggle'),confirm=node('input');confirm.type='checkbox';confirm.required=true;confirmLabel.append(confirm,node('span','I reviewed this finding and its evidence. This records triage, not permission to publish.'));
+    for(const [value,text] of [['accepted','Looks good · Accept finding'],['investigate','Investigate further'],['deferred','Decide later'],['rejected','Reject finding']]){const option=node('option',text);option.value=value;select.append(option);}label.append(select);
+    const explanation=node('p',null,'hint');
+    const reasonLabel=node('label','Your note'),reason=node('textarea');reason.maxLength=1200;reason.rows=2;reasonLabel.append(reason);
+    const confirmLabel=node('label',null,'toggle'),confirm=node('input');confirm.type='checkbox';confirm.required=true;confirmLabel.append(confirm,node('span','I reviewed this finding and its supporting evidence.'));
     const save=node('button','Record review');save.type='submit';save.disabled=!owner;
+    function describeDecision(){
+      const accept=select.value==='accepted';reason.required=!accept;
+      reason.placeholder=accept?'Optional — add a note if you like':'Why are you making this decision?';
+      save.textContent=accept?'Looks good · Accept finding':'Record review';
+      explanation.textContent={accepted:'Keep this as reviewed and accepted. Clear it from your pending inbox without requesting more investigation. Publishing site changes is a separate action.',investigate:'Prioritize further research when this lead is next eligible.',deferred:'Leave the finding undecided for now.',rejected:'Record that you do not want this finding to advance.'}[select.value];
+    }
+    select.onchange=describeDecision;describeDecision();
     const message=node('p',null,'hint');message.setAttribute('role','status');
-    form.append(label,reasonLabel,confirmLabel,save,message);
+    form.append(label,explanation,reasonLabel,confirmLabel,save,message);
     form.onsubmit=async event=>{
       event.preventDefault();save.disabled=true;
       try{
         const r=await fetch('review',{method:'POST',headers:{'Content-Type':'application/json','X-Session-Key':sessionKey()},body:JSON.stringify({id:f.id,decision:select.value,rationale:reason.value,proposal_hash:f.proposal_hash,review_hash:f.review_hash,confirmed:confirm.checked})});
         const data=await r.json();if(!r.ok)throw new Error(data.error||'Review could not be recorded');
-        await refresh();el('review-message').textContent=`Saved ${data.status} as ${data.reviewer}. Nothing published. `+el('review-message').textContent;
+        await refresh();el('review-message').textContent=(data.status==='accepted'?'Finding accepted. Saved in History; no further investigation requested. Nothing published. ':`Saved ${data.status} as ${data.reviewer}. Nothing published. `)+el('review-message').textContent;
       }catch(e){message.textContent=e.message;save.disabled=!owner;}
     };
     return form;

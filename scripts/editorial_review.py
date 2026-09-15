@@ -428,7 +428,7 @@ def main():
     sub.add_parser('questions', help='Seed bounded follow-ups into the existing private queue; no research starts')
     discovery_review = sub.add_parser('review-discovery', help='Human coverage triage; never registers or publishes a source')
     discovery_review.add_argument('id')
-    discovery_review.add_argument('--decision', choices=['investigate','deferred','rejected'], required=True)
+    discovery_review.add_argument('--decision', choices=['accepted','investigate','deferred','rejected'], required=True)
     discovery_review.add_argument('--reviewer', required=True)
     discovery_review.add_argument('--rationale', required=True)
     for command in ['review-question', 'resolve-question']:
