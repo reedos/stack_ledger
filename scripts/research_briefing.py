@@ -30,11 +30,15 @@ def human_date(value):
     return f'{d:%A, %B} {d.day}{suffix}, {d.year}'
 
 def links(root, date):
+    """Into Almanac's Research view, which frames the panel at /panel (2026-09-16). The
+    standalone Tailscale mount stopped being how Reed reaches it; Almanac is the door, and a
+    link that lands there opens the same run or the same decisions with the panel inside."""
+    from urllib.parse import quote
     from research_control import tailnet_config
     cfg = tailnet_config(root/'.local/research-control.json')
-    panel = f"https://{cfg['hostname']}{cfg['mount']}/" if cfg else None
-    return {'review': panel + '#run=' + date if panel else None,
-            'decisions': panel + '#decisions' if panel else None, 'latest': LATEST}
+    almanac = f"https://{cfg['hostname']}:8788/#view=research&rp=" if cfg else None
+    return {'review': almanac + quote('#run=' + date, safe='') if almanac else None,
+            'decisions': almanac + quote('#decisions', safe='') if almanac else None, 'latest': LATEST}
 
 def sessions_for(root, date, receipt):
     """Bind new receipts by ID; old receipts only by the recorded stage interval."""

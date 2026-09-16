@@ -28,7 +28,10 @@ class BriefingTests(unittest.TestCase):
         self.session();data=brief.snapshot(self.root,self.date)
         self.assertEqual(len(data['documents']),1);self.assertEqual(data['totals']['documents'],2)
         self.assertEqual(data['outcome'],'partial');self.assertIn('Tuesday, September 15th, 2026',brief.render(data))
-        self.assertTrue(data['links']['review'].endswith('/research/#run=2026-09-15'))
+        # Into Almanac's Research view, which frames the panel (2026-09-16); the hash is URL-encoded
+        # because it rides inside Almanac's own hash.
+        self.assertTrue(data['links']['review'].endswith(':8788/#view=research&rp=%23run%3D2026-09-15'), data['links']['review'])
+        self.assertTrue(data['links']['decisions'].endswith(':8788/#view=research&rp=%23decisions'))
     def test_manual_and_other_day_sessions_do_not_bleed_into_night(self):
         self.session()
         self.save('.local/sessions/'+'b'*32+'/status.json',{'session_id':'b'*32,'started_at':'2026-09-15T10:00:00Z','options':{'overnight':False}})

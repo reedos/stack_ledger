@@ -1,4 +1,7 @@
 'use strict';
+// Hosted inside Almanac's Research view (framed at /panel?host=almanac): the page drops its own
+// header, intro and footer and docks the tabs at the top, under Almanac's back bar.
+if(typeof location!=='undefined'&&typeof document!=='undefined'&&new URLSearchParams(location.search).get('host')==='almanac')document.documentElement.dataset.host='almanac';
 const $=id=>document.getElementById(id);
 // The session token is the last path segment of the page URL: '/<token>/' on loopback and
 // '/<mount>/<token>/' when the panel is reached through the Tailscale Serve mount.
