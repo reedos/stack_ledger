@@ -139,7 +139,12 @@
         "eia-930-demand",
         "social-microsoft-c0eff6",
         "bls-ces-employment",
-        "census-qss-api"
+        "census-qss-api",
+        "grid-operator-pjm",
+        "grid-operator-ercot",
+        "grid-operator-miso",
+        "grid-operator-spp",
+        "grid-operator-eia-national"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -8478,6 +8483,61 @@
       "region_book": "united-states",
       "company_id": null,
       "claim_type": "labor",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grid-operator-pjm": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grid-operator-ercot": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grid-operator-miso": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grid-operator-spp": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "manual",
+      "weekday": 0,
+      "path_prefixes": [],
+      "topics": [],
+      "excerpts": false
+    },
+    "grid-operator-eia-national": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
       "cadence": "manual",
       "weekday": 0,
       "path_prefixes": [],
