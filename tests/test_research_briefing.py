@@ -37,6 +37,24 @@ class BriefingTests(unittest.TestCase):
     def test_missing_is_not_zero_or_completed(self):
         data=brief.snapshot(self.root,self.date)
         self.assertEqual(data['outcome'],'not_recorded');self.assertIn('not recorded',brief.render(data))
+
+    def test_live_reviews_override_saved_counts_without_changing_receipt(self):
+        saved=brief.snapshot(self.root,self.date)
+        saved['pending']=[dict(kind='catalog_packages_pending',label='catalog changes',count=47)]
+        self.save('.local/briefings/'+self.date+'.json',saved)
+        path=self.root/'.local/briefings'/(self.date+'.json');before=path.read_bytes()
+        with patch.object(nightly,'pending_decisions',return_value=dict(catalog_packages_pending=0,questions_pending=5)):
+            current=brief.live_snapshot(self.root,self.date)
+        self.assertEqual(current['pending'],[])
+        self.assertEqual(current['question_backlog'],5)
+        self.assertEqual(current['pending_at_run'],saved['pending'])
+        self.assertEqual(path.read_bytes(),before)
+        with patch.object(nightly,'pending_decisions',return_value=dict(discovery_findings_pending=2,questions_pending=5)):
+            self.assertEqual(brief.live_snapshot(self.root,self.date)['pending'][0]['count'],2)
+
+    def test_live_review_failure_is_not_reported_as_caught_up(self):
+        with patch.object(nightly,'pending_decisions',side_effect=ValueError('Incomplete records')):
+            with self.assertRaises(ValueError):brief.live_snapshot(self.root,self.date)
     def test_skipped_run_does_not_claim_an_earlier_session(self):
         self.session();self.save('.local/nightly/'+self.date+'/research.json',{'status':'skipped','reason':'Another run holds the lock'})
         data=brief.snapshot(self.root,self.date);self.assertFalse(data['sessions']);self.assertEqual(data['outcome'],'skipped')

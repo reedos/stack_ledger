@@ -57,6 +57,18 @@ def sessions_for(root, date, receipt):
             candidates.append(s)
     return sorted(candidates, key=lambda s:s['started_at'])
 
+def live_snapshot(root, date='latest'):
+    """Overlay current review state without rewriting immutable run receipts."""
+    from nightly import pending_decisions
+    data = snapshot(root, date)
+    counts = pending_decisions(root, strict=True)
+    return {**data, 'pending_at_run':data.get('pending', []),
+            'pending':[{'kind':k, 'label':DECISIONS[k], 'count':v}
+                       for k,v in counts.items() if k!='questions_pending' and v>0],
+            'question_backlog':counts.get('questions_pending',0),
+            'pending_scope':'current_review_inbox',
+            'pending_checked_at':datetime.now(timezone.utc).isoformat()}
+
 def snapshot(root, date='latest', body=None):
     finalizing = body is not None
     dates = sorted({p.name for p in (root/'.local/nightly').glob('*') if re.fullmatch(r'\d{4}-\d{2}-\d{2}', p.name)} |

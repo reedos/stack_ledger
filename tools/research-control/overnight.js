@@ -16,7 +16,7 @@
     }
     hero.append(stats);
     const actions=make('div',null,'night-links');actions.append(link('Latest on the full site ↗',d.links.latest));
-    const review=make('button','Review waiting decisions');review.type='button';review.onclick=()=>{location.hash='decisions';el('decisions-tab').click();};actions.append(review);hero.append(actions);box.append(hero);
+    const review=make('button',d.pending.length?'Review waiting decisions':'View decisions & history');review.type='button';review.onclick=()=>{location.hash='decisions';el('decisions-tab').click();};actions.append(review);hero.append(actions);box.append(hero);
     const grid=make('div',null,'night-grid');
     const findings=make('section',null,'night-card');findings.append(make('h3','What came out of it'));
     if(!d.highlights.length)findings.append(make('p',d.sessions.length?'No published article summaries matched this night’s document receipts. Dataset changes and private findings are listed separately below.':'No matched research session is recorded.'));
@@ -24,8 +24,9 @@
     const imports=d.applied.filter(x=>x.kind==='import');if(imports.length)findings.append(make('p','Dataset updates: '+imports.map(x=>x.id).join(', ')+'.'));
     const pub=d.published_observations||{};if(pub.new_observations)findings.append(make('p',`${pub.new_observations} newly recorded numbers: `+Object.entries(pub.by_grade||{}).map(([g,n])=>`${n} grade ${g}`).join(', ')));
     const tasks=make('section',null,'night-card');tasks.append(make('h3','Your next step'));
-    if(d.pending.length){const list=make('ul');for(const p of d.pending)list.append(make('li',`${p.count} ${p.label}`));tasks.append(list,make('p','Total waiting inbox at the nightly check; these are not necessarily new tonight.','hint'));}
-    else tasks.append(make('p','No pending counts were reported. Open Decisions to check the current inbox.'));
+    if(d.pending.length){const list=make('ul');for(const p of d.pending)list.append(make('li',`${p.count} ${p.label}`));tasks.append(list,make('p','Current Decisions inbox, updated from your saved reviews.','hint'));}
+    else tasks.append(make('p','You’re caught up. No reviews are awaiting a decision.'));
+    if(d.question_backlog){const backlog=make('details');backlog.append(make('summary',`${d.question_backlog} proposed research questions in a separate backlog`),make('p','These older research proposals have no recorded decision and are not supported in this review page. They are separate from your completed finding and catalog reviews.','hint'));tasks.append(backlog);}
     const errors=(d.totals.source_failures||0)+(d.totals.discovery_errors||0);
     if(errors)tasks.append(make('h4','Collection needs attention'),make('p',`${errors} collection errors (including possible retries). Some sources could not be read. Eli handles workflow failures; the technical receipts are below.`));
     if(d.inventory_errors)tasks.append(make('p',`${d.inventory_errors} receipt read errors. This inventory may be incomplete.`));

@@ -446,10 +446,12 @@ def questions_pending(root):
     return n
 
 
-def pending_decisions(root):
+def pending_decisions(root, strict=False):
     from findings_review import inbox as findings_inbox
     from visual_review import inbox as visual_inbox
     f = findings_inbox(root); v = visual_inbox(root)
+    if strict and (f.get('invalid_files') or f.get('unreadable_events') or v.get('invalid_files')):
+        raise ValueError('Review records need attention; pending counts are incomplete')
     return {'catalog_packages_pending': sum(1 for p in f['catalog_packages'] if p['status'] == 'pending_review'),
             'discovery_findings_pending': sum(1 for r in f['findings'] if r['status'] == 'pending_review'),
             'visual_recommendations_pending': sum(1 for p in v['proposals'] if p['status'] == 'pending_review'),

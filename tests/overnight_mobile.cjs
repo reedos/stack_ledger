@@ -12,6 +12,10 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
    await page.route('**/findings',r=>r.fulfill({json:{reviewer:null,findings:[],catalog_packages:[],questions:[],unreadable_events:0}}));
    await page.goto(url+'#run=2026-09-15');
    await page.locator('#night-review .night-hero').waitFor();
+   const current=await (await page.request.get(url+'night/2026-09-15')).json();
+   assert.equal(current.pending_scope,'current_review_inbox');
+   if(!current.pending.length)assert.match(await page.locator('#night-review').innerText(),/You’re caught up/);
+   if(current.question_backlog)assert.match(await page.locator('#night-review').innerText(),/separate backlog/);
    assert.match(await page.locator('#night-review').innerText(),/Tuesday, September 15th, 2026/);
    assert.equal(await page.locator('#night-review a').first().getAttribute('href'),'https://reedos.github.io/stack_ledger/latest/');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`overflow at ${width}`);

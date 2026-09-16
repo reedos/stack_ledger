@@ -252,9 +252,9 @@ def server(root=ROOT,*,config=None,asset_root=None,token=None):
             if route=='status':self.send(200,controller.status());return
             if route=='gpu':self.send(200,gpu.snapshot());return
             if path.startswith('/'+token+'/night/'):
-                from research_briefing import snapshot
-                try:self.send(200,snapshot(root,route))
-                except ValueError:self.send(400,{'error':'Invalid run date'})
+                from research_briefing import live_snapshot
+                try:self.send(200,live_snapshot(root,route))
+                except ValueError:self.send(400,{'error':'Run date or review records could not be verified'})
                 except (OSError,TypeError,KeyError):self.send(503,{'error':'Run receipts are temporarily unavailable'})
                 return
             if route=='findings':
