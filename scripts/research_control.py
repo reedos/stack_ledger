@@ -270,7 +270,8 @@ def server(root=ROOT,*,config=None,asset_root=None,token=None):
                     'overnight.js':('overnight.js','text/javascript'),
                     'research-v1.webmanifest':('research-v1.webmanifest','application/manifest+json'),
                     'research-icon-v1.png':('research-icon-v1.png','image/png'),
-                    **{f'research-icon-v1-{size}.png':(f'research-icon-v1-{size}.png','image/png') for size in (32,180,192,512)}}
+                    **{f'research-icon-v1-{size}.png':(f'research-icon-v1-{size}.png','image/png') for size in (32,180,192,512)},
+                    **{f'research-icon-v2-{size}.png':(f'research-icon-v2-{size}.png','image/png') for size in (32,180,192,512)}}
             if route=='visuals':
                 from visual_review import inbox
                 from findings_review import reviewer
