@@ -32,10 +32,16 @@ class GridOperatorsConfigTests(unittest.TestCase):
 
 class GridImporterRunTests(unittest.TestCase):
     def test_report_mode_lists_every_operator_as_waiting_and_makes_no_change(self):
+        before = (ROOT/'research/sources.json').read_bytes()
         result = ig.run(apply=False)
         self.assertEqual(set(result['waiting']), {'pjm', 'ercot', 'miso', 'spp', 'eia-national'})
         self.assertEqual(result['imported'], [])
-        self.assertEqual(len(result['sources']), 5)
+        # 'sources' is what registering would add, so it empties once --apply has run and the old
+        # count of five only held on the first night. What the name promises is that reporting
+        # offers nothing but the reviewed operator sources and writes nothing at all.
+        self.assertLessEqual({s['id'] for s in result['sources']},
+                             {ig.operator_source(o)['id'] for o in ig.policy(ROOT)['operators']})
+        self.assertEqual((ROOT/'research/sources.json').read_bytes(), before)
 
     def test_operator_source_ids_are_stable_and_namespaced(self):
         p = ig.policy(ROOT)

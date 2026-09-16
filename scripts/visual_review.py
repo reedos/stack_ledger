@@ -5,6 +5,7 @@ Human decisions reuse the editorial queue lock and authenticated local reviewer.
 """
 import argparse
 import copy
+import hashlib
 import json
 import math
 import re
@@ -51,13 +52,27 @@ def policy(root):
     return p
 
 
+def content(p):
+    """The file's text, or a digest of its bytes when it is not text.
+
+    The last implementation pattern takes the research app's whole directory, which now holds PNG
+    icons; reading those as UTF-8 raised and took the visual-review contracts down with it. What
+    this hash is for is noticing that something changed, and a digest notices it as well as text.
+    """
+    raw = p.read_bytes()
+    try:
+        return raw.decode('utf-8')
+    except UnicodeDecodeError:
+        return hashlib.sha256(raw).hexdigest()
+
+
 def frozen(root):
     result = {name: ed.read(root/name) for name in FILES}
     # Monitoring receipts and runtime must not invalidate accepted evidence or approvals.
     ledger = result['site/data/ledger.json']
     ledger.pop('runtime', None)
     ledger.pop('runs', None)
-    result['implementation'] = ed.hashed({str(p.relative_to(root)): p.read_text(encoding='utf-8')
+    result['implementation'] = ed.hashed({str(p.relative_to(root)): content(p)
         for pattern in ['scripts/*.py','site/assets/*.js','site/assets/*.css','tools/research-control/*']
         for p in sorted(root.glob(pattern)) if p.is_file()})
     result['runtime_model'] = {k: ed.read(root/'research/runtime.json')[k]

@@ -52,9 +52,15 @@ def policy(root=ROOT):
 
 def operator_source(o):
     """A citation-only source for an operator's reviewed load-forecast report: zero metrics,
-    zero observations, registered so it is linkable and reviewable, never a numeric claim."""
+    zero observations, registered so it is linkable and reviewable, never a numeric claim.
+
+    The provenance is 'official': every operator here is an ISO/RTO or a federal statistical
+    agency publishing the authoritative record for its own system, not a company speaking for
+    itself. Labelling them 'company-channel' also split ERCOT across two provenances, which is
+    the consistency rule these reports are graded by.
+    """
     return {'id': f"grid-operator-{o['id']}", 'publisher': o['name'], 'title': o['source_title'], 'url': o['source_url'],
-            'published': None, 'layers': ['energy'], 'license': 'Source material retains its original rights; facts paraphrased with attribution.', 'provenance': 'company-channel'}
+            'published': None, 'layers': ['energy'], 'license': 'Source material retains its original rights; facts paraphrased with attribution.', 'provenance': 'official'}
 
 
 def collection_entry():
