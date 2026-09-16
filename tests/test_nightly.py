@@ -241,6 +241,28 @@ class RunOrchestrationTests(unittest.TestCase):
             self.assertEqual(nightly.main(['--dry-run']), 0)
         fake.assert_called_once_with(nightly.ROOT, dry_run=True, only=None)
 
+    def test_sync_failure_stops_the_night_before_anything_runs(self):
+        """The one exception to 'never fatal': a clone that cannot be brought level with origin
+        would have its research refused at publication hours later (2026-09-16, an unpushed
+        commit; 2026-09-08, a dirty tree), so the night ends here, non-zero, with the reason."""
+        calls = []
+        def fake(name, value):
+            def inner(*_a):
+                calls.append(name); return value
+            return inner
+        with patch.object(nightly, 'stage_sync', fake('sync', {'status': 'failed', 'error': 'night clone not clean: 2 local commit(s) not on origin'})), \
+             patch.object(nightly, 'stage_locks', fake('locks', {'status': 'ok'})), \
+             patch.object(nightly, 'stage_importers', fake('importers', {'status': 'ok', 'due': [], 'results': []})), \
+             patch.object(nightly, 'stage_mirror', fake('mirror', {'status': 'ok'})):
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                code = nightly.run(self.root, dry_run=False, only=None)
+        self.assertEqual(code, 1)
+        self.assertEqual(calls, ['sync'])
+        self.assertIn('sync failed, stopping: night clone not clean', buf.getvalue())
+        receipt = json.loads((self.root/'.local/nightly'/self.date/'sync.json').read_text(encoding='utf-8'))
+        self.assertEqual(receipt['status'], 'failed')
+
     def test_failed_stage_is_recorded_the_night_continues_and_the_run_exits_nonzero(self):
         """The supervisor and the external cron watchdog see only the exit code. While it came
         from the digest stage alone, a night whose research, importers or health stage had failed
@@ -252,7 +274,9 @@ class RunOrchestrationTests(unittest.TestCase):
                 if name == 'health': raise RuntimeError('collection host unreachable')
                 return value
             return inner
-        with patch.object(nightly, 'stage_locks', fake('locks', {'status': 'ok'})), \
+        with patch.object(nightly, 'stage_sync', fake('sync', {'status': 'ok', 'moved': False})), \
+             patch.object(nightly, 'stage_mirror', fake('mirror', {'status': 'skipped', 'reason': 'test'})), \
+             patch.object(nightly, 'stage_locks', fake('locks', {'status': 'ok'})), \
              patch.object(nightly, 'stage_importers', fake('importers', {'status': 'ok', 'due': [], 'results': []})), \
              patch.object(nightly, 'stage_research', fake('research', {'status': 'skipped', 'reason': 'test'})), \
              patch.object(nightly, 'stage_policy', fake('policy', {'status': 'skipped', 'reason': 'test'})), \
@@ -263,7 +287,7 @@ class RunOrchestrationTests(unittest.TestCase):
                 code = nightly.run(self.root, dry_run=False, only=None)
         self.assertEqual(code, 1, 'a failed stage was reported to the supervisor as a successful night')
         self.assertIn('failed stages: health', buf.getvalue())
-        self.assertEqual(calls, ['locks', 'importers', 'research', 'policy', 'health', 'prune'])   # still never fatal to the rest
+        self.assertEqual(calls, ['sync', 'locks', 'importers', 'research', 'policy', 'health', 'prune', 'mirror'])   # still never fatal to the rest
         health_receipt = json.loads((self.root/'.local/nightly'/self.date/'health.json').read_text(encoding='utf-8'))
         self.assertEqual(health_receipt['status'], 'failed')
         digest = json.loads((self.root/'.local/digest'/(self.date+'.json')).read_text(encoding='utf-8'))

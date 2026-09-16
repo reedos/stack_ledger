@@ -33,13 +33,17 @@ from atomic_json import save
 from validate import validate_importers
 
 ROOT = Path(__file__).resolve().parents[1]
-STAGES = ['locks', 'importers', 'research', 'policy', 'health', 'prune', 'digest']
+STAGES = ['sync', 'locks', 'importers', 'research', 'policy', 'health', 'prune', 'digest', 'mirror']
 LOCKS = ('.local/research.lock', '.local/research-session.lock', '.local/review-candidates/editorial.lock')
 IMPORT_PATH_PREFIXES = ('research/', 'site/', 'docs/')
 PRE_STAGE_BUDGET_SECONDS = 25*60      # pre-stages must clear by 02:00 so the session starts on time
 TOTAL_CEILING_SECONDS = 6*3600        # matches the cron job's own timeout (schedule.py)
 POST_STAGE_RESERVE_SECONDS = 10*60    # left for policy/health/prune/digest after the session returns
-STAGE_TIMEOUTS = {'locks': 60, 'policy': 600, 'health': 120, 'prune': 120, 'digest': 120}
+STAGE_TIMEOUTS = {'sync': 180, 'locks': 60, 'policy': 600, 'health': 120, 'prune': 120, 'digest': 120, 'mirror': 180}
+# The clone Reed and his sessions edit during the day. This run has its own clone, so a commit
+# left unpushed there or a file left dirty cannot refuse the night (both did, 2026-09-16); the
+# mirror stage fast-forwards it to what the night published, when it is clean enough to move.
+WORKING_CLONE = os.environ.get('STACK_LEDGER_WORKING_CLONE', '')
 FAILED_STATUSES = ('failed', 'timeout')   # any one of these makes the whole run exit non-zero
 # The OpenClaw job that runs this file carries noOutputTimeoutSeconds 420 and re-arms that timer
 # only on this process's own stdout/stderr; when it fires, Windows gets taskkill /PID <pid> /T /F
@@ -50,6 +54,55 @@ FAILED_STATUSES = ('failed', 'timeout')   # any one of these makes the whole run
 # genuinely working night would have been killed at 01:37. A line every two minutes keeps the
 # timer re-armed with 3.5x margin and makes the run log say what the night is doing.
 HEARTBEAT_SECONDS = 120
+
+
+# ----------------------------------------------------------------- sync
+
+def git_out(root, *args, timeout=120):
+    r = subprocess.run(['git', *args], cwd=root, capture_output=True, text=True, timeout=timeout)
+    return r.returncode, (r.stdout or '').strip(), (r.stderr or '').strip()
+
+
+def fast_forward(root):
+    """Bring a clone level with origin/<branch> without ever creating a merge or discarding work.
+    Refuses on a dirty tree or a local commit origin does not have; says which."""
+    branch = branch_name(root)
+    code, dirty, err = git_out(root, 'status', '--porcelain')
+    if code != 0: return {'status': 'failed', 'error': f'git status: {err[-300:]}'}
+    if dirty: return {'status': 'skipped', 'reason': 'working tree has local changes', 'paths': dirty.splitlines()[:12]}
+    code, _, err = git_out(root, 'fetch', 'origin', branch, timeout=150)
+    if code != 0: return {'status': 'failed', 'error': f'git fetch: {err[-300:]}'}
+    code, ahead, _ = git_out(root, 'rev-list', '--count', f'origin/{branch}..HEAD')
+    if code == 0 and ahead.isdigit() and int(ahead) > 0:
+        return {'status': 'skipped', 'reason': f'{ahead} local commit(s) not on origin', 'branch': branch}
+    code, before, _ = git_out(root, 'rev-parse', 'HEAD')
+    code, _, err = git_out(root, 'merge', '--ff-only', f'origin/{branch}')
+    if code != 0: return {'status': 'failed', 'error': f'ff-only merge: {err[-300:]}'}
+    code, after, _ = git_out(root, 'rev-parse', 'HEAD')
+    return {'status': 'ok', 'branch': branch, 'before': before[:12], 'after': after[:12], 'moved': before != after}
+
+
+def stage_sync(root):
+    """This clone level with origin before anything runs: the working clone publishes catalog
+    packages during the day, and research.preflight refuses a night whose HEAD is behind."""
+    result = fast_forward(root)
+    if result['status'] == 'skipped':
+        # For the night's own clone a skip is a fault: nothing else is supposed to touch it.
+        result = {'status': 'failed', 'error': f"night clone not clean: {result['reason']}", **{k: v for k, v in result.items() if k not in ('status', 'reason')}}
+    return result
+
+
+def stage_mirror(root):
+    """Fast-forward the working clone to what the night published, so the morning review panel
+    sees a repository that does not 'need synchronization'. Never touches uncommitted work."""
+    if not WORKING_CLONE:
+        return {'status': 'skipped', 'reason': 'STACK_LEDGER_WORKING_CLONE not set'}
+    clone = Path(WORKING_CLONE)
+    if clone.resolve() == Path(root).resolve():
+        return {'status': 'skipped', 'reason': 'working clone is this clone'}
+    if not (clone/'.git').exists():
+        return {'status': 'failed', 'error': f'not a git clone: {clone}'}
+    return {'clone': str(clone), **fast_forward(clone)}
 
 
 # ---------------------------------------------------------------- locks
@@ -749,7 +802,14 @@ def run(root, dry_run=False, only=None):
             if only and name != only: continue
             stage['name'] = name
             save(root/'.local/nightly'/date/'live.json', {'pid':os.getpid(), 'stage':name, 'updated_at':datetime.now(timezone.utc).isoformat()})
-            if name == 'locks':
+            if name == 'sync':
+                receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['sync'], lambda r=root: stage_sync(r))
+                if receipts[name]['status'] in FAILED_STATUSES:
+                    print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: sync failed, stopping: {receipts[name].get('error')}", flush=True)
+                    break
+            elif name == 'mirror':
+                receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['mirror'], lambda r=root: stage_mirror(r))
+            elif name == 'locks':
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['locks'], lambda r=root: stage_locks(r))
             elif name == 'importers':
                 try:
