@@ -793,9 +793,16 @@ def run(root, dry_run=False, only=None):
     try:
         if os.name == 'nt':
             awake = bool(ctypes.windll.kernel32.SetThreadExecutionState(0x80000001))  # ES_CONTINUOUS|ES_SYSTEM_REQUIRED
-        from research_dashboard import ensure
-        try: dashboard = ensure(root)
-        except Exception as error: dashboard = {'status':'unavailable', 'reason':type(error).__name__}
+        # The private dashboard is the working clone's: it is what Reed opens, Tailscale
+        # routes to its port, and its session token is per checkout - so ensure() run from
+        # the night's clone cannot see it as ready and starts a second one on the same port.
+        # The night's clone never touches it; a single-stage run never starts anything.
+        if only or (WORKING_CLONE and Path(WORKING_CLONE).resolve() != Path(root).resolve()):
+            dashboard = {'status':'skipped', 'reason':'dashboard belongs to the working clone' if WORKING_CLONE else 'single-stage run'}
+        else:
+            from research_dashboard import ensure
+            try: dashboard = ensure(root)
+            except Exception as error: dashboard = {'status':'unavailable', 'reason':type(error).__name__}
         save(root/'.local/nightly'/date/'dashboard.json', dashboard)
         receipts = {}
         for name in STAGES:
