@@ -244,7 +244,7 @@ function latestPage() {
  const rows=(coverage&&coverage.rows)||[];
  const l={color:'var(--green)'};
  root.innerHTML=`<section class="page-hero"><div class="eyebrow">WHAT WE JUST READ / EVERY LAYER</div><h1>Latest.</h1>
-  <p>Every article the nightly crawler read, newest first. This is coverage, not the ledger: a row says a page exists and names who published it, nothing more. The badge is that publisher's reviewed provenance, so you can weigh a headline before you open it. Verified figures live in <a class="source-inline" href="${base}ledger/">the ledger</a>.</p></section>
+  <p>Every article the nightly crawler read, newest first. General-interest outlets cover phone launches and gaming alongside the buildout; that part is left out. This is coverage, not the ledger: a row says a page exists and names who published it, nothing more. The badge is that publisher's reviewed provenance, so you can weigh a headline before you open it. Verified figures live in <a class="source-inline" href="${base}ledger/">the ledger</a>.</p></section>
   <section class="section"><div class="directory-tools">
    <label for="coverage-search" class="sr-only">Search coverage</label>
    <input id="coverage-search" class="search" type="search" placeholder="Search headlines, publishers…">
