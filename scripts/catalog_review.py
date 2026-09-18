@@ -20,6 +20,7 @@ from urllib.parse import urlparse
 from urllib.request import urlopen
 from editorial_review import queue, events, append_event, locked, save, now, channel_fields
 from validate import require, text, timestamp
+import git_clean
 
 ROOT=Path(__file__).resolve().parents[1]
 TARGETS={
@@ -258,7 +259,7 @@ def publish_package(root,rid,p,decision,reviewer,identity=None):
             receipt_path=queue(root)/(rid+'-publication.json')
             receipt=read(receipt_path) if receipt_path.exists() else {}
             config=read(root/'research/runtime.json')
-            require(not git(root,'status','--porcelain'),'Working tree must be clean')
+            require(not git_clean.dirty_lines(root),'Working tree must be clean')
             require(git(root,'branch','--show-current')==config['branch'],'Wrong branch')
             require(git(root,'remote','get-url','origin').removesuffix('.git')=='https://github.com/'+config['repository'],'Wrong remote')
             git(root,'fetch','origin',config['branch'])

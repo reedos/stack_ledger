@@ -96,11 +96,11 @@ def build():
         rendered=re.sub(r'((?:href|src)="[^"<>]*assets/[^"<>]+\.(?:css|js))"',lambda match:match[1]+'?v='+build_version+'"',rendered)
         folder=dest/path
         folder.mkdir(parents=True,exist_ok=True)
-        (folder/'index.html').write_text(rendered,encoding='utf-8')
+        (folder/'index.html').write_text(rendered,encoding='utf-8',newline='\n')
     (dest/'.nojekyll').write_text('',encoding='utf-8')
     (dest/'404.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Page not found · Stack Ledger</title><body style="background:#101511;color:#f0f1e8;font:20px system-ui;padding:10vw"><h1>This layer hasn’t been built.</h1><p>Return to <a style="color:#c5f277" href="/stack_ledger/">Stack Ledger</a>.</p></body></html>',encoding='utf-8')
     atom(data,dest)
-    (dest/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: https://reedos.github.io/stack_ledger/sitemap.xml\n',encoding='utf-8')
+    (dest/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: https://reedos.github.io/stack_ledger/sitemap.xml\n',encoding='utf-8',newline='\n')
     urls=''.join(f'<url><loc>https://reedos.github.io/stack_ledger/{path}</loc></url>' for _,path,*_ in pages)
     (dest/'sitemap.xml').write_text(f'<?xml version="1.0" encoding="utf-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>',encoding='utf-8')
     print(f'Built {len(pages)} pages into docs/')
@@ -139,6 +139,8 @@ def atom(data,dest):
         child(entry,'link',href='https://reedos.github.io/stack_ledger/ledger/')
         child(entry,'updated',run['finished_at'])
         child(entry,'summary',f"Fetched {run['documents_fetched']} documents; accepted {run['accepted']} records; quarantined {run['quarantined']} proposals. {len(run['source_failures'])} source failures.")
-    ET.ElementTree(feed).write(dest/'feed.xml',encoding='utf-8',xml_declaration=True)
+    # Bytes, not a path: given a path ElementTree opens it in text mode and Windows turns the
+    # declaration's newline into CRLF, which git then reports as a change (see git_clean.py).
+    (dest/'feed.xml').write_bytes(ET.tostring(feed,encoding='utf-8',xml_declaration=True))
 
 if __name__=='__main__': build()

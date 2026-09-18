@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import git_clean
 import importer_common
 import source_policy
 from atomic_json import save
@@ -67,9 +68,10 @@ def fast_forward(root):
     """Bring a clone level with origin/<branch> without ever creating a merge or discarding work.
     Refuses on a dirty tree or a local commit origin does not have; says which."""
     branch = branch_name(root)
-    code, dirty, err = git_out(root, 'status', '--porcelain')
-    if code != 0: return {'status': 'failed', 'error': f'git status: {err[-300:]}'}
-    if dirty: return {'status': 'skipped', 'reason': 'working tree has local changes', 'paths': dirty.splitlines()[:12]}
+    # Content, not size: a file the night rewrote unchanged with CRLF is not a local change.
+    try: dirty = git_clean.dirty_lines(root)
+    except (RuntimeError, OSError, subprocess.SubprocessError) as exc: return {'status': 'failed', 'error': str(exc)[-300:]}
+    if dirty: return {'status': 'skipped', 'reason': 'working tree has local changes', 'paths': dirty[:12]}
     code, _, err = git_out(root, 'fetch', 'origin', branch, timeout=150)
     if code != 0: return {'status': 'failed', 'error': f'git fetch: {err[-300:]}'}
     code, ahead, _ = git_out(root, 'rev-list', '--count', f'origin/{branch}..HEAD')

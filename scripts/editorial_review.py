@@ -23,7 +23,7 @@ def save(path, value):
     # Same atomic JSON convention as the research runner; no model-selected paths.
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix+'.tmp')
-    tmp.write_text(json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False)+'\n', encoding='utf-8')
+    tmp.write_text(json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False)+'\n', encoding='utf-8', newline='\n')
     os.replace(tmp, path)
 
 
