@@ -915,7 +915,8 @@ class RunSummaryTests(unittest.TestCase):
                            'stale_tasks':0,'stale_tasks_attempted':0,'stale_tasks_met':0,
                            'stale_tasks_skipped_not_refresh_expected':0,'stale_tasks_backed_off':0,
                            'feeds_polled':0,'feed_entries_new':0,'feed_entries_requeued':0,'feed_entries_already_reviewed':0,
-                           'idle_pass':False,'idle_feeds_polled':0,'idle_stale_tasks_run':0})
+                           'idle_pass':False,'idle_feeds_polled':0,'idle_stale_tasks_run':0,
+                           'off_thesis_skipped':0})
     def test_deliverable_8_reports_why_the_model_was_or_was_not_called(self):
         receipt={'receipt':{'documents_fetched':9},'quarantine':[],
                   'collection':{'unchanged_304':2,'text_unchanged':1,'already_reviewed':3,'model_documents':4,

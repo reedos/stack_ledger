@@ -26,6 +26,8 @@ import re
 from datetime import datetime, timedelta, timezone
 from urllib.parse import urlparse
 
+import subject_gate
+
 RETENTION_DAYS = 90
 MAX_ROWS = 3000
 MAX_TITLE = 300
@@ -207,6 +209,15 @@ def merge(existing, documents, sources, now=None):
     counts = {'considered': 0, 'added': 0, 'refreshed': 0}
     dropped = {}
     by_url = {row['url']: dict(row) for row in existing}
+    # The subject screen applies to rows already on the feed, not only to today's documents. A
+    # boundary drawn today should clear what it excludes now rather than let it sit for the 90-day
+    # retention window; a row it removes was never load-bearing, since nothing links to it.
+    for url, row in list(by_url.items()):
+        why = subject_gate.off_thesis(row.get('title'), row.get('summary'), url, row.get('provenance'))
+        if why:
+            del by_url[url]
+            dropped[why.split(':')[0]] = dropped.get(why.split(':')[0], 0) + 1
+            counts['swept'] = counts.get('swept', 0) + 1
     for document in documents:
         counts['considered'] += 1
         source = sources.get(document.get('source'))
@@ -220,6 +231,10 @@ def merge(existing, documents, sources, now=None):
         fresh = row_for(document, source)
         if fresh['title'] is None:
             dropped['no readable headline'] = dropped.get('no readable headline', 0) + 1
+            continue
+        why = subject_gate.off_thesis(fresh['title'], fresh['summary'], fresh['url'], fresh['provenance'])
+        if why:
+            dropped[why.split(':')[0]] = dropped.get(why.split(':')[0], 0) + 1
             continue
         seen = by_url.get(fresh['url'])
         if seen is None:

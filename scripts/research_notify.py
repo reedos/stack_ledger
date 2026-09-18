@@ -14,6 +14,7 @@ def summary(folder):
                 finding_pushes=0,monitoring_only_pushes=0,search_calls=0,search_errors=0,
                 discovery_screened=0,model_documents=0,cooldown_skips=0,idle_checks=0,private_notes=0,
                 unchanged_304=0,text_unchanged=0,already_reviewed=0,nothing_new_batches=0,
+                off_thesis_skipped=0,
                 # Deliverable 3 (2026-09-10): offered/attempted/met/skipped/backed-off, not a
                 # single cumulative "queued" count -- see the 2026-09-10 measured problem
                 # (20 offered every batch of a 103-batch session summed to a meaningless 2,060,
@@ -47,7 +48,8 @@ def summary(folder):
         stats=item.get('collection',{})
         for key in ['model_documents','cooldown_skips','private_notes','unchanged_304','text_unchanged','already_reviewed','stale_tasks_offered',
                     'stale_tasks_skipped_not_refresh_expected','stale_tasks_backed_off',
-                    'feeds_polled','feed_entries_new','feed_entries_requeued','feed_entries_already_reviewed','idle_feeds_polled','idle_stale_tasks_run']:
+                    'feeds_polled','feed_entries_new','feed_entries_requeued','feed_entries_already_reviewed','idle_feeds_polled','idle_stale_tasks_run',
+                    'off_thesis_skipped']:
             totals[key]+=stats.get(key,0)
         for reason,count in stats.get('empty_reasons',{}).items():totals['empty_reasons'][reason]=totals['empty_reasons'].get(reason,0)+count
         stale=stats.get('stale_tasks',[])
@@ -94,6 +96,7 @@ def message(report,totals):
          else 'No stale-metric tasks offered this session.'),
         f"Feeds polled: {totals.get('feeds_polled',0)} ({totals.get('feed_entries_new',0)} entries never fetched before, "
         f"{totals.get('feed_entries_requeued',0)} re-listed, {totals.get('feed_entries_already_reviewed',0)} already in the review ledger)",
+        f"Outlet links skipped as consumer coverage rather than buildout coverage: {totals.get('off_thesis_skipped',0)}",
         (f"Idle passes (batch found nothing due, so it force-repolled feeds and retried stale-metric sources before conceding): {report.get('idle_passes',0)}"
          + (f" -- {totals.get('idle_feeds_polled',0)} extra feed checks, {totals.get('idle_stale_tasks_run',0)} extra stale-task retries" if totals.get('idle_batches',0) else '')),
         f"New discovery proposals: {totals['discovery_proposals']} (private review inbox) | Private notes from sources without excerpt permission: {totals.get('private_notes',0)}",

@@ -30,6 +30,7 @@ from validate_expansion import FUTURE_ONLY, EPOCH_SITE, LABOR_MARKET, GRID_DEMAN
 from build import build
 from source_policy import collection_for, due, effective_cadence, discoverable, append_excerpt, validate_excerpts, grade_for
 import coverage_feed
+import subject_gate
 from reports import about_ids, report_kind, reconcile_confirmations, confirmation_only_change
 from atomic_json import save
 from document_formats import as_html, SUPPORTED, CollectionGap, format_gap
@@ -1068,7 +1069,10 @@ def run_summary(receipt):
             'feed_entries_requeued':collection.get('feed_entries_requeued',0),
             'feed_entries_already_reviewed':collection.get('feed_entries_already_reviewed',0),
             'idle_pass':bool(collection.get('idle_pass',False)),
-            'idle_feeds_polled':collection.get('idle_feeds_polled',0),'idle_stale_tasks_run':collection.get('idle_stale_tasks_run',0)}
+            'idle_feeds_polled':collection.get('idle_feeds_polled',0),'idle_stale_tasks_run':collection.get('idle_stale_tasks_run',0),
+            # Feed links a general-interest outlet published that are consumer coverage, not
+            # buildout coverage. Counted so the screen is visible rather than silent.
+            'off_thesis_skipped':collection.get('off_thesis_skipped',0)}
 
 def preflight(config):
     pending_changes()
@@ -1397,6 +1401,17 @@ def main():
                         if u.scheme!='https' or u.hostname!=urlparse(source['url']).hostname or url in seen or u.query or u.path.endswith(('.pdf','.jpg','.png','.zip','.xml')):continue
                         if any(p in u.path for p in ['/category/','/tag/','/author/','/page/']):continue
                         if not discoverable(source,url,collection_for(registry,source)):continue
+                        # A general-interest outlet files its buildout reporting and its phone
+                        # reviews under the same section, so a matching path prefix and topic word
+                        # do not make a link on-thesis (subject_gate). Skipping here rather than
+                        # after the fetch is the point: the page is never read, never modelled and
+                        # never reaches the coverage feed. The slug alone decided 25 of the 29
+                        # rows the full title screen removes from the 2026-09-18 feed, and nothing
+                        # the full screen keeps.
+                        off_thesis=subject_gate.off_thesis(url=url,provenance=source.get('provenance'))
+                        if off_thesis:
+                            collection['off_thesis_skipped']=collection.get('off_thesis_skipped',0)+1
+                            continue
                         child=dict(source,id='discovered-'+digest(url)[:16],url=url,published=None,parent_source=source['id'],title='Discovered public update · '+source['publisher'])
                         child.pop('index',None)
                         queue.insert(0,child)
