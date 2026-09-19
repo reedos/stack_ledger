@@ -1,12 +1,12 @@
 {
   "dataset": "EIA API v2 electricity data",
   "source_id": "eia-api-v2-electricity",
-  "retrieved_at": "2026-09-12T08:30:00Z",
+  "retrieved_at": "2026-09-19T08:30:01Z",
   "calls": [
     {
       "call": "net-generation",
       "status": "ok",
-      "sha256": "de927bbea8f0e0cdaf91c84bc2f25cd2306f0404d4c2d30919d072ba8da46e8c",
+      "sha256": "82aa325eb488b1cef38f6f49362f57b28e6de686819581c57d6cd67e3f8be6c3",
       "rows": 90,
       "truncated": false,
       "total": "90"
@@ -14,7 +14,7 @@
     {
       "call": "capacity-additions",
       "status": "ok",
-      "sha256": "d4eed9e6b8fcd533527be5c2232460384a34ae77e081f2530fdddd3d69934723",
+      "sha256": "18f4f4af4a159eef7cb18da7346a9e6477630b2a7ffe82f04f7659f7678ba82d",
       "rows": 5000,
       "truncated": true,
       "total": "2260420"
@@ -22,7 +22,7 @@
     {
       "call": "steo",
       "status": "ok",
-      "sha256": "df808b7d587b536df4dfe2756b419e7f999d54260cb42577383735e22cd0cc89",
+      "sha256": "1830470f692ffb0b8d0742062d4cd15952a2b90cf96be8fff301ab399a638b30",
       "rows": 0,
       "truncated": false,
       "total": "0"
@@ -30,7 +30,7 @@
     {
       "call": "retail-price-res-al",
       "status": "ok",
-      "sha256": "9355c7d5231b7115911dc200e9b1843f1ae50dd4a6ceeb33860ac2d927564417",
+      "sha256": "ace37a188293b1f1885e0be58695b941035f1b5ff445c644dca1e63b760d359e",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -38,7 +38,7 @@
     {
       "call": "retail-price-res-az",
       "status": "ok",
-      "sha256": "83cbd1e71a3e6a9581e9bb0ee993ecb4b2888089c8cc3b01b4700ff28907bc71",
+      "sha256": "b4f5e3e78d5fbb8fc53fd6a1070392c73711afa9758ce5b3261438919b2be8d8",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -46,7 +46,7 @@
     {
       "call": "retail-price-res-ca",
       "status": "ok",
-      "sha256": "5a463b7eda9ac0445707987dc600d70f535b082b74b2c0e36c89c4612665b63a",
+      "sha256": "2033e24f494105b5b780866b145d0b389abb0297d6ea524bf3e98b8ebd750409",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -54,7 +54,7 @@
     {
       "call": "retail-price-res-co",
       "status": "ok",
-      "sha256": "9a4ad6efbabbc8f68c9c9a44303f7c094e0a09219862b691f295ec7f13221f74",
+      "sha256": "54eda0d9d5c569b7043c3626c6c125572501068fbd7bb1723b9a3ec4bf1b010e",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -62,7 +62,7 @@
     {
       "call": "retail-price-res-dc",
       "status": "ok",
-      "sha256": "5e78578d8220666b372f32ac920b893bd95823caf01d1c26eabb3cfed8ed5a61",
+      "sha256": "c97fa70d6f3a7f0fa23873a3a18a485675dc3f52b7b261b970ae2ae2ee2d92a6",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -70,7 +70,7 @@
     {
       "call": "retail-price-res-fl",
       "status": "ok",
-      "sha256": "02324ea068fc181519cc2c5f60266e7d0f73779e50145b91a69f930a69dd8741",
+      "sha256": "17d6c7044d02a5393a8cbfb2e3cd67fe6b89facdfa1e7f9d6a566d08156ef01b",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -78,7 +78,7 @@
     {
       "call": "retail-price-res-ga",
       "status": "ok",
-      "sha256": "99ba1d66dfc4c11159cb7b5bda12cb8b4efbe94fb74a8ed99d1c68f12b01fb1e",
+      "sha256": "2d3e43546691163994c2b3ff371caffc6e44781926ccfbac13f73721967bc3e5",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -86,7 +86,7 @@
     {
       "call": "retail-price-res-ia",
       "status": "ok",
-      "sha256": "13145b28b403837668cb6680b01595928e915937497809684c9dfd4c099cacc6",
+      "sha256": "ea5173a6c44542e6edeafbe1c94921c9c431489f240d5311785b355803ab9410",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -94,7 +94,7 @@
     {
       "call": "retail-price-res-id",
       "status": "ok",
-      "sha256": "88395c3388994488b87aa2ec2493829e09340dac35c48c9146cade9a0a05d59e",
+      "sha256": "bc9b7ee9e33c988c2ff2e17641a81abd8a2e384e8d7f2a4ded4b0002651a52ab",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -102,7 +102,7 @@
     {
       "call": "retail-price-res-il",
       "status": "ok",
-      "sha256": "5c384f148bdb6d421806e7ad02719348e0cbd1efdbb4eaf3dbabc17a767ef68f",
+      "sha256": "347b04dc6e97ca349d680b5af1cf415faa4fea2ac9b278a74c33375a2d7cacc2",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -110,7 +110,7 @@
     {
       "call": "retail-price-res-in",
       "status": "ok",
-      "sha256": "1c48d56064e9b54d737f3c82892d7d9a5505b220550e8604babf72213424c0c6",
+      "sha256": "d46d5eaf5454ac2b2e70041bfa23c41b181e173a2f3af51dcc9e65fcd803f510",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -118,7 +118,7 @@
     {
       "call": "retail-price-res-la",
       "status": "ok",
-      "sha256": "657b1cb3d85d5e039b8f847df89c94286d2180b9cc921757f72573ea74e5571b",
+      "sha256": "b5196c61c65470fe06f170551ea24e86d4168c2a9c6725ee62034246d90c521b",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -126,7 +126,7 @@
     {
       "call": "retail-price-res-ma",
       "status": "ok",
-      "sha256": "6b827838064925c2510d1fb66aa4d413c2e70893e6689608d0887a38cf872319",
+      "sha256": "83bfa13e79549415dc802946e4e6271f71eb1bcb71ef96075a2199ff4ea20c3b",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -134,7 +134,7 @@
     {
       "call": "retail-price-res-md",
       "status": "ok",
-      "sha256": "b1163613ea8b0794af6765660dab98ce0c885d4e0233aa57d167e486e5612548",
+      "sha256": "1bff4cbc283ef0f4addf22fe066bc34425a81b7e1020e6e4780a514e1094c3a4",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -142,7 +142,7 @@
     {
       "call": "retail-price-res-mi",
       "status": "ok",
-      "sha256": "42ae270f8ef6bb61f8adce1d4219f8386b3e1134c4ccb577439b1ac6d4097be3",
+      "sha256": "b73f14f73634e12b8e9f3caf4e1419ad3b6edf38d7e47e3c196daf17236a0ebb",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -150,7 +150,7 @@
     {
       "call": "retail-price-res-mn",
       "status": "ok",
-      "sha256": "b75bfbb528b45c5f98678e04521ba03a1c02c34dedde59bf923151e97ab00ec3",
+      "sha256": "69399f5e4ad2af86c2d20b11c69c9867f243797120ed285742152f9f2fe74e26",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -158,7 +158,7 @@
     {
       "call": "retail-price-res-mo",
       "status": "ok",
-      "sha256": "f6163fbef8dc3c38112ba706cbc4d8f877efe44319f9ffa4d29599d57878fb4f",
+      "sha256": "fc7c96f9dafda8822a26495225d754f807f10535d9e2a99a0bf989fd06fbc061",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -166,7 +166,7 @@
     {
       "call": "retail-price-res-ms",
       "status": "ok",
-      "sha256": "d714569384d0004ec1604a0cb0d09a20b1e041ebba57b3a6d1e2265b200db8ea",
+      "sha256": "e9b5c7307a92d99f331a5aa84621eb5f00ec6fc69a68acb69d41040bf041d319",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -174,7 +174,7 @@
     {
       "call": "retail-price-res-nc",
       "status": "ok",
-      "sha256": "ea4f3336a715c9de7e34744223f3c657f68118e63af9342ee1b0471267ccf041",
+      "sha256": "cb24da81bc62abb0c62484f38f90170e66d62eb2057c42fef42fac2553ba5334",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -182,7 +182,7 @@
     {
       "call": "retail-price-res-ne",
       "status": "ok",
-      "sha256": "38dc987ed9170605b949e36ffe6f68a6d44c40625bfcc6479f2b176b73eded43",
+      "sha256": "2697418e3fce5160d5320f868414ac140e30910bd0a8f62e93caa0947523d34f",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -190,7 +190,7 @@
     {
       "call": "retail-price-res-nm",
       "status": "ok",
-      "sha256": "79ed00d9be034e865b07a1cf1f7a96ae6e852f1af05128f9183bd799bc9f13f6",
+      "sha256": "80fd2a304534edd3fbf3f3349e74656f61b06b3fd514078a9261717346f52590",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -198,7 +198,7 @@
     {
       "call": "retail-price-res-nv",
       "status": "ok",
-      "sha256": "cc17b79d91cc4bd04f6f48e1974b6e5da5dbbcf07474dfccaa43f3aba12a7be7",
+      "sha256": "c34b54c6cd175b6f6af1b3dcf6ba65a71f30fec4644220c51e972a605f725c85",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -206,7 +206,7 @@
     {
       "call": "retail-price-res-ny",
       "status": "ok",
-      "sha256": "cd3f01cb1515282ae8128e50a41880cb8f6a9938deda8c12d8d2b1cfb6e95ac2",
+      "sha256": "3f606060bc228c7b75086007953c86175aeb91b4874e42d560d3c643ad2ba7a1",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -214,7 +214,7 @@
     {
       "call": "retail-price-res-oh",
       "status": "ok",
-      "sha256": "117e67d90bf23d626d3c2e929dc47327d30f0ed9194f450670cdb146ddbaf1e6",
+      "sha256": "1288c33024641536a5e9d026342b1ba766b3ac070c7c80edf88d9c3956ff5333",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -222,7 +222,7 @@
     {
       "call": "retail-price-res-ok",
       "status": "ok",
-      "sha256": "6bf4f4dfa52cee124b930fcdab4f24d234e150aa6ecce1ba6f09cc76fca4982f",
+      "sha256": "9e59af5338c27df14ecc6d0fb30ff578d1f00b9a33735be3e23a8f0f1fe7572f",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -230,7 +230,7 @@
     {
       "call": "retail-price-res-or",
       "status": "ok",
-      "sha256": "6ea94ecb58c67572ad03056ef4ab4d1f4589d98b2477e11b31ec4fbd32fe60c4",
+      "sha256": "3e70325474392e589ec0c074e33bd1f5ace7e3393abab29d142739f3229f10f0",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -238,7 +238,7 @@
     {
       "call": "retail-price-res-pa",
       "status": "ok",
-      "sha256": "0b2a5ac9854c679357a40ddcd7cd9ef253c5441c992c19ac5ed5ea988bfc05ee",
+      "sha256": "9784ed95546e055b4bf24d492217903c0e0fb735cc384645e4090e1dae217797",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -246,7 +246,7 @@
     {
       "call": "retail-price-res-sc",
       "status": "ok",
-      "sha256": "4819330ff910bdecba76d2b82df919f702f47968c93f07a023dd3f238cec721e",
+      "sha256": "3c08cf2a2e835b2620fa3260692dbae24c668b5cc90d30a6f9c09c05b9d6cdab",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -254,7 +254,7 @@
     {
       "call": "retail-price-res-tn",
       "status": "ok",
-      "sha256": "4a19eb1a781be0557d012e2eb1665811d2add2fbead3aba0716c2ad9c71fefa6",
+      "sha256": "f8e4b92dd677155ea411d40d53681d9c3f48cd1ceaf2700697f0ebdcef6244ee",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -262,7 +262,7 @@
     {
       "call": "retail-price-res-tx",
       "status": "ok",
-      "sha256": "764487aa74b8d11d9e0631181d5e72a8d824c7681df402edf198c817638c5284",
+      "sha256": "0462d1b524f0a83ff904d427aa037ce9574ed6f336305ef8648cde1a798e6752",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -270,7 +270,7 @@
     {
       "call": "retail-price-res-ut",
       "status": "ok",
-      "sha256": "c430ff0eeb0a275d5f2aaecc51ce332293e4f071622ca3575c8899d8c2b01c74",
+      "sha256": "183d9a4bd343f9c51260ec19066fc594b4d95ce7a426e2cfdb7a484cb1e0c6c3",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -278,7 +278,7 @@
     {
       "call": "retail-price-res-va",
       "status": "ok",
-      "sha256": "219ce502a4f3a9b9ffd63dbb847406dcbf83d73beaecf1a6feb67e5180dd1778",
+      "sha256": "8ceb084917331ed348a37308334d7888bbe914897e03002a0ebb1e757842e9a6",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -286,7 +286,7 @@
     {
       "call": "retail-price-res-wa",
       "status": "ok",
-      "sha256": "5b9ff26143b625c0b58e641e021e543d8d1961c35e53a7ecc27c28a48ce2f5d1",
+      "sha256": "427b47a54f55c331b8b5738bd5bb2235cba480003a61018e20fec363f5a0cea9",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -294,7 +294,7 @@
     {
       "call": "retail-price-res-wi",
       "status": "ok",
-      "sha256": "a7a7b67c4119e8bee86f5faed6596fa07aadfdd37655e94d0a0f28822a453056",
+      "sha256": "45f82255cf51e18c2f905085af74b26dcf50b4eb53b8972d04b4dccb6a56240d",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -302,7 +302,7 @@
     {
       "call": "retail-price-res-wv",
       "status": "ok",
-      "sha256": "ee2b08c8334973b281a8f14515b29bccc93d6e4fde92b8937ff927b8f52e4e51",
+      "sha256": "404bcf59c91d3ba4268dbe3c6bd7a22862ac7324cf7ac4e728706be702f31056",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -310,7 +310,7 @@
     {
       "call": "retail-price-res-wy",
       "status": "ok",
-      "sha256": "e23b6c9a5fb3c8d9fd8a0c15a881129f09b88c4a26383f360a0fa895072e4bb3",
+      "sha256": "9fb10791c61a18fb2d3b478417377b25ffceea56653fb486921d2813b9013354",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -318,7 +318,7 @@
     {
       "call": "retail-price-res-us",
       "status": "ok",
-      "sha256": "3ac9bca201db8a0642bcdca44ae924dbd6d577696756a5c927d3962e551e05f4",
+      "sha256": "2d151c1f5aca9f3be6d243467085e816daf8077d0871fb80ea30aa098a999395",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -326,7 +326,7 @@
     {
       "call": "retail-price-all-al",
       "status": "ok",
-      "sha256": "4624929e85fd07def7602e2ddf8483252a57349da527febf226ef84709918f40",
+      "sha256": "14676f63e65a7199224f11e8829048b278e792d258d50487d33c40cedc1794bc",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -334,7 +334,7 @@
     {
       "call": "retail-price-all-az",
       "status": "ok",
-      "sha256": "09a1aa26c5484bdca63133119971a031e1587a7de92b192cc28dd854798c59e4",
+      "sha256": "ae265509fd78d63f8a8ce45fd82ef8b16fb99580dea830d8bc17a8d72117a466",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -342,7 +342,7 @@
     {
       "call": "retail-price-all-ca",
       "status": "ok",
-      "sha256": "a57b6b19f7acc2c8578fc09c9952ce07d62e345b7552e8cb2b3f4b9c272fb06c",
+      "sha256": "e756215223abdc06c5bab4a2a74669a51205b7dae6c6942a873492dbfc237707",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -350,7 +350,7 @@
     {
       "call": "retail-price-all-co",
       "status": "ok",
-      "sha256": "aaa6cf5c221f11f430df069f5b2fac89c136206e5be8bdb27141b9012ee6ff95",
+      "sha256": "b0d86814a9938130571a0c0e2133494bef127e59674fe26803b3a95ad6e50994",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -358,7 +358,7 @@
     {
       "call": "retail-price-all-dc",
       "status": "ok",
-      "sha256": "a9cd0aee4161d3e8d2159495b17a82e96fb6332729dcd1bb614bd5322e7d88e8",
+      "sha256": "0c7498b4125f603afed1e06c81288eca487c2e6c403a2091222a1cefa2a4cceb",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -366,7 +366,7 @@
     {
       "call": "retail-price-all-fl",
       "status": "ok",
-      "sha256": "72df8181fbd3aef22d18d09846a669207751021a6dd950003b554ca0494501e3",
+      "sha256": "f2afd3d4f317274ee03aaf2aa7272a31ee02a3c7a90884b0d53b9ba3485841b5",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -374,7 +374,7 @@
     {
       "call": "retail-price-all-ga",
       "status": "ok",
-      "sha256": "7dcdddac77ed2867ca1f748635d2f8d615cbdf1c170ca2492bb39570fa6ddc08",
+      "sha256": "0cd1af3165bf9432bcdd32b253c8dba3ea62356a4966aeab4e81f2e776456024",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -382,7 +382,7 @@
     {
       "call": "retail-price-all-ia",
       "status": "ok",
-      "sha256": "cd54d0912714da967b6835a5f08d02b280ba535caf3c25858ba1d4c6254aed12",
+      "sha256": "d908683e9bd8c2454e58605beefef361ecdf7e95f171fa1eb95b6cf012118ebc",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -390,7 +390,7 @@
     {
       "call": "retail-price-all-id",
       "status": "ok",
-      "sha256": "bebbe4297d51984a6146c75e932a420ef732436f21bc46c03c207799e8ea7fe0",
+      "sha256": "9c92567d58e0bb9fe531779e2976ddb0c351c3eea0d7dabd9104b5e538fcf4ea",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -398,7 +398,7 @@
     {
       "call": "retail-price-all-il",
       "status": "ok",
-      "sha256": "4e0d1b42182d3d6a665173cde10edad7a2fd8a09f9bbf3df4c68b3badf8b2d8f",
+      "sha256": "bec777337e34b33c875cce0855b213b20e6a2332e81aa00d71163146b2f80f57",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -406,7 +406,7 @@
     {
       "call": "retail-price-all-in",
       "status": "ok",
-      "sha256": "185c578fc947b0fd2459e04a5e7b6d505b9e5b3557a61ba0bec94ac3fd0ef618",
+      "sha256": "df09fc8271ce0c1dd9f114d649c424371f3af37a278301bd562f178039030afe",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -414,7 +414,7 @@
     {
       "call": "retail-price-all-la",
       "status": "ok",
-      "sha256": "a60dadcd95242c46c259c66420444a9d9e04f45ee9a0f45665c579531065c689",
+      "sha256": "13643d52829bf758a796dd4522ed8a1fae5bf001cc171ce88fd048e888794dc7",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -422,7 +422,7 @@
     {
       "call": "retail-price-all-ma",
       "status": "ok",
-      "sha256": "09967ef044bbf3fe86522a63dd6ec9712a185e6f4086e91d163c3b345742b781",
+      "sha256": "7006a2dc2a841e55557c566f08dd30366f8a5afefa80ec93f99c9d2e3a945773",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -430,7 +430,7 @@
     {
       "call": "retail-price-all-md",
       "status": "ok",
-      "sha256": "2cab667efd4e56faec8f99d35a96ed2f1df6c1f43269d504aa84432241cc5e6e",
+      "sha256": "d001e4aab41b40b48b73df1473f8c78c47a725a28c1fab546aa12d0e7e9935f8",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -438,7 +438,7 @@
     {
       "call": "retail-price-all-mi",
       "status": "ok",
-      "sha256": "5d591ad19d63f2e78fc5865373fa25744507e3c0ec7dd3831f3b01a9e7784a6b",
+      "sha256": "0175b11e83c5fcb22199de72026e5d84d983f8732583316aa870d145f7439ee7",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -446,7 +446,7 @@
     {
       "call": "retail-price-all-mn",
       "status": "ok",
-      "sha256": "d65c0280b94f0c1886f502691f865bd39139106ffff470721400e94306a39e4c",
+      "sha256": "264441302fae5bffe12d00629817cb6024b76b882b89c6c267982d1ab5e55993",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -454,7 +454,7 @@
     {
       "call": "retail-price-all-mo",
       "status": "ok",
-      "sha256": "cf8144e16dee48cd32bb494a6dd0734aebb80adcf34be888f501deeff64fdad3",
+      "sha256": "092c0a1c9e78fcb2b3b313f025a98601d3d577676e5a7b4a2d281bc1925db94a",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -462,7 +462,7 @@
     {
       "call": "retail-price-all-ms",
       "status": "ok",
-      "sha256": "94fa7b9934cf2362a789cc366cea1525d9cf25caf6093d093626ff612d415d80",
+      "sha256": "868e513394183c49d900de7992926b92aa1b2da6a2574726b675365cd867b37b",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -470,7 +470,7 @@
     {
       "call": "retail-price-all-nc",
       "status": "ok",
-      "sha256": "8d6894dcace98c643ed24149dbf2d31f3e165cd21070afe01d3809bc12faaf85",
+      "sha256": "f0d8afa67fb6b834d14f1e76f4d82b34f9d6fd3b64c03ca6c83768d4e47398a9",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -478,7 +478,7 @@
     {
       "call": "retail-price-all-ne",
       "status": "ok",
-      "sha256": "b1bd32140c825bc9b92b9bbae32a19d341904462a464136eef1f94a6c2abfd8d",
+      "sha256": "13517e17c7f9a3d10fef6bd53be00d2e40ee806fde0d69e3daacd563abee0290",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -486,7 +486,7 @@
     {
       "call": "retail-price-all-nm",
       "status": "ok",
-      "sha256": "a1db10a0f1ba09bab204a3a92f431ead72be73b8fc65cdb6b0627471cf6f62ff",
+      "sha256": "ab22fd22218868a712515fbd28123642fc842b34eb00f5634cdbe01539774817",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -494,7 +494,7 @@
     {
       "call": "retail-price-all-nv",
       "status": "ok",
-      "sha256": "d7319a0821ff1d0474439682c1e7d6535b9d800bd2c1558119e4fb1504612953",
+      "sha256": "7ea716d3fbcdae011af6f05d7a0834192a89a1ac1ea915e98e876fcb610dbeeb",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -502,7 +502,7 @@
     {
       "call": "retail-price-all-ny",
       "status": "ok",
-      "sha256": "9b601e6b303eb281a3fe598f45400fc0591c91755d6eb3d82dde3fd61abca6f2",
+      "sha256": "644182513cf5382f201f84278a19dd58c7fc15594c8f0b5f86587647bc8edbbf",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -510,7 +510,7 @@
     {
       "call": "retail-price-all-oh",
       "status": "ok",
-      "sha256": "5b395a9773ac0e87b2ca90a56a11b6a0d4ce9cbec85c8597265e87c454c1d53a",
+      "sha256": "79d048bdcddf4093a77ae0e2e19c6b4166cd5a8c42309568a01834605a64b657",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -518,7 +518,7 @@
     {
       "call": "retail-price-all-ok",
       "status": "ok",
-      "sha256": "6e2e29186285991d7ee06728518fdda6022729777b2d5baca186663848fd0a9e",
+      "sha256": "8403225cd2c5a77d9c7a51c93816638c029cd16a2d9e41e8886738e5530d4458",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -526,7 +526,7 @@
     {
       "call": "retail-price-all-or",
       "status": "ok",
-      "sha256": "8de5b964fa62277d29f2069b0e2338db2149ac81cc4dac13deb913ee670ff201",
+      "sha256": "05fa1d5dd4655c144b555da41bc3e466dfdabde6d9b7fe71d59d8f9b2bcfe5c8",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -534,7 +534,7 @@
     {
       "call": "retail-price-all-pa",
       "status": "ok",
-      "sha256": "c9d4ccaf4f24dd30e0780ef31a8e423c90be4f597ec6bf7eba0789563c768593",
+      "sha256": "dfdb20edc2749f6a2a1fab569382734e016b2aabbc0ef4a8d0f480573ac3935a",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -542,7 +542,7 @@
     {
       "call": "retail-price-all-sc",
       "status": "ok",
-      "sha256": "0275a869321eeda9892c1b93ef8456a50406dc023af0447a3e899d51636e0984",
+      "sha256": "0bc1cb45457d146d1aa053925d5d9070dd6ccbaf19a1210773e15073c178a863",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -550,7 +550,7 @@
     {
       "call": "retail-price-all-tn",
       "status": "ok",
-      "sha256": "77a1084b5c31d76f1164d40667194aa33421c5af0f4e2e32b99e54ced8c5d5f3",
+      "sha256": "85faff1c84b58bbe3e84356b3012c7c92b9233094c392161ef491f6380433eab",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -558,7 +558,7 @@
     {
       "call": "retail-price-all-tx",
       "status": "ok",
-      "sha256": "05765c6dbca00cf6a3b911ff16a5eeeb93655c7f30ef0029d036a0ff35acc9be",
+      "sha256": "8a661a72ae6e6425f3e3fcda67c40ee3dcd42d467d14f9256ac3b9df0f222c63",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -566,7 +566,7 @@
     {
       "call": "retail-price-all-ut",
       "status": "ok",
-      "sha256": "c52fbc8d6291a746919827d48b380c1ef0ecab5822bae3d07258e30ba66b65cb",
+      "sha256": "ad7e2d2ee2a3e722572fc7d73bb80aec5065f5ee6d719759bce249fece7b2867",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -574,7 +574,7 @@
     {
       "call": "retail-price-all-va",
       "status": "ok",
-      "sha256": "d1bd96e9b180235e317d28303edaf6832ce663923f0beb5336c65366ecd7bf77",
+      "sha256": "46b8e0e2378e0fda52d1ceebca26979470d1f2534a45902179c8bc60ab76ee0e",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -582,7 +582,7 @@
     {
       "call": "retail-price-all-wa",
       "status": "ok",
-      "sha256": "0e26a17a4eee8bbcfe5d2d8b5a513670acdd1dec84a54003ab0d214974555657",
+      "sha256": "0a86d7b95550679d3d6f928832cab635bffff5389e9317e7d8264494eb8c5a75",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -590,7 +590,7 @@
     {
       "call": "retail-price-all-wi",
       "status": "ok",
-      "sha256": "e9971f859f1f769e628394ab0b8746d58f9a496aee82d0a1ee816657eb32216b",
+      "sha256": "075f3a2b7e4ed8168f5675350a96064e244e7eec2b0657954be461625aa4f1cb",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -598,7 +598,7 @@
     {
       "call": "retail-price-all-wv",
       "status": "ok",
-      "sha256": "77ec224be552b955526e1da0510831bdff6d212c158d6abac3c618828c141557",
+      "sha256": "4e7d63eb0b770216f8a7ded27a2d363db7547cceaffd41913fb4eac45353174b",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -606,7 +606,7 @@
     {
       "call": "retail-price-all-wy",
       "status": "ok",
-      "sha256": "036dad0e13c291aca320d945de708a1334decc3dbdd5c0c0fba6ab858357f4a6",
+      "sha256": "c8563cb0162ec4b43f53423b15f1a291ea701cd3f41cc23e163e4965f16604d4",
       "rows": 7,
       "truncated": false,
       "total": "7"
@@ -614,7 +614,7 @@
     {
       "call": "retail-price-all-us",
       "status": "ok",
-      "sha256": "e7c8f399a1920a91e58f457673ef551ae22da8607cf3004ee27ab47ae4c747c5",
+      "sha256": "054bbf371c0cb59d6779b88bf488437cc9e74b04b61a1169923b5f4032216e0f",
       "rows": 7,
       "truncated": false,
       "total": "7"
