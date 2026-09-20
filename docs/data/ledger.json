@@ -29177,6 +29177,20 @@
       "license": "Original source rights apply",
       "provenance": "news",
       "parent_source": "outlet-techcrunch-com-f84187"
+    },
+    {
+      "id": "discovered-d4c4006fefc6f641",
+      "publisher": "Google Research",
+      "title": "Discovered public update · Google Research",
+      "url": "https://research.google/blog/planetary-prediction-engine-automating-global-models-via-earth-ai/",
+      "published": "2026-08-27",
+      "layers": [
+        "models",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "parent_source": "google-research"
     }
   ],
   "observations": [
@@ -93932,6 +93946,20 @@
       "about": [],
       "quote": "This week, the company released a new transformer-based model, Jev , that is not a large language model (LLM). It doesn’t output text, but instead produces probabilities, or what the company calls “calibrated decisions.”\nEschewing language does a few things: It makes the model incredibly cheap and fast, and because users define the outputs in advance, it cannot hallucinate.",
       "confirmation": "unconfirmed"
+    },
+    {
+      "title": "Google Research announces planetary prediction engine",
+      "summary": "Google Research says it introduces the planetary prediction engine, an experimental research capability within Google Earth AI that autonomously executes the full geospatial modeling workflow from data discovery to model training.",
+      "layer": "models",
+      "kind": "Company announcement",
+      "id": "note-a4f0b8fabfbbde0f14cc",
+      "source": "discovered-d4c4006fefc6f641",
+      "date": "2026-08-27",
+      "method": "automated",
+      "retrieved_at": "2026-09-20T10:11:46Z",
+      "document_sha256": "c8d2acfaf17694f15d9b000722fda3e759e39e716ac1f7075abf93d520d167ab",
+      "evidence_sha256": "9b389ef3aa05ddbb56cb798f5dbfc8bc48903b513929b7eb2d72489c4fc83037",
+      "grade": "B"
     }
   ],
   "targets": [
@@ -93985,65 +94013,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20260918T120817Z-d5fe125b503f49958f93316f209e6dee",
-      "started_at": "2026-09-18T12:08:17Z",
-      "finished_at": "2026-09-18T12:08:20Z",
-      "status": "partial",
-      "documents_fetched": 1,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20260918T121027Z-1d1b23c79d3347e6b61a401bfff9cd3e",
-      "started_at": "2026-09-18T12:10:27Z",
-      "finished_at": "2026-09-18T12:10:33Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20260918T121237Z-954908a62bd5491ba16dbeae71589878",
-      "started_at": "2026-09-18T12:12:37Z",
-      "finished_at": "2026-09-18T12:13:18Z",
-      "status": "partial",
-      "documents_fetched": 1,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "company-samsung",
-          "reason": "TimeoutError"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20260918T121522Z-c181fa4acdcb42e5a990e47cd5e36a4c",
-      "started_at": "2026-09-18T12:15:22Z",
-      "finished_at": "2026-09-18T12:15:58Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 5,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 5,
-      "coverage_layers": [
-        "energy"
-      ]
-    },
     {
       "id": "run-20260918T121623Z-4330e27e55794bbfa14b0ddd7214f0ca",
       "started_at": "2026-09-18T12:16:23Z",
@@ -98097,6 +98066,80 @@
         "infrastructure",
         "models"
       ]
+    },
+    {
+      "id": "run-20260920T100935Z-b78cc764ec7042cda2e351d04fe82dce",
+      "started_at": "2026-09-20T10:09:35Z",
+      "finished_at": "2026-09-20T10:09:46Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "waymo-paid-march-post",
+          "reason": "Blocked by robots policy"
+        }
+      ],
+      "model_calls": 4,
+      "coverage_layers": [
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260920T101010Z-0a6b0a8513cb414fb9f417325bc514e5",
+      "started_at": "2026-09-20T10:10:10Z",
+      "finished_at": "2026-09-20T10:10:23Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "samsung-taylor-schedule",
+          "reason": "Blocked by robots policy"
+        }
+      ],
+      "model_calls": 0,
+      "coverage_layers": [
+        "energy",
+        "infrastructure"
+      ]
+    },
+    {
+      "id": "run-20260920T101045Z-f4b7258f5685461db9d8ad3718bfdee4",
+      "started_at": "2026-09-20T10:10:45Z",
+      "finished_at": "2026-09-20T10:11:07Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20260920T101131Z-716eaed9ad9e458698159286bd8c7607",
+      "started_at": "2026-09-20T10:11:31Z",
+      "finished_at": "2026-09-20T10:11:53Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 3,
+      "accepted": 1,
+      "quarantined": 1,
+      "source_failures": [],
+      "model_calls": 5,
+      "coverage_layers": [
+        "applications",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -98106,7 +98149,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-20T10:06:12Z",
+    "last_attempt": "2026-09-20T10:11:53Z",
     "last_success": "2026-09-20T09:22:13Z",
     "status": "partial",
     "latest_session": {
