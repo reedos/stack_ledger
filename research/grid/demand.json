@@ -1,7 +1,7 @@
 {
   "dataset": "EIA-930 demand by balancing authority",
   "source_id": "eia-930-demand",
-  "retrieved_at": "2026-09-13T08:30:06Z",
+  "retrieved_at": "2026-09-20T08:30:06Z",
   "operators": [
     "pjm",
     "ercot",
@@ -13,33 +13,33 @@
       "operator": "pjm",
       "offset": 0,
       "status": "ok",
-      "rows": 2811,
-      "total": 2811,
-      "sha256": "d3ef8e871e0aeae721e46a47351400ae2b8a422af71d3f009ce7591a013a1238"
+      "rows": 2818,
+      "total": 2818,
+      "sha256": "8bed4ee957b957205b8925e98dda9e68a74a1263a3db04b139e94bca75f46821"
     },
     {
       "operator": "ercot",
       "offset": 0,
       "status": "ok",
-      "rows": 2811,
-      "total": 2811,
-      "sha256": "39d85e9cea1a1d59b131c2bb7779d076754e5ddfbcf95f4624c9405a8a0a849b"
+      "rows": 2818,
+      "total": 2818,
+      "sha256": "7c57f94766efe3117c5b6f685238fc758316166b42379f2f019e6887a2d39e6f"
     },
     {
       "operator": "miso",
       "offset": 0,
       "status": "ok",
-      "rows": 2812,
-      "total": 2812,
-      "sha256": "8906b1a27b185448dd6ea1aef4770d2875bfb73e8e1cd688489ed57b232ade13"
+      "rows": 2819,
+      "total": 2819,
+      "sha256": "cdc406804771958c52b46b5bdb0e98877d2501f57f1598a901bab3ed99f4c81d"
     },
     {
       "operator": "spp",
       "offset": 0,
       "status": "ok",
-      "rows": 2812,
-      "total": 2812,
-      "sha256": "a6b9e4881d7b49470710aebea2a7119f4453a9c0e2c61e9904311748373bff53"
+      "rows": 2819,
+      "total": 2819,
+      "sha256": "a185152e57beb644d120406b463918edb874c44b210719fd88f33f4b2d72607e"
     }
   ],
   "metrics": [
