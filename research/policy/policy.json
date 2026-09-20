@@ -1,31 +1,31 @@
 {
   "dataset": "Federal Register API documents",
   "source": "federal-register-api",
-  "retrieved_at": "2026-09-13T08:30:00Z",
-  "since": "2026-05-16",
+  "retrieved_at": "2026-09-20T08:30:01Z",
+  "since": "2026-05-23",
   "calls": [
     {
       "query": "data-center-electricity",
       "status": "ok",
-      "sha256": "879747be3351f79e20db1f819dd86ad13954850cc72fb967acc0004a31aa7587",
+      "sha256": "4b5b38a61dd57994109b318e75c0147acf53436129df1f75c26e9aa49cb24a9f",
       "results": 3
     },
     {
       "query": "large-load-interconnection",
       "status": "ok",
-      "sha256": "e5ba5970adf4c43dc5fc0eefca08561d21b9784864457931535d15a45d3f3189",
+      "sha256": "429a64dd71889d2d8663159670abd86a39e28ecf37ac93cc9e4d2695fcd2c30c",
       "results": 3
     },
     {
       "query": "transmission-corridor",
       "status": "ok",
-      "sha256": "b1c92e22ceb500648ac1c5a847c57f446b45c7b9d5ccf26a3c05eb6adb72bd1c",
+      "sha256": "37bc5e68c27863473b806a9e2f6587843e866522898dfb3f4ab7701ab3ce6e16",
       "results": 1
     },
     {
       "query": "advanced-computing-export-controls",
       "status": "ok",
-      "sha256": "284f50ad43c4b1ae954ad898613573757578152953b891aaec23001c08d00496",
+      "sha256": "040bbc27c276a7dfefe8593c18a3b728a160ca9592bc3e2926bd359bfda80037",
       "results": 1
     }
   ],
