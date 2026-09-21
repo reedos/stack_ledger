@@ -28277,22 +28277,6 @@
       "provenance": "news"
     },
     {
-      "id": "outlet-arstechnica-com-48cf4d",
-      "publisher": "Ars Technica",
-      "title": "Ars Technica feed · arstechnica.com",
-      "url": "https://arstechnica.com/feed",
-      "published": null,
-      "layers": [
-        "chips",
-        "infrastructure",
-        "models",
-        "applications"
-      ],
-      "license": "Original source rights apply",
-      "index": true,
-      "provenance": "news"
-    },
-    {
       "id": "outlet-www-datacenterfrontier-com-1b7366",
       "publisher": "Data Center Frontier",
       "title": "Data Center Frontier feed · www.datacenterfrontier.com",
@@ -28386,20 +28370,6 @@
       "provenance": "analyst"
     },
     {
-      "id": "outlet-www-tomshardware-com-92686c",
-      "publisher": "Tom's Hardware",
-      "title": "Tom's Hardware feed · www.tomshardware.com",
-      "url": "https://www.tomshardware.com/feeds.xml",
-      "published": null,
-      "layers": [
-        "chips",
-        "infrastructure"
-      ],
-      "license": "Original source rights apply",
-      "index": true,
-      "provenance": "news"
-    },
-    {
       "id": "outlet-spectrum-ieee-org-9ab67a",
       "publisher": "IEEE Spectrum",
       "title": "IEEE Spectrum feed · spectrum.ieee.org",
@@ -28422,20 +28392,6 @@
       "layers": [
         "infrastructure",
         "chips"
-      ],
-      "license": "Original source rights apply",
-      "index": true,
-      "provenance": "news"
-    },
-    {
-      "id": "outlet-www-theverge-com-8c3d9d",
-      "publisher": "The Verge",
-      "title": "The Verge feed · www.theverge.com",
-      "url": "https://www.theverge.com/rss/index.xml",
-      "published": null,
-      "layers": [
-        "models",
-        "applications"
       ],
       "license": "Original source rights apply",
       "index": true,
@@ -29148,20 +29104,6 @@
       "license": "Original source rights apply",
       "provenance": "company-channel",
       "parent_source": "google-blog-index"
-    },
-    {
-      "id": "discovered-b1a3d28adf9f8025",
-      "publisher": "Tom's Hardware",
-      "title": "Discovered public update · Tom's Hardware",
-      "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/huawei-details-ai-accelerator-roadmap-pulls-in-next-generation-ascend-npus-by-quarters-fp4-performance-of-the-ascend-960pr-doubles-expectations",
-      "published": "2026-09-18",
-      "layers": [
-        "chips",
-        "infrastructure"
-      ],
-      "license": "Original source rights apply",
-      "provenance": "news",
-      "parent_source": "outlet-www-tomshardware-com-92686c"
     },
     {
       "id": "discovered-81575cd0e9ff37b8",
@@ -93908,25 +93850,6 @@
       "document_sha256": "c3f86b403be1e24b7b0e2d203da50c39167cd1282aadb37370dbdcf2fdd0486e",
       "evidence_sha256": "cd58c3ae178a55498691e7cf553ef7c9bd3d56c2e880b2858a51e5b40cf5297b",
       "grade": "B"
-    },
-    {
-      "title": "Huawei accelerates Ascend 960 roadmap at Huawei Connect",
-      "summary": "Huawei says it accelerated its Ascend 960 roadmap and disclosed Ascend 970 and 980 specifications at its annual Huawei Connect event, adding new accelerators and supporting processors to its AI hardware roadmap.",
-      "layer": "chips",
-      "kind": "News report",
-      "id": "note-30caacc21956c8aff4bd",
-      "source": "discovered-b1a3d28adf9f8025",
-      "date": "2026-09-18",
-      "method": "automated",
-      "retrieved_at": "2026-09-18T12:36:45Z",
-      "document_sha256": "4c85641bf6f1a7b6a5d9a217aafe2c6a3f9425210b6b2b1075feaea4228d4832",
-      "evidence_sha256": "ac78480f3e375e71a353963ef9cdb2142e60050962011af7e71ff7874e0bb301",
-      "grade": "C",
-      "outlet": "Tom's Hardware",
-      "reported_on": "2026-09-18",
-      "about": [],
-      "quote": "Huawei has updated its AI hardware roadmap by adding new accelerators and supporting processors and pulling in next-generation Ascend 960 accelerators at its annual Huawei Connect event. Specifically, the company accelerated its Ascend 960 roadmap, disclosed Ascend 970 and 980 specifications, introduced its Peerium architecture based on the UnifiedBus, and expanded its vertically integrated AI infrastructure portfolio.",
-      "confirmation": "unconfirmed"
     },
     {
       "title": "TypeSafe AI releases Jev transformer model",

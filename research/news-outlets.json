@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-12T00:00:00Z",
-  "instructions": "Deliverable 4 (owner decision, September 10, 2026): register every trade and general-interest outlet below that publishes a working public feed and permits crawling, so the daily runner sees the day's stories -- every item stays grade C (claim_type: news, source_policy.grade_for) and can never enter a numeric series, chart or headline. 'layers' is the reviewed beat assignment for the outlet's own feed source record, not a topic filter -- discovery still only walks pages matching the registry's own path_prefixes/topics. Run 'python scripts/find_feeds.py --outlets --register' to probe every outlet below that has no 'status' yet (or whose 'status' is 'rejected', to retry it) and register what passes; the script writes 'status'/'reason'/'source_id'/'checked_at' back onto each entry below so a later run does not blindly re-probe a host that already answered. Never guess a feed path by hand into this file -- only the probe's own eligibility check (parses, same-host entries, a stable article path, robots allows it) adds a source_id.",
+  "reviewed_at": "2026-09-20T00:00:00Z",
+  "instructions": "Deliverable 4 (owner decision, September 10, 2026): register every trade and general-interest outlet below that publishes a working public feed and permits crawling, so the daily runner sees the day's stories -- every item stays grade C (claim_type: news, source_policy.grade_for) and can never enter a numeric series, chart or headline. 'layers' is the reviewed beat assignment for the outlet's own feed source record, not a topic filter -- discovery still only walks pages matching the registry's own path_prefixes/topics. Run 'python scripts/find_feeds.py --outlets --register' to probe every outlet below that has no 'status' yet (or whose 'status' is 'rejected', to retry it) and register what passes; the script writes 'status'/'reason'/'source_id'/'checked_at' back onto each entry below so a later run does not blindly re-probe a host that already answered. Never guess a feed path by hand into this file -- only the probe's own eligibility check (parses, same-host entries, a stable article path, robots allows it) adds a source_id. September 20, 2026 (owner decision): Tom's Hardware, The Verge and Ars Technica are culled and must not be registered again -- consumer-tech coverage judged too thin for this ledger. They are absent from the list below on purpose; do not re-add them.",
   "outlets": [
     {
       "name": "Data Center Frontier",
@@ -120,17 +120,6 @@
       "source_id": "outlet-semianalysis-com-60a43a"
     },
     {
-      "name": "Tom's Hardware",
-      "home": "https://www.tomshardware.com/",
-      "layers": [
-        "chips",
-        "infrastructure"
-      ],
-      "checked_at": "2026-09-12T02:12:06Z",
-      "status": "registered",
-      "source_id": "outlet-www-tomshardware-com-92686c"
-    },
-    {
       "name": "AnandTech",
       "home": "https://www.anandtech.com/",
       "layers": [
@@ -207,30 +196,6 @@
       "checked_at": "2026-09-12T02:12:06Z",
       "status": "registered",
       "source_id": "outlet-techcrunch-com-f84187"
-    },
-    {
-      "name": "Ars Technica",
-      "home": "https://arstechnica.com/",
-      "layers": [
-        "chips",
-        "infrastructure",
-        "models",
-        "applications"
-      ],
-      "checked_at": "2026-09-12T02:12:06Z",
-      "status": "registered",
-      "source_id": "outlet-arstechnica-com-48cf4d"
-    },
-    {
-      "name": "The Verge",
-      "home": "https://www.theverge.com/",
-      "layers": [
-        "models",
-        "applications"
-      ],
-      "checked_at": "2026-09-12T02:12:06Z",
-      "status": "registered",
-      "source_id": "outlet-www-theverge-com-8c3d9d"
     },
     {
       "name": "VentureBeat",
