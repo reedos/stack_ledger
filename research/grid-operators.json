@@ -11,7 +11,7 @@
       "machine_endpoint": null,
       "format": "PDF",
       "status": "needs_reviewed_import",
-      "note": "PJM's annual Load Forecast Report (20-year peak-load forecast by zone, region and LDA) is published as a PDF; PJM's machine-readable planning data (Data Miner 2) requires a separate registered account and is outside this task's allowed network hosts. No number entered."
+      "note": "PJM's annual Load Forecast Report (20-year peak-load forecast by zone, region and LDA) is published as a PDF; PJM's machine-readable planning data (Data Miner 2) requires a separate registered account and is outside this task's allowed network hosts. No number entered. Curated LAS planning figure (up to ~30 GW data-center growth 2025–2030) added 2026-09-22 as pjm-datacenter-growth-2025-2030-gw; full LTF peak-path import remains open."
     },
     {
       "id": "ercot",
@@ -21,7 +21,7 @@
       "machine_endpoint": null,
       "format": "PDF",
       "status": "needs_reviewed_import",
-      "note": "ERCOT's Long-Term Load Forecast (hourly, 10-year) is published as a PDF report and stakeholder deck under ercot.com/gridinfo/load/forecast; no keyless CSV/JSON export was identified within this task's allowed network hosts. No number entered."
+      "note": "ERCOT's Long-Term Load Forecast (hourly, 10-year) is published as a PDF report and stakeholder deck under ercot.com/gridinfo/load/forecast; no keyless CSV/JSON export was identified within this task's allowed network hosts. No number entered. Curated LLI queue observations from the Dec 2025 constraints report (~239 GW) and Apr 2026 board deck (~410 GW as of 2026-03-26) were added 2026-09-22 as ercot-large-load-queue-gw; long-term load-forecast PDF import remains open."
     },
     {
       "id": "miso",

@@ -12,10 +12,10 @@ Curated research pass by Blobby (Grok Bot) for Reed. Complements the gap-fill pa
 
 ## Priority research gaps (ranked)
 
-1. **ISO/RTO large-load queues** (requested vs studied vs energized) — ERCOT LLI now proposed in this package; PJM/MISO/SPP still open (`research/grid-operators.json`).
+1. **ISO/RTO large-load queues** (requested vs studied vs energized) — ERCOT LLI + approved-to-energize and PJM ~30 GW LAS planning figure now in this package; MISO/SPP and full PJM LTF peak path still open (`research/grid-operators.json`).
 2. **LBNL 2025 (landed on metric `us-dc-electricity-lbnl-2025`, peer to `us-dc-electricity`) U.S. DC electricity update** as a peer series beside IEA global — proposed observations in this package (do not splice into IEA metrics).
 3. **Live EIA series** (generation, capacity additions, retail $/kWh by project states, EIA-930 demand) — importers exist; blocked on EIA API key in `.local/api-keys.json`.
-4. **BIS / advanced-computing export-control event spine** — Jan 2025 AI Diffusion IFR proposed; extend with May 2025 policy statements and Entity List rules as grade-A events only (no invented chip tonnage).
+4. **BIS / advanced-computing export-control event spine** — Dec 2024 FDP IFR, Jan 2025 AI Diffusion IFR, and Jan 2026 license-review final rule proposed; Entity List / May 2025 statements still open as grade-A events only (no invented chip tonnage).
 5. **Non-overlapping delivered IT MW** across the project tracker — still no reviewed phase rollup / delivery %.
 6. **Applications measured outcomes** — METR early-2025 RCT proposed (method-first; negative result is still evidence). Late-2025 METR follow-up is weak/uninterpretable; keep out of charts.
 7. **2027–2030 company-by-company capex book** from primary IR — Amazon/Alphabet CY2026 guidance still AP-attributed; primary transcripts remain a follow-up.
@@ -48,7 +48,8 @@ EIA and PJM/MISO/SPP PDF forecasts are **not** auto-applied. After setting the E
 |------|---------|
 | EIA generation / additions / retail-by-state | Register key → `.local/api-keys.json` |
 | EIA-930 BA demand | Same key; importer ready |
-| PJM load forecast / Data Miner | Account + curated PDF tables |
+| PJM 2026 LTF summer peak path (2036/2046) | Curated from official load report (LAS ~30 GW already landed) |
+| PJM Data Miner / further large-load MW | Account + curated PDF tables |
 | MISO / SPP ITP large-load figures | Curated PDF import |
 | Primary Amazon / Alphabet CY2026 transcripts | Replace AP attribution |
 | Overnight Muse research session | Reeds-PC offline during this pass |
@@ -59,4 +60,6 @@ EIA and PJM/MISO/SPP PDF forecasts are **not** auto-applied. After setting the E
 - ERCOT Board Item 9, Interconnection and Grid Analysis Update, Apr 20–21 2026 (as-of Mar 26 2026): ~410 GW LLI; ~87% data centers. https://www.ercot.com/files/docs/2026/04/13/9-Interconnection-and-Grid-Analysis-Update.pdf
 - ERCOT *Report on Existing and Potential Electric System Constraints and Needs*, Dec 2025: ~239 GW large-load seeking interconnection. https://www.ercot.com/files/docs/2025/12/23/2025-Report-on-Existing-and-Potential-Electric-System-Constraints-and-Needs.pdf
 - BIS Framework for Artificial Intelligence Diffusion, 90 FR 4544, Doc. 2025-00636, published 2025-01-15. https://www.federalregister.gov/documents/2025/01/15/2025-00636/framework-for-artificial-intelligence-diffusion
+- PJM LAS Large Load Adjustment Requests Summary (2025-11-24): up to ~30 GW DC growth 2025–2030. https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2025/20251124/20251124-item-03---large-load-adjustment-requests-summary.pdf
+- BIS Doc. 2024-28270 (Dec 5, 2024) and Doc. 2026-00789 (Jan 15, 2026) — Federal Register primary.
 - METR: *Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity* (RCT; 19% longer with AI). https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/
