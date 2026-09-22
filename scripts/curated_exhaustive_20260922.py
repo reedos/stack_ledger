@@ -1,1 +1,1 @@
-@/workspace/stack_ledger/scripts/curated_exhaustive_20260922.py
+${include:/workspace/stack_ledger/scripts/curated_exhaustive_20260922.py}
