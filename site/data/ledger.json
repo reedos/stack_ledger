@@ -125,19 +125,39 @@
       "title": "U.S. data-center electricity demand",
       "unit": "TWh / year",
       "geography": "United States",
-      "scope": "All U.S. data centers. 2028 is a modeled range from the 2024 report, retained as a historical forecast vintage.",
+      "scope": "All U.S. data centers, excluding cryptocurrency mining (LBNL / DOE 2024 Report vintage).",
       "direction": "context",
       "min": 0,
       "max": 100000,
-      "note": "The 2028 interval is 325–580 TWh. A newer LBNL update exists; this series remains explicitly dated until reviewed.",
+      "note": "2024 Report vintage: 2014/2023 estimates and 2028 range 325–580 TWh. LBNL 2025 Update is metric us-dc-electricity-lbnl-2025 — never average or splice vintages.",
       "source_ids": [
         "doe-demand"
       ],
       "series_start_year": 2014,
       "chart_default_start": 2019,
-      "chart_default_end": 2030,
+      "chart_default_end": 2028,
       "definition_stable": true,
       "pre_period_note": "Reviewed catalog begins here; earlier comparable history has not been reviewed. Missing years are not zero."
+    },
+    {
+      "id": "us-dc-electricity-lbnl-2025",
+      "layer": "energy",
+      "title": "U.S. data center electricity (LBNL 2025 Update)",
+      "unit": "TWh",
+      "geography": "United States",
+      "scope": "All U.S. data centers, excluding cryptocurrency mining. LBNL 2025 Update vintage only — peer to the 2024 Report metric us-dc-electricity, not a replacement.",
+      "direction": "context",
+      "min": 0,
+      "max": 2000,
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "No reviewed observations before the LBNL 2025 Update 2024 estimate on this metric. Earlier U.S. data-center electricity history stays on us-dc-electricity (2024 Report vintage).",
+      "note": "LBNL 2025 Update: 2024≈192 TWh; 2028 Reference≈464 TWh; 2030 Reference≈649 TWh. Compounded Uncertainty for 2030 is 521–843 TWh (noted on the 2030 observation; not a second charted point). Never average with us-dc-electricity or with global IEA series.",
+      "source_ids": [
+        "lbnl-dc-2025-update"
+      ]
     },
     {
       "id": "us-nuclear",
@@ -7580,13 +7600,13 @@
       "title": "Amazon · capital spending guidance",
       "unit": "USD billion",
       "geography": "Global",
-      "scope": "CY2026 cash capex guidance reported by AP from the July earnings call; includes businesses beyond AWS. Primary transcript remains a follow-up.",
+      "scope": "CY2026 cash CapEx guidance of about $200B from Amazon written IR (Q4 results). Company-wide; includes businesses beyond AWS. Do not use unverified $220B figures.",
       "direction": "context",
       "min": 0,
       "max": 10000,
-      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "note": "Primary Amazon IR ~$200B only (company commitment). Prior AP $220B not retained. Forecast status per capital-explorer contract.",
       "source_ids": [
-        "capital-ap-outlook"
+        "capital-amazon-q4-2025-ir"
       ],
       "company": "aws",
       "measurement_type": "capex_announced_usd",
@@ -7598,7 +7618,7 @@
       "chart_default_start": 2026,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+      "pre_period_note": "Reviewed primary IR series begins with CY2026 guidance in the Feb 2026 Q4 results release."
     },
     {
       "id": "capital-guidance-alphabet",
@@ -7606,13 +7626,13 @@
       "title": "Alphabet · capital spending guidance",
       "unit": "USD billion",
       "geography": "Global",
-      "scope": "CY2026 guidance reported by AP from July earnings. Primary transcript remains a follow-up.",
+      "scope": "CY2026 company CapEx guidance from Alphabet Q2 2026 IR earnings call ($195–205B). Company-wide, not AI-only.",
       "direction": "context",
       "min": 0,
       "max": 10000,
-      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "note": "Primary IR company commitment replaces prior AP attribution. Stored as forecast per capital-explorer contract.",
       "source_ids": [
-        "capital-ap-outlook"
+        "capital-alphabet-q2-2026-ir"
       ],
       "company": "alphabet",
       "measurement_type": "capex_announced_usd",
@@ -7624,7 +7644,7 @@
       "chart_default_start": 2026,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+      "pre_period_note": "Reviewed primary IR series begins with CY2026 guidance from the Q2 2026 call."
     },
     {
       "id": "capital-guidance-meta",
@@ -7658,11 +7678,11 @@
       "title": "Microsoft · capital spending guidance",
       "unit": "USD billion",
       "geography": "Global",
-      "scope": "CY2026 guidance after lease reclassification; finance leases included, operating leases excluded. Investment expectations unchanged apart from accounting impact.",
+      "scope": "CY2026 CapEx guidance ~$175B after finance→operating lease reclassification; finance leases included, operating leases excluded.",
       "direction": "context",
       "min": 0,
       "max": 10000,
-      "note": "Company-wide spending, not AI-only or U.S.-only investment. Fiscal and accounting bases stay attached; not a capacity measure.",
+      "note": "Company IR commitment after lease definition change. Forecast status per capital-explorer contract.",
       "source_ids": [
         "capital-msft-outlook"
       ],
@@ -7676,7 +7696,7 @@
       "chart_default_start": 2026,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Earlier comparable history has not yet been reviewed for this series."
+      "pre_period_note": "Reviewed series begins with CY2026 guidance from the FY26 Q4 earnings disclosure."
     },
     {
       "id": "capital-consensus-2025-09-aws",
@@ -21626,6 +21646,520 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "ercot-large-load-queue-gw",
+      "layer": "energy",
+      "title": "ERCOT large-load interconnection queue",
+      "unit": "GW",
+      "geography": "ERCOT (Texas)",
+      "scope": "Total large-load interconnection (LLI) capacity seeking interconnection at the disclosure date. Queue entry is not an interconnection agreement, financing, or energized service. Distinct from generation/storage interconnection queues.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "ERCOT operator disclosures of large-load interconnection (LLI) capacity seeking interconnection (GW). Queue entry is not an interconnection agreement, financing, or energized service. Plain metric (no expansion measurement_type). Never sum with U.S. generation queue metrics or delivered data-center IT MW.",
+      "source_ids": [
+        "ercot-lli-board-2026-04",
+        "ercot-constraints-needs-2025-12"
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with Dec 2025 constraints report; earlier LLI totals require curated review."
+    },
+    {
+      "id": "ercot-large-load-queue-datacenter-share-pct",
+      "layer": "energy",
+      "title": "ERCOT large-load queue · data-center share",
+      "unit": "% of LLI queue MW",
+      "geography": "ERCOT (Texas)",
+      "scope": "Share of tracked large-load interconnection capacity attributed to data centers in the same ERCOT disclosure. Not a forecast of energized data-center load.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Percentage from the operator deck that also states total LLI GW. Keep paired with ercot-large-load-queue-gw for the same as-of date.",
+      "source_ids": [
+        "ercot-lli-board-2026-04"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with the March 26, 2026 as-of snapshot."
+    },
+    {
+      "id": "metr-os-dev-task-time-delta-pct",
+      "layer": "applications",
+      "title": "METR RCT · experienced OSS developer task-time change with AI allowed",
+      "unit": "% change in task completion time",
+      "geography": "Study sample (experienced open-source developers)",
+      "scope": "Randomized controlled trial of early-2025 AI tools (primarily Cursor Pro with Claude 3.5/3.7 Sonnet) on 246 real issues across mature repositories. Positive values mean slower with AI allowed. Not a population-wide productivity estimate, seat count, or 2026 frontier result.",
+      "direction": "context",
+      "min": -100,
+      "max": 100,
+      "note": "Method-first applications outcome. Developers predicted speedup; measured completion time increased. Late-2025 METR follow-up is not merged here (authors describe it as weak/uninterpretable).",
+      "source_ids": [
+        "metr-early-2025-os-dev-rct"
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2025,
+      "definition_stable": true,
+      "pre_period_note": "Single RCT vintage; do not stitch to surveys or later uninterpretable waves."
+    },
+    {
+      "id": "pjm-datacenter-growth-2025-2030-gw",
+      "layer": "energy",
+      "title": "PJM supported data-center growth (2025–2030)",
+      "unit": "GW",
+      "geography": "PJM Interconnection",
+      "scope": "PJM Large Load Adjustment / LAS planning statement of data-center growth the preliminary large-load process supports between 2025 and 2030. Planning estimate after Firm vs Non-Firm screening assumptions — not energized MW and not a raw interconnection queue total.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "No reviewed observations before the Nov 2025 LAS disclosure on this metric.",
+      "note": "From PJM LAS large-load adjustment summary (2025-11-24): supports up to ~30 GW data-center growth 2025–2030. Distinct from PJM generation interconnection queues and from ERCOT LLI queue metrics.",
+      "source_ids": [
+        "pjm-las-large-load-2025-11"
+      ]
+    },
+    {
+      "id": "ercot-large-load-approved-to-energize-mw",
+      "layer": "energy",
+      "title": "ERCOT large-load approved to energize (cumulative since 2022)",
+      "unit": "MW",
+      "geography": "ERCOT (Texas)",
+      "scope": "Cumulative large-load MW approved to energize since January 2022 as disclosed by ERCOT. ERCOT notes not all MW in this category have been observed operational — not coincident operating load.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2025,
+      "definition_stable": true,
+      "pre_period_note": "No reviewed observations before the Dec 2025 Constraints and Needs disclosure on this metric.",
+      "note": "Milestone count from ERCOT Report on Existing and Potential Electric System Constraints and Needs (Dec 2025). Never treat as energized operating MW without the operational caveat.",
+      "source_ids": [
+        "ercot-constraints-needs-2025-12"
+      ]
+    },
+    {
+      "id": "pjm-rto-summer-peak-mw",
+      "layer": "energy",
+      "title": "PJM RTO non-coincident unrestricted summer peak",
+      "unit": "MW",
+      "geography": "PJM",
+      "scope": "PJM Load Forecast Report non-coincident unrestricted summer peak for the RTO. Distinct from LAS data-center growth planning MW and from EIA-930 daily demand.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000000,
+      "note": "2026 Load Report path: 10y +65,733 MW / 20y +96,704 MW from the report base. Firm vs non-firm large-load derate language is in event pjm-2026-ltf-large-load-firm-nonfirm, not this series.",
+      "source_ids": [
+        "pjm-2026-load-report"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2046,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with the January 2026 Load Forecast Report path (2036/2046 points).",
+      "allowed_statuses": [
+        "forecast",
+        "observation"
+      ]
+    },
+    {
+      "id": "spp-peak-load-itp-gw",
+      "layer": "energy",
+      "title": "SPP peak load (ITP narrative path)",
+      "unit": "GW",
+      "geography": "Southwest Power Pool",
+      "scope": "SPP 2025 ITP executive-summary narrative: current peak load that could rise within about 10 years. Distinct from Figure 2.1 coincident-peak path (spp-itp-coincident-peak-gw).",
+      "direction": "context",
+      "min": 0,
+      "max": 500,
+      "note": "Exec summary uses \"could rise\" language (56→109 GW). Do not average with the lower Figure 2.1 coincident-peak trajectory.",
+      "source_ids": [
+        "spp-2025-itp-report"
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2035,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with the 2025 ITP Report v10 disclosures.",
+      "allowed_statuses": [
+        "observation",
+        "forecast",
+        "estimate"
+      ]
+    },
+    {
+      "id": "spp-itp-coincident-peak-gw",
+      "layer": "energy",
+      "title": "SPP ITP coincident peak (Figure 2.1 path)",
+      "unit": "GW",
+      "geography": "Southwest Power Pool",
+      "scope": "SPP 2025 ITP Figure 2.1 coincident peak trajectory. Lower path than the executive-summary 56→109 GW narrative; keep series separate.",
+      "direction": "context",
+      "min": 0,
+      "max": 500,
+      "note": "One observation per model year from Figure 2.1. Not energized large-load MW.",
+      "source_ids": [
+        "spp-2025-itp-report"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2044,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with 2025 ITP Figure 2.1 years 2026–2044.",
+      "allowed_statuses": [
+        "forecast"
+      ]
+    },
+    {
+      "id": "ercot-tsp-peak-forecast-2031-gw",
+      "layer": "energy",
+      "title": "ERCOT TSP peak forecast (2031)",
+      "unit": "GW",
+      "geography": "ERCOT (Texas)",
+      "scope": "Transmission Service Provider (TSP) peak-load forecast for 2031 from the Dec 2025 constraints and needs report. Distinct from studied peak and from LLI queue GW.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Paired with ercot-studied-peak-2031-gw from the same report. Queue ≠ forecast ≠ energized.",
+      "source_ids": [
+        "ercot-constraints-needs-2025-12"
+      ],
+      "series_start_year": 2031,
+      "chart_default_start": 2031,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "Single 2031 TSP forecast vintage from the December 2025 constraints report.",
+      "allowed_statuses": [
+        "forecast"
+      ]
+    },
+    {
+      "id": "ercot-studied-peak-2031-gw",
+      "layer": "energy",
+      "title": "ERCOT studied peak (2031)",
+      "unit": "GW",
+      "geography": "ERCOT (Texas)",
+      "scope": "Studied peak-load case for 2031 from the Dec 2025 constraints and needs report. Distinct from TSP forecast and from LLI queue GW.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Paired with ercot-tsp-peak-forecast-2031-gw. Studied ≠ approved-to-energize ≠ queue.",
+      "source_ids": [
+        "ercot-constraints-needs-2025-12"
+      ],
+      "series_start_year": 2031,
+      "chart_default_start": 2031,
+      "chart_default_end": 2031,
+      "definition_stable": true,
+      "pre_period_note": "Single 2031 studied-peak vintage from the December 2025 constraints report.",
+      "allowed_statuses": [
+        "forecast"
+      ]
+    },
+    {
+      "id": "miso-coincident-peak-ltlf-gw",
+      "layer": "energy",
+      "title": "MISO coincident peak (LTLF whitepaper)",
+      "unit": "GW",
+      "geography": "MISO",
+      "scope": "MISO Dec 2024 Long-Term Load Forecast whitepaper coincident peak. 2044 uses low–high range from the whitepaper; not the later news 163 GW figure.",
+      "direction": "context",
+      "min": 0,
+      "max": 500,
+      "note": "Do not merge with unverified 163 GW-by-2035 news claims. Distinct from EIA-930 daily demand.",
+      "source_ids": [
+        "miso-ltlf-whitepaper-2024-12"
+      ],
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2044,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with the December 2024 LTLF whitepaper (2024 observation / 2044 range).",
+      "allowed_statuses": [
+        "observation",
+        "forecast",
+        "estimate"
+      ]
+    },
+    {
+      "id": "miso-datacenter-energy-twh",
+      "layer": "energy",
+      "title": "MISO incremental data-center energy demand (LTLF)",
+      "unit": "TWh",
+      "geography": "MISO",
+      "scope": "Incremental data-center energy demand growth projections from the Dec 2024 LTLF whitepaper (not total BA energy). Ranges are low–high cases.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Incremental DC energy growth only—do not treat as MISO total load or as energized IT MW.",
+      "source_ids": [
+        "miso-ltlf-whitepaper-2024-12"
+      ],
+      "series_start_year": 2030,
+      "chart_default_start": 2030,
+      "chart_default_end": 2044,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with whitepaper projection years 2030 and 2044.",
+      "allowed_statuses": [
+        "forecast"
+      ]
+    },
+    {
+      "id": "apps-customer-support-rph-delta-pct",
+      "layer": "applications",
+      "title": "Customer-support issues resolved per hour · generative-AI delta",
+      "unit": "% change in issues resolved per hour",
+      "geography": "Study sample (Brynjolfsson/Li/Raymond)",
+      "scope": "QJE field study of a generative-AI assistant for customer-support agents. Positive values mean higher issues resolved per hour. Not a population-wide productivity estimate.",
+      "direction": "context",
+      "min": -100,
+      "max": 100,
+      "note": "Method-first applications outcome alongside METR RCT. Single study vintage; do not stitch to surveys.",
+      "source_ids": [
+        "brynjolfsson-li-raymond-qje-2025"
+      ],
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2025,
+      "definition_stable": true,
+      "pre_period_note": "Single QJE study vintage; no earlier reviewed observations on this metric.",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "capital-guidance-tsmc",
+      "layer": "chips",
+      "title": "TSMC · capital spending guidance",
+      "unit": "USD billion",
+      "geography": "Global",
+      "scope": "Company-wide CapEx guidance for calendar 2026 from TSMC earnings disclosure. Not a shipped-wafer or CoWoS capacity measure.",
+      "direction": "context",
+      "min": 0,
+      "max": 10000,
+      "note": "Company-wide spending. Advanced packaging CapEx share language stays in notes; CoWoS wafer starts are not inferred.",
+      "source_ids": [
+        "tsmc-4q25-earnings-transcript"
+      ],
+      "company": "tsmc",
+      "measurement_type": "capex_announced_usd",
+      "project": null,
+      "allowed_statuses": [
+        "company-commitment",
+        "forecast"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with 4Q25 transcript CY2026 CapEx guidance."
+    },
+    {
+      "id": "tsmc-advanced-packaging-revenue-share-pct",
+      "layer": "chips",
+      "title": "TSMC advanced packaging · revenue share",
+      "unit": "% of TSMC revenue",
+      "geography": "Global",
+      "scope": "Company commentary on advanced packaging revenue share (toward low-teens). Not CoWoS wafer-start capacity.",
+      "direction": "context",
+      "min": 0,
+      "max": 100,
+      "note": "Narrative low-teens outlook stored as approx mid-teens floor (13). Do not invent CoWoS WPM from this share.",
+      "source_ids": [
+        "tsmc-4q25-earnings-transcript"
+      ],
+      "company": "tsmc",
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with 4Q25 transcript packaging-share commentary for 2026.",
+      "allowed_statuses": [
+        "forecast",
+        "estimate",
+        "observation"
+      ]
+    },
+    {
+      "id": "sk-hynix-fab-investment-krw-trillion",
+      "layer": "chips",
+      "title": "SK hynix · fab facility investment commitment",
+      "unit": "KRW trillion",
+      "geography": "South Korea (Yongin Y2 + Cheongju M17)",
+      "scope": "Announced fab facility investment totaling ~54T KRW (35.2 + 19.1). Capital commitment, not shipped HBM volume.",
+      "direction": "context",
+      "min": 0,
+      "max": 1000,
+      "note": "Do not convert to HBM gigabyte shipments. Distinct from revenue-sk-hynix.",
+      "source_ids": [
+        "astra-hynix-fabs-20260807"
+      ],
+      "company": "sk-hynix",
+      "allowed_statuses": [
+        "company-commitment"
+      ],
+      "series_start_year": 2026,
+      "chart_default_start": 2026,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with the 2026 fab-facility investment announcement."
+    },
+    {
+      "id": "microsoft-datacenter-wue",
+      "layer": "infrastructure",
+      "title": "Microsoft datacenter fleet · water usage effectiveness",
+      "unit": "L/kWh",
+      "geography": "Microsoft global datacenter fleet",
+      "scope": "Fleet-wide Water Usage Effectiveness disclosed on Microsoft Datacenters sustainability efficiency page. Not campus-specific withdrawal.",
+      "direction": "context",
+      "min": 0,
+      "max": 50,
+      "note": "Company fleet WUE; keep separate from Google Category-2 WUE and campus Mgal series.",
+      "source_ids": [
+        "microsoft-datacenter-efficiency"
+      ],
+      "company": "microsoft",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with FY25 fleet WUE disclosure.",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
+    },
+    {
+      "id": "google-campus-water-council-bluffs-mgal",
+      "layer": "infrastructure",
+      "title": "Google Council Bluffs · annual water consumption",
+      "unit": "Mgal",
+      "geography": "Council Bluffs, Iowa (Google campus)",
+      "scope": "Campus annual water consumption from Alphabet FY2025 environmental indicators assurance. Not fleet WUE.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Campus Mgal only; do not sum into national DC water headlines without review.",
+      "source_ids": [
+        "alphabet-fy2025-env-indicators-assurance"
+      ],
+      "company": "alphabet",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with CY2025 assurance-letter campus figure.",
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "google-campus-water-the-dalles-mgal",
+      "layer": "infrastructure",
+      "title": "Google The Dalles · annual water consumption",
+      "unit": "Mgal",
+      "geography": "The Dalles, Oregon (Google campus)",
+      "scope": "Campus annual water consumption from Alphabet FY2025 environmental indicators assurance. Not fleet WUE.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Campus Mgal only; do not sum into national DC water headlines without review.",
+      "source_ids": [
+        "alphabet-fy2025-env-indicators-assurance"
+      ],
+      "company": "alphabet",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with CY2025 assurance-letter campus figure.",
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "google-campus-water-mayes-county-mgal",
+      "layer": "infrastructure",
+      "title": "Google Mayes County OK · annual water consumption",
+      "unit": "Mgal",
+      "geography": "Mayes County, Oklahoma (Google campus)",
+      "scope": "Campus annual water consumption from Alphabet FY2025 environmental indicators assurance. Not fleet WUE.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Campus Mgal only; do not sum into national DC water headlines without review.",
+      "source_ids": [
+        "alphabet-fy2025-env-indicators-assurance"
+      ],
+      "company": "alphabet",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with CY2025 assurance-letter campus figure.",
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "google-campus-water-new-albany-mgal",
+      "layer": "infrastructure",
+      "title": "Google New Albany OH · annual water consumption",
+      "unit": "Mgal",
+      "geography": "New Albany, Ohio (Google campus)",
+      "scope": "Campus annual water consumption from Alphabet FY2025 environmental indicators assurance. Not fleet WUE.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Campus Mgal only; do not sum into national DC water headlines without review.",
+      "source_ids": [
+        "alphabet-fy2025-env-indicators-assurance"
+      ],
+      "company": "alphabet",
+      "series_start_year": 2025,
+      "chart_default_start": 2025,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with CY2025 assurance-letter campus figure.",
+      "allowed_statuses": [
+        "observation"
+      ]
+    },
+    {
+      "id": "google-wue-category2",
+      "layer": "infrastructure",
+      "title": "Google data centers · WUE Category 2",
+      "unit": "L/kWh",
+      "geography": "Google data centers supporting LLM models",
+      "scope": "ISO WUE Category 2 (consumptive) fleet average cited in Google AI-at-scale environmental paper for prior calendar years.",
+      "direction": "context",
+      "min": 0,
+      "max": 50,
+      "note": "Category-2 consumptive WUE; distinct from campus Mgal and Microsoft fleet WUE.",
+      "source_ids": [
+        "google-ai-env-impact-scale"
+      ],
+      "company": "alphabet",
+      "series_start_year": 2023,
+      "chart_default_start": 2023,
+      "chart_default_end": 2030,
+      "definition_stable": true,
+      "pre_period_note": "Reviewed catalog begins with 2023–2024 Category-2 values stated in the AI-at-scale paper.",
+      "allowed_statuses": [
+        "observation",
+        "estimate"
+      ]
     }
   ],
   "sources": [
@@ -29133,6 +29667,338 @@
       "license": "Original source rights apply",
       "provenance": "company-channel",
       "parent_source": "google-research"
+    },
+    {
+      "id": "lbnl-dc-2025-update",
+      "publisher": "Lawrence Berkeley National Laboratory / U.S. Department of Energy",
+      "title": "United States Data Center Energy Usage Report: 2025 Update (LBNL-2001758)",
+      "url": "https://www.energy.gov/documents/united-states-data-center-energy-usage-report-2025-update",
+      "published": "2026-06-18",
+      "layers": [
+        "energy"
+      ],
+      "license": "CC BY 4.0",
+      "provenance": "independent-research"
+    },
+    {
+      "id": "ercot-lli-board-2026-04",
+      "publisher": "ERCOT",
+      "title": "Board Item 9 · Interconnection and Grid Analysis Update (as of March 26, 2026)",
+      "url": "https://www.ercot.com/files/docs/2026/04/13/9-Interconnection-and-Grid-Analysis-Update.pdf",
+      "published": "2026-04-20",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "See original source",
+      "provenance": "official"
+    },
+    {
+      "id": "ercot-constraints-needs-2025-12",
+      "publisher": "ERCOT",
+      "title": "Report on Existing and Potential Electric System Constraints and Needs · December 2025",
+      "url": "https://www.ercot.com/files/docs/2025/12/23/2025-Report-on-Existing-and-Potential-Electric-System-Constraints-and-Needs.pdf",
+      "published": "2025-12-23",
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "See original source",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2025-00636",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Framework for Artificial Intelligence Diffusion (90 FR 4544)",
+      "url": "https://www.federalregister.gov/documents/2025/01/15/2025-00636/framework-for-artificial-intelligence-diffusion",
+      "published": "2025-01-15",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "metr-early-2025-os-dev-rct",
+      "publisher": "METR",
+      "title": "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity",
+      "url": "https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/",
+      "published": "2025-07-10",
+      "layers": [
+        "applications",
+        "models"
+      ],
+      "license": "See original source",
+      "provenance": "independent-research"
+    },
+    {
+      "id": "federal-register-2024-28270",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Foreign-Produced Direct Product Rule Additions and Advanced Computing / SME Control Refinements",
+      "url": "https://www.federalregister.gov/documents/2024/12/05/2024-28270/foreign-produced-direct-product-rule-additions-and-refinements-to-controls-for-advanced-computing",
+      "published": "2024-12-05",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2026-00789",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Revision to License Review Policy for Advanced Computing Commodities",
+      "url": "https://www.federalregister.gov/documents/2026/01/15/2026-00789/revision-to-license-review-policy-for-advanced-computing-commodities",
+      "published": "2026-01-15",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "pjm-las-large-load-2025-11",
+      "publisher": "PJM Interconnection",
+      "title": "Large Load Adjustment Requests Summary (LAS, Nov 24, 2025)",
+      "url": "https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2025/20251124/20251124-item-03---large-load-adjustment-requests-summary.pdf",
+      "published": "2025-11-24",
+      "layers": [
+        "energy"
+      ],
+      "license": "See PJM terms",
+      "provenance": "official"
+    },
+    {
+      "id": "pjm-2026-load-report",
+      "publisher": "PJM Interconnection",
+      "title": "2026 PJM Load Forecast Report",
+      "url": "https://www.pjm.com/-/media/DotCom/library/reports-notices/load-forecast/2026-load-report.pdf",
+      "published": "2026-01-14",
+      "layers": [
+        "energy"
+      ],
+      "license": "See original source",
+      "provenance": "official"
+    },
+    {
+      "id": "spp-2025-itp-report",
+      "publisher": "Southwest Power Pool",
+      "title": "SPP 2025 Integrated Transmission Planning (ITP) Report v10",
+      "url": "https://www.spp.org/media/2429/2025-itp-report-v10.pdf",
+      "published": "2025-11-25",
+      "layers": [
+        "energy"
+      ],
+      "license": "See original source",
+      "provenance": "official"
+    },
+    {
+      "id": "miso-ltlf-whitepaper-2024-12",
+      "publisher": "MISO",
+      "title": "MISO Long-Term Load Forecast Whitepaper (December 2024)",
+      "url": "https://cdn.misoenergy.org/MISO%20Long-Term%20Load%20Forecast%20Whitepaper_December%202024667166.pdf",
+      "published": "2024-12-01",
+      "layers": [
+        "energy"
+      ],
+      "license": "See original source",
+      "provenance": "official"
+    },
+    {
+      "id": "capital-alphabet-q2-2026-ir",
+      "publisher": "Alphabet",
+      "title": "Alphabet 2026 Q2 earnings call · CY2026 CapEx guidance",
+      "url": "https://abc.xyz/investor/events/event-details/2026/2026-Q2-Earnings-Call-2026-GgTAq7Is0z/default.aspx",
+      "published": "2026-07-22",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
+    },
+    {
+      "id": "capital-amazon-q4-2025-ir",
+      "publisher": "Amazon",
+      "title": "Amazon.com Announces Fourth Quarter Results · CY2026 CapEx",
+      "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/",
+      "published": "2026-02-05",
+      "layers": [
+        "infrastructure"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
+    },
+    {
+      "id": "federal-register-2025-17893",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Additions and Revisions to the Entity List (90 FR 44496)",
+      "url": "https://www.federalregister.gov/documents/2025/09/16/2025-17893/additions-and-revisions-to-the-entity-list",
+      "published": "2025-09-16",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2025-19001",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Expansion of End-User Controls To Cover Affiliates of Certain Listed Entities",
+      "url": "https://www.federalregister.gov/documents/2025/09/30/2025-19001/expansion-of-end-user-controls-to-cover-affiliates-of-certain-listed-entities",
+      "published": "2025-09-30",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2025-19508",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Additions to the Entity List (90 FR 48193)",
+      "url": "https://www.federalregister.gov/documents/2025/10/09/2025-19508/additions-to-the-entity-list",
+      "published": "2025-10-09",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2025-19846",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "One Year Suspension of Expansion of End-User Controls for Affiliates",
+      "url": "https://www.federalregister.gov/documents/2025/11/12/2025-19846/one-year-suspension-of-expansion-of-end-user-controls-for-affiliates-of-certain-listed-entities",
+      "published": "2025-11-12",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2025-19858",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Revisions to the Entity List (Arrow China removal / alias cleanup)",
+      "url": "https://www.federalregister.gov/documents/2025/11/12/2025-19858/revisions-to-the-entity-list",
+      "published": "2025-11-12",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2026-17230",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Removal From the Entity List (91 FR 54657)",
+      "url": "https://www.federalregister.gov/documents/2026/08/24/2026-17230/removal-from-the-entity-list",
+      "published": "2026-08-24",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "federal-register-2026-17231",
+      "publisher": "U.S. Bureau of Industry and Security",
+      "title": "Revisions to the Entity List (Arrow Electronics Hong Kong addresses)",
+      "url": "https://www.federalregister.gov/documents/2026/08/24/2026-17231/revisions-to-the-entity-list",
+      "published": "2026-08-24",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "wh-eo-dc-permitting-2025-07-23",
+      "publisher": "The White House",
+      "title": "Accelerating Federal Permitting of Data Center Infrastructure (EO)",
+      "url": "https://www.whitehouse.gov/presidential-actions/2025/07/accelerating-federal-permitting-of-data-center-infrastructure/",
+      "published": "2025-07-23",
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "Public domain (U.S. government work)",
+      "provenance": "official"
+    },
+    {
+      "id": "dellacqua-jagged-frontier-orsc-2026",
+      "publisher": "Organization Science (INFORMS)",
+      "title": "Navigating the Jagged Technological Frontier (Dell'Acqua et al.)",
+      "url": "https://doi.org/10.1287/orsc.2025.21838",
+      "published": "2026-03-11",
+      "layers": [
+        "applications"
+      ],
+      "license": "CC BY 4.0 (publisher terms)",
+      "provenance": "independent-research"
+    },
+    {
+      "id": "brynjolfsson-li-raymond-qje-2025",
+      "publisher": "Quarterly Journal of Economics",
+      "title": "Generative AI at Work (Brynjolfsson, Li, Raymond) · DOI qjae044",
+      "url": "https://danielle.li/assets/docs/GenerativeAIatWork.pdf",
+      "published": "2025-02-04",
+      "layers": [
+        "applications"
+      ],
+      "license": "See original source",
+      "provenance": "independent-research"
+    },
+    {
+      "id": "tsmc-4q25-earnings-transcript",
+      "publisher": "TSMC",
+      "title": "TSMC 4Q25 earnings conference call transcript",
+      "url": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-01/51d09df96cd89ac19d65af39032b038dc2896a24/TSMC%204Q25%20Transcript.pdf",
+      "published": "2026-01-16",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
+    },
+    {
+      "id": "microsoft-datacenter-efficiency",
+      "publisher": "Microsoft",
+      "title": "Microsoft Datacenters · sustainability efficiency (WUE)",
+      "url": "https://datacenters.microsoft.com/sustainability/efficiency/",
+      "published": null,
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "See original source",
+      "provenance": "company-channel"
+    },
+    {
+      "id": "alphabet-fy2025-env-indicators-assurance",
+      "publisher": "Alphabet / Google",
+      "title": "Alphabet FY2025 environmental indicators assurance letter",
+      "url": "https://sustainability.google/files/alphabet-fy2025-environmental-indicators-assurance-letter/",
+      "published": "2026-06-22",
+      "layers": [
+        "infrastructure",
+        "energy"
+      ],
+      "license": "See original source",
+      "provenance": "company-channel"
+    },
+    {
+      "id": "google-ai-env-impact-scale",
+      "publisher": "Google",
+      "title": "Measuring the environmental impact of delivering AI at Google Scale",
+      "url": "https://services.google.com/fh/files/misc/measuring_the_environmental_impact_of_delivering_ai_at_google_scale.pdf",
+      "published": "2025-08-01",
+      "layers": [
+        "infrastructure",
+        "energy",
+        "applications"
+      ],
+      "license": "See original source",
+      "provenance": "company-channel"
     }
   ],
   "observations": [
@@ -38250,32 +39116,32 @@
       "note": "Fiscal year ended May 31, 2026. Reported cash expenditure; converted from USD millions to billions."
     },
     {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
       "id": "capital-guidance-aws-2026-reviewed",
       "metric": "capital-guidance-aws",
       "year": 2026,
       "period": "CY2026 guidance",
-      "value": 220,
-      "upper": null,
+      "value": 200,
       "status": "forecast",
-      "source": "capital-ap-outlook",
+      "source": "capital-amazon-q4-2025-ir",
       "precision": "approx",
-      "retrieved_at": "2026-09-09T05:58:24Z",
-      "method": "curated",
-      "note": "CY2026 cash capex guidance reported by AP from the July earnings call; includes businesses beyond AWS. Primary transcript remains a follow-up."
+      "note": "CY2026 CapEx about $200B from Amazon written IR. $220B not in this primary. Forecast per explorer."
     },
     {
+      "upper": 205,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
       "id": "capital-guidance-alphabet-2026-reviewed",
       "metric": "capital-guidance-alphabet",
       "year": 2026,
       "period": "CY2026 guidance",
       "value": 195,
-      "upper": 205,
       "status": "forecast",
-      "source": "capital-ap-outlook",
+      "source": "capital-alphabet-q2-2026-ir",
       "precision": "range",
-      "retrieved_at": "2026-09-09T05:58:24Z",
-      "method": "curated",
-      "note": "CY2026 guidance reported by AP from July earnings. Primary transcript remains a follow-up."
+      "note": "CY2026 CapEx guidance $195–205B from Alphabet Q2 2026 IR (company commitment; forecast per explorer)."
     },
     {
       "id": "capital-guidance-meta-2026-reviewed",
@@ -38292,18 +39158,18 @@
       "note": "CY2026 guidance includes finance-lease principal payments, unlike the historical cash PP&E series."
     },
     {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
       "id": "capital-guidance-microsoft-2026-reviewed",
       "metric": "capital-guidance-microsoft",
       "year": 2026,
       "period": "CY2026 guidance",
       "value": 175,
-      "upper": null,
       "status": "forecast",
       "source": "capital-msft-outlook",
       "precision": "approx",
-      "retrieved_at": "2026-09-09T05:58:24Z",
-      "method": "curated",
-      "note": "CY2026 guidance after lease reclassification; finance leases included, operating leases excluded. Investment expectations unchanged apart from accounting impact."
+      "note": "CY2026 ~$175B after lease reclass (finance in; operating out). Company commitment; forecast per explorer."
     },
     {
       "id": "capital-consensus-2025-09-aws-2026",
@@ -92826,6 +93692,482 @@
       "retrieved_at": "2026-09-16T08:30:06Z",
       "method": "curated",
       "note": "Epoch AI estimate for Meta-QTS Hillsboro 2 (owner Meta), dataset vintage 2026-09, sha256 a5832abba726. CC BY 4.0."
+    },
+    {
+      "id": "us-dc-lbnl2025-2024",
+      "metric": "us-dc-electricity-lbnl-2025",
+      "year": 2024,
+      "period": "2024",
+      "value": 192,
+      "upper": null,
+      "status": "estimate",
+      "source": "lbnl-dc-2025-update",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:08:19Z",
+      "method": "curated",
+      "note": "LBNL 2025 Update estimate ≈192 TWh for 2024."
+    },
+    {
+      "id": "us-dc-lbnl2025-2028-ref",
+      "metric": "us-dc-electricity-lbnl-2025",
+      "year": 2028,
+      "period": "2028",
+      "value": 464,
+      "upper": null,
+      "status": "forecast",
+      "source": "lbnl-dc-2025-update",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:08:19Z",
+      "method": "curated",
+      "note": "LBNL 2025 Update Reference Case ≈464 TWh."
+    },
+    {
+      "id": "us-dc-lbnl2025-2030-ref",
+      "metric": "us-dc-electricity-lbnl-2025",
+      "year": 2030,
+      "period": "2030",
+      "value": 649,
+      "upper": null,
+      "status": "forecast",
+      "source": "lbnl-dc-2025-update",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:08:19Z",
+      "method": "curated",
+      "note": "LBNL 2025 Update Reference Case ≈649 TWh. Same report Compounded Uncertainty band is 521–843 TWh (not charted as a second 2030 point)."
+    },
+    {
+      "id": "ercot-lli-2025-12",
+      "metric": "ercot-large-load-queue-gw",
+      "year": 2025,
+      "period": "2025-12 constraints report",
+      "value": 239,
+      "upper": null,
+      "status": "observation",
+      "source": "ercot-constraints-needs-2025-12",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:08:19Z",
+      "method": "curated",
+      "note": "ERCOT: approximately 239 GW of large load seeking interconnection. Queue ≠ energized service."
+    },
+    {
+      "id": "ercot-lli-2026-03-26",
+      "metric": "ercot-large-load-queue-gw",
+      "year": 2026,
+      "period": "2026-03-26",
+      "value": 410,
+      "upper": null,
+      "status": "observation",
+      "source": "ercot-lli-board-2026-04",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:08:19Z",
+      "method": "curated",
+      "note": "Board deck: approximately 410 GW LLI queue; +178 GW since end-2025. Q1 2026 added 198 new LLI requests."
+    },
+    {
+      "id": "ercot-lli-dc-share-2026-03-26",
+      "metric": "ercot-large-load-queue-datacenter-share-pct",
+      "year": 2026,
+      "period": "2026-03-26",
+      "value": 87.6,
+      "upper": null,
+      "status": "observation",
+      "source": "ercot-lli-board-2026-04",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:08:19Z",
+      "method": "curated",
+      "note": "Same deck states ~87% / chart label 87.6% of LLI MW are data centers. Not energized data-center load."
+    },
+    {
+      "id": "metr-os-dev-slowdown-2025",
+      "metric": "metr-os-dev-task-time-delta-pct",
+      "year": 2025,
+      "period": "Feb–Jun 2025 RCT",
+      "value": 19,
+      "upper": null,
+      "status": "observation",
+      "source": "metr-early-2025-os-dev-rct",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:08:19Z",
+      "method": "curated",
+      "note": "Allowing AI increased completion time by ~19% vs AI-disallowed (16 developers, 246 tasks). Developers had forecast ~24% speedup. Snapshot of early-2025 tools in mature OSS repos—not a universal agent ROI."
+    },
+    {
+      "id": "pjm-dc-growth-2025-2030",
+      "metric": "pjm-datacenter-growth-2025-2030-gw",
+      "year": 2030,
+      "period": "2030",
+      "value": 30,
+      "upper": null,
+      "status": "forecast",
+      "source": "pjm-las-large-load-2025-11",
+      "precision": "approx",
+      "retrieved_at": "2026-09-22T07:16:00Z",
+      "method": "curated",
+      "note": "PJM LAS (2025-11-24): preliminary large-load process supports up to ~30 GW data-center growth between 2025 and 2030 (after Firm vs Non-Firm screening assumptions). Planning estimate, not energized MW."
+    },
+    {
+      "id": "ercot-lli-approved-energize-2025-12",
+      "metric": "ercot-large-load-approved-to-energize-mw",
+      "year": 2025,
+      "period": "2025",
+      "value": 7502,
+      "upper": null,
+      "status": "observation",
+      "source": "ercot-constraints-needs-2025-12",
+      "precision": "eq",
+      "retrieved_at": "2026-09-22T07:16:00Z",
+      "method": "curated",
+      "note": "ERCOT Constraints and Needs (Dec 2025): 7,502 MW approved to energize since January 2022 (as of Dec 17, 2025). ERCOT notes not all MW have been observed operational."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "pjm-rto-summer-peak-2036",
+      "metric": "pjm-rto-summer-peak-mw",
+      "year": 2036,
+      "period": "2036",
+      "value": 222106,
+      "status": "forecast",
+      "source": "pjm-2026-load-report",
+      "precision": "eq",
+      "note": "Non-coincident unrestricted summer peak from 2026 Load Report. 10y growth +65,733 MW in report."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "pjm-rto-summer-peak-2046",
+      "metric": "pjm-rto-summer-peak-mw",
+      "year": 2046,
+      "period": "2046",
+      "value": 253077,
+      "status": "forecast",
+      "source": "pjm-2026-load-report",
+      "precision": "eq",
+      "note": "Non-coincident unrestricted summer peak from 2026 Load Report. 20y growth +96,704 MW in report."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "spp-peak-load-itp-2025",
+      "metric": "spp-peak-load-itp-gw",
+      "year": 2025,
+      "period": "2025",
+      "value": 56,
+      "status": "observation",
+      "source": "spp-2025-itp-report",
+      "precision": "approx",
+      "note": "ITP exec-summary current peak load (~56 GW). Narrative \"could rise\" path; not Fig 2.1."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "spp-peak-load-itp-2035",
+      "metric": "spp-peak-load-itp-gw",
+      "year": 2035,
+      "period": "2035",
+      "value": 109,
+      "status": "forecast",
+      "source": "spp-2025-itp-report",
+      "precision": "approx",
+      "note": "ITP exec-summary: could rise to ~109 GW within ~10 years. Distinct from Fig 2.1 coincident path."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "spp-itp-coincident-peak-2026",
+      "metric": "spp-itp-coincident-peak-gw",
+      "year": 2026,
+      "period": "2026",
+      "value": 61.7,
+      "status": "forecast",
+      "source": "spp-2025-itp-report",
+      "precision": "approx",
+      "note": "ITP Figure 2.1 coincident peak for 2026. Lower path than exec-summary 56→109 GW narrative."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "spp-itp-coincident-peak-2029",
+      "metric": "spp-itp-coincident-peak-gw",
+      "year": 2029,
+      "period": "2029",
+      "value": 66.5,
+      "status": "forecast",
+      "source": "spp-2025-itp-report",
+      "precision": "approx",
+      "note": "ITP Figure 2.1 coincident peak for 2029. Lower path than exec-summary 56→109 GW narrative."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "spp-itp-coincident-peak-2034",
+      "metric": "spp-itp-coincident-peak-gw",
+      "year": 2034,
+      "period": "2034",
+      "value": 69.8,
+      "status": "forecast",
+      "source": "spp-2025-itp-report",
+      "precision": "approx",
+      "note": "ITP Figure 2.1 coincident peak for 2034. Lower path than exec-summary 56→109 GW narrative."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "spp-itp-coincident-peak-2044",
+      "metric": "spp-itp-coincident-peak-gw",
+      "year": 2044,
+      "period": "2044",
+      "value": 76.4,
+      "status": "forecast",
+      "source": "spp-2025-itp-report",
+      "precision": "approx",
+      "note": "ITP Figure 2.1 coincident peak for 2044. Lower path than exec-summary 56→109 GW narrative."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "ercot-tsp-peak-2031",
+      "metric": "ercot-tsp-peak-forecast-2031-gw",
+      "year": 2031,
+      "period": "2031",
+      "value": 218,
+      "status": "forecast",
+      "source": "ercot-constraints-needs-2025-12",
+      "precision": "approx",
+      "note": "TSP peak forecast ~218 GW for 2031 (Dec 2025 constraints report)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "ercot-studied-peak-2031",
+      "metric": "ercot-studied-peak-2031-gw",
+      "year": 2031,
+      "period": "2031",
+      "value": 159,
+      "status": "forecast",
+      "source": "ercot-constraints-needs-2025-12",
+      "precision": "approx",
+      "note": "Studied peak ~159 GW for 2031 (Dec 2025 constraints report)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "miso-coincident-peak-2024",
+      "metric": "miso-coincident-peak-ltlf-gw",
+      "year": 2024,
+      "period": "2024",
+      "value": 122,
+      "status": "observation",
+      "source": "miso-ltlf-whitepaper-2024-12",
+      "precision": "approx",
+      "note": "LTLF whitepaper coincident peak ~122 GW (2024)."
+    },
+    {
+      "upper": 186,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "miso-coincident-peak-2044",
+      "metric": "miso-coincident-peak-ltlf-gw",
+      "year": 2044,
+      "period": "2044",
+      "value": 152,
+      "status": "forecast",
+      "source": "miso-ltlf-whitepaper-2024-12",
+      "precision": "range",
+      "note": "LTLF whitepaper 2044 coincident peak low–high 152–186 GW. Not the news 163 GW figure."
+    },
+    {
+      "upper": 80,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "miso-dc-energy-2030",
+      "metric": "miso-datacenter-energy-twh",
+      "year": 2030,
+      "period": "2030",
+      "value": 42,
+      "status": "forecast",
+      "source": "miso-ltlf-whitepaper-2024-12",
+      "precision": "range",
+      "note": "Incremental DC energy demand growth projection by 2030 (42–80 TWh)."
+    },
+    {
+      "upper": 241,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "miso-dc-energy-2044",
+      "metric": "miso-datacenter-energy-twh",
+      "year": 2044,
+      "period": "2044",
+      "value": 149,
+      "status": "forecast",
+      "source": "miso-ltlf-whitepaper-2024-12",
+      "precision": "range",
+      "note": "Incremental DC energy demand growth projection by 2044 (149–241 TWh)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "apps-customer-support-rph-2025",
+      "metric": "apps-customer-support-rph-delta-pct",
+      "year": 2025,
+      "period": "QJE study",
+      "value": 15,
+      "status": "observation",
+      "source": "brynjolfsson-li-raymond-qje-2025",
+      "precision": "approx",
+      "note": "+15% issues resolved per hour with generative-AI assistant (Brynjolfsson/Li/Raymond QJE)."
+    },
+    {
+      "upper": 56,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "capital-guidance-tsmc-2026",
+      "metric": "capital-guidance-tsmc",
+      "year": 2026,
+      "period": "CY2026 guidance",
+      "value": 52,
+      "status": "company-commitment",
+      "source": "tsmc-4q25-earnings-transcript",
+      "precision": "range",
+      "note": "TSMC CY2026 CapEx guidance $52–56B from 4Q25 transcript."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "tsmc-packaging-revenue-share-2026",
+      "metric": "tsmc-advanced-packaging-revenue-share-pct",
+      "year": 2026,
+      "period": "2026",
+      "value": 13,
+      "status": "forecast",
+      "source": "tsmc-4q25-earnings-transcript",
+      "precision": "approx",
+      "note": "Advanced packaging revenue share toward low-teens (~13% midpoint of narrative). Not CoWoS WPM."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "sk-hynix-fab-investment-2026",
+      "metric": "sk-hynix-fab-investment-krw-trillion",
+      "year": 2026,
+      "period": "2026 announcement",
+      "value": 54,
+      "status": "company-commitment",
+      "source": "astra-hynix-fabs-20260807",
+      "precision": "approx",
+      "note": "~54T KRW fab investment commitment (35.2 + 19.1 for Y2 + M17). Not HBM volume."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "microsoft-datacenter-wue-fy25",
+      "metric": "microsoft-datacenter-wue",
+      "year": 2025,
+      "period": "FY25",
+      "value": 0.27,
+      "status": "observation",
+      "source": "microsoft-datacenter-efficiency",
+      "precision": "approx",
+      "note": "Microsoft fleet WUE 0.27 L/kWh for FY25 from Datacenters efficiency page."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "google-water-council-bluffs-2025",
+      "metric": "google-campus-water-council-bluffs-mgal",
+      "year": 2025,
+      "period": "CY2025",
+      "value": 1346.0,
+      "status": "observation",
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "precision": "eq",
+      "note": "Council Bluffs campus water consumption 1,346.0 Mgal (CY2025 assurance)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "google-water-the-dalles-2025",
+      "metric": "google-campus-water-the-dalles-mgal",
+      "year": 2025,
+      "period": "CY2025",
+      "value": 469.0,
+      "status": "observation",
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "precision": "eq",
+      "note": "The Dalles campus water consumption 469.0 Mgal (CY2025 assurance)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "google-water-mayes-county-2025",
+      "metric": "google-campus-water-mayes-county-mgal",
+      "year": 2025,
+      "period": "CY2025",
+      "value": 1081.4,
+      "status": "observation",
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "precision": "eq",
+      "note": "Mayes County OK campus water consumption 1,081.4 Mgal (CY2025 assurance)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "google-water-new-albany-2025",
+      "metric": "google-campus-water-new-albany-mgal",
+      "year": 2025,
+      "period": "CY2025",
+      "value": 835.7,
+      "status": "observation",
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "precision": "eq",
+      "note": "New Albany OH campus water consumption 835.7 Mgal (CY2025 assurance)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "google-wue-category2-2023",
+      "metric": "google-wue-category2",
+      "year": 2023,
+      "period": "2023",
+      "value": 1.15,
+      "status": "observation",
+      "source": "google-ai-env-impact-scale",
+      "precision": "eq",
+      "note": "Google WUE Category 2 = 1.15 L/kWh for 2023 (AI-at-scale environmental paper)."
+    },
+    {
+      "upper": null,
+      "retrieved_at": "2026-09-22T07:24:01Z",
+      "method": "curated",
+      "id": "google-wue-category2-2024",
+      "metric": "google-wue-category2",
+      "year": 2024,
+      "period": "2024",
+      "value": 1.15,
+      "status": "observation",
+      "source": "google-ai-env-impact-scale",
+      "precision": "eq",
+      "note": "Google WUE Category 2 = 1.15 L/kWh for 2024 (AI-at-scale environmental paper)."
     }
   ],
   "events": [
@@ -93896,6 +95238,136 @@
       "retrieved_at": "2026-09-21T09:33:57Z",
       "document_sha256": "e1c48205bf94ea2d5596549b442b799e4711f419c7d2e19d362b7ca74d110a05",
       "evidence_sha256": "8cef94ba88ccc653d2f7fc1a1c6d3d9158a80f80394a9514bb20b740919d229f",
+      "grade": "B"
+    },
+    {
+      "id": "policy-2025-00636",
+      "layer": "chips",
+      "date": "2025-01-15",
+      "title": "BIS Framework for Artificial Intelligence Diffusion (advanced computing + model weights)",
+      "summary": "Interim final rule (Doc. 2025-00636, Docket 250107-0007, 90 FR 4544) expands worldwide licensing for advanced computing ICs (ECCNs 3A090.a / 4A090.a and related .z items), adds ECCN 4E091 controls on certain closed-weight AI model weights trained above 10^26 operations, and creates license exceptions and Data Center VEU pathways. Effective 2025-01-13; general compliance 2025-05-15. Grade A government action only—no shipment volumes inferred.",
+      "source": "federal-register-2025-00636",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2024-28270",
+      "layer": "chips",
+      "date": "2024-12-05",
+      "title": "BIS IFR: FDP additions and advanced computing / semiconductor manufacturing control refinements",
+      "summary": "Interim final rule (Doc. 2024-28270) adds foreign-produced direct product rule coverage and refines controls on advanced computing and semiconductor manufacturing items (including HBM-related and SME pathways). Effective 2024-12-02 with staggered compliance. Grade A government action only—no chip shipment volumes inferred.",
+      "source": "federal-register-2024-28270",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2026-00789",
+      "layer": "chips",
+      "date": "2026-01-15",
+      "title": "BIS final rule: license review policy for certain advanced computing commodities",
+      "summary": "Final rule (Doc. 2026-00789) revises license review policy for certain advanced computing exports (e.g. case-by-case treatment under certifications for specified TPP and DRAM bandwidth thresholds to China/Macau). Effective 2026-01-15. Grade A government action only—no shipment volumes inferred.",
+      "source": "federal-register-2026-00789",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "pjm-2026-ltf-large-load-firm-nonfirm",
+      "layer": "energy",
+      "date": "2026-01-14",
+      "title": "PJM 2026 LTF: firm vs non-firm large-load derate language",
+      "summary": "The 2026 PJM Load Forecast Report discusses firm versus non-firm treatment and derate language for large-load additions. No single data-center GW total is taken from this LTF narrative; LAS ~30 GW planning figure remains on pjm-datacenter-growth-2025-2030-gw. Grade A operator disclosure—no invented energized MW.",
+      "source": "pjm-2026-load-report",
+      "kind": "Constraint update",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2025-17893",
+      "layer": "chips",
+      "date": "2025-09-16",
+      "title": "BIS Entity List additions and revisions (Doc. 2025-17893)",
+      "summary": "Final rule (Doc. 2025-17893, 90 FR 44496) adds 32 entities to the Entity List (China 23, Turkey 3, UAE 2, and others), revises one Russia address entry, and corrects typographical errors in 27 listings. Grade A government action only—no chip shipment volumes inferred.",
+      "source": "federal-register-2025-17893",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2025-19001",
+      "layer": "chips",
+      "date": "2025-09-30",
+      "title": "BIS Affiliates rule: 50% ownership Entity List expansion",
+      "summary": "Interim final rule (Doc. 2025-19001) extends Entity List, MEU List, and certain SDN-linked EAR restrictions to foreign affiliates owned 50% or more by listed parties (Affiliates rule), with Temporary General License and Red Flag 29. Grade A government action only—no tonnage.",
+      "source": "federal-register-2025-19001",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2025-19508",
+      "layer": "chips",
+      "date": "2025-10-09",
+      "title": "BIS Entity List additions (Doc. 2025-19508)",
+      "summary": "Final rule (Doc. 2025-19508, 90 FR 48193) adds 29 entries (26 entities and 3 addresses) under China, Turkey, and the UAE. Grade A government action only—no chip shipment volumes inferred.",
+      "source": "federal-register-2025-19508",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2025-19846",
+      "layer": "chips",
+      "date": "2025-11-12",
+      "title": "BIS one-year suspension of Affiliates rule expansion",
+      "summary": "Final rule (Doc. 2025-19846, 90 FR 50857) imposes a one-year suspension of the Affiliates rule (through 2026-11-09) before scheduled reinstatement. Grade A government action only—no tonnage.",
+      "source": "federal-register-2025-19846",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2025-19858",
+      "layer": "chips",
+      "date": "2025-11-12",
+      "title": "BIS Entity List revisions (Arrow China removal)",
+      "summary": "Final rule (Doc. 2025-19858, 90 FR 50858) removes Arrow China Electronics Trading Co., Ltd. and six aliases under Arrow Electronics (Hong Kong) Co., Ltd. Grade A government action only—no tonnage.",
+      "source": "federal-register-2025-19858",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2026-17230",
+      "layer": "chips",
+      "date": "2026-08-24",
+      "title": "BIS Entity List removal (Doc. 2026-17230)",
+      "summary": "Final rule (Doc. 2026-17230, 91 FR 54657) removes one Turkey-destination entity from the Entity List. Grade A government action only—no chip shipment volumes inferred.",
+      "source": "federal-register-2026-17230",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "policy-2026-17231",
+      "layer": "chips",
+      "date": "2026-08-24",
+      "title": "BIS Entity List revisions (Doc. 2026-17231)",
+      "summary": "Final rule (Doc. 2026-17231) removes two Hong Kong addresses associated with Arrow Electronics (Hong Kong) Co., Ltd. from the Entity List under China. Grade A government action only—no tonnage.",
+      "source": "federal-register-2026-17231",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "wh-eo-14318-dc-permitting-2025-07-23",
+      "layer": "infrastructure",
+      "date": "2025-07-23",
+      "title": "EO: Accelerating Federal Permitting of Data Center Infrastructure",
+      "summary": "Presidential action (2025-07-23) directs agencies to accelerate federal permitting for data-center and related energy/component infrastructure. Defines a Data Center Project as a facility requiring greater than 100 MW of new load dedicated to AI inference, training, simulation, or synthetic data generation. Grade A government action—no MW build totals inferred.",
+      "source": "wh-eo-dc-permitting-2025-07-23",
+      "kind": "Government action",
+      "grade": "A"
+    },
+    {
+      "id": "apps-jagged-frontier-orgsci-2026",
+      "layer": "applications",
+      "date": "2026-03-11",
+      "title": "Dell'Acqua et al.: jagged technological frontier RCT",
+      "summary": "Organization Science field experiment (758 BCG knowledge workers; DOI 10.1287/orsc.2025.21838): within-frontier tasks +12.2% tasks completed and +25.1% faster with GPT-4 access; outside-frontier complex managerial task −19% correct solutions. Independent research (grade B)—method-first, not a seat-count or universal ROI.",
+      "source": "dellacqua-jagged-frontier-orsc-2026",
+      "kind": "Research finding",
       "grade": "B"
     }
   ],
