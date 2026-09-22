@@ -63,3 +63,18 @@ EIA and PJM/MISO/SPP PDF forecasts are **not** auto-applied. After setting the E
 - PJM LAS Large Load Adjustment Requests Summary (2025-11-24): up to ~30 GW DC growth 2025–2030. https://www.pjm.com/-/media/DotCom/committees-groups/subcommittees/las/2025/20251124/20251124-item-03---large-load-adjustment-requests-summary.pdf
 - BIS Doc. 2024-28270 (Dec 5, 2024) and Doc. 2026-00789 (Jan 15, 2026) — Federal Register primary.
 - METR: *Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity* (RCT; 19% longer with AI). https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/
+
+## Exhaustive PUBLISH NOW tranche · applied 2026-09-22
+
+Applied via `scripts/curated_exhaustive_20260922.py` (after the earlier gap-fill). Validates + crowding tests pass.
+
+**Counts (this tranche):** 19 sources · 17 new metrics · 3 CapEx guidance metrics updated (primary IR; Amazon 220→200) · 28 observations (incl. 3 CapEx upserts) · 10 events.
+
+**Corrections vs earlier feedback in this file:**
+- Alphabet $195–205B now on primary IR (`capital-alphabet-q2-2026-ir`), not AP.
+- Amazon primary supports **~$200B** only; AP $220B removed from `capital-guidance-aws`.
+- PJM 2036/2046 summer peak, MISO LTLF peaks + DC TWh, SPP ITP narrative + Fig 2.1 coincident path curated.
+- BIS Entity List spine extended (7 FR docs); EO data-center permitting event landed.
+- CapEx guidance status remains `forecast` (capital-explorer contract); TSMC/SK hynix new commitments use `company-commitment`.
+
+**Still blocked:** EIA key; Muse offline; HBM shipped volumes; CoWoS wafer starts; Meta/Oracle CapEx primary; MISO 163 GW news.
