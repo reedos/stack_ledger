@@ -533,6 +533,32 @@ def stage_line(receipt):
     return f'{status}, {detail[:300]}' if detail else status
 
 
+def pdf_reader(root):
+    """Whether this interpreter can read the PDFs research/pdf-sources.json approves.
+
+    The research subprocess runs on this same sys.executable. Without pypdf every approved PDF
+    quietly returns to being a collection gap, which reads like an ordinary quiet night unless it
+    is said out loud here and in the briefing.
+    """
+    import pdf_text
+    registry = json.loads((Path(root)/'research/sources.json').read_text(encoding='utf-8'))
+    policy = pdf_text.load_policy(root, registry)
+    approved = {'documents': len(policy.get('documents', [])), 'prefixes': len(policy.get('prefixes', []))}
+    try:
+        from importlib.metadata import version
+        import pypdf  # noqa: F401  (import, not just metadata: a broken install must count as missing)
+        parser = 'pypdf ' + version('pypdf')
+    except Exception:
+        parser = None
+    gaps = {}
+    for path in (Path(root)/'.local/collection-gaps').glob('*.json'):
+        try: kind = json.loads(path.read_text(encoding='utf-8')).get('kind', '')
+        except (OSError, ValueError): continue
+        if kind.startswith('pdf'): gaps[kind] = gaps.get(kind, 0)+1
+    status = 'unused' if not any(approved.values()) else ('ok' if parser else 'missing')
+    return {'status': status, 'parser': parser, 'python': sys.executable, 'approved': approved, 'pdf_gaps': gaps}
+
+
 def stage_health(root, date):
     result = {'status': 'ok'}
     for key, fn in [('collection_health', collection_summary), ('stale_figures', stale_figures),
@@ -540,6 +566,11 @@ def stage_health(root, date):
         try: result[key] = fn(root)
         except Exception as e:
             result[key] = {'error': f'{type(e).__name__}: {str(e)[:200]}'}; result['status'] = 'partial'
+    try:
+        result['pdf_reader'] = pdf_reader(root)
+        if result['pdf_reader']['status'] == 'missing': result['status'] = 'partial'
+    except Exception as e:
+        result['pdf_reader'] = {'status': 'error', 'error': f'{type(e).__name__}: {str(e)[:200]}'}; result['status'] = 'partial'
     history = {name: load_receipt(root, date, name) for name in ('locks', 'importers', 'research', 'policy')}
     result['locks_recovered'] = [l for l in (history.get('locks') or {}).get('locks', []) if str(l.get('action', '')).startswith('removed')]
     result['stage_outcomes'] = {k: stage_line(v) for k, v in history.items()}
@@ -664,6 +695,9 @@ def render_digest_markdown(body):
         lines += [f"- {r['grade']}: {r['title']} {r['period']} = {r['value']} ({r['label']}, {r['publisher']})"
                   for r in published.get('low_grade', [])]
     stale = (body['health'].get('stale_figures') or {})
+    reader = body['health'].get('pdf_reader') or {}
+    if reader.get('status') in ('missing', 'error'):
+        lines += ['', '## PDF reader', f"- Approved PDFs could not be read: {reader.get('error') or 'pypdf is not installed for ' + str(reader.get('python'))}. Every approved PDF was left as a collection gap."]
     lines += ['', '## Health', f"- figures overdue for a refresh: {stale.get('overdue_count', 'unknown')}"
               + (f" ({stale['refreshable_count']} a source can restate)" if 'refreshable_count' in stale else ''),
               '```json', json.dumps(body['health'], indent=2), '```']
@@ -689,7 +723,7 @@ def stage_digest(root, date):
         applied.append({'kind': 'deployment_confirmed', 'id': rid})
     health = receipts.get('health') or {}
     body = {'date': date, 'applied': applied, 'needs_decision': health.get('pending_decisions') or {},
-            'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health')},
+            'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'pdf_reader')},
             'site_changes': site_changes(root, date),
             'published_observations': published_observations(root, date),
             'stage_receipts': {k: stage_line(v) for k, v in receipts.items()}}

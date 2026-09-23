@@ -167,6 +167,7 @@ def snapshot(root, date='latest', body=None):
         'stages':[{'name':LABELS[s], 'status':r.get('status','not recorded'), 'reason':r.get('reason') or r.get('error'),
                    'elapsed_seconds':r.get('elapsed_seconds')} for s,r in receipts.items()],
         'applied':body.get('applied',[]), 'published_observations':body.get('published_observations',{}),
+        'pdf_reader':(receipts['health'].get('pdf_reader') or (body.get('health') or {}).get('pdf_reader') or {}),
         'publication':{'unpushed_commits':body.get('unpushed_commits'), 'final_push':body.get('final_push')},
         'updated_at':datetime.now(timezone.utc).isoformat()}
 
@@ -194,6 +195,9 @@ def render(data):
     errors = totals.get('source_failures',0) + totals.get('discovery_errors',0)
     if errors:
         lines += ['', '**Watch-outs**', f'- {errors} collection errors were recorded (may include repeat attempts). The completed run does not mean every source was read.']
+    if (data.get('pdf_reader') or {}).get('status') in ('missing','error'):
+        if not errors:lines += ['', '**Watch-outs**']
+        lines.append('- Approved PDFs were not read: the nightly Python cannot load pypdf, so grid-operator reports stayed collection gaps. Reinstall pypdf in that environment.')
     if data.get('dashboard',{}).get('status') == 'unavailable':
         lines.append('- The private dashboard could not be started; Eli should check the viewer service.')
     low = data.get('published_observations') or {}

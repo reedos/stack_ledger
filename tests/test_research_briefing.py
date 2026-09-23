@@ -37,6 +37,31 @@ class BriefingTests(unittest.TestCase):
         self.save('.local/sessions/'+'b'*32+'/status.json',{'session_id':'b'*32,'started_at':'2026-09-15T10:00:00Z','options':{'overnight':False}})
         self.save('.local/sessions/'+'c'*32+'/status.json',{'session_id':'c'*32,'started_at':'2026-09-14T10:00:00Z','options':{'overnight':True}})
         self.assertEqual(len(brief.snapshot(self.root,self.date)['sessions']),1)
+    def test_a_missing_pdf_parser_is_a_watch_out_not_a_quiet_night(self):
+        # Without pypdf every approved PDF silently returns to being a collection gap.
+        self.session()
+        self.save('.local/nightly/'+self.date+'/health.json',{'status':'partial','pdf_reader':{'status':'missing','parser':None}})
+        data=brief.snapshot(self.root,self.date)
+        self.assertEqual(data['outcome'],'partial')
+        self.assertIn('Approved PDFs were not read',brief.render(data))
+        self.save('.local/nightly/'+self.date+'/health.json',{'status':'ok','pdf_reader':{'status':'ok','parser':'pypdf 6.19.0'}})
+        self.assertNotIn('Approved PDFs',brief.render(brief.snapshot(self.root,self.date)))
+
+    def test_pdf_reader_health_reports_the_parser_and_the_approvals(self):
+        root=Path(__file__).resolve().parents[1]
+        with patch.dict(sys.modules,{'pypdf':None}):
+            missing=nightly.pdf_reader(root)
+        self.assertEqual(missing['status'],'missing')
+        self.assertGreater(missing['approved']['documents'],0)
+        try:
+            import pypdf  # noqa: F401
+        except ImportError:
+            return
+        self.assertEqual(nightly.pdf_reader(root)['status'],'ok')
+        body={'date':self.date,'stage_receipts':{},'applied':[],'needs_decision':{},'site_changes':[],
+              'health':{'pdf_reader':{'status':'missing','python':'python.exe'}}}
+        self.assertIn('Approved PDFs could not be read',nightly.render_digest_markdown(body))
+
     def test_missing_is_not_zero_or_completed(self):
         data=brief.snapshot(self.root,self.date)
         self.assertEqual(data['outcome'],'not_recorded');self.assertIn('not recorded',brief.render(data))
