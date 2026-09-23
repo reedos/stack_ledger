@@ -852,7 +852,7 @@ class FeedsFirstOrderingTests(unittest.TestCase):
 class DiscoveryCapTests(unittest.TestCase):
     """Deliverable 6: a feed reads up to max_discovered_per_feed new entries; an ordinary
     page still discovers at most max_discovered_per_source."""
-    def run_with_source(self,source,policy,max_discovered_per_feed=3):
+    def run_with_source(self,source,policy,max_discovered_per_feed=3,links=None):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp);RunnerTests().fixture(path)
             registry=research.load(path/'research/sources.json')
@@ -861,7 +861,7 @@ class DiscoveryCapTests(unittest.TestCase):
             config=research.load(path/'research/runtime.json')
             config['max_discovered_per_feed']=max_discovered_per_feed
             research.save(path/'research/runtime.json',config)
-            links=''.join(f'<a href="https://feed.example/story/{i}-ai">Story {i}</a>' for i in range(10))
+            links=links or ''.join(f'<a href="https://feed.example/story/{i}-ai">Story {i}</a>' for i in range(10))
             document=research.ReadableHTML();document.feed(f'<p>Filler content.</p>{links}')
             with patch.object(research,'ROOT',path),patch.object(research,'LOCAL',path/'.local'), \
                  patch.object(research.Fetcher,'fetch',return_value=document),patch.object(research,'ollama',side_effect=empty_model), \
@@ -874,6 +874,15 @@ class DiscoveryCapTests(unittest.TestCase):
         policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
         documents=self.run_with_source(source,policy,max_discovered_per_feed=3)
         self.assertEqual(len(documents),1+3)  # the feed itself, plus exactly 3 discovered entries
+    def test_repeated_links_and_office_files_do_not_use_up_the_cap(self):
+        # PJM's subcommittee page lists every meeting file twice and each agenda as .docx.
+        source={'id':'test-feed','publisher':'Test','title':'Test feed','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x','provenance':'news','index':True}
+        policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}
+        links=''.join(f'<a href="https://feed.example/story/{i}-ai">A</a><a href="https://feed.example/story/{i}-ai">B</a>' for i in range(2))
+        links+='<a href="https://feed.example/story/agenda-ai.docx">C</a><a href="https://feed.example/story/sheet-ai.xlsx">D</a>'
+        links+='<a href="https://feed.example/story/summary-ai">E</a>'
+        documents=self.run_with_source(source,policy,max_discovered_per_feed=3,links=links)
+        self.assertEqual(sorted(d['url'] for d in documents)[1:],['https://feed.example/story/0-ai','https://feed.example/story/1-ai','https://feed.example/story/summary-ai'])
     def test_ordinary_page_still_discovers_only_one(self):
         source={'id':'test-page','publisher':'Test','title':'Test page','url':'https://feed.example/rss','published':None,'layers':['energy'],'license':'x','provenance':'news'}
         policy={'rank':4,'region_book':'global','company_id':None,'claim_type':'other','cadence':'daily','weekday':0,'path_prefixes':['/story/'],'topics':['ai'],'excerpts':False}

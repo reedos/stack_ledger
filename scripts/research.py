@@ -544,6 +544,9 @@ class SafeRedirect(HTTPRedirectHandler):
         allowed_url(newurl,self.host)
         return super().redirect_request(req,fp,code,msg,headers,newurl)
 
+# Child links that can only become collection gaps: images, archives, feeds and office files.
+OFFICE_AND_MEDIA=('.jpg','.jpeg','.png','.gif','.zip','.xml','.doc','.docx','.xls','.xlsx','.xlsm','.ppt','.pptx','.mp3','.mp4')
+
 def forget_validators(fetcher,url):
     """Make the next fetch of `url` unconditional after a failed read.
 
@@ -1449,10 +1452,17 @@ def main():
                     # at most max_discovered_per_source (default 1). An entry already in the
                     # review ledger is naturally skipped below without a model call.
                     cap=config.get('max_discovered_per_feed',12) if source.get('index') else config['max_discovered_per_source']
+                    # A link listed twice must not take two of the cap's slots, and an office file
+                    # can only become a format gap. PJM's subcommittee page links every meeting file
+                    # twice and each agenda as .docx, which filled all 12 slots before its
+                    # large-load summary on 09/23/2026's replay.
+                    listed=set()
                     for link in document.links:
                         url=urldefrag(urljoin(source['url'],link))[0]
                         u=urlparse(url)
-                        if u.scheme!='https' or u.hostname!=urlparse(source['url']).hostname or url in seen or u.query or u.path.endswith(('.jpg','.png','.zip','.xml')):continue
+                        if url in listed:continue
+                        listed.add(url)
+                        if u.scheme!='https' or u.hostname!=urlparse(source['url']).hostname or url in seen or u.query or u.path.lower().endswith(OFFICE_AND_MEDIA):continue
                         # A PDF child is read only under a path the owner approved in pdf-sources.json.
                         if u.path.lower().endswith('.pdf') and not pdf_text.allowed(url,*fetcher.pdf_policy()):continue
                         if any(p in u.path for p in ['/category/','/tag/','/author/','/page/']):continue

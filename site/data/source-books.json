@@ -144,7 +144,11 @@
         "grid-operator-ercot",
         "grid-operator-miso",
         "grid-operator-spp",
-        "grid-operator-eia-national"
+        "grid-operator-eia-national",
+        "pjm-load-forecast-index",
+        "pjm-las-index",
+        "ercot-planning-index",
+        "spp-itp-index"
       ],
       "gap": "Coverage is selective. No reviewed figure means unknown, not zero. Local filings, original-language documents and comparable operational measures need continued review."
     },
@@ -8323,6 +8327,67 @@
       "weekday": 0,
       "path_prefixes": [],
       "topics": [],
+      "excerpts": false
+    },
+    "pjm-load-forecast-index": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 1,
+      "path_prefixes": [
+        "/-/media/DotCom/library/reports-notices/load-forecast/"
+      ],
+      "topics": [
+        "pdf"
+      ],
+      "excerpts": false
+    },
+    "pjm-las-index": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 2,
+      "path_prefixes": [
+        "/-/media/DotCom/committees-groups/subcommittees/las/20"
+      ],
+      "topics": [
+        "large-load",
+        "data-center"
+      ],
+      "excerpts": false
+    },
+    "ercot-planning-index": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 3,
+      "path_prefixes": [
+        "/files/docs/"
+      ],
+      "topics": [
+        "constraints"
+      ],
+      "excerpts": false
+    },
+    "spp-itp-index": {
+      "rank": 1,
+      "region_book": "united-states",
+      "company_id": null,
+      "claim_type": "other",
+      "cadence": "weekly",
+      "weekday": 4,
+      "path_prefixes": [
+        "/media/2"
+      ],
+      "topics": [
+        "itp"
+      ],
       "excerpts": false
     }
   }

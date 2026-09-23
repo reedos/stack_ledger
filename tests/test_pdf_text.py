@@ -145,6 +145,9 @@ class PdfPolicyTests(unittest.TestCase):
                     'http://www.grid.example/reports/load-forecast/2027.pdf','https://www.grid.example/reports/load-forecast/page.html']:
             self.assertFalse(pdf_text.allowed(url,POLICY,urls),url)
         self.assertFalse(pdf_text.allowed('https://www.grid.example/files/2026-load-report.pdf',{},urls))
+        # Same comparison as discoverable(): decoded and lowercased, and no way out of the path.
+        self.assertTrue(pdf_text.allowed('https://www.grid.example/Reports/Load-Forecast/2027%20Report.pdf',POLICY,urls))
+        self.assertFalse(pdf_text.allowed('https://www.grid.example/reports/load-forecast/%2e%2e/secret.pdf',POLICY,urls))
 
     def test_table_rows_are_told_apart_from_prose(self):
         for evidence in ['PJM projects summer peak of 222,106 MW in 2036, an increase of 65,733 MW.',

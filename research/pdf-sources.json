@@ -29,5 +29,26 @@
       "why": "MISO long-term load forecast whitepaper: coincident peak and data-center energy."
     }
   ],
-  "prefixes": []
+  "prefixes": [
+    {
+      "host": "www.pjm.com",
+      "path_prefix": "/-/media/DotCom/library/reports-notices/load-forecast/",
+      "why": "PJM's annual Load Forecast Report folder (2020 through 2026 editions); reached only from the load forecast development page."
+    },
+    {
+      "host": "www.pjm.com",
+      "path_prefix": "/-/media/DotCom/committees-groups/subcommittees/las/20",
+      "why": "Load Analysis Subcommittee meeting folders by year (las/2026/..., las/2027/...), where PJM posts its large-load adjustment summaries; postings/ templates are outside the prefix."
+    },
+    {
+      "host": "www.ercot.com",
+      "path_prefix": "/files/docs/",
+      "why": "ERCOT's whole document store, filed by upload date, so no narrower path exists; the planning page's collection topic 'constraints' limits it to the annual Constraints and Needs reports."
+    },
+    {
+      "host": "www.spp.org",
+      "path_prefix": "/media/2",
+      "why": "SPP's media library IDs 2000-2999, where the 2024 (2229) and 2025 (2429) ITP reports sit; not a folder, so it stops matching new uploads around 2028, after the ITP sunset. The ITP page and topic 'itp' do the narrowing."
+    }
+  ]
 }

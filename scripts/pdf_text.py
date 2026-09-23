@@ -16,7 +16,7 @@ import json
 import logging
 import re
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 from document_formats import CollectionGap
 
@@ -82,8 +82,11 @@ def allowed(url, policy, urls):
     if url in urls:
         return True
     u = urlparse(url)
-    return u.scheme == 'https' and not u.query and u.path.lower().endswith('.pdf') and any(
-        u.hostname == row['host'] and u.path.startswith(row['path_prefix']) for row in policy['prefixes'])
+    # Compared the way source_policy.discoverable compares an index page's children: decoded and
+    # lowercased, so '/DotCom/' and a '%20' in MISO's paths match the reviewed prefix either way.
+    path = unquote(u.path).lower()
+    return u.scheme == 'https' and not u.query and not u.fragment and path.endswith('.pdf') and '..' not in path and any(
+        u.hostname == row['host'] and path.startswith(unquote(row['path_prefix']).lower()) for row in policy['prefixes'])
 
 
 def pdf_html(body, max_pages):

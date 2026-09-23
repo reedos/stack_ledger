@@ -21661,7 +21661,8 @@
       "note": "ERCOT operator disclosures of large-load interconnection (LLI) capacity seeking interconnection (GW). Queue entry is not an interconnection agreement, financing, or energized service. Plain metric (no expansion measurement_type). Never sum with U.S. generation queue metrics or delivered data-center IT MW.",
       "source_ids": [
         "ercot-lli-board-2026-04",
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ],
       "series_start_year": 2025,
       "chart_default_start": 2025,
@@ -21726,7 +21727,8 @@
       "pre_period_note": "No reviewed observations before the Nov 2025 LAS disclosure on this metric.",
       "note": "From PJM LAS large-load adjustment summary (2025-11-24): supports up to ~30 GW data-center growth 2025–2030. Distinct from PJM generation interconnection queues and from ERCOT LLI queue metrics.",
       "source_ids": [
-        "pjm-las-large-load-2025-11"
+        "pjm-las-large-load-2025-11",
+        "pjm-las-index"
       ]
     },
     {
@@ -21746,7 +21748,8 @@
       "pre_period_note": "No reviewed observations before the Dec 2025 Constraints and Needs disclosure on this metric.",
       "note": "Milestone count from ERCOT Report on Existing and Potential Electric System Constraints and Needs (Dec 2025). Never treat as energized operating MW without the operational caveat.",
       "source_ids": [
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ]
     },
     {
@@ -21761,7 +21764,8 @@
       "max": 1000000,
       "note": "2026 Load Report path: 10y +65,733 MW / 20y +96,704 MW from the report base. Firm vs non-firm large-load derate language is in event pjm-2026-ltf-large-load-firm-nonfirm, not this series.",
       "source_ids": [
-        "pjm-2026-load-report"
+        "pjm-2026-load-report",
+        "pjm-load-forecast-index"
       ],
       "series_start_year": 2026,
       "chart_default_start": 2026,
@@ -21785,7 +21789,8 @@
       "max": 500,
       "note": "Exec summary uses \"could rise\" language (56→109 GW). Do not average with the lower Figure 2.1 coincident-peak trajectory.",
       "source_ids": [
-        "spp-2025-itp-report"
+        "spp-2025-itp-report",
+        "spp-itp-index"
       ],
       "series_start_year": 2025,
       "chart_default_start": 2025,
@@ -21810,7 +21815,8 @@
       "max": 500,
       "note": "One observation per model year from Figure 2.1. Not energized large-load MW.",
       "source_ids": [
-        "spp-2025-itp-report"
+        "spp-2025-itp-report",
+        "spp-itp-index"
       ],
       "series_start_year": 2026,
       "chart_default_start": 2026,
@@ -21833,7 +21839,8 @@
       "max": 1000,
       "note": "Paired with ercot-studied-peak-2031-gw from the same report. Queue ≠ forecast ≠ energized.",
       "source_ids": [
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ],
       "series_start_year": 2031,
       "chart_default_start": 2031,
@@ -21856,7 +21863,8 @@
       "max": 1000,
       "note": "Paired with ercot-tsp-peak-forecast-2031-gw. Studied ≠ approved-to-energize ≠ queue.",
       "source_ids": [
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ],
       "series_start_year": 2031,
       "chart_default_start": 2031,
@@ -30027,6 +30035,58 @@
       ],
       "license": "See original source",
       "provenance": "company-channel"
+    },
+    {
+      "id": "pjm-load-forecast-index",
+      "publisher": "PJM Interconnection",
+      "title": "PJM load forecast development process",
+      "url": "https://www.pjm.com/planning/resource-adequacy-planning/load-forecast-dev-process",
+      "published": null,
+      "layers": [
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "official"
+    },
+    {
+      "id": "pjm-las-index",
+      "publisher": "PJM Interconnection",
+      "title": "PJM Load Analysis Subcommittee",
+      "url": "https://www.pjm.com/committees-and-groups/subcommittees/las",
+      "published": null,
+      "layers": [
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "official",
+      "index": true
+    },
+    {
+      "id": "ercot-planning-index",
+      "publisher": "ERCOT",
+      "title": "ERCOT transmission planning",
+      "url": "https://www.ercot.com/gridinfo/planning",
+      "published": null,
+      "layers": [
+        "energy",
+        "infrastructure"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "official",
+      "index": true
+    },
+    {
+      "id": "spp-itp-index",
+      "publisher": "Southwest Power Pool",
+      "title": "SPP Integrated Transmission Planning",
+      "url": "https://www.spp.org/engineering/transmission-planning/integrated-transmission-planning/",
+      "published": null,
+      "layers": [
+        "energy"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "official",
+      "index": true
     }
   ],
   "observations": [
