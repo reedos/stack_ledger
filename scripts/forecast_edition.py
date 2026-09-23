@@ -99,7 +99,8 @@ def _path_date(source):
 def edition_date(source):
     """(date, 'day') or (year, 'year') for when an edition was issued, else (None, None).
 
-    A registered source's reviewed publication date wins. A discovered child's 'published' is the
+    A registered source is dated by its reviewed publication date only; a year in its URL can be
+    the year it forecasts. A discovered child's 'published' is the
     first date printed on its first page, which in a meeting deck is as often a deadline as the
     issue date, so for those the publisher's own filing path wins: ERCOT's /YYYY/MM/DD/, PJM's
     YYYYMMDD- meeting files, then a year in the file name."""
@@ -110,10 +111,10 @@ def edition_date(source):
             published = date.fromisoformat(source['published'][:10]), 'day'
         except ValueError:
             pass
-    path = _path_date(source)
     if source.get('parent_source'):
+        path = _path_date(source)
         return path if path[0] is not None and path[1] == 'day' else (published or path)
-    return published or path
+    return published or (None, None)
 
 
 def issued(source):
@@ -158,17 +159,21 @@ def classify(record, source, observations, ledger_sources, metric):
         return None
     by_id = {s['id']: s for s in ledger_sources}
     src = lambda o: by_id.get(o['source'], {'id': o['source']})
-    theirs = [src(o) for o in current]
-    if source['id'] in {s['id'] for s in theirs} or source['url'] in {s.get('url') for s in theirs}:
-        return None  # the same document restating itself
+    mine = lambda s: s['id'] == source['id'] or s.get('url') == source['url']
     if mode(metric) == 'trajectory':
+        theirs = [src(o) for o in current]
+        if any(mine(s) for s in theirs):
+            return None  # the same document restating itself
         return _OUTCOME[order(source, theirs)]
-    same_slot = [o for o in current if slot(o, metric) == slot(record, metric)]
+    same_slot = [src(o) for o in current if slot(o, metric) == slot(record, metric)]
+    if any(mine(s) for s in same_slot):
+        return None  # the same document restating itself
+    others = [src(o) for o in current if not mine(src(o))]
     if not same_slot:
         # A year nobody has given yet publishes as before, unless an older edition would start a
         # series beside the newer one already on the chart.
-        return 'older' if order(source, theirs) == 'older' else None
-    return _OUTCOME[order(source, [src(o) for o in same_slot])]
+        return 'older' if others and order(source, others) == 'older' else None
+    return _OUTCOME[order(source, same_slot)]
 
 
 def restates(record, observations, metric):
@@ -282,9 +287,10 @@ def changes_for(root, item, ledger, registry_ids):
     new = [row['record'] for row in item['records']]
     sources = {s['id']: s for s in ledger['sources']}
     current = incumbents(metric['id'], ledger['observations'])
-    if any(o['source'] == source['id'] for o in current):
-        raise Obsolete('Figures from this document are already on the site for this metric')
     restated = {slot(r, metric) for r in new}
+    if any(o['source'] == source['id'] and slot(o, metric) in restated for o in current):
+        raise Obsolete('Figures from this document are already on the site for these points')
+    current = [o for o in current if o['source'] != source['id']]
     old = current if mode(metric) == 'trajectory' else [o for o in current if slot(o, metric) in restated]
     if old and order(source, [sources.get(o['source'], {'id': o['source']}) for o in old]) != 'newer':
         # Another edition was approved in the meantime and this one is no longer the newest.
@@ -304,7 +310,8 @@ def changes_for(root, item, ledger, registry_ids):
     olds = '; '.join(f"{clean(sources.get(s, {}).get('title', s), 120)} (published {issued(sources.get(s, {'id': s}))})" for s in old_sources)
     reason = clean(f"New edition: {title} (published {issued(source)}) replaces {olds}.", 500) if old else None
 
-    new_ev = {'id': source['id'], 'url': source['url'], 'published_at': _published_at(source), 'retrieved_at': item['created_at'],
+    proposed = item.get('proposed_at') or item['created_at']
+    new_ev = {'id': source['id'], 'url': source['url'], 'published_at': _published_at(source), 'retrieved_at': proposed,
               'sha256': item['document_sha256'],
               'summary': clean('New edition. ' + ' | '.join(f"{_fmt(row['record'])}: \"{clean(row['quote'], 220)}\"" + (f" (p. {row['pdf_page']})" if row.get('pdf_page') else '')
                                                            for row in item['records']), 2000)}
@@ -325,8 +332,8 @@ def changes_for(root, item, ledger, registry_ids):
         if not (isinstance(url, str) and url.startswith('https://')):
             raise ValueError(f'Old edition source {sid} has no public HTTPS URL for evidence')
         eid = ('old-' + sid)[:140]
-        # retrieved_at is the hold's own time, so re-running materialize builds the same package id.
-        evidence.append({'id': eid, 'url': url, 'published_at': _published_at(s), 'retrieved_at': item['created_at'],
+        # retrieved_at is this proposal attempt's time: a retry rebuilds the same package id.
+        evidence.append({'id': eid, 'url': url, 'published_at': _published_at(s), 'retrieved_at': proposed,
                          'sha256': _retain(root, body), 'summary': clean('Edition on the site now. ' + ' | '.join(lines), 2000)})
         old_ev[sid] = eid
 
@@ -353,12 +360,18 @@ def _base_key(docs):
 
 
 def withdraw(root, package_id, reason):
-    """Take a runner package off the owner's list once a newer proposal or edition replaces it.
-    A bookkeeping event, not a decision: it approves nothing and publishes nothing."""
+    """Take a runner package off the owner's list once it can no longer apply. A bookkeeping event,
+    not a decision: it approves nothing and publishes nothing, and it never overrides the owner, whose
+    rejection or approval recorded meanwhile is re-read under the same lock the panel writes with."""
+    from catalog_review import last_review
     from editorial_review import append_event, locked
     with locked(root):
+        review = last_review(root, package_id)
+        if review and review.get('status') in ('rejected', 'withdrawn', 'applied'):
+            return False
         append_event(root, {'id': package_id, 'kind': 'catalog_change', 'status': 'withdrawn', 'reviewer': RUNNER,
                             'rationale': reason, 'at': _now()})
+    return True
 
 
 def materialize(root):
@@ -382,6 +395,7 @@ def materialize(root):
     ledger = docs['site/data/ledger.json']
     on_site = {o['id'] for o in ledger['observations']}
     registry_ids = {s['id'] for s in docs['research/sources.json']['sources']}
+    stale = 'The reviewed files changed since this edition was proposed.'
     for path in paths:
         try:
             item = json.loads(path.read_text(encoding='utf-8'))
@@ -391,28 +405,56 @@ def materialize(root):
             continue
         status = item.get('status')
         try:
-            if status == 'packaged':
+            if status in ('packaged', 'applied', 'obsolete'):
+                pid = item.get('package')
+                review = last_review(root, pid) if pid else None
+                decided = review.get('status') if review else None
                 if {r['record']['id'] for r in item['records']} <= on_site:
-                    item['status'] = 'applied'
-                    _save(path, item)
+                    if status != 'applied':
+                        item['status'] = 'applied'
+                        _save(path, item)
+                    # A sibling hold's package that published these figures leaves this one unable to apply.
+                    if pid and decided in (None, 'deferred'):
+                        withdraw(root, pid, 'These figures were published by another package.')
                     continue
-                pid = item['package']
-                review = last_review(root, pid)
-                if review and review.get('status') in ('rejected', 'withdrawn'):
+                if status != 'packaged' or decided == 'rejected':
                     continue
-                try:
-                    check_base(root, package(root, pid))
-                    continue  # still applies: the owner decides
-                except (ValueError, KeyError, OSError):
-                    withdraw(root, pid, 'The reviewed files changed since this edition was proposed; a current proposal replaces it.')
-                    item.setdefault('earlier_packages', []).append(pid)
-                    status = 'ready'
+                if decided != 'withdrawn':
+                    try:
+                        check_base(root, package(root, pid))
+                        continue  # still applies: the owner decides
+                    except (ValueError, KeyError, OSError):
+                        pass
+                # Save the hold as ready before withdrawing, so no interruption can leave it
+                # pointing at a withdrawn package; the withdrawal itself is retried below.
+                item.setdefault('earlier_packages', []).append(pid)
+                item.update(status='ready', proposed_at=None)
+                _save(path, item)
+                status = 'ready'
             if status == 'needs_maintainer' and item.get('failed_base') != key:
                 status = 'ready'
             if status != 'ready':
                 continue
-            title, changes, evidence = changes_for(root, item, ledger, registry_ids)
-            p = enqueue(root, title, changes, evidence, author=AUTHOR)
+            for earlier in item.get('earlier_packages', []):
+                last = last_review(root, earlier)
+                if not last or last.get('status') not in ('withdrawn', 'rejected', 'applied'):
+                    withdraw(root, earlier, stale)
+            if not item.get('proposed_at'):
+                item['proposed_at'] = _now()
+                _save(path, item)
+            for attempt in range(5):
+                title, changes, evidence = changes_for(root, item, ledger, registry_ids)
+                p = enqueue(root, title, changes, evidence, author=AUTHOR)
+                if p['id'] not in item.get('earlier_packages', []):
+                    break
+                # Same files and same second as a withdrawn proposal: step this attempt's time back a
+                # second (forward would be a future retrieval time, which validation refuses).
+                item['proposed_at'] = (datetime.strptime(item['proposed_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+                                       .timestamp() - 1)
+                item['proposed_at'] = datetime.fromtimestamp(item['proposed_at'], timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')
+                _save(path, item)
+            else:
+                raise ValueError('Could not propose this edition apart from its withdrawn packages')
             item.update(status='packaged', package=p['id'])
             item.pop('reason', None)
             item.pop('failed_base', None)

@@ -223,7 +223,7 @@
   function publishingPackages(all){
     return (all||[]).filter(p=>{
       const published=!!(p.job&&p.job.kind==='publish');
-      if(p.status==='rejected')return false;
+      if(p.status==='rejected'||p.status==='withdrawn')return false;
       if(p.status==='applied')return published;
       return p.status==='approved'||p.display_status==='deployment_pending'||published;
     });
@@ -336,7 +336,7 @@
   function drawCatalog(data){
    let box=el('catalog-packages');if(!box){box=node('section');box.id='catalog-packages';el('review-panel').append(box);}box.replaceChildren(node('h2','Catalog updates'),node('p','Review exact changes, validate their preview, then approve and publish. Research and model screening never count as approval.'));
    // Status toggles: default to what needs a decision; approved (retractable), rejected (reconsiderable) and applied are opt-in.
-   const STATUSES=[['pending_review','Needs review'],['deferred','Deferred'],['approved','Approved, not yet applied'],['deployment_pending','Pushed · awaiting deployment check'],['rejected','Rejected'],['applied','Applied']];
+   const STATUSES=[['pending_review','Needs review'],['deferred','Deferred'],['approved','Approved, not yet applied'],['deployment_pending','Pushed · awaiting deployment check'],['rejected','Rejected'],['applied','Applied'],['withdrawn','Withdrawn']];
    let shown;try{shown=JSON.parse(localStorage.getItem('catalog-status-filter')||'null');}catch(e){shown=null;}
    if(!Array.isArray(shown))shown=['pending_review','deferred','deployment_pending'];
    const all=data.catalog_packages||[];const counts={};for(const p of all)counts[p.display_status||p.status]=(counts[p.display_status||p.status]||0)+1;

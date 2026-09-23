@@ -1036,6 +1036,8 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             if pdf_text.is_pdf_text(full_text) and isinstance(candidate,dict) and isinstance(candidate.get('evidence'),str):
                 held['pdf_page']=pdf_text.page_in_windows(full_text,windows,candidate['evidence'])
             quarantine.append(held)
+    held_metrics={t[1]['metric'] for t in checked if t[3]}
+    checked=[(c,r,s,True) if (not e and r['metric'] in held_metrics and r['status'] in forecast_edition.FORWARD) else (c,r,s,e) for c,r,s,e in checked]
     flagged=[t for t in checked if t[3]]
     if flagged:
         # An edition is held whole, but only when it changes something: a document that merely

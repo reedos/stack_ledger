@@ -596,7 +596,7 @@ def stage_prune(root, dry_run=False):
     for child in sorted(base.iterdir()):
         if not child.is_dir() or not cr.RID.fullmatch(child.name): continue
         review = cr.last_review(root, child.name)
-        if not review or review['status'] not in {'applied', 'rejected'}: continue
+        if not review or review['status'] not in {'applied', 'rejected', 'withdrawn'}: continue
         try: at = datetime.fromisoformat(review['at'].replace('Z', '+00:00'))
         except (KeyError, ValueError): continue
         age_days = (now-at).total_seconds()/86400

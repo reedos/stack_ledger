@@ -75,19 +75,22 @@ class ClassifyTests(unittest.TestCase):
         self.assertEqual(self.classify(rec('fx-guidance-gw',2026,200,'fx-feb'),self.sources['fx-feb']),'older')
 
     def test_an_older_edition_is_refused_by_the_year_in_its_file_name(self):
-        child={'id':'discovered-0123456789abcdef','url':'https://fixture.example/media/2229/2023-itp-report.pdf','published':None}
+        child={'id':'discovered-0123456789abcdef','url':'https://fixture.example/media/2229/2023-itp-report.pdf','published':None,'parent_source':'fx-index'}
         self.assertEqual(self.classify(rec('fx-peak-gw',2043,70,child['id']),child),'older')
 
     def test_documents_that_cannot_be_ordered_are_not_held_as_new(self):
         undated={'id':'discovered-1111111111111111','url':'https://fixture.example/listing','published':None}
         self.assertEqual(self.classify(rec('fx-peak-gw',2046,184,undated['id']),undated),'unordered')
-        same_year={'id':'discovered-2222222222222222','url':'https://fixture.example/2026-guidance-deck.pdf','published':None}
+        same_year={'id':'discovered-2222222222222222','url':'https://fixture.example/2026-guidance-deck.pdf','published':None,'parent_source':'fx-index'}
         self.assertEqual(self.classify(rec('fx-guidance-gw',2026,230,same_year['id']),same_year),'unordered')
 
     def test_publisher_paths_give_the_day(self):
-        self.assertEqual(fe.edition_date({'url':'https://www.ercot.com/files/docs/2026/12/22/Report.pdf'}),(fe.date(2026,12,22),'day'))
-        self.assertEqual(fe.edition_date({'url':'https://www.pjm.com/-/media/las/2026/20260826/20260826-item-03---x.pdf'}),(fe.date(2026,8,26),'day'))
-        self.assertEqual(fe.edition_date({'url':'https://www.spp.org/media/2429/2025-itp-report-v10.pdf'}),(2025,'year'))
+        child=lambda url:{'url':url,'published':None,'parent_source':'fx-index'}
+        self.assertEqual(fe.edition_date(child('https://www.ercot.com/files/docs/2026/12/22/Report.pdf')),(fe.date(2026,12,22),'day'))
+        self.assertEqual(fe.edition_date(child('https://www.pjm.com/-/media/las/2026/20260826/20260826-item-03---x.pdf')),(fe.date(2026,8,26),'day'))
+        self.assertEqual(fe.edition_date(child('https://www.spp.org/media/2429/2025-itp-report-v10.pdf')),(2025,'year'))
+        # A registered source is dated by its reviewed date only: this file name names the year it forecasts.
+        self.assertEqual(fe.edition_date({'url':'https://www.apollo.com/apollo-global-2026-credit-outlook.pdf','published':None}),(None,None))
         self.assertEqual(fe.edition_date({'url':'https://example.org/a','published':'2026-07-30'}),(fe.date(2026,7,30),'day'))
 
     def test_the_same_document_url_or_day_is_not_a_new_edition(self):
@@ -255,6 +258,49 @@ class EditionPackageTests(Fixture):
         item=json.loads(next((self.root/'.local/review-candidates').glob('edition-*.json')).read_text(encoding='utf-8'))
         self.assertEqual(item['status'],'obsolete')
 
+    def move(self):
+        ledger=self.ledger();next(o for o in ledger['observations'] if o['id']=='fx-peak-2044')['note']='Moved again.'
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+    def item(self):
+        return json.loads(next((self.root/'.local/review-candidates').glob('edition-*.json')).read_text(encoding='utf-8'))
+
+    def test_an_interrupted_reproposal_is_never_stranded_on_a_withdrawn_package(self):
+        # The editorial lock is busy exactly when the replacement is enqueued.
+        self.hold();first=fe.materialize(self.root)[0];self.move()
+        with patch.object(catalog_review,'enqueue',side_effect=FileExistsError('editorial.lock')):
+            self.assertEqual(fe.materialize(self.root),[])
+        self.assertEqual((self.item()['status'],self.item()['earlier_packages']),('ready',[first]))
+        second=fe.materialize(self.root)
+        self.assertEqual(len(second),1);self.assertNotEqual(second[0],first,'a re-proposal never reuses the withdrawn id')
+        statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
+        self.assertEqual((statuses[first],statuses[second[0]]),('withdrawn','pending_review'))
+
+    def test_a_transient_read_error_does_not_strand_the_hold(self):
+        self.hold();first=fe.materialize(self.root)[0]
+        with patch.object(catalog_review,'check_base',side_effect=PermissionError('sharing violation')):
+            again=fe.materialize(self.root)
+        self.assertEqual(len(again),1);self.assertNotEqual(again[0],first)
+        self.assertEqual(self.item()['package'],again[0])
+        self.assertEqual(fe.materialize(self.root),[],'the current package is left for the owner')
+
+    def test_the_runner_never_withdraws_over_the_owner(self):
+        self.hold();first=fe.materialize(self.root)[0]
+        from editorial_review import append_event
+        append_event(self.root,{'id':first,'kind':'catalog_change','status':'rejected','reviewer':'owner','at':'2026-09-22T10:00:00Z'})
+        self.assertFalse(fe.withdraw(self.root,first,'stale'))
+        self.assertEqual(catalog_review.last_review(self.root,first)['status'],'rejected')
+
+    def test_a_sibling_package_is_withdrawn_once_its_figures_are_published(self):
+        # Two holds from one document, one a subset of the other; the owner publishes the larger one.
+        self.hold();big=fe.materialize(self.root)[0]
+        self.hold(rows=[('Peak load grows from 124 GW in 2026 to 184 GW by 2046 <in the current case>,',rec('fx-peak-gw',2046,184,'fx-2026'))])
+        small=[p for p in fe.materialize(self.root)];self.assertEqual(len(small),1)
+        self.apply(catalog_review.package(self.root,big))
+        fe.materialize(self.root)
+        statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
+        self.assertEqual(statuses[small[0]],'withdrawn')
+
     def test_a_failed_hold_is_counted_and_retried_only_when_the_files_change(self):
         self.hold()
         with patch.object(fe,'changes_for',side_effect=ValueError('Object changed since proposal')) as failing:
@@ -319,6 +365,15 @@ class RunnerHoldTests(Fixture):
             research.extract_observations({'_instructions':'i','_coverage':'c','max_candidates_per_document':8},sources['fx-2026'],self.DOC,
                 [metrics['fx-peak-gw']],data,metrics,sources,{'model_calls':0},quarantine,{})
         self.assertFalse((self.root/'.local/review-candidates').exists() and list((self.root/'.local/review-candidates').glob('edition-*.json')))
+
+    def test_a_by_year_edition_travels_whole_restated_year_and_new_year_together(self):
+        # Later guidance changes 2026 and adds 2027: publishing 2027 alone would strand the 2026 revision.
+        doc='Guidance: we now expect 240 GW-equivalent in 2026 and 260 GW-equivalent in 2027 across the company.'
+        cands=[self.cand('fx-guidance-gw',2026,240,'we now expect 240 GW-equivalent in 2026'),
+               self.cand('fx-guidance-gw',2027,260,'and 260 GW-equivalent in 2027 across')]
+        accepted,quarantine,holds=self.extract('fx-oct',cands,doc)
+        self.assertEqual((accepted,quarantine),([],[]))
+        self.assertEqual(sorted(r['record']['year'] for h in holds for r in h['records']),[2026,2027])
 
     def test_monitoring_cannot_publish_an_edition_link(self):
         head=self.ledger();after=copy.deepcopy(head)
