@@ -21714,7 +21714,7 @@
       "title": "PJM supported data-center growth (2025–2030)",
       "unit": "GW",
       "geography": "PJM Interconnection",
-      "scope": "Data-center growth PJM states its preliminary large-load process supports between 2025 and 2030, on the slide \"Consideration of National Projections\" in its large-load summaries (first recorded from November 2025). A planning statement, not energized MW and not a raw interconnection queue total. When a newer edition is published, it replaces these points after review.",
+      "scope": "Data-center growth PJM states its preliminary large-load process supports between 2025 and 2030, on the slide \"Consideration of National Projections\" in its large-load summaries (first recorded from November 2025). A planning statement, not energized MW and not a raw interconnection queue total. When a newer edition restates this figure, it replaces it after review.",
       "direction": "context",
       "min": 0,
       "max": 1000,
@@ -21728,7 +21728,7 @@
         "pjm-las-large-load-2025-11",
         "pjm-las-index"
       ],
-      "edition_mode": "trajectory"
+      "edition_mode": "by-year"
     },
     {
       "id": "ercot-large-load-approved-to-energize-mw",
@@ -21835,7 +21835,7 @@
       "title": "ERCOT TSP peak forecast (2031)",
       "unit": "GW",
       "geography": "ERCOT (Texas)",
-      "scope": "Transmission Service Provider (TSP) peak-load forecast for 2031 from ERCOT’s annual Constraints and Needs report (first recorded: Dec 2025). Distinct from studied peak and from LLI queue GW. When a newer edition is published, it replaces these points after review.",
+      "scope": "Transmission Service Provider (TSP) peak-load forecast for 2031 from ERCOT’s annual Constraints and Needs report (first recorded: Dec 2025). Distinct from studied peak and from LLI queue GW. When a newer edition restates this figure, it replaces it after review.",
       "direction": "context",
       "min": 0,
       "max": 1000,
@@ -21852,7 +21852,7 @@
       "allowed_statuses": [
         "forecast"
       ],
-      "edition_mode": "trajectory"
+      "edition_mode": "by-year"
     },
     {
       "id": "ercot-studied-peak-2031-gw",
@@ -21860,7 +21860,7 @@
       "title": "ERCOT studied peak (2031)",
       "unit": "GW",
       "geography": "ERCOT (Texas)",
-      "scope": "Studied peak-load case for 2031 from ERCOT’s annual Constraints and Needs report (first recorded: Dec 2025). Distinct from TSP forecast and from LLI queue GW. When a newer edition is published, it replaces these points after review.",
+      "scope": "Studied peak-load case for 2031 from ERCOT’s annual Constraints and Needs report (first recorded: Dec 2025). Distinct from TSP forecast and from LLI queue GW. When a newer edition restates this figure, it replaces it after review.",
       "direction": "context",
       "min": 0,
       "max": 1000,
@@ -21877,7 +21877,7 @@
       "allowed_statuses": [
         "forecast"
       ],
-      "edition_mode": "trajectory"
+      "edition_mode": "by-year"
     },
     {
       "id": "miso-coincident-peak-ltlf-gw",

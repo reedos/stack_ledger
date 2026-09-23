@@ -62,7 +62,7 @@ test('a forecast edition shows both editions per year and cannot be bulk-selecte
   const old={id:'miso-peak-2044',metric:'m',year:2044,period:'2044',value:152,upper:186,status:'forecast',source:'old'};
   const p=pkg({author:'Forecast edition (research runner)',title:'Forecast edition: MISO peak',
     evidence:[{id:'miso-2026',url:'https://cdn.example/2026.pdf',published_at:'2026-05-13'},{id:'old-miso-2024',url:'https://cdn.example/2024.pdf',published_at:'2024-12-01'}],changes:[
-    {target:'observation',id:'auto-new2046',before:null,after:{id:'auto-new2046',metric:'m',year:2046,period:'2046',value:184,upper:null,status:'forecast',edition_supersedes:['miso-peak-2044']},evidence:['e1']},
+    {target:'observation',id:'auto-new2046',before:null,after:{id:'auto-new2046',metric:'m',source:'miso-2026',year:2046,period:'2046',value:184,upper:null,status:'forecast',edition_supersedes:['miso-peak-2044']},evidence:['e1']},
     {target:'observation',id:'miso-peak-2044',before:old,after:{...old,superseded_by:'auto-new2046'},evidence:['e0','e1']}]});
   const boxes=[];const el=panel('reedos').buildCatalogCard(p,{selectable:true,boxes,selected:new Set(),count:()=>{}});
   const all=texts(el);

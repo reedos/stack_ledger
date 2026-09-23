@@ -101,6 +101,30 @@ class ClassifyTests(unittest.TestCase):
         self.assertEqual(self.classify(rec('fx-guidance-gw',2026,240,'fx-oct'),self.sources['fx-oct']),'new')
         self.assertIsNone(self.classify(rec('fx-guidance-gw',2027,260,'fx-oct'),self.sources['fx-oct']))
 
+    def test_an_older_document_does_not_start_a_year_beside_a_newer_edition(self):
+        # IEA 2025 giving 2035 while the 2026 edition is on the chart: two editions on one line.
+        self.assertEqual(self.classify(rec('fx-guidance-gw',2035,300,'fx-feb'),self.sources['fx-feb']),'older')
+        self.assertIsNone(self.classify(rec('fx-guidance-gw',2035,300,'fx-oct'),self.sources['fx-oct']))
+
+    def test_a_discovered_file_is_dated_by_its_filing_path_not_its_first_printed_date(self):
+        child={'id':'discovered-4444444444444444','parent_source':'fx-index','published':'2025-12-01',
+               'url':'https://www.pjm.com/-/media/las/2025/20251027/20251027-item-03---summary.pdf'}
+        self.assertEqual(fe.edition_date(child),(fe.date(2025,10,27),'day'))
+        registered=dict(child,parent_source=None);registered.pop('parent_source')
+        self.assertEqual(fe.edition_date(registered),(fe.date(2025,12,1),'day'),'a reviewed date still wins for a registered source')
+
+    def test_the_same_value_worded_differently_is_a_restatement_not_a_split(self):
+        m=self.metrics['fx-peak-gw']
+        a=rec('fx-peak-gw',2044,152,'fx-2026',upper=186,precision='range');b=dict(a,status='company-commitment',precision='approx',period='2044 central')
+        self.assertTrue(fe.restates(b,OBSERVATIONS,m))
+        self.assertEqual(fe.split_slots([a,b],m),set())
+        self.assertEqual(fe.split_slots([a,dict(a,value=150)],m),{(2044,)})
+
+    def test_quotes_lose_markup_and_secret_shapes(self):
+        cleaned=fe.clean('the cost bearer of upgrades <x>',100)
+        self.assertNotIn('<',cleaned);self.assertNotIn('bearer of',cleaned)
+        validate.text(cleaned,100)  # passes the reviewed-text rules enqueue applies
+
     def test_actuals_are_untouched(self):
         self.assertIsNone(self.classify(rec('fx-peak-gw',2025,121,'fx-2026',status='observation'),self.sources['fx-2026']))
 
@@ -164,9 +188,9 @@ class EditionPackageTests(Fixture):
     def test_broken_or_self_referencing_edition_links_are_refused(self):
         self.hold();p=catalog_review.package(self.root,fe.materialize(self.root)[0])
         projected=catalog_review.projected(p,catalog_review.base(self.root))['site/data/ledger.json']
-        new=next(o for o in projected['observations'] if o.get('edition_supersedes'))
+        new=next(o for o in projected['observations'] if o['metric']=='fx-peak-gw' and o.get('edition_supersedes'))
         broken=copy.deepcopy(projected);next(o for o in broken['observations'] if o['id']==new['id'])['edition_supersedes']=['fx-guidance-2026']
-        with self.assertRaises(ValueError):validate.validate(broken)
+        with self.assertRaisesRegex(ValueError,'Broken'):validate.validate(broken)
         same=copy.deepcopy(projected)
         for o in same['observations']:
             if o['id']=='fx-peak-2044':o.update(source=new['source'],document_sha256=new['document_sha256'])
@@ -181,7 +205,55 @@ class EditionPackageTests(Fixture):
         items={json.loads(f.read_text(encoding='utf-8'))['source']['id']:json.loads(f.read_text(encoding='utf-8'))
                for f in (self.root/'.local/review-candidates').glob('edition-*.json')}
         self.assertEqual(items['fx-mid']['status'],'obsolete')
-        self.assertEqual(items['fx-2026']['status'],'packaged')
+        self.assertEqual(items['fx-2026']['status'],'applied')
+
+    def events(self):
+        path=self.root/'.local/review-candidates/editorial-events.jsonl'
+        return [json.loads(l) for l in path.read_text(encoding='utf-8').splitlines()] if path.exists() else []
+
+    def test_a_stale_package_is_withdrawn_and_proposed_again_once(self):
+        # Two documents' editions for two metrics share nothing, but the files move under a pending
+        # package when anything it touches changes: here the old figure gains a sibling correction.
+        self.hold();first=fe.materialize(self.root)[0]
+        ledger=self.ledger()
+        for o in ledger['observations']:
+            if o['id']=='fx-peak-2044':o['note']='Fixture, reworded.'
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        second=fe.materialize(self.root)
+        self.assertEqual(len(second),1);self.assertNotEqual(second[0],first)
+        self.assertEqual([(e['id'],e['status']) for e in self.events()],[(first,'withdrawn')])
+        self.assertEqual(fe.materialize(self.root),[],'a current package is left for the owner, not proposed again')
+        inbox={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
+        self.assertEqual((inbox[first],inbox[second[0]]),('withdrawn','pending_review'))
+
+    def test_a_deferred_package_that_goes_stale_is_proposed_again(self):
+        self.hold();first=fe.materialize(self.root)[0]
+        from editorial_review import append_event
+        append_event(self.root,{'id':first,'kind':'catalog_change','status':'deferred','reviewer':'owner','at':'2026-09-22T10:00:00Z'})
+        ledger=self.ledger();next(o for o in ledger['observations'] if o['id']=='fx-peak-2044')['note']='Moved.'
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        self.assertEqual(len(fe.materialize(self.root)),1)
+
+    def test_a_rejected_package_stays_rejected(self):
+        self.hold();first=fe.materialize(self.root)[0]
+        from editorial_review import append_event
+        append_event(self.root,{'id':first,'kind':'catalog_change','status':'rejected','reviewer':'owner','at':'2026-09-22T10:00:00Z'})
+        ledger=self.ledger();next(o for o in ledger['observations'] if o['id']=='fx-peak-2044')['note']='Moved.'
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        self.assertEqual(fe.materialize(self.root),[])
+
+    def test_a_figure_another_file_cites_is_not_retired_without_a_maintainer(self):
+        (self.root/'research/fixture-citation.json').write_text('{"baseline": "fx-peak-2044"}\n',encoding='utf-8')
+        self.hold();self.assertEqual(fe.materialize(self.root),[])
+        item=json.loads(next((self.root/'.local/review-candidates').glob('edition-*.json')).read_text(encoding='utf-8'))
+        self.assertEqual(item['status'],'needs_maintainer');self.assertIn('fixture-citation.json',item['reason'])
+        self.assertEqual(fe.blocked(self.root),1)
+
+    def test_a_hold_that_only_restates_the_chart_is_obsolete(self):
+        self.hold(rows=[('Peak load reaches 152 to 186 GW in 2044 in the range given.',rec('fx-peak-gw',2044,152,'fx-2026',upper=186,precision='range'))])
+        self.assertEqual(fe.materialize(self.root),[])
+        item=json.loads(next((self.root/'.local/review-candidates').glob('edition-*.json')).read_text(encoding='utf-8'))
+        self.assertEqual(item['status'],'obsolete')
 
     def test_a_failed_hold_is_counted_and_retried_only_when_the_files_change(self):
         self.hold()
@@ -234,6 +306,19 @@ class RunnerHoldTests(Fixture):
         doc='We expect capital spending of about 200 GW-equivalent in 2026 across the company this year.'
         accepted,quarantine,holds=self.extract('fx-feb',[self.cand('fx-guidance-gw',2026,200,'capital spending of about 200 GW-equivalent in 2026')],doc)
         self.assertEqual(holds,[]);self.assertEqual([q['reason'] for q in quarantine],[fe.REASONS['older']])
+
+    def test_an_edition_left_with_only_restatements_after_screening_is_not_held(self):
+        # The verifier rejects the one changed figure; the restated one alone must not become a package.
+        cands=[self.cand('fx-peak-gw',2046,184,'grow from 124 GW in 2026 to 184 GW by 2046'),
+               self.cand('fx-peak-gw',2044,152,'while 2044 reaches 152 to 186 GW in the range',186,'range')]
+        data=self.ledger();metrics={m['id']:m for m in data['metrics']};sources={s['id']:s for s in data['sources']}
+        replies=iter([{'observations':cands},{'verdicts':[{'index':0,'supported':False,'reason':'The quoted figure is a different scenario.'},
+                                                          {'index':1,'supported':True,'reason':'Direct support.'}]}])
+        quarantine=[]
+        with patch.object(research,'LOCAL',self.root/'.local'),patch.object(research,'ollama',side_effect=lambda *a,**k:next(replies)):
+            research.extract_observations({'_instructions':'i','_coverage':'c','max_candidates_per_document':8},sources['fx-2026'],self.DOC,
+                [metrics['fx-peak-gw']],data,metrics,sources,{'model_calls':0},quarantine,{})
+        self.assertFalse((self.root/'.local/review-candidates').exists() and list((self.root/'.local/review-candidates').glob('edition-*.json')))
 
     def test_monitoring_cannot_publish_an_edition_link(self):
         head=self.ledger();after=copy.deepcopy(head)

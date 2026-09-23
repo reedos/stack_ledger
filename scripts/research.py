@@ -1047,8 +1047,10 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             if all(forecast_edition.restates(t[1],data['observations'],m) for t in group):continue
             split=forecast_edition.split_slots([t[1] for t in group],m)
             for t in group:
-                if (forecast_edition.slot(t[1],m),t[1]['status']) in split:
-                    quarantine.append({'source':source['id'],'candidate':t[0],'reason':forecast_edition.REASONS['split'],'evidence_shrunk':t[2]})
+                if forecast_edition.slot(t[1],m) in split:
+                    entry={'source':source['id'],'candidate':t[0],'reason':forecast_edition.REASONS['split'],'evidence_shrunk':t[2]}
+                    if pdf_text.is_pdf_text(full_text):entry['pdf_page']=pdf_text.page_in_windows(full_text,windows,t[0]['evidence'])
+                    quarantine.append(entry)
                 else:kept.append(t)
         checked=[t for t in checked if not t[3]]+kept
     if checked:
@@ -1078,6 +1080,10 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
                 save(LOCAL/'evidence'/f'{record["id"]}.json',proof)
                 accepted.append(record)
             else:quarantine.append({'source':source['id'],'candidate':candidate,'reason':(f"{verdict['defect']}: {verdict['reason']}" if not verdict['supported'] else 'Conflicting proposal'),'evidence_shrunk':shrunk})
+        # Screening may have rejected the one figure that changed; what is left must still change
+        # something, or approving it could only take points off the chart.
+        changing={r['metric'] for _,r,_ in editions if not forecast_edition.restates(r,data['observations'],metrics.get(r['metric']))}
+        editions=[e for e in editions if e[1]['metric'] in changing]
         if editions:
             page=(lambda quote:pdf_text.page_in_windows(full_text,windows,quote)) if pdf_text.is_pdf_text(full_text) else None
             held=forecast_edition.hold(LOCAL,source,full_text,editions,metrics,page)

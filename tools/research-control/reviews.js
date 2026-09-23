@@ -129,7 +129,9 @@
     }
     const wrap=node('div',null,'edition-compare');
     // Which documents are being compared, and when each was issued: the reviewer's first question.
-    const ev=p.evidence||[],neuEv=ev.find(e=>!String(e.id).startsWith('old-')),oldEv=ev.filter(e=>String(e.id).startsWith('old-'));
+    // The new edition's evidence is the one named by the figures it adds; every other entry is the edition on the site.
+    const added=p.changes.find(c=>c.target==='observation'&&!c.before),newSource=added&&added.after?added.after.source:null;
+    const ev=p.evidence||[],neuEv=ev.find(e=>e.id===newSource),oldEv=ev.filter(e=>e!==neuEv);
     const when=e=>e&&e.published_at?`published ${e.published_at}`:'undated';
     if(neuEv)wrap.append(node('p',`New edition: ${neuEv.url} (${when(neuEv)})`,'hint'));
     for(const e of oldEv)wrap.append(node('p',`On the site now: ${e.url} (${when(e)})`,'hint'));
@@ -192,7 +194,7 @@
     for(const c of changes)box.append(row(c));
     return box;
   }
-  const STATUS_LABELS={pending_review:'Needs review',deferred:'Deferred',approved:'Approved, not yet applied',deployment_pending:'Pushed · awaiting deployment check',rejected:'Rejected',applied:'Applied'};
+  const STATUS_LABELS={pending_review:'Needs review',deferred:'Deferred',approved:'Approved, not yet applied',deployment_pending:'Pushed · awaiting deployment check',rejected:'Rejected',applied:'Applied',withdrawn:'Withdrawn · replaced by a newer proposal'};
   async function latestPackage(id){const r=await fetch('findings');const d=await r.json();return (d.catalog_packages||[]).find(q=>q.id===id);}
   // Everything from validPreview to buildCatalogCard is DOM-free: the bulk bar and the Publishing
   // strip decide here, and tests/control_decisions.cjs evaluates exactly this span.
