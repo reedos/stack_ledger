@@ -501,6 +501,11 @@ def questions_pending(root):
     return n
 
 
+def forecast_edition_blocked(root):
+    from forecast_edition import blocked
+    return blocked(root)
+
+
 def pending_decisions(root, strict=False):
     from findings_review import inbox as findings_inbox
     from visual_review import inbox as visual_inbox
@@ -511,6 +516,7 @@ def pending_decisions(root, strict=False):
     pending = [p for p in f['catalog_packages'] if p['status'] == 'pending_review']
     return {'catalog_packages_pending': sum(1 for p in pending if p.get('author') != EDITION_AUTHOR),
             'forecast_editions_pending': sum(1 for p in pending if p.get('author') == EDITION_AUTHOR),
+            'forecast_editions_blocked': forecast_edition_blocked(root),
             'discovery_findings_pending': sum(1 for r in f['findings'] if r['status'] == 'pending_review'),
             'visual_recommendations_pending': sum(1 for p in v['proposals'] if p['status'] == 'pending_review'),
             'questions_pending': questions_pending(root)}

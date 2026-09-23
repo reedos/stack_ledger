@@ -1022,7 +1022,8 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             # held for the owner as a whole (forecast_edition), never published or conflict-checked
             # figure by figure, which is how two editions ended up on one line.
             edition=forecast_edition.classify(record,source,data['observations'],data['sources'],metrics.get(record['metric']))
-            require(edition!='older','Older forecast edition than the one on the site')
+            if edition in ('older','unordered') and forecast_edition.restates(record,data['observations'],metrics.get(record['metric'])):continue
+            require(edition in (None,'new'),forecast_edition.REASONS.get(edition,''))
             if edition=='new':
                 checked.append((candidate,record,shrunk,True));continue
             conflict=duplicate_or_conflict(record,data['observations'],metrics)
@@ -1035,6 +1036,21 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             if pdf_text.is_pdf_text(full_text) and isinstance(candidate,dict) and isinstance(candidate.get('evidence'),str):
                 held['pdf_page']=pdf_text.page_in_windows(full_text,windows,candidate['evidence'])
             quarantine.append(held)
+    flagged=[t for t in checked if t[3]]
+    if flagged:
+        # An edition is held whole, but only when it changes something: a document that merely
+        # restates the chart's figures is a duplicate, and two different figures for one year from
+        # one document cannot both replace it.
+        kept=[]
+        for metric_id in sorted({t[1]['metric'] for t in flagged}):
+            group=[t for t in flagged if t[1]['metric']==metric_id];m=metrics.get(metric_id)
+            if all(forecast_edition.restates(t[1],data['observations'],m) for t in group):continue
+            split=forecast_edition.split_slots([t[1] for t in group],m)
+            for t in group:
+                if (forecast_edition.slot(t[1],m),t[1]['status']) in split:
+                    quarantine.append({'source':source['id'],'candidate':t[0],'reason':forecast_edition.REASONS['split'],'evidence_shrunk':t[2]})
+                else:kept.append(t)
+        checked=[t for t in checked if not t[3]]+kept
     if checked:
         run['model_calls']+=1
         focused='\n\n[OMITTED SOURCE TEXT — NOT CONTIGUOUS]\n\n'.join(dict.fromkeys(focus_text(windows,c['evidence']) for c,_,_,_ in checked))
@@ -1786,7 +1802,11 @@ def main():
                 save(LOCAL/'reviews.json',reviews)
         from catalog_recommender import materialize
         materialize(ROOT,config['model'])
-        forecast_edition.materialize(ROOT)
+        try:forecast_edition.materialize(ROOT)
+        except Exception as error:
+            # Packaging is bookkeeping for the owner's inbox; the holds stay on disk and the next
+            # batch tries again. It must never cost the batch its research.
+            print(f'Forecast edition packaging skipped: {type(error).__name__}: {str(error)[:200]}',file=sys.stderr,flush=True)
         print(json.dumps(run,indent=2),flush=True)
         if run['status']=='failed':return 1
         # 2: nothing reachable, or nothing new (deliverable 7) this batch; the session pauses

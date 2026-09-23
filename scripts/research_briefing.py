@@ -9,7 +9,7 @@ STAGES = ('locks', 'importers', 'research', 'policy', 'health', 'prune')
 LABELS = {'locks': 'Preparation', 'importers': 'Dataset updates', 'research': 'Research',
           'policy': 'Publication', 'health': 'Checks', 'prune': 'Cleanup'}
 IMPORT_NAMES = {'sec':'U.S. company filings (SEC)', 'epoch':'Epoch AI datasets', 'eia':'U.S. energy data', 'bls':'U.S. employment data'}
-DECISIONS = {'catalog_packages_pending': 'catalog changes', 'forecast_editions_pending': 'forecast editions', 'discovery_findings_pending': 'findings',
+DECISIONS = {'catalog_packages_pending': 'catalog changes', 'forecast_editions_pending': 'forecast editions', 'forecast_editions_blocked': 'forecast editions that need a maintainer', 'discovery_findings_pending': 'findings',
              'visual_recommendations_pending': 'visual recommendations', 'questions_pending': 'research questions'}
 
 def read(path, default=None):

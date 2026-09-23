@@ -60,7 +60,8 @@ test('a read-only account gets the controls but cannot submit them',()=>{
 // keep it out of bulk approval.
 test('a forecast edition shows both editions per year and cannot be bulk-selected',()=>{
   const old={id:'miso-peak-2044',metric:'m',year:2044,period:'2044',value:152,upper:186,status:'forecast',source:'old'};
-  const p=pkg({author:'Forecast edition (research runner)',title:'Forecast edition: MISO peak',changes:[
+  const p=pkg({author:'Forecast edition (research runner)',title:'Forecast edition: MISO peak',
+    evidence:[{id:'miso-2026',url:'https://cdn.example/2026.pdf',published_at:'2026-05-13'},{id:'old-miso-2024',url:'https://cdn.example/2024.pdf',published_at:'2024-12-01'}],changes:[
     {target:'observation',id:'auto-new2046',before:null,after:{id:'auto-new2046',metric:'m',year:2046,period:'2046',value:184,upper:null,status:'forecast',edition_supersedes:['miso-peak-2044']},evidence:['e1']},
     {target:'observation',id:'miso-peak-2044',before:old,after:{...old,superseded_by:'auto-new2046'},evidence:['e0','e1']}]});
   const boxes=[];const el=panel('reedos').buildCatalogCard(p,{selectable:true,boxes,selected:new Set(),count:()=>{}});
@@ -69,6 +70,8 @@ test('a forecast edition shows both editions per year and cannot be bulk-selecte
   assert.ok(all.includes('152–186'),'old edition range missing: '+JSON.stringify(all));
   assert.ok(all.includes('184'),'new edition value missing');
   assert.ok(all.includes('taken off the chart'),'retired year not marked');
+  assert.ok(all.includes('New edition: https://cdn.example/2026.pdf (published 2026-05-13)'),'new edition source and date missing');
+  assert.ok(all.includes('On the site now: https://cdn.example/2024.pdf (published 2024-12-01)'),'current edition source and date missing');
   assert.equal(boxes.length,0,'an edition must not be selectable for bulk approval');
   const plain=[];panel('reedos').buildCatalogCard(pkg(),{selectable:true,boxes:plain,selected:new Set(),count:()=>{}});
   assert.equal(plain.length,1,'an ordinary package stays selectable');

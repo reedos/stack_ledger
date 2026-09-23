@@ -121,11 +121,18 @@
     const rows=new Map();
     for(const c of p.changes){
       if(c.target!=='observation')continue;
-      const a=c.after||{},key=a.year+' '+(a.period||'');
+      // Keyed on the year: a by-year edition replaces the figure for that year whatever its period label.
+      const a=c.after||{},key=String(a.year);
       if(!rows.has(key))rows.set(key,{year:a.year,period:a.period,old:null,neu:null});
       if(c.before&&a.superseded_by)rows.get(key).old=c.before;
       else if(!c.before)rows.get(key).neu=a;
     }
+    const wrap=node('div',null,'edition-compare');
+    // Which documents are being compared, and when each was issued: the reviewer's first question.
+    const ev=p.evidence||[],neuEv=ev.find(e=>!String(e.id).startsWith('old-')),oldEv=ev.filter(e=>String(e.id).startsWith('old-'));
+    const when=e=>e&&e.published_at?`published ${e.published_at}`:'undated';
+    if(neuEv)wrap.append(node('p',`New edition: ${neuEv.url} (${when(neuEv)})`,'hint'));
+    for(const e of oldEv)wrap.append(node('p',`On the site now: ${e.url} (${when(e)})`,'hint'));
     const table=node('table',null,'change-table edition-table');
     const head=node('tr');for(const h of ['Year','On the site now','New edition'])head.append(node('th',h));table.append(head);
     for(const r of [...rows.values()].sort((x,y)=>x.year-y.year)){
@@ -134,7 +141,8 @@
         node('td',r.neu?fmtRange(r.neu):'taken off the chart'));
       table.append(tr);
     }
-    return table;
+    wrap.append(table);
+    return wrap;
   }
   function objectLabel(c,siblings){
     const a=c.after||{};
