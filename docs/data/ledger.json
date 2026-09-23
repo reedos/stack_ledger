@@ -7606,6 +7606,7 @@
       "max": 10000,
       "note": "Primary Amazon IR ~$200B only (company commitment). Prior AP $220B not retained. Forecast status per capital-explorer contract.",
       "source_ids": [
+        "capital-ap-outlook",
         "capital-amazon-q4-2025-ir"
       ],
       "company": "aws",
@@ -39117,17 +39118,17 @@
     },
     {
       "upper": null,
-      "retrieved_at": "2026-09-22T07:24:01Z",
+      "retrieved_at": "2026-09-22T18:00:00Z",
       "method": "curated",
       "id": "capital-guidance-aws-2026-reviewed",
       "metric": "capital-guidance-aws",
       "year": 2026,
       "period": "CY2026 guidance",
-      "value": 200,
+      "value": 220,
       "status": "forecast",
-      "source": "capital-amazon-q4-2025-ir",
+      "source": "capital-ap-outlook",
       "precision": "approx",
-      "note": "CY2026 CapEx about $200B from Amazon written IR. $220B not in this primary. Forecast per explorer."
+      "note": "CY2026 capex guidance of about $220B, given by CEO Andy Jassy on the July 30, 2026 Q2 call as reported by AP; includes robots, semiconductors and satellites, not only AWS. Supersedes the about $200B plan in Amazon’s February 5, 2026 release. Primary transcript remains a follow-up."
     },
     {
       "upper": 205,

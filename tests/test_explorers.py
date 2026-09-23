@@ -90,6 +90,24 @@ class ExplorerTests(unittest.TestCase):
         self.assertIn('FY2026 ended May 31',html)
         self.assertIn('Associated Press',html)
         self.assertIn('bars start at zero',html)
+    def test_outlook_attribution_follows_each_source_provenance(self):
+        # The footnote was once typed by hand and kept naming Alphabet as AP-attributed after its
+        # figure moved to Alphabet's own call. It is derived now; this holds it to the data.
+        html=capital(self.l,self.x,'./')
+        note=html.split('Definitions differ, including lease treatment. ')[1].split('</p>')[0]
+        self.assertIn('Amazon',note);self.assertIn('Associated Press reporting of the earnings call',note)
+        self.assertNotIn('Alphabet',note)
+        sources={s['id']:s for s in self.l['sources']}
+        company=next(s['id'] for s in self.l['sources'] if s.get('provenance')=='company-channel')
+        for o in self.l['observations']:
+            if o['metric'].startswith('capital-guidance') and sources[o['source']].get('provenance')=='news':o['source']=company
+        html=capital(self.l,self.x,'./')
+        self.assertIn('Every outlook comes from the company’s own channel.',html)
+    def test_amazon_guidance_is_the_july_vintage_not_the_superseded_february_plan(self):
+        o=next(o for o in self.l['observations'] if o['id']=='capital-guidance-aws-2026-reviewed')
+        self.assertEqual(o['value'],220)
+        self.assertEqual(o['source'],'capital-ap-outlook')
+        self.assertIn('supersedes',o['note'].lower())
     def test_later_years_extend_capital_history(self):
         row=self.x['capital']['companies'][0];o=copy.deepcopy(next(o for o in self.l['observations'] if o['metric']==row['history_metric']))
         o.update(id='later-capital-fixture',year=2035,period='FY2035',value=200);self.l['observations'].append(o)
