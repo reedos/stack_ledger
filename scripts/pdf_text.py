@@ -64,10 +64,16 @@ def check_policy(policy, registry=None):
             _require(row['source'] in sources, f"Approved PDF source is not registered: {row['source']}")
             _require(urlparse(sources[row['source']]['url']).scheme == 'https', 'Approved PDF must be https')
     for row in policy['prefixes']:
-        _require(isinstance(row, dict) and set(row) == {'host', 'path_prefix', 'why'} and isinstance(row['why'], str) and row['why'], 'Invalid approved PDF prefix')
+        _require(isinstance(row, dict) and set(row) in ({'host', 'path_prefix', 'why'}, {'host', 'path_prefix', 'why', 'topics'})
+                 and isinstance(row['why'], str) and row['why'], 'Invalid approved PDF prefix')
         _require(re.fullmatch(r'[a-z0-9.-]+\.[a-z]{2,}', row['host'] or '') is not None, 'Invalid approved PDF host')
-        _require(isinstance(row['path_prefix'], str) and row['path_prefix'].startswith('/') and len(row['path_prefix']) >= 8
-                 and '..' not in row['path_prefix'], 'Approved PDF prefix must be a specific path')
+        topics = row.get('topics', [])
+        _require(isinstance(topics, list) and all(isinstance(t, str) and 2 <= len(t) <= 40 for t in topics)
+                 and ('topics' not in row or topics), 'Approved PDF topics must be a non-empty list of words')
+        # A folder that holds only the reports may stand alone; a shared store ('/media/' on
+        # spp.org, '/files/docs/' on ercot.com) must name the report in its file path as well.
+        _require(isinstance(row['path_prefix'], str) and row['path_prefix'].startswith('/') and '..' not in row['path_prefix']
+                 and len(row['path_prefix']) >= (6 if topics else 8), 'Approved PDF prefix must be a specific path')
 
 
 def approved_urls(policy, registry):
@@ -85,8 +91,10 @@ def allowed(url, policy, urls):
     # Compared the way source_policy.discoverable compares an index page's children: decoded and
     # lowercased, so '/DotCom/' and a '%20' in MISO's paths match the reviewed prefix either way.
     path = unquote(u.path).lower()
+    from source_policy import topical
     return u.scheme == 'https' and not u.query and not u.fragment and path.endswith('.pdf') and '..' not in path and any(
-        u.hostname == row['host'] and path.startswith(unquote(row['path_prefix']).lower()) for row in policy['prefixes'])
+        u.hostname == row['host'] and path.startswith(unquote(row['path_prefix']).lower())
+        and (not row.get('topics') or topical(path, row['topics'])) for row in policy['prefixes'])
 
 
 def pdf_html(body, max_pages):

@@ -149,6 +149,18 @@ class PdfPolicyTests(unittest.TestCase):
         self.assertTrue(pdf_text.allowed('https://www.grid.example/Reports/Load-Forecast/2027%20Report.pdf',POLICY,urls))
         self.assertFalse(pdf_text.allowed('https://www.grid.example/reports/load-forecast/%2e%2e/secret.pdf',POLICY,urls))
 
+    def test_a_shared_store_is_approved_only_for_files_that_name_the_report(self):
+        policy=copy.deepcopy(POLICY);policy['prefixes'].append({'host':'www.grid.example','path_prefix':'/media/','topics':['itp'],'why':'Shared library.'})
+        pdf_text.check_policy(policy,REGISTRY)
+        urls=pdf_text.approved_urls(policy,REGISTRY)
+        self.assertTrue(pdf_text.allowed('https://www.grid.example/media/2630/2026-itp-report-v1.pdf',policy,urls))
+        self.assertFalse(pdf_text.allowed('https://www.grid.example/media/2610/board-slides.pdf',policy,urls))
+        self.assertFalse(pdf_text.allowed('https://www.grid.example/media/2611/transmitpower.pdf',policy,urls))  # whole words only
+        short=copy.deepcopy(POLICY);short['prefixes'][0]['path_prefix']='/media/'
+        with self.assertRaisesRegex(ValueError,'specific path'):pdf_text.check_policy(short,REGISTRY)  # 7 characters needs topics
+        empty=copy.deepcopy(policy);empty['prefixes'][-1]['topics']=[]
+        with self.assertRaisesRegex(ValueError,'non-empty'):pdf_text.check_policy(empty,REGISTRY)
+
     def test_table_rows_are_told_apart_from_prose(self):
         for evidence in ['PJM projects summer peak of 222,106 MW in 2036, an increase of 65,733 MW.',
                          'SPP peak demand of 56 GW could rise to 109 GW within ten years.',

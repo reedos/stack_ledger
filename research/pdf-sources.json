@@ -38,37 +38,59 @@
     {
       "host": "www.pjm.com",
       "path_prefix": "/-/media/DotCom/committees-groups/subcommittees/las/20",
-      "why": "Load Analysis Subcommittee meeting folders by year (las/2026/..., las/2027/...), where PJM posts its large-load adjustment summaries; postings/ templates are outside the prefix."
+      "why": "Load Analysis Subcommittee meeting folders by year (las/2026/..., las/2027/...), where PJM posts its large-load adjustment summaries; postings/ templates are outside the prefix.",
+      "topics": [
+        "large-load",
+        "data-center"
+      ]
     },
     {
       "host": "www.spp.org",
-      "path_prefix": "/media/2",
-      "why": "SPP's media library IDs 2000-2999, where the 2024 (2229) and 2025 (2429) ITP reports sit; not a folder, so it stops matching new uploads around 2028, after the ITP sunset. The ITP page and topic 'itp' do the narrowing."
+      "path_prefix": "/media/",
+      "why": "SPP's site-wide media library, where the 2024 and 2025 ITP reports sit (/media/2229/, /media/2429/); only files whose name carries 'itp' are approved, so the library's other PDFs are not.",
+      "topics": [
+        "itp"
+      ]
     },
     {
       "host": "www.ercot.com",
       "path_prefix": "/files/docs/2026/",
-      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031."
+      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031.",
+      "topics": [
+        "constraints"
+      ]
     },
     {
       "host": "www.ercot.com",
       "path_prefix": "/files/docs/2027/",
-      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031."
+      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031.",
+      "topics": [
+        "constraints"
+      ]
     },
     {
       "host": "www.ercot.com",
       "path_prefix": "/files/docs/2028/",
-      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031."
+      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031.",
+      "topics": [
+        "constraints"
+      ]
     },
     {
       "host": "www.ercot.com",
       "path_prefix": "/files/docs/2029/",
-      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031."
+      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031.",
+      "topics": [
+        "constraints"
+      ]
     },
     {
       "host": "www.ercot.com",
       "path_prefix": "/files/docs/2030/",
-      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031."
+      "why": "ERCOT files every document by upload date, so no report folder exists. Year folders from 2026 on catch next editions of the Constraints and Needs report (posted each December) without re-reading 2019-2025, whose figures are older editions; the planning page's topic 'constraints' narrows each year to that report. Add 2031 before 2031.",
+      "topics": [
+        "constraints"
+      ]
     }
   ]
 }
