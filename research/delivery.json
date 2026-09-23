@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-16T16:36:02Z",
+  "reviewed_at": "2026-09-23T13:36:01Z",
   "projects": [
     {
       "id": "gemini",
@@ -2592,7 +2592,10 @@
       "category": "AI data center expansion",
       "stage": "operating",
       "ai_relationship": "Operating AI-cloud infrastructure.",
-      "observations": [],
+      "observations": [
+        "epoch-nebius-mantsala-it-mw-2026-06-29",
+        "epoch-nebius-mantsala-h100e-2026-06-29"
+      ],
       "horizon": "Completed expansion reported March 2026.",
       "grid": "Confirm whether the disclosed MW denotes facility or critical IT capacity.",
       "next_evidence": "Obtain operating capacity definition and heat-recovery measurements.",
