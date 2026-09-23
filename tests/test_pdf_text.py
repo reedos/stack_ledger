@@ -39,6 +39,9 @@ def make_pdf(pages):
     return out
 
 
+FILLER=['This page continues the report with ordinary explanatory prose for the reader.']*4
+
+
 def readable(body,max_pages=10):
     parser=research.ReadableHTML();parser.feed(pdf_text.pdf_html(body,max_pages));return parser.readable()
 
@@ -52,7 +55,7 @@ REGISTRY={'sources':[{'id':'grid','url':'https://www.grid.example/files/2026-loa
 @unittest.skipUnless(HAVE_PYPDF,'pypdf not installed; PDFs stay collection gaps')
 class PdfTextTests(unittest.TestCase):
     def test_pages_become_marked_text_a_reviewer_can_locate(self):
-        text=readable(make_pdf([['Load Forecast Report'],['Summer peak could rise to 109 GW within ten years.']]))
+        text=readable(make_pdf([['Load Forecast Report']+FILLER,['Summer peak could rise to 109 GW within ten years.']+FILLER]))
         self.assertTrue(pdf_text.is_pdf_text(text))
         self.assertIn('[Page 2]',text)
         at=text.find('could rise to 109 GW')
@@ -61,19 +64,21 @@ class PdfTextTests(unittest.TestCase):
         self.assertIsNone(pdf_text.page_of(text,-1))
 
     def test_unreadable_or_oversized_pdfs_stay_collection_gaps(self):
-        for body,pages,kind in [(b'<html>not a pdf</html>',10,'not_a_pdf'),(make_pdf([['a'],['b'],['c']]),2,'pdf_too_many_pages'),
+        for body,pages,kind in [(b'<html>not a pdf</html>',10,'not_a_pdf'),(make_pdf([FILLER,FILLER,FILLER]),2,'pdf_too_many_pages'),(make_pdf([['1'],['2'],['3']]),10,'pdf_no_text'),
                                 (b'%PDF-1.4 truncated',10,'pdf_unreadable')]:
             with self.subTest(kind=kind),self.assertRaises(CollectionGap) as caught:pdf_text.pdf_html(body,pages)
             self.assertEqual(caught.exception.kind,kind)
         with patch.dict(sys.modules,{'pypdf':None}),self.assertRaises(CollectionGap) as caught:
-            pdf_text.pdf_html(make_pdf([['a']]),10)
+            pdf_text.pdf_html(make_pdf([FILLER]),10)
         self.assertEqual(caught.exception.kind,'pdf_parser_unavailable')
 
     def test_fetcher_reads_an_approved_pdf_and_refuses_any_other(self):
         body=make_pdf([['PJM projects a summer peak of 222,106 MW in 2036, an increase of 65,733 MW over 2026.']*4])
+        final={}
         class Response:
-            def __init__(self):self.headers=Message();self.headers['Content-Type']='application/pdf';self.sent=None
+            def __init__(self):self.headers=Message();self.headers['Content-Type']='application/pdf'
             def read(self,n):return body[:n]
+            def geturl(self):return final.get('url',opener.requests[-1].full_url)
             def __enter__(self):return self
             def __exit__(self,*a):return False
         class Opener:
@@ -89,6 +94,31 @@ class PdfTextTests(unittest.TestCase):
             for url in ['https://www.grid.example/other/2026.pdf','https://www.grid.example/reports/load-forecast/2027.pdf?x=1']:
                 with self.subTest(url=url),self.assertRaises(CollectionGap) as caught:fetcher.get(url,'www.grid.example')
                 self.assertEqual(caught.exception.kind,'pdf_requires_reviewed_parser')
+            # SafeRedirect keeps the host; a redirect must also land on an approved document or path.
+            final['url']='https://www.grid.example/drafts/superseded.pdf'
+            with self.assertRaises(CollectionGap) as caught:fetcher.get('https://www.grid.example/files/2026-load-report.pdf','www.grid.example')
+            self.assertEqual(caught.exception.kind,'pdf_redirected_outside_allowlist')
+            final['url']='https://www.grid.example/reports/load-forecast/2026.pdf'
+            self.assertIn('222,106',fetcher.get('https://www.grid.example/files/2026-load-report.pdf','www.grid.example'))
+
+    def test_lone_surrogates_from_a_bad_font_map_become_replacement_characters(self):
+        class Page:
+            def extract_text(self):return 'Symbol \ud835 then a paired \U0001d400 letter. '+' '.join(FILLER)
+        class Reader:
+            def __init__(self,stream):self.is_encrypted=False;self.pages=[Page()]
+        with patch('pypdf.PdfReader',Reader):text=pdf_text.pdf_html(b'%PDF-1.4',10)
+        text.encode('utf-8')  # hashing the readable text must not raise
+        self.assertIn('\ufffd',text)
+        self.assertIn('\U0001d400',text)
+
+    def test_a_failed_read_makes_the_next_fetch_unconditional(self):
+        class State:
+            def __init__(self):self.records={'page':{'etag':'"v1"','last_modified':'Mon','text_sha256':'abc'}}
+            def get(self,kind,url):return self.records[kind]
+            def put(self,kind,url,value):self.records[kind]=value
+        fetcher=type('F',(),{})();fetcher.fetch_state=State()
+        research.forget_validators(fetcher,'https://www.grid.example/files/2026-load-report.pdf')
+        self.assertEqual(fetcher.fetch_state.records['page'],{'etag':None,'last_modified':None,'text_sha256':'abc'})
 
 
 class PdfPolicyTests(unittest.TestCase):
@@ -121,8 +151,16 @@ class PdfPolicyTests(unittest.TestCase):
                          'SPP peak demand of 56 GW could rise to 109 GW within ten years.',
                          'data centers could add between 42 and 80 TWh by 2030']:
             self.assertFalse(pdf_text.looks_tabular(evidence),evidence)
-        for evidence in ['2024 122 152 186','Summer Peak (MW) 2036 222,106 2046 253,077']:
+        for evidence in ['2024 122 152 186','Summer Peak (MW) 2036 222,106 2046 253,077',
+                         'data centers. This is an increase of 178 GW\nsince the end of 2025.\n3\n87.6%',   # ERCOT board p3
+                         '3rd IA\n2026\n-2,564 MW\n-1.6%',                                               # PJM load report p7
+                         'Storage\n2023 5,090 MW\n2026 27,218 MW',                                         # ERCOT constraints
+                         'Capacity goal is minute compared to load\n61.7\n66.5\n69.8\n76.4',             # SPP Figure 2.1
+                         '150GW 160GW 170GW']:
             self.assertTrue(pdf_text.looks_tabular(evidence),evidence)
+        for evidence in ['PJM projects a summer peak of 222,106 MW in 2036\nand 253,077 MW in 2046, an increase of 96,704 MW.',
+                         'Capital budget of US$52 billion to US$56 billion for 2026']:
+            self.assertFalse(pdf_text.looks_tabular(evidence),evidence)
 
     def test_a_pdf_table_figure_is_held_for_review_not_published(self):
         data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
@@ -135,6 +173,26 @@ class PdfPolicyTests(unittest.TestCase):
             research.extract_observations({'_instructions':'i','_coverage':'c','max_candidates_per_document':8},sources['stanford-2026'],
                                           document,[metrics['ai-adoption']],copy.deepcopy(data),metrics,dict(sources),{'model_calls':0},quarantine,{})
         self.assertEqual([q['reason'] for q in quarantine],['PDF table figure held for human review'])
+        self.assertEqual(quarantine[0]['pdf_page'],1)
+
+    def test_a_page_mark_cannot_back_a_number(self):
+        # '[Page 30]' is the runner's own line; its 30 is not in the source.
+        data=json.loads((ROOT/'site/data/ledger.json').read_text(encoding='utf-8'))
+        metrics={m['id']:m for m in data['metrics']};sources={s['id']:s for s in data['sources']}
+        document='[Page 1]\nThe forecast describes how new large customers\n[Page 30]\nconnect to the system through 2024 and beyond.'
+        candidate={'metric':'ai-adoption','year':2024,'period':'2024','value':30,'upper':None,'status':'observation',
+                   'precision':'eq','note':'','evidence':'new large customers\n[Page 30]\nconnect to the system through 2024'}
+        quarantine=[]
+        with patch.object(research,'ollama',return_value={'observations':[candidate]}):
+            research.extract_observations({'_instructions':'i','_coverage':'c','max_candidates_per_document':8},sources['stanford-2026'],
+                                          document,[metrics['ai-adoption']],copy.deepcopy(data),metrics,dict(sources),{'model_calls':0},quarantine,{})
+        self.assertEqual([q['reason'] for q in quarantine],['Evidence spans a PDF page break'])
+
+    def test_page_is_found_in_the_whole_document_not_the_window(self):
+        document='[Page 1]\nalpha\n[Page 2]\nbeta gamma\n[Page 3]\ndelta'
+        window={'start':document.index('beta'),'end':len(document),'text':document[document.index('beta'):]}
+        self.assertEqual(pdf_text.page_in_windows(document,[window],'beta gamma'),2)
+        self.assertEqual(pdf_text.page_in_windows(document,[window],'delta'),3)
 
 
 if __name__=='__main__':

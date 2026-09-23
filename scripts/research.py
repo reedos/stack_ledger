@@ -544,6 +544,17 @@ class SafeRedirect(HTTPRedirectHandler):
         allowed_url(newurl,self.host)
         return super().redirect_request(req,fp,code,msg,headers,newurl)
 
+def forget_validators(fetcher,url):
+    """Make the next fetch of `url` unconditional after a failed read.
+
+    fetch() stores the ETag before either lane runs. If a lane then fails, every later visit to a
+    fixed document (an approved PDF never changes) is a 304, and the document is never read again.
+    The review ledger still stops a model call on text that was in fact reviewed.
+    """
+    state=fetcher.fetch_state.get('page',url)
+    if state.get('etag') or state.get('last_modified'):
+        fetcher.fetch_state.put('page',url,dict(state,etag=None,last_modified=None))
+
 class Fetcher:
     def __init__(self):
         self.robots={};self.last_request={}
@@ -558,9 +569,13 @@ class Fetcher:
         # Loaded on first use: most batches never meet a PDF, and a registry or policy error
         # must fail only the PDF, not every HTML fetch.
         if self._pdf is None:
-            registry=load(ROOT/'research/sources.json')
-            policy=pdf_text.load_policy(ROOT,registry)
-            self._pdf=(policy,pdf_text.approved_urls(policy,registry) if policy else set())
+            try:
+                registry=load(ROOT/'research/sources.json')
+                policy=pdf_text.load_policy(ROOT,registry)
+                self._pdf=(policy,pdf_text.approved_urls(policy,registry) if policy else set())
+            except (OSError,ValueError) as error:
+                print(f'PDF policy unavailable, every PDF stays a gap: {error}',file=sys.stderr,flush=True)
+                self._pdf=({},set())
         return self._pdf
     def due(self,url,refresh=False,feed_poll_seconds=None):
         """Whether `url` may be fetched now.
@@ -595,7 +610,7 @@ class Fetcher:
         opener=build_opener(ProxyHandler({}),SafeRedirect(host))
         request_headers={'User-Agent':UA,'Accept':'text/html,text/plain;q=0.9'}
         # An approved PDF asks for a PDF: spp.org answers 406 to an HTML-only Accept header.
-        if not raw and urlparse(url).path.lower().endswith('.pdf') and pdf_text.allowed(url,*self.pdf_policy()):
+        if not raw and pdf_text.allowed(url,*self.pdf_policy()):
             request_headers['Accept']='application/pdf,text/html;q=0.9,*/*;q=0.5'
         if headers:request_headers.update(headers)
         with opener.open(Request(url,headers=request_headers),timeout=25) as response:
@@ -603,6 +618,9 @@ class Fetcher:
             if not raw and content_type in pdf_text.PDF_TYPES and (content_type=='application/pdf' or urlparse(url).path.lower().endswith('.pdf')):
                 policy,urls=self.pdf_policy()
                 if pdf_text.allowed(url,policy,urls):
+                    # SafeRedirect keeps the host; the allowlist also fixes the document or path.
+                    final=response.geturl() if hasattr(response,'geturl') else url
+                    if final!=url and not pdf_text.allowed(final,policy,urls):raise CollectionGap('pdf_redirected_outside_allowlist')
                     body=response.read(policy['max_bytes']+1)
                     require(len(body)<=policy['max_bytes'],'Source exceeds PDF size cap')
                     if capture is not None:capture.update(etag=response.headers.get('ETag'),last_modified=response.headers.get('Last-Modified'))
@@ -827,6 +845,9 @@ def extract_note(config,source,document,existing_events,run,quarantine,collectio
             require(isinstance(c['evidence'],str) and len(c['evidence'])>=20,'Note evidence length out of range')
             located=locate_in_windows(windows,c['evidence'])
             require(located is not None and len(located)>=20,'Note evidence not found')
+            if pdf_text.is_pdf_text(document):
+                require(not pdf_text.has_page_mark(located),'Evidence spans a PDF page break')
+                require(not pdf_text.looks_tabular(located),'PDF table figure held for human review')
             publication_year=(source.get('published') or '')[:4]
             if len(located)>NOTE_EVIDENCE_MAX:
                 numbers=[t for t in numeric_tokens(c['title']+' '+c['summary']) if t!=publication_year]
@@ -985,16 +1006,24 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
                 require(reduced is not None,'evidence too long even after shrinking')
                 located=reduced;shrunk=True
             candidate['evidence']=located  # the document's own bytes
+            # A runner-inserted '[Page 30]' line is not source text, and its digits would pass the
+            # exact-numeric check for a value of 30. Evidence that crosses a page break is refused.
+            require(not (pdf_text.is_pdf_text(full_text) and pdf_text.has_page_mark(located)),'Evidence spans a PDF page break')
             # A table row flattened out of a PDF keeps its numbers but can lose the column and
             # row headings that say which year, zone or case each one is. Until that is measured,
             # such a figure goes to review instead of publishing on the model's reading alone.
-            require(not (pdf_text.is_pdf_text(content) and pdf_text.looks_tabular(located)),'PDF table figure held for human review')
+            require(not (pdf_text.is_pdf_text(full_text) and pdf_text.looks_tabular(located)),'PDF table figure held for human review')
             record=candidate_record(candidate,source,content,metrics,sources,existing,policy)
             conflict=duplicate_or_conflict(record,data['observations'],metrics)
             if conflict=='duplicate':continue
             require(conflict!='conflict','Conflicting metric/year requires reviewed correction')
             checked.append((candidate,record,shrunk))
-        except Exception as e:quarantine.append({'source':source['id'],'candidate':candidate,'reason':str(e),'evidence_shrunk':shrunk})
+        except Exception as e:
+            held={'source':source['id'],'candidate':candidate,'reason':str(e),'evidence_shrunk':shrunk}
+            # A held PDF figure is the one a reviewer most needs to find in the original.
+            if pdf_text.is_pdf_text(full_text) and isinstance(candidate,dict) and isinstance(candidate.get('evidence'),str):
+                held['pdf_page']=pdf_text.page_in_windows(full_text,windows,candidate['evidence'])
+            quarantine.append(held)
     if checked:
         run['model_calls']+=1
         focused='\n\n[OMITTED SOURCE TEXT — NOT CONTIGUOUS]\n\n'.join(dict.fromkeys(focus_text(windows,c['evidence']) for c,_,_ in checked))
@@ -1013,7 +1042,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
                 data['observations'].append(record);run['accepted']+=1
                 proof={'record':record,'evidence':candidate['evidence'],'review':verdict,'evidence_shrunk':shrunk}
                 proof.update({k:candidate[k] for k in ('token_multiplier','scaled_from_token') if k in candidate})
-                if pdf_text.is_pdf_text(content):proof['pdf_page']=pdf_text.page_of(content,content.find(candidate['evidence']))
+                if pdf_text.is_pdf_text(full_text):proof['pdf_page']=pdf_text.page_in_windows(full_text,windows,candidate['evidence'])
                 save(LOCAL/'evidence'/f'{record["id"]}.json',proof)
                 accepted.append(record)
             else:quarantine.append({'source':source['id'],'candidate':candidate,'reason':(f"{verdict['defect']}: {verdict['reason']}" if not verdict['supported'] else 'Conflicting proposal'),'evidence_shrunk':shrunk})
@@ -1545,6 +1574,7 @@ def main():
             except CoolingDown:
                 collection['cooldown_skips']+=1
             except Exception as error:
+                forget_validators(fetcher,source['url'])
                 # Public failures use sanitized categories, not raw responses or local paths.
                 reason=str(error) if isinstance(error,(ValueError,RuntimeError)) else type(error).__name__
                 if isinstance(error,HTTPError):reason='HTTP '+str(error.code)

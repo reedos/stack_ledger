@@ -101,19 +101,44 @@ def pdf_html(body, max_pages):
         if len(reader.pages) > max_pages:
             raise CollectionGap('pdf_too_many_pages')
         parts = []
+        drawn = 0
         for number, page in enumerate(reader.pages, 1):
-            text = page.extract_text() or ''
+            # pypdf decodes ToUnicode maps with surrogatepass, so a malformed symbol font can leave
+            # a lone surrogate that no later step can encode or hash. Pair what pairs, replace the rest.
+            text = (page.extract_text() or '').encode('utf-16', 'surrogatepass').decode('utf-16', 'replace')
+            drawn += len(text.strip())
             parts.append(f'<section><p>[Page {number}]</p><pre>{html.escape(text)}</pre></section>')
     except CollectionGap:
         raise
     except Exception as error:
         raise CollectionGap('pdf_unreadable') from error
+    # The page marks alone would clear the runner's 250-character floor for a scanned report.
+    if drawn < 250:
+        raise CollectionGap('pdf_no_text')
     return '\n'.join(parts)
 
 
 def is_pdf_text(document):
     """Readable text that came from pdf_html: it always opens on the first page mark."""
     return document.startswith('[Page 1]\n')
+
+
+def has_page_mark(evidence):
+    """Evidence that runs across a runner-inserted page mark: the mark's digits are not source text."""
+    return PAGE_MARK.search(evidence) is not None
+
+
+def page_in_windows(document, windows, evidence):
+    """The page of `evidence` in the full PDF text, found through the window that exposed it.
+
+    A window after the first usually starts mid-page, so its own text carries no page mark for
+    what precedes its first break; the position has to be mapped back to the whole document.
+    """
+    for w in windows:
+        at = w['text'].find(evidence)
+        if at >= 0:
+            return page_of(document, w['start'] + at)
+    return page_of(document, document.find(evidence))
 
 
 def page_of(document, evidence_at):
@@ -124,6 +149,28 @@ def page_of(document, evidence_at):
     return int(pages[-1].group(1)) if pages else None
 
 
+# One table cell alone on a line: a number, optionally with a short unit ('61.7', '87.6%', '-2,564 MW').
+_CELL = re.compile(r'^' + _NUMBER + r'(?:[ \t]*[A-Za-z%]{1,4})?$')
+# The small words that hold a sentence together; a table row has none of them.
+_FUNCTION_WORDS = {'a', 'an', 'the', 'of', 'in', 'to', 'by', 'and', 'or', 'for', 'from', 'with', 'at', 'on', 'is', 'are',
+                   'was', 'were', 'will', 'be', 'as', 'than', 'that', 'this', 'its', 'our', 'we', 'it', 'could', 'would', 'up'}
+
+
+def _row(line):
+    """Two or more numbers on a line with no function word: '2026 27,218 MW', 'Summer Peak (MW) 2036 222,106'."""
+    tokens = line.split()
+    numbers = sum(1 for t in tokens if re.fullmatch(_NUMBER + r'[A-Za-z%]{0,4}[.,;:]?', t))
+    return numbers >= 2 and not any(t.strip('.,;:()').lower() in _FUNCTION_WORDS for t in tokens)
+
+
 def looks_tabular(evidence):
-    """Evidence that includes a flattened table row, whose figures may have lost their headings."""
-    return TABLE_ROW.search(evidence) is not None
+    """Evidence drawn from a table or chart as pypdf flattens it, whose figures may have lost their headings.
+
+    pypdf mostly emits one cell per line ('61.7' then '66.5'), label-year-value rows
+    ('2026 27,218 MW') or runs of numbers ('2024 122 152 186'). Any of those in the quote holds
+    the figure for review. Prose with several numbers keeps its function words and passes.
+    """
+    lines = [line.strip() for line in evidence.splitlines() if line.strip() and not PAGE_MARK.match(line.strip())]
+    if len(lines) >= 2 and any(_CELL.match(line) for line in lines):
+        return True
+    return TABLE_ROW.search(evidence) is not None or any(_row(line) for line in lines)

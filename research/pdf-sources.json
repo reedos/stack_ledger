@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "owner_decision": "09/23/2026: the owner asked for the PDF path to be built. Only the documents below, and PDFs under a listed path, are read as text; every figure still passes the same evidence checks as HTML, and a figure quoted from a flattened table row is held for human review. The starting list is the maintainer’s proposal from the 09/22 gap fill, awaiting the owner’s confirmation. TSMC’s transcripts were left out: investor.tsmc.com refused 2 of 3 requests (HTTP 403) on 09/23/2026, and the runner does not work around access controls. This does not change the grid-operators.json decision that no PDF number is hand-entered: these are model extractions under review.",
+  "owner_decision": "09/23/2026: the owner asked for the PDF path to be built. Only the documents below, and PDFs under a listed path, are read as text; every figure still passes the same evidence checks as HTML, and a figure quoted from a flattened table row is held for human review. The owner approved merging it on 09/23/2026; the starting list is the maintainer’s proposal from the 09/22 gap fill, and the owner may add or remove documents. TSMC’s transcripts were left out: investor.tsmc.com refused 2 of 3 requests (HTTP 403) on 09/23/2026, and the runner does not work around access controls. This does not change the grid-operators.json decision that no PDF number is hand-entered: these are model extractions under review.",
   "max_bytes": 20000000,
   "max_pages": 300,
   "documents": [
