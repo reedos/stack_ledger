@@ -21951,7 +21951,8 @@
       "max": 10000,
       "note": "Company-wide spending. Advanced packaging CapEx share language stays in notes; CoWoS wafer starts are not inferred.",
       "source_ids": [
-        "tsmc-4q25-earnings-transcript"
+        "tsmc-4q25-earnings-transcript",
+        "tsmc-2q26-earnings-transcript"
       ],
       "company": "tsmc",
       "measurement_type": "capex_announced_usd",
@@ -29955,6 +29956,18 @@
       "title": "TSMC 4Q25 earnings conference call transcript",
       "url": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-01/51d09df96cd89ac19d65af39032b038dc2896a24/TSMC%204Q25%20Transcript.pdf",
       "published": "2026-01-16",
+      "layers": [
+        "chips"
+      ],
+      "license": "Public disclosure; facts paraphrased with attribution.",
+      "provenance": "company-channel"
+    },
+    {
+      "id": "tsmc-2q26-earnings-transcript",
+      "publisher": "TSMC",
+      "title": "TSMC 2Q26 earnings conference call transcript",
+      "url": "https://investor.tsmc.com/english/encrypt/files/encrypt_file/reports/2026-08/3e494f0c14dd0890f897aa044415e21d93486cc4/TSMC%202Q26%20Transcript.pdf",
+      "published": "2026-07-16",
       "layers": [
         "chips"
       ],
@@ -93804,7 +93817,7 @@
       "precision": "approx",
       "retrieved_at": "2026-09-22T07:16:00Z",
       "method": "curated",
-      "note": "PJM LAS (2025-11-24): preliminary large-load process supports up to ~30 GW data-center growth between 2025 and 2030 (after Firm vs Non-Firm screening assumptions). Planning estimate, not energized MW."
+      "note": "PJM LAS (2025-11-24), slide “Consideration of National Projections” (PJM ~40% of U.S. data centers in 2025; load adjustment requests plus public projections): “Supports PJM data center growth of up to ~30 GW between 2025 and 2030.” Planning estimate, not energized MW."
     },
     {
       "id": "ercot-lli-approved-energize-2025-12",
@@ -94031,18 +94044,18 @@
       "note": "+15% issues resolved per hour with generative-AI assistant (Brynjolfsson/Li/Raymond QJE)."
     },
     {
-      "upper": 56,
-      "retrieved_at": "2026-09-22T07:24:01Z",
+      "upper": 64,
+      "retrieved_at": "2026-09-23T04:58:00Z",
       "method": "curated",
       "id": "capital-guidance-tsmc-2026",
       "metric": "capital-guidance-tsmc",
       "year": 2026,
       "period": "CY2026 guidance",
-      "value": 52,
+      "value": 60,
       "status": "company-commitment",
-      "source": "tsmc-4q25-earnings-transcript",
+      "source": "tsmc-2q26-earnings-transcript",
       "precision": "range",
-      "note": "TSMC CY2026 CapEx guidance $52–56B from 4Q25 transcript."
+      "note": "TSMC raised its full-year 2026 capital budget to USD60-64B on the July 16, 2026 2Q26 call. Supersedes the USD52-56B guided on the January 15, 2026 4Q25 call (April: closer to USD56B)."
     },
     {
       "upper": null,
