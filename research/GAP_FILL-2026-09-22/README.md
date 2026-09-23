@@ -34,6 +34,7 @@ Script: `scripts/curated_exhaustive_20260922.py`
 
 - EIA API key → `import_eia.py --apply`, `import_grid_demand.py --apply`
 - Amazon **$220B** (not in written IR this pass)
+- **Correction, 09/22/2026 (later the same day):** the Amazon change was wrong and has been reverted. The $200B is Amazon’s February 5, 2026 plan; the $220B is the guidance Andy Jassy gave on the July 30, 2026 call, which AP reported as "up from the $200 billion investment plan that was announced in February". They are two vintages, not two sources in conflict. `capital-guidance-aws` is back to $220B, attributed to AP, with the February plan in its note. See `FABLE_MUSE_FEEDBACK-2026-09-22/REVIEW-2026-09-22.md`.
 - MISO 163 GW news / Epoch 13.2 GW delivery% / Samsung·Micron HBM volumes / CoWoS wafer starts
 - Meta / Oracle CapEx primary
 - Non-overlapping delivered IT MW rollup
