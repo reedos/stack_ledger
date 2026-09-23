@@ -21661,7 +21661,8 @@
       "note": "ERCOT operator disclosures of large-load interconnection (LLI) capacity seeking interconnection (GW). Queue entry is not an interconnection agreement, financing, or energized service. Plain metric (no expansion measurement_type). Never sum with U.S. generation queue metrics or delivered data-center IT MW.",
       "source_ids": [
         "ercot-lli-board-2026-04",
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ],
       "series_start_year": 2025,
       "chart_default_start": 2025,
@@ -21715,7 +21716,7 @@
       "title": "PJM supported data-center growth (2025–2030)",
       "unit": "GW",
       "geography": "PJM Interconnection",
-      "scope": "Data-center growth PJM states its preliminary large-load process supports between 2025 and 2030, on the slide \"Consideration of National Projections\" in its November 2025 large-load summary. A planning statement, not energized MW and not a raw interconnection queue total.",
+      "scope": "Data-center growth PJM states its preliminary large-load process supports between 2025 and 2030, on the slide \"Consideration of National Projections\" in its large-load summaries (first recorded from November 2025). A planning statement, not energized MW and not a raw interconnection queue total. A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 1000,
@@ -21726,8 +21727,10 @@
       "pre_period_note": "No reviewed observations before the Nov 2025 LAS disclosure on this metric.",
       "note": "From PJM LAS large-load adjustment summary (2025-11-24): supports up to ~30 GW data-center growth 2025–2030. Distinct from PJM generation interconnection queues and from ERCOT LLI queue metrics.",
       "source_ids": [
-        "pjm-las-large-load-2025-11"
-      ]
+        "pjm-las-large-load-2025-11",
+        "pjm-las-index"
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "ercot-large-load-approved-to-energize-mw",
@@ -21746,7 +21749,8 @@
       "pre_period_note": "No reviewed observations before the Dec 2025 Constraints and Needs disclosure on this metric.",
       "note": "Milestone count from ERCOT Report on Existing and Potential Electric System Constraints and Needs (Dec 2025). Never treat as energized operating MW without the operational caveat.",
       "source_ids": [
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ]
     },
     {
@@ -21755,13 +21759,14 @@
       "title": "PJM RTO non-coincident unrestricted summer peak",
       "unit": "MW",
       "geography": "PJM",
-      "scope": "PJM Load Forecast Report non-coincident unrestricted summer peak for the RTO. Distinct from LAS data-center growth planning MW and from EIA-930 daily demand.",
+      "scope": "PJM Load Forecast Report non-coincident unrestricted summer peak for the RTO. Distinct from LAS data-center growth planning MW and from EIA-930 daily demand. A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 1000000,
       "note": "2026 Load Report path: 10y +65,733 MW / 20y +96,704 MW from the report base. Firm vs non-firm large-load derate language is in event pjm-2026-ltf-large-load-firm-nonfirm, not this series.",
       "source_ids": [
-        "pjm-2026-load-report"
+        "pjm-2026-load-report",
+        "pjm-load-forecast-index"
       ],
       "series_start_year": 2026,
       "chart_default_start": 2026,
@@ -21771,7 +21776,8 @@
       "allowed_statuses": [
         "forecast",
         "observation"
-      ]
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "spp-peak-load-itp-gw",
@@ -21779,13 +21785,14 @@
       "title": "SPP peak load (ITP narrative path)",
       "unit": "GW",
       "geography": "Southwest Power Pool",
-      "scope": "SPP 2025 ITP executive-summary narrative: current peak load that could rise within about 10 years. Distinct from Figure 2.1 coincident-peak path (spp-itp-coincident-peak-gw).",
+      "scope": "Executive-summary narrative of SPP’s latest ITP report (first recorded: 2025 ITP): current peak load that could rise within about 10 years. Distinct from Figure 2.1 coincident-peak path (spp-itp-coincident-peak-gw). A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 500,
       "note": "Exec summary uses \"could rise\" language (56→109 GW). Do not average with the lower Figure 2.1 coincident-peak trajectory.",
       "source_ids": [
-        "spp-2025-itp-report"
+        "spp-2025-itp-report",
+        "spp-itp-index"
       ],
       "series_start_year": 2025,
       "chart_default_start": 2025,
@@ -21796,7 +21803,8 @@
         "observation",
         "forecast",
         "estimate"
-      ]
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "spp-itp-coincident-peak-gw",
@@ -21804,13 +21812,14 @@
       "title": "SPP ITP coincident peak (Figure 2.1 path)",
       "unit": "GW",
       "geography": "Southwest Power Pool",
-      "scope": "SPP 2025 ITP Figure 2.1 coincident peak trajectory. Lower path than the executive-summary 56→109 GW narrative; keep series separate.",
+      "scope": "Coincident peak trajectory from the latest SPP ITP report (first recorded: 2025 ITP Figure 2.1). Lower path than the executive-summary 56→109 GW narrative; keep series separate. A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 500,
       "note": "One observation per model year from Figure 2.1. Not energized large-load MW.",
       "source_ids": [
-        "spp-2025-itp-report"
+        "spp-2025-itp-report",
+        "spp-itp-index"
       ],
       "series_start_year": 2026,
       "chart_default_start": 2026,
@@ -21819,7 +21828,8 @@
       "pre_period_note": "Reviewed catalog begins with 2025 ITP Figure 2.1 years 2026–2044.",
       "allowed_statuses": [
         "forecast"
-      ]
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "ercot-tsp-peak-forecast-2031-gw",
@@ -21827,13 +21837,14 @@
       "title": "ERCOT TSP peak forecast (2031)",
       "unit": "GW",
       "geography": "ERCOT (Texas)",
-      "scope": "Transmission Service Provider (TSP) peak-load forecast for 2031 from the Dec 2025 constraints and needs report. Distinct from studied peak and from LLI queue GW.",
+      "scope": "Transmission Service Provider (TSP) peak-load forecast for 2031 from ERCOT’s annual Constraints and Needs report (first recorded: Dec 2025). Distinct from studied peak and from LLI queue GW. A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 1000,
       "note": "Paired with ercot-studied-peak-2031-gw from the same report. Queue ≠ forecast ≠ energized.",
       "source_ids": [
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ],
       "series_start_year": 2031,
       "chart_default_start": 2031,
@@ -21842,7 +21853,8 @@
       "pre_period_note": "Single 2031 TSP forecast vintage from the December 2025 constraints report.",
       "allowed_statuses": [
         "forecast"
-      ]
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "ercot-studied-peak-2031-gw",
@@ -21850,13 +21862,14 @@
       "title": "ERCOT studied peak (2031)",
       "unit": "GW",
       "geography": "ERCOT (Texas)",
-      "scope": "Studied peak-load case for 2031 from the Dec 2025 constraints and needs report. Distinct from TSP forecast and from LLI queue GW.",
+      "scope": "Studied peak-load case for 2031 from ERCOT’s annual Constraints and Needs report (first recorded: Dec 2025). Distinct from TSP forecast and from LLI queue GW. A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 1000,
       "note": "Paired with ercot-tsp-peak-forecast-2031-gw. Studied ≠ approved-to-energize ≠ queue.",
       "source_ids": [
-        "ercot-constraints-needs-2025-12"
+        "ercot-constraints-needs-2025-12",
+        "ercot-planning-index"
       ],
       "series_start_year": 2031,
       "chart_default_start": 2031,
@@ -21865,7 +21878,8 @@
       "pre_period_note": "Single 2031 studied-peak vintage from the December 2025 constraints report.",
       "allowed_statuses": [
         "forecast"
-      ]
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "miso-coincident-peak-ltlf-gw",
@@ -21873,13 +21887,14 @@
       "title": "MISO coincident peak (LTLF whitepaper)",
       "unit": "GW",
       "geography": "MISO",
-      "scope": "MISO Dec 2024 Long-Term Load Forecast whitepaper coincident peak. 2044 uses low–high range from the whitepaper; not the later news 163 GW figure.",
+      "scope": "MISO Long-Term Load Forecast coincident peak from MISO’s own LTLF documents (first recorded: Dec 2024 whitepaper). Ranges are low–high cases. A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 500,
-      "note": "Do not merge with unverified 163 GW-by-2035 news claims. Distinct from EIA-930 daily demand.",
+      "note": "Figures come from MISO’s own LTLF documents, never from news summaries of them. Distinct from EIA-930 daily demand.",
       "source_ids": [
-        "miso-ltlf-whitepaper-2024-12"
+        "miso-ltlf-whitepaper-2024-12",
+        "miso-ltlf-whitepaper-2026-05"
       ],
       "series_start_year": 2024,
       "chart_default_start": 2024,
@@ -21890,7 +21905,8 @@
         "observation",
         "forecast",
         "estimate"
-      ]
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "miso-datacenter-energy-twh",
@@ -21898,13 +21914,14 @@
       "title": "MISO incremental data-center energy demand (LTLF)",
       "unit": "TWh",
       "geography": "MISO",
-      "scope": "Incremental data-center energy demand growth projections from the Dec 2024 LTLF whitepaper (not total BA energy). Ranges are low–high cases.",
+      "scope": "Incremental data-center energy demand growth projections from MISO’s Long-Term Load Forecast (first recorded: Dec 2024 whitepaper) (not total BA energy). Ranges are low–high cases. A newer edition replaces this one’s points only after owner review (edition_mode trajectory).",
       "direction": "context",
       "min": 0,
       "max": 1000,
       "note": "Incremental DC energy growth only—do not treat as MISO total load or as energized IT MW.",
       "source_ids": [
-        "miso-ltlf-whitepaper-2024-12"
+        "miso-ltlf-whitepaper-2024-12",
+        "miso-ltlf-whitepaper-2026-05"
       ],
       "series_start_year": 2030,
       "chart_default_start": 2030,
@@ -21913,7 +21930,8 @@
       "pre_period_note": "Reviewed catalog begins with whitepaper projection years 2030 and 2044.",
       "allowed_statuses": [
         "forecast"
-      ]
+      ],
+      "edition_mode": "trajectory"
     },
     {
       "id": "apps-customer-support-rph-delta-pct",
@@ -30079,6 +30097,18 @@
       "license": "Original source rights apply",
       "provenance": "official",
       "index": true
+    },
+    {
+      "id": "miso-ltlf-whitepaper-2026-05",
+      "publisher": "MISO",
+      "title": "MISO 2026 Long-Term Load Forecast whitepaper",
+      "url": "https://cdn.misoenergy.org/20260513%20LTLF%20Whitepaper757916.pdf",
+      "published": "2026-05-13",
+      "layers": [
+        "energy"
+      ],
+      "license": "See original source",
+      "provenance": "official"
     }
   ],
   "observations": [

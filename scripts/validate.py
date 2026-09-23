@@ -65,7 +65,7 @@ def source_valid(source, approved):
 
 def observation_valid(o,metrics,sources):
     required={'id','metric','year','period','value','upper','status','source','precision','retrieved_at','method','note'}
-    optional={'document_sha256','evidence_sha256','correction_of','superseded_by','correction_reason','grade'}
+    optional={'document_sha256','evidence_sha256','correction_of','superseded_by','correction_reason','grade','edition_supersedes'}
     require(isinstance(o,dict) and required<=o.keys() and o.keys()<=required|optional,'Unknown/missing observation fields')
     require(re.fullmatch(r'[a-z0-9][a-z0-9-]{0,99}',o['id']) is not None,'Invalid observation ID')
     require(o['metric'] in metrics and o['source'] in sources,'Unknown metric/source')
@@ -107,6 +107,13 @@ def observation_valid(o,metrics,sources):
     elif 'grade' in o:
         require(o['grade'] in GRADES,'Invalid evidence grade')
     if 'correction_of' in o: text(o.get('correction_reason',''),500)
+    # A newer edition of a forecast retires the older edition's figures (forecast_edition.py). It
+    # is not an error fix, so it does not use correction_of; one new figure may retire several.
+    if 'edition_supersedes' in o:
+        ids=o['edition_supersedes']
+        require(isinstance(ids,list) and 1<=len(ids)<=200 and len(set(ids))==len(ids) and all(isinstance(i,str) for i in ids),'Invalid edition_supersedes')
+        require('correction_of' not in o,'An edition replacement is not also an error correction')
+        text(o.get('correction_reason'),500)
 
 REPORT_FIELDS = {'outlet','reported_on','about','quote','confirmation'}
 MATCHING_FIELDS = {'metric_id','period','value','precision','upper'}
@@ -291,6 +298,8 @@ def validate(data):
         # How long after a period closes this publisher actually reports it. Reviewed per metric
         # because the default is a rule of thumb: Census QWI lands a quarter about eight months
         # late, and the 120-day default called ~120 of its metrics overdue months early.
+        if 'edition_mode' in m:
+            require(m['edition_mode'] in {'trajectory','by-year'},'Invalid edition mode')
         if 'publication_lag_days' in m:
             require(type(m['publication_lag_days']) is int and 0<m['publication_lag_days']<=1000,'Invalid publication lag')
     ids=set(); periods=set()
@@ -311,7 +320,12 @@ def validate(data):
     for o in data['observations']:
         if 'superseded_by' in o:
             replacement=by_id.get(o['superseded_by'])
-            require(replacement is not None and replacement.get('correction_of')==o['id'],'Broken correction link')
+            require(replacement is not None and (replacement.get('correction_of')==o['id'] or o['id'] in replacement.get('edition_supersedes',[])),'Broken correction link')
+        for old_id in o.get('edition_supersedes',[]):
+            old=by_id.get(old_id)
+            require(old is not None and old.get('superseded_by')==o['id'] and old['metric']==o['metric'],'Broken edition link')
+            # An edition is another document: the same source and text cannot replace itself.
+            require(old['source']!=o['source'] or old.get('document_sha256')!=o.get('document_sha256'),'An edition must come from a different document')
         if 'correction_of' in o:
             old=by_id.get(o['correction_of'])
             require(old is not None and old.get('superseded_by')==o['id'],'Broken correction ancestry')

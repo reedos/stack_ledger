@@ -80,6 +80,8 @@ def eligible(package,p,registry,ledger=None):
                                                     and same_source_relabel(c['before'],c.get('after',{})) for c in changes)
     if not relabel_only and len(changes)>a['max_changes_per_package']:return False,[f'{len(changes)} changes exceeds the per-package ceiling']
     for c in changes:
+        if 'edition_supersedes' in (c.get('after') or {}) or 'edition_supersedes' in (c.get('before') or {}):
+            return False,[f"record {c['id']} replaces a forecast edition; the owner reviews every edition change"]
         if c['target'] not in a['targets']:return False,[f"target {c['target']} always needs human review"]
         if c['target']=='metric':
             if c.get('before') is not None:return False,[f"metric {c['id']} already exists; redefining it needs human review"]

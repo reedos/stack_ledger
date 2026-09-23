@@ -25,7 +25,7 @@ from validate import text as text_rule
 
 ROOT=Path(__file__).resolve().parents[1]
 LOCAL=ROOT/'.local'
-DETERMINISTIC=('Note includes an unsupported number','Note evidence not found','Value not supported by exact numeric token','Evidence not found in fetched document','Evidence crosses omitted source text','Markup/control characters are not allowed','Upper bound not supported','Year not found in source')
+DETERMINISTIC=('Note includes an unsupported number','Note evidence not found','Value not supported by exact numeric token','Evidence not found in fetched document','Evidence crosses omitted source text','Markup/control characters are not allowed','Upper bound not supported','Year not found in source','Conflicting metric/year requires reviewed correction','Older forecast edition than the one on the site')
 
 def documents():
     by_url={}

@@ -112,7 +112,30 @@
   function fmtValue(v){if(v===null||v===undefined)return '—';if(Array.isArray(v))return v.join(', ');if(typeof v==='object')return JSON.stringify(v);return String(v);}
   const CHANGE_FIELDS={project:['name','stage','next_evidence'],company:['name','role'],product:['name','stage'],
     source:['title','publisher','url'],metric:['title','unit'],note:['title','summary'],
-    observation:['period','year','value','upper','status','note','retrieved_at']};
+    observation:['period','year','value','upper','status','note','retrieved_at','superseded_by','edition_supersedes']};
+  // forecast_edition.AUTHOR: a newer edition of a forecast, held by the runner for the owner.
+  const EDITION_AUTHOR='Forecast edition (research runner)';
+  function fmtRange(o){return o?fmtValue(o.value)+(o.upper!==null&&o.upper!==undefined?'–'+fmtValue(o.upper):''):'—';}
+  // Both editions side by side, one row per year: what the chart shows now, what it would show.
+  function editionComparison(p){
+    const rows=new Map();
+    for(const c of p.changes){
+      if(c.target!=='observation')continue;
+      const a=c.after||{},key=a.year+' '+(a.period||'');
+      if(!rows.has(key))rows.set(key,{year:a.year,period:a.period,old:null,neu:null});
+      if(c.before&&a.superseded_by)rows.get(key).old=c.before;
+      else if(!c.before)rows.get(key).neu=a;
+    }
+    const table=node('table',null,'change-table edition-table');
+    const head=node('tr');for(const h of ['Year','On the site now','New edition'])head.append(node('th',h));table.append(head);
+    for(const r of [...rows.values()].sort((x,y)=>x.year-y.year)){
+      const tr=node('tr');
+      tr.append(node('td',String(r.period||r.year)),node('td',r.old?fmtRange(r.old):'—'),
+        node('td',r.neu?fmtRange(r.neu):'taken off the chart'));
+      table.append(tr);
+    }
+    return table;
+  }
   function objectLabel(c,siblings){
     const a=c.after||{};
     if(c.target==='observation'){
@@ -229,9 +252,14 @@
     const card=node('article',null,'finding-card');
     const display=p.display_status||p.status;
     card.append(node('h3',p.title),node('p',`${p.author} · ${STATUS_LABELS[display]||display} · ${p.changes.length} object changes`));
+    const edition=p.author===EDITION_AUTHOR;
+    if(edition){
+      card.append(node('p','Forecast edition: approving publishes the new edition and takes the earlier edition off the charts. Both editions’ quotes are in the evidence below.','hint edition-note'));
+      card.append(editionComparison(p));
+    }
     if(p.auto_apply_eligible!==null&&p.auto_apply_eligible!==undefined)
       card.append(node('p',`Auto-apply eligible: ${p.auto_apply_eligible?'Yes':'No'}${p.auto_apply_reasons&&p.auto_apply_reasons.length?' — '+p.auto_apply_reasons[0]:''}`,'hint'));
-    if(selectable&&p.status!=='applied'){const sel=node('label',null,'toggle-chip select-chip'),sb=node('input');sb.type='checkbox';sb.value=p.id;sb.setAttribute('aria-label','Select '+p.title);sb.onchange=()=>{if(sb.checked)selected.add(p.id);else selected.delete(p.id);count();};boxes.push(sb);sel.append(sb,node('span','Select'));card.append(sel);}
+    if(selectable&&p.status!=='applied'&&!edition){const sel=node('label',null,'toggle-chip select-chip'),sb=node('input');sb.type='checkbox';sb.value=p.id;sb.setAttribute('aria-label','Select '+p.title);sb.onchange=()=>{if(sb.checked)selected.add(p.id);else selected.delete(p.id);count();};boxes.push(sb);sel.append(sb,node('span','Select'));card.append(sel);}
     if(p.last_review&&p.status!=='applied')card.append(node('p',`Last decision: ${p.last_review.status.replaceAll('_',' ')} · ${new Date(p.last_review.at).toLocaleString()} · ${p.last_review.reviewer||''}${p.last_review.rationale?' — '+p.last_review.rationale:''}`,'hint'));
     card.append(buildChangeTable(p));
     for(const change of p.changes){

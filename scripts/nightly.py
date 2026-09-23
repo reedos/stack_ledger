@@ -507,7 +507,10 @@ def pending_decisions(root, strict=False):
     f = findings_inbox(root); v = visual_inbox(root)
     if strict and (f.get('invalid_files') or f.get('unreadable_events') or v.get('invalid_files')):
         raise ValueError('Review records need attention; pending counts are incomplete')
-    return {'catalog_packages_pending': sum(1 for p in f['catalog_packages'] if p['status'] == 'pending_review'),
+    from forecast_edition import AUTHOR as EDITION_AUTHOR
+    pending = [p for p in f['catalog_packages'] if p['status'] == 'pending_review']
+    return {'catalog_packages_pending': sum(1 for p in pending if p.get('author') != EDITION_AUTHOR),
+            'forecast_editions_pending': sum(1 for p in pending if p.get('author') == EDITION_AUTHOR),
             'discovery_findings_pending': sum(1 for r in f['findings'] if r['status'] == 'pending_review'),
             'visual_recommendations_pending': sum(1 for p in v['proposals'] if p['status'] == 'pending_review'),
             'questions_pending': questions_pending(root)}

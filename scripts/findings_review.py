@@ -71,6 +71,14 @@ def inbox(root,identity=None):
                 handoffs.append({'id':path.stem,'title':item['note']['title'],'summary':item['note']['summary'],
                     'source':item['source']['id'],'reason':item.get('status','')+': '+item.get('reason','')})
         except (OSError,ValueError,KeyError,TypeError):invalid+=1
+    for path in queue(root).glob('edition-*.json'):
+        try:
+            item=load(path)
+            if not isinstance(item,dict):raise ValueError('Invalid forecast edition hold')
+            if item.get('status')=='needs_maintainer':
+                handoffs.append({'id':path.stem,'title':'Forecast edition for '+item['metric'],'summary':f"{len(item['records'])} figures from {item['source']['url']}",
+                    'source':item['source']['id'],'reason':'needs_maintainer: '+item.get('reason','')})
+        except (OSError,ValueError,KeyError,TypeError):invalid+=1
     errors=[];packages=catalog_inbox(root,errors);invalid+=len(errors)
     importer_events=list(reversed([e for e in history if e.get('kind')=='importer_apply'][-30:]))
     import catalog_jobs
