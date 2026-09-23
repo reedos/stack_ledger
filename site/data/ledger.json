@@ -7600,11 +7600,11 @@
       "title": "Amazon · capital spending guidance",
       "unit": "USD billion",
       "geography": "Global",
-      "scope": "CY2026 cash CapEx guidance of about $200B from Amazon written IR (Q4 results). Company-wide; includes businesses beyond AWS. Do not use unverified $220B figures.",
+      "scope": "CY2026 capital spending guidance, company-wide, including businesses beyond AWS. The current figure is the one given on the latest earnings call; earlier plans for the same year are older vintages, not conflicting sources.",
       "direction": "context",
       "min": 0,
       "max": 10000,
-      "note": "Primary Amazon IR ~$200B only (company commitment). Prior AP $220B not retained. Forecast status per capital-explorer contract.",
+      "note": "About $220B from the July 30, 2026 call as reported by AP, up from the about $200B plan in the February 5, 2026 release. A primary transcript would settle the July figure.",
       "source_ids": [
         "capital-ap-outlook",
         "capital-amazon-q4-2025-ir"
@@ -7619,7 +7619,7 @@
       "chart_default_start": 2026,
       "chart_default_end": 2030,
       "definition_stable": true,
-      "pre_period_note": "Reviewed primary IR series begins with CY2026 guidance in the Feb 2026 Q4 results release."
+      "pre_period_note": "Reviewed guidance series begins with CY2026 guidance."
     },
     {
       "id": "capital-guidance-alphabet",
@@ -21715,7 +21715,7 @@
       "title": "PJM supported data-center growth (2025–2030)",
       "unit": "GW",
       "geography": "PJM Interconnection",
-      "scope": "PJM Large Load Adjustment / LAS planning statement of data-center growth the preliminary large-load process supports between 2025 and 2030. Planning estimate after Firm vs Non-Firm screening assumptions — not energized MW and not a raw interconnection queue total.",
+      "scope": "Data-center growth PJM states its preliminary large-load process supports between 2025 and 2030, on the slide \"Consideration of National Projections\" in its November 2025 large-load summary. A planning statement, not energized MW and not a raw interconnection queue total.",
       "direction": "context",
       "min": 0,
       "max": 1000,
@@ -21977,7 +21977,7 @@
       "direction": "context",
       "min": 0,
       "max": 100,
-      "note": "Narrative low-teens outlook stored as approx mid-teens floor (13). Do not invent CoWoS WPM from this share.",
+      "note": "TSMC’s 4Q25 call said advanced packaging would \"account for low-teens %\" of 2026 revenue. No point value is recorded because the source gives none. Do not invent CoWoS wafer starts from this share.",
       "source_ids": [
         "tsmc-4q25-earnings-transcript"
       ],
@@ -93803,7 +93803,7 @@
       "precision": "approx",
       "retrieved_at": "2026-09-22T07:08:19Z",
       "method": "curated",
-      "note": "Allowing AI increased completion time by ~19% vs AI-disallowed (16 developers, 246 tasks). Developers had forecast ~24% speedup. Snapshot of early-2025 tools in mature OSS repos—not a universal agent ROI."
+      "note": "Allowing AI increased completion time by ~19% vs AI-disallowed (16 developers, 246 tasks in mature open-source repos). Developers had forecast ~24% speedup. METR now marks these results \"out of date\" and has published a continuation current as of early 2026."
     },
     {
       "id": "pjm-dc-growth-2025-2030",
@@ -94056,20 +94056,6 @@
       "source": "tsmc-2q26-earnings-transcript",
       "precision": "range",
       "note": "TSMC raised its full-year 2026 capital budget to USD60-64B on the July 16, 2026 2Q26 call. Supersedes the USD52-56B guided on the January 15, 2026 4Q25 call (April: closer to USD56B)."
-    },
-    {
-      "upper": null,
-      "retrieved_at": "2026-09-22T07:24:01Z",
-      "method": "curated",
-      "id": "tsmc-packaging-revenue-share-2026",
-      "metric": "tsmc-advanced-packaging-revenue-share-pct",
-      "year": 2026,
-      "period": "2026",
-      "value": 13,
-      "status": "forecast",
-      "source": "tsmc-4q25-earnings-transcript",
-      "precision": "approx",
-      "note": "Advanced packaging revenue share toward low-teens (~13% midpoint of narrative). Not CoWoS WPM."
     },
     {
       "upper": null,
