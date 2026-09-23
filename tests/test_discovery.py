@@ -137,6 +137,45 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(receipt['imported_leads'],0)
         self.assertEqual(len(d.state(self.root)['leads']),3)
 
+    def test_one_hop_skips_feed_indexes(self):
+        # blog.google/rss and investors.broadcom.com/rss.xml were screened as documents on
+        # 09/21/2026: a feed lists articles, so its screen spends a model call on an index.
+        self.seed()
+        self.document.links=['https://original.example/news/feed/','https://original.example/press/rss.xml',
+                             'https://original.example/research/permit']
+        self.fetcher.fetch_json.return_value={'articles':[]}
+        with patch.object(r,'ollama',return_value={'findings':[],'reason':'No supported new candidate in fixture.'}):self.run_slice()
+        children=sorted(v['url'] for v in d.state(self.root)['leads'].values() if v['depth']==1)
+        self.assertEqual(children,['https://original.example/research/permit'])
+        for url in ['https://blog.google/rss/','https://investors.broadcom.com/rss.xml','https://x.example/feed']:
+            self.assertTrue(d.is_feed_url(url),url)
+        for url in ['https://x.example/news/feed-the-grid','https://x.example/press/2026/report']:
+            self.assertFalse(d.is_feed_url(url),url)
+
+    def test_screen_failure_records_its_message(self):
+        with patch.object(r,'ollama',side_effect=ValueError('Discovery evidence not found or invalid classification')):
+            result=self.run_slice()
+        self.assertEqual(result['errors'][0]['outcome'],'screen_failed')
+        self.assertEqual(result['errors'][0]['check'],'Discovery evidence not found or invalid classification')
+        # Any other exception text may carry remote or model content and is not kept.
+        self.seed('https://new-builder.example/news/other')
+        with patch.object(r,'ollama',side_effect=ValueError('remote model text')):result=self.run_slice(rid='other')
+        self.assertNotIn('remote model text',json.dumps(result))
+
+    def test_real_coverage_fits_the_screen_prompt_for_every_layer(self):
+        # A fixed 7,000-character cap failed every infrastructure screen before any model call
+        # once that layer passed 450 metrics: 134 of 136 screen failures on 09/21/2026.
+        ledger=r.load(ROOT/'site/data/ledger.json');ecosystem=r.load(ROOT/'research/ecosystem.json')
+        config=dict(self.config,_instructions=(ROOT/'research/MODEL_BRIEF.md').read_text(encoding='utf-8'))
+        instructions=config['_instructions']+'\n'+d.SCREENING_RULES+'\n'+'x'*1200
+        budget=d.coverage_budget(config,instructions)
+        for layer in sorted({m['layer'] for m in ledger['metrics']}):
+            coverage={'companies':[c['name'] for c in ecosystem['companies'] if layer in c['layers']],
+                      'metric_ids':[m['id'] for m in ledger['metrics'] if m['layer']==layer]}
+            self.assertLessEqual(len(json.dumps(coverage)),budget,layer)
+        self.assertLessEqual(len(instructions)+d.SCREEN_WINDOW_CHARS+d.SCREEN_FIXED_CHARS+budget,
+                             r.prompt_budget(r.GENERATION))
+
     def test_unknown_backlog_ancestry_is_not_fetched(self):
         r.save(self.root/'.local/discovery-leads/unknown.json',{'source':'invented','urls':[self.url]})
         self.fetcher.fetch_json.return_value={'articles':[]}
