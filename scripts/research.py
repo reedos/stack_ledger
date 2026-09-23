@@ -34,6 +34,7 @@ import subject_gate
 from reports import about_ids, report_kind, reconcile_confirmations, confirmation_only_change
 from atomic_json import save
 from document_formats import as_html, SUPPORTED, CollectionGap, format_gap
+import pdf_text
 from evidence_text import numeric_tokens, select_windows, context_text, contains_evidence, locate_in_windows, focus_text, fold, coverage as text_coverage, implementation_hash, shrink_to_numbers, value_support
 from model_rules import EVIDENCE_RULES, SCREENING_RULES, NOTE_EVIDENCE_MAX, METRIC_EVIDENCE_MAX, CHECKLIST, DEFECTS, EMPTY_REASONS
 from collection_health import Health, CoolingDown, QueryRejected, Unchanged, error_details
@@ -552,6 +553,15 @@ class Fetcher:
         # importer-only fetch() never routes through this class at all.
         self.fetch_state=Health(LOCAL/'fetch-state.json')
         self.last_text_unchanged=False
+        self._pdf=None
+    def pdf_policy(self):
+        # Loaded on first use: most batches never meet a PDF, and a registry or policy error
+        # must fail only the PDF, not every HTML fetch.
+        if self._pdf is None:
+            registry=load(ROOT/'research/sources.json')
+            policy=pdf_text.load_policy(ROOT,registry)
+            self._pdf=(policy,pdf_text.approved_urls(policy,registry) if policy else set())
+        return self._pdf
     def due(self,url,refresh=False,feed_poll_seconds=None):
         """Whether `url` may be fetched now.
 
@@ -584,9 +594,19 @@ class Fetcher:
         self.last_request[host]=time.monotonic()
         opener=build_opener(ProxyHandler({}),SafeRedirect(host))
         request_headers={'User-Agent':UA,'Accept':'text/html,text/plain;q=0.9'}
+        # An approved PDF asks for a PDF: spp.org answers 406 to an HTML-only Accept header.
+        if not raw and urlparse(url).path.lower().endswith('.pdf') and pdf_text.allowed(url,*self.pdf_policy()):
+            request_headers['Accept']='application/pdf,text/html;q=0.9,*/*;q=0.5'
         if headers:request_headers.update(headers)
         with opener.open(Request(url,headers=request_headers),timeout=25) as response:
             content_type=response.headers.get_content_type()
+            if not raw and content_type in pdf_text.PDF_TYPES and (content_type=='application/pdf' or urlparse(url).path.lower().endswith('.pdf')):
+                policy,urls=self.pdf_policy()
+                if pdf_text.allowed(url,policy,urls):
+                    body=response.read(policy['max_bytes']+1)
+                    require(len(body)<=policy['max_bytes'],'Source exceeds PDF size cap')
+                    if capture is not None:capture.update(etag=response.headers.get('ETag'),last_modified=response.headers.get('Last-Modified'))
+                    return pdf_text.pdf_html(body,policy['max_pages'])
             if not raw and content_type not in SUPPORTED:raise CollectionGap(format_gap(content_type))
             body=response.read(MAX_BYTES+1)
             require(len(body)<=MAX_BYTES,'Source exceeds size cap')
@@ -965,6 +985,10 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
                 require(reduced is not None,'evidence too long even after shrinking')
                 located=reduced;shrunk=True
             candidate['evidence']=located  # the document's own bytes
+            # A table row flattened out of a PDF keeps its numbers but can lose the column and
+            # row headings that say which year, zone or case each one is. Until that is measured,
+            # such a figure goes to review instead of publishing on the model's reading alone.
+            require(not (pdf_text.is_pdf_text(content) and pdf_text.looks_tabular(located)),'PDF table figure held for human review')
             record=candidate_record(candidate,source,content,metrics,sources,existing,policy)
             conflict=duplicate_or_conflict(record,data['observations'],metrics)
             if conflict=='duplicate':continue
@@ -989,6 +1013,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
                 data['observations'].append(record);run['accepted']+=1
                 proof={'record':record,'evidence':candidate['evidence'],'review':verdict,'evidence_shrunk':shrunk}
                 proof.update({k:candidate[k] for k in ('token_multiplier','scaled_from_token') if k in candidate})
+                if pdf_text.is_pdf_text(content):proof['pdf_page']=pdf_text.page_of(content,content.find(candidate['evidence']))
                 save(LOCAL/'evidence'/f'{record["id"]}.json',proof)
                 accepted.append(record)
             else:quarantine.append({'source':source['id'],'candidate':candidate,'reason':(f"{verdict['defect']}: {verdict['reason']}" if not verdict['supported'] else 'Conflicting proposal'),'evidence_shrunk':shrunk})
@@ -1398,7 +1423,9 @@ def main():
                     for link in document.links:
                         url=urldefrag(urljoin(source['url'],link))[0]
                         u=urlparse(url)
-                        if u.scheme!='https' or u.hostname!=urlparse(source['url']).hostname or url in seen or u.query or u.path.endswith(('.pdf','.jpg','.png','.zip','.xml')):continue
+                        if u.scheme!='https' or u.hostname!=urlparse(source['url']).hostname or url in seen or u.query or u.path.endswith(('.jpg','.png','.zip','.xml')):continue
+                        # A PDF child is read only under a path the owner approved in pdf-sources.json.
+                        if u.path.lower().endswith('.pdf') and not pdf_text.allowed(url,*fetcher.pdf_policy()):continue
                         if any(p in u.path for p in ['/category/','/tag/','/author/','/page/']):continue
                         if not discoverable(source,url,collection_for(registry,source)):continue
                         # A general-interest outlet files its buildout reporting and its phone

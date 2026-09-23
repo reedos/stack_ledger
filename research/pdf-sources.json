@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "owner_decision": "09/23/2026: the owner asked for the PDF path to be built. Only the documents below, and PDFs under a listed path, are read as text; every figure still passes the same evidence checks as HTML, and a figure quoted from a flattened table row is held for human review. The starting list is the maintainer’s proposal from the 09/22 gap fill, awaiting the owner’s confirmation. TSMC’s transcripts were left out: investor.tsmc.com refused 2 of 3 requests (HTTP 403) on 09/23/2026, and the runner does not work around access controls. This does not change the grid-operators.json decision that no PDF number is hand-entered: these are model extractions under review.",
+  "max_bytes": 20000000,
+  "max_pages": 300,
+  "documents": [
+    {
+      "source": "ercot-lli-board-2026-04",
+      "why": "ERCOT board update: large-load interconnection queue and data-center share."
+    },
+    {
+      "source": "ercot-constraints-needs-2025-12",
+      "why": "ERCOT Constraints and Needs report: large-load queue, approved-to-energize MW, TSP vs studied 2031 peak."
+    },
+    {
+      "source": "pjm-las-large-load-2025-11",
+      "why": "PJM Load Analysis Subcommittee large-load summary: data-center growth PJM plans for 2025-2030."
+    },
+    {
+      "source": "pjm-2026-load-report",
+      "why": "PJM 2026 Load Forecast Report: RTO summer peak path to 2036 and 2046."
+    },
+    {
+      "source": "spp-2025-itp-report",
+      "why": "SPP 2025 Integrated Transmission Plan: peak-load headline and its figure path."
+    },
+    {
+      "source": "miso-ltlf-whitepaper-2024-12",
+      "why": "MISO long-term load forecast whitepaper: coincident peak and data-center energy."
+    }
+  ],
+  "prefixes": []
+}

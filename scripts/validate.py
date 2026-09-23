@@ -364,4 +364,6 @@ if __name__=='__main__':
     validate_config(read(ROOT/'research/homepage.json'),data,read(ROOT/'research/editorial-policy.json'))
     from visual_review import policy as visual_policy
     visual_policy(ROOT)
+    import pdf_text
+    pdf_text.load_policy(ROOT,json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8')))
     print('Ledger validation passed')
