@@ -30204,6 +30204,21 @@
       ],
       "license": "See original source",
       "provenance": "official"
+    },
+    {
+      "id": "discovered-b1f9c7a504c77281",
+      "publisher": "Alphabet / Google",
+      "title": "Discovered public update · Alphabet / Google",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/",
+      "published": "2026-09-23",
+      "layers": [
+        "models",
+        "infrastructure",
+        "applications"
+      ],
+      "license": "Original source rights apply",
+      "provenance": "company-channel",
+      "parent_source": "google-blog-index"
     }
   ],
   "observations": [
@@ -95630,6 +95645,20 @@
       "document_sha256": "6efdae6b847feef4eea68de931f864ff1b99e137e2f30faf95f737a0f7ab72e5",
       "evidence_sha256": "57fb5548d2b67894ee7f21a5ca0435cb4d97a878dec1bf0770aed3c18f12826e",
       "grade": "B"
+    },
+    {
+      "title": "Gemini 3.8 Flash TTS and Gemini 3.8 Flash-Lite TTS launch",
+      "summary": "Google announces Gemini 3.8 Flash TTS and Gemini 3.8 Flash-Lite TTS as new text-to-speech models, rolling out starting today for developers in the Gemini API and Google AI Studio, with enterprise and consumer availability noted as coming soon or in Gemini Notebook and Google Vids.",
+      "layer": "models",
+      "kind": "Company announcement",
+      "id": "note-a0028f8ac1f201213dc3",
+      "source": "discovered-b1f9c7a504c77281",
+      "date": "2026-09-23",
+      "method": "automated",
+      "retrieved_at": "2026-09-24T09:01:41Z",
+      "document_sha256": "6bbbfcd99e711a0ae8e88dc0b179e9f960d000a6f462ffc5831e8fbf0f57d0d5",
+      "evidence_sha256": "710b3858856d9da3b4ef516fbe430e70158874fcafd9b5fd49620a9afcb4ede2",
+      "grade": "B"
     }
   ],
   "targets": [
@@ -95683,24 +95712,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20260922T092457Z-3a64f39b729e4b22ac5abc7fdabb0f66",
-      "started_at": "2026-09-22T09:24:57Z",
-      "finished_at": "2026-09-22T09:25:19Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 6,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": [
-        "applications",
-        "chips",
-        "infrastructure",
-        "models"
-      ]
-    },
     {
       "id": "run-20260922T092722Z-a029decc0e1540b599a86e70b3fee3dc",
       "started_at": "2026-09-22T09:27:22Z",
@@ -99797,6 +99808,24 @@
       "source_failures": [],
       "model_calls": 0,
       "coverage_layers": []
+    },
+    {
+      "id": "run-20260924T090048Z-05d7d7b0b58546eb936821d47363d6af",
+      "started_at": "2026-09-24T09:00:48Z",
+      "finished_at": "2026-09-24T09:01:53Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 1,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 12,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
     }
   ],
   "runtime": {
@@ -99806,7 +99835,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–07:00 Pacific (research window)",
-    "last_attempt": "2026-09-23T13:28:47Z",
+    "last_attempt": "2026-09-24T09:01:53Z",
     "last_success": "2026-09-23T09:33:57Z",
     "status": "partial",
     "latest_session": {
