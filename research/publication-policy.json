@@ -1,7 +1,7 @@
 {
   "version": 1,
   "reviewed_at": "2026-09-24T16:00:00Z",
-  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site; additions from credible authorities are applied automatically under the rules below, each recorded as a catalog_change event with its commit. September 10: 'Policy import (maintainer tool)' joins the authors; source and note stay off targets on purpose. September 23 and 24: a page on same_page_revisions.sources, which update in place (the analyst-consensus pages, Epoch's pages, BLS projections), may replace its own earlier forward-looking figure the night it is read, when only the value changed, within max_ratio (1.1), and the page no longer shows the old number; its date moves to the day it was read. Every other replacement stays with the owner. Off until a clean review and the owner's go-ahead.",
+  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site; additions from credible authorities are applied automatically under the rules below, each recorded as a catalog_change event with its commit. September 10: 'Policy import (maintainer tool)' joins the authors; source and note stay off targets on purpose. September 23 and 24: a page on same_page_revisions.sources, which update in place (the analyst-consensus pages, Epoch's pages, BLS projections), may replace its own earlier forward-looking figure the night it is read, when only the value changed, within max_ratio (1.1), and the page no longer shows the old number; its date moves to the day it was read. Every other replacement stays with the owner. Switched on September 24 after five review rounds.",
   "auto_apply": {
     "enabled": true,
     "reviewer_label": "publication-policy",
@@ -29,7 +29,7 @@
     "project_updates": "append_observations_only",
     "same_source_relabel": true,
     "same_page_revisions": {
-      "enabled": false,
+      "enabled": true,
       "author": "Same-page revision (research runner)",
       "max_ratio": 1.1,
       "statuses": [
