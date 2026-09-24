@@ -202,7 +202,21 @@ The Fable Muse feedback (`research/FABLE_MUSE_FEEDBACK-2026-09-22/`) went into `
 | validator false-rejects | 1 ("Value not supported by exact numeric token") | 2 |
 | reviewer false-rejects | 0 | 0 |
 
-Shipped: precision held above 0.9 and matched records rose. The seed-1 sample holds no grid-operator PDF or CapEx guidance document, which the patch mostly targets; `metric_rules_version` and `note_rules_version` were bumped so saved documents are extracted again under the new brief.
+The sample held one CapEx guidance document, Microsoft's FY2026 Q4 earnings event page (expected: capital-guidance-microsoft 175 for CY2026); both briefs returned nothing for it. It held no grid-operator PDF. The script's default `--exclude-hosts stockanalysis.com` also left out the consensus pages the same-page revision lane targets, so both briefs were run again with no host excluded (same seed and count; the draw then differs and expects 46 records):
+
+| | before (brief 2026-09-09) | after (brief 2026-09-23) |
+|---|---|---|
+| model calls / failed | 55 / 0 | 56 / 0 |
+| proposed | 12 | 14 |
+| matched | 12 | 14 |
+| recall | 0.2609 | 0.3043 |
+| precision | 1.0 | 1.0 |
+| validator false-rejects | 1 | 2 |
+| reviewer false-rejects | 0 | 0 |
+
+Three Stock Analysis consensus pages and the Microsoft page were in that draw; neither brief proposed a figure from any of them, so same-page revisions will be rarer than the number of such pages suggests, and the CapEx rules are untested by this protocol. The review's planned Amazon fixture (a February release plus a July wire report of the call) is not yet in the holdout set; it needs a fixture mechanism the saved-document replay does not have.
+
+Shipped: precision held (0.94 and 1.0) and matched records rose in both draws. `metric_rules_version` and `note_rules_version` were bumped so saved documents are extracted again under the new brief.
 
 ## Catalog feedback loop
 

@@ -177,3 +177,24 @@ class PublicationPolicyTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class ApplyAdmittedTests(unittest.TestCase):
+    """One package that fails its preview is left for the owner; the rest still go, until the deadline."""
+    def test_a_failed_package_does_not_stop_the_others_and_the_deadline_defers_the_rest(self):
+        import publication_policy as pp
+        from unittest import mock
+        calls=[]
+        def fake(root,rid,p):
+            calls.append(rid)
+            if rid=='catalog-a':raise ValueError('Preview validation failed; left for human review')
+            return {'status':'pushed'}
+        with mock.patch.object(pp,'admissions',return_value=([],['catalog-a','catalog-b'])),mock.patch.object(pp,'auto_apply',side_effect=fake), \
+             mock.patch('research.load',return_value={}):
+            result=pp.apply_admitted(ROOT,{'auto_apply':{}})
+        self.assertEqual(calls,['catalog-a','catalog-b'])
+        self.assertTrue(result['outcomes']['catalog-a'].startswith('failed'));self.assertEqual(result['outcomes']['catalog-b'],'pushed')
+        with mock.patch.object(pp,'admissions',return_value=([],['catalog-c'])),mock.patch.object(pp,'auto_apply',side_effect=fake), \
+             mock.patch('research.load',return_value={}):
+            late=pp.apply_admitted(ROOT,{'auto_apply':{}},deadline=0)
+        self.assertTrue(late['outcomes']['catalog-c'].startswith('deferred'))

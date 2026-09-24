@@ -157,8 +157,30 @@ def incumbents(metric_id, observations):
 _OUTCOME = {'newer': 'new', 'older': 'older', 'unordered': 'unordered', 'same': None}
 
 
+# A page prints '10.86T' where the ledger stores 10,860 (TWD billion), or '42.68M' for 0.04268 (USD
+# billion). A figure counts as still shown under any of these decimal scalings, so a page that did
+# not change can never pass for a revision: the check errs toward a conflict for the owner.
+_SCALES = (1, 1e3, 1e-3, 1e6, 1e-6, 1e9, 1e-9, 1e12, 1e-12, 100, 1e-2)
+
+
 def _shows(document, value):
-    return any(abs(float(t.replace(',', '')) - float(value)) < 1e-9 for t in numeric_tokens(document))
+    value = float(value)
+    for t in numeric_tokens(document):
+        n = float(t.replace(',', ''))
+        if any(abs(n*s - value) <= 1e-9*max(1.0, abs(value)) for s in _SCALES):
+            return True
+    return False
+
+
+def revision_target(record, source, observations, ledger_sources, metric):
+    """The id of this page's own figure that a revision replaces, or None."""
+    by_id = {s['id']: s for s in ledger_sources}
+    for o in incumbents(record['metric'], observations):
+        s = by_id.get(o['source'], {'id': o['source']})
+        if (s['id'] == source['id'] or s.get('url') == source['url']) and slot(o, metric) == slot(record, metric) \
+                and (o['value'], o['upper']) != (record['value'], record['upper']):
+            return o['id']
+    return None
 
 
 def _revision(record, mine_same_slot, document):
@@ -217,12 +239,16 @@ def split_slots(records, metric):
     return split
 
 
-def hold(local, source, full_text, held, metrics, page_of=None, change='edition'):
+def hold(local, source, full_text, held, metrics, page_of=None, change='edition', ledger=None):
     """Write one review candidate per metric: .local/review-candidates/edition-<24hex>.json.
 
     `held` is a list of (candidate, record, verdict) with no split points; one record is kept per
     point. A pending or rejected edition is never raised again: the id is a digest of the metric,
-    the source and the figures themselves. Returns the ids written.
+    the source and the figures themselves. A revision is pinned to the exact figure it replaces
+    (`ledger` gives the observations and sources): its id and its records' ids include that figure,
+    so a page that returns to an earlier value is a new revision, and a revision whose figure has
+    since changed can only become obsolete, never be re-based onto the newer one. Returns the ids
+    written.
     """
     folder = Path(local)/'review-candidates'
     folder.mkdir(parents=True, exist_ok=True)
@@ -240,7 +266,16 @@ def hold(local, source, full_text, held, metrics, page_of=None, change='edition'
             if r['metric'] == metric_id and slot(r, metric) not in seen:
                 seen.add(slot(r, metric))
                 rows.append((c, r, v))
-        figures = sorted(json.dumps([r['year'], r['period'], r['value'], r['upper'], r['status'], r['precision']], default=str) for _, r, _ in rows)
+        replaces = {}
+        if change == 'revision':
+            for _, r, _ in rows:
+                target = revision_target(r, source, ledger['observations'], ledger['sources'], metric)
+                if target:
+                    replaces[slot(r, metric)] = target
+            rows = [(c, r, v) for c, r, v in rows if slot(r, metric) in replaces]
+            if not rows:
+                continue
+        figures = sorted(json.dumps([r['year'], r['period'], r['value'], r['upper'], r['status'], r['precision'], replaces.get(slot(r, metric))], default=str) for _, r, _ in rows)
         rid = 'edition-' + _digest([metric_id, source['id'], source['url'], figures] + ([change] if change != 'edition' else []))[:24]
         path = folder/(rid+'.json')
         if path.exists():
@@ -249,10 +284,11 @@ def hold(local, source, full_text, held, metrics, page_of=None, change='edition'
         for c, r, v in rows:
             # The old edition may hold an identical automated figure under the same id; the
             # source in the identity keeps the two apart.
-            identity = json.dumps([r[k] for k in ['metric', 'year', 'period', 'value', 'upper', 'status', 'precision']] + [source['id']], separators=(',', ':'))
+            pinned = replaces.get(slot(r, metric))
+            identity = json.dumps([r[k] for k in ['metric', 'year', 'period', 'value', 'upper', 'status', 'precision']] + [source['id']] + ([pinned] if pinned else []), separators=(',', ':'))
             rec = dict(r, id='auto-' + hashlib.sha256(identity.encode('utf-8')).hexdigest()[:20])
             records.append({'record': rec, 'quote': c['evidence'], 'review': v,
-                            'pdf_page': page_of(c['evidence']) if page_of else None})
+                            'pdf_page': page_of(c['evidence']) if page_of else None, **({'replaces': pinned} if pinned else {})})
         value = {'id': rid, 'kind': 'forecast_edition', 'change': change, 'status': 'ready', 'created_at': _now(), 'metric': metric_id,
                  'mode': mode(metric), 'source': source, 'document_sha256': sha, 'records': records,
                  'authority': 'Private runner hold. Nothing is published until the owner approves the catalog package.'}
@@ -308,23 +344,32 @@ def revision_changes(root, item, ledger):
     if metric is None:
         raise ValueError('Held revision names an unknown metric')
     source = item['source']
-    sources = {s['id']: s for s in ledger['sources']}
-    mine = lambda o: o['source'] == source['id'] or sources.get(o['source'], {}).get('url') == source['url']
-    current = [o for o in incumbents(metric['id'], ledger['observations']) if mine(o)]
+    current = {o['id']: o for o in incumbents(metric['id'], ledger['observations'])}
     proposed = item.get('proposed_at') or item['created_at']
-    evid = clean(f"{source['id']}@{item['document_sha256'][:12]}", 140)
-    changes, lines = [], []
+    # One evidence entry per page and metric: two revisions from one page keep their own quotes.
+    evid = clean(f"{source['id'][:90]}@{_digest([item['document_sha256'], metric['id']])[:16]}", 140)
+    changes, lines, old_ids = [], [], []
     for row in item['records']:
         r = row['record']
-        old = [o for o in current if slot(o, metric) == slot(r, metric) and (o['value'], o['upper']) != (r['value'], r['upper'])]
-        if not old:
-            continue  # already revised, or restated after all
-        reason = clean(f"Revised by the publisher at the same address: {_fmt(old[0])} is now {_fmt(r)}.", 500)
-        changes.append({'target': 'observation', 'id': r['id'], 'after': dict(r, edition_supersedes=sorted(o['id'] for o in old), correction_reason=reason), 'evidence': [evid]})
-        changes += [{'target': 'observation', 'id': o['id'], 'after': dict(o, superseded_by=r['id']), 'evidence': [evid]} for o in old]
-        lines.append(f"{_fmt(old[0])} → {_fmt(r)}: \"{clean(row['quote'], 200)}\"")
+        old = current.get(row.get('replaces'))
+        if old is None or (old['value'], old['upper']) == (r['value'], r['upper']):
+            # The figure this revision was read against has itself changed (a newer revision, an
+            # owner's decision): never re-base an older reading onto it.
+            raise Obsolete('The figure this revision replaced is no longer the one on the site')
+        # "Only the value changed": the reviewed caveat travels with the figure unless it quotes the
+        # old number, when the runner's reading replaces it.
+        note = old['note'] if old.get('note') and not _shows(old['note'], old['value']) else r.get('note', '')
+        reason = clean(f"Revised by the publisher at the same address: {_fmt(old)} is now {_fmt(r)}.", 500)
+        changes.append({'target': 'observation', 'id': r['id'], 'after': dict(r, note=note, edition_supersedes=[old['id']], correction_reason=reason), 'evidence': [evid]})
+        changes.append({'target': 'observation', 'id': old['id'], 'after': dict(old, superseded_by=r['id']), 'evidence': [evid]})
+        lines.append(f"{_fmt(old)} → {_fmt(r)}: \"{clean(row['quote'], 200)}\"")
+        old_ids.append(old['id'])
     if not changes:
         raise Obsolete('Nothing left to revise: the site already shows these figures')
+    citing = cited(root, old_ids)
+    if citing:
+        first = next(iter(citing))
+        raise ValueError(f'{first} is cited by {", ".join(citing[first])}; replacing it needs a maintainer to repoint that reference')
     evidence = {'id': evid, 'url': source['url'], 'published_at': source.get('published'), 'retrieved_at': proposed,
                 'sha256': item['document_sha256'], 'summary': clean(f"Same page, revised figures. {metric.get('title', metric['id'])}: " + ' | '.join(lines), 2000)}
     return changes, evidence, lines
@@ -426,7 +471,7 @@ def withdraw(root, package_id, reason):
     return True
 
 
-def materialize(root):
+def materialize(root, revisions=False):
     """Turn holds into catalog packages and keep them current. Enqueue never approves or publishes.
 
     - ready: packaged against the current reviewed files.
@@ -448,7 +493,7 @@ def materialize(root):
     on_site = {o['id'] for o in ledger['observations']}
     registry_ids = {s['id'] for s in docs['research/sources.json']['sources']}
     stale = 'The reviewed files changed since this edition was proposed.'
-    revisions = []
+    revisions_ready = []
     for path in paths:
         try:
             item = json.loads(path.read_text(encoding='utf-8'))
@@ -496,7 +541,8 @@ def materialize(root):
                 item['proposed_at'] = _now()
                 _save(path, item)
             if item.get('change') == 'revision':
-                revisions.append((path, item))
+                if revisions:
+                    revisions_ready.append((path, item))
                 continue
             for attempt in range(5):
                 title, changes, evidence = changes_for(root, item, ledger, registry_ids)
@@ -522,8 +568,13 @@ def materialize(root):
         except (ValueError, KeyError, TypeError) as error:
             item.update(status='needs_maintainer', reason=str(error)[:500], failed_base=key)
         _save(path, item)
-    results += _package_revisions(root, revisions, ledger, key, enqueue)
+    if revisions:
+        results += _package_revisions(root, revisions_ready, ledger, key, enqueue)
     return results
+
+
+def _before(ledger, change):
+    return next((o for o in ledger['observations'] if o['id'] == change['id']), None)
 
 
 def _package_revisions(root, revisions, ledger, key, enqueue):
@@ -541,6 +592,15 @@ def _package_revisions(root, revisions, ledger, key, enqueue):
             item.update(status='needs_maintainer', reason=str(error)[:500], failed_base=key)
             _save(path, item)
     results = []
+    # Screen each revision against the publication policy first: those it would admit travel in one
+    # package, and each one it would not gets a package of its own for the owner, so one scale slip
+    # cannot send the whole night's revisions to review or take them down with a rejection.
+    try:
+        import publication_policy
+        rule = publication_policy.policy(root)['auto_apply']['same_page_revisions']
+        fits = lambda b: publication_policy.same_page_revision({'changes': [dict(c, before=_before(ledger, c)) for c in b[2]]}, rule)[0]
+    except Exception:
+        fits = lambda b: False
 
     def attempt(group):
         changes = [c for _, _, cs, _, _ in group for c in cs]
@@ -556,8 +616,10 @@ def _package_revisions(root, revisions, ledger, key, enqueue):
             _save(path, item)
         results.append(p['id'])
 
-    for start in range(0, len(built), MAX_REVISIONS_PER_PACKAGE):
-        group = built[start:start + MAX_REVISIONS_PER_PACKAGE]
+    admitted = [b for b in built if fits(b)]
+    groups = [admitted[i:i + MAX_REVISIONS_PER_PACKAGE] for i in range(0, len(admitted), MAX_REVISIONS_PER_PACKAGE)]
+    groups += [[b] for b in built if b not in admitted]
+    for group in groups:
         try:
             attempt(group)
         except FileExistsError:

@@ -164,6 +164,10 @@ def preview_validation(root,rid):
     require(path.exists(),'Validate the preview first: approval needs a passing preview of this exact package')
     return read(path)
 
+def checkout_key(root):
+    """What a preview actually tested against: the reviewed files as they are now and the commit."""
+    return digest({'files':{k:digest(v) for k,v in base(root).items()},'head':git(root,'rev-parse','HEAD')})
+
 def preview(root,rid):
     p=package(root,rid);check_base(root,p);check_evidence(root,p)
     destination=root/'.local/catalog-previews'/rid
@@ -180,7 +184,7 @@ def preview(root,rid):
     for command in commands:
         check=run_check(command,destination);checks.append(check)
         if not check['passed']:break
-    result={'proposal_hash':digest(p),'base_hashes':p['base_hashes'],'passed':all(c['passed'] for c in checks) and len(checks)==len(commands),'checks':checks,'at':now()}
+    result={'proposal_hash':digest(p),'base_hashes':p['base_hashes'],'checkout':checkout_key(root),'passed':all(c['passed'] for c in checks) and len(checks)==len(commands),'checks':checks,'at':now()}
     save(destination/'validation.json',result)
     return result
 

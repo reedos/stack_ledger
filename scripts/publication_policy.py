@@ -170,7 +170,11 @@ def auto_apply(root,rid,p=None):
     ok,reasons=eligible(package,p,registry,ledger)
     require(ok,'Not admitted by publication policy: '+'; '.join(reasons))
     cr.check_base(root,package);cr.check_evidence(root,package)
-    result=cr.preview(root,rid)
+    # stage_validate_pending previewed this exact package against these exact files minutes ago.
+    try:saved=cr.preview_validation(root,rid)
+    except ValueError:saved=None
+    fresh=bool(saved and saved.get('passed') and saved.get('proposal_hash')==cr.digest(package) and saved.get('checkout')==cr.checkout_key(root))
+    result=saved if fresh else cr.preview(root,rid)
     require(result['passed'] and result['proposal_hash']==cr.digest(package),'Preview validation failed; left for human review')
     if not resuming:
         with locked(root):
@@ -196,7 +200,7 @@ def admissions(root,p,registry,ledger,only=None):
     return rows,admitted
 
 
-def apply_admitted(root,p=None,only=None):
+def apply_admitted(root,p=None,only=None,deadline=None):
     """Preview-checked automatic application of every pending package the policy admits.
 
     The one function both the CLI and the nightly orchestrator call; stops at the first failure
@@ -206,11 +210,16 @@ def apply_admitted(root,p=None,only=None):
     p=p or policy(root);registry=load(root/'research/sources.json');ledger=load(root/'site/data/ledger.json')
     rows,admitted=admissions(root,p,registry,ledger,only)
     outcomes={}
+    import time
     for rid in admitted:
+        # A package that starts must finish: past the deadline the rest wait for the next night.
+        if deadline is not None and time.monotonic()>deadline:
+            outcomes[rid]='deferred: not enough time left in this stage';continue
         try:
             r=auto_apply(root,rid,p);outcomes[rid]=r['status']
         except Exception as e:
-            outcomes[rid]='failed: '+type(e).__name__+': '+str(e)[:160];break
+            # One package that fails its preview is left for the owner; the others still go.
+            outcomes[rid]='failed: '+type(e).__name__+': '+str(e)[:160]
     return {'pending':len(rows),'rows':rows,'admitted':admitted,'outcomes':outcomes}
 
 

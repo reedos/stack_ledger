@@ -1092,7 +1092,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
         for change,key in (('edition','new'),('revision','revision')):
             group=[(c,r,v) for c,r,v,k in editions if k==key]
             if group:
-                held=forecast_edition.hold(LOCAL,source,full_text,group,metrics,page,change)
+                held=forecast_edition.hold(LOCAL,source,full_text,group,metrics,page,change,{'observations':data['observations'],'sources':data['sources']})
                 collection['editions_held' if key=='new' else 'revisions_held']=collection.get('editions_held' if key=='new' else 'revisions_held',0)+len(held)
     return accepted
 

@@ -39,8 +39,12 @@ LOCKS = ('.local/research.lock', '.local/research-session.lock', '.local/review-
 IMPORT_PATH_PREFIXES = ('research/', 'site/', 'docs/')
 PRE_STAGE_BUDGET_SECONDS = 25*60      # pre-stages must clear by 02:00 so the session starts on time
 TOTAL_CEILING_SECONDS = 6*3600        # matches the cron job's own timeout (schedule.py)
-POST_STAGE_RESERVE_SECONDS = 10*60    # left for policy/health/prune/digest after the session returns
-STAGE_TIMEOUTS = {'sync': 180, 'locks': 60, 'policy': 600, 'health': 120, 'prune': 120, 'digest': 120, 'mirror': 180}
+# The policy stage previews and publishes packages, each running the full suite (about two minutes);
+# 09/23's single package took 335 s of the old 600. It now has 25 minutes and stops starting new
+# packages when fewer than POLICY_START_MARGIN_SECONDS remain, so a timeout never abandons a publish.
+POST_STAGE_RESERVE_SECONDS = 30*60    # left for policy/health/prune/digest after the session returns
+STAGE_TIMEOUTS = {'sync': 180, 'locks': 60, 'policy': 1500, 'health': 120, 'prune': 120, 'digest': 120, 'mirror': 180}
+POLICY_START_MARGIN_SECONDS = 480
 # The clone Reed and his sessions edit during the day. This run has its own clone, so a commit
 # left unpushed there or a file left dirty cannot refuse the night (both did, 2026-09-16); the
 # mirror stage fast-forwards it to what the night published, when it is clean enough to move.
@@ -394,7 +398,14 @@ def stage_validate_pending(root):
 
 def stage_policy(root):
     import publication_policy as pp
+    deadline = time.monotonic()+STAGE_TIMEOUTS['policy']-60
     p = pp.policy(root)
+    # The night's same-page revisions become one package here, once, not after every research batch.
+    try:
+        import forecast_edition
+        revisions_packaged = forecast_edition.materialize(root, revisions=True)
+    except Exception as e:
+        revisions_packaged = [f'failed: {type(e).__name__}: {str(e)[:160]}']
     validated, validation_failures = stage_validate_pending(root)
     if not p['auto_apply']['enabled']:
         return {'status': 'partial' if validation_failures else 'skipped', 'reason': 'auto-apply disabled by policy (auto_apply.enabled=false)',
@@ -403,13 +414,13 @@ def stage_policy(root):
     if status['blocking']:
         return {'status': 'partial' if validation_failures else 'skipped', 'reason': f"editorial.lock held by live pid {status.get('pid')}",
                 'validated': validated, 'validation_failures': validation_failures}
-    result = pp.apply_admitted(root, p)
+    result = pp.apply_admitted(root, p, deadline=deadline-POLICY_START_MARGIN_SECONDS)
     import catalog_review as cr
     deployments = cr.verify_pending_deployments(root)
     failed = [rid for rid, outcome in result['outcomes'].items() if str(outcome).startswith('failed')]
     return {'status': 'partial' if failed or validation_failures else 'ok', 'pending': result['pending'], 'admitted': result['admitted'],
             'outcomes': result['outcomes'], 'deployment_verification': deployments,
-            'validated': validated, 'validation_failures': validation_failures}
+            'validated': validated, 'validation_failures': validation_failures, 'revisions_packaged': revisions_packaged}
 
 
 # ---------------------------------------------------------------- health
