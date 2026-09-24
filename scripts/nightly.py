@@ -23,7 +23,7 @@ import subprocess
 import sys
 import threading
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -88,10 +88,33 @@ def fast_forward(root):
     return {'status': 'ok', 'branch': branch, 'before': before[:12], 'after': after[:12], 'moved': before != after}
 
 
+# What this clone's own publish paths commit (research.publish, catalog_review.publish_package).
+NIGHT_COMMITS = ('research: ', 'catalog: apply ')
+
+
+def push_own_commits(root):
+    """Push commits a failed push left in the night's clone, when they are all the night's own and
+    origin has not moved past them. Anything else waits for a person."""
+    branch = branch_name(root)
+    code, out, err = git_out(root, 'log', '--format=%s', f'origin/{branch}..HEAD')
+    if code != 0: return {'pushed': False, 'error': f'git log: {err[-300:]}'}
+    subjects = [line for line in out.splitlines() if line.strip()]
+    foreign = [line for line in subjects if not line.startswith(NIGHT_COMMITS)]
+    if foreign: return {'pushed': False, 'reason': 'local commits this clone did not make', 'subjects': foreign[:5]}
+    code, _, _ = git_out(root, 'merge-base', '--is-ancestor', f'origin/{branch}', 'HEAD')
+    if code != 0: return {'pushed': False, 'reason': 'origin moved on since those commits'}
+    return dict(push_origin(root), commits=len(subjects))
+
+
 def stage_sync(root):
     """This clone level with origin before anything runs: the working clone publishes catalog
     packages during the day, and research.preflight refuses a night whose HEAD is behind."""
     result = fast_forward(root)
+    if result['status'] == 'skipped' and 'not on origin' in result.get('reason', ''):
+        # A push that failed (network, GitHub) leaves the night's own commits here, and until
+        # 09/24/2026 that stopped every later night at this stage with no digest.
+        pushed = push_own_commits(root)
+        result = dict(fast_forward(root), pushed_local_commits=pushed) if pushed.get('pushed') else dict(result, push=pushed)
     if result['status'] == 'skipped':
         # For the night's own clone a skip is a fault: nothing else is supposed to touch it.
         result = {'status': 'failed', 'error': f"night clone not clean: {result['reason']}", **{k: v for k, v in result.items() if k not in ('status', 'reason')}}
@@ -408,19 +431,22 @@ def stage_policy(root):
     stage_end = time.monotonic()+STAGE_TIMEOUTS['policy']-60
     start_by = stage_end-POLICY_START_MARGIN_SECONDS
     p = pp.policy(root)
-    # The night's same-page revisions are packaged here, once, not after every research batch.
+    # Read before settling: this also clears a stale lock, so a dead process cannot turn the night's
+    # revisions into cards or leave them for a later night.
+    status = lock_status(root/'.local/review-candidates/editorial.lock')
+    # The night's same-page revisions are settled here, once: published, handed to the owner, or
+    # obsolete. Nothing else publishes them (apply_admitted skips their author).
     packaging_failed = False
     try:
         import forecast_edition
-        revisions_packaged = forecast_edition.materialize(root, revisions=True)
+        revisions = forecast_edition.settle_revisions(root, auto=not status['blocking'], deadline=start_by)
     except Exception as e:
-        revisions_packaged = [f'failed: {type(e).__name__}: {str(e)[:160]}']; packaging_failed = True
-    base = {'revisions_packaged': revisions_packaged}
+        revisions = {'failed': f'{type(e).__name__}: {str(e)[:160]}'}; packaging_failed = True
+    base = {'revisions': revisions}
     if not p['auto_apply']['enabled']:
         validated, validation_failures = stage_validate_pending(root, deadline=stage_end-120)
         return {'status': 'partial' if validation_failures or packaging_failed else 'skipped', 'reason': 'auto-apply disabled by policy (auto_apply.enabled=false)',
                 'validated': validated, 'validation_failures': validation_failures, **base}
-    status = lock_status(root/'.local/review-candidates/editorial.lock')
     if status['blocking']:
         # Previews need no editorial lock: the owner's cards are still made ready for the morning.
         validated, validation_failures = stage_validate_pending(root, deadline=stage_end-120)
@@ -436,7 +462,7 @@ def stage_policy(root):
     held = [rid for rid, outcome in result['outcomes'].items() if not str(outcome).startswith(('deployed', 'deployment_pending', 'pushed'))]
     reason = '; '.join(filter(None, [f'{len(held)} admitted package(s) not published (failed or deferred)' if held else '',
                                      f'{len(validation_failures)} preview(s) failed or deferred' if validation_failures else '',
-                                     'revision packaging failed' if packaging_failed else '']))
+                                     'settling same-page revisions failed' if packaging_failed else '']))
     return {'status': 'partial' if held or validation_failures or packaging_failed else 'ok', **({'reason': reason} if reason else {}),
             'pending': result['pending'], 'admitted': result['admitted'],
             'outcomes': result['outcomes'], 'deployment_verification': deployments,
@@ -543,10 +569,11 @@ def pending_decisions(root, strict=False):
     f = findings_inbox(root); v = visual_inbox(root)
     if strict and (f.get('invalid_files') or f.get('unreadable_events') or v.get('invalid_files')):
         raise ValueError('Review records need attention; pending counts are incomplete')
-    from forecast_edition import AUTHOR as EDITION_AUTHOR
+    from forecast_edition import AUTHOR as EDITION_AUTHOR, REVIEW_AUTHOR
     pending = [p for p in f['catalog_packages'] if p['status'] == 'pending_review']
-    return {'catalog_packages_pending': sum(1 for p in pending if p.get('author') != EDITION_AUTHOR),
+    return {'catalog_packages_pending': sum(1 for p in pending if p.get('author') not in (EDITION_AUTHOR, REVIEW_AUTHOR)),
             'forecast_editions_pending': sum(1 for p in pending if p.get('author') == EDITION_AUTHOR),
+            'revision_cards_pending': sum(1 for p in pending if p.get('author') == REVIEW_AUTHOR),
             'forecast_editions_blocked': forecast_edition_blocked(root),
             'discovery_findings_pending': sum(1 for r in f['findings'] if r['status'] == 'pending_review'),
             'visual_recommendations_pending': sum(1 for p in v['proposals'] if p['status'] == 'pending_review'),
@@ -732,6 +759,17 @@ def render_digest_markdown(body):
     if held:
         lines += ['', '## Held back by the publication policy']
         lines += [f"- {rid}: {outcome}" for rid, outcome in held]
+    revisions = body.get('revisions') or []
+    withdrawn = body.get('revisions_withdrawn') or []
+    if revisions or withdrawn:
+        # Each figure a page revised, old -> new, and what became of it: the owner's only view of
+        # figures that changed on the site without a card (review finding, 09/24/2026).
+        lines += ['', '## Same-page revisions']
+        names = {'applied': 'published', 'publishing': 'publishing', 'card': 'for review', 'declined': 'declined',
+                 'obsolete': 'dropped', 'needs_maintainer': 'needs a maintainer', 'retry': 'waiting'}
+        for row in sorted(revisions, key=lambda r: (r['kind'] != 'applied', r['kind'], r['source'])):
+            lines.append(f"- {names.get(row['kind'], row['kind'])}: {row['source']}: {row['line'] or row['replaces']} ({row['detail'][:160]})")
+        lines += [f'- withdrawn: {pid}' for pid in withdrawn]
     lines += ['', '## Needs a decision']
     lines += [f"- {k.replace('_', ' ')}: {v}" for k, v in body['needs_decision'].items()] or ['- Nothing pending.']
     lines += ['', '## Site changes']
@@ -761,8 +799,8 @@ def for_telegram(markdown, date, limit=TELEGRAM_LIMIT):
     return markdown[:limit-len(notice)].rsplit('\n', 1)[0]+notice
 
 
-def stage_digest(root, date):
-    receipts = {name: load_receipt(root, date, name) for name in ('locks', 'importers', 'research', 'policy', 'health', 'prune')}
+def stage_digest(root, date, push=True):
+    receipts = {name: load_receipt(root, date, name) for name in ('sync', 'locks', 'importers', 'research', 'policy', 'health', 'prune')}
     applied = []
     for r in (receipts.get('importers') or {}).get('results', []):
         if r.get('committed'): applied.append({'kind': 'import', 'id': r['id'], 'commit': (r.get('commit') or '')[:10]})
@@ -772,9 +810,18 @@ def stage_digest(root, date):
             applied.append({'kind': 'catalog_change', 'id': rid, 'outcome': outcome})
     for rid in (policy_receipt.get('deployment_verification') or {}).get('applied', []):
         applied.append({'kind': 'deployment_confirmed', 'id': rid})
+    # Read from the holds, not the policy receipt, so a stage that ran out of time still reports them.
+    try:
+        import forecast_edition
+        revisions = forecast_edition.settled_since(root, (datetime.now(timezone.utc)-timedelta(hours=20)).isoformat(timespec='seconds').replace('+00:00', 'Z'))
+    except Exception as e:
+        revisions = [{'kind': 'needs_maintainer', 'detail': f'revision report failed: {type(e).__name__}', 'replaces': '', 'source': '', 'line': ''}]
+    for pid in dict.fromkeys(r['detail'].split(' ', 1)[0] for r in revisions if r['kind'] == 'applied'):
+        applied.append({'kind': 'catalog_change', 'id': pid, 'outcome': 'same-page revision'})
     health = receipts.get('health') or {}
     body = {'date': date, 'applied': applied, 'needs_decision': health.get('pending_decisions') or {},
             'policy_outcomes': policy_receipt.get('outcomes') or {},
+            'revisions': revisions, 'revisions_withdrawn': (policy_receipt.get('revisions') or {}).get('withdrawn') or [],
             'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'pdf_reader')},
             'site_changes': site_changes(root, date),
             'published_observations': published_observations(root, date),
@@ -783,7 +830,8 @@ def stage_digest(root, date):
     markdown = render_digest_markdown(body)
     digest_dir = root/'.local/digest'; digest_dir.mkdir(parents=True, exist_ok=True)
     (digest_dir/(date+'.md')).write_text(markdown, encoding='utf-8')
-    ahead = commits_ahead(root); push = push_origin(root) if ahead else None
+    # After a failed sync the clone holds commits that are not the night's to push.
+    ahead = commits_ahead(root); push = push_origin(root) if ahead and push else None
     body['unpushed_commits'] = ahead; body['final_push'] = push
     save(root/'.local/digest'/(date+'.json'), body)
     from research_notify import send_text
@@ -865,12 +913,35 @@ def heartbeat(stage, stop, seconds=HEARTBEAT_SECONDS):
         print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: {stage['name']}", flush=True)
 
 
-def run(root, dry_run=False, only=None):
-    date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+def after_sync(root, date, receipts, job_start):
+    """Run the rest of the night in a fresh process on the code sync just brought in.
+
+    This process imported the scripts before sync fast-forwarded them, so its policy stage ran the
+    previous night's forecast_edition while reading tonight's policy (review finding, 09/24/2026).
+    The child gets the same date and deadlines and prints to the same supervisor. If it dies before
+    its digest, this process sends one, so the night never goes unreported."""
+    started = datetime.now(timezone.utc).isoformat()
+    code = spawn_after_sync(root, date, int(time.monotonic()-job_start))
+    digest = load_receipt(root, date, 'digest') or {}
+    if digest.get('started_at', '') < started:
+        print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: the after-sync process exited {code} without a digest; sending one", flush=True)
+        run_stage(root, date, 'digest', STAGE_TIMEOUTS['digest'], lambda r=root, d=date: stage_digest(r, d))
+        return 1
+    return 1 if code or receipts['sync'].get('status') in FAILED_STATUSES else 0
+
+
+def spawn_after_sync(root, date, elapsed):
+    """The rest of the night in a child on the same stdout, which the supervisor watches."""
+    return subprocess.run([sys.executable, str(Path(root)/'scripts'/'nightly.py'), '--after-sync',
+                           '--elapsed', str(elapsed), '--date', date], cwd=root).returncode
+
+
+def run(root, dry_run=False, only=None, resume_after_sync=False, elapsed=0, date=None):
+    date = date or datetime.now(timezone.utc).strftime('%Y-%m-%d')
     if dry_run:
         print(json.dumps(dry_run_plan(root, only, date), indent=2), flush=True)
         return 0
-    job_start = time.monotonic()
+    job_start = time.monotonic()-elapsed
     pre_deadline = job_start+PRE_STAGE_BUDGET_SECONDS
     overall_deadline = job_start+TOTAL_CEILING_SECONDS
     awake = False
@@ -885,23 +956,34 @@ def run(root, dry_run=False, only=None):
         # routes to its port, and its session token is per checkout - so ensure() run from
         # the night's clone cannot see it as ready and starts a second one on the same port.
         # The night's clone never touches it; a single-stage run never starts anything.
-        if only or (WORKING_CLONE and Path(WORKING_CLONE).resolve() != Path(root).resolve()):
+        if resume_after_sync:
+            pass  # the process that ran sync already did this
+        elif only or (WORKING_CLONE and Path(WORKING_CLONE).resolve() != Path(root).resolve()):
             dashboard = {'status':'skipped', 'reason':'dashboard belongs to the working clone' if WORKING_CLONE else 'single-stage run'}
+            save(root/'.local/nightly'/date/'dashboard.json', dashboard)
         else:
             from research_dashboard import ensure
             try: dashboard = ensure(root)
             except Exception as error: dashboard = {'status':'unavailable', 'reason':type(error).__name__}
-        save(root/'.local/nightly'/date/'dashboard.json', dashboard)
+            save(root/'.local/nightly'/date/'dashboard.json', dashboard)
         receipts = {}
         for name in STAGES:
             if only and name != only: continue
+            if resume_after_sync and name == 'sync': continue
             stage['name'] = name
             save(root/'.local/nightly'/date/'live.json', {'pid':os.getpid(), 'stage':name, 'updated_at':datetime.now(timezone.utc).isoformat()})
             if name == 'sync':
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['sync'], lambda r=root: stage_sync(r))
                 if receipts[name]['status'] in FAILED_STATUSES:
-                    print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: sync failed, stopping: {receipts[name].get('error')}", flush=True)
+                    # Nothing else may run on a clone that is not level with origin, but the owner
+                    # still hears about it: until 09/24/2026 a failed sync also meant no digest.
+                    print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: sync failed, sending the digest only: {receipts[name].get('error')}", flush=True)
+                    stage['name'] = 'digest'
+                    receipts['digest'] = run_stage(root, date, 'digest', STAGE_TIMEOUTS['digest'], lambda r=root, d=date: stage_digest(r, d, push=False))
                     break
+                if receipts[name].get('moved') and not only:
+                    stage['name'] = 'after-sync'
+                    return after_sync(root, date, receipts, job_start)
             elif name == 'mirror':
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['mirror'], lambda r=root: stage_mirror(r))
             elif name == 'locks':
@@ -942,8 +1024,12 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--dry-run', action='store_true', help='Print the plan; run nothing, write nothing')
     p.add_argument('--only', choices=STAGES, help='Run exactly one stage')
+    # Used by run() itself: the rest of a night whose sync moved the scripts, on the new code.
+    p.add_argument('--after-sync', action='store_true', help=argparse.SUPPRESS)
+    p.add_argument('--elapsed', type=int, default=0, help=argparse.SUPPRESS)
+    p.add_argument('--date', help=argparse.SUPPRESS)
     a = p.parse_args(argv)
-    return run(ROOT, dry_run=a.dry_run, only=a.only)
+    return run(ROOT, dry_run=a.dry_run, only=a.only, resume_after_sync=a.after_sync, elapsed=a.elapsed, date=a.date)
 
 
 if __name__ == '__main__':

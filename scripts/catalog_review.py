@@ -269,8 +269,13 @@ def publish_package(root,rid,p,decision,reviewer,identity=None):
             require(git(root,'remote','get-url','origin').removesuffix('.git')=='https://github.com/'+config['repository'],'Wrong remote')
             git(root,'fetch','origin',config['branch'])
             head=git(root,'rev-parse','HEAD');remote=git(root,'rev-parse','origin/'+config['branch'])
+            on_origin=False
             if receipt.get('commit'):
-                require(head==receipt['commit'],'Repository changed after publication attempt')
+                # Committed on an earlier attempt. Once that commit reached origin (the night's sync
+                # pushes its own stranded commits, and research commits carry it along) only the
+                # deployment check is left; before that, only this exact commit may be pushed.
+                on_origin=ancestor(root,receipt['commit'],'origin/'+config['branch'])
+                require(on_origin or head==receipt['commit'],'Repository changed after publication attempt')
             else:
                 require(head==remote,'Repository needs synchronization');check_base(root,p);check_evidence(root,p)
                 result=preview(root,rid);require(result['passed'],'Preview validation failed')
@@ -282,16 +287,22 @@ def publish_package(root,rid,p,decision,reviewer,identity=None):
                     if changes[path]!=read(root/path):
                         changes[path]['reviewed_at']=decision['at']
                         changes[f'site/data/{name}.json']=copy.deepcopy(changes[path])
-                for name,v in changes.items():
-                    if read(root/name)!=v:save(root/name,v)
-                for command in [[sys.executable,'scripts/validate.py'],[sys.executable,'scripts/build.py']]:
-                    subprocess.run(command,cwd=root,check=True,capture_output=True,timeout=120)
-                changed=git(root,'diff','--name-only').splitlines()+git(root,'ls-files','--others','--exclude-standard').splitlines()
-                require(changed and all(x in changes or x.startswith('docs/') for x in changed),'Unexpected catalog build changes')
-                git(root,'add','--',*changed);git(root,'commit','-m','catalog: apply '+rid)
+                try:
+                    for name,v in changes.items():
+                        if read(root/name)!=v:save(root/name,v)
+                    for command in [[sys.executable,'scripts/validate.py'],[sys.executable,'scripts/build.py']]:
+                        subprocess.run(command,cwd=root,check=True,capture_output=True,timeout=120)
+                    changed=git(root,'diff','--name-only').splitlines()+git(root,'ls-files','--others','--exclude-standard').splitlines()
+                    require(changed and all(x in changes or x.startswith('docs/') for x in changed),'Unexpected catalog build changes')
+                    git(root,'add','--',*changed);git(root,'commit','-m','catalog: apply '+rid)
+                except BaseException:
+                    # Nothing was committed. The tree was clean when this began: put it back, or every
+                    # later publish and the next night's sync refuse the clone (review finding, 09/24/2026).
+                    restore(root)
+                    raise
                 receipt={'commit':git(root,'rev-parse','HEAD'),'proposal_hash':digest(p),'status':'committed','at':now()};save(receipt_path,receipt)
             try:
-                git(root,'push','origin','HEAD:'+config['branch'])
+                if not on_origin:git(root,'push','origin','HEAD:'+config['branch'])
                 receipt['status']='pushed';save(receipt_path,receipt)
                 # Verify the actual data, not merely successful git transport.
                 matches=False
@@ -303,6 +314,16 @@ def publish_package(root,rid,p,decision,reviewer,identity=None):
                 return receipt
             except Exception:
                 receipt['status']='publication_failed';save(receipt_path,receipt);raise
+
+def ancestor(root,commit,ref):
+    """Whether commit is in ref's history."""
+    return subprocess.run(['git','merge-base','--is-ancestor',commit,ref],cwd=root,capture_output=True).returncode==0
+
+def restore(root):
+    """Undo an uncommitted publication attempt: the files it wrote and the ones the build added."""
+    git(root,'reset','-q','--','.')
+    git(root,'checkout','--','.')
+    git(root,'clean','-fdq','--','research','site','docs')
 
 def deployed(root,config,commit):
     """One live check of the pushed data against GitHub Pages, the same comparison publish_package polls."""
@@ -323,10 +344,12 @@ def verify_pending_deployments(root):
     """Finish verification for packages whose commit already pushed but the 90s deploy-check timed out.
 
     Every '-publication.json' receipt still at 'deployment_pending' with a commit is checked once
-    against the live GitHub Pages data, exactly as publish_package's own polling loop checks it. A
-    match appends the 'applied' event and follow-up publish_package would have written; a package
-    that still does not match, or whose recorded approval no longer matches the package, is left
-    untouched and reported so a human or the next nightly run can look again.
+    against the live GitHub Pages data, exactly as publish_package's own polling loop checks it, and
+    so is a receipt whose push failed or was interrupted once its commit has reached origin anyway
+    (the night's sync pushes its own stranded commits). A match appends the 'applied' event and
+    follow-up publish_package would have written; a package that still does not match, or whose
+    recorded approval no longer matches the package, is left untouched and reported so a human or
+    the next nightly run can look again.
     """
     import research
     require(root.resolve()==research.ROOT.resolve(),'Repository mismatch')
@@ -335,10 +358,11 @@ def verify_pending_deployments(root):
         rid=path.stem[:-len('-publication')]
         if not RID.fullmatch(rid):continue
         receipt=read(path)
-        if receipt.get('status')=='deployment_pending' and receipt.get('commit'):candidates.append((rid,path,receipt))
+        if receipt.get('status') in ('deployment_pending','pushed','committed','publication_failed') and receipt.get('commit'):candidates.append((rid,path,receipt))
     checked=[];applied=[];still_pending=[]
     if not candidates:return {'checked':checked,'applied':applied,'still_pending':still_pending}
     config=read(root/'research/runtime.json')
+    candidates=[c for c in candidates if c[2]['status']=='deployment_pending' or ancestor(root,c[2]['commit'],'origin/'+config['branch'])]
     with research.lock():
         for rid,path,receipt in candidates:
             decision=last_review(root,rid)

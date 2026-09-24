@@ -32,14 +32,17 @@ A metric's reviewed `edition_mode` decides what an edition replaces:
   the document is older than the edition on the chart.
 
 A page that updates in place (a weekly consensus page, an Epoch site page, BLS projections) is
-the same source, not a new edition. Owner decision, 09/23/2026: when such a page changes a figure
-it already gave, the change is a 'revision' and is applied automatically, provided the page no
-longer shows the old number (a static document the model merely misread still does, and stays a
-conflict for review) and the publication policy's same-page rules admit it. A PDF never
-revises itself: a static document that seems to have changed was misread. The night's admissible
-revisions travel together (split only by the package size limit), each inadmissible one alone,
-all packaged once by the nightly policy stage; a bundle whose preview fails is split so the rest
-still go.
+the same source, not a new edition: when it gives a different figure for a point it already gave,
+the change is a 'revision'. A PDF never revises itself: a static document that seems to have
+changed was misread, and stays a conflict.
+
+Revisions are settled once a night by settle_revisions, in the nightly policy stage, and none is
+carried to another night as an automatic package. Owner decisions, 09/23 and 09/24/2026: a
+revision is published unattended only when its page is on the publication policy's same-page
+list, the page as last read still carries the reading's quote and no longer shows the old figure,
+the reading is from this night, and the policy's same-page rules admit it (value only, within
+1.1x, not nearer another year the page gives). Every other revision reaches the owner as a card,
+one per page, and a reading the owner rejected is not raised again.
 """
 import hashlib
 import json
@@ -55,7 +58,9 @@ from evidence_text import numeric_tokens
 FORWARD = {'forecast', 'company-commitment', 'government-target'}
 MODES = {'trajectory', 'by-year'}
 AUTHOR = 'Forecast edition (research runner)'
-REVISION_AUTHOR = 'Same-page revision (research runner)'
+REVISION_AUTHOR = 'Same-page revision (research runner)'  # published by settle_revisions, never by apply_admitted
+REVIEW_AUTHOR = 'Same-page revision (for review)'  # never admitted by the publication policy: a person decides
+SAME_NIGHT_SECONDS = 20*3600  # a reading from an earlier night goes to the owner, never out unattended
 MAX_CHANGES_PER_PACKAGE = 100  # catalog_review.enqueue's limit; each revised figure is two changes
 RUNNER = 'forecast edition runner'
 POLICY_REVIEWER = 'publication-policy'  # publication-policy.json auto_apply.reviewer_label
@@ -196,13 +201,15 @@ def revision_target(record, source, observations, ledger_sources, metric):
 
 
 def _revision(record, mine_same_slot, document):
-    """'revision' when this page's own figure for the point changed and the page no longer shows it."""
+    """'revision' when this page now gives a different figure for a point it already gave.
+
+    Whether the page still shows the old figure is settle_revisions' question, not this one's: until
+    09/24/2026 such a reading was quarantined as a conflict where nobody saw it, so a misread figure
+    that had been published could never be put right by the page's next correct reading."""
     if document is None or document.startswith('[Page 1]\n'):
         return None  # a PDF does not update in place: a changed-looking figure there is a misreading
-    for o in mine_same_slot:
-        if (o['value'], o['upper']) != (record['value'], record['upper']) and not _shows(document, o['value']) \
-                and (o['upper'] is None or not _shows(document, o['upper'])):
-            return 'revision'
+    if any((o['value'], o['upper']) != (record['value'], record['upper']) for o in mine_same_slot):
+        return 'revision'
     return None
 
 
@@ -296,8 +303,9 @@ def hold(local, source, full_text, held, metrics, page_of=None, change='edition'
                 previous = json.loads(path.read_text(encoding='utf-8'))
             except (OSError, ValueError):
                 previous = {}
-            # An obsolete revision whose page shows its value again is a live reading again.
-            if not (change == 'revision' and previous.get('status') == 'obsolete'):
+            # An obsolete revision whose page shows its value again is a live reading again, and one
+            # that needed a maintainer is tried again when the page is read again.
+            if not (change == 'revision' and previous.get('status') in ('obsolete', 'needs_maintainer')):
                 continue
         records = []
         for c, r, v in rows:
@@ -366,8 +374,8 @@ def revision_changes(root, item, ledger):
     source = item['source']
     current = {o['id']: o for o in incumbents(metric['id'], ledger['observations'])}
     proposed = item.get('proposed_at') or item['created_at']
-    # One evidence entry per page and metric: two revisions from one page keep their own quotes.
-    evid = clean(f"{source['id'][:90]}@{_digest([item['document_sha256'], metric['id']])[:16]}", 140)
+    # One evidence entry per page, metric and replaced figure: two revisions from one page keep their own quotes.
+    evid = clean(f"{source['id'][:90]}@{_digest([item['document_sha256'], metric['id']] + [row.get('replaces') for row in item['records']])[:16]}", 140)
     changes, lines, old_ids = [], [], []
     for row in item['records']:
         r = row['record']
@@ -378,10 +386,10 @@ def revision_changes(root, item, ledger):
             # The figure this revision was read against has itself changed (a newer revision, an
             # owner's decision): never re-base an older reading onto it.
             raise Obsolete('The figure this revision replaced is no longer the one on the site')
-        # "Only the value changed": the reviewed caveat travels with the figure unless it quotes the
-        # old number, when the runner's reading replaces it.
-        quotes_old = old.get('note') and (_shows(old['note'], old['value']) or (old['upper'] is not None and _shows(old['note'], old['upper'])))
-        note = old['note'] if old.get('note') and not quotes_old else r.get('note', '')
+        # "Only the value changed": the reviewed caveat travels with the figure when it carries no
+        # number of its own. A date or figure in it may now be stale, so the runner's reading
+        # replaces it and the publication policy sends the change to the owner.
+        note = old.get('note', '') if not re.search(r'\d', old.get('note') or '') else r.get('note', '')
         reason = clean(f"Revised by the publisher at the same address: {_fmt(old)} is now {_fmt(r)}.", 500)
         changes.append({'target': 'observation', 'id': r['id'], 'after': dict(r, note=note, edition_supersedes=[old['id']], correction_reason=reason), 'evidence': [evid]})
         changes.append({'target': 'observation', 'id': old['id'], 'after': dict(old, superseded_by=r['id']), 'evidence': [evid]})
@@ -495,8 +503,9 @@ def withdraw(root, package_id, reason):
     return True
 
 
-def materialize(root, revisions=False):
-    """Turn holds into catalog packages and keep them current. Enqueue never approves or publishes.
+def materialize(root):
+    """Turn edition holds into catalog packages and keep them current. Enqueue never approves or
+    publishes. Same-page revisions are not touched here: settle_revisions takes them once a night.
 
     - ready: packaged against the current reviewed files.
     - packaged: left alone while its package still applies or the owner has rejected it; marked
@@ -517,13 +526,12 @@ def materialize(root, revisions=False):
     on_site = {o['id'] for o in ledger['observations']}
     registry_ids = {s['id'] for s in docs['research/sources.json']['sources']}
     stale = 'The reviewed files changed since this edition was proposed.'
-    revisions_ready = []
     for path in paths:
         try:
             item = json.loads(path.read_text(encoding='utf-8'))
         except (OSError, ValueError):
             continue
-        if not isinstance(item, dict):
+        if not isinstance(item, dict) or item.get('change') == 'revision':
             continue
         status = item.get('status')
         try:
@@ -548,18 +556,8 @@ def materialize(root, revisions=False):
                         still_applies = True
                     except (ValueError, KeyError, OSError):
                         pass
-                # A bundle that failed its preview is split: each revision is proposed alone. Checked
-                # whether or not a sibling hold has already withdrawn the bundle this pass.
-                failure = revisions and item.get('change') == 'revision' and not item.get('solo') and item.get('bundle', 1) > 1 \
-                    and _preview_failed(root, pid)
-                if failure and failure not in item.get('failed_checkouts', []):
-                    item['failed_checkouts'] = sorted(set(item.get('failed_checkouts', [])) | {failure})
-                    _save(path, item)
-                bundle_failed = bool(failure) and len(item.get('failed_checkouts', [])) >= 2
-                if still_applies and not bundle_failed:
-                    continue  # still applies: the owner (or the policy) decides
-                if bundle_failed:
-                    item['solo'] = True
+                if still_applies:
+                    continue  # still applies: the owner decides
                 # Save the hold as ready before withdrawing, so no interruption can leave it
                 # pointing at a withdrawn package; the withdrawal itself is retried below.
                 item.setdefault('earlier_packages', []).append(pid)
@@ -577,10 +575,6 @@ def materialize(root, revisions=False):
             if not item.get('proposed_at'):
                 item['proposed_at'] = _now()
                 _save(path, item)
-            if item.get('change') == 'revision':
-                if revisions:
-                    revisions_ready.append((path, item))
-                continue
             for attempt in range(5):
                 title, changes, evidence = changes_for(root, item, ledger, registry_ids)
                 p = enqueue(root, title, changes, evidence, author=AUTHOR)
@@ -605,21 +599,7 @@ def materialize(root, revisions=False):
         except (ValueError, KeyError, TypeError) as error:
             item.update(status='needs_maintainer', reason=str(error)[:500], failed_base=key)
         _save(path, item)
-    if revisions:
-        results += _package_revisions(root, revisions_ready, ledger, key, enqueue)
     return results
-
-
-def _preview_failed(root, pid):
-    """The checkout this exact package last failed its preview on, or False. The caller splits a
-    bundle only after failures on two different checkouts, so one flaky preview is retried whole."""
-    try:
-        from catalog_review import preview_validation, package, digest
-        v = preview_validation(root, pid)
-        failed = v.get('passed') is False and v.get('proposal_hash') == digest(package(root, pid))
-        return (v.get('checkout') or v.get('at') or 'failed') if failed else False
-    except Exception:
-        return False
 
 
 def _latest_text(root, url):
@@ -633,92 +613,23 @@ def _latest_text(root, url):
         return None
 
 
-def _current_readings(root, revisions):
-    """Keep only readings that are still true, one per site figure.
-
-    A reading survives when the page as last read still shows its value and no longer shows the
-    figure it replaces, and when no newer reading of the same figure exists. Checked per figure, so
-    a reading that partly overlaps a newer one keeps only what the newer one does not cover. A hold
-    left with nothing is obsolete; a proposed package that lost figures is withdrawn and proposed
-    again without them. An owner's approval is never withdrawn (see withdraw)."""
-    from catalog_review import last_review
-    from editorial_review import queue
-    ready = {str(p): i for p, i in revisions}
-    holds = []
-    for path in sorted(queue(root).glob('edition-*.json')):
-        if str(path) in ready:
-            holds.append((path, ready[str(path)]))
-            continue
-        try:
-            item = json.loads(path.read_text(encoding='utf-8'))
-        except (OSError, ValueError):
-            continue
-        # A ready hold materialize did not pass in is waiting on something (a busy lock while its
-        # earlier package was withdrawn): it waits for the next pass. A package a person rejected or
-        # approved is theirs: never trimmed, re-proposed or withdrawn by the runner.
-        if not isinstance(item, dict) or item.get('change') != 'revision' or item.get('status') != 'packaged':
-            continue
-        review = last_review(root, item.get('package'))
-        if review and (review.get('status') in ('rejected', 'withdrawn', 'applied')
-                       or (review.get('status') == 'approved' and review.get('reviewer') != POLICY_REVIEWER)):
-            continue
-        holds.append((path, item))
-    texts, fresh = {}, {}
-    for path, item in holds:
-        url = item['source']['url']
-        if url not in texts:
-            texts[url] = _latest_text(root, url)
-        latest = texts[url]
-        keep = []
-        for row in item['records']:
-            r, was = row['record'], row.get('replaces_figure') or [None, None]
-            if latest is not None and (not _shows(latest, r['value']) or (r['upper'] is not None and not _shows(latest, r['upper']))
-                                       or (was[0] is not None and _shows(latest, was[0]))):
-                continue  # the page has moved on (or back) since this reading
-            keep.append(row)
-        fresh[str(path)] = keep
-    order = lambda i: (i['created_at'], i.get('held_ns', 0))
-    newest = {}
-    for path, item in holds:
-        for row in fresh[str(path)]:
-            pin = row.get('replaces')
-            if pin and (pin not in newest or order(item) > order(newest[pin][1])):
-                newest[pin] = (path, item)
-    out, withdrawn = [], set()
-    kept = {}
-    for path, item in holds:
-        kept[str(path)] = [row for row in fresh[str(path)] if not row.get('replaces') or newest[row['replaces']][0] == path]
-        if len(kept[str(path)]) != len(item['records']) and item['status'] == 'packaged' and item.get('package'):
-            withdraw(root, item['package'], 'A newer reading of the same figure, or the page as last read, replaces part of this revision.')
-            withdrawn.add(item['package'])
-    for path, item in holds:
-        keep = kept[str(path)]
-        moved = item['status'] == 'packaged' and item.get('package') in withdrawn
-        if len(keep) == len(item['records']) and not moved:
-            if item['status'] == 'ready':
-                out.append((path, item))
-            continue
-        if moved:
-            item.setdefault('earlier_packages', []).append(item['package'])
-        if not keep:
-            item.update(status='obsolete', reason='A newer reading of the same figure, or the page as last read, replaces this revision')
-            _save(path, item)
-            continue
-        # Trimmed, or a sibling in a bundle that had to be withdrawn: proposed again tonight.
-        item.update(records=keep, status='ready', proposed_at=_now())
-        _save(path, item)
-        out.append((path, item))
-    return out
+_PACKAGE = re.compile(r'catalog-[0-9a-f]{24}')
 
 
-def _bundle(admitted, limit=MAX_CHANGES_PER_PACKAGE):
-    """Admissible revisions in as few packages as the change limit allows."""
+def _ago(seconds):
+    return datetime.fromtimestamp(time.time()-seconds, timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')
+
+
+def _bundle(units, limit=MAX_CHANGES_PER_PACKAGE):
+    """Pages' readings in as few packages as the change limit allows. One page's readings and its
+    date change always travel together."""
+    size = lambda unit: sum(len(x['changes']) for x in unit) + 1  # + the page's date change
     groups, current = [], []
-    for b in admitted:
-        if current and sum(len(x[2]) for x in current) + len(b[2]) > limit:
+    for unit in units:
+        if current and sum(size(u) for u in current) + size(unit) > limit:
             groups.append(current)
             current = []
-        current.append(b)
+        current.append(unit)
     if current:
         groups.append(current)
     return groups
@@ -728,64 +639,283 @@ def _before(ledger, change):
     return next((o for o in ledger['observations'] if o['id'] == change['id']), None)
 
 
-def _package_revisions(root, revisions, ledger, key, enqueue):
-    """The night's same-page revisions: admissible ones together, each inadmissible one alone."""
-    revisions = _current_readings(root, revisions)
-    built = []
-    for path, item in revisions:
+def _date_change(registry, source_id, readings):
+    """The page's registered date moved to the day it was read, or None when it already says that
+    day or later. The site labels a forecast with its source's date, and a revised figure is the
+    page as read that day, not the snapshot first registered (review finding, 09/24/2026)."""
+    s = next((x for x in registry['sources'] if x['id'] == source_id), None)
+    if s is None:
+        raise ValueError(f'{source_id} is not a registered source')
+    day = max(r['retrieved_at'][:10] for x in readings for r in x['records'])
+    if (s.get('published') or '')[:10] >= day:
+        return None
+    return {'target': 'source', 'id': source_id, 'after': dict(s, published=day),
+            'evidence': sorted({x['evidence']['id'] for x in readings})}
+
+
+def _unconfirmed(ledger, source_id, readings, latest):
+    """A forecast from this page that its new date would also vouch for but the page as last read
+    does not show, or None."""
+    revised = {x['pin'] for x in readings}
+    for o in ledger['observations']:
+        if o['source'] == source_id and not o.get('superseded_by') and o['status'] in FORWARD and o['id'] not in revised \
+                and (not _shows(latest, o['value']) or (o['upper'] is not None and not _shows(latest, o['upper']))):
+            return o
+    return None
+
+
+def _for_the_owner(pp, rule, auto, item, row, changes, latest, ledger, registry):
+    """Why this reading goes to the owner instead of out unattended, or None."""
+    if not auto:
+        return 'automatic revisions are off'
+    if item['source']['id'] not in rule['sources']:
+        return 'the page is not on the same-page list'
+    if latest is None:
+        return 'no saved text of the page as last read'
+    old = _before(ledger, {'id': row['replaces']})
+    if _shows(latest, old['value']) or (old['upper'] is not None and _shows(latest, old['upper'])):
+        return 'the page as last read still shows the old figure'
+    if item.get('created_at', '') < _ago(SAME_NIGHT_SECONDS):
+        return 'read on an earlier night'
+    ok, reasons = pp.same_page_revision({'changes': [dict(c, before=_before(ledger, c)) for c in changes]}, rule, ledger, registry)
+    return None if ok else reasons[0]
+
+
+def _card_title(readings, registry):
+    whys = '; '.join(dict.fromkeys(x['why'] for x in readings))
+    if len(readings) == 1:
+        return clean(f"Same-page revision to review ({whys}): {readings[0]['lines'][0]}", 200)
+    s = next((x for x in registry['sources'] if x['id'] == readings[0]['source']), {})
+    return clean(f"{len(readings)} same-page revisions to review from {s.get('title', readings[0]['source'])} ({whys})", 200)
+
+
+def settle_revisions(root, auto=False, deadline=None):
+    """Settle the night's same-page revisions, once, in the nightly policy stage.
+
+    Every ready reading leaves this call published, on the owner's list, declined (the owner
+    rejected the same reading before), obsolete or needing a maintainer; no automatic package
+    outlives it. Per site figure only the newest reading counts, and only while the page as last
+    read still carries its quote (a page whose text was not saved gives nothing to publish
+    unattended). See _for_the_owner for what may go out unattended; the rest reach the owner as one
+    card per page. A package that cannot publish is withdrawn and handed to the owner whole, never
+    split or retried on a later night. `deadline` is a time.monotonic() after which nothing new is
+    published."""
+    from catalog_review import base, enqueue
+    from editorial_review import events, queue
+    from evidence_text import fold
+    import publication_policy as pp
+    result = {'applied': [], 'cards': [], 'withdrawn': [], 'outcomes': {}}
+    reviews = {e['id']: e for e in events(root) if e.get('kind') == 'catalog_change' and 'id' in e}
+    packages = {}
+    for path in sorted(queue(root).glob('catalog-*.json')):
+        if not _PACKAGE.fullmatch(path.stem):
+            continue
         try:
-            changes, evidence, lines = revision_changes(root, item, ledger)
-            built.append((path, item, changes, evidence, lines))
+            pkg = json.loads(path.read_text(encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        if isinstance(pkg, dict) and pkg.get('author') in (REVISION_AUTHOR, REVIEW_AUTHOR):
+            packages[path.stem] = pkg
+    # A crash can leave an automatic package behind. The policy admits one only within the hour it
+    # was built and apply_admitted never runs one, so it could only wait: take it off the list. A
+    # committed one is finished by verify_pending_deployments; a person's decision stands.
+    for pid, pkg in packages.items():
+        if pkg['author'] != REVISION_AUTHOR or pkg.get('created_at', '') > _ago(3600) \
+                or (queue(root)/(pid+'-publication.json')).exists() \
+                or (reviews.get(pid) or {}).get('status') in ('withdrawn', 'rejected', 'applied'):
+            continue
+        if withdraw(root, pid, 'An automatic revision not published the night it was read.'):
+            result['withdrawn'].append(pid)
+    # What the owner rejected stays rejected, whichever hold brings the same reading back.
+    declined = {}
+    for pid, pkg in packages.items():
+        if (reviews.get(pid) or {}).get('status') == 'rejected':
+            for c in pkg.get('changes', []):
+                a = c.get('after') or {}
+                if c.get('target') == 'observation' and c.get('before') is None and a.get('edition_supersedes'):
+                    declined[(a.get('source'), a.get('metric'), a.get('year'), a.get('period'), a.get('value'), a.get('upper'))] = pid
+    holds = []
+    for path in sorted(queue(root).glob('edition-*.json')):
+        try:
+            item = json.loads(path.read_text(encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        if isinstance(item, dict) and item.get('change') == 'revision' and item.get('status') == 'ready':
+            holds.append((path, item))
+    if not holds:
+        return result
+    p = pp.policy(root)
+    rule = p['auto_apply']['same_page_revisions']
+    auto = bool(auto and p['auto_apply']['enabled'] and rule['enabled'])
+    docs = base(root)
+    ledger, registry = docs['site/data/ledger.json'], docs['research/sources.json']
+    newest, order = {}, (lambda i: (i.get('created_at', ''), i.get('held_ns', 0)))
+    for path, item in holds:
+        for row in item['records']:
+            pin = row.get('replaces')
+            if pin and (pin not in newest or order(item) > order(newest[pin][1])):
+                newest[pin] = (path, item, row)
+    outcome, lines, texts, readings = result['outcomes'], {}, {}, []
+    for pin, (path, item, row) in sorted(newest.items()):
+        r = row['record']
+        key = (item['source']['id'], r['metric'], r['year'], r['period'], r['value'], r['upper'])
+        if key in declined:
+            outcome[pin] = f'declined: the owner rejected this reading in {declined[key]}'
+            continue
+        url = item['source']['url']
+        if url not in texts:
+            texts[url] = _latest_text(root, url)
+        latest = texts[url]
+        if latest is not None and fold(row['quote']) not in fold(latest):
+            outcome[pin] = 'obsolete: the page as last read no longer carries this reading'
+            continue
+        try:
+            changes, evidence, said = revision_changes(root, dict(item, records=[row]), ledger)
         except Obsolete as error:
-            item.update(status='obsolete', reason=str(error))
-            _save(path, item)
+            outcome[pin] = f'obsolete: {error}'
+            continue
         except (ValueError, KeyError, TypeError) as error:
-            item.update(status='needs_maintainer', reason=str(error)[:500], failed_base=key)
-            _save(path, item)
-    results = []
-    # Screen each revision against the publication policy first: those it would admit travel in one
-    # package, and each one it would not gets a package of its own for the owner, so one scale slip
-    # cannot send the whole night's revisions to review or take them down with a rejection.
-    try:
-        import publication_policy
-        rule = publication_policy.policy(root)['auto_apply']['same_page_revisions']
-        fits = lambda b: publication_policy.same_page_revision({'changes': [dict(c, before=_before(ledger, c)) for c in b[2]]}, rule)[0]
-    except Exception:
-        fits = lambda b: False
-
-    def attempt(group):
-        changes = [c for _, _, cs, _, _ in group for c in cs]
-        evidence = list({e['id']: e for _, _, _, e, _ in group}.values())
-        count = sum(len(ls) for _, _, _, _, ls in group)
-        title = clean(f"Same-page revisions: {count} figure{'s' if count != 1 else ''} updated by their publishers"
-                      if len(group) > 1 else f"Same-page revision: {group[0][4][0]}", 200)
-        p = enqueue(root, title, changes, evidence, author=REVISION_AUTHOR)
-        for path, item, _, _, _ in group:
-            item.update(status='packaged', package=p['id'], bundle=len(group))
-            item.pop('reason', None)
-            item.pop('failed_base', None)
-            _save(path, item)
-        results.append(p['id'])
-
-    # Readings the same-page rule would admit travel together; each one it would not (a scale slip,
-    # a status change) gets a card of its own, whether or not auto-apply is on.
-    admitted = [b for b in built if fits(b) and not b[1].get('solo')]
-    groups = _bundle(admitted) + [[b] for b in built if b not in admitted]
-    for group in groups:
+            outcome[pin] = f'needs_maintainer: {str(error)[:300]}'
+            continue
+        lines[pin] = said[0]
+        readings.append({'pin': pin, 'source': item['source']['id'], 'records': [r], 'changes': changes, 'evidence': evidence, 'lines': said,
+                         'latest': latest, 'why': _for_the_owner(pp, rule, auto, item, row, changes, latest, ledger, registry)})
+    pages = {}
+    for x in readings:
+        pages.setdefault(x['source'], []).append(x)
+    unattended = []
+    for source_id, xs in sorted(pages.items()):
+        ready = [x for x in xs if x['why'] is None]
+        if not ready:
+            continue
+        # The page's new date vouches for every forecast it gives: each one it no longer shows sends
+        # the page's readings to the owner.
         try:
-            attempt(group)
+            dated = _date_change(registry, source_id, ready)
+        except ValueError as error:
+            for x in ready:
+                x['why'] = str(error)[:200]
+            continue
+        missing = _unconfirmed(ledger, source_id, ready, ready[0]['latest']) if dated else None
+        if missing:
+            for x in ready:
+                x['why'] = f"the page as last read no longer shows its {missing['year']} figure, which its new date would vouch for"
+            continue
+        unattended.append(ready)
+
+    def package(units, author):
+        fresh = base(root)['research/sources.json']  # an earlier package tonight may have moved a page's date
+        changes, evidence = [], {}
+        for unit in units:
+            for x in unit:
+                changes += x['changes']
+                # A card says why it is one. That also keeps its id apart from an automatic package
+                # withdrawn tonight with the same changes, which enqueue would otherwise hand back.
+                evidence[x['evidence']['id']] = x['evidence'] if author == REVISION_AUTHOR else                     dict(x['evidence'], summary=clean(f"For review: {x['why']}. {x['evidence']['summary']}", 2000))
+            dated = _date_change(fresh, unit[0]['source'], unit)
+            if dated:
+                changes.append(dated)
+        flat = [x for unit in units for x in unit]
+        if author == REVISION_AUTHOR:
+            title = clean(f"Same-page revisions: {len(flat)} figures updated by their publishers" if len(flat) > 1
+                          else f"Same-page revision: {flat[0]['lines'][0]}", 200)
+        else:
+            title = _card_title(flat, fresh)
+        return enqueue(root, title, changes, list(evidence.values()), author=author)['id']
+
+    for group in _bundle(unattended):
+        flat = [x for unit in group for x in unit]
+        if deadline is not None and time.monotonic() > deadline:
+            for x in flat:
+                x['why'] = 'not enough time left tonight to publish it'
+            continue
+        try:
+            pid = package(group, REVISION_AUTHOR)
         except FileExistsError:
-            return results  # the editorial lock is busy; the next batch retries
-        except (ValueError, KeyError, TypeError):
-            for one in group:
-                try:
-                    attempt([one])
-                except FileExistsError:
-                    return results
-                except (ValueError, KeyError, TypeError) as error:
-                    one[1].update(status='needs_maintainer', reason=str(error)[:500], failed_base=key)
-                    _save(one[0], one[1])
-    return results
+            for x in flat:
+                outcome[x['pin']] = 'retry: the editorial lock was busy'
+            continue
+        except (ValueError, KeyError, TypeError) as error:
+            for x in flat:
+                x['why'] = f'it could not be packaged ({str(error)[:120]})'
+            continue
+        try:
+            receipt = pp.auto_apply(root, pid, p)
+            result['applied'].append(pid)
+            for x in flat:
+                outcome[x['pin']] = f"applied: {pid} ({receipt.get('status')})"
+        except Exception as error:
+            committed = True  # an unreadable receipt may stand for a live commit: never withdraw that
+            try:
+                path = queue(root)/(pid+'-publication.json')
+                committed = path.exists() and bool(json.loads(path.read_text(encoding='utf-8')).get('commit'))
+            except (OSError, ValueError):
+                pass
+            if committed:
+                for x in flat:  # verify_pending_deployments finishes it
+                    outcome[x['pin']] = f'publishing: {pid}'
+                continue
+            if withdraw(root, pid, f'Not published tonight ({type(error).__name__}); handed to the owner.'):
+                result['withdrawn'].append(pid)
+            for x in flat:
+                x['why'] = f'automatic publication failed ({type(error).__name__}: {str(error)[:120]})'
+    def to_owner(xs):
+        """One card; False when it could not be packaged (a lone reading then needs a maintainer)."""
+        try:
+            pid = package([xs], REVIEW_AUTHOR)
+        except FileExistsError:
+            for x in xs:
+                outcome[x['pin']] = 'retry: the editorial lock was busy'
+            return True
+        except (ValueError, KeyError, TypeError) as error:
+            if len(xs) == 1:
+                outcome[xs[0]['pin']] = f'needs_maintainer: {str(error)[:300]}'
+            return False
+        result['cards'].append(pid)
+        for x in xs:
+            outcome[x['pin']] = f"card: {pid} ({x['why']})"
+        return True
+
+    for source_id, xs in sorted(pages.items()):
+        waiting = [x for x in xs if x['pin'] not in outcome]
+        # One card per page; a reading that cannot be packaged must not hold back the page's others.
+        if waiting and not to_owner(waiting) and len(waiting) > 1:
+            for x in waiting:
+                to_owner([x])
+    settled_at = _now()
+    for path, item in holds:
+        states = {}
+        for row in item['records']:
+            pin = row.get('replaces')
+            states[pin] = outcome.get(pin, 'retry: not settled') if newest.get(pin, (None,))[0] == path \
+                else 'obsolete: a newer reading of this figure'
+        kinds = {v.split(':', 1)[0] for v in states.values()}
+        status = ('ready' if 'retry' in kinds else 'needs_maintainer' if 'needs_maintainer' in kinds
+                  else 'settled' if kinds & {'applied', 'publishing', 'card', 'declined'} else 'obsolete')
+        item.update(status=status, outcomes=states, lines={pin: lines[pin] for pin in states if pin in lines}, settled_at=settled_at)
+        if status == 'needs_maintainer':
+            item['reason'] = next(v for v in states.values() if v.startswith('needs_maintainer'))[len('needs_maintainer: '):]
+        _save(path, item)
+    return result
+
+
+def settled_since(root, since):
+    """What settle_revisions did with each reading since `since` (an ISO time), for the night's
+    report: read from the holds, so a policy stage that ran out of time still reports it."""
+    from editorial_review import queue
+    rows = []
+    for path in sorted(queue(root).glob('edition-*.json')):
+        try:
+            item = json.loads(path.read_text(encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        if not isinstance(item, dict) or item.get('change') != 'revision' or (item.get('settled_at') or '') < since:
+            continue
+        for pin, text in (item.get('outcomes') or {}).items():
+            kind, _, detail = text.partition(': ')
+            rows.append({'kind': kind, 'detail': detail, 'replaces': pin, 'source': item['source']['id'],
+                         'line': (item.get('lines') or {}).get(pin, '')})
+    return rows
 
 
 def blocked(root):
@@ -804,5 +934,6 @@ if __name__ == '__main__':
     import sys
     root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(root/'scripts'))
-    # --revisions packages same-page revisions too, as the nightly policy stage does.
-    print(json.dumps(materialize(root, revisions='--revisions' in sys.argv[1:])))
+    # --revisions settles same-page revisions as the nightly policy stage does, but never publishes:
+    # every one reaches the owner as a card.
+    print(json.dumps(settle_revisions(root) if '--revisions' in sys.argv[1:] else materialize(root)))

@@ -70,11 +70,15 @@ class BriefingTests(unittest.TestCase):
 
     def test_automatic_same_page_revisions_are_named_in_the_briefing(self):
         self.session()
+        new=lambda i,old,value:{'id':i,'metric':'revenue-fixture-forecast','period':'FY2027 · analyst consensus','value':value,'edition_supersedes':[old]}
         self.save('.local/review-candidates/catalog-'+'a'*24+'.json',{'author':'Same-page revision (research runner)','changes':[
-            {'target':'observation','id':'n1','before':None},{'target':'observation','id':'o1','before':{'id':'o1'}},
-            {'target':'observation','id':'n2','before':None},{'target':'observation','id':'o2','before':{'id':'o2'}}]})
+            {'target':'observation','id':'n1','before':None,'after':new('n1','o1',411.49)},{'target':'observation','id':'o1','before':{'id':'o1','value':411.35},'after':{'id':'o1'}},
+            {'target':'observation','id':'n2','before':None,'after':new('n2','o2',682.9)},{'target':'observation','id':'o2','before':{'id':'o2','value':682.87},'after':{'id':'o2'}},
+            {'target':'source','id':'s','before':{'id':'s'},'after':{'id':'s'}}]})
         data=brief.snapshot(self.root,self.date,body={'applied':[{'kind':'catalog_change','id':'catalog-'+'a'*24,'outcome':'deployed'}]})
-        self.assertIn('2 figures on the site updated automatically',brief.render(data))
+        text=brief.render(data)
+        self.assertIn('2 figures on the site updated automatically',text)
+        self.assertIn('revenue-fixture-forecast FY2027 · analyst consensus: 411.35 → 411.49',text,'the briefing says what changed, not only how many')
 
     def test_missing_is_not_zero_or_completed(self):
         data=brief.snapshot(self.root,self.date)

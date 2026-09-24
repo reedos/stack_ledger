@@ -12,7 +12,10 @@ and Git history show precisely what happened and why.
 """
 import argparse
 import json
+import math
+import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -20,6 +23,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 from validate import require, text, timestamp
 
 ROOT=Path(__file__).resolve().parents[1]
+REVISION_MAX_AGE_SECONDS=3600  # forecast_edition.settle_revisions builds and publishes in one call
 
 
 def policy(root=ROOT):
@@ -29,7 +33,8 @@ def policy(root=ROOT):
     a=p['auto_apply']
     require(set(a)=={'enabled','reviewer_label','authors','targets','new_entries_only','project_stages','max_source_rank','require_passing_preview','max_changes_per_package','metric_measurement_types','project_updates','same_source_relabel','same_page_revisions'},'Unexpected auto_apply fields')
     r=a['same_page_revisions']
-    require(isinstance(r,dict) and set(r)=={'enabled','author','max_ratio','statuses'} and type(r['enabled']) is bool and isinstance(r['author'],str) and r['author'],'Invalid same_page_revisions rule')
+    require(isinstance(r,dict) and set(r)=={'enabled','author','max_ratio','statuses','sources'} and type(r['enabled']) is bool and isinstance(r['author'],str) and r['author'],'Invalid same_page_revisions rule')
+    require(isinstance(r['sources'],list) and all(isinstance(x,str) and x for x in r['sources']) and len(set(r['sources']))==len(r['sources']),'Same-page revisions need a list of the pages that update in place')
     require(isinstance(r['max_ratio'],(int,float)) and 1<r['max_ratio']<=3 and r['author'] not in a['authors'],'Same-page revisions need a ratio ceiling of at most 3 and their own author')
     require(isinstance(r['statuses'],list) and set(r['statuses'])<={'forecast','company-commitment','government-target'},'Same-page revisions apply only to forward-looking figures')
     require(a['project_updates']=='append_observations_only' and all(isinstance(x,str) for x in a['metric_measurement_types']),'Invalid policy update rules')
@@ -68,20 +73,40 @@ def same_source_relabel(before,after):
     return period[:4].isdigit() and int(period[:4])==after.get('year')
 
 
-def same_page_revision(package,rule):
+# A month with a day or year after it ("September 3", "August 2026"): a label that dates a snapshot,
+# which a revised figure would make false.
+DATED=re.compile(r'(?i)\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d')
+
+
+def _nearer_neighbour(new,old,ledger):
+    """Another current figure this page gives for the same metric that the new value is at least as
+    near as the figure it replaces, or None: the neighbouring column misread (a consensus page's
+    This Year and Next Year), not a revision."""
+    v,w=new.get('value'),old.get('value')
+    if not (isinstance(v,(int,float)) and isinstance(w,(int,float)) and v>0 and w>0):return None
+    d=abs(math.log(v/w))
+    return next((o for o in ledger.get('observations',[]) if o.get('metric')==old.get('metric') and o.get('source')==old.get('source')
+                 and o.get('id')!=old.get('id') and not o.get('superseded_by') and isinstance(o.get('value'),(int,float))
+                 and o['value']>0 and abs(math.log(v/o['value']))<=d),None)
+
+
+def same_page_revision(package,rule,ledger=None,registry=None):
     """(admitted, reasons) for a package of same-page revisions (forecast_edition.REVISION_AUTHOR).
 
-    Owner decision, 09/23/2026: a page that updates in place may replace its own earlier figure
-    without a per-item review. Admitted only when every change is exactly that: a new figure from
-    the same registered source, same metric, year, period, status and precision, retiring that
-    source's own earlier figure, within max_ratio of it; the earlier figure changes only by gaining
-    superseded_by. Anything else, including a value that moved further (a unit or scale slip),
-    goes to the owner."""
+    Owner decisions, 09/23 and 09/24/2026: a page on the rule's list of pages that update in place
+    may replace its own earlier figure without a per-item review. Admitted only when every change is
+    exactly that: a new figure from the same source, same metric, year, period, status, precision
+    and note, retiring that source's own earlier figure, within max_ratio of it and nearer it than
+    any other figure the page gives for the metric (ledger); the earlier figure changes only by
+    gaining superseded_by. The one other change allowed is the page's registered date moving forward
+    to the day it was read. A figure a person corrected, a note or label that carries a number or a
+    date, and anything else go to the owner."""
     changes=package.get('changes',[])
     if not changes:return False,['empty revision package']
     added={c['id']:c['after'] for c in changes if c.get('target')=='observation' and c.get('before') is None}
     retired={c['id']:c for c in changes if c.get('target')=='observation' and c.get('before') is not None}
-    if len(added)+len(retired)!=len(changes):return False,['a same-page revision changes only observations']
+    dated={c['id']:c for c in changes if c.get('target')=='source'}
+    if len(added)+len(retired)+len(dated)!=len(changes):return False,["a same-page revision changes only observations and the page's date"]
     for rid,c in retired.items():
         if c['after']!=dict(c['before'],superseded_by=c['after'].get('superseded_by')) or 'superseded_by' in c['before']:
             return False,[f'record {rid} changes more than gaining superseded_by']
@@ -91,17 +116,34 @@ def same_page_revision(package,rule):
         if len(olds)!=1 or olds[0] not in retired:return False,[f'record {nid} must replace exactly one earlier figure in this package']
         old=retired[olds[0]]['before'];claimed.add(olds[0])
         if retired[olds[0]]['after'].get('superseded_by')!=nid:return False,[f'record {olds[0]} is not retired by {nid}']
-        if any(new.get(k)!=old.get(k) for k in ('metric','source','year','period','status','precision')):
+        if any(new.get(k)!=old.get(k) for k in ('metric','source','year','period','status','precision','note')):
             return False,[f'record {nid} changes more than the value of {olds[0]}']
+        if new.get('source') not in rule['sources']:return False,[f"record {nid}: {new.get('source')} is not on the list of pages that update in place"]
         if new.get('status') not in rule['statuses']:return False,[f'record {nid} is not a forward-looking figure']
         if new.get('method')!='automated':return False,[f'record {nid} is not a runner reading']
+        if old.get('correction_of'):return False,[f'record {olds[0]} is a correction a person made; the owner reviews any change to it']
+        if re.search(r'\d',new.get('note') or '') or DATED.search(str(new.get('period') or '')):
+            return False,[f'record {nid} carries a date or figure in its note or period that the new value could make false']
         for key in ('value','upper'):
             a_,b_=old.get(key),new.get(key)
             if (a_ is None)!=(b_ is None):return False,[f'record {nid} adds or drops an upper bound']
             if a_ is None:continue
             if not (isinstance(a_,(int,float)) and isinstance(b_,(int,float)) and a_>0 and b_>0 and max(a_,b_)/min(a_,b_)<=rule['max_ratio']):
                 return False,[f"record {nid}: {key} moved from {a_} to {b_}, beyond {rule['max_ratio']}x; the owner reviews it"]
+        near=_nearer_neighbour(new,old,ledger) if ledger is not None else None
+        if near:return False,[f"record {nid}: {new['value']} is as near this page's {near.get('period') or near.get('year')} figure as the one it replaces; the owner reviews it"]
     if claimed!=set(retired):return False,['every retired figure must be replaced in the same package']
+    pages={new['source'] for new in added.values()}
+    for sid,c in dated.items():
+        before,after=c.get('before'),c.get('after') or {}
+        day=max((new.get('retrieved_at') or '')[:10] for new in added.values() if new.get('source')==sid) if sid in pages else None
+        if not before or after!=dict(before,published=after.get('published')) or not day or after.get('published')!=day \
+                or not (before.get('published') or '')<day:
+            return False,[f'source {sid}: only the date of a revised page may change, forward to the day it was read']
+    for sid in pages:
+        s=dated[sid]['after'] if sid in dated else next((x for x in (registry or {}).get('sources',[]) if x.get('id')==sid),None)
+        if s is None:return False,[f'source {sid} is not registered']
+        if DATED.search(s.get('title') or ''):return False,[f'source {sid} carries a date in its title that a revised figure would make false']
     return True,[f"same-page revision: {len(added)} figure{'s' if len(added)!=1 else ''} updated by their own publishers, each within {rule['max_ratio']}x"]
 
 
@@ -116,7 +158,12 @@ def eligible(package,p,registry,ledger=None):
     if not a['enabled']:return False,['auto-apply disabled by policy']
     rule=a['same_page_revisions']
     if package.get('author')==rule['author']:
-        return same_page_revision(package,rule) if rule['enabled'] else (False,['same-page revisions are not enabled'])
+        if not rule['enabled']:return False,['same-page revisions are not enabled']
+        # Published the night it is read, right after the page is re-read, or not at all.
+        try:age=(datetime.now(timezone.utc)-timestamp(package.get('created_at'))).total_seconds()
+        except Exception:age=None
+        if age is None or not -60<=age<=REVISION_MAX_AGE_SECONDS:return False,['an automatic revision is published within the hour it is built or not at all']
+        return same_page_revision(package,rule,ledger,registry)
     if package.get('author') not in a['authors']:return False,[f"author {package.get('author')!r} is not a policy-listed tool"]
     changes=package.get('changes',[])
     if not changes:return False,['0 changes exceeds the per-package ceiling']
@@ -166,7 +213,7 @@ def auto_apply(root,rid,p=None):
     package=cr.package(root,rid)
     prior=cr.last_review(root,rid);label=p['auto_apply']['reviewer_label']
     resuming=bool(prior and prior['status']=='approved' and prior.get('reviewer')==label)   # approved by policy, publication interrupted
-    require(resuming or not prior or prior['status'] in {'pending_review','deferred'},f'package {rid} already has a recorded decision ({prior["status"] if prior else "?"})')
+    require(resuming or not prior or prior['status']=='pending_review',f'package {rid} already has a recorded decision ({prior["status"] if prior else "?"})')
     ok,reasons=eligible(package,p,registry,ledger)
     require(ok,'Not admitted by publication policy: '+'; '.join(reasons))
     cr.check_base(root,package);cr.check_evidence(root,package)
@@ -178,15 +225,18 @@ def auto_apply(root,rid,p=None):
     require(result['passed'] and result['proposal_hash']==cr.digest(package),'Preview validation failed; left for human review')
     if not resuming:
         with locked(root):
+            # The preview takes minutes; a Reject or Defer the owner recorded meanwhile stands.
+            require(cr.last_review(root,rid)==prior,f'package {rid} was decided while its preview ran')
             append_event(root,dict(id=rid,kind='catalog_change',status='approved',reviewer=label,rationale='Auto-approved under research/publication-policy.json: '+'; '.join(reasons),at=now(),proposal_hash=cr.digest(package)))
     decision=cr.last_review(root,rid)
     return cr.publish_package(root,rid,package,decision,label)
 
 
 def pending(root,label='publication-policy'):
-    """Packages the policy may act on: undecided ones, plus its own approvals whose publication was interrupted."""
+    """Packages the policy may act on: undecided ones, plus its own approvals whose publication was
+    interrupted. A package the owner deferred is the owner's: Defer is a decision, not a gap."""
     import catalog_review as cr
-    return [q for q in cr.inbox(root) if q['status'] in {'pending_review','deferred'} or (q['status']=='approved' and (q.get('last_review') or {}).get('reviewer')==label)]
+    return [q for q in cr.inbox(root) if q['status']=='pending_review' or (q['status']=='approved' and (q.get('last_review') or {}).get('reviewer')==label)]
 
 
 def admissions(root,p,registry,ledger,only=None):
@@ -194,6 +244,9 @@ def admissions(root,p,registry,ledger,only=None):
     rows=[];admitted=[]
     for q in pending(root):
         if only and q['id'] not in only:continue
+        if q.get('author')==p['auto_apply']['same_page_revisions']['author']:
+            # Only forecast_edition.settle_revisions publishes these, in the call that re-read the page.
+            rows.append(dict(q,admitted=False,reason='a same-page revision is published only by the nightly step that re-reads its page'));continue
         ok,reasons=eligible(q,p,registry,ledger)
         row=dict(q,admitted=ok,reason=reasons[0]);rows.append(row)
         if ok:admitted.append(row['id'])

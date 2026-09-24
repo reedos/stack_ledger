@@ -197,5 +197,43 @@ class ApplyAdmittedTests(unittest.TestCase):
         self.assertTrue(late['outcomes']['catalog-c'].startswith('deferred'))
 
 
+
+class OwnerDecisionTests(unittest.TestCase):
+    """A person's Defer or Reject is never overridden by the policy (review findings, 09/24/2026)."""
+    def test_a_deferred_package_is_not_the_policys_to_publish(self):
+        import catalog_review as cr
+        from unittest import mock
+        rows=[{'id':'catalog-a','status':'pending_review'},{'id':'catalog-b','status':'deferred','last_review':{'reviewer':'owner'}},
+              {'id':'catalog-c','status':'approved','last_review':{'reviewer':'publication-policy'}},{'id':'catalog-d','status':'approved','last_review':{'reviewer':'owner'}}]
+        with mock.patch.object(cr,'inbox',return_value=rows):
+            self.assertEqual([q['id'] for q in pp.pending(ROOT)],['catalog-a','catalog-c'])
+
+    def test_a_decision_recorded_while_the_preview_ran_stands(self):
+        import tempfile
+        import catalog_review as cr
+        from unittest import mock
+        package={'id':'catalog-'+'a'*24,'author':'x','changes':[]}
+        reviews=iter([None,{'id':package['id'],'status':'rejected','reviewer':'owner'}])
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch('research.load',return_value={}), mock.patch.object(cr,'package',return_value=package), \
+             mock.patch.object(cr,'last_review',side_effect=lambda root,rid:next(reviews)), \
+             mock.patch.object(pp,'eligible',return_value=(True,['ok'])), mock.patch.object(cr,'check_base'), mock.patch.object(cr,'check_evidence'), \
+             mock.patch.object(cr,'preview_validation',side_effect=ValueError('no saved preview')), \
+             mock.patch.object(cr,'preview',return_value={'passed':True,'proposal_hash':cr.digest(package)}), \
+             mock.patch.object(cr,'publish_package') as publish:
+            with self.assertRaisesRegex(ValueError,'decided while its preview ran'):
+                pp.auto_apply(Path(tmp),package['id'],{'auto_apply':{'reviewer_label':'publication-policy'}})
+        publish.assert_not_called()
+
+    def test_the_same_page_list_is_the_pages_that_update_in_place(self):
+        rule=pp.policy(ROOT)['auto_apply']['same_page_revisions']
+        registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
+        from urllib.parse import urlparse
+        urls={s['id']:s['url'] for s in registry['sources']}
+        self.assertTrue(set(rule['sources'])<=set(urls),'every listed page is registered')
+        self.assertEqual({urlparse(urls[s]).hostname for s in rule['sources']},{'stockanalysis.com','epoch.ai','www.bls.gov'})
+        self.assertFalse([s for s in rule['sources'] if urls[s].lower().endswith('.pdf')],'a PDF never revises itself')
+        self.assertEqual(rule['max_ratio'],1.1)
+
 if __name__=='__main__':unittest.main()
 

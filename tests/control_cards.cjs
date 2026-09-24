@@ -76,3 +76,9 @@ test('a forecast edition shows both editions per year and cannot be bulk-selecte
   const plain=[];panel('reedos').buildCatalogCard(pkg(),{selectable:true,boxes:plain,selected:new Set(),count:()=>{}});
   assert.equal(plain.length,1,'an ordinary package stays selectable');
 });
+
+test('a same-page revision card says what approving does',()=>{
+  const el=panel('reedos').buildCatalogCard(pkg({author:'Same-page revision (for review)',title:'Same-page revision to review (beyond 1.1x): 2027 FY2027: 411.35 → 470'}),{});
+  assert.ok(texts(el).some(t=>t.startsWith('Same-page revision: the page changed a figure it gave before.')),'revision explanation missing');
+  assert.ok(!texts(panel('reedos').buildCatalogCard(pkg(),{})).some(t=>t.startsWith('Same-page revision:')),'only on revision cards');
+});

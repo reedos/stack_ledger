@@ -115,6 +115,8 @@
     observation:['period','year','value','upper','status','note','retrieved_at','superseded_by','edition_supersedes']};
   // forecast_edition.AUTHOR: a newer edition of a forecast, held by the runner for the owner.
   const EDITION_AUTHOR='Forecast edition (research runner)';
+  // forecast_edition.REVIEW_AUTHOR: a page that changed its own figure, handed to the owner.
+  const REVISION_CARD_AUTHOR='Same-page revision (for review)';
   function fmtRange(o){return o?fmtValue(o.value)+(o.upper!==null&&o.upper!==undefined?'–'+fmtValue(o.upper):''):'—';}
   // Both editions side by side, one row per year: what the chart shows now, what it would show.
   function editionComparison(p){
@@ -267,6 +269,8 @@
       card.append(node('p','Forecast edition: approving publishes the new edition and takes the earlier edition off the charts. Both editions’ quotes are in the evidence below.','hint edition-note'));
       card.append(editionComparison(p));
     }
+    if(p.author===REVISION_CARD_AUTHOR)
+      card.append(node('p','Same-page revision: the page changed a figure it gave before. Approving replaces that figure on the site and dates the page to the day it was read. The title says why it was not published automatically.','hint edition-note'));
     if(p.auto_apply_eligible!==null&&p.auto_apply_eligible!==undefined)
       card.append(node('p',`Auto-apply eligible: ${p.auto_apply_eligible?'Yes':'No'}${p.auto_apply_reasons&&p.auto_apply_reasons.length?' — '+p.auto_apply_reasons[0]:''}`,'hint'));
     if(selectable&&p.status!=='applied'&&!edition){const sel=node('label',null,'toggle-chip select-chip'),sb=node('input');sb.type='checkbox';sb.value=p.id;sb.setAttribute('aria-label','Select '+p.title);sb.onchange=()=>{if(sb.checked)selected.add(p.id);else selected.delete(p.id);count();};boxes.push(sb);sel.append(sb,node('span','Select'));card.append(sel);}

@@ -239,27 +239,29 @@ class RunOrchestrationTests(unittest.TestCase):
     def test_main_dry_run_flag_reaches_run(self):
         with patch.object(nightly, 'run', return_value=0) as fake:
             self.assertEqual(nightly.main(['--dry-run']), 0)
-        fake.assert_called_once_with(nightly.ROOT, dry_run=True, only=None)
+        fake.assert_called_once_with(nightly.ROOT, dry_run=True, only=None, resume_after_sync=False, elapsed=0, date=None)
 
     def test_sync_failure_stops_the_night_before_anything_runs(self):
         """The one exception to 'never fatal': a clone that cannot be brought level with origin
         would have its research refused at publication hours later (2026-09-16, an unpushed
-        commit; 2026-09-08, a dirty tree), so the night ends here, non-zero, with the reason."""
+        commit; 2026-09-08, a dirty tree), so the night ends here, non-zero, with the reason.
+        The owner still gets the digest (09/24/2026), and it pushes nothing from that clone."""
         calls = []
         def fake(name, value):
-            def inner(*_a):
-                calls.append(name); return value
+            def inner(*a, **k):
+                calls.append((name, k) if k else name); return value
             return inner
         with patch.object(nightly, 'stage_sync', fake('sync', {'status': 'failed', 'error': 'night clone not clean: 2 local commit(s) not on origin'})), \
              patch.object(nightly, 'stage_locks', fake('locks', {'status': 'ok'})), \
              patch.object(nightly, 'stage_importers', fake('importers', {'status': 'ok', 'due': [], 'results': []})), \
+             patch.object(nightly, 'stage_digest', fake('digest', {'status': 'ok'})), \
              patch.object(nightly, 'stage_mirror', fake('mirror', {'status': 'ok'})):
             buf = io.StringIO()
             with contextlib.redirect_stdout(buf):
                 code = nightly.run(self.root, dry_run=False, only=None)
         self.assertEqual(code, 1)
-        self.assertEqual(calls, ['sync'])
-        self.assertIn('sync failed, stopping: night clone not clean', buf.getvalue())
+        self.assertEqual(calls, ['sync', ('digest', {'push': False})])
+        self.assertIn('sync failed, sending the digest only: night clone not clean', buf.getvalue())
         receipt = json.loads((self.root/'.local/nightly'/self.date/'sync.json').read_text(encoding='utf-8'))
         self.assertEqual(receipt['status'], 'failed')
 
@@ -745,3 +747,130 @@ class PolicyStageOrderTests(unittest.TestCase):
               'policy_outcomes':result['outcomes']}
         text=nightly.render_digest_markdown(body)
         self.assertIn('## Held back by the publication policy',text);self.assertIn('catalog-b: deferred',text)
+
+
+class FreshCodeAfterSyncTests(unittest.TestCase):
+    """This process imports the scripts before sync moves them; the rest of the night runs on the new code."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+        self.date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+
+    def run_night(self, child):
+        calls = []
+        stub = lambda name, value: (lambda *a, **k: calls.append(name) or value)
+        with patch.object(nightly, 'stage_sync', stub('sync', {'status': 'ok', 'moved': True})), \
+             patch.object(nightly, 'stage_locks', stub('locks', {'status': 'ok'})), \
+             patch.object(nightly, 'stage_digest', stub('digest', {'status': 'ok'})), \
+             patch.object(nightly, 'spawn_after_sync', side_effect=child) as spawned:
+            with contextlib.redirect_stdout(io.StringIO()):
+                code = nightly.run(self.root, dry_run=False, only=None)
+        return code, calls, spawned
+
+    def test_a_sync_that_moved_the_scripts_hands_the_night_to_a_fresh_process(self):
+        def child(root, date, elapsed):
+            nightly.save(self.root/'.local/nightly'/self.date/'digest.json', {'stage': 'digest', 'status': 'ok', 'started_at': datetime.now(timezone.utc).isoformat()})
+            return 0
+        code, calls, spawned = self.run_night(child)
+        self.assertEqual((code, calls), (0, ['sync']), 'nothing after sync runs on the old code')
+        self.assertEqual(spawned.call_args.args[:2], (self.root, self.date))
+
+    def test_the_child_command_is_this_script_with_the_nights_date(self):
+        with patch.object(nightly.subprocess, 'run', return_value=SimpleNamespace(returncode=0)) as run:
+            nightly.spawn_after_sync(self.root, '2026-09-25', 42)
+        self.assertEqual(run.call_args.args[0][1:], [str(self.root/'scripts'/'nightly.py'), '--after-sync', '--elapsed', '42', '--date', '2026-09-25'])
+        with patch.object(nightly, 'run', return_value=0) as fake:
+            nightly.main(['--after-sync', '--elapsed', '42', '--date', '2026-09-25'])
+        fake.assert_called_once_with(nightly.ROOT, dry_run=False, only=None, resume_after_sync=True, elapsed=42, date='2026-09-25')
+
+    def test_if_the_fresh_process_dies_the_old_one_still_sends_the_digest(self):
+        code, calls, _ = self.run_night(lambda root, date, elapsed: 1)
+        self.assertEqual((code, calls), (1, ['sync', 'digest']))
+
+    def test_the_fresh_process_skips_sync_and_keeps_the_nights_deadlines(self):
+        calls = []
+        stub = lambda name: (lambda *a, **k: calls.append(name) or {'status': 'ok'})
+        budgets = []
+        with patch.object(nightly, 'stage_sync', stub('sync')), patch.object(nightly, 'stage_locks', stub('locks')), \
+             patch.object(nightly, 'stage_importers', stub('importers')), patch.object(nightly, 'stage_policy', stub('policy')), \
+             patch.object(nightly, 'stage_research', lambda r, b: budgets.append(b) or {'status': 'ok'}), \
+             patch.object(nightly, 'stage_health', stub('health')), patch.object(nightly, 'stage_prune', stub('prune')), \
+             patch.object(nightly, 'stage_digest', stub('digest')), patch.object(nightly, 'stage_mirror', stub('mirror')), \
+             patch.object(nightly, 'due_importers', return_value=[]), patch.object(nightly, 'validate_importers', return_value={}):
+            with contextlib.redirect_stdout(io.StringIO()):
+                code = nightly.run(self.root, dry_run=False, only=None, resume_after_sync=True, elapsed=3600, date='2026-09-25')
+        self.assertEqual(code, 0)
+        self.assertEqual(calls, ['locks', 'importers', 'policy', 'health', 'prune', 'digest', 'mirror'])
+        self.assertLess(budgets[0], nightly.TOTAL_CEILING_SECONDS-nightly.POST_STAGE_RESERVE_SECONDS-3500, 'the hour sync took is not given back')
+        self.assertTrue((self.root/'.local/nightly/2026-09-25/locks.json').exists(), 'the same night, not the child\'s own date')
+        self.assertFalse((self.root/'.local/nightly/2026-09-25/dashboard.json').exists())
+
+
+class StrandedCommitTests(unittest.TestCase):
+    """A push that failed one night must not stop every later night at sync."""
+    def git(self, log, ancestor=0):
+        def fake(root, *args, timeout=120):
+            if args[0] == 'log': return 0, log, ''
+            if args[0] == 'merge-base': return ancestor, '', ''
+            raise AssertionError(args)
+        return patch.object(nightly, 'git_out', side_effect=fake)
+
+    def test_the_nights_own_commits_are_pushed(self):
+        with self.git('research: daily ledger 2026-09-24T13:34Z\ncatalog: apply catalog-0123'), \
+             patch.object(nightly, 'push_origin', return_value={'pushed': True, 'attempts': 1, 'branch': 'main'}) as push:
+            self.assertEqual(nightly.push_own_commits(Path('.'))['commits'], 2)
+        push.assert_called_once()
+
+    def test_commits_this_clone_did_not_make_wait_for_a_person(self):
+        with self.git('research: daily ledger\nfix something by hand'), patch.object(nightly, 'push_origin') as push:
+            self.assertFalse(nightly.push_own_commits(Path('.'))['pushed'])
+        push.assert_not_called()
+        with self.git('research: daily ledger', ancestor=1), patch.object(nightly, 'push_origin') as push:
+            self.assertIn('origin moved', nightly.push_own_commits(Path('.'))['reason'])
+        push.assert_not_called()
+
+    def test_sync_pushes_then_levels_the_clone(self):
+        ff = [{'status': 'skipped', 'reason': '1 local commit(s) not on origin', 'branch': 'main'}, {'status': 'ok', 'moved': False}]
+        with patch.object(nightly, 'fast_forward', side_effect=ff), patch.object(nightly, 'push_own_commits', return_value={'pushed': True}):
+            result = nightly.stage_sync(Path('.'))
+        self.assertEqual(result['status'], 'ok');self.assertTrue(result['pushed_local_commits']['pushed'])
+        ff = [{'status': 'skipped', 'reason': '1 local commit(s) not on origin', 'branch': 'main'}]
+        with patch.object(nightly, 'fast_forward', side_effect=ff), patch.object(nightly, 'push_own_commits', return_value={'pushed': False, 'reason': 'local commits this clone did not make'}):
+            result = nightly.stage_sync(Path('.'))
+        self.assertEqual(result['status'], 'failed')
+
+
+class SameNightRevisionStageTests(unittest.TestCase):
+    """The policy stage settles the night's revisions before anything else publishes."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)
+
+    def stage(self, blocking):
+        import forecast_edition
+        calls = []
+        with patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': True}}), \
+             patch.object(nightly, 'lock_status', return_value={'blocking': blocking, 'pid': 7}), \
+             patch.object(forecast_edition, 'settle_revisions', side_effect=lambda root, auto, deadline: calls.append(('settle', auto)) or {'applied': [], 'cards': ['catalog-c'], 'withdrawn': [], 'outcomes': {}}), \
+             patch.object(pp, 'apply_admitted', side_effect=lambda *a, **k: calls.append('apply') or {'pending': 0, 'admitted': [], 'outcomes': {}}), \
+             patch.object(nightly, 'stage_validate_pending', return_value=([], [])), \
+             patch.object(cr, 'verify_pending_deployments', return_value={'checked': [], 'applied': [], 'still_pending': []}):
+            result = nightly.stage_policy(self.root)
+        return calls, result
+
+    def test_revisions_are_settled_before_the_policy_applies_anything(self):
+        calls, result = self.stage(False)
+        self.assertEqual(calls, [('settle', True), 'apply'])
+        self.assertEqual(result['revisions']['cards'], ['catalog-c'])
+
+    def test_a_held_editorial_lock_means_no_revision_goes_out_unattended(self):
+        calls, _ = self.stage(True)
+        self.assertEqual(calls, [('settle', False)])
+
+    def test_the_digest_lists_each_revision_and_what_became_of_it(self):
+        rows = [{'kind': 'applied', 'detail': 'catalog-a (deployed)', 'replaces': 'x', 'source': 'finance-x', 'line': '2027: 411.35 → 411.49'},
+                {'kind': 'card', 'detail': 'catalog-b (beyond 1.1x)', 'replaces': 'y', 'source': 'finance-y', 'line': '2027: 60 → 70'}]
+        body = {'date': '2026-09-25', 'stage_receipts': {}, 'applied': [], 'needs_decision': {}, 'site_changes': [], 'health': {},
+                'revisions': rows, 'revisions_withdrawn': ['catalog-w']}
+        text = nightly.render_digest_markdown(body)
+        self.assertIn('## Same-page revisions', text)
+        self.assertIn('- published: finance-x: 2027: 411.35 → 411.49', text)
+        self.assertIn('- for review: finance-y', text);self.assertIn('- withdrawn: catalog-w', text)

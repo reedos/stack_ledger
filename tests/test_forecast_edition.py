@@ -134,8 +134,9 @@ class ClassifyTests(unittest.TestCase):
     def test_a_page_that_changed_its_own_figure_is_a_revision(self):
         page=self.sources['fx-page'];r=rec('fx-consensus',2026,67.15,'fx-page')
         self.assertEqual(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Revenue estimate FY2026: 67.15'),'revision')
-        # The page still shows the old number: a misreading, not a revision.
-        self.assertIsNone(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Estimate 67.15, previously 67.14'))
+        # The page still shows the old number: still a revision, which settle_revisions hands to the
+        # owner instead of quarantining it where a misread figure on the site could never be put right.
+        self.assertEqual(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Estimate 67.15, previously 67.14'),'revision')
         self.assertIsNone(fe.classify(rec('fx-consensus',2026,67.14,'fx-page'),page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Estimate 67.14'))
         self.assertIsNone(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus']),'no document, no revision')
 
@@ -147,10 +148,10 @@ class ClassifyTests(unittest.TestCase):
         self.assertFalse(fe._shows('grew 180.0% this year',1.8),'no percent scaling')
 
     def test_a_page_printing_another_scale_still_shows_its_old_figure(self):
-        # The ledger stores 10,860 (TWD billion); the page prints 10.86T. Unchanged, so not a revision.
-        page=self.sources['fx-page'];incumbent=[dict(OBSERVATIONS[3],value=10860.0)]
-        r=rec('fx-consensus',2026,10900.0,'fx-page')
-        self.assertIsNone(fe.classify(r,page,incumbent,SOURCES,self.metrics['fx-consensus'],'Revenue This Year 10.86T; Avg 10.9T, High 11.3T'))
+        # The ledger stores 10,860 (TWD billion); the page prints 10.86T. The page still shows the old
+        # figure, so settle_revisions sends a reading of 10,900 to the owner, never out unattended.
+        doc='Revenue This Year 10.86T; Avg 10.9T, High 11.3T'
+        self.assertTrue(fe._shows(doc,10860.0))
         self.assertTrue(fe._shows('Revenue 42.68M this year',0.04268))
 
     def test_actuals_are_untouched(self):
@@ -329,214 +330,6 @@ class EditionPackageTests(Fixture):
         statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
         self.assertEqual(statuses[small[0]],'withdrawn')
 
-    def revision_hold(self,value,text='Consensus revenue estimate for FY2026 now stands at {v} billion.',metric='fx-consensus'):
-        doc=text.format(v=value);ledger=self.ledger()
-        import hashlib;r=dict(rec(metric,2026,value,'fx-page'),document_sha256=hashlib.sha256((doc*3).encode()).hexdigest())
-        held=[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})]
-        return fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,held,self.metrics,None,'revision',ledger)
-
-    def admitted(self,pid):
-        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
-        return eligible(catalog_review.package(self.root,pid),pol,registry,self.ledger())
-
-    def test_revisions_are_packaged_by_the_policy_stage_not_after_each_batch(self):
-        self.revision_hold(67.15)
-        self.assertEqual(fe.materialize(self.root),[],'a research batch leaves revisions for the night')
-        self.assertEqual(len(fe.materialize(self.root,revisions=True)),1)
-
-    def test_a_stale_revision_is_never_rebased_onto_a_newer_figure(self):
-        # Hold A (67.15) was read against 67.14; 67.20 was published meanwhile. A must not roll it back.
-        self.revision_hold(67.15)
-        ledger=self.ledger();o=next(o for o in ledger['observations'] if o['id']=='fx-consensus-2026')
-        newer=dict(o,id='fx-consensus-2026b',value=67.2);o['superseded_by']=newer['id'];newer['correction_of']=o['id'];newer['correction_reason']='Fixture.'
-        ledger['observations'].append(newer)
-        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        self.assertEqual(fe.materialize(self.root,revisions=True),[])
-        self.assertEqual(self.item()['status'],'obsolete')
-
-    def test_a_page_returning_to_an_earlier_value_is_a_new_revision_with_new_ids(self):
-        first=self.revision_hold(67.15);p=fe.materialize(self.root,revisions=True)[0]
-        self.apply(catalog_review.package(self.root,p))
-        second=self.revision_hold(67.14,text='Consensus revenue estimate for FY2026 is back at {v} billion today.')
-        self.assertEqual(len(second),1);self.assertNotEqual(first,second)
-        again=fe.materialize(self.root,revisions=True);self.assertEqual(len(again),1)
-        self.apply(catalog_review.package(self.root,again[0]))
-        validate.validate(self.ledger())  # no duplicate ids: each revision is pinned to what it replaced
-
-    def test_a_figure_another_file_cites_is_not_revised_automatically(self):
-        (self.root/'research/fixture-citation.json').write_text('{"measure": "fx-consensus-2026"}\n',encoding='utf-8')
-        self.revision_hold(67.15)
-        self.assertEqual(fe.materialize(self.root,revisions=True),[])
-        self.assertEqual(self.item()['status'],'needs_maintainer');self.assertIn('fixture-citation.json',self.item()['reason'])
-
-    def test_the_curated_caveat_travels_with_a_revised_figure(self):
-        ledger=self.ledger();next(o for o in ledger['observations'] if o['id']=='fx-consensus-2026')['note']='S&P consensus via a snapshot page; not company guidance.'
-        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        self.revision_hold(67.15);p=catalog_review.package(self.root,fe.materialize(self.root,revisions=True)[0])
-        new=next(c['after'] for c in p['changes'] if c['before'] is None)
-        self.assertEqual(new['note'],'S&P consensus via a snapshot page; not company guidance.')
-        self.assertTrue(self.admitted(p['id'])[0])
-
-    def test_of_two_readings_of_one_figure_the_newer_wins(self):
-        first=self.revision_hold(67.15);p1=fe.materialize(self.root,revisions=True)[0]
-        second=self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion instead.')
-        p2=fe.materialize(self.root,revisions=True)
-        self.assertEqual(len(p2),1)
-        statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
-        self.assertEqual(statuses[p1],'withdrawn','the older reading never publishes after the newer')
-        items={json.loads(f.read_text(encoding='utf-8'))['records'][0]['record']['value']:json.loads(f.read_text(encoding='utf-8'))['status']
-               for f in (self.root/'.local/review-candidates').glob('edition-*.json')}
-        self.assertEqual(items,{67.15:'obsolete',67.2:'packaged'})
-
-    def test_a_bundle_whose_preview_failed_is_split(self):
-        self.revision_hold(67.15)
-        ledger=self.ledger();g=next(o for o in ledger['observations'] if o['id']=='fx-guidance-2026');g['source']='fx-page'
-        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        doc='Guidance consensus for FY2026 is now 230 across analysts covering the company.'
-        import hashlib;r=dict(rec('fx-guidance-gw',2026,230,'fx-page'),document_sha256=hashlib.sha256((doc*3).encode()).hexdigest())
-        fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})],self.metrics,None,'revision',self.ledger())
-        bundle=fe.materialize(self.root,revisions=True);self.assertEqual(len(bundle),1)
-        with patch.object(fe,'_preview_failed',return_value='checkout-1'):
-            self.assertEqual(fe.materialize(self.root,revisions=True),[],'one failed preview is retried whole')
-        with patch.object(fe,'_preview_failed',return_value='checkout-2'):
-            split=fe.materialize(self.root,revisions=True)
-        self.assertEqual(len(split),2,'each revision proposed alone once the bundle failed its preview')
-        statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
-        self.assertEqual(statuses[bundle[0]],'withdrawn')
-        with patch.object(fe,'_preview_failed',return_value='checkout-3'):
-            self.assertEqual(fe.materialize(self.root,revisions=True),[],'a lone revision that fails stays for the owner')
-
-    def test_bundles_respect_the_package_size_limit(self):
-        built=[(None,{},[{'id':str(i)}]*8,{'id':'e'},['x']) for i in range(30)]  # 30 revisions of 4 figures each
-        groups=fe._bundle(built)
-        self.assertTrue(all(sum(len(x[2]) for x in g)<=100 for g in groups));self.assertEqual(len(groups),3)
-        self.assertEqual(sum(len(g) for g in groups),30)
-
-    def save_page(self,url,text):
-        # What the runner leaves behind after reading a page: the fetch state names its latest text.
-        import hashlib
-        from collection_health import Health
-        sha=hashlib.sha256(text.encode('utf-8')).hexdigest()
-        (self.root/'.local/evidence').mkdir(parents=True,exist_ok=True)
-        (self.root/'.local/evidence'/f'{sha}.json').write_text(json.dumps({'url':url,'text':text}),encoding='utf-8')
-        Health(self.root/'.local/fetch-state.json').put('page',url,{'text_sha256':sha})
-
-    def test_a_reading_the_page_has_since_moved_on_from_is_never_published(self):
-        self.revision_hold(67.15)
-        self.save_page(self.sources['fx-page']['url'],'Consensus revenue estimate for FY2026 is 67.14 billion again.')
-        self.assertEqual(fe.materialize(self.root,revisions=True),[])
-        self.assertEqual(self.item()['status'],'obsolete')
-
-    def test_a_partly_overlapping_older_reading_keeps_only_what_is_still_true(self):
-        # A (older) revised 2026 and 2027; B (newer) revised 2026 only. A may publish 2027, never its 2026.
-        ledger=self.ledger();ledger['observations'].append(curated('fx-consensus-2027','fx-consensus',2027,70.0,'fx-page'))
-        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        import hashlib
-        docA='FY2026 consensus 67.15 billion; FY2027 consensus 71.0 billion.'
-        a=[({'evidence':docA},dict(rec('fx-consensus',2026,67.15,'fx-page'),document_sha256=hashlib.sha256(docA.encode()).hexdigest()),{'index':0,'supported':True,'reason':'ok'}),
-           ({'evidence':docA},dict(rec('fx-consensus',2027,71.0,'fx-page'),document_sha256=hashlib.sha256(docA.encode()).hexdigest()),{'index':1,'supported':True,'reason':'ok'})]
-        fe.hold(self.root/'.local',self.sources['fx-page'],docA,a,self.metrics,None,'revision',self.ledger())
-        self.revision_hold(67.2,text='FY2026 consensus {v} billion; FY2027 consensus 71.0 billion.')
-        self.save_page(self.sources['fx-page']['url'],'FY2026 consensus 67.2 billion; FY2027 consensus 71.0 billion.')
-        packages=fe.materialize(self.root,revisions=True);self.assertEqual(len(packages),1)
-        p=catalog_review.package(self.root,packages[0])
-        added=sorted((c['after']['year'],c['after']['value']) for c in p['changes'] if c['before'] is None)
-        self.assertEqual(added,[(2026,67.2),(2027,71.0)],'the newer 2026 and the older reading\'s still-true 2027, once each')
-        self.assertTrue(self.admitted(p['id'])[0])
-
-    def test_a_lone_revision_whose_preview_failed_stays_for_the_owner(self):
-        self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]
-        with patch.object(fe,'_preview_failed',return_value='checkout-1'):
-            self.assertEqual(fe.materialize(self.root,revisions=True),[],'not a bundle: nothing to split, no churn')
-
-    def test_the_policy_can_take_back_its_own_approval(self):
-        self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]
-        from editorial_review import append_event
-        append_event(self.root,{'id':first,'kind':'catalog_change','status':'approved','reviewer':'publication-policy','at':'2026-09-22T10:00:00Z'})
-        self.assertTrue(fe.withdraw(self.root,first,'the page moved on before publication finished'))
-
-    def test_a_rejected_revision_is_never_trimmed_and_proposed_again(self):
-        ledger=self.ledger();ledger['observations'].append(curated('fx-consensus-2027','fx-consensus',2027,70.0,'fx-page'))
-        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        import hashlib
-        doc='FY2026 consensus 67.15 billion; FY2027 consensus 71.0 billion.'
-        rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
-              for i,(y,v) in enumerate([(2026,67.15),(2027,71.0)])]
-        fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger())
-        first=fe.materialize(self.root,revisions=True)[0]
-        from editorial_review import append_event
-        append_event(self.root,{'id':first,'kind':'catalog_change','status':'rejected','reviewer':'owner','at':'2026-09-22T10:00:00Z'})
-        self.save_page(self.sources['fx-page']['url'],'FY2026 consensus 67.3 billion; FY2027 consensus 71.0 billion.')
-        self.assertEqual(fe.materialize(self.root,revisions=True),[],'the owner rejected it; the runner does not bring 2027 back')
-
-    def test_a_revision_the_page_bounced_away_from_returns_when_the_page_does(self):
-        self.revision_hold(67.15)
-        self.save_page(self.sources['fx-page']['url'],'Consensus revenue estimate for FY2026 is 67.14 billion again.')
-        self.assertEqual(fe.materialize(self.root,revisions=True),[]);self.assertEqual(self.item()['status'],'obsolete')
-        self.save_page(self.sources['fx-page']['url'],'Consensus revenue estimate for FY2026 now stands at 67.15 billion.')
-        self.assertEqual(len(self.revision_hold(67.15)),1,'the same reading is raised again')
-        self.assertEqual(len(fe.materialize(self.root,revisions=True)),1)
-
-    def test_siblings_of_a_withdrawn_bundle_are_proposed_again_the_same_night(self):
-        self.revision_hold(67.15)
-        ledger=self.ledger();g=next(o for o in ledger['observations'] if o['id']=='fx-guidance-2026');g['source']='fx-page'
-        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        doc='Guidance consensus for FY2026 is now 230 across analysts covering the company.'
-        import hashlib;r=dict(rec('fx-guidance-gw',2026,230,'fx-page'),document_sha256=hashlib.sha256((doc*3).encode()).hexdigest())
-        fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})],self.metrics,None,'revision',self.ledger())
-        bundle=fe.materialize(self.root,revisions=True);self.assertEqual(len(bundle),1)
-        self.save_page(self.sources['fx-page']['url'],'Consensus FY2026 67.3 billion. Guidance consensus for FY2026 is now 230.')
-        again=fe.materialize(self.root,revisions=True)
-        self.assertEqual(len(again),1,'the 230 revision is proposed again at once, without the stale 67.15')
-        p=catalog_review.package(self.root,again[0])
-        self.assertEqual([c['after']['value'] for c in p['changes'] if c['before'] is None],[230])
-
-    def test_the_runner_never_withdraws_over_an_owner_approval(self):
-        self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]
-        from editorial_review import append_event
-        append_event(self.root,{'id':first,'kind':'catalog_change','status':'approved','reviewer':'owner','at':'2026-09-22T10:00:00Z'})
-        self.assertFalse(fe.withdraw(self.root,first,'stale'))
-
-    def test_an_ineligible_revision_gets_its_own_package_and_the_rest_still_go(self):
-        self.revision_hold(67.15)
-        doc='Guidance consensus for FY2026 is now 671.5 across analysts covering the company.'
-        held=[({'evidence':doc},rec('fx-guidance-gw',2026,671.5,'fx-page'),{'index':0,'supported':True,'reason':'ok'})]
-        ledger=self.ledger();g=next(o for o in ledger['observations'] if o['id']=='fx-guidance-2026');g['source']='fx-page'
-        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-        fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,held,self.metrics,None,'revision',self.ledger())
-        packages=fe.materialize(self.root,revisions=True);self.assertEqual(len(packages),2)
-        verdicts=sorted(self.admitted(p)[0] for p in packages)
-        self.assertEqual(verdicts,[False,True],'the 10x one waits for the owner; the other is admitted on its own')
-
-    def test_same_page_revisions_travel_in_one_package_the_policy_admits(self):
-        self.revision_hold(67.15)
-        packaged=fe.materialize(self.root,revisions=True);self.assertEqual(len(packaged),1)
-        p=catalog_review.package(self.root,packaged[0])
-        self.assertEqual(p['author'],fe.REVISION_AUTHOR)
-        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
-        ok,reasons=eligible(p,pol,registry,self.ledger())
-        self.assertTrue(ok,reasons)
-        projected=catalog_review.projected(p,catalog_review.base(self.root))['site/data/ledger.json']
-        by_id={o['id']:o for o in projected['observations']}
-        new=by_id[by_id['fx-consensus-2026']['superseded_by']]
-        self.assertEqual((new['value'],new['edition_supersedes']),(67.15,['fx-consensus-2026']))
-        self.assertIn('same address',new['correction_reason'])
-        validate.validate(projected)
-
-    def test_a_revision_beyond_the_ratio_or_changing_more_than_the_value_goes_to_the_owner(self):
-        self.revision_hold(671.5)  # a scale slip: ten times the old figure
-        p=catalog_review.package(self.root,fe.materialize(self.root,revisions=True)[0])
-        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
-        ok,reasons=eligible(p,pol,registry,self.ledger())
-        self.assertFalse(ok);self.assertIn('beyond',reasons[0])
-        tampered=copy.deepcopy(p);new=next(c for c in tampered['changes'] if c['before'] is None);new['after']['status']='company-commitment'
-        self.assertFalse(eligible(tampered,pol,registry,self.ledger())[0])
-        extra=copy.deepcopy(p);extra['changes'].append({'target':'observation','id':'fx-peak-2044','before':OBSERVATIONS[1],'after':dict(OBSERVATIONS[1],value=1),'evidence':['x']})
-        self.assertFalse(eligible(extra,pol,registry,self.ledger())[0])
-        forged=copy.deepcopy(p);forged['author']=fe.AUTHOR
-        self.assertFalse(eligible(forged,dict(pol,auto_apply=dict(pol['auto_apply'],authors=[fe.AUTHOR])),registry,self.ledger())[0],
-                         'an edition package is never auto-applied, even under a listed author')
-
     def test_a_failed_hold_is_counted_and_retried_only_when_the_files_change(self):
         self.hold()
         with patch.object(fe,'changes_for',side_effect=ValueError('Object changed since proposal')) as failing:
@@ -547,6 +340,340 @@ class EditionPackageTests(Fixture):
         (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         self.assertEqual(len(fe.materialize(self.root)),1,'retried and packaged once the files changed')
         self.assertEqual(fe.blocked(self.root),0)
+
+
+class RevisionTests(Fixture):
+    """Same-page revisions, settled once a night (forecast_edition.settle_revisions).
+
+    Each failure the 09/24/2026 review demonstrated on the old design has a test here, on fixture
+    figures: the fiscal-year slip, the stale reading whose number shows elsewhere, the apply step that
+    did not depend on the freshness check, the overridden Defer and rejection, the snapshot date."""
+    PAGE='Consensus revenue estimate for FY2026 now stands at {v} billion.'
+
+    def setUp(self):
+        super().setUp()
+        pol=json.loads((self.root/'research/publication-policy.json').read_text(encoding='utf-8'))
+        pol['auto_apply']['same_page_revisions']['sources'].append('fx-page')
+        (self.root/'research/publication-policy.json').write_text(json.dumps(pol,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        self.url=self.sources['fx-page']['url']
+
+    def write_ledger(self,ledger):
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+    def add_2027(self,value=70.0):
+        ledger=self.ledger();ledger['observations'].append(curated('fx-consensus-2027','fx-consensus',2027,value,'fx-page'));self.write_ledger(ledger)
+
+    def revision_hold(self,value,text=PAGE,year=2026,page=True):
+        """The runner's hold for one revised figure, and (page=True) the page text it saved."""
+        import hashlib
+        doc=text.format(v=value)
+        r=dict(rec('fx-consensus',year,value,'fx-page'),document_sha256=hashlib.sha256((doc*3).encode()).hexdigest())
+        held=fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})],self.metrics,None,'revision',self.ledger())
+        if page:self.save_page(doc*3)
+        return held
+
+    def save_page(self,text):
+        # What the runner leaves behind after reading a page: the fetch state names its latest text.
+        import hashlib
+        from collection_health import Health
+        sha=hashlib.sha256(text.encode('utf-8')).hexdigest()
+        (self.root/'.local/evidence').mkdir(parents=True,exist_ok=True)
+        (self.root/'.local/evidence'/f'{sha}.json').write_text(json.dumps({'url':self.url,'text':text}),encoding='utf-8')
+        Health(self.root/'.local/fetch-state.json').put('page',self.url,{'text_sha256':sha})
+
+    def holds(self):
+        return [json.loads(f.read_text(encoding='utf-8')) for f in sorted((self.root/'.local/review-candidates').glob('edition-*.json'))]
+
+    def item(self):
+        (only,)=self.holds();return only
+
+    def admitted(self,pid):
+        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
+        return eligible(catalog_review.package(self.root,pid),pol,registry,self.ledger())
+
+    def settle(self,auto=True,fail=None,**kw):
+        """settle_revisions with publication stubbed: the policy's own eligibility decides, and an
+        admitted package is written the way 'Approve and publish' writes it."""
+        import publication_policy
+        from editorial_review import append_event
+        def publish(root,pid,p=None):
+            ok,reasons=self.admitted(pid)
+            if not ok:raise ValueError('Not admitted by publication policy: '+reasons[0])
+            if fail:return fail(root,pid)
+            self.apply(catalog_review.package(root,pid))
+            append_event(root,{'id':pid,'kind':'catalog_change','status':'applied','reviewer':'publication-policy','at':fe._now()})
+            return {'status':'deployed'}
+        with patch.object(publication_policy,'auto_apply',side_effect=publish) as applying:
+            result=fe.settle_revisions(self.root,auto=auto,**kw)
+        self.applying=applying
+        return result
+
+    def value_on_site(self,year=2026):
+        return next(o['value'] for o in self.ledger()['observations'] if o['metric']=='fx-consensus' and o['year']==year and not o.get('superseded_by'))
+
+    def card(self,result):
+        (pid,)=result['cards'];p=catalog_review.package(self.root,pid)
+        self.assertEqual(p['author'],fe.REVIEW_AUTHOR)
+        self.assertFalse(self.admitted(pid)[0],'a card is never admitted by the policy')
+        return p
+
+    def test_a_research_batch_leaves_revisions_for_the_policy_stage(self):
+        self.revision_hold(67.15)
+        self.assertEqual(fe.materialize(self.root),[])
+        self.assertEqual(self.item()['status'],'ready')
+
+    def test_an_admissible_revision_is_published_the_night_it_is_read(self):
+        self.revision_hold(67.15)
+        result=self.settle()
+        self.assertEqual(len(result['applied']),1);self.assertEqual(result['cards'],[])
+        self.assertEqual(self.value_on_site(),67.15)
+        ledger=self.ledger();by_id={o['id']:o for o in ledger['observations']}
+        new=by_id[by_id['fx-consensus-2026']['superseded_by']]
+        self.assertEqual((new['edition_supersedes'],new['note']),(['fx-consensus-2026'],'Fixture.'),'the reviewed caveat travels')
+        self.assertIn('same address',new['correction_reason'])
+        page=next(s for s in ledger['sources'] if s['id']=='fx-page')
+        self.assertEqual(page['published'],'2026-09-22','the page is dated the day it was read, not the snapshot first registered')
+        validate.validate(ledger)
+        self.assertEqual((self.item()['status'],list(self.item()['outcomes'].values())[0].split(':')[0]),('settled','applied'))
+        self.assertEqual(fe.settle_revisions(self.root,auto=True)['applied'],[],'settled once')
+
+    def test_with_automatic_revisions_off_every_revision_is_a_card(self):
+        self.revision_hold(67.15)
+        p=self.card(self.settle(auto=False))
+        self.assertIn('automatic revisions are off',p['title'])
+        self.assertEqual(self.applying.call_count,0)
+        self.assertEqual(self.value_on_site(),67.14)
+        pol=json.loads((self.root/'research/publication-policy.json').read_text(encoding='utf-8'))
+        pol['auto_apply']['same_page_revisions']['enabled']=False
+        (self.root/'research/publication-policy.json').write_text(json.dumps(pol,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        self.revision_hold(67.16)
+        self.assertEqual(len(self.settle(auto=True)['cards']),1,'the policy switch off: a card even when the stage asks for auto')
+
+    def test_a_page_off_the_same_page_list_goes_to_the_owner(self):
+        pol=json.loads((self.root/'research/publication-policy.json').read_text(encoding='utf-8'))
+        pol['auto_apply']['same_page_revisions']['sources']=[s for s in pol['auto_apply']['same_page_revisions']['sources'] if s!='fx-page']
+        (self.root/'research/publication-policy.json').write_text(json.dumps(pol,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        self.revision_hold(67.15)
+        self.assertIn('not on the same-page list',self.card(self.settle())['title'])
+
+    def test_the_neighbouring_years_figure_is_never_published_as_this_years(self):
+        # s1: the page's Next Year figure read as This Year. Within 1.1x, but it is next year's number.
+        self.add_2027(70.0)
+        self.revision_hold(70.0,text='Revenue This Year 67.3B. Revenue Next Year {v}B.')
+        self.assertIn('as near this page',self.item_outcome_after_settle())
+        self.assertEqual(self.value_on_site(),67.14)
+
+    def test_a_reading_the_page_has_moved_on_from_is_dropped_even_if_its_number_shows_elsewhere(self):
+        # s4: read 67.15 one night; the page now says 67.20, and 67.15 appears in its history table.
+        self.revision_hold(67.15)
+        self.save_page('Consensus revenue estimate for FY2026 is 67.20 billion. FY2022 actual: 67.15 billion.')
+        result=self.settle()
+        self.assertEqual((result['applied'],result['cards']),([],[]))
+        self.assertEqual(self.item()['status'],'obsolete')
+
+    def test_a_page_whose_text_was_not_saved_goes_to_the_owner(self):
+        self.revision_hold(67.15,page=False)
+        self.assertIn('no saved text',self.card(self.settle())['title'])
+
+    def test_a_page_still_showing_the_old_figure_goes_to_the_owner(self):
+        self.revision_hold(67.15,text='Consensus revenue estimate for FY2026 is {v} billion, up from 67.14 billion.')
+        self.assertIn('still shows the old figure',self.card(self.settle())['title'])
+
+    def test_a_reading_from_an_earlier_night_goes_to_the_owner(self):
+        self.revision_hold(67.15)
+        path=next((self.root/'.local/review-candidates').glob('edition-*.json'));item=json.loads(path.read_text(encoding='utf-8'))
+        item['created_at']='2026-09-20T09:00:00Z';path.write_text(json.dumps(item),encoding='utf-8')
+        self.assertIn('earlier night',self.card(self.settle())['title'])
+
+    def test_a_move_beyond_the_ratio_goes_to_the_owner(self):
+        self.revision_hold(74.0)  # 1.102x
+        self.assertIn('beyond 1.1x',self.card(self.settle())['title'])
+
+    def test_a_note_with_a_date_or_figure_goes_to_the_owner(self):
+        ledger=self.ledger();next(o for o in ledger['observations'] if o['id']=='fx-consensus-2026')['note']='Snapshot of September 4, 2026.'
+        self.write_ledger(ledger)
+        self.revision_hold(67.15)
+        p=self.card(self.settle())
+        new=next(c['after'] for c in p['changes'] if c['target']=='observation' and c['before'] is None)
+        self.assertEqual(new['note'],'','the dated caveat is not carried onto a figure it no longer describes')
+
+    def test_a_dated_title_goes_to_the_owner(self):
+        registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
+        next(s for s in registry['sources'] if s['id']=='fx-page')['title']='Fixture consensus · September 3 dataset'
+        (self.root/'research/sources.json').write_text(json.dumps(registry,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        self.revision_hold(67.15)
+        self.assertIn('date in its title',self.item_outcome_after_settle())
+
+    def item_outcome_after_settle(self):
+        self.card(self.settle());return self.item()['outcomes']['fx-consensus-2026']
+
+    def test_a_forecast_the_page_no_longer_shows_keeps_its_date_off_the_page(self):
+        # The new date would vouch for 2027 too, which the page as last read does not show.
+        self.add_2027(70.0)
+        self.revision_hold(67.15)
+        self.assertIn('2027 figure',self.item_outcome_after_settle())
+
+    def test_one_page_travels_whole_with_its_date(self):
+        self.add_2027(70.0)
+        import hashlib
+        doc='FY2026 consensus 67.15 billion; FY2027 consensus 70.5 billion.'
+        rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
+              for i,(y,v) in enumerate([(2026,67.15),(2027,70.5)])]
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger());self.save_page(doc)
+        result=self.settle()
+        (pid,)=result['applied'];p=catalog_review.package(self.root,pid)
+        self.assertEqual(sorted(c['target'] for c in p['changes']),['observation']*4+['source'])
+        self.assertEqual(len({e['id'] for e in p['evidence']}),2,'each revised figure keeps its own quote')
+        self.assertEqual((self.value_on_site(2026),self.value_on_site(2027)),(67.15,70.5))
+
+    def test_the_owners_rejection_sticks_when_a_sibling_figure_changes(self):
+        self.add_2027(70.0)
+        self.revision_hold(67.15,text='FY2026 consensus {v} billion; FY2027 consensus 70.0 billion.')
+        (card,)=self.settle(auto=False)['cards']
+        from editorial_review import append_event
+        append_event(self.root,{'id':card,'kind':'catalog_change','status':'rejected','reviewer':'owner','at':fe._now()})
+        # The page moves 2027; the runner reads both figures again, 2026 still at the rejected 67.15.
+        import hashlib
+        doc='FY2026 consensus 67.15 billion; FY2027 consensus 70.5 billion.'
+        rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
+              for i,(y,v) in enumerate([(2026,67.15),(2027,70.5)])]
+        self.assertEqual(len(fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger())),1)
+        self.save_page(doc)
+        result=self.settle()
+        self.assertEqual(self.value_on_site(2026),67.14,'the rejected reading is not published')
+        self.assertTrue(result['outcomes']['fx-consensus-2026'].startswith('declined'))
+        self.assertTrue(result['outcomes']['fx-consensus-2027'].startswith(('applied','card')))
+
+    def test_a_failed_publication_is_withdrawn_and_handed_to_the_owner(self):
+        self.revision_hold(67.15)
+        def broken(root,pid):raise ValueError('Preview validation failed; left for human review')
+        result=self.settle(fail=broken)
+        self.assertEqual(result['applied'],[]);self.assertEqual(len(result['withdrawn']),1)
+        self.assertIn('automatic publication failed',self.card(result)['title'])
+        self.assertEqual(catalog_review.last_review(self.root,result['withdrawn'][0])['status'],'withdrawn')
+
+    def test_a_publication_that_committed_is_left_to_finish(self):
+        self.revision_hold(67.15)
+        def pushed_later(root,pid):
+            (root/'.local/review-candidates'/(pid+'-publication.json')).write_text(json.dumps({'commit':'c'*40,'status':'publication_failed'}),encoding='utf-8')
+            raise RuntimeError('push failed')
+        result=self.settle(fail=pushed_later)
+        self.assertEqual((result['cards'],result['withdrawn']),([],[]))
+        self.assertTrue(list(result['outcomes'].values())[0].startswith('publishing'))
+        self.assertEqual(self.item()['status'],'settled')
+
+    def test_past_the_deadline_revisions_go_to_the_owner(self):
+        import time
+        self.revision_hold(67.15)
+        self.assertIn('not enough time',self.card(self.settle(deadline=time.monotonic()-1))['title'])
+
+    def test_a_leftover_automatic_package_is_withdrawn_and_never_applied_by_the_policy(self):
+        self.revision_hold(67.15)
+        changes,evidence,_=fe.revision_changes(self.root,self.item(),self.ledger())
+        pid=catalog_review.enqueue(self.root,'Leftover',changes,[evidence],author=fe.REVISION_AUTHOR)['id']
+        import publication_policy
+        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
+        rows,admitted=publication_policy.admissions(self.root,pol,registry,self.ledger())
+        self.assertNotIn(pid,admitted,'apply_admitted and the CLI never publish a same-page revision')
+        path=self.root/'.local/review-candidates'/(pid+'.json');p=json.loads(path.read_text(encoding='utf-8'))
+        p['created_at']='2026-09-20T09:00:00Z';path.write_text(json.dumps(p),encoding='utf-8')
+        self.assertFalse(self.admitted(pid)[0],'published within the hour it is built or not at all')
+        result=self.settle()
+        self.assertEqual(result['withdrawn'],[pid])
+
+    def test_of_two_readings_of_one_figure_the_newer_wins(self):
+        self.revision_hold(67.15,page=False)
+        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion instead.')
+        result=self.settle()
+        self.assertEqual(len(result['applied']),1);self.assertEqual(self.value_on_site(),67.2)
+        self.assertEqual(sorted(h['status'] for h in self.holds()),['obsolete','settled'])
+
+    def test_a_stale_revision_is_never_rebased_onto_a_newer_figure(self):
+        # Read against 67.14; 67.20 was published meanwhile. The reading must not roll it back.
+        self.revision_hold(67.15)
+        ledger=self.ledger();o=next(o for o in ledger['observations'] if o['id']=='fx-consensus-2026')
+        newer=dict(o,id='fx-consensus-2026b',value=67.2);o['superseded_by']=newer['id'];newer['correction_of']=o['id'];newer['correction_reason']='Fixture.'
+        ledger['observations'].append(newer);self.write_ledger(ledger)
+        self.assertEqual(self.settle()['applied'],[])
+        self.assertEqual(self.item()['status'],'obsolete')
+
+    def test_a_page_returning_to_an_earlier_value_is_a_new_revision_with_new_ids(self):
+        first=self.revision_hold(67.15);self.settle()
+        second=self.revision_hold(67.14,text='Consensus revenue estimate for FY2026 is back at {v} billion today.')
+        self.assertEqual(len(second),1);self.assertNotEqual(first,second)
+        self.assertEqual(len(self.settle()['applied']),1)
+        self.assertEqual(self.value_on_site(),67.14)
+        validate.validate(self.ledger())  # no duplicate ids: each revision is pinned to what it replaced
+
+    def test_a_misread_figure_on_the_site_is_put_to_the_owner_by_the_next_correct_reading(self):
+        # The site holds a misread 70.0 for 2026 that the page also shows (as 2027). Until 09/24 the
+        # page's correct 67.15 was quarantined as a conflict for ever; now it reaches the owner.
+        ledger=self.ledger();next(o for o in ledger['observations'] if o['id']=='fx-consensus-2026')['value']=70.0;self.write_ledger(ledger)
+        page=self.sources['fx-page']
+        doc='Revenue This Year 67.15B. Revenue Next Year 70.0B.'
+        self.assertEqual(fe.classify(rec('fx-consensus',2026,67.15,'fx-page'),page,self.ledger()['observations'],self.ledger()['sources'],self.metrics['fx-consensus'],doc),'revision')
+        self.revision_hold(67.15,text='Revenue This Year {v}B. Revenue Next Year 70.0B.')
+        self.assertIn('still shows the old figure',self.card(self.settle())['title'])
+
+    def test_a_figure_another_file_cites_needs_a_maintainer(self):
+        (self.root/'research/fixture-citation.json').write_text('{"measure": "fx-consensus-2026"}\n',encoding='utf-8')
+        self.revision_hold(67.15)
+        self.assertEqual(self.settle()['applied'],[])
+        self.assertEqual(self.item()['status'],'needs_maintainer');self.assertIn('fixture-citation.json',self.item()['reason'])
+        self.assertEqual(fe.blocked(self.root),1)
+        (self.root/'research/fixture-citation.json').unlink()
+        self.assertEqual(len(self.revision_hold(67.15)),1,'the next reading of the page raises it again')
+        self.assertEqual(len(self.settle()['applied']),1)
+
+    def test_a_revision_the_page_bounced_away_from_returns_when_the_page_does(self):
+        self.revision_hold(67.15)
+        self.save_page('Consensus revenue estimate for FY2026 is 67.14 billion again.')
+        self.settle();self.assertEqual(self.item()['status'],'obsolete')
+        self.assertEqual(len(self.revision_hold(67.15)),1,'the same reading is raised again')
+        self.assertEqual(len(self.settle()['applied']),1)
+
+    def test_the_nights_report_reads_what_was_settled_from_the_holds(self):
+        self.revision_hold(67.15);self.settle()
+        (row,)=fe.settled_since(self.root,'2000-01-01T00:00:00Z')
+        self.assertEqual((row['kind'],row['source']),('applied','fx-page'))
+        self.assertIn('67.14',row['line']);self.assertIn('67.15',row['line'])
+        self.assertEqual(fe.settled_since(self.root,'2999-01-01T00:00:00Z'),[])
+
+    def test_bundles_respect_the_package_size_limit(self):
+        units=[[{'changes':[{}]*8}] for _ in range(30)]  # 30 pages, each 4 figures and a date change
+        groups=fe._bundle(units)
+        self.assertTrue(all(sum(len(x['changes'])+1 for unit in g for x in unit)<=100 for g in groups));self.assertEqual(len(groups),3)
+        self.assertEqual(sum(len(g) for g in groups),30)
+
+    def test_the_policy_refuses_what_a_revision_package_must_not_carry(self):
+        self.revision_hold(74.0)
+        p=catalog_review.package(self.root,self.settle(auto=False)['cards'][0])
+        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
+        import publication_policy
+        rule=pol['auto_apply']['same_page_revisions']
+        as_auto=dict(copy.deepcopy(p),author=fe.REVISION_AUTHOR)
+        ok,reasons=eligible(as_auto,pol,registry,self.ledger());self.assertFalse(ok);self.assertIn('beyond',reasons[0])
+        small=copy.deepcopy(as_auto)
+        for c in small['changes']:
+            if c['target']=='observation' and c['before'] is None:c['after']['value']=67.2
+        self.assertTrue(eligible(small,pol,registry,self.ledger())[0],'the same package within 1.1x is admitted')
+        tampered=copy.deepcopy(small);next(c for c in tampered['changes'] if c['target']=='observation' and c['before'] is None)['after']['status']='company-commitment'
+        self.assertFalse(eligible(tampered,pol,registry,self.ledger())[0])
+        extra=copy.deepcopy(small);extra['changes'].append({'target':'observation','id':'fx-peak-2044','before':OBSERVATIONS[1],'after':dict(OBSERVATIONS[1],value=1),'evidence':['x']})
+        self.assertFalse(eligible(extra,pol,registry,self.ledger())[0])
+        renamed=copy.deepcopy(small);next(c for c in renamed['changes'] if c['target']=='source')['after']['title']='Renamed'
+        self.assertFalse(eligible(renamed,pol,registry,self.ledger())[0],'only the date of the page may change')
+        backwards=copy.deepcopy(small);next(c for c in backwards['changes'] if c['target']=='source')['after']['published']='2026-09-01'
+        self.assertFalse(eligible(backwards,pol,registry,self.ledger())[0])
+        corrected=copy.deepcopy(small);retired=next(c for c in corrected['changes'] if c['target']=='observation' and c['before'] is not None)
+        retired['before']['correction_of']='x';retired['after']['correction_of']='x'
+        ok,reasons=publication_policy.same_page_revision(corrected,rule,self.ledger(),registry)
+        self.assertFalse(ok);self.assertIn('correction a person made',reasons[0])
+        forged=copy.deepcopy(small);forged['author']=fe.AUTHOR
+        self.assertFalse(eligible(forged,dict(pol,auto_apply=dict(pol['auto_apply'],authors=[fe.AUTHOR])),registry,self.ledger())[0],
+                         'an edition package is never auto-applied, even under a listed author')
+        stale=copy.deepcopy(small);stale['created_at']='2026-09-20T09:00:00Z'
+        self.assertFalse(eligible(stale,pol,registry,self.ledger())[0])
 
 
 class RunnerHoldTests(Fixture):
@@ -611,17 +738,23 @@ class RunnerHoldTests(Fixture):
         self.assertEqual((accepted,quarantine),([],[]))
         self.assertEqual(sorted(r['record']['year'] for h in holds for r in h['records']),[2026,2027])
 
-    def test_the_runner_holds_a_same_page_revision_and_leaves_a_misreading_as_a_conflict(self):
+    def test_the_runner_holds_a_same_page_revision(self):
         doc='Consensus revenue estimate for FY2026 now stands at 67.15 billion dollars across analysts.'
         accepted,quarantine,holds=self.extract('fx-page',[self.cand('fx-consensus',2026,67.15,'estimate for FY2026 now stands at 67.15 billion')],doc)
         self.assertEqual((accepted,quarantine),([],[]))
         self.assertEqual([(h['change'],h['records'][0]['record']['value']) for h in holds],[('revision',67.15)])
 
-    def test_a_page_still_showing_the_old_figure_is_a_conflict_not_a_revision(self):
+    def test_a_page_still_showing_the_old_figure_is_held_for_the_owner_not_quarantined(self):
         doc='Consensus revenue estimate for FY2026 is 67.15 billion, up from 67.14 billion last week.'
         accepted,quarantine,holds=self.extract('fx-page',[self.cand('fx-consensus',2026,67.15,'estimate for FY2026 is 67.15 billion')],doc)
-        self.assertEqual(holds,[])
-        self.assertEqual([q['reason'] for q in quarantine],['Conflicting metric/year requires reviewed correction'])
+        self.assertEqual((accepted,quarantine),([],[]))
+        self.assertEqual([(h['change'],h['records'][0]['record']['value']) for h in holds],[('revision',67.15)])
+
+    def test_a_pdf_that_seems_to_revise_itself_stays_a_conflict(self):
+        page=dict(self.sources['fx-page'],url='https://fixture.example/consensus/revenue.pdf')
+        doc='[Page 1]\nConsensus revenue estimate for FY2026 is 67.15 billion across analysts.'
+        r=rec('fx-consensus',2026,67.15,'fx-page')
+        self.assertIsNone(fe.classify(r,page,self.ledger()['observations'],self.ledger()['sources'],self.metrics['fx-consensus'],doc))
 
     def test_monitoring_cannot_publish_an_edition_link(self):
         head=self.ledger();after=copy.deepcopy(head)

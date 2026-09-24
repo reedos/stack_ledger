@@ -144,6 +144,61 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(c.last_review(self.root,p['id'])['status'],'approved')
         self.assertEqual(json.loads((c.queue(self.root)/(p['id']+'-publication.json')).read_text(encoding='utf-8'))['status'],'deployment_pending')
 
+    def receipt(self,p,**fields):
+        path=c.queue(self.root)/(p['id']+'-publication.json');c.save(path,dict(c.read(path),**fields))
+
+    def test_a_failed_push_whose_commit_reached_origin_anyway_is_verified(self):
+        # The night's sync pushes its own stranded commits; the receipt still says the push failed.
+        p=self.approve();self.receipt(p,status='publication_failed')
+        expected={Path(n).name:c.read(self.root/n) for n in ['site/data/ledger.json','site/data/delivery.json','site/data/ecosystem.json','site/data/expansion.json','site/data/source-books.json']}
+        def matching(url,timeout=10):return io.BytesIO(json.dumps(expected[url.split('/')[-1].split('?')[0]]).encode())
+        with patch.object(research,'ROOT',self.root),patch.object(research,'LOCAL',self.root/'.local'),patch.object(c,'urlopen',side_effect=matching):
+            with patch.object(c,'ancestor',return_value=False):
+                self.assertEqual(c.verify_pending_deployments(self.root)['checked'],[],'not on origin yet: nothing to verify')
+            with patch.object(c,'ancestor',return_value=True):
+                self.assertEqual(c.verify_pending_deployments(self.root)['applied'],[p['id']])
+
+    def publish(self,p,git_answers,**patches):
+        import contextlib
+        answers=dict({'branch':c.read(self.root/'research/runtime.json')['branch'],'remote':'https://github.com/'+c.read(self.root/'research/runtime.json')['repository'],
+                      'fetch':'','rev-parse':'h'*40},**git_answers)
+        pushed=[]
+        def git(root,*args):
+            if args[0]=='push':pushed.append(args);return ''
+            return answers[args[0]]
+        with contextlib.ExitStack() as stack:
+            for target,name,value in [(research,'ROOT',self.root),(research,'LOCAL',self.root/'.local'),(research,'lock',lambda:contextlib.nullcontext()),
+                                      (c.git_clean,'dirty_lines',lambda root:[]),(c,'git',git)]+[(c,k,v) for k,v in patches.items()]:
+                stack.enter_context(patch.object(target,name,value))
+            decision=c.last_review(self.root,p['id'])
+            return c.publish_package(self.root,p['id'],p,decision,'human'),pushed
+
+    def test_resuming_a_publication_whose_commit_is_on_origin_only_verifies_it(self):
+        # Until 09/24/2026 a resume required HEAD to be the publication commit, so a research
+        # commit made on top of it left the package failing every night while it was live.
+        p=self.approve();self.receipt(p,status='publication_failed')
+        receipt,pushed=self.publish(p,{},ancestor=lambda root,commit,ref:True,deployed=lambda root,config,commit:True)
+        self.assertEqual((receipt['status'],pushed),('deployed',[]))
+        self.assertEqual(c.last_review(self.root,p['id'])['status'],'applied')
+
+    def test_resuming_a_publication_not_yet_on_origin_pushes_only_its_own_commit(self):
+        p=self.approve();self.receipt(p,status='publication_failed')
+        with self.assertRaisesRegex(ValueError,'Repository changed after publication attempt'):
+            self.publish(p,{},ancestor=lambda root,commit,ref:False)
+        receipt,pushed=self.publish(p,{'rev-parse':'f'*40},ancestor=lambda root,commit,ref:False,deployed=lambda root,config,commit:True)
+        self.assertEqual((receipt['status'],len(pushed)),('deployed',1))
+
+    def test_a_failed_build_puts_the_tree_back(self):
+        import subprocess
+        p=self.approve();(c.queue(self.root)/(p['id']+'-publication.json')).unlink()
+        restored=[]
+        with patch.object(c,'check_base'),patch.object(c,'check_evidence'),patch.object(c,'preview',return_value={'passed':True}), \
+             patch.object(c.subprocess,'run',side_effect=subprocess.CalledProcessError(1,'validate.py')):
+            with self.assertRaises(subprocess.CalledProcessError):
+                self.publish(p,{},restore=lambda root:restored.append(root))
+        self.assertEqual(restored,[self.root])
+        self.assertFalse((c.queue(self.root)/(p['id']+'-publication.json')).exists(),'nothing was committed, so there is nothing to resume')
+
     def test_verify_pending_deployments_ignores_packages_without_a_pending_receipt(self):
         with patch.object(research,'ROOT',self.root):
             self.assertEqual(c.verify_pending_deployments(self.root),{'checked':[],'applied':[],'still_pending':[]})
@@ -163,6 +218,25 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(discovery.research_topic(self.root,policy,cursor),discovery.topic(policy,broad))
 
 if __name__=='__main__':unittest.main()
+
+
+class RestoreTests(unittest.TestCase):
+    """An uncommitted publication attempt leaves the clone as it found it (review finding, 09/24/2026)."""
+    def test_restore_undoes_written_staged_and_built_files_and_nothing_else(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);run=lambda *a:subprocess.run(['git',*a],cwd=root,check=True,capture_output=True)
+            run('init','-q');run('config','user.email','fixture@example.org');run('config','user.name','Fixture')
+            (root/'.gitignore').write_text('.local/\n',encoding='utf-8')
+            for rel in ['research/a.json','site/data/b.json']:(root/rel).parent.mkdir(parents=True,exist_ok=True);(root/rel).write_text('{}\n',encoding='utf-8')
+            run('add','-A');run('commit','-qm','base')
+            (root/'research/a.json').write_text('{"changed": true}\n',encoding='utf-8');run('add','research/a.json')
+            (root/'site/data/b.json').write_text('{"changed": true}\n',encoding='utf-8')
+            (root/'docs').mkdir();(root/'docs/new.html').write_text('x',encoding='utf-8')
+            (root/'.local').mkdir();(root/'.local/keep.json').write_text('{}',encoding='utf-8')
+            c.restore(root)
+            self.assertEqual(subprocess.run(['git','status','--porcelain'],cwd=root,capture_output=True,text=True).stdout,'')
+            self.assertTrue((root/'.local/keep.json').exists(),'ignored private files are never touched')
 
 
 class PreviewCheckRobustnessTests(unittest.TestCase):

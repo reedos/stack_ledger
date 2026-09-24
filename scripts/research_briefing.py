@@ -10,7 +10,8 @@ LABELS = {'locks': 'Preparation', 'importers': 'Dataset updates', 'research': 'R
           'policy': 'Publication', 'health': 'Checks', 'prune': 'Cleanup'}
 IMPORT_NAMES = {'sec':'U.S. company filings (SEC)', 'epoch':'Epoch AI datasets', 'eia':'U.S. energy data', 'bls':'U.S. employment data'}
 DECISIONS = {'catalog_packages_pending': 'catalog changes', 'forecast_editions_pending': 'forecast editions', 'forecast_editions_blocked': 'forecast editions that need a maintainer', 'discovery_findings_pending': 'findings',
-             'visual_recommendations_pending': 'visual recommendations', 'questions_pending': 'research questions'}
+             'visual_recommendations_pending': 'visual recommendations', 'questions_pending': 'research questions',
+             'revision_cards_pending': 'same-page revisions to review'}
 
 def read(path, default=None):
     try:
@@ -173,15 +174,25 @@ def snapshot(root, date='latest', body=None):
         'updated_at':datetime.now(timezone.utc).isoformat()}
 
 def revised_figures(root, applied):
-    """How many figures tonight's automatic same-page revision packages replaced on the site."""
-    count = 0
+    """Each figure tonight's automatic same-page revision packages replaced on the site, as
+    'metric period: old -> new', so the briefing says what changed rather than how many."""
+    ledger = read(root/'site/data/ledger.json', {}) or {}
+    titles = {m.get('id'): m.get('title') for m in ledger.get('metrics', [])}
+    rows = []
     for x in applied:
         if x.get('kind') != 'catalog_change':
             continue
         p = read(root/'.local/review-candidates'/(str(x.get('id'))+'.json'), {})
-        if isinstance(p, dict) and p.get('author') == 'Same-page revision (research runner)':
-            count += sum(1 for c in p.get('changes', []) if c.get('target') == 'observation' and c.get('before') is None)
-    return count
+        if not (isinstance(p, dict) and p.get('author') == 'Same-page revision (research runner)'):
+            continue
+        before = {c.get('id'): c.get('before') for c in p.get('changes', []) if c.get('target') == 'observation' and c.get('before')}
+        for c in p.get('changes', []):
+            new = c.get('after') or {}
+            if c.get('target') != 'observation' or c.get('before') is not None:
+                continue
+            old = before.get((new.get('edition_supersedes') or [None])[0]) or {}
+            rows.append(f"{titles.get(new.get('metric')) or new.get('metric')} {new.get('period')}: {old.get('value')} → {new.get('value')}")
+    return rows
 
 def compact(text, limit=200):
     value = ' '.join(str(text or '').split())
@@ -199,9 +210,13 @@ def render(data):
     imports = [IMPORT_NAMES.get(x['id'],x['id']) for x in data['applied'] if x.get('kind')=='import']
     if imports:
         lines.append('- Dataset updates: '+', '.join(imports)+'.')
-    revised = data.get('revised_figures', 0)
+    revised = data.get('revised_figures') or []
     if revised:
-        lines.append(f"- {revised} figure{'s' if revised!=1 else ''} on the site updated automatically because the page that gave {'them' if revised!=1 else 'it'} revised its own forecast (same-page revisions; each is listed in the night's report).")
+        n = len(revised)
+        lines.append(f"- {n} figure{'s' if n!=1 else ''} on the site updated automatically because the page that gave {'them' if n!=1 else 'it'} revised its own forecast:")
+        lines += [f"  - {compact(r, 160)}" for r in revised[:5]]
+        if n > 5:
+            lines.append(f"  - and {n-5} more, listed in the night's digest.")
     for h in data['highlights'][:3]:
         qualifier = 'Unconfirmed report' if h.get('grade') in ('C','D') else (h.get('kind') or 'Finding')
         if h.get('retracted'):
