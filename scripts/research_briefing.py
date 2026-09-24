@@ -179,9 +179,7 @@ def revised_figures(root, applied):
     ledger = read(root/'site/data/ledger.json', {}) or {}
     titles = {m.get('id'): m.get('title') for m in ledger.get('metrics', [])}
     rows = []
-    for x in applied:
-        if x.get('kind') != 'catalog_change':
-            continue
+    for x in {str(x.get('id')): x for x in applied if x.get('kind') in ('catalog_change', 'deployment_confirmed')}.values():
         p = read(root/'.local/review-candidates'/(str(x.get('id'))+'.json'), {})
         if not (isinstance(p, dict) and p.get('author') == 'Same-page revision (research runner)'):
             continue

@@ -786,6 +786,11 @@ class FreshCodeAfterSyncTests(unittest.TestCase):
         code, calls, _ = self.run_night(lambda root, date, elapsed: 1)
         self.assertEqual((code, calls), (1, ['sync', 'digest']))
 
+    def test_if_the_fresh_process_cannot_start_the_digest_still_goes_out(self):
+        def fail(root, date, elapsed): raise OSError('no python')
+        code, calls, _ = self.run_night(fail)
+        self.assertEqual((code, calls), (1, ['sync', 'digest']))
+
     def test_the_fresh_process_skips_sync_and_keeps_the_nights_deadlines(self):
         calls = []
         stub = lambda name: (lambda *a, **k: calls.append(name) or {'status': 'ok'})
@@ -815,9 +820,9 @@ class StrandedCommitTests(unittest.TestCase):
         return patch.object(nightly, 'git_out', side_effect=fake)
 
     def test_the_nights_own_commits_are_pushed(self):
-        with self.git('research: daily ledger 2026-09-24T13:34Z\ncatalog: apply catalog-0123'), \
+        with self.git('research: daily ledger 2026-09-24T13:34Z\ncatalog: apply catalog-0123\nnightly(import:epoch-data-centers): refresh'), \
              patch.object(nightly, 'push_origin', return_value={'pushed': True, 'attempts': 1, 'branch': 'main'}) as push:
-            self.assertEqual(nightly.push_own_commits(Path('.'))['commits'], 2)
+            self.assertEqual(nightly.push_own_commits(Path('.'))['commits'], 3)
         push.assert_called_once()
 
     def test_commits_this_clone_did_not_make_wait_for_a_person(self):

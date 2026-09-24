@@ -79,6 +79,8 @@ class BriefingTests(unittest.TestCase):
         text=brief.render(data)
         self.assertIn('2 figures on the site updated automatically',text)
         self.assertIn('revenue-fixture-forecast FY2027 · analyst consensus: 411.35 → 411.49',text,'the briefing says what changed, not only how many')
+        confirmed=brief.snapshot(self.root,self.date,body={'applied':[{'kind':'deployment_confirmed','id':'catalog-'+'a'*24}]})
+        self.assertIn('2 figures on the site updated automatically',brief.render(confirmed),'one confirmed live on a later night is named then')
 
     def test_missing_is_not_zero_or_completed(self):
         data=brief.snapshot(self.root,self.date)

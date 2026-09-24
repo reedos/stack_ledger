@@ -199,6 +199,21 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(restored,[self.root])
         self.assertFalse((c.queue(self.root)/(p['id']+'-publication.json')).exists(),'nothing was committed, so there is nothing to resume')
 
+    def test_a_decision_recorded_while_publishing_stands(self):
+        import subprocess
+        from editorial_review import append_event
+        p=self.approve();(c.queue(self.root)/(p['id']+'-publication.json')).unlink()
+        def build(command,**kw):
+            # The owner rejects while validate/build run.
+            if 'build.py' in command[-1]:append_event(self.root,{'id':p['id'],'kind':'catalog_change','status':'rejected','reviewer':'human','at':c.now()})
+            return subprocess.CompletedProcess(command,0)
+        restored=[]
+        with patch.object(c,'check_base'),patch.object(c,'check_evidence'),patch.object(c,'preview',return_value={'passed':True}), \
+             patch.object(c.subprocess,'run',side_effect=build):
+            with self.assertRaisesRegex(ValueError,'decision on this package changed'):
+                self.publish(p,{'diff':'research/delivery.json','ls-files':''},restore=lambda root:restored.append(root))
+        self.assertEqual(restored,[self.root]);self.assertEqual(c.last_review(self.root,p['id'])['status'],'rejected')
+
     def test_verify_pending_deployments_ignores_packages_without_a_pending_receipt(self):
         with patch.object(research,'ROOT',self.root):
             self.assertEqual(c.verify_pending_deployments(self.root),{'checked':[],'applied':[],'still_pending':[]})

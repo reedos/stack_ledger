@@ -88,8 +88,9 @@ def fast_forward(root):
     return {'status': 'ok', 'branch': branch, 'before': before[:12], 'after': after[:12], 'moved': before != after}
 
 
-# What this clone's own publish paths commit (research.publish, catalog_review.publish_package).
-NIGHT_COMMITS = ('research: ', 'catalog: apply ')
+# What this clone's own publish paths commit (research.publish, catalog_review.publish_package,
+# stage_importers).
+NIGHT_COMMITS = ('research: ', 'catalog: apply ', 'nightly(import:')
 
 
 def push_own_commits(root):
@@ -816,7 +817,9 @@ def stage_digest(root, date, push=True):
         revisions = forecast_edition.settled_since(root, (datetime.now(timezone.utc)-timedelta(hours=20)).isoformat(timespec='seconds').replace('+00:00', 'Z'))
     except Exception as e:
         revisions = [{'kind': 'needs_maintainer', 'detail': f'revision report failed: {type(e).__name__}', 'replaces': '', 'source': '', 'line': ''}]
-    for pid in dict.fromkeys(r['detail'].split(' ', 1)[0] for r in revisions if r['kind'] == 'applied'):
+    # Listed once, the night the live site shows them: one still deploying arrives through
+    # deployment_verification on a later night.
+    for pid in dict.fromkeys(r['detail'].split(' ', 1)[0] for r in revisions if r['kind'] == 'applied' and r['detail'].endswith('(deployed)')):
         applied.append({'kind': 'catalog_change', 'id': pid, 'outcome': 'same-page revision'})
     health = receipts.get('health') or {}
     body = {'date': date, 'applied': applied, 'needs_decision': health.get('pending_decisions') or {},
@@ -921,7 +924,11 @@ def after_sync(root, date, receipts, job_start):
     The child gets the same date and deadlines and prints to the same supervisor. If it dies before
     its digest, this process sends one, so the night never goes unreported."""
     started = datetime.now(timezone.utc).isoformat()
-    code = spawn_after_sync(root, date, int(time.monotonic()-job_start))
+    try:
+        code = spawn_after_sync(root, date, int(time.monotonic()-job_start))
+    except Exception as e:  # could not even start it: the digest below still goes out
+        print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: could not start the after-sync process: {type(e).__name__}", flush=True)
+        code = 1
     digest = load_receipt(root, date, 'digest') or {}
     if digest.get('started_at', '') < started:
         print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: the after-sync process exited {code} without a digest; sending one", flush=True)

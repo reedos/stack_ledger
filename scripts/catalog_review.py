@@ -294,7 +294,17 @@ def publish_package(root,rid,p,decision,reviewer,identity=None):
                         subprocess.run(command,cwd=root,check=True,capture_output=True,timeout=120)
                     changed=git(root,'diff','--name-only').splitlines()+git(root,'ls-files','--others','--exclude-standard').splitlines()
                     require(changed and all(x in changes or x.startswith('docs/') for x in changed),'Unexpected catalog build changes')
-                    git(root,'add','--',*changed);git(root,'commit','-m','catalog: apply '+rid)
+                    # The preview, validation and build take minutes: a Reject or Defer the owner
+                    # recorded meanwhile stands. Checked and committed under the lock review() writes with.
+                    for attempt in range(40):
+                        try:
+                            with locked(root):
+                                require(last_review(root,rid)==decision,'The decision on this package changed while it was being published')
+                                git(root,'add','--',*changed);git(root,'commit','-m','catalog: apply '+rid)
+                            break
+                        except FileExistsError:
+                            if attempt==39:raise
+                            time.sleep(0.5)
                 except BaseException:
                     # Nothing was committed. The tree was clean when this began: put it back, or every
                     # later publish and the next night's sync refuse the clone (review finding, 09/24/2026).

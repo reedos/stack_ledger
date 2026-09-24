@@ -78,16 +78,24 @@ def same_source_relabel(before,after):
 DATED=re.compile(r'(?i)\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d')
 
 
-def _nearer_neighbour(new,old,ledger):
-    """Another current figure this page gives for the same metric that the new value is at least as
-    near as the figure it replaces, or None: the neighbouring column misread (a consensus page's
-    This Year and Next Year), not a revision."""
+YEAR=re.compile(r'(?<!\d)(19|20)\d\d(?!\d)')
+
+
+def _column_slip(new,old,ledger,siblings=()):
+    """Why the new value could be a neighbouring column misread (a consensus page's This Year and
+    Next Year) rather than a revision, or None. It is compared with the page's other current figures
+    for the metric and with the other figures this package reads from the page; when there is
+    nothing to compare it with, a slip cannot be ruled out, so the owner decides (review finding,
+    09/24/2026: a first reading of a metric's second year had nothing on file to be checked against)."""
     v,w=new.get('value'),old.get('value')
-    if not (isinstance(v,(int,float)) and isinstance(w,(int,float)) and v>0 and w>0):return None
+    if not (isinstance(v,(int,float)) and isinstance(w,(int,float)) and v>0 and w>0):return 'its value cannot be compared with the one it replaces'
+    others=[o for o in ledger.get('observations',[]) if o.get('metric')==old.get('metric') and o.get('source')==old.get('source')
+            and o.get('id')!=old.get('id') and not o.get('superseded_by')]+[s for s in siblings if s.get('metric')==old.get('metric')]
+    others=[o for o in others if isinstance(o.get('value'),(int,float)) and o['value']>0]
+    if not others:return 'the page gives no other figure for this metric, so a column slip cannot be ruled out'
     d=abs(math.log(v/w))
-    return next((o for o in ledger.get('observations',[]) if o.get('metric')==old.get('metric') and o.get('source')==old.get('source')
-                 and o.get('id')!=old.get('id') and not o.get('superseded_by') and isinstance(o.get('value'),(int,float))
-                 and o['value']>0 and abs(math.log(v/o['value']))<=d),None)
+    near=next((o for o in others if abs(math.log(v/o['value']))<=d),None)
+    return f"{v} is as near this page's {near.get('period') or near.get('year')} figure as the one it replaces" if near else None
 
 
 def same_page_revision(package,rule,ledger=None,registry=None):
@@ -130,8 +138,8 @@ def same_page_revision(package,rule,ledger=None,registry=None):
             if a_ is None:continue
             if not (isinstance(a_,(int,float)) and isinstance(b_,(int,float)) and a_>0 and b_>0 and max(a_,b_)/min(a_,b_)<=rule['max_ratio']):
                 return False,[f"record {nid}: {key} moved from {a_} to {b_}, beyond {rule['max_ratio']}x; the owner reviews it"]
-        near=_nearer_neighbour(new,old,ledger) if ledger is not None else None
-        if near:return False,[f"record {nid}: {new['value']} is as near this page's {near.get('period') or near.get('year')} figure as the one it replaces; the owner reviews it"]
+        slip=_column_slip(new,old,ledger,[a for k,a in added.items() if k!=nid]) if ledger is not None else 'no ledger to check a column slip against'
+        if slip:return False,[f'record {nid}: {slip}; the owner reviews it']
     if claimed!=set(retired):return False,['every retired figure must be replaced in the same package']
     pages={new['source'] for new in added.values()}
     for sid,c in dated.items():
@@ -143,7 +151,7 @@ def same_page_revision(package,rule,ledger=None,registry=None):
     for sid in pages:
         s=dated[sid]['after'] if sid in dated else next((x for x in (registry or {}).get('sources',[]) if x.get('id')==sid),None)
         if s is None:return False,[f'source {sid} is not registered']
-        if DATED.search(s.get('title') or ''):return False,[f'source {sid} carries a date in its title that a revised figure would make false']
+        if DATED.search(s.get('title') or '') or YEAR.search(s.get('title') or ''):return False,[f'source {sid} carries a date in its title that a revised figure would make false']
     return True,[f"same-page revision: {len(added)} figure{'s' if len(added)!=1 else ''} updated by their own publishers, each within {rule['max_ratio']}x"]
 
 

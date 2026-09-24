@@ -348,7 +348,8 @@ class RevisionTests(Fixture):
     Each failure the 09/24/2026 review demonstrated on the old design has a test here, on fixture
     figures: the fiscal-year slip, the stale reading whose number shows elsewhere, the apply step that
     did not depend on the freshness check, the overridden Defer and rejection, the snapshot date."""
-    PAGE='Consensus revenue estimate for FY2026 now stands at {v} billion.'
+    # The page gives two years, as the consensus pages do: a column slip needs a neighbour to be caught.
+    PAGE='Consensus revenue estimate for FY2026 now stands at {v} billion; FY2027 at 70.0 billion.'
 
     def setUp(self):
         super().setUp()
@@ -356,12 +357,14 @@ class RevisionTests(Fixture):
         pol['auto_apply']['same_page_revisions']['sources'].append('fx-page')
         (self.root/'research/publication-policy.json').write_text(json.dumps(pol,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         self.url=self.sources['fx-page']['url']
+        self.add_2027(70.0)
 
     def write_ledger(self,ledger):
         (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 
     def add_2027(self,value=70.0):
-        ledger=self.ledger();ledger['observations'].append(curated('fx-consensus-2027','fx-consensus',2027,value,'fx-page'));self.write_ledger(ledger)
+        ledger=self.ledger();ledger['observations']=[o for o in ledger['observations'] if o['id']!='fx-consensus-2027']
+        ledger['observations'].append(curated('fx-consensus-2027','fx-consensus',2027,value,'fx-page'));self.write_ledger(ledger)
 
     def revision_hold(self,value,text=PAGE,year=2026,page=True):
         """The runner's hold for one revised figure, and (page=True) the page text it saved."""
@@ -509,8 +512,7 @@ class RevisionTests(Fixture):
 
     def test_a_forecast_the_page_no_longer_shows_keeps_its_date_off_the_page(self):
         # The new date would vouch for 2027 too, which the page as last read does not show.
-        self.add_2027(70.0)
-        self.revision_hold(67.15)
+        self.revision_hold(67.15,text='Consensus revenue estimate for FY2026 now stands at {v} billion.')
         self.assertIn('2027 figure',self.item_outcome_after_settle())
 
     def test_one_page_travels_whole_with_its_date(self):
@@ -583,7 +585,7 @@ class RevisionTests(Fixture):
 
     def test_of_two_readings_of_one_figure_the_newer_wins(self):
         self.revision_hold(67.15,page=False)
-        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion instead.')
+        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion instead; FY2027 at 70.0 billion.')
         result=self.settle()
         self.assertEqual(len(result['applied']),1);self.assertEqual(self.value_on_site(),67.2)
         self.assertEqual(sorted(h['status'] for h in self.holds()),['obsolete','settled'])
@@ -599,7 +601,7 @@ class RevisionTests(Fixture):
 
     def test_a_page_returning_to_an_earlier_value_is_a_new_revision_with_new_ids(self):
         first=self.revision_hold(67.15);self.settle()
-        second=self.revision_hold(67.14,text='Consensus revenue estimate for FY2026 is back at {v} billion today.')
+        second=self.revision_hold(67.14,text='Consensus revenue estimate for FY2026 is back at {v} billion today; FY2027 at 70.0 billion.')
         self.assertEqual(len(second),1);self.assertNotEqual(first,second)
         self.assertEqual(len(self.settle()['applied']),1)
         self.assertEqual(self.value_on_site(),67.14)
@@ -631,6 +633,64 @@ class RevisionTests(Fixture):
         self.settle();self.assertEqual(self.item()['status'],'obsolete')
         self.assertEqual(len(self.revision_hold(67.15)),1,'the same reading is raised again')
         self.assertEqual(len(self.settle()['applied']),1)
+
+    def test_a_figure_with_no_neighbour_on_the_page_goes_to_the_owner(self):
+        # The FY slip with nothing on file to catch it: the page's first reading of a second year.
+        ledger=self.ledger();ledger['observations']=[o for o in ledger['observations'] if o['id']!='fx-consensus-2027'];self.write_ledger(ledger)
+        self.revision_hold(70.0,text='Revenue This Year 67.3B. Revenue Next Year {v}B.')
+        self.assertIn('column slip cannot be ruled out',self.item_outcome_after_settle())
+        self.assertEqual(self.value_on_site(),67.14)
+
+    def test_a_card_an_older_reading_left_is_withdrawn_when_a_newer_one_settles_the_figure(self):
+        self.revision_hold(67.15)
+        (old_card,)=self.settle(auto=False)['cards']
+        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion; FY2027 at 70.0 billion.')
+        self.settle()
+        self.assertEqual(self.value_on_site(),67.2)
+        self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn','approving the stale card could only roll the figure back')
+
+    def test_a_deferred_card_is_left_to_the_owner_even_when_a_newer_reading_arrives(self):
+        self.revision_hold(67.15)
+        (old_card,)=self.settle(auto=False)['cards']
+        from editorial_review import append_event
+        append_event(self.root,{'id':old_card,'kind':'catalog_change','status':'deferred','reviewer':'owner','at':fe._now()})
+        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion; FY2027 at 70.0 billion.')
+        self.settle()
+        self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'deferred')
+
+    def leftover(self,**review):
+        self.revision_hold(67.15)
+        changes,evidence,_=fe.revision_changes(self.root,self.item(),self.ledger())
+        pid=catalog_review.enqueue(self.root,'Leftover',changes,[evidence],author=fe.REVISION_AUTHOR)['id']
+        path=self.root/'.local/review-candidates'/(pid+'.json');p=json.loads(path.read_text(encoding='utf-8'))
+        p['created_at']='2026-09-20T09:00:00Z';path.write_text(json.dumps(p),encoding='utf-8')
+        if review:
+            from editorial_review import append_event
+            append_event(self.root,dict({'id':pid,'kind':'catalog_change','at':fe._now()},**review))
+        return pid
+
+    def test_a_leftover_the_owner_deferred_is_not_withdrawn(self):
+        pid=self.leftover(status='deferred',reviewer='owner')
+        self.assertNotIn(pid,self.settle()['withdrawn'])
+        self.assertEqual(catalog_review.last_review(self.root,pid)['status'],'deferred')
+
+    def test_a_leftover_that_was_committed_before_its_receipt_is_finished_not_withdrawn(self):
+        pid=self.leftover(status='approved',reviewer='publication-policy')
+        with patch.object(fe,'_committed',return_value='c'*40):
+            result=self.settle()
+        self.assertNotIn(pid,result['withdrawn'])
+        receipt=json.loads((self.root/'.local/review-candidates'/(pid+'-publication.json')).read_text(encoding='utf-8'))
+        self.assertEqual((receipt['commit'],receipt['status']),('c'*40,'committed'),'verify_pending_deployments finishes it')
+
+    def test_a_failure_after_publishing_still_records_what_was_published(self):
+        self.revision_hold(67.15)
+        (old_card,)=self.settle(auto=False)['cards']
+        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion; FY2027 at 70.0 billion.')
+        with patch.object(fe,'withdraw',side_effect=RuntimeError('disk full')):
+            with self.assertRaises(RuntimeError):self.settle()
+        self.assertEqual(self.value_on_site(),67.2)
+        newest=max(self.holds(),key=lambda h:h['created_at']+str(h['held_ns']))
+        self.assertTrue(newest['outcomes']['fx-consensus-2026'].startswith('applied'),'the published reading is still on the night\'s report')
 
     def test_the_nights_report_reads_what_was_settled_from_the_holds(self):
         self.revision_hold(67.15);self.settle()

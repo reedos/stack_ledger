@@ -487,15 +487,18 @@ def _base_key(docs):
     return _digest({k: _digest(v) for k, v in docs.items()})
 
 
-def withdraw(root, package_id, reason):
+def withdraw(root, package_id, reason, keep_deferred=False):
     """Take a runner package off the owner's list once it can no longer apply. A bookkeeping event,
     not a decision: it approves nothing and publishes nothing, and it never overrides the owner, whose
-    rejection or approval recorded meanwhile is re-read under the same lock the panel writes with."""
+    rejection or approval recorded meanwhile is re-read under the same lock the panel writes with.
+    keep_deferred leaves a package the owner deferred alone too: materialize takes back a deferred
+    edition only because the files moved under it and it can no longer apply."""
     from catalog_review import last_review
     from editorial_review import append_event, locked
     with locked(root):
         review = last_review(root, package_id)
         if review and (review.get('status') in ('rejected', 'withdrawn', 'applied')
+                       or (keep_deferred and review.get('status') == 'deferred')
                        or (review.get('status') == 'approved' and review.get('reviewer') != POLICY_REVIEWER)):
             return False  # a person's decision stands; the policy's own approval may be taken back
         append_event(root, {'id': package_id, 'kind': 'catalog_change', 'status': 'withdrawn', 'reviewer': RUNNER,
@@ -689,6 +692,20 @@ def _card_title(readings, registry):
     return clean(f"{len(readings)} same-page revisions to review from {s.get('title', readings[0]['source'])} ({whys})", 200)
 
 
+def _committed(root, package_id):
+    """The commit that published this package, if HEAD's history has one: a kill between the commit
+    and its receipt leaves a live package that looks unpublished."""
+    import subprocess
+    try:
+        r = subprocess.run(['git', 'log', '-1', '--format=%H', '--fixed-strings', f'--grep=catalog: apply {package_id}', 'HEAD'],
+                           cwd=root, capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if r.returncode != 0:
+        return None
+    return r.stdout.strip() or None
+
+
 def settle_revisions(root, auto=False, deadline=None):
     """Settle the night's same-page revisions, once, in the nightly policy stage.
 
@@ -697,9 +714,10 @@ def settle_revisions(root, auto=False, deadline=None):
     outlives it. Per site figure only the newest reading counts, and only while the page as last
     read still carries its quote (a page whose text was not saved gives nothing to publish
     unattended). See _for_the_owner for what may go out unattended; the rest reach the owner as one
-    card per page. A package that cannot publish is withdrawn and handed to the owner whole, never
-    split or retried on a later night. `deadline` is a time.monotonic() after which nothing new is
-    published."""
+    card per page, and a card an older reading left for the same figure is withdrawn. A package that
+    cannot publish is withdrawn and handed to the owner whole, never split or retried on a later
+    night. `deadline` is a time.monotonic() after which nothing new is published. The holds are
+    saved whatever happens, so a reading published before a failure is still reported."""
     from catalog_review import base, enqueue
     from editorial_review import events, queue
     from evidence_text import fold
@@ -716,24 +734,44 @@ def settle_revisions(root, auto=False, deadline=None):
             continue
         if isinstance(pkg, dict) and pkg.get('author') in (REVISION_AUTHOR, REVIEW_AUTHOR):
             packages[path.stem] = pkg
+
+    def take_back(pid, reason):
+        """withdraw, never over a person's decision (Defer included), and never fatal to the night."""
+        try:
+            if withdraw(root, pid, reason, keep_deferred=True):
+                result['withdrawn'].append(pid)
+        except (OSError, ValueError):
+            pass  # FileExistsError included: a busy lock leaves the package for the next night
+
     # A crash can leave an automatic package behind. The policy admits one only within the hour it
     # was built and apply_admitted never runs one, so it could only wait: take it off the list. A
-    # committed one is finished by verify_pending_deployments; a person's decision stands.
+    # committed one is finished by verify_pending_deployments (its receipt is written here if the
+    # kill came between the commit and the receipt); a person's decision stands.
     for pid, pkg in packages.items():
         if pkg['author'] != REVISION_AUTHOR or pkg.get('created_at', '') > _ago(3600) \
                 or (queue(root)/(pid+'-publication.json')).exists() \
-                or (reviews.get(pid) or {}).get('status') in ('withdrawn', 'rejected', 'applied'):
+                or (reviews.get(pid) or {}).get('status') in ('withdrawn', 'rejected', 'applied', 'deferred'):
             continue
-        if withdraw(root, pid, 'An automatic revision not published the night it was read.'):
-            result['withdrawn'].append(pid)
-    # What the owner rejected stays rejected, whichever hold brings the same reading back.
-    declined = {}
+        commit = _committed(root, pid)
+        if commit:
+            from catalog_review import digest
+            _save(queue(root)/(pid+'-publication.json'), {'commit': commit, 'proposal_hash': digest(pkg), 'status': 'committed', 'at': _now(),
+                                                          'recovered_by': 'settle_revisions'})
+            continue
+        take_back(pid, 'An automatic revision not published the night it was read.')
+    # What the owner rejected stays rejected, whichever hold brings the same reading back. Cards
+    # still waiting for the owner, by the site figure they would replace.
+    declined, waiting_cards = {}, {}
     for pid, pkg in packages.items():
-        if (reviews.get(pid) or {}).get('status') == 'rejected':
-            for c in pkg.get('changes', []):
-                a = c.get('after') or {}
-                if c.get('target') == 'observation' and c.get('before') is None and a.get('edition_supersedes'):
-                    declined[(a.get('source'), a.get('metric'), a.get('year'), a.get('period'), a.get('value'), a.get('upper'))] = pid
+        status = (reviews.get(pid) or {}).get('status')
+        for c in pkg.get('changes', []):
+            a = c.get('after') or {}
+            if c.get('target') != 'observation':
+                continue
+            if status == 'rejected' and c.get('before') is None and a.get('edition_supersedes'):
+                declined[(a.get('source'), a.get('metric'), a.get('year'), a.get('period'), a.get('value'), a.get('upper'))] = pid
+            if pkg['author'] == REVIEW_AUTHOR and status in (None, 'pending_review') and c.get('before') is not None:
+                waiting_cards.setdefault(c['id'], []).append(pid)
     holds = []
     for path in sorted(queue(root).glob('edition-*.json')):
         try:
@@ -744,18 +782,42 @@ def settle_revisions(root, auto=False, deadline=None):
             holds.append((path, item))
     if not holds:
         return result
-    p = pp.policy(root)
-    rule = p['auto_apply']['same_page_revisions']
-    auto = bool(auto and p['auto_apply']['enabled'] and rule['enabled'])
-    docs = base(root)
-    ledger, registry = docs['site/data/ledger.json'], docs['research/sources.json']
     newest, order = {}, (lambda i: (i.get('created_at', ''), i.get('held_ns', 0)))
     for path, item in holds:
         for row in item['records']:
             pin = row.get('replaces')
             if pin and (pin not in newest or order(item) > order(newest[pin][1])):
                 newest[pin] = (path, item, row)
-    outcome, lines, texts, readings = result['outcomes'], {}, {}, []
+    outcome, lines = result['outcomes'], {}
+    try:
+        _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result, lines, take_back, base, enqueue, fold, pp, queue)
+    finally:
+        settled_at = _now()
+        for path, item in holds:
+            states = {}
+            for row in item['records']:
+                pin = row.get('replaces')
+                states[pin] = outcome.get(pin, 'retry: not settled') if newest.get(pin, (None,))[0] == path \
+                    else 'obsolete: a newer reading of this figure'
+            kinds = {v.split(':', 1)[0] for v in states.values()}
+            status = ('ready' if 'retry' in kinds else 'needs_maintainer' if 'needs_maintainer' in kinds
+                      else 'settled' if kinds & {'applied', 'publishing', 'card', 'declined'} else 'obsolete')
+            item.update(status=status, outcomes=states, lines={pin: lines[pin] for pin in states if pin in lines}, settled_at=settled_at)
+            if status == 'needs_maintainer':
+                item['reason'] = next(v for v in states.values() if v.startswith('needs_maintainer'))[len('needs_maintainer: '):]
+            _save(path, item)
+    return result
+
+
+def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result, lines, take_back, base, enqueue, fold, pp, queue):
+    """settle_revisions' work, apart from the bookkeeping it must do whatever happens here."""
+    outcome = result['outcomes']
+    p = pp.policy(root)
+    rule = p['auto_apply']['same_page_revisions']
+    auto = bool(auto and p['auto_apply']['enabled'] and rule['enabled'])
+    docs = base(root)
+    ledger, registry = docs['site/data/ledger.json'], docs['research/sources.json']
+    texts, readings = {}, []
     for pin, (path, item, row) in sorted(newest.items()):
         r = row['record']
         key = (item['source']['id'], r['metric'], r['year'], r['period'], r['value'], r['upper'])
@@ -811,7 +873,8 @@ def settle_revisions(root, auto=False, deadline=None):
                 changes += x['changes']
                 # A card says why it is one. That also keeps its id apart from an automatic package
                 # withdrawn tonight with the same changes, which enqueue would otherwise hand back.
-                evidence[x['evidence']['id']] = x['evidence'] if author == REVISION_AUTHOR else                     dict(x['evidence'], summary=clean(f"For review: {x['why']}. {x['evidence']['summary']}", 2000))
+                summary = x['evidence']['summary'] if author == REVISION_AUTHOR else clean(f"For review: {x['why']}. {x['evidence']['summary']}", 2000)
+                evidence[x['evidence']['id']] = dict(x['evidence'], summary=summary)
             dated = _date_change(fresh, unit[0]['source'], unit)
             if dated:
                 changes.append(dated)
@@ -822,6 +885,14 @@ def settle_revisions(root, auto=False, deadline=None):
         else:
             title = _card_title(flat, fresh)
         return enqueue(root, title, changes, list(evidence.values()), author=author)['id']
+
+    def settled(xs, pid, text):
+        # A card an older reading left for the same figure can no longer be the right one.
+        for x in xs:
+            outcome[x['pin']] = text
+            for old in waiting_cards.get(x['pin'], []):
+                if old != pid:
+                    take_back(old, 'A newer reading of the same figure replaces this card.')
 
     for group in _bundle(unattended):
         flat = [x for unit in group for x in unit]
@@ -842,8 +913,7 @@ def settle_revisions(root, auto=False, deadline=None):
         try:
             receipt = pp.auto_apply(root, pid, p)
             result['applied'].append(pid)
-            for x in flat:
-                outcome[x['pin']] = f"applied: {pid} ({receipt.get('status')})"
+            settled(flat, pid, f"applied: {pid} ({receipt.get('status')})")
         except Exception as error:
             committed = True  # an unreadable receipt may stand for a live commit: never withdraw that
             try:
@@ -852,13 +922,12 @@ def settle_revisions(root, auto=False, deadline=None):
             except (OSError, ValueError):
                 pass
             if committed:
-                for x in flat:  # verify_pending_deployments finishes it
-                    outcome[x['pin']] = f'publishing: {pid}'
+                settled(flat, pid, f'publishing: {pid}')  # verify_pending_deployments finishes it
                 continue
-            if withdraw(root, pid, f'Not published tonight ({type(error).__name__}); handed to the owner.'):
-                result['withdrawn'].append(pid)
+            take_back(pid, f'Not published tonight ({type(error).__name__}); handed to the owner.')
             for x in flat:
                 x['why'] = f'automatic publication failed ({type(error).__name__}: {str(error)[:120]})'
+
     def to_owner(xs):
         """One card; False when it could not be packaged (a lone reading then needs a maintainer)."""
         try:
@@ -873,7 +942,7 @@ def settle_revisions(root, auto=False, deadline=None):
             return False
         result['cards'].append(pid)
         for x in xs:
-            outcome[x['pin']] = f"card: {pid} ({x['why']})"
+            settled([x], pid, f"card: {pid} ({x['why']})")
         return True
 
     for source_id, xs in sorted(pages.items()):
@@ -882,21 +951,6 @@ def settle_revisions(root, auto=False, deadline=None):
         if waiting and not to_owner(waiting) and len(waiting) > 1:
             for x in waiting:
                 to_owner([x])
-    settled_at = _now()
-    for path, item in holds:
-        states = {}
-        for row in item['records']:
-            pin = row.get('replaces')
-            states[pin] = outcome.get(pin, 'retry: not settled') if newest.get(pin, (None,))[0] == path \
-                else 'obsolete: a newer reading of this figure'
-        kinds = {v.split(':', 1)[0] for v in states.values()}
-        status = ('ready' if 'retry' in kinds else 'needs_maintainer' if 'needs_maintainer' in kinds
-                  else 'settled' if kinds & {'applied', 'publishing', 'card', 'declined'} else 'obsolete')
-        item.update(status=status, outcomes=states, lines={pin: lines[pin] for pin in states if pin in lines}, settled_at=settled_at)
-        if status == 'needs_maintainer':
-            item['reason'] = next(v for v in states.values() if v.startswith('needs_maintainer'))[len('needs_maintainer: '):]
-        _save(path, item)
-    return result
 
 
 def settled_since(root, since):
