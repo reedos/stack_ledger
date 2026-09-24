@@ -874,8 +874,9 @@ class SameNightRevisionStageTests(unittest.TestCase):
         rows = [{'kind': 'applied', 'detail': 'catalog-a (deployed)', 'replaces': 'x', 'source': 'finance-x', 'line': '2027: 411.35 → 411.49'},
                 {'kind': 'card', 'detail': 'catalog-b (beyond 1.1x)', 'replaces': 'y', 'source': 'finance-y', 'line': '2027: 60 → 70'}]
         body = {'date': '2026-09-25', 'stage_receipts': {}, 'applied': [], 'needs_decision': {}, 'site_changes': [], 'health': {},
-                'revisions': rows, 'revisions_withdrawn': ['catalog-w']}
+                'revisions': rows, 'revisions_withdrawn': ['catalog-w'], 'revisions_stuck': ['catalog-s']}
         text = nightly.render_digest_markdown(body)
         self.assertIn('## Same-page revisions', text)
         self.assertIn('- published: finance-x: 2027: 411.35 → 411.49', text)
         self.assertIn('- for review: finance-y', text);self.assertIn('- withdrawn: catalog-w', text)
+        self.assertIn('- needs a look: catalog-s', text)

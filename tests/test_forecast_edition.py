@@ -662,13 +662,21 @@ class RevisionTests(Fixture):
         self.assertIn('column slip cannot be ruled out',self.item_outcome_after_settle())
         self.assertEqual(self.value_on_site(),67.14)
 
-    def test_a_card_an_older_reading_left_is_withdrawn_when_a_newer_one_settles_the_figure(self):
+    def pending_cards(self):
+        return [p for p in catalog_review.inbox(self.root) if p['author']==fe.REVIEW_AUTHOR and p['status']=='pending_review']
+
+    def added(self,p):
+        return sorted(c['after']['value'] for c in p['changes'] if c['target']=='observation' and c['before'] is None)
+
+    def test_a_card_an_older_reading_left_is_replaced_by_the_newer_readings_card(self):
         self.revision_hold(67.15)
         (old_card,)=self.settle(auto=False)['cards']
         self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion; FY2027 at 70.0 billion.')
-        self.settle()
-        self.assertEqual(self.value_on_site(),67.2)
+        result=self.settle()
+        self.assertEqual(result['applied'],[],'the page has a card open: it waits for the owner')
+        self.assertEqual(self.value_on_site(),67.14)
         self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn','approving the stale card could only roll the figure back')
+        self.assertEqual([self.added(p) for p in self.pending_cards()],[[67.2]])
 
     def test_a_newer_reading_of_one_year_keeps_the_other_years_card_alive(self):
         # One card per page: 2026 and 2027 both went to the owner. Only 2026 is read again.
@@ -687,21 +695,33 @@ class RevisionTests(Fixture):
         self.assertEqual(values,[67.2,80.0],"the untouched 2027 reading is carried into the page's new card")
         self.apply(cards[0]);validate.validate(self.ledger())
 
-    def test_a_page_published_unattended_carries_an_older_cards_other_year_to_a_fresh_card(self):
+    def test_an_open_card_keeps_its_page_from_publishing_another_year_unattended(self):
+        # Review finding, 09/24/2026: publishing 2027 moved the page's date under the open 2026 card,
+        # which could then never be approved.
+        self.revision_hold(67.15)
+        (old_card,)=self.settle(auto=False)['cards']
+        self.revision_hold(70.5,year=2027,text='FY2026 consensus 67.15 billion; FY2027 consensus {v} billion.')
+        result=self.settle()
+        self.assertEqual(result['applied'],[])
+        self.assertEqual((self.value_on_site(2026),self.value_on_site(2027)),(67.14,70.0))
+        (card,)=self.pending_cards()
+        self.assertEqual(self.added(card),[67.15,70.5],'the open 2026 figure is carried into the page\'s one card')
+        self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn')
+        self.apply(card);validate.validate(self.ledger())
+
+    def test_a_carried_figure_whose_site_figure_moved_is_dropped_not_stuck(self):
         import hashlib
         doc='FY2026 consensus 67.15 billion; FY2027 consensus 80.0 billion.'
         rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
               for i,(y,v) in enumerate([(2026,67.15),(2027,80.0)])]
         fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger());self.save_page(doc)
         (old_card,)=self.settle(auto=False)['cards']
-        # 2026 is read again and published unattended; its page still shows the 2027 reading the old card holds.
-        self.revision_hold(67.2,text='FY2026 consensus {v} billion; FY2027 consensus 80.0 billion; 70.0 a year ago.')
-        result=self.settle()
-        self.assertEqual(self.value_on_site(),67.2)
+        ledger=self.ledger();next(o for o in ledger['observations'] if o['id']=='fx-consensus-2027')['note']='Reworded by a person.';self.write_ledger(ledger)
+        self.revision_hold(67.2,text='FY2026 consensus {v} billion; FY2027 consensus 80.0 billion.')
+        result=self.settle(auto=False)
+        self.assertNotIn('stuck',result)
+        self.assertEqual([self.added(p) for p in self.pending_cards()],[[67.2]],'one card for the page; the 2027 figure moved under the old card')
         self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn')
-        cards=[p for p in catalog_review.inbox(self.root) if p['author']==fe.REVIEW_AUTHOR and p['status']=='pending_review']
-        self.assertEqual([[c['after']['value'] for c in p['changes'] if c['target']=='observation' and c['before'] is None] for p in cards],[[80.0]])
-        self.assertIn('carried over',cards[0]['title'])
 
     def test_a_deferred_card_is_left_to_the_owner_even_when_a_newer_reading_arrives(self):
         self.revision_hold(67.15)
@@ -709,8 +729,14 @@ class RevisionTests(Fixture):
         from editorial_review import append_event
         append_event(self.root,{'id':old_card,'kind':'catalog_change','status':'deferred','reviewer':'owner','at':fe._now()})
         self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion; FY2027 at 70.0 billion.')
-        self.settle()
+        result=self.settle()
         self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'deferred')
+        self.assertEqual(result['applied'],[],'the owner deferred this page: nothing answers for them')
+        self.assertEqual(self.value_on_site(),67.14)
+        (card,)=result['cards']
+        self.assertFalse([c for c in catalog_review.package(self.root,card)['changes'] if c['target']=='source'],
+                         'the new card leaves the page date to the deferred card')
+        catalog_review.check_base(self.root,catalog_review.package(self.root,old_card))  # still approvable
 
     def leftover(self,**review):
         self.revision_hold(67.15)
@@ -737,10 +763,8 @@ class RevisionTests(Fixture):
         self.assertEqual((receipt['commit'],receipt['status']),('c'*40,'committed'),'verify_pending_deployments finishes it')
 
     def test_a_failure_after_publishing_still_records_what_was_published(self):
-        self.revision_hold(67.15)
-        (old_card,)=self.settle(auto=False)['cards']
-        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion; FY2027 at 70.0 billion.')
-        with patch.object(fe,'withdraw',side_effect=RuntimeError('disk full')):
+        self.revision_hold(67.2)
+        with patch.object(fe,'_retire_cards',side_effect=RuntimeError('disk full')):
             with self.assertRaises(RuntimeError):self.settle()
         self.assertEqual(self.value_on_site(),67.2)
         newest=max(self.holds(),key=lambda h:h['created_at']+str(h['held_ns']))
