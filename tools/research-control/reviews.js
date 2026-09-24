@@ -270,7 +270,7 @@
       card.append(editionComparison(p));
     }
     if(p.author===REVISION_CARD_AUTHOR)
-      card.append(node('p','Same-page revision: the page changed a figure it gave before. Approving replaces that figure on the site and dates the page to the day it was read. The title says why it was not published automatically.','hint edition-note'));
+      card.append(node('p','Same-page revision: the page changed a figure it gave before. Approving replaces that figure on the site. The title says why it was not published automatically.','hint edition-note'));
     if(p.auto_apply_eligible!==null&&p.auto_apply_eligible!==undefined)
       card.append(node('p',`Auto-apply eligible: ${p.auto_apply_eligible?'Yes':'No'}${p.auto_apply_reasons&&p.auto_apply_reasons.length?' — '+p.auto_apply_reasons[0]:''}`,'hint'));
     if(selectable&&p.status!=='applied'&&!edition){const sel=node('label',null,'toggle-chip select-chip'),sb=node('input');sb.type='checkbox';sb.value=p.id;sb.setAttribute('aria-label','Select '+p.title);sb.onchange=()=>{if(sb.checked)selected.add(p.id);else selected.delete(p.id);count();};boxes.push(sb);sel.append(sb,node('span','Select'));card.append(sel);}

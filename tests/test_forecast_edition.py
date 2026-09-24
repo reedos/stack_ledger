@@ -696,8 +696,8 @@ class RevisionTests(Fixture):
         self.apply(cards[0]);validate.validate(self.ledger())
 
     def test_an_open_card_keeps_its_page_from_publishing_another_year_unattended(self):
-        # Review finding, 09/24/2026: publishing 2027 moved the page's date under the open 2026 card,
-        # which could then never be approved.
+        # The page's new date would vouch for the 2026 figure the site still shows, which the page
+        # no longer gives while its card is open: the 2027 reading joins the page's card instead.
         self.revision_hold(67.15)
         (old_card,)=self.settle(auto=False)['cards']
         self.revision_hold(70.5,year=2027,text='FY2026 consensus 67.15 billion; FY2027 consensus {v} billion.')
@@ -708,6 +708,51 @@ class RevisionTests(Fixture):
         self.assertEqual(self.added(card),[67.15,70.5],'the open 2026 figure is carried into the page\'s one card')
         self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn')
         self.apply(card);validate.validate(self.ledger())
+
+    def test_a_card_never_moves_the_page_date_so_cards_for_one_page_never_block_each_other(self):
+        # Review rounds 3-4, 09/24/2026: a card carrying the page date left every other card for the
+        # page unapprovable once one was approved or published.
+        self.revision_hold(74.0)  # beyond 1.1x: a card
+        (card,)=self.settle(auto=False)['cards']
+        self.assertFalse([c for c in catalog_review.package(self.root,card)['changes'] if c['target']=='source'])
+        from editorial_review import append_event
+        append_event(self.root,{'id':card,'kind':'catalog_change','status':'approved','reviewer':'owner','at':fe._now()})
+        # Approved, not yet published; the page's 2027 figure is revised the next night.
+        self.revision_hold(70.5,year=2027,text='FY2026 consensus 74.0 billion; FY2027 consensus {v} billion.')
+        self.settle()
+        catalog_review.check_base(self.root,catalog_review.package(self.root,card))  # still approvable
+        self.assertEqual(catalog_review.last_review(self.root,card)['status'],'approved','a person\'s approval is never folded or withdrawn')
+
+    def test_a_card_that_can_no_longer_apply_is_reported_not_withdrawn(self):
+        self.revision_hold(67.15)
+        (deferred,)=self.settle(auto=False)['cards']
+        from editorial_review import append_event
+        append_event(self.root,{'id':deferred,'kind':'catalog_change','status':'deferred','reviewer':'owner','at':fe._now()})
+        self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion; FY2027 at 70.0 billion.')
+        (newer,)=self.settle()['cards']
+        self.apply(catalog_review.package(self.root,newer))  # the owner publishes the newer card
+        append_event(self.root,{'id':newer,'kind':'catalog_change','status':'applied','reviewer':'owner','at':fe._now()})
+        result=fe.settle_revisions(self.root)
+        self.assertEqual(result.get('stale'),[deferred])
+        self.assertEqual(catalog_review.last_review(self.root,deferred)['status'],'deferred')
+
+    def test_a_fold_that_fails_is_not_tried_again_the_same_night(self):
+        import hashlib
+        doc='FY2026 consensus 67.15 billion; FY2027 consensus 80.0 billion.'
+        rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
+              for i,(y,v) in enumerate([(2026,67.15),(2027,80.0)])]
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger());self.save_page(doc)
+        (old_card,)=self.settle(auto=False)['cards']
+        self.revision_hold(67.2,text='FY2026 consensus {v} billion; FY2027 consensus 80.0 billion.')
+        real=catalog_review.enqueue
+        def picky(root,title,changes,evidence,author='x'):
+            if author==fe.REVIEW_AUTHOR and len(changes)>2:raise ValueError('combined package refused')
+            return real(root,title,changes,evidence,author=author)
+        with patch.object(catalog_review,'enqueue',side_effect=picky):
+            result=self.settle(auto=False)
+        self.assertEqual(result['stuck'],[old_card])
+        self.assertEqual(len(result['cards']),1,'no second, smaller carry for the same old card')
+        self.assertNotEqual(catalog_review.last_review(self.root,old_card)['status'] if catalog_review.last_review(self.root,old_card) else None,'withdrawn')
 
     def test_a_carried_figure_whose_site_figure_moved_is_dropped_not_stuck(self):
         import hashlib
@@ -789,7 +834,11 @@ class RevisionTests(Fixture):
         pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
         import publication_policy
         rule=pol['auto_apply']['same_page_revisions']
-        as_auto=dict(copy.deepcopy(p),author=fe.REVISION_AUTHOR)
+        # A card never moves the page's date; an automatic package does, so add the change it would carry.
+        new_obs=next(c['after'] for c in p['changes'] if c['target']=='observation' and c['before'] is None)
+        dated=fe._date_change(registry,'fx-page',[{'records':[new_obs],'evidence':{'id':p['evidence'][0]['id']}}])
+        dated['before']=next(x for x in registry['sources'] if x['id']=='fx-page')
+        as_auto=dict(copy.deepcopy(p),author=fe.REVISION_AUTHOR,changes=copy.deepcopy(p['changes'])+[dated])
         ok,reasons=eligible(as_auto,pol,registry,self.ledger());self.assertFalse(ok);self.assertIn('beyond',reasons[0])
         small=copy.deepcopy(as_auto)
         for c in small['changes']:

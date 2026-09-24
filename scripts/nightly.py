@@ -763,7 +763,8 @@ def render_digest_markdown(body):
     revisions = body.get('revisions') or []
     withdrawn = body.get('revisions_withdrawn') or []
     stuck = body.get('revisions_stuck') or []
-    if revisions or withdrawn or stuck:
+    stale = body.get('revisions_stale') or []
+    if revisions or withdrawn or stuck or stale:
         # Each figure a page revised, old -> new, and what became of it: the owner's only view of
         # figures that changed on the site without a card (review finding, 09/24/2026).
         lines += ['', '## Same-page revisions']
@@ -773,6 +774,7 @@ def render_digest_markdown(body):
             lines.append(f"- {names.get(row['kind'], row['kind'])}: {row['source']}: {row['line'] or row['replaces']} ({row['detail'][:160]})")
         lines += [f'- withdrawn: {pid}' for pid in withdrawn]
         lines += [f'- needs a look: {pid} (an older card that could not be carried into a newer one for its page)' for pid in stuck]
+        lines += [f'- can no longer apply: {pid} (a figure it replaces has moved; reject it or decide again)' for pid in stale]
     lines += ['', '## Needs a decision']
     lines += [f"- {k.replace('_', ' ')}: {v}" for k, v in body['needs_decision'].items()] or ['- Nothing pending.']
     lines += ['', '## Site changes']
@@ -828,6 +830,7 @@ def stage_digest(root, date, push=True):
             'policy_outcomes': policy_receipt.get('outcomes') or {},
             'revisions': revisions, 'revisions_withdrawn': (policy_receipt.get('revisions') or {}).get('withdrawn') or [],
             'revisions_stuck': (policy_receipt.get('revisions') or {}).get('stuck') or [],
+            'revisions_stale': (policy_receipt.get('revisions') or {}).get('stale') or [],
             'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'pdf_reader')},
             'site_changes': site_changes(root, date),
             'published_observations': published_observations(root, date),

@@ -768,7 +768,9 @@ def settle_revisions(root, auto=False, deadline=None):
         take_back(pid, 'An automatic revision not published the night it was read.')
     # What the owner rejected stays rejected, whichever hold brings the same reading back. Cards
     # still waiting for the owner: the site figures each would replace, and the page it is for.
-    declined, cards = {}, {'pins': {}, 'pages': {}, 'packages': packages, 'folded': {}, 'open_pages': set(), 'deferred_pages': set()}
+    # Held figures have a card a person has deferred or approved: never folded, never withdrawn.
+    declined = {}
+    cards = {'pins': {}, 'pages': {}, 'packages': packages, 'folded': {}, 'failed': set(), 'open_pins': set(), 'held_pins': set(), 'open': []}
     for pid, pkg in sorted(packages.items(), key=lambda kv: kv[1].get('created_at', ''), reverse=True):
         status = (reviews.get(pid) or {}).get('status')
         for c in pkg.get('changes', []):
@@ -777,10 +779,10 @@ def settle_revisions(root, auto=False, deadline=None):
                 continue
             if status == 'rejected' and c.get('before') is None and a.get('edition_supersedes'):
                 declined[(a.get('source'), a.get('metric'), a.get('year'), a.get('period'), a.get('value'), a.get('upper'))] = pid
-            if pkg['author'] == REVIEW_AUTHOR and status in (None, 'pending_review', 'deferred') and c.get('before') is None:
-                cards['open_pages'].add(a.get('source'))
-                if status == 'deferred':
-                    cards['deferred_pages'].add(a.get('source'))
+            if pkg['author'] == REVIEW_AUTHOR and status in (None, 'pending_review', 'deferred', 'approved') and c.get('before') is not None:
+                cards['open_pins'].add(c['id'])
+                if status in ('deferred', 'approved'):
+                    cards['held_pins'].add(c['id'])
             if pkg['author'] == REVIEW_AUTHOR and status in (None, 'pending_review'):
                 if c.get('before') is not None:
                     cards['pins'].setdefault(pid, set()).add(c['id'])
@@ -795,6 +797,7 @@ def settle_revisions(root, auto=False, deadline=None):
         if isinstance(item, dict) and item.get('change') == 'revision' and item.get('status') == 'ready':
             holds.append((path, item))
     if not holds:
+        _report_stale(root, packages, reviews, result)
         return result
     newest, order = {}, (lambda i: (i.get('created_at', ''), i.get('held_ns', 0)))
     for path, item in holds:
@@ -806,6 +809,7 @@ def settle_revisions(root, auto=False, deadline=None):
     try:
         _settle(root, auto, deadline, holds, newest, declined, cards, result, lines, take_back, base, enqueue, fold, pp, queue)
         _retire_cards(root, cards, result, take_back, base, enqueue)
+        _report_stale(root, packages, reviews, result)
     finally:
         settled_at = _now()
         for path, item in holds:
@@ -856,10 +860,12 @@ def _settle(root, auto, deadline, holds, newest, declined, cards, result, lines,
             continue
         lines[pin] = said[0]
         why = _for_the_owner(pp, rule, auto, item, row, changes, latest, ledger, registry)
-        if why is None and item['source']['id'] in cards['open_pages']:
-            # Publishing would move the page's date under that card (it could no longer be approved)
-            # or answer, unasked, a question the owner deferred (review finding, 09/24/2026).
-            why = 'an earlier card for this page is still open'
+        if why is None and pin in cards['open_pins']:
+            # Publishing would answer, unasked, a card the owner has open, deferred or approved for
+            # this figure, and leave that card unable to apply (review findings, 09/24/2026).
+            why = 'an earlier card for this figure is still open'
+        if why and pin in cards['held_pins']:
+            why += '; another card for this figure is deferred or approved'
         readings.append({'pin': pin, 'source': item['source']['id'], 'records': [r], 'changes': changes, 'evidence': evidence, 'lines': said,
                          'latest': latest, 'why': why})
     pages = {}
@@ -897,15 +903,15 @@ def _settle(root, auto, deadline, holds, newest, declined, cards, result, lines,
                 # withdrawn tonight with the same changes, which enqueue would otherwise hand back.
                 summary = x['evidence']['summary'] if author == REVISION_AUTHOR else clean(f"For review: {x['why']}. {x['evidence']['summary']}", 2000)
                 evidence[x['evidence']['id']] = dict(x['evidence'], summary=summary)
-            dated_for = list(unit)
             if carried:  # an older card's still-open figures for the same page
                 changes += carried[0]
                 evidence.update(carried[1])
-                dated_for += [{'records': carried[2], 'evidence': {'id': e}} for e in carried[1]]
-            dated = _date_change(fresh, unit[0]['source'], dated_for)
-            # A card the owner deferred for this page moves its date; a second one would leave that
-            # card unable to apply whichever is approved first.
-            if dated and not (author == REVIEW_AUTHOR and unit[0]['source'] in cards['deferred_pages']):
+            # Only an unattended publish moves the page's date. A card that did would leave every
+            # other card for the page unable to apply once one was approved (review rounds 3-4,
+            # 09/24/2026); an approved card's figure keeps the page's registered date until the next
+            # unattended revision of the page moves it.
+            dated = _date_change(fresh, unit[0]['source'], unit) if author == REVISION_AUTHOR else None
+            if dated:
                 changes.append(dated)
         flat = [x for unit in units for x in unit]
         if author == REVISION_AUTHOR:
@@ -966,9 +972,11 @@ def _settle(root, auto, deadline, holds, newest, declined, cards, result, lines,
             except (ValueError, KeyError, TypeError):
                 if not (carried and carried[0]):
                     raise
-                # The older card stays, reported for a person rather than left looking actionable.
+                # The older card stays, reported for a person rather than left looking actionable,
+                # and _retire_cards does not try it again tonight.
                 pid = package([xs], REVIEW_AUTHOR)
                 result.setdefault('stuck', []).extend(olds)
+                cards['failed'].update(olds)
                 olds = []
         except FileExistsError:
             for x in xs:
@@ -1031,16 +1039,11 @@ def _retire_cards(root, cards, result, take_back, base, enqueue):
     outcome = result['outcomes']
     done = {pin for pin, text in outcome.items() if text.split(':', 1)[0] in ('applied', 'publishing', 'card')}
     touched = {old for old, pins in cards['pins'].items() if pins & done} | set(cards['folded'])
-    for old in sorted(touched - set(result['cards'])):
+    for old in sorted(touched - set(result['cards']) - cards['failed']):
         if old not in cards['folded']:
             changes, evidence, records = _carry(cards, [old], done, base(root)['site/data/ledger.json'])
             if changes:
                 try:
-                    fresh = base(root)['research/sources.json']
-                    for source_id in sorted({r['source'] for r in records}):
-                        dated = _date_change(fresh, source_id, [{'records': [r for r in records if r['source'] == source_id], 'evidence': {'id': e}} for e in evidence])
-                        if dated:
-                            changes.append(dated)
                     title = clean(f"Same-page revision to review, carried over from {old}: " + ', '.join(sorted(str(r.get('year')) for r in records)), 200)
                     result['cards'].append(enqueue(root, title, changes, list(evidence.values()), author=REVIEW_AUTHOR)['id'])
                 except (ValueError, KeyError, TypeError, OSError):
@@ -1048,6 +1051,21 @@ def _retire_cards(root, cards, result, take_back, base, enqueue):
                     result.setdefault('stuck', []).append(old)
                     continue
         take_back(old, 'A newer reading of the same page replaces this card.')
+
+
+def _report_stale(root, packages, reviews, result):
+    """Cards waiting on a person that can no longer apply (a figure they replace has since moved),
+    for the night's report: the owner rejects or re-decides them; the runner never withdraws a card a
+    person deferred or approved."""
+    from catalog_review import check_base
+    for pid, pkg in sorted(packages.items()):
+        if pkg.get('author') != REVIEW_AUTHOR or pid in result['withdrawn'] \
+                or (reviews.get(pid) or {}).get('status') not in (None, 'pending_review', 'deferred', 'approved'):
+            continue
+        try:
+            check_base(root, pkg)
+        except (ValueError, KeyError, TypeError, OSError):
+            result.setdefault('stale', []).append(pid)
 
 
 def settled_since(root, since):
