@@ -176,9 +176,6 @@ class PublicationPolicyTests(unittest.TestCase):
                 self.assertEqual(result['pending'],1);self.assertTrue(result['outcomes']['catalog-'+'a'*24].startswith('failed'))
 
 
-if __name__=='__main__':unittest.main()
-
-
 class ApplyAdmittedTests(unittest.TestCase):
     """One package that fails its preview is left for the owner; the rest still go, until the deadline."""
     def test_a_failed_package_does_not_stop_the_others_and_the_deadline_defers_the_rest(self):
@@ -198,3 +195,7 @@ class ApplyAdmittedTests(unittest.TestCase):
              mock.patch('research.load',return_value={}):
             late=pp.apply_admitted(ROOT,{'auto_apply':{}},deadline=0)
         self.assertTrue(late['outcomes']['catalog-c'].startswith('deferred'))
+
+
+if __name__=='__main__':unittest.main()
+

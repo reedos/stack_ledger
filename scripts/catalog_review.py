@@ -170,6 +170,7 @@ def checkout_key(root):
 
 def preview(root,rid):
     p=package(root,rid);check_base(root,p);check_evidence(root,p)
+    tested=checkout_key(root)  # taken before copying: what this preview actually tests
     destination=root/'.local/catalog-previews'/rid
     destination.mkdir(parents=True,exist_ok=True)
     # Isolated copy excludes local secrets, repositories, caches and runtime processes.
@@ -184,7 +185,7 @@ def preview(root,rid):
     for command in commands:
         check=run_check(command,destination);checks.append(check)
         if not check['passed']:break
-    result={'proposal_hash':digest(p),'base_hashes':p['base_hashes'],'checkout':checkout_key(root),'passed':all(c['passed'] for c in checks) and len(checks)==len(commands),'checks':checks,'at':now()}
+    result={'proposal_hash':digest(p),'base_hashes':p['base_hashes'],'checkout':tested,'passed':all(c['passed'] for c in checks) and len(checks)==len(commands),'checks':checks,'at':now()}
     save(destination/'validation.json',result)
     return result
 

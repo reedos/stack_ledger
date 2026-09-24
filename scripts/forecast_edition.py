@@ -35,12 +35,16 @@ A page that updates in place (a weekly consensus page, an Epoch site page, BLS p
 the same source, not a new edition. Owner decision, 09/23/2026: when such a page changes a figure
 it already gave, the change is a 'revision' and is applied automatically, provided the page no
 longer shows the old number (a static document the model merely misread still does, and stays a
-conflict for review) and the publication policy's same-page rules admit it. All of a night's
-revisions travel in one package, so the preview runs once.
+conflict for review) and the publication policy's same-page rules admit it. A PDF never
+revises itself: a static document that seems to have changed was misread. The night's admissible
+revisions travel together (split only by the package size limit), each inadmissible one alone,
+all packaged once by the nightly policy stage; a bundle whose preview fails is split so the rest
+still go.
 """
 import hashlib
 import json
 import re
+import time
 from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import unquote, urlparse
@@ -52,7 +56,7 @@ FORWARD = {'forecast', 'company-commitment', 'government-target'}
 MODES = {'trajectory', 'by-year'}
 AUTHOR = 'Forecast edition (research runner)'
 REVISION_AUTHOR = 'Same-page revision (research runner)'
-MAX_REVISIONS_PER_PACKAGE = 45  # two changes each, inside catalog_review.enqueue's 100
+MAX_CHANGES_PER_PACKAGE = 100  # catalog_review.enqueue's limit; each revised figure is two changes
 RUNNER = 'forecast edition runner'
 REASONS = {
     'older': 'Older forecast edition than the one on the site',
@@ -160,33 +164,40 @@ _OUTCOME = {'newer': 'new', 'older': 'older', 'unordered': 'unordered', 'same': 
 # A page prints '10.86T' where the ledger stores 10,860 (TWD billion), or '42.68M' for 0.04268 (USD
 # billion). A figure counts as still shown under any of these decimal scalings, so a page that did
 # not change can never pass for a revision: the check errs toward a conflict for the owner.
-_SCALES = (1, 1e3, 1e-3, 1e6, 1e-6, 1e9, 1e-9, 1e12, 1e-12, 100, 1e-2)
+# Only thousand-steps: a percent scaling roughly doubled coincidental matches on real pages.
+_SCALES = (1, 1e3, 1e-3, 1e6, 1e-6, 1e9, 1e-9, 1e12, 1e-12)
+# Every run of digits, including one glued to letters: TSMC prints "USD60 billion", which the
+# evidence tokenizer (numeric_tokens) deliberately does not split.
+_ANY_NUMBER = re.compile(r'\d[\d,]*(?:\.\d+)?')
 
 
 def _shows(document, value):
     value = float(value)
-    for t in numeric_tokens(document):
-        n = float(t.replace(',', ''))
+    for t in _ANY_NUMBER.findall(document):
+        try:
+            n = float(t.replace(',', ''))
+        except ValueError:
+            continue
         if any(abs(n*s - value) <= 1e-9*max(1.0, abs(value)) for s in _SCALES):
             return True
     return False
 
 
 def revision_target(record, source, observations, ledger_sources, metric):
-    """The id of this page's own figure that a revision replaces, or None."""
+    """This page's own figure that a revision replaces, or None."""
     by_id = {s['id']: s for s in ledger_sources}
     for o in incumbents(record['metric'], observations):
         s = by_id.get(o['source'], {'id': o['source']})
         if (s['id'] == source['id'] or s.get('url') == source['url']) and slot(o, metric) == slot(record, metric) \
                 and (o['value'], o['upper']) != (record['value'], record['upper']):
-            return o['id']
+            return o
     return None
 
 
 def _revision(record, mine_same_slot, document):
     """'revision' when this page's own figure for the point changed and the page no longer shows it."""
-    if document is None:
-        return None
+    if document is None or document.startswith('[Page 1]\n'):
+        return None  # a PDF does not update in place: a changed-looking figure there is a misreading
     for o in mine_same_slot:
         if (o['value'], o['upper']) != (record['value'], record['upper']) and not _shows(document, o['value']) \
                 and (o['upper'] is None or not _shows(document, o['upper'])):
@@ -266,12 +277,13 @@ def hold(local, source, full_text, held, metrics, page_of=None, change='edition'
             if r['metric'] == metric_id and slot(r, metric) not in seen:
                 seen.add(slot(r, metric))
                 rows.append((c, r, v))
-        replaces = {}
+        replaces, figures_replaced = {}, {}
         if change == 'revision':
             for _, r, _ in rows:
                 target = revision_target(r, source, ledger['observations'], ledger['sources'], metric)
                 if target:
-                    replaces[slot(r, metric)] = target
+                    replaces[slot(r, metric)] = target['id']
+                    figures_replaced[slot(r, metric)] = [target['value'], target['upper']]
             rows = [(c, r, v) for c, r, v in rows if slot(r, metric) in replaces]
             if not rows:
                 continue
@@ -288,8 +300,9 @@ def hold(local, source, full_text, held, metrics, page_of=None, change='edition'
             identity = json.dumps([r[k] for k in ['metric', 'year', 'period', 'value', 'upper', 'status', 'precision']] + [source['id']] + ([pinned] if pinned else []), separators=(',', ':'))
             rec = dict(r, id='auto-' + hashlib.sha256(identity.encode('utf-8')).hexdigest()[:20])
             records.append({'record': rec, 'quote': c['evidence'], 'review': v,
-                            'pdf_page': page_of(c['evidence']) if page_of else None, **({'replaces': pinned} if pinned else {})})
-        value = {'id': rid, 'kind': 'forecast_edition', 'change': change, 'status': 'ready', 'created_at': _now(), 'metric': metric_id,
+                            'pdf_page': page_of(c['evidence']) if page_of else None,
+                            **({'replaces': pinned, 'replaces_figure': figures_replaced[slot(r, metric)]} if pinned else {})})
+        value = {'id': rid, 'kind': 'forecast_edition', 'change': change, 'status': 'ready', 'created_at': _now(), 'held_ns': time.time_ns(), 'metric': metric_id,
                  'mode': mode(metric), 'source': source, 'document_sha256': sha, 'records': records,
                  'authority': 'Private runner hold. Nothing is published until the owner approves the catalog package.'}
         _save(path, value)
@@ -352,13 +365,16 @@ def revision_changes(root, item, ledger):
     for row in item['records']:
         r = row['record']
         old = current.get(row.get('replaces'))
-        if old is None or (old['value'], old['upper']) == (r['value'], r['upper']):
+        pinned = row.get('replaces_figure')
+        if old is None or (old['value'], old['upper']) == (r['value'], r['upper']) \
+                or (pinned is not None and [old['value'], old['upper']] != pinned):
             # The figure this revision was read against has itself changed (a newer revision, an
             # owner's decision): never re-base an older reading onto it.
             raise Obsolete('The figure this revision replaced is no longer the one on the site')
         # "Only the value changed": the reviewed caveat travels with the figure unless it quotes the
         # old number, when the runner's reading replaces it.
-        note = old['note'] if old.get('note') and not _shows(old['note'], old['value']) else r.get('note', '')
+        quotes_old = old.get('note') and (_shows(old['note'], old['value']) or (old['upper'] is not None and _shows(old['note'], old['upper'])))
+        note = old['note'] if old.get('note') and not quotes_old else r.get('note', '')
         reason = clean(f"Revised by the publisher at the same address: {_fmt(old)} is now {_fmt(r)}.", 500)
         changes.append({'target': 'observation', 'id': r['id'], 'after': dict(r, note=note, edition_supersedes=[old['id']], correction_reason=reason), 'evidence': [evid]})
         changes.append({'target': 'observation', 'id': old['id'], 'after': dict(old, superseded_by=r['id']), 'evidence': [evid]})
@@ -517,12 +533,20 @@ def materialize(root, revisions=False):
                     continue
                 if status != 'packaged' or decided == 'rejected':
                     continue
+                still_applies = False
                 if decided != 'withdrawn':
                     try:
                         check_base(root, package(root, pid))
-                        continue  # still applies: the owner decides
+                        still_applies = True
                     except (ValueError, KeyError, OSError):
                         pass
+                # A bundle that failed its preview is split: each revision is proposed alone. Checked
+                # whether or not a sibling hold has already withdrawn the bundle this pass.
+                bundle_failed = revisions and item.get('change') == 'revision' and not item.get('solo') and _preview_failed(root, pid)
+                if still_applies and not bundle_failed:
+                    continue  # still applies: the owner (or the policy) decides
+                if bundle_failed:
+                    item['solo'] = True
                 # Save the hold as ready before withdrawing, so no interruption can leave it
                 # pointing at a withdrawn package; the withdrawal itself is retried below.
                 item.setdefault('earlier_packages', []).append(pid)
@@ -573,13 +597,55 @@ def materialize(root, revisions=False):
     return results
 
 
+def _preview_failed(root, pid):
+    try:
+        from catalog_review import preview_validation, checkout_key
+        v = preview_validation(root, pid)
+        return v.get('passed') is False and v.get('checkout') == checkout_key(root)
+    except Exception:
+        return False
+
+
+def _newest_per_figure(root, revisions):
+    """Two readings pinned to the same site figure: the newer wins; the older, and its package if it
+    was already proposed, is set aside, so the older value can never be published after the newer."""
+    from editorial_review import queue
+    holds = []
+    for path in sorted(queue(root).glob('edition-*.json')):
+        try:
+            item = json.loads(path.read_text(encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        if isinstance(item, dict) and item.get('change') == 'revision' and item.get('status') in ('ready', 'packaged'):
+            holds.append((path, item))
+    ready = {str(p): (p, i) for p, i in revisions}
+    newest = {}
+    for path, item in holds:
+        for row in item['records']:
+            pin = row.get('replaces')
+            order = lambda i: (i['created_at'], i.get('held_ns', 0))
+            if pin and (pin not in newest or order(item) > order(newest[pin][1])):
+                newest[pin] = (path, item)
+    keep = []
+    for path, item in holds:
+        pins = [row.get('replaces') for row in item['records'] if row.get('replaces')]
+        if pins and all(newest[p][0] != path for p in pins):
+            if item.get('status') == 'packaged' and item.get('package'):
+                withdraw(root, item['package'], 'A newer reading of the same figure replaces this revision.')
+            item.update(status='obsolete', reason='A newer reading of the same figure replaces this revision')
+            _save(path, item)
+        elif str(path) in ready:
+            keep.append(ready[str(path)])
+    return keep
+
+
 def _before(ledger, change):
     return next((o for o in ledger['observations'] if o['id'] == change['id']), None)
 
 
 def _package_revisions(root, revisions, ledger, key, enqueue):
-    """One package for the night's same-page revisions; a package that fails is split so one bad
-    revision cannot hold the rest back."""
+    """The night's same-page revisions: admissible ones together, each inadmissible one alone."""
+    revisions = _newest_per_figure(root, revisions)
     built = []
     for path, item in revisions:
         try:
@@ -598,7 +664,8 @@ def _package_revisions(root, revisions, ledger, key, enqueue):
     try:
         import publication_policy
         rule = publication_policy.policy(root)['auto_apply']['same_page_revisions']
-        fits = lambda b: publication_policy.same_page_revision({'changes': [dict(c, before=_before(ledger, c)) for c in b[2]]}, rule)[0]
+        enabled = publication_policy.policy(root)['auto_apply']['enabled'] and rule['enabled']
+        fits = lambda b: enabled and publication_policy.same_page_revision({'changes': [dict(c, before=_before(ledger, c)) for c in b[2]]}, rule)[0]
     except Exception:
         fits = lambda b: False
 
@@ -616,8 +683,15 @@ def _package_revisions(root, revisions, ledger, key, enqueue):
             _save(path, item)
         results.append(p['id'])
 
-    admitted = [b for b in built if fits(b)]
-    groups = [admitted[i:i + MAX_REVISIONS_PER_PACKAGE] for i in range(0, len(admitted), MAX_REVISIONS_PER_PACKAGE)]
+    admitted = [b for b in built if fits(b) and not b[1].get('solo')]
+    groups, current = [], []
+    for b in admitted:
+        if current and sum(len(x[2]) for x in current) + len(b[2]) > MAX_CHANGES_PER_PACKAGE:
+            groups.append(current)
+            current = []
+        current.append(b)
+    if current:
+        groups.append(current)
     groups += [[b] for b in built if b not in admitted]
     for group in groups:
         try:
@@ -652,4 +726,5 @@ if __name__ == '__main__':
     import sys
     root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(root/'scripts'))
-    print(json.dumps(materialize(root)))
+    # --revisions packages same-page revisions too, as the nightly policy stage does.
+    print(json.dumps(materialize(root, revisions='--revisions' in sys.argv[1:])))

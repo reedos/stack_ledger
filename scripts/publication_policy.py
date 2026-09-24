@@ -173,8 +173,8 @@ def auto_apply(root,rid,p=None):
     # stage_validate_pending previewed this exact package against these exact files minutes ago.
     try:saved=cr.preview_validation(root,rid)
     except ValueError:saved=None
-    fresh=bool(saved and saved.get('passed') and saved.get('proposal_hash')==cr.digest(package) and saved.get('checkout')==cr.checkout_key(root))
-    result=saved if fresh else cr.preview(root,rid)
+    same=bool(saved and saved.get('proposal_hash')==cr.digest(package) and saved.get('checkout')==cr.checkout_key(root))
+    result=saved if same else cr.preview(root,rid)  # a failure on these exact files is not retried
     require(result['passed'] and result['proposal_hash']==cr.digest(package),'Preview validation failed; left for human review')
     if not resuming:
         with locked(root):
@@ -203,8 +203,9 @@ def admissions(root,p,registry,ledger,only=None):
 def apply_admitted(root,p=None,only=None,deadline=None):
     """Preview-checked automatic application of every pending package the policy admits.
 
-    The one function both the CLI and the nightly orchestrator call; stops at the first failure
-    so a broken package cannot silently skip ahead of ones still waiting behind it.
+    The one function both the CLI and the nightly orchestrator call. A package that fails its
+    preview is left for the owner and the rest still go; past `deadline` no package is started, so
+    a stage timeout never lands in the middle of a publish.
     """
     from research import load
     p=p or policy(root);registry=load(root/'research/sources.json');ledger=load(root/'site/data/ledger.json')

@@ -139,6 +139,13 @@ class ClassifyTests(unittest.TestCase):
         self.assertIsNone(fe.classify(rec('fx-consensus',2026,67.14,'fx-page'),page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Estimate 67.14'))
         self.assertIsNone(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus']),'no document, no revision')
 
+    def test_a_pdf_never_revises_itself(self):
+        # TSMC prints "USD60 billion": a misread of the same transcript must stay a conflict.
+        page=self.sources['fx-page'];r=rec('fx-consensus',2026,70,'fx-page')
+        self.assertIsNone(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'[Page 1]\nAbout 70% to 80% of the budget'))
+        self.assertTrue(fe._shows('between USD60 billion and USD64 billion',60))
+        self.assertFalse(fe._shows('grew 180.0% this year',1.8),'no percent scaling')
+
     def test_a_page_printing_another_scale_still_shows_its_old_figure(self):
         # The ledger stores 10,860 (TWD billion); the page prints 10.86T. Unchanged, so not a revision.
         page=self.sources['fx-page'];incumbent=[dict(OBSERVATIONS[3],value=10860.0)]
@@ -366,6 +373,42 @@ class EditionPackageTests(Fixture):
         new=next(c['after'] for c in p['changes'] if c['before'] is None)
         self.assertEqual(new['note'],'S&P consensus via a snapshot page; not company guidance.')
         self.assertTrue(self.admitted(p['id'])[0])
+
+    def test_of_two_readings_of_one_figure_the_newer_wins(self):
+        first=self.revision_hold(67.15);p1=fe.materialize(self.root,revisions=True)[0]
+        second=self.revision_hold(67.2,text='Consensus revenue estimate for FY2026 now reads {v} billion instead.')
+        p2=fe.materialize(self.root,revisions=True)
+        self.assertEqual(len(p2),1)
+        statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
+        self.assertEqual(statuses[p1],'withdrawn','the older reading never publishes after the newer')
+        items={json.loads(f.read_text(encoding='utf-8'))['records'][0]['record']['value']:json.loads(f.read_text(encoding='utf-8'))['status']
+               for f in (self.root/'.local/review-candidates').glob('edition-*.json')}
+        self.assertEqual(items,{67.15:'obsolete',67.2:'packaged'})
+
+    def test_a_bundle_whose_preview_failed_is_split(self):
+        self.revision_hold(67.15)
+        ledger=self.ledger();g=next(o for o in ledger['observations'] if o['id']=='fx-guidance-2026');g['source']='fx-page'
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        doc='Guidance consensus for FY2026 is now 230 across analysts covering the company.'
+        import hashlib;r=dict(rec('fx-guidance-gw',2026,230,'fx-page'),document_sha256=hashlib.sha256((doc*3).encode()).hexdigest())
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})],self.metrics,None,'revision',self.ledger())
+        bundle=fe.materialize(self.root,revisions=True);self.assertEqual(len(bundle),1)
+        with patch.object(fe,'_preview_failed',return_value=True):
+            split=fe.materialize(self.root,revisions=True)
+        self.assertEqual(len(split),2,'each revision proposed alone once the bundle failed its preview')
+        statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
+        self.assertEqual(statuses[bundle[0]],'withdrawn')
+        with patch.object(fe,'_preview_failed',return_value=True):
+            self.assertEqual(fe.materialize(self.root,revisions=True),[],'a lone revision that fails stays for the owner')
+
+    def test_bundles_respect_the_package_size_limit(self):
+        built=[(None,{},[{'id':str(i)}]*8,{'id':'e'},['x']) for i in range(30)]  # 30 revisions of 4 figures each
+        groups,current=[],[]
+        for b in built:
+            if current and sum(len(x[2]) for x in current)+len(b[2])>fe.MAX_CHANGES_PER_PACKAGE:groups.append(current);current=[]
+            current.append(b)
+        groups.append(current)
+        self.assertTrue(all(sum(len(x[2]) for x in g)<=100 for g in groups));self.assertEqual(len(groups),3)
 
     def test_an_ineligible_revision_gets_its_own_package_and_the_rest_still_go(self):
         self.revision_hold(67.15)

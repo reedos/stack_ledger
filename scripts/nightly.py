@@ -42,7 +42,7 @@ TOTAL_CEILING_SECONDS = 6*3600        # matches the cron job's own timeout (sche
 # The policy stage previews and publishes packages, each running the full suite (about two minutes);
 # 09/23's single package took 335 s of the old 600. It now has 25 minutes and stops starting new
 # packages when fewer than POLICY_START_MARGIN_SECONDS remain, so a timeout never abandons a publish.
-POST_STAGE_RESERVE_SECONDS = 30*60    # left for policy/health/prune/digest after the session returns
+POST_STAGE_RESERVE_SECONDS = 35*60    # covers the post-stage timeouts below (policy 1500 + the rest 540)
 STAGE_TIMEOUTS = {'sync': 180, 'locks': 60, 'policy': 1500, 'health': 120, 'prune': 120, 'digest': 120, 'mirror': 180}
 POLICY_START_MARGIN_SECONDS = 480
 # The clone Reed and his sessions edit during the day. This run has its own clone, so a commit
@@ -378,16 +378,23 @@ def stage_research(root, budget_seconds):
 
 # ---------------------------------------------------------------- policy
 
-def stage_validate_pending(root):
+def stage_validate_pending(root, deadline=None, only=None, skip=()):
     """Refresh every pending package's preview so its card is ready -- validated, not homepage-bound
     -- when the owner looks in the morning. Skips a package whose validation already passes for its
     current hash; a package that fails here still shows the failure on its card, it is not hidden."""
     import catalog_review as cr
     validated = []; failed = []
+    try: checkout = cr.checkout_key(root)
+    except Exception: checkout = None
     for pkg in cr.inbox(root):
-        if pkg['status'] != 'pending_review': continue
+        if pkg['status'] != 'pending_review' or pkg['id'] in skip: continue
+        if only is not None and pkg['id'] not in only: continue
         v = pkg.get('validation')
         if v and v.get('passed') and v.get('proposal_hash') == pkg['proposal_hash']: continue
+        # A preview that failed on these exact files fails again: wait until the files change.
+        if v and v.get('passed') is False and v.get('proposal_hash') == pkg['proposal_hash'] and checkout and v.get('checkout') == checkout: continue
+        if deadline is not None and time.monotonic() > deadline:
+            failed.append({'id': pkg['id'], 'error': 'deferred: not enough time left in this stage'}); continue
         try:
             result = cr.preview(root, pkg['id'])
             validated.append({'id': pkg['id'], 'passed': result['passed']})
@@ -398,29 +405,40 @@ def stage_validate_pending(root):
 
 def stage_policy(root):
     import publication_policy as pp
-    deadline = time.monotonic()+STAGE_TIMEOUTS['policy']-60
+    stage_end = time.monotonic()+STAGE_TIMEOUTS['policy']-60
+    start_by = stage_end-POLICY_START_MARGIN_SECONDS
     p = pp.policy(root)
-    # The night's same-page revisions become one package here, once, not after every research batch.
+    # The night's same-page revisions are packaged here, once, not after every research batch.
+    packaging_failed = False
     try:
         import forecast_edition
         revisions_packaged = forecast_edition.materialize(root, revisions=True)
     except Exception as e:
-        revisions_packaged = [f'failed: {type(e).__name__}: {str(e)[:160]}']
-    validated, validation_failures = stage_validate_pending(root)
+        revisions_packaged = [f'failed: {type(e).__name__}: {str(e)[:160]}']; packaging_failed = True
+    base = {'revisions_packaged': revisions_packaged}
     if not p['auto_apply']['enabled']:
-        return {'status': 'partial' if validation_failures else 'skipped', 'reason': 'auto-apply disabled by policy (auto_apply.enabled=false)',
-                'validated': validated, 'validation_failures': validation_failures}
+        validated, validation_failures = stage_validate_pending(root, deadline=stage_end-120)
+        return {'status': 'partial' if validation_failures or packaging_failed else 'skipped', 'reason': 'auto-apply disabled by policy (auto_apply.enabled=false)',
+                'validated': validated, 'validation_failures': validation_failures, **base}
     status = lock_status(root/'.local/review-candidates/editorial.lock')
     if status['blocking']:
-        return {'status': 'partial' if validation_failures else 'skipped', 'reason': f"editorial.lock held by live pid {status.get('pid')}",
-                'validated': validated, 'validation_failures': validation_failures}
-    result = pp.apply_admitted(root, p, deadline=deadline-POLICY_START_MARGIN_SECONDS)
+        return {'status': 'partial' if packaging_failed else 'skipped', 'reason': f"editorial.lock held by live pid {status.get('pid')}", **base}
+    # Previews for what the policy will publish come first; the owner's cards get the time left.
+    from research import load
+    try:
+        _, admitted = pp.admissions(root, p, load(root/'research/sources.json'), load(root/'site/data/ledger.json'))
+    except Exception:
+        admitted = []
+    validated, validation_failures = stage_validate_pending(root, deadline=start_by, only=set(admitted))
+    result = pp.apply_admitted(root, p, deadline=start_by)
+    more, more_failures = stage_validate_pending(root, deadline=stage_end-120, skip=set(admitted))
+    validated += more; validation_failures += more_failures
     import catalog_review as cr
     deployments = cr.verify_pending_deployments(root)
-    failed = [rid for rid, outcome in result['outcomes'].items() if str(outcome).startswith('failed')]
-    return {'status': 'partial' if failed or validation_failures else 'ok', 'pending': result['pending'], 'admitted': result['admitted'],
+    held = [rid for rid, outcome in result['outcomes'].items() if not str(outcome).startswith(('deployed', 'deployment_pending', 'pushed'))]
+    return {'status': 'partial' if held or validation_failures or packaging_failed else 'ok', 'pending': result['pending'], 'admitted': result['admitted'],
             'outcomes': result['outcomes'], 'deployment_verification': deployments,
-            'validated': validated, 'validation_failures': validation_failures, 'revisions_packaged': revisions_packaged}
+            'validated': validated, 'validation_failures': validation_failures, **base}
 
 
 # ---------------------------------------------------------------- health
@@ -744,7 +762,8 @@ def stage_digest(root, date):
         if r.get('committed'): applied.append({'kind': 'import', 'id': r['id'], 'commit': (r.get('commit') or '')[:10]})
     policy_receipt = receipts.get('policy') or {}
     for rid, outcome in (policy_receipt.get('outcomes') or {}).items():
-        applied.append({'kind': 'catalog_change', 'id': rid, 'outcome': outcome})
+        if str(outcome).startswith(('deployed', 'deployment_pending', 'pushed')):
+            applied.append({'kind': 'catalog_change', 'id': rid, 'outcome': outcome})
     for rid in (policy_receipt.get('deployment_verification') or {}).get('applied', []):
         applied.append({'kind': 'deployment_confirmed', 'id': rid})
     health = receipts.get('health') or {}

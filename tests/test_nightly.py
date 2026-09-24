@@ -343,7 +343,8 @@ class StagePolicyValidationTests(unittest.TestCase):
         with patch.object(nightly, 'stage_validate_pending', return_value=([{'id': 'catalog-a', 'passed': True}], [])) as fake_validate, \
              patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': False}}):
             result = nightly.stage_policy(self.root)
-        fake_validate.assert_called_once_with(self.root)
+        fake_validate.assert_called_once()
+        self.assertEqual(fake_validate.call_args.args[0], self.root)
         self.assertEqual(result['status'], 'skipped')
         self.assertEqual(result['validated'], [{'id': 'catalog-a', 'passed': True}])
         self.assertEqual(result['validation_failures'], [])
@@ -355,7 +356,7 @@ class StagePolicyValidationTests(unittest.TestCase):
         self.assertEqual(result['status'], 'partial')
 
     def test_a_validation_failure_marks_the_stage_partial_even_when_policy_succeeds(self):
-        with patch.object(nightly, 'stage_validate_pending', return_value=([], [{'id': 'catalog-a', 'error': 'boom'}])), \
+        with patch.object(nightly, 'stage_validate_pending', side_effect=[([], [{'id': 'catalog-a', 'error': 'boom'}]), ([], [])]), \
              patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': True}}), \
              patch.object(nightly, 'lock_status', return_value={'blocking': False}), \
              patch.object(pp, 'apply_admitted', return_value={'pending': 0, 'admitted': [], 'outcomes': {}}), \
@@ -365,7 +366,7 @@ class StagePolicyValidationTests(unittest.TestCase):
         self.assertEqual(result['validation_failures'], [{'id': 'catalog-a', 'error': 'boom'}])
 
     def test_receipt_stays_ok_when_nothing_failed(self):
-        with patch.object(nightly, 'stage_validate_pending', return_value=([{'id': 'catalog-a', 'passed': True}], [])), \
+        with patch.object(nightly, 'stage_validate_pending', side_effect=[([{'id': 'catalog-a', 'passed': True}], []), ([], [])]), \
              patch.object(pp, 'policy', return_value={'auto_apply': {'enabled': True}}), \
              patch.object(nightly, 'lock_status', return_value={'blocking': False}), \
              patch.object(pp, 'apply_admitted', return_value={'pending': 1, 'admitted': ['catalog-a'], 'outcomes': {'catalog-a': 'deployed'}}), \
@@ -706,3 +707,20 @@ class StaleFigureTests(unittest.TestCase):
                       'retrieved_at': (datetime.now(timezone.utc)-timedelta(days=730)).isoformat().replace('+00:00', 'Z')}])
         self.assertEqual(nightly.stale_figures(self.root)['overdue_count'], 0,
                          'a reading about today was called stale because the fetch was old')
+
+
+class ValidatePendingBudgetTests(unittest.TestCase):
+    """Previews stop at the deadline, and a preview that failed on these exact files is not rerun."""
+    def test_deadline_and_failed_previews(self):
+        import catalog_review as cr
+        from unittest import mock
+        pkgs=[{'id':'catalog-a','status':'pending_review','proposal_hash':'h','validation':{'passed':False,'proposal_hash':'h','checkout':'k'}},
+              {'id':'catalog-b','status':'pending_review','proposal_hash':'h','validation':None},
+              {'id':'catalog-c','status':'pending_review','proposal_hash':'h','validation':None}]
+        ran=[]
+        with mock.patch.object(cr,'inbox',return_value=pkgs),mock.patch.object(cr,'checkout_key',return_value='k'), \
+             mock.patch.object(cr,'preview',side_effect=lambda root,rid:ran.append(rid) or {'passed':True}):
+            validated,failed=nightly.stage_validate_pending(Path('.'),only={'catalog-a','catalog-b'})
+            self.assertEqual(ran,['catalog-b'],'the failed one waits for new files; c is not in scope')
+            ran.clear();validated,failed=nightly.stage_validate_pending(Path('.'),deadline=0)
+            self.assertEqual(ran,[]);self.assertTrue(all(f['error'].startswith('deferred') for f in failed))

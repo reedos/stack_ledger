@@ -193,11 +193,16 @@ def render(data):
             qualifier = 'Retracted report'
         lines.append(f"- {compact(h['title'],100)} — {qualifier}; source dated {human_date(h['date']) if h.get('date') else 'unknown'}. {compact(h.get('summary'),160)}")
     errors = totals.get('source_failures',0) + totals.get('discovery_errors',0)
+    watch = []
     if errors:
-        lines += ['', '**Watch-outs**', f'- {errors} collection errors were recorded (may include repeat attempts). The completed run does not mean every source was read.']
+        watch.append(f'- {errors} collection errors were recorded (may include repeat attempts). The completed run does not mean every source was read.')
+    held_back = totals.get('quarantined',0)
+    if held_back:
+        watch.append(f'- {held_back} figure{"s were" if held_back!=1 else " was"} held back for review rather than published (conflicts with a figure already on the site, older editions, table readings). They are listed with the night\'s receipts.')
     if (data.get('pdf_reader') or {}).get('status') in ('missing','error'):
-        if not errors:lines += ['', '**Watch-outs**']
-        lines.append('- Approved PDFs were not read: the nightly Python cannot load pypdf, so grid-operator reports stayed collection gaps. Reinstall pypdf in that environment.')
+        watch.append('- Approved PDFs were not read: the nightly Python cannot load pypdf, so grid-operator reports stayed collection gaps. Reinstall pypdf in that environment.')
+    if watch:
+        lines += ['', '**Watch-outs**'] + watch
     if data.get('dashboard',{}).get('status') == 'unavailable':
         lines.append('- The private dashboard could not be started; Eli should check the viewer service.')
     low = data.get('published_observations') or {}

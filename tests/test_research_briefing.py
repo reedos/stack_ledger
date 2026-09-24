@@ -62,6 +62,12 @@ class BriefingTests(unittest.TestCase):
               'health':{'pdf_reader':{'status':'missing','python':'python.exe'}}}
         self.assertIn('Approved PDFs could not be read',nightly.render_digest_markdown(body))
 
+    def test_figures_held_back_are_a_watch_out(self):
+        self.session()
+        data=brief.snapshot(self.root,self.date);data['totals']['quarantined']=3
+        self.assertIn('3 figures were held back for review',brief.render(data))
+        self.assertEqual(brief.render(data).count('**Watch-outs**'),1)
+
     def test_missing_is_not_zero_or_completed(self):
         data=brief.snapshot(self.root,self.date)
         self.assertEqual(data['outcome'],'not_recorded');self.assertIn('not recorded',brief.render(data))
