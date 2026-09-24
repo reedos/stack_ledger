@@ -30,7 +30,8 @@ def src(sid,published,url=None):
 
 
 SOURCES=[src('fx-2024',"2024-12-01"),src('fx-2026','2026-05-13'),src('fx-mid','2025-06-01'),
-         src('fx-feb','2026-02-05'),src('fx-jul','2026-07-30'),src('fx-oct','2026-09-01')]
+         src('fx-feb','2026-02-05'),src('fx-jul','2026-07-30'),src('fx-oct','2026-09-01'),
+         src('fx-page','2026-09-07',url='https://fixture.example/consensus/revenue')]
 
 
 def metrics_from(live):
@@ -39,7 +40,8 @@ def metrics_from(live):
     trajectory=dict(base,id='fx-peak-gw',title='Fixture coincident peak',source_ids=['fx-2024','fx-2026','fx-mid'],edition_mode='trajectory',
                     scope='Fixture rolling forecast.',note='Fixture.')
     by_year=dict(base,id='fx-guidance-gw',title='Fixture guidance',source_ids=['fx-feb','fx-jul','fx-oct'],scope='Fixture guidance by year.',note='Fixture.')
-    return [trajectory,by_year]
+    consensus=dict(base,id='fx-consensus',title='Fixture consensus revenue',source_ids=['fx-page'],scope='Fixture consensus page.',note='Fixture.')
+    return [trajectory,by_year,consensus]
 
 
 def curated(oid,metric,year,value,source,status='forecast',upper=None,precision='approx'):
@@ -49,7 +51,8 @@ def curated(oid,metric,year,value,source,status='forecast',upper=None,precision=
 
 OBSERVATIONS=[curated('fx-peak-2024','fx-peak-gw',2024,122,'fx-2024',status='observation'),
               curated('fx-peak-2044','fx-peak-gw',2044,152,'fx-2024',upper=186,precision='range'),
-              curated('fx-guidance-2026','fx-guidance-gw',2026,220,'fx-jul')]
+              curated('fx-guidance-2026','fx-guidance-gw',2026,220,'fx-jul'),
+              curated('fx-consensus-2026','fx-consensus',2026,67.14,'fx-page')]
 
 
 def rec(metric,year,value,source,upper=None,status='forecast',precision='approx'):
@@ -127,6 +130,14 @@ class ClassifyTests(unittest.TestCase):
         cleaned=fe.clean('the cost bearer of upgrades <x>',100)
         self.assertNotIn('<',cleaned);self.assertNotIn('bearer of',cleaned)
         validate.text(cleaned,100)  # passes the reviewed-text rules enqueue applies
+
+    def test_a_page_that_changed_its_own_figure_is_a_revision(self):
+        page=self.sources['fx-page'];r=rec('fx-consensus',2026,67.15,'fx-page')
+        self.assertEqual(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Revenue estimate FY2026: 67.15'),'revision')
+        # The page still shows the old number: a misreading, not a revision.
+        self.assertIsNone(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Estimate 67.15, previously 67.14'))
+        self.assertIsNone(fe.classify(rec('fx-consensus',2026,67.14,'fx-page'),page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus'],'Estimate 67.14'))
+        self.assertIsNone(fe.classify(r,page,OBSERVATIONS,SOURCES,self.metrics['fx-consensus']),'no document, no revision')
 
     def test_actuals_are_untouched(self):
         self.assertIsNone(self.classify(rec('fx-peak-gw',2025,121,'fx-2026',status='observation'),self.sources['fx-2026']))
@@ -301,6 +312,40 @@ class EditionPackageTests(Fixture):
         statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
         self.assertEqual(statuses[small[0]],'withdrawn')
 
+    def revision_hold(self,value,text='Consensus revenue estimate for FY2026 now stands at {v} billion.'):
+        doc=text.format(v=value)
+        held=[({'evidence':doc},rec('fx-consensus',2026,value,'fx-page'),{'index':0,'supported':True,'reason':'ok'})]
+        return fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,held,self.metrics,None,'revision')
+
+    def test_same_page_revisions_travel_in_one_package_the_policy_admits(self):
+        self.revision_hold(67.15)
+        packaged=fe.materialize(self.root);self.assertEqual(len(packaged),1)
+        p=catalog_review.package(self.root,packaged[0])
+        self.assertEqual(p['author'],fe.REVISION_AUTHOR)
+        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
+        ok,reasons=eligible(p,pol,registry,self.ledger())
+        self.assertTrue(ok,reasons)
+        projected=catalog_review.projected(p,catalog_review.base(self.root))['site/data/ledger.json']
+        by_id={o['id']:o for o in projected['observations']}
+        new=by_id[by_id['fx-consensus-2026']['superseded_by']]
+        self.assertEqual((new['value'],new['edition_supersedes']),(67.15,['fx-consensus-2026']))
+        self.assertIn('same address',new['correction_reason'])
+        validate.validate(projected)
+
+    def test_a_revision_beyond_the_ratio_or_changing_more_than_the_value_goes_to_the_owner(self):
+        self.revision_hold(671.5)  # a scale slip: ten times the old figure
+        p=catalog_review.package(self.root,fe.materialize(self.root)[0])
+        pol=pub_policy(self.root);registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
+        ok,reasons=eligible(p,pol,registry,self.ledger())
+        self.assertFalse(ok);self.assertIn('beyond',reasons[0])
+        tampered=copy.deepcopy(p);new=next(c for c in tampered['changes'] if c['before'] is None);new['after']['status']='company-commitment'
+        self.assertFalse(eligible(tampered,pol,registry,self.ledger())[0])
+        extra=copy.deepcopy(p);extra['changes'].append({'target':'observation','id':'fx-peak-2044','before':OBSERVATIONS[1],'after':dict(OBSERVATIONS[1],value=1),'evidence':['x']})
+        self.assertFalse(eligible(extra,pol,registry,self.ledger())[0])
+        forged=copy.deepcopy(p);forged['author']=fe.AUTHOR
+        self.assertFalse(eligible(forged,dict(pol,auto_apply=dict(pol['auto_apply'],authors=[fe.AUTHOR])),registry,self.ledger())[0],
+                         'an edition package is never auto-applied, even under a listed author')
+
     def test_a_failed_hold_is_counted_and_retried_only_when_the_files_change(self):
         self.hold()
         with patch.object(fe,'changes_for',side_effect=ValueError('Object changed since proposal')) as failing:
@@ -374,6 +419,18 @@ class RunnerHoldTests(Fixture):
         accepted,quarantine,holds=self.extract('fx-oct',cands,doc)
         self.assertEqual((accepted,quarantine),([],[]))
         self.assertEqual(sorted(r['record']['year'] for h in holds for r in h['records']),[2026,2027])
+
+    def test_the_runner_holds_a_same_page_revision_and_leaves_a_misreading_as_a_conflict(self):
+        doc='Consensus revenue estimate for FY2026 now stands at 67.15 billion dollars across analysts.'
+        accepted,quarantine,holds=self.extract('fx-page',[self.cand('fx-consensus',2026,67.15,'estimate for FY2026 now stands at 67.15 billion')],doc)
+        self.assertEqual((accepted,quarantine),([],[]))
+        self.assertEqual([(h['change'],h['records'][0]['record']['value']) for h in holds],[('revision',67.15)])
+
+    def test_a_page_still_showing_the_old_figure_is_a_conflict_not_a_revision(self):
+        doc='Consensus revenue estimate for FY2026 is 67.15 billion, up from 67.14 billion last week.'
+        accepted,quarantine,holds=self.extract('fx-page',[self.cand('fx-consensus',2026,67.15,'estimate for FY2026 is 67.15 billion')],doc)
+        self.assertEqual(holds,[])
+        self.assertEqual([q['reason'] for q in quarantine],['Conflicting metric/year requires reviewed correction'])
 
     def test_monitoring_cannot_publish_an_edition_link(self):
         head=self.ledger();after=copy.deepcopy(head)

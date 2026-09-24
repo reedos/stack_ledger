@@ -1021,11 +1021,13 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             # A forecast from a different document than the one on the chart is another edition:
             # held for the owner as a whole (forecast_edition), never published or conflict-checked
             # figure by figure, which is how two editions ended up on one line.
-            edition=forecast_edition.classify(record,source,data['observations'],data['sources'],metrics.get(record['metric']))
+            # A page that updates in place and now gives a different figure is a 'revision': held the
+            # same way, then applied under the publication policy's same-page rules.
+            edition=forecast_edition.classify(record,source,data['observations'],data['sources'],metrics.get(record['metric']),full_text)
             if edition in ('older','unordered') and forecast_edition.restates(record,data['observations'],metrics.get(record['metric'])):continue
-            require(edition in (None,'new'),forecast_edition.REASONS.get(edition,''))
-            if edition=='new':
-                checked.append((candidate,record,shrunk,True));continue
+            require(edition in (None,'new','revision'),forecast_edition.REASONS.get(edition,''))
+            if edition:
+                checked.append((candidate,record,shrunk,edition));continue
             conflict=duplicate_or_conflict(record,data['observations'],metrics)
             if conflict=='duplicate':continue
             require(conflict!='conflict','Conflicting metric/year requires reviewed correction')
@@ -1036,8 +1038,8 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             if pdf_text.is_pdf_text(full_text) and isinstance(candidate,dict) and isinstance(candidate.get('evidence'),str):
                 held['pdf_page']=pdf_text.page_in_windows(full_text,windows,candidate['evidence'])
             quarantine.append(held)
-    held_metrics={t[1]['metric'] for t in checked if t[3]}
-    checked=[(c,r,s,True) if (not e and r['metric'] in held_metrics and r['status'] in forecast_edition.FORWARD) else (c,r,s,e) for c,r,s,e in checked]
+    held_metrics={t[1]['metric'] for t in checked if t[3]=='new'}
+    checked=[(c,r,s,'new') if (not e and r['metric'] in held_metrics and r['status'] in forecast_edition.FORWARD) else (c,r,s,e) for c,r,s,e in checked]
     flagged=[t for t in checked if t[3]]
     if flagged:
         # An edition is held whole, but only when it changes something: a document that merely
@@ -1046,7 +1048,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
         kept=[]
         for metric_id in sorted({t[1]['metric'] for t in flagged}):
             group=[t for t in flagged if t[1]['metric']==metric_id];m=metrics.get(metric_id)
-            if all(forecast_edition.restates(t[1],data['observations'],m) for t in group):continue
+            if all(t[3]=='new' and forecast_edition.restates(t[1],data['observations'],m) for t in group):continue
             split=forecast_edition.split_slots([t[1] for t in group],m)
             for t in group:
                 if forecast_edition.slot(t[1],m) in split:
@@ -1070,7 +1072,7 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
         for i,(candidate,record,shrunk,edition) in enumerate(checked):
             verdict=verdict_map[i]
             if edition:
-                if verdict['supported']:editions.append((candidate,record,verdict))
+                if verdict['supported']:editions.append((candidate,record,verdict,edition))
                 else:quarantine.append({'source':source['id'],'candidate':candidate,'reason':f"{verdict['defect']}: {verdict['reason']}",'evidence_shrunk':shrunk})
                 continue
             if verdict['supported'] and not duplicate_or_conflict(record,data['observations'],metrics):
@@ -1084,12 +1086,14 @@ def extract_observations(config,source,full_text,related,data,metrics,sources,ru
             else:quarantine.append({'source':source['id'],'candidate':candidate,'reason':(f"{verdict['defect']}: {verdict['reason']}" if not verdict['supported'] else 'Conflicting proposal'),'evidence_shrunk':shrunk})
         # Screening may have rejected the one figure that changed; what is left must still change
         # something, or approving it could only take points off the chart.
-        changing={r['metric'] for _,r,_ in editions if not forecast_edition.restates(r,data['observations'],metrics.get(r['metric']))}
+        changing={r['metric'] for _,r,_,k in editions if k=='revision' or not forecast_edition.restates(r,data['observations'],metrics.get(r['metric']))}
         editions=[e for e in editions if e[1]['metric'] in changing]
-        if editions:
-            page=(lambda quote:pdf_text.page_in_windows(full_text,windows,quote)) if pdf_text.is_pdf_text(full_text) else None
-            held=forecast_edition.hold(LOCAL,source,full_text,editions,metrics,page)
-            collection['editions_held']=collection.get('editions_held',0)+len(held)
+        page=(lambda quote:pdf_text.page_in_windows(full_text,windows,quote)) if pdf_text.is_pdf_text(full_text) else None
+        for change,key in (('edition','new'),('revision','revision')):
+            group=[(c,r,v) for c,r,v,k in editions if k==key]
+            if group:
+                held=forecast_edition.hold(LOCAL,source,full_text,group,metrics,page,change)
+                collection['editions_held' if key=='new' else 'revisions_held']=collection.get('editions_held' if key=='new' else 'revisions_held',0)+len(held)
     return accepted
 
 # The same lesson as PREFLIGHT_TEST_TIMEOUT_SECONDS: publish() pushes 123 rebuilt pages every

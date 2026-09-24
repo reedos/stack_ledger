@@ -27,7 +27,11 @@ def policy(root=ROOT):
     require(set(p)=={'version','reviewed_at','owner_decision','auto_apply','always_human'} and p['version']==1,'Unexpected publication policy shape')
     timestamp(p['reviewed_at']);text(p['owner_decision'],1000)
     a=p['auto_apply']
-    require(set(a)=={'enabled','reviewer_label','authors','targets','new_entries_only','project_stages','max_source_rank','require_passing_preview','max_changes_per_package','metric_measurement_types','project_updates','same_source_relabel'},'Unexpected auto_apply fields')
+    require(set(a)=={'enabled','reviewer_label','authors','targets','new_entries_only','project_stages','max_source_rank','require_passing_preview','max_changes_per_package','metric_measurement_types','project_updates','same_source_relabel','same_page_revisions'},'Unexpected auto_apply fields')
+    r=a['same_page_revisions']
+    require(isinstance(r,dict) and set(r)=={'enabled','author','max_ratio','statuses'} and type(r['enabled']) is bool and isinstance(r['author'],str) and r['author'],'Invalid same_page_revisions rule')
+    require(isinstance(r['max_ratio'],(int,float)) and 1<r['max_ratio']<=3 and r['author'] not in a['authors'],'Same-page revisions need a ratio ceiling of at most 3 and their own author')
+    require(isinstance(r['statuses'],list) and set(r['statuses'])<={'forecast','company-commitment','government-target'},'Same-page revisions apply only to forward-looking figures')
     require(a['project_updates']=='append_observations_only' and all(isinstance(x,str) for x in a['metric_measurement_types']),'Invalid policy update rules')
     require(type(a['enabled']) is bool and a['new_entries_only'] is True and a['require_passing_preview'] is True,'Policy must keep new-entries-only and passing-preview rules')
     require(type(a['same_source_relabel']) is bool,'Invalid same_source_relabel flag')
@@ -64,6 +68,43 @@ def same_source_relabel(before,after):
     return period[:4].isdigit() and int(period[:4])==after.get('year')
 
 
+def same_page_revision(package,rule):
+    """(admitted, reasons) for a package of same-page revisions (forecast_edition.REVISION_AUTHOR).
+
+    Owner decision, 09/23/2026: a page that updates in place may replace its own earlier figure
+    without a per-item review. Admitted only when every change is exactly that: a new figure from
+    the same registered source, same metric, year, period, status and precision, retiring that
+    source's own earlier figure, within max_ratio of it; the earlier figure changes only by gaining
+    superseded_by. Anything else, including a value that moved further (a unit or scale slip),
+    goes to the owner."""
+    changes=package.get('changes',[])
+    if not changes:return False,['empty revision package']
+    added={c['id']:c['after'] for c in changes if c.get('target')=='observation' and c.get('before') is None}
+    retired={c['id']:c for c in changes if c.get('target')=='observation' and c.get('before') is not None}
+    if len(added)+len(retired)!=len(changes):return False,['a same-page revision changes only observations']
+    for rid,c in retired.items():
+        if c['after']!=dict(c['before'],superseded_by=c['after'].get('superseded_by')) or 'superseded_by' in c['before']:
+            return False,[f'record {rid} changes more than gaining superseded_by']
+    claimed=set()
+    for nid,new in added.items():
+        olds=new.get('edition_supersedes') or []
+        if len(olds)!=1 or olds[0] not in retired:return False,[f'record {nid} must replace exactly one earlier figure in this package']
+        old=retired[olds[0]]['before'];claimed.add(olds[0])
+        if retired[olds[0]]['after'].get('superseded_by')!=nid:return False,[f'record {olds[0]} is not retired by {nid}']
+        if any(new.get(k)!=old.get(k) for k in ('metric','source','year','period','status','precision')):
+            return False,[f'record {nid} changes more than the value of {olds[0]}']
+        if new.get('status') not in rule['statuses']:return False,[f'record {nid} is not a forward-looking figure']
+        if new.get('method')!='automated':return False,[f'record {nid} is not a runner reading']
+        for key in ('value','upper'):
+            a_,b_=old.get(key),new.get(key)
+            if (a_ is None)!=(b_ is None):return False,[f'record {nid} adds or drops an upper bound']
+            if a_ is None:continue
+            if not (isinstance(a_,(int,float)) and isinstance(b_,(int,float)) and a_>0 and b_>0 and max(a_,b_)/min(a_,b_)<=rule['max_ratio']):
+                return False,[f"record {nid}: {key} moved from {a_} to {b_}, beyond {rule['max_ratio']}x; the owner reviews it"]
+    if claimed!=set(retired):return False,['every retired figure must be replaced in the same package']
+    return True,[f"same-page revision: {len(added)} figure{'s' if len(added)!=1 else ''} updated by their own publishers, each within {rule['max_ratio']}x"]
+
+
 def eligible(package,p,registry,ledger=None):
     """(admitted, reasons). Every rule must hold; the reasons list explains the first failure or the admission.
 
@@ -73,6 +114,9 @@ def eligible(package,p,registry,ledger=None):
     an outlier before it reads as a real jump). Omitting ledger skips this one check only."""
     a=p['auto_apply'];reasons=[]
     if not a['enabled']:return False,['auto-apply disabled by policy']
+    rule=a['same_page_revisions']
+    if package.get('author')==rule['author']:
+        return same_page_revision(package,rule) if rule['enabled'] else (False,['same-page revisions are not enabled'])
     if package.get('author') not in a['authors']:return False,[f"author {package.get('author')!r} is not a policy-listed tool"]
     changes=package.get('changes',[])
     if not changes:return False,['0 changes exceeds the per-package ceiling']

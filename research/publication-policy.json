@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "reviewed_at": "2026-09-09T10:45:00Z",
-  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site. Additions from credible authorities are applied to the site automatically under the rules below, each one recorded as a catalog_change event with its commit. Ingested figures (site power, chip counts, capital cost) from those authorities are recorded as estimates and attached to their projects automatically; nothing already on the site is replaced without a human decision. September 10, 2026: 'Policy import (maintainer tool)' joins the authors for a future maintainer tool producing project/metric/observation packages under this name; source and note (new sources, new published events) stay off auto_apply.targets on purpose (tests/test_publication_policy.py) -- scripts/import_policy.py's Federal Register grade-A events publish through the non-pushing scripts/importer_common.apply_changes lane instead, never through this one.",
+  "reviewed_at": "2026-09-23T16:00:00Z",
+  "owner_decision": "September 9, 2026: human review is for headline content and for replacing figures already on the site; additions from credible authorities are applied automatically under the rules below, each recorded as a catalog_change event with its commit. September 10: 'Policy import (maintainer tool)' joins the authors; source and note stay off targets on purpose. September 23: one kind of replacement is automatic too. A page that updates in place (a consensus revenue page, an Epoch site page, BLS projections) may replace its own earlier forward-looking figure when only the value changed, the page no longer shows the old number, and the new value is within same_page_revisions.max_ratio of the old one. Any other replacement, including a new edition from a different document, stays with the owner.",
   "auto_apply": {
     "enabled": true,
     "reviewer_label": "publication-policy",
@@ -27,11 +27,21 @@
       "estimated_site_capital_cost_usd_bn"
     ],
     "project_updates": "append_observations_only",
-    "same_source_relabel": true
+    "same_source_relabel": true,
+    "same_page_revisions": {
+      "enabled": true,
+      "author": "Same-page revision (research runner)",
+      "max_ratio": 2,
+      "statuses": [
+        "forecast",
+        "company-commitment",
+        "government-target"
+      ]
+    }
   },
   "always_human": [
     "homepage.json, editorial selections and any headline card",
-    "replacing, correcting or superseding a figure already on the site",
+    "replacing, correcting or superseding a figure already on the site, except a same-page revision: the same source replacing its own forward-looking figure, value only, within max_ratio (auto_apply.same_page_revisions)",
     "source policy, excerpt permission and discovery permissions",
     "company and product objects",
     "stage changes on accepted projects and any object that already exists",
