@@ -65,8 +65,16 @@ class BriefingTests(unittest.TestCase):
     def test_figures_held_back_are_a_watch_out(self):
         self.session()
         data=brief.snapshot(self.root,self.date);data['totals']['quarantined']=3
-        self.assertIn('3 figures were held back for review',brief.render(data))
+        self.assertIn('3 readings were held back or rejected',brief.render(data))
         self.assertEqual(brief.render(data).count('**Watch-outs**'),1)
+
+    def test_automatic_same_page_revisions_are_named_in_the_briefing(self):
+        self.session()
+        self.save('.local/review-candidates/catalog-'+'a'*24+'.json',{'author':'Same-page revision (research runner)','changes':[
+            {'target':'observation','id':'n1','before':None},{'target':'observation','id':'o1','before':{'id':'o1'}},
+            {'target':'observation','id':'n2','before':None},{'target':'observation','id':'o2','before':{'id':'o2'}}]})
+        data=brief.snapshot(self.root,self.date,body={'applied':[{'kind':'catalog_change','id':'catalog-'+'a'*24,'outcome':'deployed'}]})
+        self.assertIn('2 figures on the site updated automatically',brief.render(data))
 
     def test_missing_is_not_zero_or_completed(self):
         data=brief.snapshot(self.root,self.date)

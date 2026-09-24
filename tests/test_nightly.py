@@ -724,3 +724,24 @@ class ValidatePendingBudgetTests(unittest.TestCase):
             self.assertEqual(ran,['catalog-b'],'the failed one waits for new files; c is not in scope')
             ran.clear();validated,failed=nightly.stage_validate_pending(Path('.'),deadline=0)
             self.assertEqual(ran,[]);self.assertTrue(all(f['error'].startswith('deferred') for f in failed))
+
+
+class PolicyStageOrderTests(unittest.TestCase):
+    """Publish as it goes: admitted packages are applied before the owner's cards are previewed."""
+    def test_apply_runs_before_owner_previews_and_the_digest_names_what_was_held(self):
+        import publication_policy as pp, catalog_review as cr
+        from unittest import mock
+        calls=[]
+        with tempfile.TemporaryDirectory() as tmp, \
+             mock.patch.object(pp,'policy',return_value={'auto_apply':{'enabled':True}}), \
+             mock.patch.object(nightly,'lock_status',return_value={'blocking':False}), \
+             mock.patch.object(pp,'apply_admitted',side_effect=lambda *a,**k:calls.append('apply') or {'pending':2,'admitted':['catalog-a','catalog-b'],'outcomes':{'catalog-a':'deployed','catalog-b':'deferred: not enough time left in this stage'}}), \
+             mock.patch.object(nightly,'stage_validate_pending',side_effect=lambda *a,**k:calls.append(('validate',sorted(k.get('skip',())))) or ([],[])), \
+             mock.patch.object(cr,'verify_pending_deployments',return_value={'checked':[],'applied':[],'still_pending':[]}):
+            result=nightly.stage_policy(Path(tmp))
+        self.assertEqual(calls,['apply',('validate',['catalog-a','catalog-b'])])
+        self.assertEqual(result['status'],'partial');self.assertIn('not published',result['reason'])
+        body={'date':'2026-09-24','stage_receipts':{},'applied':[],'needs_decision':{},'site_changes':[],'health':{},
+              'policy_outcomes':result['outcomes']}
+        text=nightly.render_digest_markdown(body)
+        self.assertIn('## Held back by the publication policy',text);self.assertIn('catalog-b: deferred',text)

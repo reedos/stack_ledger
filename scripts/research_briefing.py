@@ -167,9 +167,21 @@ def snapshot(root, date='latest', body=None):
         'stages':[{'name':LABELS[s], 'status':r.get('status','not recorded'), 'reason':r.get('reason') or r.get('error'),
                    'elapsed_seconds':r.get('elapsed_seconds')} for s,r in receipts.items()],
         'applied':body.get('applied',[]), 'published_observations':body.get('published_observations',{}),
+        'revised_figures':revised_figures(root, body.get('applied',[])),
         'pdf_reader':(receipts['health'].get('pdf_reader') or (body.get('health') or {}).get('pdf_reader') or {}),
         'publication':{'unpushed_commits':body.get('unpushed_commits'), 'final_push':body.get('final_push')},
         'updated_at':datetime.now(timezone.utc).isoformat()}
+
+def revised_figures(root, applied):
+    """How many figures tonight's automatic same-page revision packages replaced on the site."""
+    count = 0
+    for x in applied:
+        if x.get('kind') != 'catalog_change':
+            continue
+        p = read(root/'.local/review-candidates'/(str(x.get('id'))+'.json'), {})
+        if isinstance(p, dict) and p.get('author') == 'Same-page revision (research runner)':
+            count += sum(1 for c in p.get('changes', []) if c.get('target') == 'observation' and c.get('before') is None)
+    return count
 
 def compact(text, limit=200):
     value = ' '.join(str(text or '').split())
@@ -187,6 +199,9 @@ def render(data):
     imports = [IMPORT_NAMES.get(x['id'],x['id']) for x in data['applied'] if x.get('kind')=='import']
     if imports:
         lines.append('- Dataset updates: '+', '.join(imports)+'.')
+    revised = data.get('revised_figures', 0)
+    if revised:
+        lines.append(f"- {revised} figure{'s' if revised!=1 else ''} on the site updated automatically because the page that gave {'them' if revised!=1 else 'it'} revised its own forecast (same-page revisions; each is listed in the night's report).")
     for h in data['highlights'][:3]:
         qualifier = 'Unconfirmed report' if h.get('grade') in ('C','D') else (h.get('kind') or 'Finding')
         if h.get('retracted'):
@@ -198,7 +213,7 @@ def render(data):
         watch.append(f'- {errors} collection errors were recorded (may include repeat attempts). The completed run does not mean every source was read.')
     held_back = totals.get('quarantined',0)
     if held_back:
-        watch.append(f'- {held_back} figure{"s were" if held_back!=1 else " was"} held back for review rather than published (conflicts with a figure already on the site, older editions, table readings). They are listed with the night\'s receipts.')
+        watch.append(f'- {held_back} reading{"s were" if held_back!=1 else " was"} held back or rejected rather than published (conflicts with a figure already on the site, older editions, table readings, readings the screening step rejected). They are listed with the night\'s receipts.')
     if (data.get('pdf_reader') or {}).get('status') in ('missing','error'):
         watch.append('- Approved PDFs were not read: the nightly Python cannot load pypdf, so grid-operator reports stayed collection gaps. Reinstall pypdf in that environment.')
     if watch:

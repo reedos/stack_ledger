@@ -422,21 +422,23 @@ def stage_policy(root):
                 'validated': validated, 'validation_failures': validation_failures, **base}
     status = lock_status(root/'.local/review-candidates/editorial.lock')
     if status['blocking']:
-        return {'status': 'partial' if packaging_failed else 'skipped', 'reason': f"editorial.lock held by live pid {status.get('pid')}", **base}
-    # Previews for what the policy will publish come first; the owner's cards get the time left.
-    from research import load
-    try:
-        _, admitted = pp.admissions(root, p, load(root/'research/sources.json'), load(root/'site/data/ledger.json'))
-    except Exception:
-        admitted = []
-    validated, validation_failures = stage_validate_pending(root, deadline=start_by, only=set(admitted))
+        # Previews need no editorial lock: the owner's cards are still made ready for the morning.
+        validated, validation_failures = stage_validate_pending(root, deadline=stage_end-120)
+        return {'status': 'partial' if packaging_failed or validation_failures else 'skipped', 'reason': f"editorial.lock held by live pid {status.get('pid')}",
+                'validated': validated, 'validation_failures': validation_failures, **base}
+    # Publish as it goes: auto_apply previews each admitted package right before publishing it, so the
+    # first admitted package publishes within minutes however many are waiting. The owner's cards are
+    # previewed with the time left.
     result = pp.apply_admitted(root, p, deadline=start_by)
-    more, more_failures = stage_validate_pending(root, deadline=stage_end-120, skip=set(admitted))
-    validated += more; validation_failures += more_failures
+    validated, validation_failures = stage_validate_pending(root, deadline=stage_end-120, skip=set(result['admitted']))
     import catalog_review as cr
     deployments = cr.verify_pending_deployments(root)
     held = [rid for rid, outcome in result['outcomes'].items() if not str(outcome).startswith(('deployed', 'deployment_pending', 'pushed'))]
-    return {'status': 'partial' if held or validation_failures or packaging_failed else 'ok', 'pending': result['pending'], 'admitted': result['admitted'],
+    reason = '; '.join(filter(None, [f'{len(held)} admitted package(s) not published (failed or deferred)' if held else '',
+                                     f'{len(validation_failures)} preview(s) failed or deferred' if validation_failures else '',
+                                     'revision packaging failed' if packaging_failed else '']))
+    return {'status': 'partial' if held or validation_failures or packaging_failed else 'ok', **({'reason': reason} if reason else {}),
+            'pending': result['pending'], 'admitted': result['admitted'],
             'outcomes': result['outcomes'], 'deployment_verification': deployments,
             'validated': validated, 'validation_failures': validation_failures, **base}
 
@@ -726,6 +728,10 @@ def render_digest_markdown(body):
     lines += [f"- {k}: {v}" for k, v in body['stage_receipts'].items()]
     lines += ['', '## Applied automatically']
     lines += [f"- {row['kind']}: " + ' '.join(f'{k}={v}' for k, v in row.items() if k != 'kind') for row in body['applied']] or ['- Nothing applied automatically tonight.']
+    held = [(rid, outcome) for rid, outcome in ((body.get('policy_outcomes') or {}).items()) if not str(outcome).startswith(('deployed', 'deployment_pending', 'pushed'))]
+    if held:
+        lines += ['', '## Held back by the publication policy']
+        lines += [f"- {rid}: {outcome}" for rid, outcome in held]
     lines += ['', '## Needs a decision']
     lines += [f"- {k.replace('_', ' ')}: {v}" for k, v in body['needs_decision'].items()] or ['- Nothing pending.']
     lines += ['', '## Site changes']
@@ -768,6 +774,7 @@ def stage_digest(root, date):
         applied.append({'kind': 'deployment_confirmed', 'id': rid})
     health = receipts.get('health') or {}
     body = {'date': date, 'applied': applied, 'needs_decision': health.get('pending_decisions') or {},
+            'policy_outcomes': policy_receipt.get('outcomes') or {},
             'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'pdf_reader')},
             'site_changes': site_changes(root, date),
             'published_observations': published_observations(root, date),

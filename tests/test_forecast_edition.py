@@ -403,12 +403,52 @@ class EditionPackageTests(Fixture):
 
     def test_bundles_respect_the_package_size_limit(self):
         built=[(None,{},[{'id':str(i)}]*8,{'id':'e'},['x']) for i in range(30)]  # 30 revisions of 4 figures each
-        groups,current=[],[]
-        for b in built:
-            if current and sum(len(x[2]) for x in current)+len(b[2])>fe.MAX_CHANGES_PER_PACKAGE:groups.append(current);current=[]
-            current.append(b)
-        groups.append(current)
+        groups=fe._bundle(built)
         self.assertTrue(all(sum(len(x[2]) for x in g)<=100 for g in groups));self.assertEqual(len(groups),3)
+        self.assertEqual(sum(len(g) for g in groups),30)
+
+    def save_page(self,url,text):
+        # What the runner leaves behind after reading a page: the fetch state names its latest text.
+        import hashlib
+        from collection_health import Health
+        sha=hashlib.sha256(text.encode('utf-8')).hexdigest()
+        (self.root/'.local/evidence').mkdir(parents=True,exist_ok=True)
+        (self.root/'.local/evidence'/f'{sha}.json').write_text(json.dumps({'url':url,'text':text}),encoding='utf-8')
+        Health(self.root/'.local/fetch-state.json').put('page',url,{'text_sha256':sha})
+
+    def test_a_reading_the_page_has_since_moved_on_from_is_never_published(self):
+        self.revision_hold(67.15)
+        self.save_page(self.sources['fx-page']['url'],'Consensus revenue estimate for FY2026 is 67.14 billion again.')
+        self.assertEqual(fe.materialize(self.root,revisions=True),[])
+        self.assertEqual(self.item()['status'],'obsolete')
+
+    def test_a_partly_overlapping_older_reading_keeps_only_what_is_still_true(self):
+        # A (older) revised 2026 and 2027; B (newer) revised 2026 only. A may publish 2027, never its 2026.
+        ledger=self.ledger();ledger['observations'].append(curated('fx-consensus-2027','fx-consensus',2027,70.0,'fx-page'))
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        import hashlib
+        docA='FY2026 consensus 67.15 billion; FY2027 consensus 71.0 billion.'
+        a=[({'evidence':docA},dict(rec('fx-consensus',2026,67.15,'fx-page'),document_sha256=hashlib.sha256(docA.encode()).hexdigest()),{'index':0,'supported':True,'reason':'ok'}),
+           ({'evidence':docA},dict(rec('fx-consensus',2027,71.0,'fx-page'),document_sha256=hashlib.sha256(docA.encode()).hexdigest()),{'index':1,'supported':True,'reason':'ok'})]
+        fe.hold(self.root/'.local',self.sources['fx-page'],docA,a,self.metrics,None,'revision',self.ledger())
+        self.revision_hold(67.2,text='FY2026 consensus {v} billion; FY2027 consensus 71.0 billion.')
+        self.save_page(self.sources['fx-page']['url'],'FY2026 consensus 67.2 billion; FY2027 consensus 71.0 billion.')
+        packages=fe.materialize(self.root,revisions=True);self.assertEqual(len(packages),1)
+        p=catalog_review.package(self.root,packages[0])
+        added=sorted((c['after']['year'],c['after']['value']) for c in p['changes'] if c['before'] is None)
+        self.assertEqual(added,[(2026,67.2),(2027,71.0)],'the newer 2026 and the older reading\'s still-true 2027, once each')
+        self.assertTrue(self.admitted(p['id'])[0])
+
+    def test_a_lone_revision_whose_preview_failed_stays_for_the_owner(self):
+        self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]
+        with patch.object(fe,'_preview_failed',return_value=True):
+            self.assertEqual(fe.materialize(self.root,revisions=True),[],'not a bundle: nothing to split, no churn')
+
+    def test_the_runner_never_withdraws_over_an_owner_approval(self):
+        self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]
+        from editorial_review import append_event
+        append_event(self.root,{'id':first,'kind':'catalog_change','status':'approved','reviewer':'owner','at':'2026-09-22T10:00:00Z'})
+        self.assertFalse(fe.withdraw(self.root,first,'stale'))
 
     def test_an_ineligible_revision_gets_its_own_package_and_the_rest_still_go(self):
         self.revision_hold(67.15)
