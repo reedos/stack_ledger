@@ -82,20 +82,23 @@ YEAR=re.compile(r'(?<!\d)(19|20)\d\d(?!\d)')
 
 
 def _column_slip(new,old,ledger,siblings=()):
-    """Why the new value could be a neighbouring column misread (a consensus page's This Year and
-    Next Year) rather than a revision, or None. It is compared with the page's other current figures
-    for the metric and with the other figures this package reads from the page; when there is
-    nothing to compare it with, a slip cannot be ruled out, so the owner decides (review finding,
-    09/24/2026: a first reading of a metric's second year had nothing on file to be checked against)."""
-    v,w=new.get('value'),old.get('value')
-    if not (isinstance(v,(int,float)) and isinstance(w,(int,float)) and v>0 and w>0):return 'its value cannot be compared with the one it replaces'
-    others=[o for o in ledger.get('observations',[]) if o.get('metric')==old.get('metric') and o.get('source')==old.get('source')
-            and o.get('id')!=old.get('id') and not o.get('superseded_by')]+[s for s in siblings if s.get('metric')==old.get('metric')]
-    others=[o for o in others if isinstance(o.get('value'),(int,float)) and o['value']>0]
-    if not others:return 'the page gives no other figure for this metric, so a column slip cannot be ruled out'
-    d=abs(math.log(v/w))
-    near=next((o for o in others if abs(math.log(v/o['value']))<=d),None)
-    return f"{v} is as near this page's {near.get('period') or near.get('year')} figure as the one it replaces" if near else None
+    """Why the new figure could be a neighbouring column misread (a consensus page's This Year and
+    Next Year, a table's next row) rather than a revision, or None. Its value and upper bound are
+    each compared with every number of the page's other current figures for the metric and of the
+    other figures this package reads from the same page; when there is nothing to compare with, a
+    slip cannot be ruled out, so the owner decides (review findings, 09/24/2026)."""
+    same=lambda o:o.get('metric')==old.get('metric') and o.get('source')==old.get('source')
+    others=[o for o in ledger.get('observations',[]) if same(o) and o.get('id')!=old.get('id') and not o.get('superseded_by')]+[s for s in siblings if same(s)]
+    numbers=[(o,o[k]) for o in others for k in ('value','upper') if isinstance(o.get(k),(int,float)) and o[k]>0]
+    for key in ('value','upper'):
+        v,w=new.get(key),old.get(key)
+        if w is None and v is None:continue
+        if not (isinstance(v,(int,float)) and isinstance(w,(int,float)) and v>0 and w>0):return f'its {key} cannot be compared with the one it replaces'
+        if not numbers:return 'the page gives no other figure for this metric, so a column slip cannot be ruled out'
+        d=abs(math.log(v/w))
+        near=next((o for o,n in numbers if abs(math.log(v/n))<=d),None)
+        if near:return f"its {key} {v} is as near this page's {near.get('period') or near.get('year')} figure as the one it replaces"
+    return None
 
 
 def same_page_revision(package,rule,ledger=None,registry=None):

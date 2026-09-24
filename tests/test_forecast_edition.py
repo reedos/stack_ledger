@@ -510,6 +510,27 @@ class RevisionTests(Fixture):
     def item_outcome_after_settle(self):
         self.card(self.settle());return self.item()['outcomes']['fx-consensus-2026']
 
+    def test_a_bare_year_in_the_title_goes_to_the_owner(self):
+        registry=json.loads((self.root/'research/sources.json').read_text(encoding='utf-8'))
+        next(s for s in registry['sources'] if s['id']=='fx-page')['title']='Fixture consensus revenue outlook 2026'
+        (self.root/'research/sources.json').write_text(json.dumps(registry,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        self.revision_hold(67.15)
+        self.assertIn('date in its title',self.item_outcome_after_settle())
+
+    def test_a_slipped_upper_bound_goes_to_the_owner(self):
+        # A range figure: the low end moved a little, the high end was read from the next row.
+        ledger=self.ledger();o=next(o for o in ledger['observations'] if o['id']=='fx-consensus-2026')
+        o.update(value=90000,upper=110000,precision='range')
+        ledger['observations']=[x for x in ledger['observations'] if x['id']!='fx-consensus-2027']
+        ledger['observations'].append(dict(curated('fx-consensus-2027','fx-consensus',2027,105000,'fx-page',upper=118000,precision='range')))
+        self.write_ledger(ledger)
+        import hashlib
+        doc='Year-end 2026: 91000 to 118000 wafers per month. Year-end 2027: 105000 to 125000.'
+        r=dict(rec('fx-consensus',2026,91000,'fx-page',upper=118000,precision='range'),document_sha256=hashlib.sha256(doc.encode()).hexdigest())
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc,[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})],self.metrics,None,'revision',self.ledger())
+        self.save_page(doc)
+        self.assertIn('its upper 118000 is as near',self.item_outcome_after_settle())
+
     def test_a_forecast_the_page_no_longer_shows_keeps_its_date_off_the_page(self):
         # The new date would vouch for 2027 too, which the page as last read does not show.
         self.revision_hold(67.15,text='Consensus revenue estimate for FY2026 now stands at {v} billion.')
@@ -648,6 +669,39 @@ class RevisionTests(Fixture):
         self.settle()
         self.assertEqual(self.value_on_site(),67.2)
         self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn','approving the stale card could only roll the figure back')
+
+    def test_a_newer_reading_of_one_year_keeps_the_other_years_card_alive(self):
+        # One card per page: 2026 and 2027 both went to the owner. Only 2026 is read again.
+        import hashlib
+        doc='FY2026 consensus 67.15 billion; FY2027 consensus 80.0 billion.'
+        rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
+              for i,(y,v) in enumerate([(2026,67.15),(2027,80.0)])]
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger());self.save_page(doc)
+        (old_card,)=self.settle(auto=False)['cards']
+        self.revision_hold(67.2,text='FY2026 consensus {v} billion; FY2027 consensus 80.0 billion.')
+        self.settle(auto=False)
+        self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn')
+        cards=[p for p in catalog_review.inbox(self.root) if p['author']==fe.REVIEW_AUTHOR and p['status']=='pending_review']
+        self.assertEqual(len(cards),1,'one card per page, so two cards never race to move the page date')
+        values=sorted(c['after']['value'] for c in cards[0]['changes'] if c['target']=='observation' and c['before'] is None)
+        self.assertEqual(values,[67.2,80.0],"the untouched 2027 reading is carried into the page's new card")
+        self.apply(cards[0]);validate.validate(self.ledger())
+
+    def test_a_page_published_unattended_carries_an_older_cards_other_year_to_a_fresh_card(self):
+        import hashlib
+        doc='FY2026 consensus 67.15 billion; FY2027 consensus 80.0 billion.'
+        rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
+              for i,(y,v) in enumerate([(2026,67.15),(2027,80.0)])]
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger());self.save_page(doc)
+        (old_card,)=self.settle(auto=False)['cards']
+        # 2026 is read again and published unattended; its page still shows the 2027 reading the old card holds.
+        self.revision_hold(67.2,text='FY2026 consensus {v} billion; FY2027 consensus 80.0 billion; 70.0 a year ago.')
+        result=self.settle()
+        self.assertEqual(self.value_on_site(),67.2)
+        self.assertEqual(catalog_review.last_review(self.root,old_card)['status'],'withdrawn')
+        cards=[p for p in catalog_review.inbox(self.root) if p['author']==fe.REVIEW_AUTHOR and p['status']=='pending_review']
+        self.assertEqual([[c['after']['value'] for c in p['changes'] if c['target']=='observation' and c['before'] is None] for p in cards],[[80.0]])
+        self.assertIn('carried over',cards[0]['title'])
 
     def test_a_deferred_card_is_left_to_the_owner_even_when_a_newer_reading_arrives(self):
         self.revision_hold(67.15)

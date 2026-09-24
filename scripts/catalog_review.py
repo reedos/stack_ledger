@@ -247,13 +247,14 @@ def apply_publish(root,rid,proposal_hash,review_hash,reviewer,confirmed=False,id
         require(decision and decision['status']=='approved' and decision['proposal_hash']==digest(p),'Recorded approval required')
         from findings_review import authorized
         require(authorized(root,reviewer,identity),'Unauthorized local reviewer')
-        return publish_package(root,rid,p,decision,reviewer,identity=identity)
+        return publish_package(root,rid,p,decision,reviewer,identity=identity,lock_held=True)
 
-def publish_package(root,rid,p,decision,reviewer,identity=None):
+def publish_package(root,rid,p,decision,reviewer,identity=None,lock_held=False):
     """Shared publication body: preview, project the change, validate, build, commit, push, verify.
 
-    Called after either a human approval (apply_publish) or a recorded policy approval
-    (publication_policy.auto_apply). The approval event must already exist and match.
+    Called after either a human approval (apply_publish, which holds the editorial lock for the
+    whole call: lock_held) or a recorded policy approval (publication_policy.auto_apply, which does
+    not). The approval event must already exist and match.
     """
     require(decision and decision['status']=='approved' and decision['proposal_hash']==digest(p),'Recorded approval required')
     if True:
@@ -295,16 +296,20 @@ def publish_package(root,rid,p,decision,reviewer,identity=None):
                     changed=git(root,'diff','--name-only').splitlines()+git(root,'ls-files','--others','--exclude-standard').splitlines()
                     require(changed and all(x in changes or x.startswith('docs/') for x in changed),'Unexpected catalog build changes')
                     # The preview, validation and build take minutes: a Reject or Defer the owner
-                    # recorded meanwhile stands. Checked and committed under the lock review() writes with.
-                    for attempt in range(40):
-                        try:
-                            with locked(root):
-                                require(last_review(root,rid)==decision,'The decision on this package changed while it was being published')
-                                git(root,'add','--',*changed);git(root,'commit','-m','catalog: apply '+rid)
-                            break
-                        except FileExistsError:
-                            if attempt==39:raise
-                            time.sleep(0.5)
+                    # recorded meanwhile stands. Checked and committed under the lock review() writes
+                    # with; apply_publish already holds it (the lock is not re-entrant).
+                    def commit():
+                        require(last_review(root,rid)==decision,'The decision on this package changed while it was being published')
+                        git(root,'add','--',*changed);git(root,'commit','-m','catalog: apply '+rid)
+                    if lock_held:commit()
+                    else:
+                        for attempt in range(40):
+                            try:
+                                with locked(root):commit()
+                                break
+                            except FileExistsError:
+                                if attempt==39:raise
+                                time.sleep(0.5)
                 except BaseException:
                     # Nothing was committed. The tree was clean when this began: put it back, or every
                     # later publish and the next night's sync refuse the clone (review finding, 09/24/2026).

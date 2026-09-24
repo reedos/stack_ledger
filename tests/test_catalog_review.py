@@ -158,7 +158,7 @@ class CatalogTests(unittest.TestCase):
             with patch.object(c,'ancestor',return_value=True):
                 self.assertEqual(c.verify_pending_deployments(self.root)['applied'],[p['id']])
 
-    def publish(self,p,git_answers,**patches):
+    def publish(self,p,git_answers,via=None,**patches):
         import contextlib
         answers=dict({'branch':c.read(self.root/'research/runtime.json')['branch'],'remote':'https://github.com/'+c.read(self.root/'research/runtime.json')['repository'],
                       'fetch':'','rev-parse':'h'*40},**git_answers)
@@ -171,6 +171,10 @@ class CatalogTests(unittest.TestCase):
                                       (c.git_clean,'dirty_lines',lambda root:[]),(c,'git',git)]+[(c,k,v) for k,v in patches.items()]:
                 stack.enter_context(patch.object(target,name,value))
             decision=c.last_review(self.root,p['id'])
+            if via=='apply_publish':
+                import findings_review
+                stack.enter_context(patch.object(findings_review,'authorized',return_value=True))
+                return c.apply_publish(self.root,p['id'],c.digest(p),c.digest(decision),'human',True),pushed
             return c.publish_package(self.root,p['id'],p,decision,'human'),pushed
 
     def test_resuming_a_publication_whose_commit_is_on_origin_only_verifies_it(self):
@@ -198,6 +202,18 @@ class CatalogTests(unittest.TestCase):
                 self.publish(p,{},restore=lambda root:restored.append(root))
         self.assertEqual(restored,[self.root])
         self.assertFalse((c.queue(self.root)/(p['id']+'-publication.json')).exists(),'nothing was committed, so there is nothing to resume')
+
+    def test_an_ordinary_human_publish_goes_through_end_to_end(self):
+        # apply_publish holds the editorial lock for the whole publish; the decision re-check inside
+        # publish_package must not try to take it again (review finding, 09/24/2026: it deadlocked).
+        import subprocess
+        p=self.approve();(c.queue(self.root)/(p['id']+'-publication.json')).unlink()
+        with patch.object(c,'check_base'),patch.object(c,'check_evidence'),patch.object(c,'preview',return_value={'passed':True}), \
+             patch.object(c.subprocess,'run',side_effect=lambda command,**kw:subprocess.CompletedProcess(command,0)), \
+             patch.object(c.time,'sleep',side_effect=AssertionError('waited on its own lock')):
+            receipt,pushed=self.publish(p,{'diff':'research/delivery.json','ls-files':'','commit':'','add':''},via='apply_publish',
+                                        deployed=lambda root,config,commit:True,mark_deployed=lambda *a,**k:None)
+        self.assertEqual((receipt['status'],len(pushed)),('deployed',1))
 
     def test_a_decision_recorded_while_publishing_stands(self):
         import subprocess
@@ -252,6 +268,22 @@ class RestoreTests(unittest.TestCase):
             c.restore(root)
             self.assertEqual(subprocess.run(['git','status','--porcelain'],cwd=root,capture_output=True,text=True).stdout,'')
             self.assertTrue((root/'.local/keep.json').exists(),'ignored private files are never touched')
+
+    def test_a_package_commit_is_found_in_history_and_a_revert_takes_it_back(self):
+        import subprocess
+        import forecast_edition as fe
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);run=lambda *a:subprocess.run(['git',*a],cwd=root,check=True,capture_output=True,text=True).stdout.strip()
+            run('init','-q');run('config','user.email','fixture@example.org');run('config','user.name','Fixture')
+            (root/'a.json').write_text('{}',encoding='utf-8');run('add','-A');run('commit','-qm','base')
+            pid='catalog-'+'a'*24
+            (root/'a.json').write_text('{"x":1}',encoding='utf-8');run('commit','-qam','catalog: apply '+pid)
+            sha=run('rev-parse','HEAD')
+            self.assertEqual(fe._committed(root,pid),sha)
+            self.assertIsNone(fe._committed(root,'catalog-'+'b'*24))
+            self.assertIsNone(fe._committed(root,'catalog-'+'a'*23),'a prefix of the id is not the package')
+            run('revert','--no-edit','HEAD')
+            self.assertIsNone(fe._committed(root,pid),'a reverted package is not live')
 
 
 class PreviewCheckRobustnessTests(unittest.TestCase):

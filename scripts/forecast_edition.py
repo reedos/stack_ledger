@@ -696,14 +696,21 @@ def _committed(root, package_id):
     """The commit that published this package, if HEAD's history has one: a kill between the commit
     and its receipt leaves a live package that looks unpublished."""
     import subprocess
+    subject = f'catalog: apply {package_id}'
     try:
-        r = subprocess.run(['git', 'log', '-1', '--format=%H', '--fixed-strings', f'--grep=catalog: apply {package_id}', 'HEAD'],
-                           cwd=root, capture_output=True, text=True, timeout=60)
+        r = subprocess.run(['git', 'log', '--format=%H %s', '--fixed-strings', f'--grep={subject}', 'HEAD'],
+                           cwd=root, capture_output=True, text=True, encoding='utf-8', timeout=60)
     except (OSError, subprocess.SubprocessError):
         return None
     if r.returncode != 0:
         return None
-    return r.stdout.strip() or None
+    for line in r.stdout.splitlines():  # newest first
+        sha, _, said = line.partition(' ')
+        if said == f'Revert "{subject}"':
+            return None  # published, then taken back: nothing live to finish
+        if said == subject:
+            return sha
+    return None
 
 
 def settle_revisions(root, auto=False, deadline=None):
@@ -760,9 +767,9 @@ def settle_revisions(root, auto=False, deadline=None):
             continue
         take_back(pid, 'An automatic revision not published the night it was read.')
     # What the owner rejected stays rejected, whichever hold brings the same reading back. Cards
-    # still waiting for the owner, by the site figure they would replace.
-    declined, waiting_cards = {}, {}
-    for pid, pkg in packages.items():
+    # still waiting for the owner: the site figures each would replace, and the page it is for.
+    declined, cards = {}, {'pins': {}, 'pages': {}, 'packages': packages, 'folded': {}}
+    for pid, pkg in sorted(packages.items(), key=lambda kv: kv[1].get('created_at', ''), reverse=True):
         status = (reviews.get(pid) or {}).get('status')
         for c in pkg.get('changes', []):
             a = c.get('after') or {}
@@ -770,8 +777,11 @@ def settle_revisions(root, auto=False, deadline=None):
                 continue
             if status == 'rejected' and c.get('before') is None and a.get('edition_supersedes'):
                 declined[(a.get('source'), a.get('metric'), a.get('year'), a.get('period'), a.get('value'), a.get('upper'))] = pid
-            if pkg['author'] == REVIEW_AUTHOR and status in (None, 'pending_review') and c.get('before') is not None:
-                waiting_cards.setdefault(c['id'], []).append(pid)
+            if pkg['author'] == REVIEW_AUTHOR and status in (None, 'pending_review'):
+                if c.get('before') is not None:
+                    cards['pins'].setdefault(pid, set()).add(c['id'])
+                elif pid not in cards['pages'].setdefault(a.get('source'), []):
+                    cards['pages'][a.get('source')].append(pid)
     holds = []
     for path in sorted(queue(root).glob('edition-*.json')):
         try:
@@ -790,7 +800,8 @@ def settle_revisions(root, auto=False, deadline=None):
                 newest[pin] = (path, item, row)
     outcome, lines = result['outcomes'], {}
     try:
-        _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result, lines, take_back, base, enqueue, fold, pp, queue)
+        _settle(root, auto, deadline, holds, newest, declined, cards, result, lines, take_back, base, enqueue, fold, pp, queue)
+        _retire_cards(root, cards, result, take_back, base, enqueue)
     finally:
         settled_at = _now()
         for path, item in holds:
@@ -809,7 +820,7 @@ def settle_revisions(root, auto=False, deadline=None):
     return result
 
 
-def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result, lines, take_back, base, enqueue, fold, pp, queue):
+def _settle(root, auto, deadline, holds, newest, declined, cards, result, lines, take_back, base, enqueue, fold, pp, queue):
     """settle_revisions' work, apart from the bookkeeping it must do whatever happens here."""
     outcome = result['outcomes']
     p = pp.policy(root)
@@ -865,7 +876,7 @@ def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result
             continue
         unattended.append(ready)
 
-    def package(units, author):
+    def package(units, author, carried=None):
         fresh = base(root)['research/sources.json']  # an earlier package tonight may have moved a page's date
         changes, evidence = [], {}
         for unit in units:
@@ -875,7 +886,12 @@ def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result
                 # withdrawn tonight with the same changes, which enqueue would otherwise hand back.
                 summary = x['evidence']['summary'] if author == REVISION_AUTHOR else clean(f"For review: {x['why']}. {x['evidence']['summary']}", 2000)
                 evidence[x['evidence']['id']] = dict(x['evidence'], summary=summary)
-            dated = _date_change(fresh, unit[0]['source'], unit)
+            dated_for = list(unit)
+            if carried:  # an older card's still-open figures for the same page
+                changes += carried[0]
+                evidence.update(carried[1])
+                dated_for += [{'records': carried[2], 'evidence': {'id': e}} for e in carried[1]]
+            dated = _date_change(fresh, unit[0]['source'], dated_for)
             if dated:
                 changes.append(dated)
         flat = [x for unit in units for x in unit]
@@ -887,12 +903,8 @@ def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result
         return enqueue(root, title, changes, list(evidence.values()), author=author)['id']
 
     def settled(xs, pid, text):
-        # A card an older reading left for the same figure can no longer be the right one.
         for x in xs:
             outcome[x['pin']] = text
-            for old in waiting_cards.get(x['pin'], []):
-                if old != pid:
-                    take_back(old, 'A newer reading of the same figure replaces this card.')
 
     for group in _bundle(unattended):
         flat = [x for unit in group for x in unit]
@@ -929,9 +941,19 @@ def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result
                 x['why'] = f'automatic publication failed ({type(error).__name__}: {str(error)[:120]})'
 
     def to_owner(xs):
-        """One card; False when it could not be packaged (a lone reading then needs a maintainer)."""
+        """One card per page, taking in the still-open figures of any card an older night left for it,
+        so no two cards for one page wait at once (their date changes would conflict). False when
+        it could not be packaged (a lone reading then needs a maintainer)."""
+        olds = cards['pages'].get(xs[0]['source'], [])
+        skip = {x['pin'] for x in xs} | {pin for pin, text in outcome.items() if text.split(':', 1)[0] in ('applied', 'publishing')}
+        carried = _carry(cards, olds, skip) if olds else None
         try:
-            pid = package([xs], REVIEW_AUTHOR)
+            try:
+                pid = package([xs], REVIEW_AUTHOR, carried if carried and carried[0] else None)
+            except (ValueError, KeyError, TypeError):
+                if not (carried and carried[0]):
+                    raise
+                pid, olds = package([xs], REVIEW_AUTHOR), []  # an older card that no longer applies stays as it is
         except FileExistsError:
             for x in xs:
                 outcome[x['pin']] = 'retry: the editorial lock was busy'
@@ -941,6 +963,8 @@ def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result
                 outcome[xs[0]['pin']] = f'needs_maintainer: {str(error)[:300]}'
             return False
         result['cards'].append(pid)
+        for old in olds:
+            cards['folded'][old] = pid
         for x in xs:
             settled([x], pid, f"card: {pid} ({x['why']})")
         return True
@@ -951,6 +975,57 @@ def _settle(root, auto, deadline, holds, newest, declined, waiting_cards, result
         if waiting and not to_owner(waiting) and len(waiting) > 1:
             for x in waiting:
                 to_owner([x])
+
+
+def _carry(cards, olds, skip):
+    """(changes, evidence by id, new records) of the older cards' figures not in skip, newest card
+    first, each figure once."""
+    changes, evidence, records, seen = [], {}, [], set()
+    for old in olds:
+        pkg = cards['packages'][old]
+        rest = cards['pins'].get(old, set()) - skip
+        taken = []
+        for c in pkg.get('changes', []):
+            a = c.get('after') or {}
+            if c.get('target') != 'observation' or ('observation', c['id']) in seen:
+                continue
+            pin = c['id'] if c.get('before') is not None else (a.get('edition_supersedes') or [None])[0]
+            if pin in rest:
+                seen.add(('observation', c['id']))
+                taken.append({k: c[k] for k in ('target', 'id', 'after', 'evidence')})
+                if c.get('before') is None:
+                    records.append(a)
+        used = {e for c in taken for e in c['evidence']}
+        evidence.update({e['id']: e for e in pkg.get('evidence', []) if e['id'] in used})
+        changes += taken
+    return changes, evidence, records
+
+
+def _retire_cards(root, cards, result, take_back, base, enqueue):
+    """A card an older night left for a figure settled tonight can no longer be the right one.
+
+    One card covers a page, so it may carry figures nobody read again tonight. Where tonight made a
+    card for the page, they were folded into it; where the page was published unattended, they
+    move to a fresh card first. Only then is the old card withdrawn (review finding, 09/24/2026:
+    withdrawing the whole card dropped a still-open figure with it)."""
+    outcome = result['outcomes']
+    done = {pin for pin, text in outcome.items() if text.split(':', 1)[0] in ('applied', 'publishing', 'card')}
+    touched = {old for old, pins in cards['pins'].items() if pins & done} | set(cards['folded'])
+    for old in sorted(touched - set(result['cards'])):
+        if old not in cards['folded']:
+            changes, evidence, records = _carry(cards, [old], done)
+            if changes:
+                try:
+                    fresh = base(root)['research/sources.json']
+                    for source_id in sorted({r['source'] for r in records}):
+                        dated = _date_change(fresh, source_id, [{'records': [r for r in records if r['source'] == source_id], 'evidence': {'id': e}} for e in evidence])
+                        if dated:
+                            changes.append(dated)
+                    title = clean(f"Same-page revision to review, carried over from {old}: " + ', '.join(sorted(str(r.get('year')) for r in records)), 200)
+                    result['cards'].append(enqueue(root, title, changes, list(evidence.values()), author=REVIEW_AUTHOR)['id'])
+                except (ValueError, KeyError, TypeError, OSError):
+                    continue  # the old card stands: better a card that may fail its check than a lost figure
+        take_back(old, 'A newer reading of the same page replaces this card.')
 
 
 def settled_since(root, since):

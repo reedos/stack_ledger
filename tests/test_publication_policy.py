@@ -225,6 +225,14 @@ class OwnerDecisionTests(unittest.TestCase):
                 pp.auto_apply(Path(tmp),package['id'],{'auto_apply':{'reviewer_label':'publication-policy'}})
         publish.assert_not_called()
 
+    def test_a_column_slip_is_judged_against_the_same_page_only(self):
+        old={'id':'o','metric':'m','source':'page-a','year':2026,'value':100.0,'upper':None}
+        new=dict(old,id='n',value=104.0)
+        other_page={'id':'x','metric':'m','source':'page-b','year':2026,'value':104.0,'upper':None}
+        ledger={'observations':[old,{'id':'o27','metric':'m','source':'page-a','year':2027,'value':150.0,'upper':None}]}
+        self.assertIsNone(pp._column_slip(new,old,ledger,[other_page]),'another page\'s reading is not this page\'s neighbouring column')
+        self.assertIn('as near',pp._column_slip(new,old,ledger,[dict(other_page,source='page-a',year=2027)]))
+
     def test_the_same_page_list_is_the_pages_that_update_in_place(self):
         rule=pp.policy(ROOT)['auto_apply']['same_page_revisions']
         registry=json.loads((ROOT/'research/sources.json').read_text(encoding='utf-8'))
