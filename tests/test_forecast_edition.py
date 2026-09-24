@@ -420,6 +420,14 @@ class RevisionTests(Fixture):
         self.assertFalse(self.admitted(pid)[0],'a card is never admitted by the policy')
         return p
 
+    def test_the_previous_nightly_policy_stage_still_settles_revisions_as_cards(self):
+        # The first night after this change runs the old stage_policy: materialize(root, revisions=True).
+        self.revision_hold(67.15)
+        with patch('publication_policy.auto_apply',side_effect=AssertionError('never published unattended')):
+            (card,)=fe.materialize(self.root,revisions=True)
+        self.assertEqual(catalog_review.package(self.root,card)['author'],fe.REVIEW_AUTHOR)
+        self.assertEqual(self.item()['status'],'settled')
+
     def test_a_research_batch_leaves_revisions_for_the_policy_stage(self):
         self.revision_hold(67.15)
         self.assertEqual(fe.materialize(self.root),[])

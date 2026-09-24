@@ -506,9 +506,12 @@ def withdraw(root, package_id, reason, keep_deferred=False):
     return True
 
 
-def materialize(root):
+def materialize(root, revisions=False):
     """Turn edition holds into catalog packages and keep them current. Enqueue never approves or
     publishes. Same-page revisions are not touched here: settle_revisions takes them once a night.
+    `revisions` is how the nightly policy stage asked for them before 09/25/2026; the orchestrator
+    loads before its sync stage, so on the first night after this change the old stage still makes
+    that call, and gets the night's revisions settled as cards (never published unattended).
 
     - ready: packaged against the current reviewed files.
     - packaged: left alone while its package still applies or the owner has rejected it; marked
@@ -602,6 +605,8 @@ def materialize(root):
         except (ValueError, KeyError, TypeError) as error:
             item.update(status='needs_maintainer', reason=str(error)[:500], failed_base=key)
         _save(path, item)
+    if revisions:
+        results += settle_revisions(root)['cards']
     return results
 
 
