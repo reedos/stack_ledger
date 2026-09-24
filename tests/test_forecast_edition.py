@@ -171,6 +171,9 @@ class Fixture(unittest.TestCase):
         catalog['metrics']+=copy.deepcopy(extra);ledger['metrics']=copy.deepcopy(catalog['metrics'])
         registry['sources']+=copy.deepcopy(SOURCES);ledger['sources']+=copy.deepcopy(SOURCES);ledger['observations']+=copy.deepcopy(OBSERVATIONS)
         write('research/catalog.json',catalog);write('site/data/ledger.json',ledger);write('research/sources.json',registry)
+        # The mechanism under test runs with the same-page switch on; the shipped policy may have it off.
+        policy=read('research/publication-policy.json');policy['auto_apply']['same_page_revisions']['enabled']=True
+        write('research/publication-policy.json',policy)
         for target,module in [('git',catalog_review)]:
             p=patch.object(module,target,return_value='0'*40);p.start();self.addCleanup(p.stop)
         p=patch.object(validate,'ROOT',self.root);p.start();self.addCleanup(p.stop)
@@ -393,12 +396,14 @@ class EditionPackageTests(Fixture):
         import hashlib;r=dict(rec('fx-guidance-gw',2026,230,'fx-page'),document_sha256=hashlib.sha256((doc*3).encode()).hexdigest())
         fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})],self.metrics,None,'revision',self.ledger())
         bundle=fe.materialize(self.root,revisions=True);self.assertEqual(len(bundle),1)
-        with patch.object(fe,'_preview_failed',return_value=True):
+        with patch.object(fe,'_preview_failed',return_value='checkout-1'):
+            self.assertEqual(fe.materialize(self.root,revisions=True),[],'one failed preview is retried whole')
+        with patch.object(fe,'_preview_failed',return_value='checkout-2'):
             split=fe.materialize(self.root,revisions=True)
         self.assertEqual(len(split),2,'each revision proposed alone once the bundle failed its preview')
         statuses={p['id']:p['status'] for p in catalog_review.inbox(self.root)}
         self.assertEqual(statuses[bundle[0]],'withdrawn')
-        with patch.object(fe,'_preview_failed',return_value=True):
+        with patch.object(fe,'_preview_failed',return_value='checkout-3'):
             self.assertEqual(fe.materialize(self.root,revisions=True),[],'a lone revision that fails stays for the owner')
 
     def test_bundles_respect_the_package_size_limit(self):
@@ -441,8 +446,50 @@ class EditionPackageTests(Fixture):
 
     def test_a_lone_revision_whose_preview_failed_stays_for_the_owner(self):
         self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]
-        with patch.object(fe,'_preview_failed',return_value=True):
+        with patch.object(fe,'_preview_failed',return_value='checkout-1'):
             self.assertEqual(fe.materialize(self.root,revisions=True),[],'not a bundle: nothing to split, no churn')
+
+    def test_the_policy_can_take_back_its_own_approval(self):
+        self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]
+        from editorial_review import append_event
+        append_event(self.root,{'id':first,'kind':'catalog_change','status':'approved','reviewer':'publication-policy','at':'2026-09-22T10:00:00Z'})
+        self.assertTrue(fe.withdraw(self.root,first,'the page moved on before publication finished'))
+
+    def test_a_rejected_revision_is_never_trimmed_and_proposed_again(self):
+        ledger=self.ledger();ledger['observations'].append(curated('fx-consensus-2027','fx-consensus',2027,70.0,'fx-page'))
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        import hashlib
+        doc='FY2026 consensus 67.15 billion; FY2027 consensus 71.0 billion.'
+        rows=[({'evidence':doc},dict(rec('fx-consensus',y,v,'fx-page'),document_sha256=hashlib.sha256(doc.encode()).hexdigest()),{'index':i,'supported':True,'reason':'ok'})
+              for i,(y,v) in enumerate([(2026,67.15),(2027,71.0)])]
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc,rows,self.metrics,None,'revision',self.ledger())
+        first=fe.materialize(self.root,revisions=True)[0]
+        from editorial_review import append_event
+        append_event(self.root,{'id':first,'kind':'catalog_change','status':'rejected','reviewer':'owner','at':'2026-09-22T10:00:00Z'})
+        self.save_page(self.sources['fx-page']['url'],'FY2026 consensus 67.3 billion; FY2027 consensus 71.0 billion.')
+        self.assertEqual(fe.materialize(self.root,revisions=True),[],'the owner rejected it; the runner does not bring 2027 back')
+
+    def test_a_revision_the_page_bounced_away_from_returns_when_the_page_does(self):
+        self.revision_hold(67.15)
+        self.save_page(self.sources['fx-page']['url'],'Consensus revenue estimate for FY2026 is 67.14 billion again.')
+        self.assertEqual(fe.materialize(self.root,revisions=True),[]);self.assertEqual(self.item()['status'],'obsolete')
+        self.save_page(self.sources['fx-page']['url'],'Consensus revenue estimate for FY2026 now stands at 67.15 billion.')
+        self.assertEqual(len(self.revision_hold(67.15)),1,'the same reading is raised again')
+        self.assertEqual(len(fe.materialize(self.root,revisions=True)),1)
+
+    def test_siblings_of_a_withdrawn_bundle_are_proposed_again_the_same_night(self):
+        self.revision_hold(67.15)
+        ledger=self.ledger();g=next(o for o in ledger['observations'] if o['id']=='fx-guidance-2026');g['source']='fx-page'
+        (self.root/'site/data/ledger.json').write_text(json.dumps(ledger,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+        doc='Guidance consensus for FY2026 is now 230 across analysts covering the company.'
+        import hashlib;r=dict(rec('fx-guidance-gw',2026,230,'fx-page'),document_sha256=hashlib.sha256((doc*3).encode()).hexdigest())
+        fe.hold(self.root/'.local',self.sources['fx-page'],doc*3,[({'evidence':doc},r,{'index':0,'supported':True,'reason':'ok'})],self.metrics,None,'revision',self.ledger())
+        bundle=fe.materialize(self.root,revisions=True);self.assertEqual(len(bundle),1)
+        self.save_page(self.sources['fx-page']['url'],'Consensus FY2026 67.3 billion. Guidance consensus for FY2026 is now 230.')
+        again=fe.materialize(self.root,revisions=True)
+        self.assertEqual(len(again),1,'the 230 revision is proposed again at once, without the stale 67.15')
+        p=catalog_review.package(self.root,again[0])
+        self.assertEqual([c['after']['value'] for c in p['changes'] if c['before'] is None],[230])
 
     def test_the_runner_never_withdraws_over_an_owner_approval(self):
         self.revision_hold(67.15);first=fe.materialize(self.root,revisions=True)[0]

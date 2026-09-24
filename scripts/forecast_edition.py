@@ -58,6 +58,7 @@ AUTHOR = 'Forecast edition (research runner)'
 REVISION_AUTHOR = 'Same-page revision (research runner)'
 MAX_CHANGES_PER_PACKAGE = 100  # catalog_review.enqueue's limit; each revised figure is two changes
 RUNNER = 'forecast edition runner'
+POLICY_REVIEWER = 'publication-policy'  # publication-policy.json auto_apply.reviewer_label
 REASONS = {
     'older': 'Older forecast edition than the one on the site',
     'unordered': 'Forecast edition cannot be ordered against the one on the site',
@@ -291,7 +292,13 @@ def hold(local, source, full_text, held, metrics, page_of=None, change='edition'
         rid = 'edition-' + _digest([metric_id, source['id'], source['url'], figures] + ([change] if change != 'edition' else []))[:24]
         path = folder/(rid+'.json')
         if path.exists():
-            continue
+            try:
+                previous = json.loads(path.read_text(encoding='utf-8'))
+            except (OSError, ValueError):
+                previous = {}
+            # An obsolete revision whose page shows its value again is a live reading again.
+            if not (change == 'revision' and previous.get('status') == 'obsolete'):
+                continue
         records = []
         for c, r, v in rows:
             # The old edition may hold an identical automated figure under the same id; the
@@ -480,8 +487,9 @@ def withdraw(root, package_id, reason):
     from editorial_review import append_event, locked
     with locked(root):
         review = last_review(root, package_id)
-        if review and review.get('status') in ('rejected', 'withdrawn', 'applied', 'approved'):
-            return False
+        if review and (review.get('status') in ('rejected', 'withdrawn', 'applied')
+                       or (review.get('status') == 'approved' and review.get('reviewer') != POLICY_REVIEWER)):
+            return False  # a person's decision stands; the policy's own approval may be taken back
         append_event(root, {'id': package_id, 'kind': 'catalog_change', 'status': 'withdrawn', 'reviewer': RUNNER,
                             'rationale': reason, 'at': _now()})
     return True
@@ -542,8 +550,12 @@ def materialize(root, revisions=False):
                         pass
                 # A bundle that failed its preview is split: each revision is proposed alone. Checked
                 # whether or not a sibling hold has already withdrawn the bundle this pass.
-                bundle_failed = revisions and item.get('change') == 'revision' and not item.get('solo') and item.get('bundle', 1) > 1 \
+                failure = revisions and item.get('change') == 'revision' and not item.get('solo') and item.get('bundle', 1) > 1 \
                     and _preview_failed(root, pid)
+                if failure and failure not in item.get('failed_checkouts', []):
+                    item['failed_checkouts'] = sorted(set(item.get('failed_checkouts', [])) | {failure})
+                    _save(path, item)
+                bundle_failed = bool(failure) and len(item.get('failed_checkouts', [])) >= 2
                 if still_applies and not bundle_failed:
                     continue  # still applies: the owner (or the policy) decides
                 if bundle_failed:
@@ -599,12 +611,13 @@ def materialize(root, revisions=False):
 
 
 def _preview_failed(root, pid):
-    """This exact package failed its last preview. The checkout is not compared: research commits
-    move it every night, and splitting a failed bundle is harmless whatever caused the failure."""
+    """The checkout this exact package last failed its preview on, or False. The caller splits a
+    bundle only after failures on two different checkouts, so one flaky preview is retried whole."""
     try:
         from catalog_review import preview_validation, package, digest
         v = preview_validation(root, pid)
-        return v.get('passed') is False and v.get('proposal_hash') == digest(package(root, pid))
+        failed = v.get('passed') is False and v.get('proposal_hash') == digest(package(root, pid))
+        return (v.get('checkout') or v.get('at') or 'failed') if failed else False
     except Exception:
         return False
 
@@ -628,16 +641,28 @@ def _current_readings(root, revisions):
     a reading that partly overlaps a newer one keeps only what the newer one does not cover. A hold
     left with nothing is obsolete; a proposed package that lost figures is withdrawn and proposed
     again without them. An owner's approval is never withdrawn (see withdraw)."""
+    from catalog_review import last_review
     from editorial_review import queue
     ready = {str(p): i for p, i in revisions}
     holds = []
     for path in sorted(queue(root).glob('edition-*.json')):
+        if str(path) in ready:
+            holds.append((path, ready[str(path)]))
+            continue
         try:
-            item = ready.get(str(path)) or json.loads(path.read_text(encoding='utf-8'))
+            item = json.loads(path.read_text(encoding='utf-8'))
         except (OSError, ValueError):
             continue
-        if isinstance(item, dict) and item.get('change') == 'revision' and item.get('status') in ('ready', 'packaged'):
-            holds.append((path, item))
+        # A ready hold materialize did not pass in is waiting on something (a busy lock while its
+        # earlier package was withdrawn): it waits for the next pass. A package a person rejected or
+        # approved is theirs: never trimmed, re-proposed or withdrawn by the runner.
+        if not isinstance(item, dict) or item.get('change') != 'revision' or item.get('status') != 'packaged':
+            continue
+        review = last_review(root, item.get('package'))
+        if review and (review.get('status') in ('rejected', 'withdrawn', 'applied')
+                       or (review.get('status') == 'approved' and review.get('reviewer') != POLICY_REVIEWER)):
+            continue
+        holds.append((path, item))
     texts, fresh = {}, {}
     for path, item in holds:
         url = item['source']['url']
@@ -659,21 +684,27 @@ def _current_readings(root, revisions):
             pin = row.get('replaces')
             if pin and (pin not in newest or order(item) > order(newest[pin][1])):
                 newest[pin] = (path, item)
-    out = []
+    out, withdrawn = [], set()
+    kept = {}
     for path, item in holds:
-        keep = [row for row in fresh[str(path)] if not row.get('replaces') or newest[row['replaces']][0] == path]
-        if len(keep) == len(item['records']):
+        kept[str(path)] = [row for row in fresh[str(path)] if not row.get('replaces') or newest[row['replaces']][0] == path]
+        if len(kept[str(path)]) != len(item['records']) and item['status'] == 'packaged' and item.get('package'):
+            withdraw(root, item['package'], 'A newer reading of the same figure, or the page as last read, replaces part of this revision.')
+            withdrawn.add(item['package'])
+    for path, item in holds:
+        keep = kept[str(path)]
+        moved = item['status'] == 'packaged' and item.get('package') in withdrawn
+        if len(keep) == len(item['records']) and not moved:
             if item['status'] == 'ready':
                 out.append((path, item))
             continue
-        pid = item.get('package') if item['status'] == 'packaged' else None
-        if pid:
-            withdraw(root, pid, 'A newer reading of the same figure, or the page as last read, replaces part of this revision.')
-            item.setdefault('earlier_packages', []).append(pid)
+        if moved:
+            item.setdefault('earlier_packages', []).append(item['package'])
         if not keep:
             item.update(status='obsolete', reason='A newer reading of the same figure, or the page as last read, replaces this revision')
             _save(path, item)
             continue
+        # Trimmed, or a sibling in a bundle that had to be withdrawn: proposed again tonight.
         item.update(records=keep, status='ready', proposed_at=_now())
         _save(path, item)
         out.append((path, item))
@@ -718,10 +749,9 @@ def _package_revisions(root, revisions, ledger, key, enqueue):
     try:
         import publication_policy
         rule = publication_policy.policy(root)['auto_apply']['same_page_revisions']
-        enabled = publication_policy.policy(root)['auto_apply']['enabled'] and rule['enabled']
-        fits = lambda b: enabled and publication_policy.same_page_revision({'changes': [dict(c, before=_before(ledger, c)) for c in b[2]]}, rule)[0]
+        fits = lambda b: publication_policy.same_page_revision({'changes': [dict(c, before=_before(ledger, c)) for c in b[2]]}, rule)[0]
     except Exception:
-        enabled, fits = False, (lambda b: False)
+        fits = lambda b: False
 
     def attempt(group):
         changes = [c for _, _, cs, _, _ in group for c in cs]
@@ -737,12 +767,10 @@ def _package_revisions(root, revisions, ledger, key, enqueue):
             _save(path, item)
         results.append(p['id'])
 
-    if not enabled:
-        # Auto-apply off: the night's revisions go to the owner together, not as one card each.
-        groups = _bundle([b for b in built if not b[1].get('solo')]) + [[b] for b in built if b[1].get('solo')]
-    else:
-        admitted = [b for b in built if fits(b) and not b[1].get('solo')]
-        groups = _bundle(admitted) + [[b] for b in built if b not in admitted]
+    # Readings the same-page rule would admit travel together; each one it would not (a scale slip,
+    # a status change) gets a card of its own, whether or not auto-apply is on.
+    admitted = [b for b in built if fits(b) and not b[1].get('solo')]
+    groups = _bundle(admitted) + [[b] for b in built if b not in admitted]
     for group in groups:
         try:
             attempt(group)
