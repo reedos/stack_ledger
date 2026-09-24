@@ -215,6 +215,17 @@ class CatalogTests(unittest.TestCase):
                                         deployed=lambda root,config,commit:True,mark_deployed=lambda *a,**k:None)
         self.assertEqual((receipt['status'],len(pushed)),('deployed',1))
 
+    def test_a_publish_marks_itself_in_flight_before_it_writes_the_files(self):
+        import subprocess
+        p=self.approve();(c.queue(self.root)/(p['id']+'-publication.json')).unlink()
+        seen=[]
+        def build(command,**kw):
+            seen.append(json.loads((c.queue(self.root)/(p['id']+'-publication.json')).read_text(encoding='utf-8'))['status'])
+            return subprocess.CompletedProcess(command,0)
+        with patch.object(c,'check_base'),patch.object(c,'check_evidence'),patch.object(c,'preview',return_value={'passed':True}),              patch.object(c.subprocess,'run',side_effect=build):
+            self.publish(p,{'diff':'research/delivery.json','ls-files':'','commit':'','add':''},deployed=lambda root,config,commit:True,mark_deployed=lambda *a,**k:None)
+        self.assertEqual(seen,['publishing','publishing'])
+
     def test_a_decision_recorded_while_publishing_stands(self):
         import subprocess
         from editorial_review import append_event

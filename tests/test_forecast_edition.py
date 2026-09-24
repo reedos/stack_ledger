@@ -736,6 +736,25 @@ class RevisionTests(Fixture):
         self.assertEqual(result.get('stale'),[deferred])
         self.assertEqual(catalog_review.last_review(self.root,deferred)['status'],'deferred')
 
+    def test_a_card_being_published_is_not_called_stale(self):
+        # Review finding, 09/24/2026: the night's check read the files mid-publish and told the owner
+        # to reject the very card that was succeeding.
+        self.revision_hold(67.15)
+        (card,)=self.settle(auto=False)['cards']
+        from editorial_review import append_event
+        append_event(self.root,{'id':card,'kind':'catalog_change','status':'approved','reviewer':'owner','at':fe._now()})
+        receipt=self.root/'.local/review-candidates'/(card+'-publication.json')
+        receipt.write_text(json.dumps({'status':'publishing','at':fe._now()}),encoding='utf-8')
+        self.apply(catalog_review.package(self.root,card))  # what publish_package writes before its commit
+        self.assertNotIn('stale',fe.settle_revisions(self.root))
+        receipt.write_text(json.dumps({'status':'publishing','at':'2026-09-20T09:00:00Z'}),encoding='utf-8')
+        self.assertEqual(fe.settle_revisions(self.root).get('stale'),[card],'a publish that died hours ago is no longer in flight')
+
+    def test_a_leftover_whose_publish_died_before_its_commit_is_withdrawn(self):
+        pid=self.leftover(status='approved',reviewer='publication-policy')
+        (self.root/'.local/review-candidates'/(pid+'-publication.json')).write_text(json.dumps({'status':'publishing','at':'2026-09-20T09:00:00Z'}),encoding='utf-8')
+        self.assertIn(pid,self.settle()['withdrawn'])
+
     def test_a_fold_that_fails_is_not_tried_again_the_same_night(self):
         import hashlib
         doc='FY2026 consensus 67.15 billion; FY2027 consensus 80.0 billion.'

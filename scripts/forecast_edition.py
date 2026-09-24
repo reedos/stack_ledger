@@ -756,7 +756,7 @@ def settle_revisions(root, auto=False, deadline=None):
     # kill came between the commit and the receipt); a person's decision stands.
     for pid, pkg in packages.items():
         if pkg['author'] != REVISION_AUTHOR or pkg.get('created_at', '') > _ago(3600) \
-                or (queue(root)/(pid+'-publication.json')).exists() \
+                or (_receipt(root, pid) or {}).get('commit') \
                 or (reviews.get(pid) or {}).get('status') in ('withdrawn', 'rejected', 'applied', 'deferred'):
             continue
         commit = _committed(root, pid)
@@ -770,7 +770,7 @@ def settle_revisions(root, auto=False, deadline=None):
     # still waiting for the owner: the site figures each would replace, and the page it is for.
     # Held figures have a card a person has deferred or approved: never folded, never withdrawn.
     declined = {}
-    cards = {'pins': {}, 'pages': {}, 'packages': packages, 'folded': {}, 'failed': set(), 'open_pins': set(), 'held_pins': set(), 'open': []}
+    cards = {'pins': {}, 'pages': {}, 'packages': packages, 'folded': {}, 'failed': set(), 'open_pins': set(), 'held_pins': set()}
     for pid, pkg in sorted(packages.items(), key=lambda kv: kv[1].get('created_at', ''), reverse=True):
         status = (reviews.get(pid) or {}).get('status')
         for c in pkg.get('changes', []):
@@ -1053,14 +1053,29 @@ def _retire_cards(root, cards, result, take_back, base, enqueue):
         take_back(old, 'A newer reading of the same page replaces this card.')
 
 
+def _receipt(root, package_id):
+    """The package's publication receipt, or None."""
+    from editorial_review import queue
+    path = queue(root)/(package_id+'-publication.json')
+    try:
+        return json.loads(path.read_text(encoding='utf-8')) if path.exists() else None
+    except (OSError, ValueError):
+        return {'status': 'unreadable'}
+
+
 def _report_stale(root, packages, reviews, result):
     """Cards waiting on a person that can no longer apply (a figure they replace has since moved),
     for the night's report: the owner rejects or re-decides them; the runner never withdraws a card a
-    person deferred or approved."""
+    person deferred or approved. A card being published right now is not stale: its own figures are
+    what moved."""
     from catalog_review import check_base
     for pid, pkg in sorted(packages.items()):
         if pkg.get('author') != REVIEW_AUTHOR or pid in result['withdrawn'] \
                 or (reviews.get(pid) or {}).get('status') not in (None, 'pending_review', 'deferred', 'approved'):
+            continue
+        receipt = _receipt(root, pid) or {}
+        if receipt.get('status') in ('committed', 'pushed', 'deployment_pending', 'deployed', 'unreadable') \
+                or (receipt.get('status') == 'publishing' and receipt.get('at', '') > _ago(3600)):
             continue
         try:
             check_base(root, pkg)

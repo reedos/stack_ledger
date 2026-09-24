@@ -288,6 +288,9 @@ def publish_package(root,rid,p,decision,reviewer,identity=None,lock_held=False):
                     if changes[path]!=read(root/path):
                         changes[path]['reviewed_at']=decision['at']
                         changes[f'site/data/{name}.json']=copy.deepcopy(changes[path])
+                # In flight from here: a nightly check that reads these files meanwhile must not call
+                # the package stale while its own figures are being written (review finding, 09/24/2026).
+                save(receipt_path,{'proposal_hash':digest(p),'status':'publishing','at':now()})
                 try:
                     for name,v in changes.items():
                         if read(root/name)!=v:save(root/name,v)
@@ -314,6 +317,7 @@ def publish_package(root,rid,p,decision,reviewer,identity=None,lock_held=False):
                     # Nothing was committed. The tree was clean when this began: put it back, or every
                     # later publish and the next night's sync refuse the clone (review finding, 09/24/2026).
                     restore(root)
+                    receipt_path.unlink(missing_ok=True)
                     raise
                 receipt={'commit':git(root,'rev-parse','HEAD'),'proposal_hash':digest(p),'status':'committed','at':now()};save(receipt_path,receipt)
             try:
