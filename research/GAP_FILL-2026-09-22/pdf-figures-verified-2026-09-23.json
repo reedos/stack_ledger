@@ -1,7 +1,7 @@
 {
   "version": 1,
   "verified_at": "2026-09-23",
-  "method": "Each PDF fetched with the runner's User-Agent and extracted exactly as the runner does (pdf_text.pdf_html into research.ReadableHTML); every quote found verbatim on the page given and checked by an independent second pass. The five figures that only a chart label carries were checked on the rendered page.",
+  "method": "Each PDF fetched with the runner's User-Agent and extracted exactly as the runner does (pdf_text.pdf_html into research.ReadableHTML); every quote found verbatim on the page given and checked by an independent second pass. The five figures that only a chart label carries were checked on the rendered page. Seven more hand-entered PDF figures from the same gap fill (LBNL 2025 update, Alphabet FY2025 water schedule) were added after the review found them missing; the four water figures, table rows, were checked on the rendered page.",
   "figures": [
     {
       "observation": "apps-customer-support-rph-2025",
@@ -99,6 +99,58 @@
       "page": 12,
       "quote": "The 2025 TSP-Provided Load Forecast projects a demand of 218 GW for year 2031",
       "method": "text"
+    },
+    {
+      "observation": "google-water-council-bluffs-2025",
+      "metric": "google-campus-water-council-bluffs-mgal",
+      "year": 2025,
+      "value": 1346.0,
+      "upper": null,
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "url": "https://sustainability.google/files/alphabet-fy2025-environmental-indicators-assurance-letter/",
+      "page": 10,
+      "quote": "Council Bluffs, IA 1,746.4 400.4 1,346.0",
+      "method": "rendered table",
+      "chart_check": "Rendered page 10, \"Alphabet's Schedule of Water Use by Data Center Location, For the Year Ended December 31, 2025 (million gallons)\": the Council Bluffs, IA row reads 1,746.4 withdrawal, 400.4 discharge, 1,346.0 consumption; the ledger records consumption."
+    },
+    {
+      "observation": "google-water-mayes-county-2025",
+      "metric": "google-campus-water-mayes-county-mgal",
+      "year": 2025,
+      "value": 1081.4,
+      "upper": null,
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "url": "https://sustainability.google/files/alphabet-fy2025-environmental-indicators-assurance-letter/",
+      "page": 10,
+      "quote": "Mayes County, OK 1,396.7 315.3 1,081.4",
+      "method": "rendered table",
+      "chart_check": "Rendered page 10, \"Alphabet's Schedule of Water Use by Data Center Location, For the Year Ended December 31, 2025 (million gallons)\": the Mayes County, OK row reads 1,396.7 withdrawal, 315.3 discharge, 1,081.4 consumption; the ledger records consumption."
+    },
+    {
+      "observation": "google-water-new-albany-2025",
+      "metric": "google-campus-water-new-albany-mgal",
+      "year": 2025,
+      "value": 835.7,
+      "upper": null,
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "url": "https://sustainability.google/files/alphabet-fy2025-environmental-indicators-assurance-letter/",
+      "page": 10,
+      "quote": "New Albany, OH 1,008.1 172.4 835.7",
+      "method": "rendered table",
+      "chart_check": "Rendered page 10, \"Alphabet's Schedule of Water Use by Data Center Location, For the Year Ended December 31, 2025 (million gallons)\": the New Albany, OH row reads 1,008.1 withdrawal, 172.4 discharge, 835.7 consumption; the ledger records consumption."
+    },
+    {
+      "observation": "google-water-the-dalles-2025",
+      "metric": "google-campus-water-the-dalles-mgal",
+      "year": 2025,
+      "value": 469.0,
+      "upper": null,
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "url": "https://sustainability.google/files/alphabet-fy2025-environmental-indicators-assurance-letter/",
+      "page": 10,
+      "quote": "The Dalles, OR 654.3 185.3 469.0",
+      "method": "rendered table",
+      "chart_check": "Rendered page 10, \"Alphabet's Schedule of Water Use by Data Center Location, For the Year Ended December 31, 2025 (million gallons)\": the The Dalles, OR row reads 654.3 withdrawal, 185.3 discharge, 469.0 consumption; the ledger records consumption."
     },
     {
       "observation": "google-wue-category2-2023",
@@ -282,6 +334,42 @@
       "url": "https://www.spp.org/media/2429/2025-itp-report-v10.pdf",
       "page": 15,
       "quote": "this could rise to 109 GW within the next 10 years.",
+      "method": "text"
+    },
+    {
+      "observation": "us-dc-lbnl2025-2024",
+      "metric": "us-dc-electricity-lbnl-2025",
+      "year": 2024,
+      "value": 192,
+      "upper": null,
+      "source": "lbnl-dc-2025-update",
+      "url": "https://www.energy.gov/documents/united-states-data-center-energy-usage-report-2025-update",
+      "page": 10,
+      "quote": "The updated estimate of data center electricity use in 2024\nis 192 terawatt-hours (TWh), accounting for 4.7% of total U.S. electricity consumption.",
+      "method": "text"
+    },
+    {
+      "observation": "us-dc-lbnl2025-2028-ref",
+      "metric": "us-dc-electricity-lbnl-2025",
+      "year": 2028,
+      "value": 464,
+      "upper": null,
+      "source": "lbnl-dc-2025-update",
+      "url": "https://www.energy.gov/documents/united-states-data-center-energy-usage-report-2025-update",
+      "page": 10,
+      "quote": "our current Reference Case forecast for total electricity use in 2028 is 464 TWh,\nwhich falls in the middle of the range presented in the 2024 Report.",
+      "method": "text"
+    },
+    {
+      "observation": "us-dc-lbnl2025-2030-ref",
+      "metric": "us-dc-electricity-lbnl-2025",
+      "year": 2030,
+      "value": 649,
+      "upper": null,
+      "source": "lbnl-dc-2025-update",
+      "url": "https://www.energy.gov/documents/united-states-data-center-energy-usage-report-2025-update",
+      "page": 10,
+      "quote": "The Reference Case estimate for\n2030 data center electricity use is 649 TWh, representing 11.8% of forecasted 2030 U.S.\nelectricity use as presented in the 2025 North American Electric Reliability Corporation",
       "method": "text"
     }
   ]

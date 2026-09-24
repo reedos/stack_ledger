@@ -576,7 +576,13 @@ def pdf_reader(root):
         except (OSError, ValueError): continue
         if kind.startswith('pdf'): gaps[kind] = gaps.get(kind, 0)+1
     status = 'unused' if not any(approved.values()) else ('ok' if parser else 'missing')
-    return {'status': status, 'parser': parser, 'python': sys.executable, 'approved': approved, 'pdf_gaps': gaps}
+    try:
+        import cryptography  # noqa: F401  (pypdf needs it for AES-encrypted PDFs such as Alphabet's)
+        encrypted = True
+    except Exception:
+        encrypted = False
+    return {'status': status, 'parser': parser, 'python': sys.executable, 'approved': approved, 'pdf_gaps': gaps,
+            'reads_encrypted_pdfs': encrypted}
 
 
 def stage_health(root, date):

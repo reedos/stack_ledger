@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "owner_decision": "09/23/2026: the owner asked for the PDF path to be built. Only the documents below, and PDFs under a listed path, are read as text; every figure still passes the same evidence checks as HTML, and a figure quoted from a flattened table row is held for human review. The owner approved merging it on 09/23/2026; the starting list is the maintainer’s proposal from the 09/22 gap fill, and the owner may add or remove documents. TSMC’s transcripts were left out: investor.tsmc.com refused 2 of 3 requests (HTTP 403) on 09/23/2026, and the runner does not work around access controls. This does not change the grid-operators.json decision that no PDF number is hand-entered: these are model extractions under review.",
+  "owner_decision": "09/23/2026: the owner asked for the PDF path to be built. Only the documents below, and PDFs under a listed path, are read as text; every figure still passes the same evidence checks as HTML, and a figure quoted from a flattened table row is held for human review. The owner approved merging it on 09/23/2026; the starting list is the maintainer’s proposal from the 09/22 gap fill, and the owner may add or remove documents. September 23, 2026 (evening): every PDF a hand-entered figure comes from is approved too, so the amended grid-operators.json rule holds as written; TSMC's 2Q26 transcript is among them, although its host refuses the runner some of the time. This does not change the grid-operators.json decision that no PDF number is hand-entered: these are model extractions under review.",
   "max_bytes": 20000000,
   "max_pages": 300,
   "documents": [
@@ -31,6 +31,26 @@
     {
       "source": "miso-ltlf-whitepaper-2026-05",
       "why": "MISO 2026 Long-Term Load Forecast whitepaper (posted 05/13/2026), a newer edition of the Dec 2024 whitepaper the ledger cites; its figures reach the site only through a reviewed forecast-edition package."
+    },
+    {
+      "source": "brynjolfsson-li-raymond-qje-2025",
+      "why": "Brynjolfsson, Li and Raymond, \"Generative AI at Work\" (QJE 2025): the +15% resolutions-per-hour figure."
+    },
+    {
+      "source": "google-ai-env-impact-scale",
+      "why": "Google, \"Measuring the environmental impact of delivering AI at Google scale\": category-2 WUE for 2023 and 2024."
+    },
+    {
+      "source": "tsmc-2q26-earnings-transcript",
+      "why": "TSMC 2Q26 call transcript: the raised 2026 capital budget. investor.tsmc.com refuses the runner some of the time; a refusal is a source failure with a cooldown, never worked around."
+    },
+    {
+      "source": "lbnl-dc-2025-update",
+      "why": "LBNL 2025 United States Data Center Energy Usage Report update (served as a PDF at a URL with no .pdf suffix): 2024 use and 2028/2030 Reference Case."
+    },
+    {
+      "source": "alphabet-fy2025-env-indicators-assurance",
+      "why": "Alphabet FY2025 environmental indicators assurance letter: campus water by data-center location. The PDF is AES-encrypted; reading it needs the 'cryptography' package alongside pypdf, or it stays a gap named pdf_needs_cryptography."
     }
   ],
   "prefixes": [

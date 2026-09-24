@@ -122,6 +122,10 @@ def pdf_html(body, max_pages):
     except CollectionGap:
         raise
     except Exception as error:
+        # An AES-encrypted PDF (Alphabet's assurance letters) opens with an empty password, but pypdf
+        # needs the 'cryptography' package for it; without that it is not a corrupt file, say so.
+        if type(error).__name__ == 'DependencyError':
+            raise CollectionGap('pdf_needs_cryptography') from error
         raise CollectionGap('pdf_unreadable') from error
     # The page marks alone would clear the runner's 250-character floor for a scanned report.
     if drawn < 250:

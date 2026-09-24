@@ -101,6 +101,12 @@ class PdfTextTests(unittest.TestCase):
             final['url']='https://www.grid.example/reports/load-forecast/2026.pdf'
             self.assertIn('222,106',fetcher.get('https://www.grid.example/files/2026-load-report.pdf','www.grid.example'))
 
+    def test_an_encrypted_pdf_without_the_crypto_package_says_so(self):
+        class DependencyError(Exception):pass
+        def reader(stream):raise DependencyError('cryptography>=3.1 is required for AES algorithm')
+        with patch('pypdf.PdfReader',reader),self.assertRaises(CollectionGap) as caught:pdf_text.pdf_html(b'%PDF-1.4',10)
+        self.assertEqual(caught.exception.kind,'pdf_needs_cryptography')
+
     def test_lone_surrogates_from_a_bad_font_map_become_replacement_characters(self):
         class Page:
             def extract_text(self):return 'Symbol \ud835 then a paired \U0001d400 letter. '+' '.join(FILLER)
