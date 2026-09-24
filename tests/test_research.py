@@ -804,7 +804,10 @@ class PeriodBasisTests(unittest.TestCase):
 class InstructionModeTests(unittest.TestCase):
     def test_brief_is_small_and_states_the_rules_the_runner_enforces(self):
         brief=(ROOT/'research/MODEL_BRIEF.md').read_text(encoding='utf-8')
-        self.assertLess(len(brief),9000)
+        # 9,000 when the brief was 8.4k characters. The 09/23/2026 grid, CapEx and policy rules took it to
+        # 12.7k; calibrated before/after on the same code (OPERATING_GUIDE "Instructions patch"): precision
+        # 0.93 -> 0.94, matched 13 -> 15, mean call 2.6 s -> 2.9 s. Still a fraction of the full guide.
+        self.assertLess(len(brief),13000)
         for phrase in ['untrusted','company-commitment','forecast','observation','estimate','government-target','contiguous','publication year','not the tone','energy','applications']:
             with self.subTest(phrase=phrase):self.assertIn(phrase,brief)
     def test_runner_honours_instruction_mode(self):

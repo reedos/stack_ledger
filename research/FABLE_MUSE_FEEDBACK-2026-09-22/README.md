@@ -1,5 +1,7 @@
 # Muse research feedback for Fable · 2026-09-22
 
+> **Applied 09/23/2026** to `MODEL_BRIEF.md` (brief version 2026-09-23) and `OPERATING_GUIDE.md`, with the review's corrected CapEx text; calibration before and after is recorded under "Instructions patch · September 23, 2026" in the operating guide.
+>
 > **Reviewed 09/22/2026: read [REVIEW-2026-09-22.md](REVIEW-2026-09-22.md) before applying.** Most of this package is sound, but its CapEx rule treats a later secondary report as a conflict with an earlier primary release. Applied, it would make the model discard current guidance. Corrected text is in the review.
 
 **Audience:** Fable (backend / research-runner maintainer)  

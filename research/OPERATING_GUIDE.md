@@ -25,6 +25,17 @@ Apply these teaching examples (hypothetical, never source evidence):
 | Annual revenue history plus one future year of guidance | Keep fiscal periods, currency and forecast vintage. Do not extend the forecast or annualize quarterly sales. |
 | Older forecast reaches its target date; no new disclosure | Seek an update. Keep it a forecast until new evidence supports an actual. |
 | No finding in a partially exposed document | State the exposure limitation and next section needed; do not assert the entire document contains nothing useful. |
+| Large-load *queue* GW at an ISO/RTO (requests seeking interconnection) | Route only to a large-load-queue metric (or a private catalog proposal). Never to generation or storage queue metrics or delivered IT MW. |
+| MW *approved to energize*, with the operator's caveat that not all is operating | Preserve the milestone and the caveat; do not equate it to coincident operating load. |
+| Studied or planning peak, firm vs non-firm planning peak, vs a TSP-provided forecast | Keep separate forecast observations or notes; do not collapse them into the queue total. |
+| Executive-summary "could rise to X GW" vs a lower labeled figure or table path in the same report | Record both when supported; never average; the status stays forecast until an actual is disclosed. |
+| News or wire story citing an RTO workshop or slide deck, without the operator's own text | Private lead, with `next_evidence` naming the official LTLF, ITP or LAS document; do not publish the news number. |
+| Secondary report of a CapEx figure vs the issuer's IR release | Same statement: prefer the issuer. Different dates: the later one is current, the earlier an older vintage. A call-only figure may be recorded from a credible report of the call, attributed, with primary follow-up. |
+| Official IR: CapEx guidance range for a named calendar or fiscal year | Attributed forecast with its vintage; precision `range` when there are two bounds; do not extend it to later years. |
+| Federal Register, BIS Entity List or advanced-computing rule; White House order on data-center permitting | Grade-A policy *event* candidates. No chip tonnage or shipment inference. |
+| Method-disclosed RCT with a null or negative productivity finding | Preserve it with its scope (task, population, tools). Do not drop it as anti-promotional. |
+| Partial HTML extract of a PDF-only report | `partial exposure`, naming the section or table needed; do not assert the report contains nothing useful. |
+| HBM or packaging claim with only qualitative language ("doubled") and no metric-compatible units | A note or empty; do not invent shipped volumes. |
 
 For every proposed project/product update, use `next_evidence` or `gap` to say what could change the assessment, which primary source type could establish it, and the disclosed milestone or recommended revisit trigger. Preserve existing history and source IDs. Do not invent dates or extra schema fields. A proposed date/cadence does not schedule work or override cooldowns. New URLs are private leads, never network or publication instructions.
 
@@ -48,11 +59,11 @@ Use the current catalog, companies, delivery projects, fabric, expansion, agenda
 
 The coverage map is a starting point, not a company or product whitelist for private investigation. `discovery-policy.json` supplies rotating category-wide questions across all layers, regional lenses and explicit constraint searches. The discovery extraction prompt also receives the live `RESEARCH_AGENDA.md` section "Next evidence by layer" and reviewed company/metric coverage. Its second screening pass receives the candidate and evidence, not authority to expand scope. Dated product inventories and the September 7 readiness audit are historical context, not runtime limits. Successors and unfamiliar builders can be proposed without guessing names or changing public definitions.
 
-- Energy: actual generation and grid connections; nuclear, geothermal, renewables, storage; dependable power, affordability, water and clean matching. Preserve observed history and published outlooks beyond 2030, including 2035–2050 and later.
-- Chips: design/IP, fabs, wafer capacity, HBM, memory, packaging, substrates, tools, DSPs, optical modules, lasers, copper, fiber and co-packaged optics. Separate qualification, shipments and installed equipment.
+- Energy: actual generation and grid connections; nuclear, geothermal, renewables, storage; dependable power, affordability, water and clean matching. Preserve observed history and published outlooks beyond 2030, including 2035–2050 and later. Distinguish generation and storage interconnection queues from large-load (data-center) queues, and queue requests, studied or planning peaks, approved-to-energize milestones and observed operating load from one another.
+- Chips: design/IP, fabs, wafer capacity, HBM, memory, packaging, substrates, tools, DSPs, optical modules, lasers, copper, fiber and co-packaged optics. Separate qualification, shipments and installed equipment. HBM and advanced-packaging shipped volumes need issuer units that match a metric; analyst CoWoS wafer-start figures are not issuer observations.
 - Infrastructure: announced, financed, under-construction and operational AI factories; electrical and cooling systems, local contracts, construction and operating employment, training and apprenticeships.
 - Models: commercial and open model builders, Ai2, Hugging Face, checkpoint licenses, training artifacts, reliability, inference cost, subscriptions, harnesses and agents. Cosmos world models and Omniverse simulation have distinct roles. Public weights do not imply unrestricted licensing.
-- Applications: coding and wider digital productivity, validated scientific results, AlphaFold, clinical outcomes, medicine, weather/climate, robots and autonomous driving. Keep simulations, demonstrations, trials and productive deployment separate.
+- Applications: coding and wider digital productivity, validated scientific results, AlphaFold, clinical outcomes, medicine, weather/climate, robots and autonomous driving. Keep simulations, demonstrations, trials and productive deployment separate. Prefer method-disclosed trials, including null and negative results, over vendor productivity claims, and keep the study setting, tool vintage and sample.
 - Communities: actual tax collections, household bills, wages, local purchasing and costs. Treat AI employment effects as a causal question, not a sum of recruitment announcements minus announced layoffs. National growth does not rule out harms to particular groups.
 
 ## Emerging work and recruitment
@@ -72,6 +83,12 @@ If an existing metric fits exactly, propose a numeric observation. Otherwise pre
 Read forecasts as forecasts even after their target date. Keep conservative and optimistic scenarios separate with the original scope. Do not interpolate missing history. Preserve source values; presentation rounding such as whole TWh belongs to maintained chart code.
 
 Use exact approved URLs for publishable collection. Private discovery can investigate new public hosts under the separate reviewed policy; it cannot publish from them. PDFs not approved in `research/pdf-sources.json`, JavaScript-only listings, HTTP failures and robots exclusions are gaps, not permission to bypass controls. Do not pad runs with generic marketing, repeated summaries or invented updates. Both extraction and verification must apply these instructions. A second pass by the same model is fallible screening.
+
+## ISO/RTO and CapEx primary-source rule (September 22, 2026; corrected September 23)
+
+Large-load and peak-load figures for public energy metrics come from operator-published materials (ERCOT board and Constraints and Needs reports, PJM Load Forecast Report and LAS summaries, SPP ITP, MISO LTLF documents) or reviewed importers, not from secondary news paraphrases of workshops. The runner reads those operator PDFs that `research/pdf-sources.json` approves; any other PDF stays a collection gap, and a gap is never permission to accept a journalist's restatement onto the metric.
+
+Hyperscaler CapEx guidance for `capital-guidance-*` metrics should come from the issuer's IR release, official earnings-event transcript page or SEC exhibit when one states the figure. Guidance given only on a call can be recorded from a credible report of that call, attributed to the reporter with the call's date, and marked for primary follow-up. Compare the dates of the statements before comparing the rank of the sources: a later statement supersedes an earlier one. (The September 22 proposal said a news report may never be the sole support; applied, it replaced Amazon's July $220B guidance with its February $200B plan. See `research/FABLE_MUSE_FEEDBACK-2026-09-22/REVIEW-2026-09-22.md`.)
 
 ## Operation
 
@@ -170,6 +187,22 @@ Re-run with `python scripts/evaluate_extraction.py --holdout --documents 24 --se
 The recall nudge (deliverable 4) was reverted per its own instruction: precision fell under 0.9 with it in place. It is **not** what caused the drop, though — removing it only moved precision from 0.7647 to 0.7742 and recall from 0.5909 to 0.5455, both within the run-to-run noise of a temperature-0 but not bit-for-bit-deterministic local model. `max_candidates_per_document` going from 4 to 8 (deliverable 3, shipped unconditionally per spec) is the more likely driver: raising `maxItems` in the schema, which is echoed to the model as literal prompt text as well as enforced by Ollama's structured output, gives the model room to propose more candidates per document regardless of the nudge sentence, and more raw proposals without a matching increase in correct ones lowers matched/proposed precision even when every additional proposal is individually reasonable. This is a real trade-off to weigh, not a defect to silently work around; a maintainer who wants precision back near 0.92 should try lowering the cap again (or gating it) as a follow-up experiment, separate from today's validator fixes.
 
 The numeric-token fix itself measurably worked on real production documents in this run: `epoch-colossus-2` (Nvidia B200/B300 installed counts, "110k"/"330k"), `coreweave-fy2025` (`5,131` supporting `5.131` for a USD-billion metric) and `company-amphenol` (`23,094.7` supporting `23.0947`) were all accepted with a `note` fragment naming the source token, where the pre-change validator would have quarantined them as "Value not supported by exact numeric token" (as the morning baseline recorded for CoreWeave and Amphenol specifically). Both remaining validator false-rejects are expected, not regressions: `waymo-end2026-target`'s "over one million rides per week" stays rejected because it is a spelled-out number word, exactly per the reviewed rule; `company-microsoft`'s "$331.8 billion" was quoted by the model this run without the supporting "331,839" table cell the morning run had captured, so there was no token in evidence for `value_support` to anchor to — a difference in what the model chose to quote, not a gap in the conversion logic (which is covered directly by the Amphenol/CoreWeave cases above and by `tests/test_research.py::NumericTokenSupportTests`).
+
+### Instructions patch · September 23, 2026
+
+The Fable Muse feedback (`research/FABLE_MUSE_FEEDBACK-2026-09-22/`) went into `MODEL_BRIEF.md` with the review's corrected CapEx text, plus one further correction: the proposed screening paragraph also barred a news report of a company IR figure from any CapEx metric. Same protocol as September 9, run on the same code snapshot (95ed06fe0) with only the brief changed: `python scripts/evaluate_extraction.py --holdout --documents 24 --seed 1 --instructions brief`. The expected set is now 763 records (the ledger has grown since September 9, so recall is not comparable with that table).
+
+| | before (brief 2026-09-09) | after (brief 2026-09-23) |
+|---|---|---|
+| model calls / failed | 56 / 0 | 57 / 0 |
+| proposed | 14 | 16 |
+| matched | 13 | 15 |
+| recall | 0.0170 | 0.0197 |
+| precision (matched/proposed) | 0.9286 | 0.9375 |
+| validator false-rejects | 1 ("Value not supported by exact numeric token") | 2 |
+| reviewer false-rejects | 0 | 0 |
+
+Shipped: precision held above 0.9 and matched records rose. The seed-1 sample holds no grid-operator PDF or CapEx guidance document, which the patch mostly targets; `metric_rules_version` and `note_rules_version` were bumped so saved documents are extracted again under the new brief.
 
 ## Catalog feedback loop
 
