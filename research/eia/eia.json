@@ -1,23 +1,23 @@
 {
   "dataset": "EIA API v2 electricity data",
   "source_id": "eia-api-v2-electricity",
-  "retrieved_at": "2026-09-19T08:30:01Z",
+  "retrieved_at": "2026-09-26T08:30:01Z",
   "calls": [
     {
       "call": "net-generation",
       "status": "ok",
-      "sha256": "82aa325eb488b1cef38f6f49362f57b28e6de686819581c57d6cd67e3f8be6c3",
-      "rows": 90,
+      "sha256": "efd21e42ecaa92e888fa59919124f2b32bca5f49adf9b8bfcaadf655be059b3a",
+      "rows": 91,
       "truncated": false,
-      "total": "90"
+      "total": "91"
     },
     {
       "call": "capacity-additions",
       "status": "ok",
-      "sha256": "18f4f4af4a159eef7cb18da7346a9e6477630b2a7ffe82f04f7659f7678ba82d",
+      "sha256": "742dd8a75d26947f6f49680df062ff8f6f4553b5fef77ca4b0610e17575cbbf4",
       "rows": 5000,
       "truncated": true,
-      "total": "2260420"
+      "total": "2288744"
     },
     {
       "call": "steo",
@@ -698,7 +698,7 @@
     "eia-retail-price-wy-all",
     "eia-retail-price-wy-residential"
   ],
-  "records": 609,
+  "records": 610,
   "license": "Public domain (U.S. government work)",
   "key": "owner-registered, not recorded",
   "steo_series_id_placeholder": "ELGEN",
@@ -742,8 +742,8 @@
     "WY"
   ],
   "counts": {
-    "rows:net-generation": 90,
-    "records:net-generation": 90,
+    "rows:net-generation": 91,
+    "records:net-generation": 91,
     "rows:capacity-additions": 5000,
     "records:capacity-additions": 1,
     "rows:steo": 0,
@@ -752,7 +752,7 @@
     "records:retail-price": 518
   },
   "failures": [
-    "capacity-additions returned a truncated page (5000 rows of 2260420). operating-generator-capacity is the whole operable-generator inventory, one row per generator per month, so an additions figure cannot be read off an unwindowed request; window or page it against a live pull before trusting this route.",
+    "capacity-additions returned a truncated page (5000 rows of 2288744). operating-generator-capacity is the whole operable-generator inventory, one row per generator per month, so an additions figure cannot be read off an unwindowed request; window or page it against a live pull before trusting this route.",
     "eia: 'records:steo' returned 0, below the reviewed floor of 1 -- a broken route, not a quiet week",
     "eia: 'rows:steo' returned 0, below the reviewed floor of 1 -- a broken route, not a quiet week"
   ]
