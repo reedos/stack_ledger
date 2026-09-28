@@ -94430,6 +94430,48 @@
       "retrieved_at": "2026-09-26T08:30:01Z",
       "method": "curated",
       "note": "EIA API v2 electric-power-operational-data, sector 99 (electric power total), all fuels, 2026-07: 453,744.4 thousand MWh."
+    },
+    {
+      "id": "btos-ai-use-share-2026-09-20",
+      "metric": "btos-ai-use-share",
+      "year": 2026,
+      "period": "2026-09-20",
+      "value": 23.8,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-09-28T08:30:02Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-09-20. Response file sha256 928b57b0ef7a."
+    },
+    {
+      "id": "btos-ai-use-share-naics-51-2026-09-20",
+      "metric": "btos-ai-use-share-naics-51",
+      "year": 2026,
+      "period": "2026-09-20",
+      "value": 49.0,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-09-28T08:30:02Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-09-20. Response file sha256 f9efcd8d22da."
+    },
+    {
+      "id": "btos-ai-use-share-naics-54-2026-09-20",
+      "metric": "btos-ai-use-share-naics-54",
+      "year": 2026,
+      "period": "2026-09-20",
+      "value": 43.9,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-09-28T08:30:02Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-09-20. Response file sha256 f9efcd8d22da."
     }
   ],
   "events": [
