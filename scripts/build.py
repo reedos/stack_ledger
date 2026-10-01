@@ -7,6 +7,7 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 from html import escape
 from render import HOME_DESCRIPTION, home, navigation, runtime, company_snapshot
+from site_config import SITE_URL
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -91,7 +92,7 @@ def build():
             content = render_claims(json.loads((ROOT/'research/claims.json').read_text(encoding='utf-8')), data['sources'], base)
         for key, value in {'CONTENT': content, 'STACK_NAV': navigation(data, base, page), 'RUNTIME': runtime(data), 'ANALYTICS': analytics_tag(analytics, base)}.items():
             rendered=rendered.replace('{{'+key+'}}', value)
-        for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':base,'CANONICAL':path,'BUILD':build_version}.items():
+        for key,value in {'TITLE':title,'HEADING':heading,'DESCRIPTION':description,'PAGE':page,'BASE':base,'CANONICAL':path,'BUILD':build_version,'SITE_URL':SITE_URL}.items():
             rendered=rendered.replace('{{'+key+'}}',escape(value,quote=True))
         rendered=re.sub(r'((?:href|src)="[^"<>]*assets/[^"<>]+\.(?:css|js))"',lambda match:match[1]+'?v='+build_version+'"',rendered)
         folder=dest/path
@@ -100,8 +101,8 @@ def build():
     (dest/'.nojekyll').write_text('',encoding='utf-8')
     (dest/'404.html').write_text('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Page not found · Stack Ledger</title><body style="background:#101511;color:#f0f1e8;font:20px system-ui;padding:10vw"><h1>This layer hasn’t been built.</h1><p>Return to <a style="color:#c5f277" href="/stack_ledger/">Stack Ledger</a>.</p></body></html>',encoding='utf-8')
     atom(data,dest)
-    (dest/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: https://reedos.github.io/stack_ledger/sitemap.xml\n',encoding='utf-8',newline='\n')
-    urls=''.join(f'<url><loc>https://reedos.github.io/stack_ledger/{path}</loc></url>' for _,path,*_ in pages)
+    (dest/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {SITE_URL}sitemap.xml\n',encoding='utf-8',newline='\n')
+    urls=''.join(f'<url><loc>{SITE_URL}{path}</loc></url>' for _,path,*_ in pages)
     (dest/'sitemap.xml').write_text(f'<?xml version="1.0" encoding="utf-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>',encoding='utf-8')
     print(f'Built {len(pages)} pages into docs/')
 
@@ -114,9 +115,9 @@ def atom(data,dest):
         return node
     feed=ET.Element('{'+ns+'}feed')
     child(feed,'title','Stack Ledger')
-    child(feed,'id','https://reedos.github.io/stack_ledger/')
-    child(feed,'link',href='https://reedos.github.io/stack_ledger/feed.xml',rel='self')
-    child(feed,'link',href='https://reedos.github.io/stack_ledger/')
+    child(feed,'id',SITE_URL)
+    child(feed,'link',href=SITE_URL+'feed.xml',rel='self')
+    child(feed,'link',href=SITE_URL)
     updated=max([data['runtime']['last_attempt'] or max(o['retrieved_at'] for o in data['observations'])]+[e['corrected_at'] for e in data['events'] if e.get('corrected_at')])
     child(feed,'updated',updated)
     child(child(feed,'author'),'name','Stack Ledger')
@@ -124,19 +125,19 @@ def atom(data,dest):
     from validate import current_events
     for event in current_events(data['events']):
         entry=child(feed,'entry')
-        child(entry,'id','https://reedos.github.io/stack_ledger/ledger/#'+event['id'])
+        child(entry,'id',SITE_URL+'ledger/#'+event['id'])
         child(entry,'title',event['title'])
         child(entry,'link',href=sources[event['source']]['url'])
         child(entry,'updated',event.get('corrected_at',event.get('retrieved_at',data['seed_date']+'T12:00:00Z')))
         if event['date']: child(entry,'published',event['date']+'T12:00:00Z')
         child(entry,'summary',event['summary']+(' Correction: '+event['correction_reason'] if event.get('correction_of') else ''))
         if event.get('correction_of'):
-            child(entry,'link',rel='related',href='https://reedos.github.io/stack_ledger/ledger/#'+event['correction_of'])
+            child(entry,'link',rel='related',href=SITE_URL+'ledger/#'+event['correction_of'])
     for run in data['runs'][-30:]:
         entry=child(feed,'entry')
-        child(entry,'id','https://reedos.github.io/stack_ledger/ledger/#'+run['id'])
+        child(entry,'id',SITE_URL+'ledger/#'+run['id'])
         child(entry,'title',f"Research run: {run['status']} · {run['accepted']} new research records")
-        child(entry,'link',href='https://reedos.github.io/stack_ledger/ledger/')
+        child(entry,'link',href=SITE_URL+'ledger/')
         child(entry,'updated',run['finished_at'])
         child(entry,'summary',f"Fetched {run['documents_fetched']} documents; accepted {run['accepted']} records; quarantined {run['quarantined']} proposals. {len(run['source_failures'])} source failures.")
     # Bytes, not a path: given a path ElementTree opens it in text mode and Windows turns the

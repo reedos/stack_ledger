@@ -180,7 +180,7 @@ It preserves all existing tailnet identity, loopback token and CSRF checks.
 retain a frozen `.local/briefings/<date>.json` plus a compact `-brief.md` beside the
 full original digest. Old nights are reconstructed within their recorded research
 stage interval; missing/skipped sessions are disclosed. The Latest link opens
-`https://reedos.github.io/stack_ledger/latest/`; it is the public all-site reading
+`https://reedos.dev/stack_ledger/latest/`; it is the public all-site reading
 feed, whereas the private run review is restricted to that specific night.
 
 With `briefing:true` and `role:"sage"` in the private Matrix notification config,

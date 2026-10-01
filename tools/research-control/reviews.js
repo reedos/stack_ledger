@@ -88,7 +88,7 @@
     if(!r.ok)throw new Error(data.error||'Catalog action failed');
     return data;
   }
-  const LIVE_SITE='https://reedos.github.io/stack_ledger/';
+  const LIVE_SITE='https://reedos.dev/stack_ledger/';
   // The exact landing element for a change, so "Show" opens the changed graphic itself, never the
   // homepage: a real per-object anchor on the built pages (site/assets/*.js renders every one of these).
   function placeOf(c){const id=encodeURIComponent(c.id);switch(c.target){

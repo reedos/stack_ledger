@@ -21,7 +21,7 @@ class CompanyProfiles(unittest.TestCase):
             html = (ROOT / f'docs/companies/{cid}/index.html').read_text(encoding='utf-8')
             self.assertIn('data-base="../../"', html)
             self.assertIn(f'data-company="{cid}"', html)
-            self.assertIn(f'https://reedos.github.io/stack_ledger/companies/{cid}/', html)
+            self.assertIn(f'https://reedos.dev/stack_ledger/companies/{cid}/', html)
 
     def test_company_output_metric_renders_as_headline_when_configured(self):
         import copy

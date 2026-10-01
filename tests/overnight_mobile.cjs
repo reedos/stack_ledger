@@ -17,7 +17,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
    if(!current.pending.length)assert.match(await page.locator('#night-review').innerText(),/You’re caught up/);
    if(current.question_backlog)assert.match(await page.locator('#night-review').innerText(),/separate backlog/);
    assert.match(await page.locator('#night-review').innerText(),/Tuesday, September 15th, 2026/);
-   assert.equal(await page.locator('#night-review a').first().getAttribute('href'),'https://reedos.github.io/stack_ledger/latest/');
+   assert.equal(await page.locator('#night-review a').first().getAttribute('href'),'https://reedos.dev/stack_ledger/latest/');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`overflow at ${width}`);
    await page.getByRole('searchbox',{name:'Search documents read'}).fill('NVIDIA');
    assert.match(await page.locator('.night-document').first().innerText(),/NVIDIA/i);

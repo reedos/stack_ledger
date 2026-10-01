@@ -2,7 +2,7 @@
 
 **A public ledger of the AI buildout.** Energy → chips → infrastructure → models → applications. Global coverage with a U.S. focus, 2030 as the main horizon, and explicit longer-term targets.
 
-**[Read the site](https://reedos.github.io/stack_ledger/)** · [Research constitution](research/CONSTITUTION.md) · [Methodology](research/METHODOLOGY.md) · [Public dataset](site/data/ledger.json)
+**[Read the site](https://reedos.dev/stack_ledger/)** · [Research constitution](research/CONSTITUTION.md) · [Methodology](research/METHODOLOGY.md) · [Public dataset](site/data/ledger.json)
 
 ## Our premise
 
@@ -12,7 +12,7 @@ This is our guiding ambition, tested against evidence. Announced investment is n
 
 ## What is included
 
-- An expanding company directory with annual revenue records, annualized run rates and explicit revenue coverage gaps, each linked to its own reviewed observation; see the [live company directory](https://reedos.github.io/stack_ledger/companies/) for current counts. Product-role sources are linked separately.
+- An expanding company directory with annual revenue records, annualized run rates and explicit revenue coverage gaps, each linked to its own reviewed observation; see the [live company directory](https://reedos.dev/stack_ledger/companies/) for current counts. Product-role sources are linked separately.
 - A searchable datacenter component map covering compute, memory, DSPs, SerDes, copper, optical modules, CPO, fiber, switching, assembly and electrical infrastructure.
 - Electrical workforce evidence and clean-energy manufacturing cases, distinguishing reported employment, projected openings, hiring plans and investment stages.
 - Every event and automated observation carries an evidence grade (A: official statistics/filings, B: company statement, C: news report, D: unverified secondary/social claim), derived only from the registered source, never chosen by the model. Grade C/D evidence from registered news feeds and official social accounts publishes automatically as a report on the linked project/company page and the ledger, honestly labeled "Reported, not yet confirmed" until a later official record covers the same figure — never inside a chart or a homepage headline. See "Reports lane" below.
@@ -135,7 +135,7 @@ The organizing concept is inspired by [Jensen Huang’s five-layer AI framework]
 
 ## Energy and infrastructure delivery
 
-The `/projects/` tracker follows a growing set of selected projects across generation, storage, transmission and AI infrastructure; see the [live tracker](https://reedos.github.io/stack_ledger/projects/) for the current count. Filter by stage, layer, owner or location. Each card separates reported quantities from plans, retains an evidence timeline, records grid context and identifies the next missing evidence. The site also includes new research on accelerator delivery, HBM, packaging, model reliability, inference price-performance, workplace productivity and scientific prediction.
+The `/projects/` tracker follows a growing set of selected projects across generation, storage, transmission and AI infrastructure; see the [live tracker](https://reedos.dev/stack_ledger/projects/) for the current count. Filter by stage, layer, owner or location. Each card separates reported quantities from plans, retains an evidence timeline, records grid context and identifies the next missing evidence. The site also includes new research on accelerator delivery, HBM, packaging, model reliability, inference price-performance, workplace productivity and scientific prediction.
 
 Tracker definitions live in `research/delivery.json`; numeric evidence lives in the main ledger. Validate with `python scripts/validate_delivery.py` (also run by the build). Stages are reviewed snapshots, while the daily runner can append screened observations and notes. For a fresh, focused local research pass: `python scripts/research.py --apply --refresh --max-documents 6 --sources fervo-q2-2026 eia-additions-2026 aws-delivery-2026`. Use `--publish` instead of `--apply` only with a clean working tree. A focused pass may be partial because its coverage is intentionally limited.
 
@@ -147,7 +147,7 @@ Where a project has no disclosed base figure, the card states that plainly, name
 
 ## Company and industry research
 
-The company directory covers a growing set of representative businesses across the five layers; see the [live company directory](https://reedos.github.io/stack_ledger/companies/) for the current count. Company roles and jobs/factory snapshots are reviewed metadata in `research/ecosystem.json`, mirrored to `site/data/ecosystem.json`. Revenue and chip-capacity observations use the main ledger and reviewed metric catalog. Annual revenue, AWS segment sales and private-company annualized run rates are labeled separately.
+The company directory covers a growing set of representative businesses across the five layers; see the [live company directory](https://reedos.dev/stack_ledger/companies/) for the current count. Company roles and jobs/factory snapshots are reviewed metadata in `research/ecosystem.json`, mirrored to `site/data/ecosystem.json`. Revenue and chip-capacity observations use the main ledger and reviewed metric catalog. Annual revenue, AWS segment sales and private-company annualized run rates are labeled separately.
 
 The `/industry/` page includes the chip supply chain, capacity charts, project stages, jobs disclosures and BLS employment context. The chips page embeds the supply chain and capacity views; every layer links to its companies. These snapshots are dated; a daily research run does not imply that all financial statements or workforce claims were refreshed.
 
@@ -193,8 +193,8 @@ GoatCounter integration is controlled by `site/analytics.json`. `goatcounter_sit
 
 Use a separate site under the existing GoatCounter login via **Settings → Sites**, so Stack Ledger traffic stays distinct from other projects. See [multiple-site setup](https://www.goatcounter.com/help/domains) and [tracking setup](https://www.goatcounter.com/help/start). View results in that site's GoatCounter dashboard after deployment.
 
-The loader runs only on `reedos.github.io/stack_ledger/`, loads asynchronously and disables automatic click-event tracking. Existing canonical URLs keep filter/search query strings out of the page paths. Local previews and browser tests do not load GoatCounter. Blocking analytics does not block site rendering. Verify configuration with the Python tests and the loader with `node tests/analytics.cjs`. Enabling analytics does not run local-model research or alter the runtime block.
+The loader runs only on `reedos.dev/stack_ledger/`, loads asynchronously and disables automatic click-event tracking. Existing canonical URLs keep filter/search query strings out of the page paths. Local previews and browser tests do not load GoatCounter. Blocking analytics does not block site rendering. Verify configuration with the Python tests and the loader with `node tests/analytics.cjs`. Enabling analytics does not run local-model research or alter the runtime block.
 
 ## Morning research review
 
-Sage delivers one concise Matrix briefing after the overnight workflow: useful findings, collection problems, the pending review inbox, and direct links to that night in the private Research Control dashboard and the public [Latest feed](https://reedos.github.io/stack_ledger/latest/). Ara includes only the review link in the Team stand-up; Eli receives job failures. The dashboard starts at sign-in and is checked again by the nightly job. See [operation and receipts](research/RESEARCH_SESSIONS.md#integrated-overnight-review--september-15th-2026).
+Sage delivers one concise Matrix briefing after the overnight workflow: useful findings, collection problems, the pending review inbox, and direct links to that night in the private Research Control dashboard and the public [Latest feed](https://reedos.dev/stack_ledger/latest/). Ara includes only the review link in the Team stand-up; Eli receives job failures. The dashboard starts at sign-in and is checked again by the nightly job. See [operation and receipts](research/RESEARCH_SESSIONS.md#integrated-overnight-review--september-15th-2026).

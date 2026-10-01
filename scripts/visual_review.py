@@ -17,6 +17,7 @@ import editorial as ed
 import editorial_review as er
 from atomic_json import save
 from validate import require
+from site_config import SITE_URL
 
 ROOT = Path(__file__).resolve().parents[1]
 RID = re.compile(r'visual-[a-f0-9]{24}')
@@ -286,7 +287,7 @@ def render_current(s,d,config=None):
     from render_explorers import capital, project_map, capabilities
     from render_claims import render_claims
     from render_editorial import recent_changes
-    base='https://reedos.github.io/stack_ledger/'
+    base=SITE_URL
     renderer=d['renderer']
     if renderer=='highlights':
         # Reuse the exact maintained card renderer, scoped to the reviewed layer.
@@ -305,7 +306,7 @@ def preview(root,p,s):
     current=render_current(s,p['display']); proposed=render_current(s,p['display'],p['config_after']) if p['config_after'] else '<p>Specification only. No replacement graphic has been implemented. Endorsing this direction is not final application approval.</p>'
     styles='\n'.join(path.read_text(encoding='utf-8') for path in sorted((root/'site/assets').glob('*.css')))
     styles+='\nbody{padding:24px} .visual-comparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.visual-comparison>section{min-width:0;overflow:auto}.visual-comparison .layer-grid{display:block} @media(max-width:750px){.visual-comparison{display:block}}'
-    site='https://reedos.github.io/stack_ledger'+p['display']['page']
+    site=SITE_URL.rstrip('/')+p['display']['page']
     return '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Private visual recommendation</title><style>'+styles+'</style><body><h1>'+escape(p['display']['title'])+'</h1><p>Private frozen preview · no analytics or scripts · not published. Current means rendered from the frozen accepted configuration, not verified live deployment.</p><p><a href="'+escape(site,quote=True)+'">Open current site page ↗</a></p><div class="visual-comparison"><section><h2>Current</h2>'+current+'</section><section><h2>Proposed</h2>'+proposed+'</section></div></body></html>'
 
 

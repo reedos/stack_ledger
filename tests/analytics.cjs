@@ -10,14 +10,14 @@ function execute(hostname,pathname,endpoint){
  return loaded;
 }
 const endpoint='https://example-site.goatcounter.com/count';
-for(const [host,path] of [['localhost','/stack_ledger/'],['127.0.0.1','/stack_ledger/'],['reedos.github.io','/other-site/'],['preview.example','/stack_ledger/']]){
+for(const [host,path] of [['localhost','/stack_ledger/'],['127.0.0.1','/stack_ledger/'],['reedos.dev','/other-site/'],['reedos.github.io','/stack_ledger/'],['preview.example','/stack_ledger/']]){
  assert.equal(execute(host,path,endpoint).length,0);
 }
 for(const invalid of [null,'https://attacker.example/count','https://user:secret@example.goatcounter.com/count',endpoint+'?key=secret']){
- assert.equal(execute('reedos.github.io','/stack_ledger/',invalid).length,0);
+ assert.equal(execute('reedos.dev','/stack_ledger/',invalid).length,0);
 }
 for(const path of ['/stack_ledger/','/stack_ledger/companies/nvidia/']){
- const loaded=execute('reedos.github.io',path,endpoint);
+ const loaded=execute('reedos.dev',path,endpoint);
  assert.equal(loaded.length,1);
  assert.equal(loaded[0].src,'https://gc.zgo.at/count.js');
  assert.equal(loaded[0].dataset.goatcounter,endpoint);

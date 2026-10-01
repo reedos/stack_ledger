@@ -4,7 +4,9 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-LATEST = 'https://reedos.github.io/stack_ledger/latest/'
+from site_config import SITE_URL
+
+LATEST = SITE_URL + 'latest/'
 STAGES = ('locks', 'importers', 'research', 'policy', 'health', 'prune')
 LABELS = {'locks': 'Preparation', 'importers': 'Dataset updates', 'research': 'Research',
           'policy': 'Publication', 'health': 'Checks', 'prune': 'Cleanup'}
