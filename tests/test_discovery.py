@@ -192,6 +192,7 @@ class DiscoveryTests(unittest.TestCase):
             first=self.run_slice(rid='rate-limited')
             second=self.run_slice(rid='cooling')
         self.assertEqual(first['search_provider']['http_status'],429)
+        self.assertEqual(first['search_channel'],'unavailable')
         self.assertGreaterEqual(first['documents_fetched'],1)
         self.assertEqual(second['search_skipped'],'provider_cooldown')
         self.assertEqual(self.fetcher.fetch_json.call_count,1)

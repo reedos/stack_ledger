@@ -54,6 +54,8 @@ def finalize(root,report,folder,totals):
         return {'status':'already_pushed'}
     result={'status':'pending'}
     try:
+        from research_safety import check_storage
+        check_storage(root)
         import research
         require(root.resolve()==research.ROOT.resolve(),'Session repository mismatch')
         saved=folder/'public-summary.json'

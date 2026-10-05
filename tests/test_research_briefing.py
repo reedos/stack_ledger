@@ -32,6 +32,14 @@ class BriefingTests(unittest.TestCase):
         # because it rides inside Almanac's own hash.
         self.assertTrue(data['links']['review'].endswith(':8788/#view=research&rp=%23run%3D2026-09-15'), data['links']['review'])
         self.assertTrue(data['links']['decisions'].endswith(':8788/#view=research&rp=%23decisions'))
+
+    def test_unavailable_discovery_and_full_queue_remain_visible_after_a_successful_run(self):
+        self.session()
+        self.save('.local/nightly/'+self.date+'/health.json', {'status':'ok', 'discovery':{
+            'search_provider':{'status':'unavailable','http_status':429}, 'capacity_reached':True}})
+        text = brief.render(brief.snapshot(self.root,self.date))
+        self.assertIn('Discovery search is unavailable', text)
+        self.assertIn('discovery queue is full', text)
     def test_manual_and_other_day_sessions_do_not_bleed_into_night(self):
         self.session()
         self.save('.local/sessions/'+'b'*32+'/status.json',{'session_id':'b'*32,'started_at':'2026-09-15T10:00:00Z','options':{'overnight':False}})

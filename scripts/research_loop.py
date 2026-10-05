@@ -2,6 +2,7 @@
 import argparse
 import contextlib
 import ctypes
+import errno
 import json
 import os
 import shutil
@@ -14,6 +15,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from session_options import add_arguments, choice_args, stopped
 from atomic_json import save as atomic
+from research_safety import check_storage, LowDiskSpace
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -165,12 +167,20 @@ def main(argv=None):
         def checkpoint(state,**fields):
             report.update(state=state,elapsed_seconds=round(time.monotonic()-started),**fields)
             # The per-session record is authoritative; a locked UI mirror cannot kill research.
-            atomic(folder/'status.json',report)
+            try: atomic(folder/'status.json',report)
+            except OSError as error:
+                if error.errno != errno.ENOSPC: raise
+                # Keep supervising an active child. Abandoning it here would release the session
+                # lock while it is still writing. Storage checks request a graceful stop below.
+                if not report.get('status_write_error'):
+                    print('Disk full: session status cannot be saved; supervising graceful stop.', flush=True)
+                report['status_write_error']='ENOSPC'
             try:atomic(ROOT/'.local/session-status.json',report)
             except OSError:print('Status mirror unavailable; per-session status is current.',flush=True)
         def pause(seconds,state):
             until=min(deadline,time.monotonic()+seconds)
             while time.monotonic()<until and not stopped(ROOT,sid):
+                check_storage(ROOT)
                 checkpoint(state);print(state,flush=True);time.sleep(min(10,max(0,until-time.monotonic())))
         awake=False
         try:
@@ -180,6 +190,7 @@ def main(argv=None):
             checkpoint('starting',keep_awake_active=awake)
             cycles=0;idle_samples=0;telemetry_failures=0
             while session_active(time.monotonic()-started,cycles,a.min_minutes*60,duration,a.max_cycles):
+                check_storage(ROOT)
                 if stopped(ROOT,sid):checkpoint('stopped');return 0
                 if (ROOT/'.local/research.lock').exists():pause(30,'waiting for another research batch');continue
                 if not a.ignore_gpu_busy:
@@ -196,16 +207,23 @@ def main(argv=None):
                 if remaining<1:break
                 checkpoint('researching',batch_started_at=datetime.now(timezone.utc).isoformat())
                 command=batch_command(a,sid,remaining)
+                storage_problem=None
                 with (folder/'output.log').open('a',encoding='utf-8') as log:
                     child=subprocess.Popen(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,
                         creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0),env=dict(os.environ,PYTHONIOENCODING='utf-8',PYTHONUNBUFFERED='1'))
                     while child.poll() is None:
+                        try: check_storage(ROOT)
+                        except LowDiskSpace as error:
+                            storage_problem=error
+                            try: (folder/'stop').touch()  # finish the active document safely, start no more
+                            except OSError: pass
                         if time.monotonic()>=deadline:(folder/'stop').touch()
                         checkpoint('finishing current batch' if stopped(ROOT,sid) else 'researching')
                         print(f'Session {sid}: batch {cycles+1}; {report["elapsed_seconds"]}s elapsed',flush=True)
                         time.sleep(5)
                 cycles+=1;idle_samples=0
                 report['batches']=cycles
+                if storage_problem: raise storage_problem
                 try:
                     from visual_review import checkpoint as visual_checkpoint
                     visual_checkpoint(ROOT,folder)
@@ -254,15 +272,26 @@ def main(argv=None):
                 return 1
             checkpoint('completed' if time.monotonic()>=deadline else 'cycle limit reached')
             return 0
-        except BaseException:
-            (folder/'stop').touch()
-            try:checkpoint('interrupted')
-            except OSError:report['state']='interrupted'
+        except BaseException as error:
+            # Disk-full errors must not prevent the stop request or obscure the original cause.
+            try: (folder/'stop').touch()
+            except OSError: pass
+            state = 'blocked' if isinstance(error, LowDiskSpace) else 'interrupted'
+            report.update(state=state, failure_reason=f'{type(error).__name__}: {error}')
+            try: checkpoint(state)
+            except OSError: pass
+            if isinstance(error, LowDiskSpace):
+                print(str(error), flush=True)
+                return 1
             raise
         finally:
             if awake:ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
             from visual_review import finish_session
-            finish_session(ROOT,report,folder)
+            try:
+                check_storage(ROOT)
+                finish_session(ROOT,report,folder)
+            except (OSError, ValueError) as error:
+                print(f'Visual finalization unavailable: {type(error).__name__}; evidence retained.', flush=True)
             from research_notify import notify_session
             notification=notify_session(ROOT,report,folder)
             print('Session notification: '+notification['status'],flush=True)

@@ -31,6 +31,7 @@ import git_clean
 import importer_common
 import source_policy
 from atomic_json import save
+from research_safety import check_storage
 from validate import validate_importers
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -110,7 +111,14 @@ def push_own_commits(root):
 def stage_sync(root):
     """This clone level with origin before anything runs: the working clone publishes catalog
     packages during the day, and research.preflight refuses a night whose HEAD is behind."""
+    check_storage(root)
     result = fast_forward(root)
+    if result['status'] == 'skipped' and result.get('reason') == 'working tree has local changes':
+        from deferred_output import recover
+        try: recovery = recover(root)
+        except (ValueError, OSError, subprocess.SubprocessError) as error:
+            recovery = {'status': 'held', 'reason': f'{type(error).__name__}: {error}'}
+        result = dict(fast_forward(root) if recovery['status'] == 'recovered' else result, recovery=recovery)
     if result['status'] == 'skipped' and 'not on origin' in result.get('reason', ''):
         # A push that failed (network, GitHub) leaves the night's own commits here, and until
         # 09/24/2026 that stopped every later night at this stage with no digest.
@@ -633,10 +641,21 @@ def pdf_reader(root):
             'reads_encrypted_pdfs': encrypted}
 
 
+def discovery_health(root):
+    from collection_health import Health
+    from discovery import state, policy
+    s = state(root); p = policy(root)
+    provider = Health(root/'.local/discovery/provider-health.json').get('provider', 'gdelt-doc-2')
+    return {'search_provider': provider, 'active_leads': len(s['leads']),
+            'archived_leads': len(s.get('archived', {})), 'lead_limit': p['max_leads'],
+            'capacity_reached': len(s['leads']) >= p['max_leads']}
+
+
 def stage_health(root, date):
     result = {'status': 'ok'}
     for key, fn in [('collection_health', collection_summary), ('stale_figures', stale_figures),
-                     ('disk_usage_top', disk_usage_top), ('repo_size', repo_size), ('pending_decisions', pending_decisions)]:
+                     ('disk_usage_top', disk_usage_top), ('repo_size', repo_size), ('pending_decisions', pending_decisions),
+                     ('storage', check_storage), ('discovery', discovery_health)]:
         try: result[key] = fn(root)
         except Exception as e:
             result[key] = {'error': f'{type(e).__name__}: {str(e)[:200]}'}; result['status'] = 'partial'
@@ -754,6 +773,12 @@ def render_digest_markdown(body):
     what broke was the one being cut off."""
     lines = [f"# Nightly digest - {body['date']}", '', '## Stage outcomes']
     lines += [f"- {k}: {v}" for k, v in body['stage_receipts'].items()]
+    discovery = (body.get('health') or {}).get('discovery') or {}
+    if discovery.get('search_provider', {}).get('status') == 'unavailable':
+        lines.append('- Discovery search is unavailable; primary feeds and retained leads continue. '
+                     'This is reduced search coverage, not a healthy general search channel.')
+    if discovery.get('capacity_reached'):
+        lines.append('- Discovery active queue is full; protected leads remain, and new intake needs capacity review.')
     lines += ['', '## Applied automatically']
     lines += [f"- {row['kind']}: " + ' '.join(f'{k}={v}' for k, v in row.items() if k != 'kind') for row in body['applied']] or ['- Nothing applied automatically tonight.']
     held = [(rid, outcome) for rid, outcome in ((body.get('policy_outcomes') or {}).items()) if not str(outcome).startswith(('deployed', 'deployment_pending', 'pushed'))]
@@ -776,7 +801,7 @@ def render_digest_markdown(body):
         lines += [f'- needs a look: {pid} (an older card that could not be carried into a newer one for its page)' for pid in stuck]
         lines += [f'- can no longer apply: {pid} (a figure it replaces has moved; reject it or decide again)' for pid in stale]
     lines += ['', '## Needs a decision']
-    lines += [f"- {k.replace('_', ' ')}: {v}" for k, v in body['needs_decision'].items()] or ['- Nothing pending.']
+    lines += [f"- {k.replace('_', ' ')}: {v}" for k, v in body['needs_decision'].items()] or ['- Inbox not assessed; no pending count is available.']
     lines += ['', '## Site changes']
     lines += ['- '+c for c in body['site_changes']] or ['- No commits recorded tonight.']
     published = body.get('published_observations') or {}
@@ -831,7 +856,7 @@ def stage_digest(root, date, push=True):
             'revisions': revisions, 'revisions_withdrawn': (policy_receipt.get('revisions') or {}).get('withdrawn') or [],
             'revisions_stuck': (policy_receipt.get('revisions') or {}).get('stuck') or [],
             'revisions_stale': (policy_receipt.get('revisions') or {}).get('stale') or [],
-            'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'pdf_reader')},
+            'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'pdf_reader', 'storage', 'discovery')},
             'site_changes': site_changes(root, date),
             'published_observations': published_observations(root, date),
             'stage_receipts': {k: stage_line(v) for k, v in receipts.items()}}
@@ -899,7 +924,11 @@ def run_stage(root, date, name, timeout_seconds, fn):
         status = payload.pop('status', 'ok')
         receipt = {'stage': name, 'status': status, **payload}
     receipt.update(started_at=started, finished_at=finished, elapsed_seconds=elapsed)
-    save(root/'.local/nightly'/date/(name+'.json'), receipt)
+    try: save(root/'.local/nightly'/date/(name+'.json'), receipt)
+    except OSError as error:
+        receipt.update(status='failed', receipt_write_error=type(error).__name__)
+        # The supervisor retains stdout even if the disk cannot hold another receipt.
+        print(f'Receipt could not be saved: {json.dumps(receipt)}', flush=True)
     return receipt
 
 
@@ -984,6 +1013,8 @@ def run(root, dry_run=False, only=None, resume_after_sync=False, elapsed=0, date
             if only and name != only: continue
             if resume_after_sync and name == 'sync': continue
             stage['name'] = name
+            if name in ('importers', 'research', 'policy'):
+                check_storage(root)
             save(root/'.local/nightly'/date/'live.json', {'pid':os.getpid(), 'stage':name, 'updated_at':datetime.now(timezone.utc).isoformat()})
             if name == 'sync':
                 receipts[name] = run_stage(root, date, name, STAGE_TIMEOUTS['sync'], lambda r=root: stage_sync(r))
@@ -1026,9 +1057,13 @@ def run(root, dry_run=False, only=None, resume_after_sync=False, elapsed=0, date
         failed = [name for name, receipt in receipts.items() if receipt.get('status') in FAILED_STATUSES]
         if failed: print(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} nightly: failed stages: {', '.join(failed)}", flush=True)
         return 1 if failed else 0
+    except OSError as error:
+        print(f'Nightly stopped during {stage["name"]}: {type(error).__name__}: {error}', flush=True)
+        return 1
     finally:
         stop_heartbeat.set()
-        save(root/'.local/nightly'/date/'live.json', {'pid':os.getpid(), 'stage':'finished', 'finished_at':datetime.now(timezone.utc).isoformat()})
+        try: save(root/'.local/nightly'/date/'live.json', {'pid':os.getpid(), 'stage':'finished', 'finished_at':datetime.now(timezone.utc).isoformat()})
+        except OSError as error: print(f'Final status unavailable: {type(error).__name__}', flush=True)
         if awake and os.name == 'nt':
             ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)  # ES_CONTINUOUS
 

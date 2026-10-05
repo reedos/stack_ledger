@@ -104,6 +104,15 @@ class Controller:
         valid=bool(re.fullmatch('[a-f0-9]{32}',sid))
         if valid:report=read(self.root/'.local/sessions'/sid/'status.json',report)
         active=(self.root/'.local/research-session.lock').exists()
+        from nightly import pid_alive
+        if active and isinstance(lock.get('pid'), int) and not pid_alive(lock['pid']):
+            active = False  # The lock is retained for the existing recovery path, not a live session.
+        if report and not active:
+            from session_receipt import STATES
+            if report.get('state') not in STATES and not pid_alive(report.get('pid')):
+                report = dict(report, state='interrupted', last_recorded_state=report.get('state'),
+                              failure_reason='The session process exited without a final receipt. '
+                                             'This is retained status, not an active run.')
         return dict(session=report,active=active,launching=bool(self.child and self.child.poll() is None),
             log=tail(self.root/'.local/sessions'/sid/'output.log') if valid else '',
             controller_log=tail(self.root/'.local/control-launch.log',3000),
@@ -116,6 +125,7 @@ class Controller:
         argv=command(options,self.root)
         with self.guard:
             if self.status()['active'] or self.child and self.child.poll() is None:raise ValueError('A session is already active')
+            if (self.root/'.local/research-session.lock').exists():raise ValueError('A stale or unresolved session lock needs recovery before starting')
             if (self.root/'.local/research.lock').exists():raise ValueError('A research batch is already active')
             if (self.root/'.local/stop-research-loop').exists():raise ValueError('Global stop file is present; inspect it before starting')
             (self.root/'.local').mkdir(exist_ok=True)

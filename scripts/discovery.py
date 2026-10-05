@@ -155,11 +155,50 @@ def add_lead(s, url, context, lineage, p, at, depth=0):
     except ValueError:
         return False
     key = digest(url)
+    if s.get('archived', {}).get(key, {}).get('reconsider_after', '') > at:
+        return False
     if key in s['leads'] or len(s['leads'])>=p['max_leads']:
         return False
     s['leads'][key] = {'url':url,'context':context,'lineage':lineage,'depth':depth,'first_seen':at,
                        'last_attempt':None,'next_attempt':at,'attempts':0,'status':'pending','failures':0}
     return True
+
+
+def archive_exhausted(root, s, p, at):
+    """Make bounded room without losing evidence, decisions or repeated-URL memory.
+
+    Repeated failures are not 'researched'. They can be deprioritized for 30 days, with their
+    exact failure history retained. Unread leads, screen failures, proposals and indexes stay.
+    """
+    if len(s['leads']) < p['max_leads']:
+        return 0
+    from research import save
+    now_dt = datetime.fromisoformat(at.replace('Z', '+00:00'))
+    cutoff = (now_dt - timedelta(days=7)).isoformat()
+    candidates = []
+    for key, lead in s['leads'].items():
+        if lead.get('proposal_id') or lead.get('lineage', {}).get('type') == 'registered_index':
+            continue
+        if lead.get('attempts', 0) < 3 or lead['first_seen'] > cutoff:
+            continue
+        screened = lead.get('status') in ('no_findings', 'unchanged') and lead.get('screen_coverage', {}).get('complete') is True
+        refused = lead.get('status') == 'source_inaccessible' and lead.get('failures', 0) >= 3
+        if screened or refused:
+            candidates.append((key, lead))
+    candidates.sort(key=lambda item: (item[1].get('last_attempt') or '', item[0]))
+    count = 0
+    for key, lead in candidates[:max(1, p['max_leads'] // 10)]:
+        marker = {'archived_at': at, 'reconsider_after': (now_dt + timedelta(days=30)).isoformat(),
+                  'reason': 'Repeated exhausted lead; retained, not declared resolved'}
+        # Write the whole lead before taking it out of the active queue.
+        save(root / '.local/discovery/archive' / key / (now_dt.strftime('%Y%m%dT%H%M%S') + '.json'),
+             dict(marker, lead=lead))
+        s.setdefault('archived', {})[key] = marker
+        del s['leads'][key]
+        count += 1
+    if count:
+        save(root / '.local/discovery/state.json', s)
+    return count
 
 
 def import_leads(root, s, p, at):
@@ -179,7 +218,9 @@ def import_leads(root, s, p, at):
                    'region':'unknown','angle':'follow-up'}
         for url in (value.get('urls',[]) + ([value['url']] if value.get('url') else []))[:10]:
             count += add_lead(s,url,context,{'type':'retained','source_id':src['id'],'url':src['url']},p,at)
-        s['imported'][path.name]=fingerprint
+        # A full queue did not consume every URL. Revisit this archive after room is made.
+        if len(s['leads']) < p['max_leads']:
+            s['imported'][path.name]=fingerprint
     return count
 
 
@@ -348,6 +389,7 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     def checkpoint():
         save(folder/'state.json',s)
         save(folder/'latest.json',receipt)
+    receipt['archived_leads']=archive_exhausted(root,s,p,at)
     receipt['imported_leads']=import_leads(root,s,p,at)
     from session_options import SOURCE_KINDS, stopped
     layers=config.get('_session_layers')
@@ -392,7 +434,9 @@ def run(root, config, p, units, deadline, fetcher, run_id, refresh=False):
     elif do_search and previous and previous['next_attempt']>at:
         s['cursor']+=1  # Advance past cooling topics rather than freeze the rotation.
     receipt['search_provider']=health.get('provider',provider)
-    receipt['search_channel']='broken' if health.get('provider',provider).get('failures',0)>=SEARCH_BROKEN_FAILURES else 'available'
+    provider_status = health.get('provider', provider)
+    receipt['search_channel']=('broken' if provider_status.get('failures',0)>=SEARCH_BROKEN_FAILURES else
+                               'unavailable' if provider_status.get('status')=='unavailable' else 'available')
     # Primary indexes complement search, even when the news provider is healthy.
     seeded=0
     for source in load(root/'research/sources.json')['sources']:

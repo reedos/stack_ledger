@@ -1801,6 +1801,8 @@ def main():
                         batch_receipt['publication']='pushed'
                     else:
                         batch_receipt['publication']='deferred'
+                        from deferred_output import record as record_deferred
+                        record_deferred(ROOT)
                     if args.session_id:save(LOCAL/'sessions'/args.session_id/'batches'/(run_id+'.json'),batch_receipt)
             except Exception as error:
                 if not args.publish:raise

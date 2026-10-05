@@ -172,6 +172,7 @@ def snapshot(root, date='latest', body=None):
         'applied':body.get('applied',[]), 'published_observations':body.get('published_observations',{}),
         'revised_figures':revised_figures(root, body.get('applied',[])),
         'pdf_reader':(receipts['health'].get('pdf_reader') or (body.get('health') or {}).get('pdf_reader') or {}),
+        'discovery_health':(receipts['health'].get('discovery') or (body.get('health') or {}).get('discovery') or {}),
         'publication':{'unpushed_commits':body.get('unpushed_commits'), 'final_push':body.get('final_push')},
         'updated_at':datetime.now(timezone.utc).isoformat()}
 
@@ -224,6 +225,11 @@ def render(data):
         lines.append(f"- {compact(h['title'],100)} — {qualifier}; source dated {human_date(h['date']) if h.get('date') else 'unknown'}. {compact(h.get('summary'),160)}")
     errors = totals.get('source_failures',0) + totals.get('discovery_errors',0)
     watch = []
+    discovery = data.get('discovery_health') or {}
+    if discovery.get('search_provider', {}).get('status') == 'unavailable':
+        watch.append('- Discovery search is unavailable. Primary feeds and retained leads still run; general search coverage is reduced.')
+    if discovery.get('capacity_reached'):
+        watch.append('- The discovery queue is full; new lead intake needs capacity review.')
     if errors:
         watch.append(f'- {errors} collection errors were recorded (may include repeat attempts). The completed run does not mean every source was read.')
     held_back = totals.get('quarantined',0)
