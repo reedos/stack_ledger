@@ -31,7 +31,8 @@ const server=http.createServer((req,res)=>{
   assert.match(await staticPage.locator('h1').innerText(),/A public record of\s+the AI buildout/);
   assert.equal(await staticPage.locator('.layer-card').count(),5);
   assert.equal(await staticPage.locator('.headline-source').count(),5);
-  assert.match(await staticPage.locator('[data-layer="chips"]').innerText(),/CoWoS/);
+  // The reviewed chips headline now tracks Epoch's cumulative accelerator estimate.
+  assert.match(await staticPage.locator('[data-layer="chips"]').innerText(),/Nvidia AI accelerators shipped[\s\S]*Epoch estimate/);
   assert.match(await staticPage.locator('[data-layer="infrastructure"]').innerText(),/Abilene/);
   assert.match(await staticPage.locator('[data-layer="models"]').innerText(),/1\.75[\s\S]*Sep 7, 2026[\s\S]*GPT-5\.3-Codex/);
   assert.match(await staticPage.locator('[data-layer="applications"]').innerText(),/500,000[\s\S]*Mar 2026/);
@@ -61,7 +62,7 @@ const server=http.createServer((req,res)=>{
   } else {
     assert.match(recentText,/No developments have been approved/);
   }
-  assert.equal(await staticPage.locator('.headline-history svg').count(),2);
+  assert.equal(await staticPage.locator('.headline-history svg').count(),3); // Energy, Nvidia and supporting AMD
   assert.ok(await staticPage.locator('noscript a[href$="data/ledger.json"]').isVisible());
   await staticPage.locator('.stack-menu summary').focus();await staticPage.keyboard.press('Enter');
   assert.equal(await staticPage.locator('.stack-destinations a:visible').count(),5);
@@ -86,7 +87,10 @@ const server=http.createServer((req,res)=>{
    assert.deepEqual(await page.locator('[id]').evaluateAll(els=>{const ids=els.map(el=>el.id);return ids.filter((id,i)=>ids.indexOf(id)!==i);}),[],route+' duplicate IDs');
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,route+' desktop overflow');
    const version=await page.locator('body').getAttribute('data-build');assert.match(version,/^[a-f0-9]{16}$/);
-   assert.ok(await page.locator('link[rel="stylesheet"], script[src]').evaluateAll((els,v)=>els.every(el=>new URL(el.href||el.src).searchParams.get('v')===v),version));
+   assert.ok(await page.locator('link[rel="stylesheet"], script[src]').evaluateAll((els,v)=>els.every(el=>{
+    const url=new URL(el.href||el.src);
+    return url.origin!==location.origin || url.searchParams.get('v')===v;
+   }),version)); // External analytics has its own versioning.
    if(['energy/','chips/','infrastructure/','models/','applications/'].includes(route)){
     assert.equal(await page.locator('.layer-diagram').count(),1);
     assert.equal(await page.locator('#layer-diagram').evaluate(el=>el.previousElementSibling?.matches('.page-hero')&&el.parentElement.firstElementChild===el.previousElementSibling),true,route+' introduction must lead directly into diagram');
@@ -268,8 +272,9 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await page.setViewportSize({width:1440,height:1000});
   await page.selectOption('#metric-select','dc-electricity-iea2025-high-efficiency');
-  assert.match(await page.locator('#metric-chart .chart-history').innerText(),/2035 forecast/);
-  assert.equal(await page.locator('#metric-chart .bar rect[fill^="url"]').count(),1);
+  assert.match(await page.locator('#metric-chart .chart-history').innerText(),/2035 independent projection/);
+  assert.equal(await page.locator('#metric-chart .bar rect[fill$="-hatch)"]').count(),1);
+  assert.equal(await page.locator('#metric-chart .bar rect[fill$="-estimate)"]').count(),1);
   await page.evaluate(()=>{data.observations.push({...data.observations.find(o=>o.metric==='dc-electricity-iea2025-high-efficiency'&&o.status==='forecast'),id:'browser-only-future',year:2040,period:'2040'});document.querySelector('#metric-chart').innerHTML=chart('dc-electricity-iea2025-high-efficiency');});
   assert.match(await page.locator('#metric-chart .chart-history').innerText(),/Window: 2024–2040/);
   await page.selectOption('#metric-select','us-nuclear');assert.match(await page.locator('#metric-chart').innerText(),/2050/);

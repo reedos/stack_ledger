@@ -665,6 +665,15 @@ def stage_health(root, date):
     except Exception as e:
         result['pdf_reader'] = {'status': 'error', 'error': f'{type(e).__name__}: {str(e)[:200]}'}; result['status'] = 'partial'
     history = {name: load_receipt(root, date, name) for name in ('locks', 'importers', 'research', 'policy')}
+    discovery = result.get('discovery', {})
+    if discovery.get('search_provider', {}).get('status') == 'unavailable' or discovery.get('capacity_reached'):
+        result['status'] = 'partial'
+    from collection_diagnostics import for_session
+    result['collection_diagnostics'] = for_session(root, (history.get('research') or {}).get('session_id'))
+    diagnostics = result['collection_diagnostics']
+    if diagnostics['status'] != 'ok' or any(diagnostics.get(key, {}).get('total', 0)
+                                           for key in ('source_failures', 'discovery_errors')):
+        result['status'] = 'partial'
     result['locks_recovered'] = [l for l in (history.get('locks') or {}).get('locks', []) if str(l.get('action', '')).startswith('removed')]
     result['stage_outcomes'] = {k: stage_line(v) for k, v in history.items()}
     return result
@@ -779,6 +788,14 @@ def render_digest_markdown(body):
                      'This is reduced search coverage, not a healthy general search channel.')
     if discovery.get('capacity_reached'):
         lines.append('- Discovery active queue is full; protected leads remain, and new intake needs capacity review.')
+    diagnostics = (body.get('health') or {}).get('collection_diagnostics') or {}
+    for key, label in (('source_failures', 'Source gaps'), ('discovery_errors', 'Discovery errors')):
+        bucket = diagnostics.get(key, {})
+        if bucket.get('total'):
+            categories = ', '.join(f'{name}: {count}' for name, count in bucket['by_category'].items())
+            lines.append(f"- {label}: {bucket['total']} ({categories}).")
+    if diagnostics and diagnostics.get('status') != 'ok':
+        lines.append('- Collection diagnostic receipts are incomplete or unavailable; counts are not a clean health result.')
     lines += ['', '## Applied automatically']
     lines += [f"- {row['kind']}: " + ' '.join(f'{k}={v}' for k, v in row.items() if k != 'kind') for row in body['applied']] or ['- Nothing applied automatically tonight.']
     held = [(rid, outcome) for rid, outcome in ((body.get('policy_outcomes') or {}).items()) if not str(outcome).startswith(('deployed', 'deployment_pending', 'pushed'))]
@@ -856,7 +873,7 @@ def stage_digest(root, date, push=True):
             'revisions': revisions, 'revisions_withdrawn': (policy_receipt.get('revisions') or {}).get('withdrawn') or [],
             'revisions_stuck': (policy_receipt.get('revisions') or {}).get('stuck') or [],
             'revisions_stale': (policy_receipt.get('revisions') or {}).get('stale') or [],
-            'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'pdf_reader', 'storage', 'discovery')},
+            'health': {k: health.get(k) for k in ('stale_figures', 'disk_usage_top', 'repo_size', 'collection_health', 'collection_diagnostics', 'pdf_reader', 'storage', 'discovery')},
             'site_changes': site_changes(root, date),
             'published_observations': published_observations(root, date),
             'stage_receipts': {k: stage_line(v) for k, v in receipts.items()}}

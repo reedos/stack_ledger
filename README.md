@@ -15,7 +15,7 @@ This is our guiding ambition, tested against evidence. Announced investment is n
 - An expanding company directory with annual revenue records, annualized run rates and explicit revenue coverage gaps, each linked to its own reviewed observation; see the [live company directory](https://reedos.dev/stack_ledger/companies/) for current counts. Product-role sources are linked separately.
 - A searchable datacenter component map covering compute, memory, DSPs, SerDes, copper, optical modules, CPO, fiber, switching, assembly and electrical infrastructure.
 - Electrical workforce evidence and clean-energy manufacturing cases, distinguishing reported employment, projected openings, hiring plans and investment stages.
-- Every event and automated observation carries an evidence grade (A: official statistics/filings, B: company statement, C: news report, D: unverified secondary/social claim), derived only from the registered source, never chosen by the model. Grade C/D evidence from registered news feeds and official social accounts publishes automatically as a report on the linked project/company page and the ledger, honestly labeled "Reported, not yet confirmed" until a later official record covers the same figure — never inside a chart or a homepage headline. See "Reports lane" below.
+- Every event and automated observation carries an evidence grade (A: official records and regulated filings, B: company channels and independent research, C: analysts and news, D: social sources), derived only from the registered source, never chosen by the model. Grade C/D evidence from registered news feeds and official social accounts publishes automatically as a report on the linked project/company page and the ledger, honestly labeled "Reported, not yet confirmed" until a later official record covers the same figure — never inside a chart or a homepage headline. See "Reports lane" below.
 
 - An original interactive five-layer illustration, responsive landing page and five dedicated dashboards.
 - Attributed observations, forecast charts, explicit units, accessible data tables, research notes and a source library.
@@ -203,3 +203,12 @@ The loader runs only on `reedos.dev/stack_ledger/`, loads asynchronously and dis
 ## Morning research review
 
 Sage delivers one concise Matrix briefing after the overnight workflow: useful findings, collection problems, the pending review inbox, and direct links to that night in the private Research Control dashboard and the public [Latest feed](https://reedos.dev/stack_ledger/latest/). Ara includes only the review link in the Team stand-up; Eli receives job failures. The dashboard starts at sign-in and is checked again by the nightly job. See [operation and receipts](research/RESEARCH_SESSIONS.md#integrated-overnight-review--september-15th-2026).
+
+### Collection diagnostics
+
+Nightly health includes offline category counts from the session batch receipts.
+Source gaps, discovery errors, an unavailable search provider, a full lead queue
+or missing diagnostic receipts make health partial. The digest distinguishes HTTP
+refusals and rate limits, robots restrictions, host-policy boundaries, PDF gaps
+and screening failures. Counts preserve the historical receipts; they neither
+retry sources nor relax collection or evidence rules.
