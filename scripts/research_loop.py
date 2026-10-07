@@ -93,8 +93,7 @@ def overlap_notice(root):
 
 
 def overlap_since(root,at):
-    """The skip notice a run started at `at` wrote, or None: an overlap exits 0 (RESEARCH_SESSIONS.md),
-    so this is the only way a caller can tell a skipped night from a researched one."""
+    """The overlap notice written since `at`, including older runners that exited zero."""
     try:notice=json.loads((root/'.local/schedule-overlap.json').read_text(encoding='utf-8'))
     except (OSError,ValueError):return None
     return notice if notice.get('status')=='skipped' and str(notice.get('at',''))>=at else None
@@ -132,7 +131,16 @@ def batch_command(args,sid,remaining):
     return command
 
 
+class SummaryPublicationFailed(RuntimeError):
+    """Finalization failed after collection; the process must not return success."""
+
+
 def main(argv=None):
+    try: return run_session(argv)
+    except SummaryPublicationFailed: return 1
+
+
+def run_session(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--start',action='store_true')
     p.add_argument('--publish',action='store_true',help='Publish validated monitoring batches; discovery stays private')
@@ -153,19 +161,26 @@ def main(argv=None):
     if not a.start:return 0
     duration=overnight_seconds(datetime.now(timezone.utc)) if a.overnight else a.minutes*60
     if duration<=0:print('Outside the 2–7 AM Pacific window; no research started',flush=True);return 0
-    if a.overnight and (ROOT/'.local/research.lock').exists():
-        overlap_notice(ROOT);return 0
     sid=uuid.uuid4().hex
+    def blocked_start(reason):
+        # Do not overwrite the status mirror belonging to the active lock holder.
+        atomic(ROOT/'.local/sessions'/sid/'status.json', dict(session_id=sid, state='blocked',
+               started_at=datetime.now(timezone.utc).isoformat(), batches=0, failure_reason=reason, options=plan))
+        return 1
+    if a.overnight and (ROOT/'.local/research.lock').exists():
+        overlap_notice(ROOT)
+        return blocked_start('research.lock is held; scheduled research did not start')
     settings=loop_settings(ROOT)
     with session_lock(ROOT,sid,skip_if_busy=a.overnight) as acquired:
-        if not acquired:return 0
+        if not acquired:return blocked_start('research-session.lock is held; scheduled research did not start')
         folder=ROOT/'.local/sessions'/sid;folder.mkdir(parents=True,exist_ok=True)
         report=dict(session_id=sid,pid=os.getpid(),started_at=datetime.now(timezone.utc).isoformat(),
                     ends_at=(datetime.now(timezone.utc)+timedelta(seconds=duration)).isoformat(),
                     duration_seconds=duration,batches=0,failed_batches=0,consecutive_failures=0,state='starting',options=plan)
         started=time.monotonic();deadline=started+duration
-        def checkpoint(state,**fields):
-            report.update(state=state,elapsed_seconds=round(time.monotonic()-started),**fields)
+        def checkpoint(state,*,preserve_elapsed=False,**fields):
+            elapsed=report['elapsed_seconds'] if preserve_elapsed else round(time.monotonic()-started)
+            report.update(state=state,elapsed_seconds=elapsed,**fields)
             # The per-session record is authoritative; a locked UI mirror cannot kill research.
             try: atomic(folder/'status.json',report)
             except OSError as error:
@@ -192,7 +207,9 @@ def main(argv=None):
             while session_active(time.monotonic()-started,cycles,a.min_minutes*60,duration,a.max_cycles):
                 check_storage(ROOT)
                 if stopped(ROOT,sid):checkpoint('stopped');return 0
-                if (ROOT/'.local/research.lock').exists():pause(30,'waiting for another research batch');continue
+                if (ROOT/'.local/research.lock').exists():
+                    checkpoint('blocked',failure_reason='research.lock is held; another batch prevents this session from starting work')
+                    return 1
                 if not a.ignore_gpu_busy:
                     try:
                         idle_samples=idle_samples+1 if gpu_idle(a.idle_percent) else 0
@@ -259,6 +276,9 @@ def main(argv=None):
                     if child.returncode==3 or report['consecutive_failures']>=3:
                         reason=('Publication/preflight failed. Saved evidence is retained; inspect the batch log and resolve repository or validation errors before restarting.'
                                 if child.returncode==3 else 'Three consecutive batch failures. Inspect the batch log before restarting; retries have stopped.')
+                        if child.returncode==3:
+                            try: reason=json.loads((folder/'publication-error.json').read_text(encoding='utf-8'))['reason']
+                            except (OSError,ValueError,KeyError): pass
                         checkpoint('blocked',failure_reason=reason)
                         print(reason,flush=True)
                         return 1
@@ -295,6 +315,11 @@ def main(argv=None):
             from research_notify import notify_session
             notification=notify_session(ROOT,report,folder)
             print('Session notification: '+notification['status'],flush=True)
+            # Finalize may have published these exact counters. Retain them so the
+            # saved status still verifies against public-summary.json on a retry.
+            checkpoint(report['state'],preserve_elapsed=True)
+            if report.get('session_summary_publication')=='failed':
+                raise SummaryPublicationFailed(report['failure_reason'])
 
 
 if __name__=='__main__':sys.exit(main())

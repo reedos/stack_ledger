@@ -175,6 +175,9 @@ def notify_session(root,report,folder):
         from session_receipt import finalize
         publication=finalize(root,report,folder,totals)
         report['session_summary_publication']=publication['status']
+        if publication['status']=='failed':
+            report['state']='blocked'
+            report['failure_reason']='Session summary publication failed: '+publication.get('reason', publication.get('error_type','unknown error'))
         if os.environ.get('STACK_LEDGER_COMBINED_BRIEF')=='1':
             atomic(folder/'notification.json',{'status':'deferred','reason':'Included in the overnight briefing after all stages finish'})
             return {'status':'deferred'}
