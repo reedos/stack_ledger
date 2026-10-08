@@ -1,4 +1,5 @@
 """All repository mutations are confined to synthetic, throwaway repositories."""
+import contextlib
 import io
 import json
 import os
@@ -154,6 +155,41 @@ class ReadinessTests(unittest.TestCase):
         self.assertIn('unrelated local commit', status['failure_reason'])
         self.assertEqual(status['session_summary_publication'], 'failed')
         self.assertEqual((self.root/'docs/page-0/index.html').read_text(), 'deferred output\n')
+
+    @contextlib.contextmanager
+    def _run_one_batch_session(self):
+        clock = [0]
+        def sleep(seconds): clock[0] += seconds
+        def spawn(*args, **kwargs):
+            sid = args[0][args[0].index('--session-id')+1]
+            self.write(f'.local/sessions/{sid}/batches/batch.json', json.dumps({'monitoring':{}, 'publication':'deferred'}))
+            child = Mock(returncode=0)
+            child.poll.return_value = 0
+            return child
+        with patch.object(loop, 'ROOT', self.root), patch.object(research, 'ROOT', self.root),              patch.object(research, 'LOCAL', self.root/'.local'),              patch.object(loop.time, 'monotonic', side_effect=lambda: clock[0]), patch.object(loop.time, 'sleep', side_effect=sleep),              patch.object(loop.subprocess, 'Popen', side_effect=spawn),              patch('visual_review.finish_session'),              patch.dict(os.environ, {'STACK_LEDGER_COMBINED_BRIEF':'1'}), patch('sys.stdout', new=io.StringIO()):
+            yield
+
+    def test_raised_finalizer_error_cannot_return_success(self):
+        # Reviewer reproduction: finalize() raises (not returns failed) after a good batch.
+        error = OSError('synthetic disk full while recording publication receipt')
+        with patch('session_receipt.finalize', side_effect=error):
+            with self._run_one_batch_session():
+                code = loop.main(['--start', '--publish', '--minutes', '1', '--max-cycles', '1', '--min-minutes', '0', '--ignore-gpu-busy'])
+        status = json.loads((self.root/'.local/session-status.json').read_text())
+        self.assertEqual(code, 1)
+        self.assertEqual(status['state'], 'blocked')
+        self.assertEqual(status['session_summary_publication'], 'failed')
+        self.assertIn('synthetic disk full', status['failure_reason'])
+
+    def test_raised_summary_write_error_cannot_return_success(self):
+        error = OSError('synthetic disk full while writing summary')
+        with patch.object(research_notify, 'summary', side_effect=error):
+            with self._run_one_batch_session():
+                code = loop.main(['--start', '--publish', '--minutes', '1', '--max-cycles', '1', '--min-minutes', '0', '--ignore-gpu-busy'])
+        status = json.loads((self.root/'.local/session-status.json').read_text())
+        self.assertEqual(code, 1)
+        self.assertEqual(status['state'], 'blocked')
+        self.assertIn('synthetic disk full', status['failure_reason'])
 
     def test_batch_publication_failure_stops_once_and_retains_concrete_reason(self):
         def spawn(command, **kwargs):
