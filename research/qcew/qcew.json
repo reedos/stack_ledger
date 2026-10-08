@@ -1,7 +1,7 @@
 {
   "dataset": "BLS QCEW open data",
   "source_id": "bls-qcew-open-data",
-  "retrieved_at": "2026-09-24T08:30:02Z",
+  "retrieved_at": "2026-10-08T08:30:07Z",
   "industries": {
     "518210": [
       "Data processing, hosting and related services",
@@ -113,6 +113,10 @@
       "status": "HTTPError"
     },
     {
+      "url": "https://data.bls.gov/cew/data/api/2026/4/industry/518210.csv",
+      "status": "HTTPError"
+    },
+    {
       "url": "https://data.bls.gov/cew/data/api/2024/1/industry/23821.csv",
       "status": "ok",
       "sha256": "ccbe20867473745e879182736d2999981686d1f8321430fbd4bb4f34af704570",
@@ -172,6 +176,10 @@
     },
     {
       "url": "https://data.bls.gov/cew/data/api/2026/3/industry/23821.csv",
+      "status": "HTTPError"
+    },
+    {
+      "url": "https://data.bls.gov/cew/data/api/2026/4/industry/23821.csv",
       "status": "HTTPError"
     }
   ],
