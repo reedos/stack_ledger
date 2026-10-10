@@ -99,3 +99,13 @@
 }
 
 #project-map .map-navigation[hidden]{display:none}
+
+/* QA-1: reserve the page height so the JS-rendered content does not push the footer up through the viewport (CLS). */
+main{min-height:100vh;min-height:100svh}
+
+/* QA-1: 24 px tap-target floor on phones (WCAG 2.2 AA 2.5.8). Links inside running text keep the inline exception. Zero specificity, so existing layout rules win. */
+@media(max-width:600px){
+:where(a:not(:is(p,li,dd,td,small) a),summary,label:not(.sr-only)){min-height:24px}
+:where(a:not(:is(p,li,dd,td,small) a)){display:inline-flex;align-items:center}
+:where(input[type=checkbox],input[type=radio]){width:24px;height:24px}
+}
