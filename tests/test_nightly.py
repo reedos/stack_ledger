@@ -597,7 +597,7 @@ class ResearchSkippedByAnotherSessionTests(unittest.TestCase):
         return {'status': 'skipped', 'at': at,
                 'reason': 'Scheduled research skipped: another research session or batch is active.'}
 
-    def test_an_overlap_skip_is_reported_skipped_with_its_reason(self):
+    def test_an_overlap_skip_is_reported_failed_with_its_reason(self):
         def run(*_a, **_k):
             notice = self.overlap_notice(datetime.now(timezone.utc).isoformat())
             (self.root/'.local/schedule-overlap.json').write_text(json.dumps(notice), encoding='utf-8')
@@ -605,7 +605,7 @@ class ResearchSkippedByAnotherSessionTests(unittest.TestCase):
         with patch.object(nightly, 'wait_for_window', return_value=(True, 0, None)), \
              patch.object(nightly.subprocess, 'run', side_effect=run):
             receipt = nightly.stage_research(self.root, 600)
-        self.assertEqual(receipt['status'], 'skipped', 'a session that never started was reported ok')
+        self.assertEqual(receipt['status'], 'failed', 'a lock collision must fail the nightly job')
         self.assertIn('another research session', receipt['reason'])
 
     def test_an_earlier_nights_overlap_notice_does_not_mark_a_real_session_skipped(self):
@@ -625,7 +625,7 @@ class ResearchSkippedByAnotherSessionTests(unittest.TestCase):
              patch.object(nightly.subprocess, 'run') as spawn:
             receipt = nightly.stage_research(self.root, 600)
         spawn.assert_not_called()
-        self.assertEqual(receipt['status'], 'skipped'); self.assertIn('research.lock', receipt['reason'])
+        self.assertEqual(receipt['status'], 'failed'); self.assertIn('research.lock', receipt['reason'])
 
 
 class DigestReportingTests(unittest.TestCase):

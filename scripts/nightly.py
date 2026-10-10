@@ -373,14 +373,14 @@ def stage_research(root, budget_seconds):
     if (root/'.local/stop-research-loop').exists():
         return {'status': 'skipped', 'reason': '.local/stop-research-loop present'}
     blocked = blocking_research_lock(root)
-    if blocked: return {'status': 'skipped', 'reason': blocked}
+    if blocked: return {'status': 'failed', 'reason': blocked}
     ready, waited, reason = wait_for_window(root, budget_seconds)
     if not ready:
         return {'status': 'skipped', 'reason': reason, 'waited_seconds': waited}
     # The lock check above is up to 30 minutes old by now; a manual session started inside the wait
     # is the ordinary case, not a race.
     blocked = blocking_research_lock(root)
-    if blocked: return {'status': 'skipped', 'reason': blocked, 'waited_seconds': waited}
+    if blocked: return {'status': 'failed', 'reason': blocked, 'waited_seconds': waited}
     command = [sys.executable, str(root/'scripts/research_loop.py'), '--start', '--publish', '--minutes', '300', '--overnight', '--keep-awake']
     if research_ignore_gpu_busy(root): command.append('--ignore-gpu-busy')
     timeout = max(60, budget_seconds-waited)
@@ -391,19 +391,18 @@ def stage_research(root, budget_seconds):
         return {'status': 'failed', 'error': 'timeout', 'timeout_seconds': timeout, 'stdout_tail': (e.stdout or '')[-3000:]}
     import research_loop as loop
     # A clean exit that started nothing is not a successful research stage: say so in the digest.
-    # research_loop exits 0 when another session holds a lock (RESEARCH_SESSIONS.md) and says so
-    # only in its own overlap notice, so until 2026-09-11 a night that researched nothing at all
-    # because a manual session was running reported "research: ok".
+    # Also recognize overlap receipts from older runners that returned zero on a collision.
     overlap = loop.overlap_since(root, launched_at)
     started = 'no research started' not in (result.stdout or '') and not overlap
     status = 'ok' if result.returncode == 0 and started else ('skipped' if result.returncode == 0 else 'failed')
+    if overlap: status = 'failed'
     outcome = {'status': status, 'returncode': result.returncode, 'waited_seconds': waited,
                'stdout_tail': result.stdout[-4000:], 'stderr_tail': result.stderr[-2000:]}
     from research_briefing import read as read_optional
     session = read_optional(root/'.local/session-status.json', {})
     if session.get('started_at','') >= launched_at and session.get('session_id'):
         outcome['session_id'] = session['session_id']
-    if status == 'skipped':
+    if status == 'skipped' or overlap:
         outcome['reason'] = (overlap or {}).get('reason') or 'the session runner started no research; see stdout_tail'
     return outcome
 

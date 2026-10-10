@@ -1315,6 +1315,8 @@ def main():
             try:preflight(config)
             except Exception as error:
                 print(f'Publication preflight blocked: {type(error).__name__}: {error}',file=sys.stderr)
+                if args.session_id:
+                    save(LOCAL/'sessions'/args.session_id/'publication-error.json', {'reason':f'Publication preflight blocked: {type(error).__name__}: {error}'[:800]})
                 return 3  # Requires maintenance; the session must not retry unchanged state.
         data=load(ROOT/'site/data/ledger.json');validate(data)
         registry=load(ROOT/'research/sources.json')
@@ -1807,6 +1809,8 @@ def main():
             except Exception as error:
                 if not args.publish:raise
                 print(f'Publication blocked; saved evidence retained: {type(error).__name__}: {error}',file=sys.stderr)
+                if args.session_id:
+                    save(LOCAL/'sessions'/args.session_id/'publication-error.json', {'reason':f'Publication blocked: {type(error).__name__}: {error}'[:800]})
                 return 3
             finally:
                 # The model calls behind these reviews are already spent, and the evidence they

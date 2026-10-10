@@ -82,13 +82,13 @@ class FindingsTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'Review changed'):review.review(self.root,payload)
             self.assertEqual(len(editorial_review.events(self.root)),1)
 
-    def test_overnight_overlap_skips_both_session_and_standalone_batch(self):
+    def test_overnight_overlap_fails_without_disturbing_session_or_standalone_batch(self):
         for name in ['research-session.lock','research.lock']:
             with self.subTest(name=name):
                 lock=self.root/'.local'/name;lock.parent.mkdir(exist_ok=True);lock.write_text('existing owner')
                 with patch.object(research_loop,'ROOT',self.root),patch.object(research_loop,'overnight_seconds',return_value=21600), \
                      patch.object(research_loop.subprocess,'Popen') as spawn,patch.object(research_loop,'gpu_idle') as gpu,patch('builtins.print'):
-                    self.assertEqual(research_loop.main(['--start','--overnight','--publish']),0)
+                    self.assertEqual(research_loop.main(['--start','--overnight','--publish']),1)
                     spawn.assert_not_called();gpu.assert_not_called()
                 self.assertEqual(lock.read_text(),'existing owner')
                 self.assertEqual(research.load(self.root/'.local/schedule-overlap.json')['status'],'skipped')

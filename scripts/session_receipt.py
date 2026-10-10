@@ -80,6 +80,6 @@ def finalize(root,report,folder,totals):
             research.publish(config)
         result={'status':'pushed'}
     except Exception as error:
-        result={'status':'failed','error_type':type(error).__name__}
+        result={'status':'failed','error_type':type(error).__name__, 'reason':str(error)[:600]}
     atomic(folder/'summary-publication.json',result)
     return result

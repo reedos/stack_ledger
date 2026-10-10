@@ -6,6 +6,22 @@ The owner requested a daily 2–7 AM Pacific session and configurable manual res
 
 ## Overnight operation
 
+As of 10/07/2026, a held research/session lock fails the scheduled attempt instead of
+returning success. The refused session keeps its own `status.json` with the lock reason;
+it does not overwrite the active owner's status mirror. Publication/preflight failures
+copy the concrete batch error into session status and stop on the first failed batch.
+Final summary publication failure also records `blocked` and exits nonzero, even after
+collection completed. Deferred receipts and generated pages remain available for review.
+
+For a separate check around 1:00 AM Pacific, run `python scripts/nightly_preflight.py`
+from the intended checkout (or supply `--root`). It prints JSON and exits 1 when blocked.
+It reports real dirty paths, possible deferred generated output, writer locks, a stop
+flag, and commits ahead/behind the last fetched origin ref. It ignores CRLF-only changes
+without refreshing the index. It performs no fetch, recovery, publication, inference,
+or scheduling. Lock presence is conservative, including stale locks needing recovery;
+generated path names do not establish safe recovery. A ready result cannot guarantee
+the remote or local state will remain unchanged before the nightly start.
+
 `research/runtime.json` declares `30 1 * * *` in `America/Los_Angeles` (the job start) and a `research_window` of `02:00-06:30`. `python scripts/schedule.py --update` updates the existing OpenClaw daily job in place; it does not create a second nightly job. Since September 9, 2026 the payload is the orchestrator, which runs stale-lock recovery and due dataset importers before 02:00, then the research session below, then automatic publication, health, pruning and the digest (see [OPERATING_GUIDE.md](OPERATING_GUIDE.md)):
 
 ```powershell
@@ -38,7 +54,7 @@ There is one panel implementation (`tools/research-control/*`, mobile-first resp
 Create `.local/research-control.json` (gitignored, never committed) to enable the tailnet path:
 
 ```json
-{"tailnet": {"hostname": "reeds-pc.tailf68402.ts.net", "mount": "/research", "port": 47393}}
+{"tailnet": {"hostname": "<configured-tailnet-host>", "mount": "/research", "port": 47393}}
 ```
 
 `hostname` must be this machine's `*.ts.net` name, `mount` an absolute single-segment path (the site's own `/` keeps proxying to the OpenClaw gateway on port 18789; the panel lives at a second Serve mapping alongside it), `port` an unused loopback port above 1023. When this file is present the server binds that fixed port instead of a random one, so a Serve mapping survives restarts. `--config PATH` overrides the default location; `--research-root PATH` points a separately-checked-out copy of the panel code at a live repository's status/locks/session launches (assets still come from the checkout the server was started from) — useful for developing panel UI without dirtying the live tree's clean-tree preflight during an active research session.
@@ -51,7 +67,7 @@ Create `.local/research-control.json` (gitignored, never committed) to enable th
 
 An unmapped tailnet login refuses every route for that request — status, findings, GPU telemetry, everything — with a clear 403, never a silent read-only downgrade to some other identity's data. `GET <mount>/` (or `/`, if Serve has already stripped the mount) with a resolved tailnet identity 302-redirects to `<mount>/<token>/`, so the owner's phone bookmark keeps working across restarts. Since September 11 the token itself is stable across restarts as well, so a bookmarked tokened URL no longer dies with the process. Mutations still require the served origin (`https://<hostname>` on tailnet, `http://127.0.0.1:<port>` on loopback) and the session-key header, exactly as before. Every editorial event recorded through the panel now carries `channel` and, on tailnet, `login`, so the audit trail shows where a decision was made — a CLI-recorded decision (no identity available) keeps its original shape.
 
-An empirical check against this PC's live Serve config (`https://reeds-pc.tailf68402.ts.net/` → `http://127.0.0.1:18789`, confirmed via `tailscale serve status`) found: Serve **strips** the mount prefix before proxying (a request to `/probe/x/y?q=1` arrived at the backend as `/x/y?q=1`), the `Host` header arrives as the bare hostname with no port, and a request from this same PC (a tagged node) carries **no** `Tailscale-*` headers at all — matching the documented tagged-node behavior. The panel's path normalization handles both the stripped and unstripped case, since Serve's behavior is otherwise undocumented and could differ by version.
+An empirical check against this PC's live Serve config (`https://<configured-tailnet-host>/` → `http://127.0.0.1:18789`, confirmed via `tailscale serve status`) found: Serve **strips** the mount prefix before proxying (a request to `/probe/x/y?q=1` arrived at the backend as `/x/y?q=1`), the `Host` header arrives as the bare hostname with no port, and a request from this same PC (a tagged node) carries **no** `Tailscale-*` headers at all — matching the documented tagged-node behavior. The panel's path normalization handles both the stripped and unstripped case, since Serve's behavior is otherwise undocumented and could differ by version.
 
 **Persistence.** `python scripts/research_control.py --install-startup` prints (or with `--yes` writes) a VBScript launcher in the user's Startup folder that starts the server hidden at logon with the configured `.local/research-control.json`, using the base interpreter behind any active virtualenv (a Startup-folder launcher needs no elevation, unlike a `schtasks` logon task, and matches how the OpenClaw gateway starts on this machine; delete the `.vbs` to disable); `python scripts/research_control.py --install-tailnet` prints (or with `--yes` runs) `tailscale serve --bg --set-path <mount> http://127.0.0.1:<port>` after first backing up `tailscale serve status --json` to `.local/tailscale-serve-backup-<timestamp>.json`. Neither flag executes anything without `--yes`; review the printed command first. `Research-Control.cmd`'s reuse probe (skip starting a second server if one is already live) works the same way whether the port is fixed or random.
 
@@ -87,7 +103,7 @@ The local panel includes rolling GPU utilization (%) and temperature (degrees Ce
 - `.local/sessions/<id>/ledger.json`, `excerpts.json`, `reviews.json`: cumulative private monitoring proposals; never automatically merged into public data by a later publishing session. `reviews.json` (since September 10, 2026) replaced the single-identity `cache.json`; see OPERATING_GUIDE.md's "Review ledger" section.
 - `.local/discovery/latest.json`, `digest.md`, existing run/evidence/review queues: discovery details and proposals.
 
-The controller owns an exclusive `.local/research-session.lock`; each batch retains the original `.local/research.lock`. When an overnight start encounters either existing lock, it records `.local/schedule-overlap.json` and exits successfully as **skipped** without research. It does not interrupt, extend or change the publication mode of the manual run, nor queue a replacement that morning. The next automatic attempt is the next scheduled night. The panel shows the dated skip notice. Manual duplicate starts remain blocked. The panel writes a session-specific stop flag and never clears an active lock. A retained global `.local/stop-research-loop` flag still blocks sessions until deliberately removed by a maintainer. After a crash, inspect the recorded PID and running processes before considering stale-lock cleanup.
+The controller owns an exclusive `.local/research-session.lock`; each batch retains the original `.local/research.lock`. When an overnight start encounters either existing lock, it records `.local/schedule-overlap.json` and exits nonzero with a separate blocked session receipt, without research. It does not interrupt, extend or change the publication mode of the manual run, nor queue a replacement that morning. The next automatic attempt is the next scheduled night. The panel shows the dated skip notice. Manual duplicate starts remain blocked. The panel writes a session-specific stop flag and never clears an active lock. A retained global `.local/stop-research-loop` flag still blocks sessions until deliberately removed by a maintainer. After a crash, inspect the recorded PID and running processes before considering stale-lock cleanup.
 
 The server process binds only to `127.0.0.1` — on a random port, or a fixed one from `.local/research-control.json` — never to a tailnet or LAN interface directly. Mutation requires the served Origin plus a session header; GET cannot start research or record a review. It serves only fixed local assets. User controls become validated argument arrays, never shell text. Source/model text is rendered as plain text, not HTML. The panel is not copied to GitHub Pages. The only sanctioned way to reach it off-box is the tailnet path above: private Tailscale Serve, with the exact configured hostname and an authorized `Tailscale-User-Login` required on every request, and Funnel never enabled. Do not expose the server through any other tunnel, and do not copy a private session URL (loopback or tailnet) to public data.
 

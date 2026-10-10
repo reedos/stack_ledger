@@ -166,15 +166,23 @@ def send_text(root,text,tag='note'):
 
 def notify_session(root,report,folder):
     try:
-        totals=summary(folder)
-        from research_progress import report as progress_report
-        try:progress_report(root,folder)
-        except Exception as error:totals['question_report_error']=type(error).__name__
-        from research_loop import atomic
-        atomic(folder/'summary.json',totals)
-        from session_receipt import finalize
-        publication=finalize(root,report,folder,totals)
+        try:
+            totals=summary(folder)
+            from research_progress import report as progress_report
+            try:progress_report(root,folder)
+            except Exception as error:totals['question_report_error']=type(error).__name__
+            from research_loop import atomic
+            atomic(folder/'summary.json',totals)
+            from session_receipt import finalize
+            publication=finalize(root,report,folder,totals)
+        except Exception as error:
+            # A raised error before publication is recorded is a publication failure,
+            # not just a failed notification: the caller checks this report field.
+            publication={'status':'failed','error_type':type(error).__name__,'reason':f'{type(error).__name__}: {error}'}
         report['session_summary_publication']=publication['status']
+        if publication['status']=='failed':
+            report['state']='blocked'
+            report['failure_reason']='Session summary publication failed: '+publication.get('reason', publication.get('error_type','unknown error'))
         if os.environ.get('STACK_LEDGER_COMBINED_BRIEF')=='1':
             atomic(folder/'notification.json',{'status':'deferred','reason':'Included in the overnight briefing after all stages finish'})
             return {'status':'deferred'}
