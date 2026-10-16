@@ -94500,6 +94500,23 @@
       "retrieved_at": "2026-10-15T14:53:50Z",
       "method": "curated",
       "note": "BLS CES series CES6054150001, 2026 Q3 (third month of quarter), all employees, seasonally adjusted."
+    },
+    {
+      "metric": "revenue-merck-reported",
+      "year": 2026,
+      "period": "FY2026 · ended Dec 31, 2026",
+      "value": 67.05,
+      "upper": null,
+      "status": "observation",
+      "precision": "approx",
+      "note": "",
+      "id": "auto-02a0537e59f5c321ab17",
+      "source": "finance-merck-consensus-20260907",
+      "retrieved_at": "2026-10-16T09:06:38Z",
+      "method": "automated",
+      "document_sha256": "db4bcc69198662b962fd26ea567bce5f55bb1dab9e0e10cb8d884674bc8492f9",
+      "evidence_sha256": "b8fd0c6561fcd4e05847aef85503eb4bbd1993591f12d0bf0efd2ee82ad8b343",
+      "grade": "C"
     }
   ],
   "events": [
@@ -95810,80 +95827,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20261008T104545Z-08128ef96f7a4380a8b79de64e97e4d0",
-      "started_at": "2026-10-08T10:45:45Z",
-      "finished_at": "2026-10-08T10:45:57Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 2,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 1,
-      "coverage_layers": [
-        "applications",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20261008T104620Z-0d0a55140801457b82572fdcc44e8858",
-      "started_at": "2026-10-08T10:46:20Z",
-      "finished_at": "2026-10-08T10:46:33Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20261008T104841Z-0163f90577044428b838748e26764864",
-      "started_at": "2026-10-08T10:48:41Z",
-      "finished_at": "2026-10-08T10:48:51Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 2,
-      "coverage_layers": [
-        "chips",
-        "infrastructure",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20261008T104916Z-52d2a3bac5cd48288553489bb7561188",
-      "started_at": "2026-10-08T10:49:16Z",
-      "finished_at": "2026-10-08T10:49:26Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 0,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 0,
-      "coverage_layers": []
-    },
-    {
-      "id": "run-20261008T105131Z-c825146a5353474792f4f448315ae608",
-      "started_at": "2026-10-08T10:51:31Z",
-      "finished_at": "2026-10-08T10:51:49Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 2,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 4,
-      "coverage_layers": [
-        "models"
-      ]
-    },
     {
       "id": "run-20261008T105216Z-8ee1feb368f54ed1ab6fb01500dd1d4d",
       "started_at": "2026-10-08T10:52:16Z",
@@ -99785,6 +99728,104 @@
         "chips",
         "infrastructure"
       ]
+    },
+    {
+      "id": "run-20261016T090042Z-143e83804d6f4a59ad38975d8c11eb54",
+      "started_at": "2026-10-16T09:00:42Z",
+      "finished_at": "2026-10-16T09:02:04Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 8,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20261016T090228Z-3b5917bfb44f4c1e935d675a0aad12a5",
+      "started_at": "2026-10-16T09:02:28Z",
+      "finished_at": "2026-10-16T09:02:57Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "census-dc-saar-july2026",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        }
+      ],
+      "model_calls": 4,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20261016T090323Z-8cc24ca789f845cd93ee28742fb7ef15",
+      "started_at": "2026-10-16T09:03:23Z",
+      "finished_at": "2026-10-16T09:04:41Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "capital-ap-outlook",
+          "reason": "HTTP 403"
+        }
+      ],
+      "model_calls": 7,
+      "coverage_layers": [
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20261016T090509Z-39f1247c7b7548daa9d5da3eaae8897a",
+      "started_at": "2026-10-16T09:05:09Z",
+      "finished_at": "2026-10-16T09:05:46Z",
+      "status": "partial",
+      "documents_fetched": 5,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 6,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20261016T090609Z-31ad36b0255e4119898ef5b5c1eac8d6",
+      "started_at": "2026-10-16T09:06:09Z",
+      "finished_at": "2026-10-16T09:06:42Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 1,
+      "quarantined": 2,
+      "source_failures": [],
+      "model_calls": 6,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -99794,7 +99835,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–06:30 Pacific (research window)",
-    "last_attempt": "2026-10-09T13:28:22Z",
+    "last_attempt": "2026-10-16T09:06:42Z",
     "last_success": "2026-10-09T09:41:46Z",
     "status": "partial",
     "latest_session": {
