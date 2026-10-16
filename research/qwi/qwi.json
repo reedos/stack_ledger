@@ -1,7 +1,7 @@
 {
   "dataset": "Census QWI via Census Data API",
   "source_id": "census-qwi-api",
-  "retrieved_at": "2026-10-09T08:30:01Z",
+  "retrieved_at": "2026-10-16T08:30:01Z",
   "industries": {
     "5182": [
       "Data processing, hosting and related services",
@@ -59,8 +59,7 @@
     {
       "county": "01071",
       "naics": "2382",
-      "status": "ok",
-      "rows": 8
+      "status": "TimeoutError"
     },
     {
       "county": "13033",
@@ -464,8 +463,6 @@
     }
   ],
   "metrics": [
-    "qwi-01071-2382-earnings",
-    "qwi-01071-2382-hires",
     "qwi-01071-5182-earnings",
     "qwi-01071-5182-hires",
     "qwi-13033-2382-earnings",
@@ -588,7 +585,7 @@
     "qwi-56023-5182-earnings",
     "qwi-56023-5182-hires"
   ],
-  "records": 868,
+  "records": 853,
   "license": "Public domain (U.S. government work)",
   "key": "owner-registered, not recorded"
 }
