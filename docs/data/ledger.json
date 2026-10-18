@@ -94660,6 +94660,23 @@
       "retrieved_at": "2026-10-18T08:30:06Z",
       "method": "curated",
       "note": "EIA-930 Southwest Power Pool demand, 2026-09: peak of 30 published daily values (1,117,207 MWh). Response sha256 f661411c2ccd."
+    },
+    {
+      "metric": "revenue-tesla-reported",
+      "year": 2026,
+      "period": "FY2026 · ended Dec 31, 2026",
+      "value": 107.18,
+      "upper": null,
+      "status": "observation",
+      "precision": "approx",
+      "note": "",
+      "id": "auto-c3f7b17f42933ebb8f35",
+      "source": "finance-tesla-consensus-20260907",
+      "retrieved_at": "2026-10-18T09:07:51Z",
+      "method": "automated",
+      "document_sha256": "707337b7175e12fc725528915b8d9ec4b867cedbd743bb8c57859cfe639ead22",
+      "evidence_sha256": "da42ba66f895efdf0990d79f3ef8b2eef07f440ef63f5f0d87247ba272ab2d67",
+      "grade": "C"
     }
   ],
   "events": [
@@ -95984,97 +96001,6 @@
     }
   ],
   "runs": [
-    {
-      "id": "run-20261016T102834Z-67a58acf1b214d4b9cdd746cfd365c12",
-      "started_at": "2026-10-16T10:28:34Z",
-      "finished_at": "2026-10-16T10:29:07Z",
-      "status": "partial",
-      "documents_fetched": 6,
-      "documents_reviewed": 5,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [],
-      "model_calls": 10,
-      "coverage_layers": [
-        "models"
-      ]
-    },
-    {
-      "id": "run-20261016T102934Z-a379ba98f8aa42d0bf6fd4ca59e97fae",
-      "started_at": "2026-10-16T10:29:34Z",
-      "finished_at": "2026-10-16T10:29:56Z",
-      "status": "partial",
-      "documents_fetched": 4,
-      "documents_reviewed": 3,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "discovered-9bffdb73711a00d2",
-          "reason": "URL outside approved public host"
-        },
-        {
-          "source": "discovered-ed2074cad1dfd522",
-          "reason": "URL outside approved public host"
-        }
-      ],
-      "model_calls": 2,
-      "coverage_layers": [
-        "chips",
-        "models"
-      ]
-    },
-    {
-      "id": "run-20261016T103019Z-418417a0be484a2f95f711b0f5c6609b",
-      "started_at": "2026-10-16T10:30:19Z",
-      "finished_at": "2026-10-16T10:30:36Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 1,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "feed-amkor-6ff800",
-          "reason": "HTTP 403"
-        },
-        {
-          "source": "feed-constellation-3252f6",
-          "reason": "HTTP 403"
-        }
-      ],
-      "model_calls": 0,
-      "coverage_layers": [
-        "energy",
-        "infrastructure"
-      ]
-    },
-    {
-      "id": "run-20261016T103059Z-94b4530422444da5aeb942d9fd565aed",
-      "started_at": "2026-10-16T10:30:59Z",
-      "finished_at": "2026-10-16T10:31:16Z",
-      "status": "partial",
-      "documents_fetched": 3,
-      "documents_reviewed": 1,
-      "accepted": 0,
-      "quarantined": 0,
-      "source_failures": [
-        {
-          "source": "feed-fervo-37c88d",
-          "reason": "HTTP 403"
-        },
-        {
-          "source": "feed-recursion-4114ef",
-          "reason": "HTTP 403"
-        }
-      ],
-      "model_calls": 1,
-      "coverage_layers": [
-        "chips",
-        "energy",
-        "infrastructure"
-      ]
-    },
     {
       "id": "run-20261016T103139Z-1de33b14c78c422b82b5e8b65e3bd9b9",
       "started_at": "2026-10-16T10:31:39Z",
@@ -99916,6 +99842,89 @@
         "applications",
         "models"
       ]
+    },
+    {
+      "id": "run-20261018T090026Z-1eb9a01f564e402ab502d47602ea3b88",
+      "started_at": "2026-10-18T09:00:26Z",
+      "finished_at": "2026-10-18T09:00:54Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 5,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": [
+        "applications",
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20261018T090301Z-6832aaed9f304e8bad409db09a8cf957",
+      "started_at": "2026-10-18T09:03:01Z",
+      "finished_at": "2026-10-18T09:03:36Z",
+      "status": "partial",
+      "documents_fetched": 4,
+      "documents_reviewed": 4,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [],
+      "model_calls": 0,
+      "coverage_layers": [
+        "energy",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20261018T090542Z-1f163c0e37eb41c9a8e949382f207797",
+      "started_at": "2026-10-18T09:05:42Z",
+      "finished_at": "2026-10-18T09:07:01Z",
+      "status": "partial",
+      "documents_fetched": 3,
+      "documents_reviewed": 3,
+      "accepted": 0,
+      "quarantined": 0,
+      "source_failures": [
+        {
+          "source": "census-dc-saar-july2026",
+          "reason": "Collection gap: pdf_requires_reviewed_parser"
+        },
+        {
+          "source": "samsung-hbm4-shipping",
+          "reason": "Robots policy unavailable (TimeoutError); source skipped"
+        },
+        {
+          "source": "claims-linkedin",
+          "reason": "URL outside approved public host"
+        }
+      ],
+      "model_calls": 5,
+      "coverage_layers": [
+        "chips",
+        "infrastructure",
+        "models"
+      ]
+    },
+    {
+      "id": "run-20261018T090727Z-f413dcabfd3545f0b724963bc0c448e5",
+      "started_at": "2026-10-18T09:07:27Z",
+      "finished_at": "2026-10-18T09:07:57Z",
+      "status": "partial",
+      "documents_fetched": 6,
+      "documents_reviewed": 6,
+      "accepted": 1,
+      "quarantined": 2,
+      "source_failures": [],
+      "model_calls": 12,
+      "coverage_layers": [
+        "applications",
+        "chips",
+        "energy",
+        "infrastructure"
+      ]
     }
   ],
   "runtime": {
@@ -99925,7 +99934,7 @@
     "hardware": "Ryzen 9 9950X3D · RTX 5090 · 64 GB DDR5",
     "timezone": "America/Los_Angeles",
     "schedule": "Daily · 02:00–06:30 Pacific (research window)",
-    "last_attempt": "2026-10-17T13:28:25Z",
+    "last_attempt": "2026-10-18T09:07:57Z",
     "last_success": "2026-10-17T09:33:34Z",
     "status": "partial",
     "latest_session": {
