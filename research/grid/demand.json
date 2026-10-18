@@ -1,7 +1,7 @@
 {
   "dataset": "EIA-930 demand by balancing authority",
   "source_id": "eia-930-demand",
-  "retrieved_at": "2026-09-27T08:30:06Z",
+  "retrieved_at": "2026-10-18T08:30:06Z",
   "operators": [
     "pjm",
     "ercot",
@@ -13,33 +13,33 @@
       "operator": "pjm",
       "offset": 0,
       "status": "ok",
-      "rows": 2825,
-      "total": 2825,
-      "sha256": "7fd00db75e1e25ab61cc306eacfc9560a1025f154058beb54fec4b165932d9fb"
+      "rows": 2846,
+      "total": 2846,
+      "sha256": "97a5f4e37099acd7135bd6542b17f7524b588e019d4d35e03cdda78d12c475b6"
     },
     {
       "operator": "ercot",
       "offset": 0,
       "status": "ok",
-      "rows": 2825,
-      "total": 2825,
-      "sha256": "a25937f90d37988a72f4824900d89b040f47eda7bd483dc9b10a897fd5b23c31"
+      "rows": 2846,
+      "total": 2846,
+      "sha256": "09aa94d5b217cf0d7056d1717899d7dcb9fdd70a127c8db4baaa0bd483e79a98"
     },
     {
       "operator": "miso",
       "offset": 0,
       "status": "ok",
-      "rows": 2826,
-      "total": 2826,
-      "sha256": "133ffd9993486033639dee098c11dc35255e36563b06a31ca8a63960bb217e61"
+      "rows": 2847,
+      "total": 2847,
+      "sha256": "07bc97666c30aa3f889e799e0126be3838f1a8905e8365f2afb6645e1656981e"
     },
     {
       "operator": "spp",
       "offset": 0,
       "status": "ok",
-      "rows": 2826,
-      "total": 2826,
-      "sha256": "09c3fae576277868826a9f7279263a141ef6de9024a13d807195bc06c6cb0c14"
+      "rows": 2847,
+      "total": 2847,
+      "sha256": "f661411c2ccd70dc89957b6a49e66ef81599740f593df94d07030e436b86224f"
     }
   ],
   "metrics": [
@@ -52,7 +52,7 @@
     "grid-demand-spp-average-monthly",
     "grid-demand-spp-peak-monthly"
   ],
-  "records": 732,
+  "records": 740,
   "license": "Public domain (U.S. government work)",
   "key": "owner-registered, not recorded"
 }
