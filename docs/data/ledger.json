@@ -94677,6 +94677,48 @@
       "document_sha256": "707337b7175e12fc725528915b8d9ec4b867cedbd743bb8c57859cfe639ead22",
       "evidence_sha256": "da42ba66f895efdf0990d79f3ef8b2eef07f440ef63f5f0d87247ba272ab2d67",
       "grade": "C"
+    },
+    {
+      "id": "btos-ai-use-share-2026-10-04",
+      "metric": "btos-ai-use-share",
+      "year": 2026,
+      "period": "2026-10-04",
+      "value": 23.8,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-10-19T08:30:01Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-10-04. Response file sha256 920027b67d5a."
+    },
+    {
+      "id": "btos-ai-use-share-naics-51-2026-10-04",
+      "metric": "btos-ai-use-share-naics-51",
+      "year": 2026,
+      "period": "2026-10-04",
+      "value": 50.2,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-10-19T08:30:01Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-10-04. Response file sha256 2fae9bb0d94f."
+    },
+    {
+      "id": "btos-ai-use-share-naics-54-2026-10-04",
+      "metric": "btos-ai-use-share-naics-54",
+      "year": 2026,
+      "period": "2026-10-04",
+      "value": 42.7,
+      "upper": null,
+      "status": "estimate",
+      "source": "census-btos-data",
+      "precision": "approx",
+      "retrieved_at": "2026-10-19T08:30:01Z",
+      "method": "curated",
+      "note": "Census BTOS biweekly panel estimate, reference period ending 2026-10-04. Response file sha256 2fae9bb0d94f."
     }
   ],
   "events": [
