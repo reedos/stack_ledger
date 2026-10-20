@@ -94719,6 +94719,20 @@
       "retrieved_at": "2026-10-19T08:30:01Z",
       "method": "curated",
       "note": "Census BTOS biweekly panel estimate, reference period ending 2026-10-04. Response file sha256 2fae9bb0d94f."
+    },
+    {
+      "id": "sec-capex-micron-annual-cy2026",
+      "metric": "sec-capex-micron-annual",
+      "year": 2026,
+      "period": "CY2026",
+      "value": 30.712,
+      "upper": null,
+      "status": "observation",
+      "source": "sec-xbrl-companyfacts",
+      "precision": "eq",
+      "retrieved_at": "2026-10-20T08:30:01Z",
+      "method": "curated",
+      "note": "SEC XBRL PaymentsToAcquirePropertyPlantAndEquipment, frame CY2026: $30,712,000,000 USD. Form 10-K, filed 2026-10-09, accession 0000723125-26-000023."
     }
   ],
   "events": [

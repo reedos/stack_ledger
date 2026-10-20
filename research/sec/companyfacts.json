@@ -1,8 +1,8 @@
 {
   "dataset": "SEC XBRL company facts",
   "source_id": "sec-xbrl-companyfacts",
-  "retrieved_at": "2026-10-06T08:30:02Z",
-  "company_tickers_sha256": "eb943bdc3d233f54644ba916f261651460a0b94f6fbf29dbf3c1788271b17bf9",
+  "retrieved_at": "2026-10-20T08:30:01Z",
+  "company_tickers_sha256": "bbffa40adbea620bba590da9a193ea14b21bfc04992f102549a2688d4e7d32df",
   "companies": {
     "alphabet": {
       "ticker": "GOOGL",
@@ -70,11 +70,11 @@
     "micron": {
       "ticker": "MU",
       "cik": 723125,
-      "sha256": "a8b088c2111daef36536e53c81fef4c0f01220c64933e126a665b00a9257f882",
+      "sha256": "162439f31208eaf4cd1a33939d80fd40479a559735b9488d32ac43d5516ff7bf",
       "metrics": 4,
-      "records": 14,
+      "records": 15,
       "latest_quarter": "2025-Q4",
-      "latest_annual": "CY2025"
+      "latest_annual": "CY2026"
     },
     "microsoft": {
       "ticker": "MSFT",
@@ -106,7 +106,7 @@
     "recursion": {
       "ticker": "RXRX",
       "cik": 1601830,
-      "sha256": "238c834540b26747e7f8af5dc10e3b986fcfbc96383469c4a944c9a5b2844e04",
+      "sha256": "b016b41a28174b635cb851e1e96697b5ffbda42a0a8ce3df7df0c5ef499bd8b6",
       "metrics": 4,
       "records": 41,
       "latest_quarter": "2026-Q2",
@@ -115,7 +115,7 @@
     "tesla": {
       "ticker": "TSLA",
       "cik": 1318605,
-      "sha256": "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204",
+      "sha256": "ef141d68e9a08a33471b893951f02db833140692819942d3fa251b6126fc3aea",
       "metrics": 4,
       "records": 47,
       "latest_quarter": "2026-Q2",
@@ -177,7 +177,7 @@
       "ticker": "MU",
       "cik": 723125,
       "status": "ok",
-      "facts_sha256": "a8b088c2111daef36536e53c81fef4c0f01220c64933e126a665b00a9257f882"
+      "facts_sha256": "162439f31208eaf4cd1a33939d80fd40479a559735b9488d32ac43d5516ff7bf"
     },
     {
       "company": "microsoft",
@@ -205,14 +205,14 @@
       "ticker": "RXRX",
       "cik": 1601830,
       "status": "ok",
-      "facts_sha256": "238c834540b26747e7f8af5dc10e3b986fcfbc96383469c4a944c9a5b2844e04"
+      "facts_sha256": "b016b41a28174b635cb851e1e96697b5ffbda42a0a8ce3df7df0c5ef499bd8b6"
     },
     {
       "company": "tesla",
       "ticker": "TSLA",
       "cik": 1318605,
       "status": "ok",
-      "facts_sha256": "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204"
+      "facts_sha256": "ef141d68e9a08a33471b893951f02db833140692819942d3fa251b6126fc3aea"
     }
   ],
   "skipped": {
@@ -277,6 +277,6 @@
     "sec-revenue-tesla-annual",
     "sec-revenue-tesla-quarterly"
   ],
-  "records": 424,
+  "records": 425,
   "license": "Public domain (U.S. government work)"
 }
