@@ -22259,6 +22259,34 @@
       "chart_default_end": 2027,
       "definition_stable": true,
       "pre_period_note": "Epoch site estimates begin with the first imported vintage. Earlier values are not estimated. Missing dates are not zero."
+    },
+    {
+      "id": "qwi-37153-5182-earnings",
+      "layer": "infrastructure",
+      "title": "Richmond County, NC · average monthly earnings, data processing, hosting and related services (NAICS 5182)",
+      "unit": "USD / month (average, stable jobs)",
+      "geography": "Richmond County, NC",
+      "scope": "Census QWI average monthly earnings of stable employees (EarnS), private ownership, county by 4-digit NAICS, nominal dollars. A pay level for the industry in the county, not a project wage.",
+      "direction": "context",
+      "min": 0,
+      "max": 100000,
+      "note": "Census Quarterly Workforce Indicators through the Census Data API, public domain. Quarterly series; each import appends newly published quarters and never rewrites earlier ones.",
+      "source_ids": [
+        "census-qwi-api"
+      ],
+      "company": null,
+      "measurement_type": "county_industry_avg_monthly_earnings",
+      "project": null,
+      "allowed_statuses": [
+        "observation"
+      ],
+      "period_basis": "quarter",
+      "geography_code": "37153",
+      "series_start_year": 2024,
+      "chart_default_start": 2024,
+      "chart_default_end": 2027,
+      "definition_stable": true,
+      "pre_period_note": "Series begins 2024-Q1 in this catalog; earlier QWI quarters exist and can be imported on review. Missing quarters are unpublished or suppressed, not zero."
     }
   ],
   "targets": [

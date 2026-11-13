@@ -1,7 +1,7 @@
 {
   "dataset": "Census QWI via Census Data API",
   "source_id": "census-qwi-api",
-  "retrieved_at": "2026-10-16T08:30:01Z",
+  "retrieved_at": "2026-11-13T09:30:01Z",
   "industries": {
     "5182": [
       "Data processing, hosting and related services",
@@ -54,48 +54,49 @@
       "county": "01071",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "01071",
       "naics": "2382",
-      "status": "TimeoutError"
+      "status": "ok",
+      "rows": 9
     },
     {
       "county": "13033",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 7
     },
     {
       "county": "13033",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "13035",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "13035",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "13097",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "13097",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "22015",
@@ -157,73 +158,73 @@
       "county": "28049",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "28049",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "28089",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "28089",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "28149",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "28149",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "31153",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "31153",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "32003",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "32003",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "32029",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "32029",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "36067",
@@ -241,13 +242,13 @@
       "county": "37153",
       "naics": "5182",
       "status": "ok",
-      "rows": 2
+      "rows": 3
     },
     {
       "county": "37153",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "40097",
@@ -265,37 +266,37 @@
       "county": "42017",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "42017",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "42043",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "42043",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "42079",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "42079",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "45015",
@@ -325,25 +326,25 @@
       "county": "47125",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "47125",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "48125",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "48125",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "48185",
@@ -354,7 +355,7 @@
       "county": "48185",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "48415",
@@ -365,7 +366,7 @@
       "county": "48415",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "48417",
@@ -376,7 +377,7 @@
       "county": "48417",
       "naics": "2382",
       "status": "ok",
-      "rows": 6
+      "rows": 7
     },
     {
       "county": "49001",
@@ -387,7 +388,7 @@
       "county": "49001",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "51041",
@@ -453,16 +454,18 @@
       "county": "56023",
       "naics": "5182",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     },
     {
       "county": "56023",
       "naics": "2382",
       "status": "ok",
-      "rows": 8
+      "rows": 9
     }
   ],
   "metrics": [
+    "qwi-01071-2382-earnings",
+    "qwi-01071-2382-hires",
     "qwi-01071-5182-earnings",
     "qwi-01071-5182-hires",
     "qwi-13033-2382-earnings",
@@ -519,6 +522,7 @@
     "qwi-36067-5182-hires",
     "qwi-37153-2382-earnings",
     "qwi-37153-2382-hires",
+    "qwi-37153-5182-earnings",
     "qwi-37153-5182-hires",
     "qwi-40097-2382-earnings",
     "qwi-40097-2382-hires",
@@ -585,7 +589,7 @@
     "qwi-56023-5182-earnings",
     "qwi-56023-5182-hires"
   ],
-  "records": 853,
+  "records": 941,
   "license": "Public domain (U.S. government work)",
   "key": "owner-registered, not recorded"
 }
